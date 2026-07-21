@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>How to Use Vault to Manage Certificates in APISIX | Apache APISIX</title><meta name="description" content="APISIX can integrate Vault to realize SSL certificate management, allowing for secure storage and management of SSL certificates."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/07/09/apisix-integrates-with-vault/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/07/09/apisix-integrates-with-vault/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/07/09/apisix-integrates-with-vault/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/07/09/apisix-integrates-with-vault/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="How to Use Vault to Manage Certificates in APISIX | Apache APISIX"><meta property="og:description" content="APISIX can integrate Vault to realize SSL certificate management, allowing for secure storage and management of SSL certificates."><meta property="og:url" content="https://apisix.apache.org/blog/2023/07/09/apisix-integrates-with-vault/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/06/07/isIAWmKT_How%20to%20Use%20Vault%20to%20Manage%20Certificates%20in%20APISIX.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Use Vault to Manage Certificates in APISIX","description":"APISIX can integrate Vault to realize SSL certificate management, allowing for secure storage and management of SSL certificates.","datePublished":"2023-07-09","image":"https://static.apiseven.com/uploads/2023/06/07/isIAWmKT_How%20to%20Use%20Vault%20to%20Manage%20Certificates%20in%20APISIX.png","author":{"@type":"Person","name":"API7.ai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/07/09/apisix-integrates-with-vault/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/07/09/apisix-integrates-with-vault/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/07/09/apisix-integrates-with-vault/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>How to Use Vault to Manage Certificates in APISIX</h1> <p class="article-meta"> 2023-07-09 · API7.ai  </p> <blockquote>
+<p>This article takes configuring HTTPS communication between the downstream client and APISIX as an example to introduce how APISIX integrates Vault to implement SSL certificate management.</p>
+</blockquote>
+<!--truncate-->
+<p>API gateway is a key basic component in API lifecycle management. It is the entrance of all traffic and is responsible for routing API requests from downstream clients to the correct upstream service for processing. Therefore, the API gateway works for the network communication between the upstream services and the downstream clients.</p>
+<p>As a new cloud-native API gateway, Apache APISIX provides the TLS/mTLS communication mechanism between the downstream clients and APISIX, and that between APISIX and upstream services, so as to ensure the network security between them. APISIX saves the SSL certificate as an SSL certificate object, and realizes the dynamic loading of the SSL certificate through the extension SNI (Server Name Indication) that supports the TLS protocol.</p>
+<p>In order to securely store the SSL certificates in APISIX, APISIX has achieved integration with HashiCorp Vault, thus realizing the unified management of SSL certificates by taking advantage of Vault’s secret security storage. This article takes configuring HTTPS communication between the downstream client and APISIX as an example to introduce how APISIX integrates Vault to implement SSL certificate management.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/02/mro1F6j9_vault-store-certs.png" alt="Integrate APISIX with Vault"></p>
+<h2 id="what-is-ssl-certificate">What Is SSL Certificate</h2>
+<p>SSL/TLS is a cryptographic protocol that protects the security of network communication by establishing an encrypted network connection between the two communicating parties. The SSL/TLS protocol ensures that data is sent to the correct client and server by authenticating users and servers. In addition, the SSL/TLS protocol can encrypt communication data, thereby ensuring that data cannot be stolen, tampered with or forged during transmission.</p>
+<p>An SSL certificate is a digital certificate that authenticates a website’s identity and enables an encrypted connection using the SSL/TLS protocol. An SSL certificate is usually issued by a trusted digital certificate authority (CA), which mainly includes the following information:</p>
+<ul>
+<li>Domain name</li>
+<li>Certificate authority</li>
+<li>Digital signature signed by the certificate authority</li>
+<li>Associated subdomains</li>
+<li>Issue date of certificates</li>
+<li>Expiration date of certificates</li>
+<li>The public key (while the private key is a secret key)</li>
+</ul>
+<h2 id="what-is-hashicorp-vault">What Is HashiCorp Vault</h2>
+<p>HashiCorp Vault (hereinafter referred to as Vault) is an enterprise-level Secret management tool that can store and manage sensitive data such as tokens, passwords, and certificates. Vault can be integrated with technologies in the entire IT system, provide identity-based security automation and encryption services, centrally control access to sensitive data and systems, and help organizations reduce the risk of data leakage and data exposure, thereby improving cloud and application security.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/02/wuRcIbeH_vault.png" alt="HashiCorp Vault"></p>
+<h2 id="how-to-store-apisix-ssl-certificates-in-vault">How to Store APISIX SSL Certificates in Vault</h2>
+<h3 id="environment-preparation">Environment Preparation</h3>
+<ul>
+<li>Install <a href="https://docs.docker.com/get-docker/">Docker</a></li>
+<li>Install <a href="https://curl.se/">cURL</a></li>
+<li>A running APISIX service, or follow <a href="https://docs.api7.ai/apisix/getting-started/">Getting Started tutorial</a> to deploy an APISIX Docker container</li>
+</ul>
+<h3 id="deploy-and-configure-vault-service">Deploy and Configure Vault Service</h3>
+<p>In this section, we will use Docker to deploy a Vault container service. You can skip this section if you already have a Vault service instance available in your environment.</p>
+<p>Create and deploy a Vault container in Dev mode, named <code>apisix-quickstart-vault</code>. Specify the Vault Token as <code>apisix-quickstart-vault-token</code> and map port <code>8200</code> to the host:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --cap-add=IPC_LOCK</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> 'VAULT_ADDR=http://0.0.0.0:8200'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> 'VAULT_DEV_ROOT_TOKEN_ID=apisix-quickstart-vault-token'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> 'VAULT_TOKEN=apisix-quickstart-vault-token'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network=apisix-quickstart-net</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> apisix-quickstart-vault</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 8200:8200</span><span style="color:#A5D6FF"> vault:1.13.0</span></span></code></pre>
+<p>Select <code>kv</code> as the APISIX SSL certificate storage path:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#A5D6FF"> apisix-quickstart-vault</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> secrets</span><span style="color:#A5D6FF"> enable</span><span style="color:#79C0FF"> -path=kv</span><span style="color:#79C0FF"> -version=1</span><span style="color:#A5D6FF"> kv</span></span></code></pre>
+<h3 id="configure-apisix">Configure APISIX</h3>
+<p>APISIX needs to read SSL certificates from Vault, so Vault should grant read permission to APISIX on the specified path.</p>
+<p>Create a Vault policy named <code>apisix-policy.hcl</code>, granting APISIX read access to the path <code>kv/apisix/</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#A5D6FF"> apisix-quickstart-vault</span><span style="color:#A5D6FF"> /bin/sh</span><span style="color:#79C0FF"> -c</span><span style="color:#A5D6FF"> "echo '</span></span>
+<span class="line"><span style="color:#A5D6FF">path </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">kv/apisix/*</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">    capabilities = [</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">read</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">' > /etc/apisix-policy.hcl"</span></span></code></pre>
+<p>Apply the created policy file <code>apisix-policy.hcl</code> to Vault:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#A5D6FF"> apisix-quickstart-vault</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> policy</span><span style="color:#A5D6FF"> write</span><span style="color:#A5D6FF"> apisix-policy</span><span style="color:#A5D6FF"> /etc/apisix-policy.hcl</span></span></code></pre>
+<p>Create an APISIX secret object with the id <code>quickstart-secret-id</code> to save the Vault connection information and certificate storage path:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/secrets/vault/quickstart-secret-id"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "http://apisix-quickstart-vault:8200",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "prefix": "kv/apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "token" : "apisix-quickstart-vault-token"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="store-ssl-certificates-in-vault">Store SSL Certificates in Vault</h3>
+<p>Create a self-signed CA certificate <code>ca.crt</code> and key <code>ca.key</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">openssl</span><span style="color:#A5D6FF"> genrsa</span><span style="color:#79C0FF"> -out</span><span style="color:#A5D6FF"> ca.key</span><span style="color:#79C0FF"> 2048</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">  openssl</span><span style="color:#A5D6FF"> req</span><span style="color:#79C0FF"> -new</span><span style="color:#79C0FF"> -sha256</span><span style="color:#79C0FF"> -key</span><span style="color:#A5D6FF"> ca.key</span><span style="color:#79C0FF"> -out</span><span style="color:#A5D6FF"> ca.csr</span><span style="color:#79C0FF"> -subj</span><span style="color:#A5D6FF"> "/CN=ROOTCA"</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">  openssl</span><span style="color:#A5D6FF"> x509</span><span style="color:#79C0FF"> -req</span><span style="color:#79C0FF"> -days</span><span style="color:#79C0FF"> 36500</span><span style="color:#79C0FF"> -sha256</span><span style="color:#79C0FF"> -extensions</span><span style="color:#A5D6FF"> v3_ca</span><span style="color:#79C0FF"> -signkey</span><span style="color:#A5D6FF"> ca.key</span><span style="color:#79C0FF"> -in</span><span style="color:#A5D6FF"> ca.csr</span><span style="color:#79C0FF"> -out</span><span style="color:#A5D6FF"> ca.crt</span></span></code></pre>
+<p>The SSL certificate <code>server.crt</code> and the key <code>server.key</code> are issued by the CA, and its common name (CN) is <code>test.com</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">openssl</span><span style="color:#A5D6FF"> genrsa</span><span style="color:#79C0FF"> -out</span><span style="color:#A5D6FF"> server.key</span><span style="color:#79C0FF"> 2048</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">  openssl</span><span style="color:#A5D6FF"> req</span><span style="color:#79C0FF"> -new</span><span style="color:#79C0FF"> -sha256</span><span style="color:#79C0FF"> -key</span><span style="color:#A5D6FF"> server.key</span><span style="color:#79C0FF"> -out</span><span style="color:#A5D6FF"> server.csr</span><span style="color:#79C0FF"> -subj</span><span style="color:#A5D6FF"> "/CN=test.com"</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">  openssl</span><span style="color:#A5D6FF"> x509</span><span style="color:#79C0FF"> -req</span><span style="color:#79C0FF"> -days</span><span style="color:#79C0FF"> 36500</span><span style="color:#79C0FF"> -sha256</span><span style="color:#79C0FF"> -extensions</span><span style="color:#A5D6FF"> v3_req</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -CA</span><span style="color:#A5D6FF"> ca.crt</span><span style="color:#79C0FF"> -CAkey</span><span style="color:#A5D6FF"> ca.key</span><span style="color:#79C0FF"> -CAserial</span><span style="color:#A5D6FF"> ca.srl</span><span style="color:#79C0FF"> -CAcreateserial</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -in</span><span style="color:#A5D6FF"> server.csr</span><span style="color:#79C0FF"> -out</span><span style="color:#A5D6FF"> server.crt</span></span></code></pre>
+<p>Copy the issued SSL certificate and key to the Vault container:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> cp</span><span style="color:#A5D6FF"> server.key</span><span style="color:#A5D6FF"> apisix-quickstart-vault:/root/</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> cp</span><span style="color:#A5D6FF"> server.crt</span><span style="color:#A5D6FF"> apisix-quickstart-vault:/root/</span></span></code></pre>
+<p>Use the <code>vault kv put</code> command to store the SSL certificate and key as a secret, the key is <code>ssl</code>, and the storage path is <code>kv/apisix</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#A5D6FF"> apisix-quickstart-vault</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> kv</span><span style="color:#A5D6FF"> put</span><span style="color:#A5D6FF"> kv/apisix/ssl</span><span style="color:#A5D6FF"> test.com.crt=@/root/server.crt</span><span style="color:#A5D6FF"> test.com.key=@/root/server.key</span></span></code></pre>
+<p>Through the above command, we have stored a secret named <code>ssl</code> in Vault, which contains 2 key-value pairs: certificate and private key.</p>
+<h2 id="how-to-use-apisix-ssl-certificate-stored-in-vault">How to Use APISIX SSL Certificate Stored in Vault</h2>
+<p>APISIX supports TLS/mTLS network encryption between downstream clients and APISIX, and between APISIX and upstream services, where the SSL certificates stored in Vault can be used. We will take configuring HTTPS communication between the client and APISIX as an example to demonstrate how to use the SSL certificate stored in Vault in APISIX.</p>
+<h3 id="configure-https-communication-between-client-and-apisix">Configure HTTPS Communication Between Client and APISIX</h3>
+<p>Create an SSL certificate object to hold the SSL certificate:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/ssls"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "id": "quickstart-tls-client-ssl",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "sni": "test.com",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "cert": "$secret://vault/quickstart-secret-id/ssl/test.com.crt",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "key": "$secret://vault/quickstart-secret-id/ssl/test.com.key"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>The <code>sni</code> of this object is <code>test.com</code>, which is consistent with the CN that issued the certificate. The <code>cert</code> and <code>key</code> correspond to the issued certificate and private key, which are automatically obtained from the Vault through the established secret resource locator, and the resource locator rules are:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>$secret://$manager/$id/$secret_name/$key</span></span></code></pre>
+<ul>
+<li>manager: key management service Vault</li>
+<li>id: APISIX secret resource ID</li>
+<li>secret_name: the secret name in Vault</li>
+<li>key: the key of the key-value pair in the secret named secret_name</li>
+</ul>
+<h3 id="verify-https-communication-between-client-and-apisix">Verify HTTPS Communication Between Client and APISIX</h3>
+<p>Create a route to forward all requests sent to <code>/ip</code> to upstream <code>httpbin.org</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "id": "quickstart-client-ip",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/ip",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Use cURL to send a request to <code>https://test.com:9443/ip</code>, <code>test.com</code> resolves to <code>127.0.0.1</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -ikv</span><span style="color:#79C0FF"> --resolve</span><span style="color:#A5D6FF"> "test.com:9443:127.0.0.1"</span><span style="color:#A5D6FF"> "https://test.com:9443/ip"</span></span></code></pre>
+<p>If the configuration is successful, the client and APISIX TLS handshake process returned by cURL will be the same as the following results:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>* Added test.com:9443:127.0.0.1 to DNS cache</span></span>
+<span class="line"><span>* Hostname test.com was found in DNS cache</span></span>
+<span class="line"><span>*   Trying 127.0.0.1:9443...</span></span>
+<span class="line"><span>* Connected to test.com (127.0.0.1) port 9443 (#0)</span></span>
+<span class="line"><span>* ALPN, offering h2</span></span>
+<span class="line"><span>* ALPN, offering http/1.1</span></span>
+<span class="line"><span>* successfully set certificate verify locations:</span></span>
+<span class="line"><span>*  CAfile: /etc/ssl/certs/ca-certificates.crt</span></span>
+<span class="line"><span>*  CApath: /etc/ssl/certs</span></span>
+<span class="line"><span>* TLSv1.3 (OUT), TLS handshake, Client hello (1):</span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, Server hello (2):</span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):</span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, Certificate (11):</span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, CERT verify (15):</span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, Finished (20):</span></span>
+<span class="line"><span>* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):</span></span>
+<span class="line"><span>* TLSv1.3 (OUT), TLS handshake, Finished (20):</span></span>
+<span class="line"><span>* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384</span></span>
+<span class="line"><span>* ALPN, server accepted to use h2</span></span>
+<span class="line"><span>* Server certificate:</span></span>
+<span class="line"><span>*  subject: CN=test.com</span></span>
+<span class="line"><span>*  start date: Apr 21 07:47:54 2023 GMT</span></span>
+<span class="line"><span>*  expire date: Mar 28 07:47:54 2123 GMT</span></span>
+<span class="line"><span>*  issuer: CN=ROOTCA</span></span>
+<span class="line"><span>*  SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.</span></span>
+<span class="line"><span>* Using HTTP2, server supports multi-use</span></span>
+<span class="line"><span>* Connection state changed (HTTP/2 confirmed)</span></span>
+<span class="line"><span>* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0</span></span>
+<span class="line"><span>* Using Stream ID: 1 (easy handle 0x556274d632e0)</span></span>
+<span class="line"><span>> GET /ip HTTP/2</span></span>
+<span class="line"><span>> Host: test.com:9443</span></span>
+<span class="line"><span>> user-agent: curl/7.74.0</span></span>
+<span class="line"><span>> accept: */*</span></span>
+<span class="line"><span>></span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):</span></span>
+<span class="line"><span>* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):</span></span>
+<span class="line"><span>* old SSL session ID is stale, removing</span></span>
+<span class="line"><span>* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!</span></span>
+<span class="line"><span>&#x3C; HTTP/2 200</span></span>
+<span class="line"><span>HTTP/2 200</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>We introduced how APISIX integrates Vault to implement SSL certificate management and showed the configuration and integration steps in detail taking HTTPS communication between downstream clients and APISIX as an example.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

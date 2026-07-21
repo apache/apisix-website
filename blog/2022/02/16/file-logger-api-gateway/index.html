@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Build an APISIX Plugin: file-logger Tutorial | Apache APISIX</title><meta name="description" content="Step-by-step guide to developing a custom APISIX plugin. Learn the full workflow by building the file-logger plugin from scratch."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/16/file-logger-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Build an APISIX Plugin: file-logger Tutorial | Apache APISIX"><meta property="og:description" content="Step-by-step guide to developing a custom APISIX plugin. Learn the full workflow by building the file-logger plugin from scratch."><meta property="og:url" content="https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Build an APISIX Plugin: file-logger Tutorial","description":"Step-by-step guide to developing a custom APISIX plugin. Learn the full workflow by building the file-logger plugin from scratch.","datePublished":"2022-02-16","author":{"@type":"Person","name":"Qi Guo"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/02/16/file-logger-api-gateway/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/02/16/file-logger-api-gateway/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Build an APISIX Plugin: file-logger Tutorial</h1> <p class="article-meta"> 2022-02-16 · Qi Guo  </p> <blockquote>
+<p>This article documents the process of developing the <code>file-logger</code> plugin by a front-end engineer with no back-end experience.</p>
+</blockquote>
+<!--truncate-->
+<p>Over the past few months, community users have added many plugins to Apache APISIX, enriching the Apache APISIX ecosystem. From the user’s point of view, the emergence of more diverse plugins is certainly a good thing, as they fulfill more of the user’s expectations for a gateway that is “one-stop” and “multi-functional” processor on top of perfecting the high performance and low latency of Apache APISIX.</p>
+<p>None of the articles on the Apache APISIX blog seem to go into detail about the process of developing plugins. So let’s take a look at the process from the perspective of a plugin developer and see how a plugin is born!</p>
+<p>This article documents the process of developing the <code>file-logger</code> plugin on API Gateway by <strong>a front-end engineer with no back-end experience</strong>. Before digging into the details of the implementation process, we will briefly introduce the functionality of <code>file-logger</code>.</p>
+<h2 id="introduction-of-file-logger-plugin">Introduction of file-logger plugin</h2>
+<p><code>file-logger</code> supports generating custom log formats using Apache APISIX plugin metadata. Users can append request and response data in JSON format to log files via the <code>file-logger</code> plugin, or push the log data stream to a specified location.</p>
+<p>Imagine this: when monitoring the access log of a route, we not only care about the value of certain request and response data, but also want to write the log data to a specified file. This is where the <code>file-logger</code> plugin can be used to help achieve these goals.</p>
+<p><img src="https://static.apiseven.com/202108/1644996258131-a0e32942-dcc5-4129-873f-0a7551532e77.png" alt="how it works"></p>
+<p>We can use <code>file-logger</code> to write log data to a specific log file to simplify the process of monitoring and debugging.</p>
+<h2 id="how-to-implement-a-plugin">How to implement a plugin?</h2>
+<p>After introducing the features of file-logger, you will have a better understanding of this plugin. The following is a detailed explanation of how I, a front-end developer with no server-side experience, develop the plugin for Apache APISIX and add the corresponding tests for it.</p>
+<h3 id="confirm-the-name-and-priority-of-the-plugin">Confirm the name and priority of the plugin</h3>
+<p>Open the <a href="https://apisix.apache.org/docs/apisix/plugin-develop/#name-priority-and-the-others">Apache APISIX Plugin Development Guide</a> and in order of priority you need to determine the following two things:</p>
+<ol>
+<li>Determine the plugin category.</li>
+<li>prioritize the plugins and update the <code>conf/config-default.yaml</code> file.</li>
+</ol>
+<p>Since this development of <code>file-logger</code> is a logging type plugin, I refer to the name and ordering of the existing logging plugins for Apache APISIX and place <code>file-logger</code> here.</p>
+<p><img src="https://static.apiseven.com/202108/1644996436166-58305d35-3798-4df2-b8df-1874f3e0cb01.png" alt="file-logger&#x27;s position"></p>
+<p>After consulting with other plugin authors and enthusiastic members of the community, the name <code>file-logger</code> and priority <code>399</code> of the plugin were finally confirmed.</p>
+<blockquote>
+<p>Note that the priority of the plugin is related to the order of execution; the higher the value of the priority, the more forward the execution. And the ordering of plugin names is not related to the order of execution.</p>
+</blockquote>
+<h3 id="create-a-minimum-executable-plugin-file">Create a minimum executable plugin file</h3>
+<p>After confirming the plugin name and priority, you can create our plugin code file in <code>apisix/plugins/</code> directory . There are two points to note here:</p>
+<ul>
+<li>If the plugin code file is created directly in the <code>apisix/plugins/</code> directory, there is no need to change the <code>Makefile</code> file.</li>
+<li>If your plugin has its own code directory, you need to update the <code>Makefile</code> file, please refer to the <a href="https://apisix.apache.org/docs/apisix/plugin-develop/#name-priority-and-the-others">Apache APISIX Plugin Development Guide</a> for detailed steps.</li>
+</ul>
+<ol>
+<li>Here we create the <code>file-logger.lua</code> file in the <code>apisix/plugins/ directory</code>.</li>
+<li>Then we will complete an initialized version based on the <code>example-plugin</code>.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- Introduce the module we need in the header</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> log_util     </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF">   require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.utils.log-util"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core         </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF">   require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin       </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF">   require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.plugin"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> ngx          </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">   ngx</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- Declare the plugin's name</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "file-logger"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- Define the plugin schema format</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        path </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"path"</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- Plugin metadata schema</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> metadata_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        log_format </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> log_util.</span><span style="color:#79C0FF">metadata_schema_log_format</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    version </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0.1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 399</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> schema,</span></span>
+<span class="line"><span style="color:#E6EDF3">    metadata_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> metadata_schema</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- Check if the plugin configuration is correct</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">check_schema</span><span style="color:#E6EDF3">(conf, schema_type)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> schema_type </span><span style="color:#FF7B72">==</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">TYPE_METADATA</span><span style="color:#FF7B72"> then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(metadata_schema, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(schema, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- Log phase</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"conf: "</span><span style="color:#E6EDF3">, core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(conf))</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"ctx: "</span><span style="color:#E6EDF3">, core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> _M</span></span></code></pre>
+<p>Once the minimal available plugin file is ready, the plugin’s configuration data and request-related data can be output to the <code>error.log</code> file via <code>core.log.warn(core.json.encode(conf))</code> and <code>core.log.warn("ctx: ", core.json.encode(ctx, true))</code>.</p>
+<h3 id="enable-and-test-the-plugin">Enable and test the plugin</h3>
+<p>The following are a couple of steps for testing. In order to test whether the plugin can successfully print the plugin data and request-related data information we configured for it to the error log file, we need to enable the plugin and create a test route.</p>
+<ol>
+<li>
+<p>Prepare a test upstream locally (the test upstream used in this article is <code>127.0.0.1:3030/api/hello</code>, which I created locally).</p>
+</li>
+<li>
+<p>Create a route via <code>curl</code> command and enable our new plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF"> "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "file-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "path": "logs/file.log"</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> },</span></span>
+<span class="line"><span style="color:#A5D6FF"> "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "127.0.0.1:3030": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> },</span></span>
+<span class="line"><span style="color:#A5D6FF"> "uri": "/api/hello"</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>You will then see a status code <code>200</code>, indicating that the route was successfully created.</p>
+</li>
+<li>
+<p>Run the <code>curl</code> command to send a request to the route to test whether the <code>file-logger</code> plugin has been started.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/api/hello</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#FFA657">hello,</span><span style="color:#A5D6FF"> world</span></span></code></pre>
+</li>
+<li>
+<p>In the <code>logs/error.log</code> file there will be a record:</p>
+<p><img src="https://static.apiseven.com/202108/1644996952020-7a79d5df-e679-42f1-94f3-40a913db790c.png" alt="record in logs/error.log"></p>
+<p>As you can see, the <code>path: logs/file.log</code> that we configured for the plugin in the conf parameter has been successfully saved. At this point we have successfully created a minimally usable plugin that prints the <code>conf</code> and <code>ctx</code> parameters in the logging phase.</p>
+<p>After that, we can write the core functionality for the <code>file-logger.lua</code> plugin directly in its code file. Here we can directly run the <code>apisix reload</code> command to reload the latest plugin code without restarting Apache APISIX.</p>
+</li>
+</ol>
+<h3 id="write-core-function-for-the-file-logger-plugin">Write core function for the file-logger plugin</h3>
+<p>The main function of the file-logger plugin is to write log data. After asking other people from the community and checking the information, I learned about Lua’s IO library, and confirmed that the logic of the plugin’s function is roughly the following steps.</p>
+<ol>
+<li>
+<p>After each accepted request, output the log data to the <code>path</code> configured by the plugin.</p>
+<ol>
+<li>First, get the value of <code>path</code> in <code>file-logger</code> through <code>conf</code> in the logging phase.</li>
+<li>Then, the Lua IO library is used to create, open, write, refresh the cache, and close the file.</li>
+</ol>
+</li>
+<li>
+<p>Handle errors such as open file failure, create file failure, etc.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72"> local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> write_file_data</span><span style="color:#E6EDF3">(conf, log_message)</span></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> msg, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(log_message)</span></span>
+<span class="line"><span style="color:#FF7B72">     if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">         return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"message json serialization failed, error info : "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">     end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> file, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> io_open</span><span style="color:#E6EDF3">(conf.</span><span style="color:#79C0FF">path</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'a+'</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">     if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> file </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">         core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to open file: "</span><span style="color:#E6EDF3">, conf.</span><span style="color:#79C0FF">path</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">", error info: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">     else</span></span>
+<span class="line"><span style="color:#FF7B72">         local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> file</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">write</span><span style="color:#E6EDF3">(msg, </span><span style="color:#A5D6FF">'</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">'</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">         if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">             core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to write file: "</span><span style="color:#E6EDF3">, conf.</span><span style="color:#79C0FF">path</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">", error info: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">         else</span></span>
+<span class="line"><span style="color:#FFA657">             file</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">flush</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">         end</span></span>
+<span class="line"><span style="color:#FFA657">         file</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">close</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">     end</span></span>
+<span class="line"><span style="color:#FF7B72"> end</span></span></code></pre>
+</li>
+<li>
+<p>Referring to the source code of <code>http-logger</code> plugin, I finished the method of passing the log data to the write log data and some judgment and processing of the metadata.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> metadata </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin.</span><span style="color:#79C0FF">plugin_metadata</span><span style="color:#E6EDF3">(plugin_name)</span></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> entry</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">     if</span><span style="color:#E6EDF3"> metadata </span><span style="color:#FF7B72">and</span><span style="color:#E6EDF3"> metadata.</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">log_format</span></span>
+<span class="line"><span style="color:#FF7B72">         and</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">table</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">nkeys</span><span style="color:#E6EDF3">(metadata.</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">log_format</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">></span><span style="color:#79C0FF"> 0</span></span>
+<span class="line"><span style="color:#FF7B72">     then</span></span>
+<span class="line"><span style="color:#E6EDF3">         entry </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> log_util.</span><span style="color:#79C0FF">get_custom_format_log</span><span style="color:#E6EDF3">(ctx, metadata.</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">log_format</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">     else</span></span>
+<span class="line"><span style="color:#E6EDF3">         entry </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> log_util.</span><span style="color:#79C0FF">get_full_log</span><span style="color:#E6EDF3">(ngx, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">     end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">     write_file_data</span><span style="color:#E6EDF3">(conf, entry)</span></span>
+<span class="line"><span style="color:#FF7B72"> end</span></span></code></pre>
+</li>
+</ol>
+<h2 id="validate-and-add-tests">Validate and add tests</h2>
+<h3 id="validate-the-log-records">Validate the log records</h3>
+<p>Since the <code>file-logger</code> plugin was enabled when the test route was created and the path was configured as <code>logs/file.log</code>, we can simply send a request to the test route to verify the results of the log collection at this point.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/api/hello</span></span></code></pre>
+<p>In the corresponding logs/file.log we can see that each record is saved in JSON format. After formatting one of the data, it looks like this.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "server"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "hostname"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"...."</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "version"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"2.11.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "client_ip"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1:3030"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "route_id"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "start_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1641285122961</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "latency"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">13.999938964844</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "response"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "status"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "size"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">252</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "headers"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">            "server"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"APISIX</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">2.11.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "content-type"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"application</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">json; charset=utf-8"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "date"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Tue, 04 Jan 2022 08:32:02 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "vary"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Accept-Encoding"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "content-length"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"19"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "connection"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"close"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "etag"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">13-5j0ZZR0tI549fSRsYxl8c9vAU78</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "service_id"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "request"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "querystring"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "size"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">87</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "method"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "headers"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">            "host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1:9080"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "accept"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"*</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "user-agent"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"curl</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">7.77.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "url"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"http:</span><span style="color:#FF7B72">\/\/</span><span style="color:#A5D6FF">127.0.0.1:9080</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">api</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">hello"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "uri"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">api</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>This concludes the verification of the collection of log records . The verification results indicate that the plugin was successfully launched and returned the appropriate data.</p>
+<h3 id="add-more-tests-for-the-plugin">Add more tests for the plugin</h3>
+<p>For the <code>add_block_preprocessor</code> part of the code, I was confused when I first started writing it because I had no previous experience with Perl. After researching, I realized the correct way to use it: if we don’t write <code>request</code> assertions and <code>no_error_log</code> assertions in the data section, then the default assertion is as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">--- request</span></span>
+<span class="line"><span style="color:#E6EDF3">GET </span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">t</span></span>
+<span class="line"><span style="color:#8B949E">--- no_error_log</span></span>
+<span class="line"><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">]</span></span></code></pre>
+<p>After taking some other logging test files into account, I created the file <code>file-logger.t</code> in the <code>t/plugin/</code> directory.</p>
+<p>Each test file is divided by <code>__DATA__</code> into a preamble section and a data section. Since there is no clear classification of test-related documents on the official website, you can refer to the related materials at the end of the article for more details. Here is one of the test cases that I have completed after referring to the relevant materials.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> t::APISIX </span><span style="color:#A5D6FF">'no_plan'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">no_long_string();</span></span>
+<span class="line"><span style="color:#E6EDF3">no_root_location();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">add_block_preprocessor(</span><span style="color:#FF7B72">sub</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    my</span><span style="color:#E6EDF3"> ($block) = @_;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (! $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">request) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">set_value(</span><span style="color:#A5D6FF">"request"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"GET /t"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (! $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">no_error_log &#x26;&#x26; ! $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">error_log) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">set_value(</span><span style="color:#A5D6FF">"no_error_log"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"[error]"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">});</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">run_tests;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">__DATA__</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">=== TEST 1: sanity</span></span>
+<span class="line"><span style="color:#8B949E">--- config</span></span>
+<span class="line"><span style="color:#8B949E">    location /t {</span></span>
+<span class="line"><span style="color:#8B949E">        content_by_lua_block {</span></span>
+<span class="line"><span style="color:#8B949E">            local configs = {</span></span>
+<span class="line"><span style="color:#8B949E">                -- full configuration</span></span>
+<span class="line"><span style="color:#8B949E">                {</span></span>
+<span class="line"><span style="color:#8B949E">                    path = "file.log"</span></span>
+<span class="line"><span style="color:#8B949E">                },</span></span>
+<span class="line"><span style="color:#8B949E">                -- property "path" is required</span></span>
+<span class="line"><span style="color:#8B949E">                {</span></span>
+<span class="line"><span style="color:#8B949E">                    path = nil</span></span>
+<span class="line"><span style="color:#8B949E">                }</span></span>
+<span class="line"><span style="color:#8B949E">            }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">            local plugin = require("apisix.plugins.file-logger")</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">            for i = 1, #configs do</span></span>
+<span class="line"><span style="color:#8B949E">                ok, err = plugin.check_schema(configs[i])</span></span>
+<span class="line"><span style="color:#8B949E">                if err then</span></span>
+<span class="line"><span style="color:#8B949E">                    ngx.say(err)</span></span>
+<span class="line"><span style="color:#8B949E">                else</span></span>
+<span class="line"><span style="color:#8B949E">                    ngx.say("done")</span></span>
+<span class="line"><span style="color:#8B949E">                end</span></span>
+<span class="line"><span style="color:#8B949E">            end</span></span>
+<span class="line"><span style="color:#8B949E">        }</span></span>
+<span class="line"><span style="color:#8B949E">    }</span></span>
+<span class="line"><span style="color:#8B949E">--- response_body_like</span></span>
+<span class="line"><span style="color:#8B949E">done</span></span>
+<span class="line"><span style="color:#8B949E">property "path" is required</span></span></code></pre>
+<p>This concludes the plugin addition test session.</p>
+<h2 id="summary">Summary</h2>
+<p>The above is the whole process of implementing an Apache APISIX plugin from 0 as a newbie in the backend. I did encounter a lot of pitfalls in the process of developing the plugin, but luckily there are many enthusiastic brothers in the Apache APISIX community to help me solve the problems, which made the development and testing of the file-logger plugin relatively smooth throughout. If you are interested in this plugin, or want to see the details of the plugin, you can refer to the <a href="https://apisix.apache.org/docs/apisix/next/plugins/file-logger/">official Apache APISIX documentation</a>.</p>
+<p>Apache APISIX is also currently working on other plugins to support more integration services, so if you’re interested, feel free to start a discussion in the <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a>, or via the <a href="https://apisix.apache.org/docs/general/join">mailing list</a>.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://apisix.apache.org/docs/apisix/plugin-develop/">Apache APISIX Plugin Development Guide</a></li>
+<li><a href="https://www.tutorialspoint.com/lua/lua_file_io.htm">Lua - File I/O Usage Guide</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/how-to-build/#step-4-run-test-cases">How to run Apache APISIX test cases</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugin-develop/#write-test-case">How to Write Test Cases</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/internal/testing-framework/">Introduction to the Apache APISIX testing framework</a></li>
+<li><a href="https://metacpan.org/pod/Test%3A%3ANginx%3A%3ASocket">Introduction to some APIs related to test-nginx</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

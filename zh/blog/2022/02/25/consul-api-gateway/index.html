@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API 网关 Apache APISIX 集成 Consul KV，服务发现能力再升级 | Apache APISIX</title><meta name="description" content="云原生 API 网关 Apache APISIX 支持基于 Consul KV 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul_kv 的相关原理。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/02/25/consul-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/25/consul-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="API 网关 Apache APISIX 集成 Consul KV，服务发现能力再升级 | Apache APISIX"><meta property="og:description" content="云原生 API 网关 Apache APISIX 支持基于 Consul KV 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul_kv 的相关原理。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/02/25/consul-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API 网关 Apache APISIX 集成 Consul KV，服务发现能力再升级","description":"云原生 API 网关 Apache APISIX 支持基于 Consul KV 的服务发现。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 consul_kv 的相关原理。","datePublished":"2022-02-25","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png","author":{"@type":"Person","name":"杨陶"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/02/25/consul-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/02/25/consul-api-gateway/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/02/25/consul-api-gateway/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>API 网关 Apache APISIX 集成 Consul KV，服务发现能力再升级</h1> <p class="article-meta"> 2022-02-25 · 杨陶  </p> <blockquote>
+<p>Apache APISIX 支持基于 Consul KV 的服务发现注册表。这篇文章讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关。</p>
+<p>作为 API 网关，Apache APISIX 提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。</p>
+<p>Consul 是一个服务网格解决方案，其核心之一的 Consul KV 是一个分布式键值数据库，主要用途是存储配置参数和元数据，同时也允许用户存储索引对象。</p>
+<p>在微服务架构模式下，当扩容、硬件故障等导致上游服务发生变动的情况出现时，通过手动撰写配置，维护上游服务信息的方式，会导致维护成本陡增。对此，Apache APISIX 提供了服务发现注册中心的功能，实现动态获取最新的服务实例信息，以降低用户的维护成本。</p>
+<p>目前，Apache APISIX 借由社区贡献的 <code>consul_kv</code> 模块，支持了基于 Consul KV 的服务发现注册中心。</p>
+<h2 id="插件工作原理">插件工作原理</h2>
+<p>Apache APISIX 利用 Consul KV 分布式键值存储能力的 <code>consul_kv</code> 模块，解耦了服务的提供者和消费者，实现了服务发现注册中心的两大核心功能。</p>
+<ol>
+<li>服务注册：服务提供者向注册中心注册服务。</li>
+<li>服务发现：服务消费者通过注册中心查找服务提供者的路由信息。</li>
+</ol>
+<p>在此基础上构建的 Apache APISIX 将更灵活地适应现有的微服务架构，更好地满足用户需求。</p>
+<p><img src="https://static.apiseven.com/202108/1645769130815-f23e9e11-ca57-4262-9083-aab5509aa178.png" alt="APISIX Consul 工作原理"></p>
+<h2 id="如何使用">如何使用</h2>
+<p>本文中的测试环境均使用 docker-compose 在 Docker 中搭建。</p>
+<ol>
+<li>下载 Apache APISIX。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 拉取 apisix-docker 的 Git 仓库</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-docker.git</span></span></code></pre>
+<ol start="2">
+<li>创建 Consul 文件夹和配置文件。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 创建 consul 文件夹</span></span>
+<span class="line"><span style="color:#FFA657">mkdir</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> ~/docker-things/consul/</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> "</span><span style="color:#79C0FF">$_</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#8B949E"># 创建配置文件</span></span>
+<span class="line"><span style="color:#FFA657">touch</span><span style="color:#A5D6FF"> docker-compose.yml</span><span style="color:#A5D6FF"> server1.json</span></span></code></pre>
+<ol start="3">
+<li>修改 <code>docker-compose.yml</code> 文件。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'3.8'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  consul-server1</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">consul:1.9.3</span></span>
+<span class="line"><span style="color:#7EE787">    container_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">consul-server1</span></span>
+<span class="line"><span style="color:#7EE787">    restart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">always</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./server1.json:/consul/config/server1.json:ro</span></span>
+<span class="line"><span style="color:#7EE787">    networks</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">'8500:8500'</span></span>
+<span class="line"><span style="color:#7EE787">    command</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'agent -bootstrap-expect=1'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">networks</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    external</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example_apisix</span></span></code></pre>
+<ol start="4">
+<li>修改 <code>server1.json</code> 文件。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "node_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"consul-server1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "server"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "addresses"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "http"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.0.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol start="5">
+<li>在 Apache APISIX 中的配置文件 <code>apisix_conf/config.yaml</code> 添加 Consul 的相关配置信息。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># config.yml</span></span>
+<span class="line"><span style="color:#8B949E"># ...other config</span></span>
+<span class="line"><span style="color:#7EE787">discovery</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  consul_kv</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    servers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://consul-server1:8500"</span></span>
+<span class="line"><span style="color:#7EE787">    prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"upstreams"</span></span></code></pre>
+<ol start="6">
+<li>启动 Apache APISIX 和 Consul。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 进入 example 和 consul 文件夹，依次启动 APISIX 和 Consul</span></span>
+<span class="line"><span style="color:#FFA657">docker-compose</span><span style="color:#A5D6FF"> up</span><span style="color:#79C0FF"> -d</span></span></code></pre>
+<ol start="7">
+<li>将测试服务注册到 Consul。<code>example</code> 包含了两个 Web 服务，你可以直接使用这两个服务进行测试。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 检查 example 的 docker-compose.yml 就可以看到两个 Web 服务</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cat</span><span style="color:#A5D6FF"> docker-compose.yml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> web</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">web1:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#A5D6FF"> ./upstream/web1.conf:/etc/nginx/nginx.conf</span></span>
+<span class="line"><span style="color:#FFA657">web2:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#A5D6FF"> ./upstream/web2.conf:/etc/nginx/nginx.conf</span></span></code></pre>
+<ol start="8">
+<li>确认 Web 服务的 IP 地址。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> sudo</span><span style="color:#A5D6FF"> docker</span><span style="color:#A5D6FF"> inspect</span><span style="color:#79C0FF"> -f=</span><span style="color:#A5D6FF">'{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'</span><span style="color:#E6EDF3"> $(</span><span style="color:#FFA657">sudo</span><span style="color:#A5D6FF"> docker</span><span style="color:#A5D6FF"> ps</span><span style="color:#79C0FF"> -aq</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">|</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> web</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">/example-web1-1</span><span style="color:#A5D6FF"> -</span><span style="color:#79C0FF"> 172.26.0.7</span></span>
+<span class="line"><span style="color:#FFA657">/example-web2-1</span><span style="color:#A5D6FF"> -</span><span style="color:#79C0FF"> 172.26.0.2</span></span></code></pre>
+<ol start="9">
+<li>在终端中对 Consul 的 HTTP API 进行请求以注册测试服务。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 使用对应的 IP 进行注册</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> ' {"weight": 1, "max_fails": 2, "fail_timeout": 1}'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  http://127.0.0.1:8500/v1/kv/upstreams/webpages/172.26.0.7:80</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> ' {"weight": 1, "max_fails": 2, "fail_timeout": 1}'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  http://127.0.0.1:8500/v1/kv/upstreams/webpages/172.26.0.2:80</span></span></code></pre>
+<p>其中，<code>/v1/kv/</code> 后的路径按照 <code>{Prefix}/{Service Name}/{IP}:{Port}</code> 的格式构成。</p>
+<p><code>{Prefix}</code> 是在 APISIX 中配置 Consul 时写入的 prefix，<code>{Service Name}</code> 和 <code>{IP}:{Port}</code> 则需要根据上游服务，由用户自行确定。</p>
+<p>而数据的格式则为 <code>{"weight": &#x3C;Num>, "max_fails": &#x3C;Num>, "fail_timeout": &#x3C;Num>}</code>。</p>
+<ol start="10">
+<li>查看测试服务是否注册成功。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:8500/v1/kv/upstreams/webpages?keys"</span></span></code></pre>
+<p>返回消息如下则表示注册成功。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">[</span><span style="color:#A5D6FF">"upstreams/webpages/172.26.0.2:80"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"upstreams/webpages/172.26.0.7:80"</span><span style="color:#E6EDF3">]%</span></span></code></pre>
+<h3 id="创建路由并为其启用-consul">创建路由并为其启用 Consul</h3>
+<p>使用 Apache APISIX 提供的 Admin API 将 Consul 添加到路由中。</p>
+<p>在添加之前需要先确定 <code>X-API-KEY</code> 和 <code>upstream.service_name</code> 两个数据。</p>
+<ul>
+<li><code>X-API-KEY</code>：Admin API 的访问 Token，在此示例中，我们使用默认的 <code>edd1c9f034335f136f87ad84b625c8f1</code> 即可。</li>
+<li><code>upstream.service_name</code>：上游服务的名称，它指定了将与某个路由绑定的某个注册中心中的服务（Service），使用 Consul 时需要设置为注册测试服务时的 URL，并去掉最后的 <code>{IP}:{Port}</code> 部分。我们也可以通过 Apache APISIX 提供的 Memory Dump API 获取服务的 URL，同时确认是否能正常发现上游服务。</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9092/v1/discovery/consul_kv/dump</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> jq</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">  "services"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#8B949E">    # 这个 key 就是需要的 URL</span></span>
+<span class="line"><span style="color:#FFA657">    "http://consul-server1:8500/v1/kv/upstreams/webpages/"</span><span style="color:#79C0FF">:</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#FFA657">        "port"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> 80,</span></span>
+<span class="line"><span style="color:#FFA657">        "host"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "172.26.0.7",</span></span>
+<span class="line"><span style="color:#FFA657">        "weight"</span><span style="color:#79C0FF">:</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#FFA657">        "port"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> 80,</span></span>
+<span class="line"><span style="color:#FFA657">        "host"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "172.26.0.2",</span></span>
+<span class="line"><span style="color:#FFA657">        "weight"</span><span style="color:#79C0FF">:</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA657">  "config"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#8B949E">    # ...configs</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="添加路由">添加路由</h3>
+<p>这里将 URL 为 <code>/consul/*</code> 的请求路由分配到 <code>http://consul-server1:8500/v1/kv/upstreams/webpages/</code>。同时， <code>discovery_type</code> 必须设置为 <code>consul_kv</code> 以启动对应模块。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/consul/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "service_name": "http://consul-server1:8500/v1/kv/upstreams/webpages/",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "discovery_type": "consul_kv"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="测试配置结果">测试配置结果</h3>
+<p>通过请求结果可以看到， Apache APISIX 中新增的路由已经可以通过 Consul 找到正确的服务地址，并根据负载均衡策略请求到两个节点上。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 第一次请求</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/consul/</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">hello</span><span style="color:#A5D6FF"> web1%</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 第二次请求</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/consul/</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">hello</span><span style="color:#A5D6FF"> web2%</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 注意：也有可能两次请求获取的都是 web1 或者 web2。</span></span>
+<span class="line"><span style="color:#8B949E">#      这是由负载均衡的特性造成的，您可以尝试进行更多次请求。</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文的前半部分介绍了 Apache APISIX 如何配合 Consul 实现基于 Consul KV 的服务发现注册中心，解决服务信息管理维护的问题。而在后半部分则着重介绍了如何在 Docker 中搭配 Consul 使用 Apache APISIX 的操作流程。当然，在实际场景中的应用，还需要各位读者根据业务使用场景和已有的系统架构具体分析。关于在 Apache APISIX 中使用 Consul 注册中心的更多说明，可以在<a href="https://apisix.apache.org/zh/docs/apisix/discovery/consul_kv/">官方文档</a>中找到。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

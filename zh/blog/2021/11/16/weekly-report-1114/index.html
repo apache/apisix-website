@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区周报（11.1-11.14） | Apache APISIX</title><meta name="description" content="云原生 API 网关 Apache APISIX 近两周新增支持在 Arch Linux 上安装 APISIX，limit-conn 和 limit-count 插件支持变量作为限流 key 以及 datadog 插件等功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/11/16/weekly-report-1114/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/16/weekly-report-1114/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/16/weekly-report-1114/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/16/weekly-report-1114/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="社区周报（11.1-11.14） | Apache APISIX"><meta property="og:description" content="云原生 API 网关 Apache APISIX 近两周新增支持在 Arch Linux 上安装 APISIX，limit-conn 和 limit-count 插件支持变量作为限流 key 以及 datadog 插件等功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/11/16/weekly-report-1114/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区周报（11.1-11.14）","description":"云原生 API 网关 Apache APISIX 近两周新增支持在 Arch Linux 上安装 APISIX，limit-conn 和 limit-count 插件支持变量作为限流 key 以及 datadog 插件等功能。","datePublished":"2021-11-16","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/11/16/weekly-report-1114/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/11/16/weekly-report-1114/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/11/16/weekly-report-1114/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>社区周报（11.1-11.14）</h1> <p class="article-meta"> 2021-11-16  </p> <blockquote>
+<p>从 11.1 到 11.14, 有 28 位开发者为 Apache APISIX 提交了 114 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p>Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。</p>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。</p>
+<p>我们还整理了一些适合新来社区的小伙伴们参加的 issue！感兴趣的同学们，走过路过不要错过！</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/202108/1636942852485-0effd8be-552e-4871-ba3e-356772016a18.png" alt="本周贡献者名单"></p>
+<p><img src="https://static.apiseven.com/202108/1636940503842-fc52a349-443e-4f4b-9787-f743299870f3.png" alt="本周新晋贡献者"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-5400">Issue #5400</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/5400">https://github.com/apache/apisix/issues/5400</a></p>
+<p><strong>问题描述</strong>：七层的 HTTP 日志是存储在 acccess.log 中的，那么四层代理 stream route 如何启用日志并自定义日志路径呢？传统的 OpenResty 是可以实现的。</p>
+<h3 id="issue-5417">Issue #5417</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/5417">https://github.com/apache/apisix/issues/5417</a></p>
+<p><strong>问题描述</strong>：目前，如果用户没有指定一个 ID，Apache APISIX 会在初始化时生成一个 ID，它依赖于 <a href="https://github.com/thibaultcha/lua-resty-jit-uuid">lua-resty-jit-uuid</a> 库，但没有一个明确的 seed。<a href="https://github.com/apache/apisix/blob/4dafab5afa3293b3d72007517246e01da385f8ef/apisix/core/id.lua#L76-L78">如下</a>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>uuid.seed()</span></span>
+<span class="line"><span> apisix_uid = uuid.generate_v4()</span></span>
+<span class="line"><span> log.notice("not found apisix uid, generate a new one: ", apisix_uid)</span></span></code></pre>
+<p>而 jit-uuid 库通过 ngx_lua 环境中的进程 ID 和时间创建 seed，<a href="https://github.com/thibaultcha/lua-resty-jit-uuid/blob/82538049040ae85ff880b79886f21d8593140c7d/lib/resty/jit-uuid.lua#L53-L54">如下</a>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>        if ngx then</span></span>
+<span class="line"><span>            seed = ngx.time() + ngx.worker.pid()</span></span></code></pre>
+<p>然而，在容器化环境中，进程 ID（主进程）可能是相同的，即 1 号进程，另外，如果用户试图通过部署资源在 Kubernetes 上部署 Apache APISIX 集群，几个 Pod 的时间可能是相同的，因为 ngx.time 没有足够的精确性（只有毫秒级别）。所以生成的 APISIX ID 可能是重复的，如果这个 ID 是关键的，这可能会在业务场景中造成严重的后果。</p>
+<h2 id="近期功能特性亮点">近期功能特性亮点</h2>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5350">APISIX 支持在 Arch Linux 上安装</a>（贡献者：<a href="https://github.com/rapiz1">rapiz1</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5354">APISIX limit-conn 插件支持变量作为限流 key</a>（贡献者：<a href="https://github.com/Xunzhuo">Xunzhuo</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5378">APISIX limit-count 插件支持变量作为限流 key</a>（贡献者：<a href="https://github.com/Xunzhuo">Xunzhuo</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5409">APISIX 支持通过 POST 表单属性进行高级路由匹配</a>（贡献者：<a href="https://github.com/bzp2010">bzp2010</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5372">APISIX 新增用于指标收集的 datadog 插件</a>（贡献者：<a href="https://github.com/bisakhmondal">bisakhmondal</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5478">APISIX 新增 skywalking-logger 插件，可将 Access Log 数据推送到 SkyWalking OAP 服务器</a>（贡献者：<a href="https://github.com/dmsolr">dmsolr</a>）</p>
+</li>
+</ul>
+<p>Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。</p>
+<h2 id="近期博文推荐">近期博文推荐</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/11/03/airwallex-usercase">Apache APISIX 如何通过网关层为 Airwallex 数据主权保驾护航</a>：</p>
+<p>本文将为大家带来关于 Airwallex 空中云汇是如何使用 Apache APISIX 进行网关层部署来加固数据主权方面的建设。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/11/04/skywalking">浅谈 Apache APISIX 的可观测性</a>：</p>
+<p>本文介绍了 Apache APISIX 的可观测性能力以及如何通过 Apache SkyWalking 提升Apache APISIX 的可观测性能力。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog">APISIX-Datadog 插件发布，助力用户提高系统的可观测性</a>：</p>
+<p>Apache APISIX 最近发布了一个新的插件：<a href="https://apisix.apache.org/docs/apisix/next/plugins/datadog/">APISIX-Datadog</a>，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。</p>
+</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

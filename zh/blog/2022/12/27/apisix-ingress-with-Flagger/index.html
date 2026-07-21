@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Ingress + Flagger 实现顺滑的金丝雀发布 | Apache APISIX</title><meta name="description" content="通过 Apache APISIX 和 Flagger 的整合，实现了非常顺滑的金丝雀发布。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/12/27/apisix-ingress-with-Flagger/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/12/27/apisix-ingress-with-Flagger/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/12/27/apisix-ingress-with-Flagger/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/12/27/apisix-ingress-with-Flagger/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX Ingress + Flagger 实现顺滑的金丝雀发布 | Apache APISIX"><meta property="og:description" content="通过 Apache APISIX 和 Flagger 的整合，实现了非常顺滑的金丝雀发布。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/12/27/apisix-ingress-with-Flagger/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Ingress + Flagger 实现顺滑的金丝雀发布","description":"通过 Apache APISIX 和 Flagger 的整合，实现了非常顺滑的金丝雀发布。","datePublished":"2022-12-27","author":{"@type":"Person","name":"谭恒亮"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/12/27/apisix-ingress-with-Flagger/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/12/27/apisix-ingress-with-Flagger/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/12/27/apisix-ingress-with-Flagger/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX Ingress + Flagger 实现顺滑的金丝雀发布</h1> <p class="article-meta"> 2022-12-27 · 谭恒亮  </p> <blockquote>
+<p>通过 Apache APISIX 和 Flagger 的整合，实现了非常顺滑的金丝雀发布。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>作者：谭恒亮，Github ID: Gallardot。开源项目爱好者，CNCF Chaos Mesh 项目 Maintainer，CNCF KubeVela、Apache APISIX、CNCF Flagger、CNCF Argo Rollouts 等项目 Contributor。目前在小鹏汽车任职基础架构研发专家。</p>
+</blockquote>
+<p>在日常的项目开发过程中时，我们时常会面临服务变更的挑战，为了不影响用户体验，我们往往尽可能需要规避服务不可用的风险。因此，持续交付便应运而生，其被接受为一种企业软件实践，并且是完善的持续集成原则的自然演变。</p>
+<p>然而，持续部署仍然非常罕见，这可能是由于管理的复杂性以及担心部署失败会影响系统可用性。在整个持续交付体系中，金丝雀发布或许是最为经典的一个场景。基于此，我们能够很快发现“不健康”和“有问题”的服务，并且可以毫不费力地回滚到上一个版本。</p>
+<p>金丝雀发布也称“灰度发布”。通常来讲，在原有版本可用的情况下，同时发布部署一个新版本应用作为“金丝雀”，其目的是为了测试新版本的性能和表现，在保障整体系统稳定的前提下，尽早发现和及时调整。</p>
+<p>金丝雀发布并非黑即白的发布方式，它能够缓慢地将特定百分比的流量引导至一小部分用户。若验证没有问题，再推广到全部用户，并逐步淘汰旧版本，以降低生产环境引入新功能带来的风险。</p>
+<p>本文将介绍如何通过 Apache APISIX Ingress 和 Flagger 实现顺滑的金丝雀发布，从而提高发布效率，降低发布风险。</p>
+<h2 id="项目介绍">项目介绍</h2>
+<h3 id="apache-apisix-ingress">Apache APISIX Ingress</h3>
+<p>Apache APISIX Ingress 使用 Apache APISIX 作为数据面代理的 Kubernetes Ingress controller 实现，提供了负载均衡、动态上游、金丝雀发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。目前已被包括 Zoom、腾讯云、驾考宝典、地平线、欧洲哥白尼参考系统等国内外公司和组织采用。</p>
+<h3 id="flagger">Flagger</h3>
+<p>Flagger 是一个 CNCF 云原生计算基金会项目，是 GitOps 工具 Flux 系列的一部分。最近 CNCF 云原生计算基金会也宣布了 Flux 正式毕业，很好地表明了云原生技术当前的成功与光明前景。作为一种渐进式交付工具，Flagger 可自动执行在 Kubernetes 上运行的应用程序的发布过程。它通过在衡量分析指标和运行一致性测试的同时逐渐将流量转移到新版本来降低在生产中引入新软件版本的风险。</p>
+<p>经过 Apache APISIX 和 Flux 两个社区的合作与努力，Flagger 在近期也发布了 v1.27.0 版本，支持使用 Apache APISIX Ingress 和 Flagger 进行自动化的金丝雀发布。</p>
+<p><img src="https://static.apiseven.com/2022/12/26/63a9a47945eda.png" alt="金丝雀发布流程"></p>
+<p>下文将通过实践，一步步为大家展示下这个顺滑的金丝雀发布过程。</p>
+<h2 id="金丝雀发布准备环节">金丝雀发布准备环节</h2>
+<h3 id="环境与组件准备">环境与组件准备</h3>
+<p>首先需要一个 v1.19 或更新版本的 Kubernetes 集群，你可以通过 <a href="https://kind.sigs.k8s.io/">kind</a> 进行安装。</p>
+<p>然后使用 Helm V3 来安装 Apache APISIX 和 Apache APISIX Ingress Controller，具体操作如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> repo</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> https://charts.apiseven.com</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> ns</span><span style="color:#A5D6FF"> apisix</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> upgrade</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> apisix/apisix</span><span style="color:#79C0FF"> --version=0.11.3</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--namespace </span><span style="color:#A5D6FF">apisix</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">apisix.podAnnotations."prometheus\.io/scrape"=</span><span style="color:#79C0FF">true</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">apisix.podAnnotations."prometheus\.io/port"=</span><span style="color:#79C0FF">9091</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">apisix.podAnnotations."prometheus\.io/path"=/apisix/prometheus/metrics</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">pluginAttrs.prometheus.export_addr.ip=</span><span style="color:#79C0FF">0.0.0.0</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">pluginAttrs.prometheus.export_addr.port=</span><span style="color:#79C0FF">9091</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">pluginAttrs.prometheus.export_uri=/apisix/prometheus/metrics</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">pluginAttrs.prometheus.metric_prefix=apisix_</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">ingress-controller.enabled=</span><span style="color:#79C0FF">true</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">ingress-controller.config.apisix.serviceNamespace=apisix</span></span></code></pre>
+<p>完成后，在 apisix namespace 中安装 Flagger 和 Prometheus 附加组件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> repo</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> flagger</span><span style="color:#A5D6FF"> https://flagger.app</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> upgrade</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> flagger</span><span style="color:#A5D6FF"> flagger/flagger</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--namespace </span><span style="color:#A5D6FF">apisix</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">prometheus.install=</span><span style="color:#79C0FF">true</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">meshProvider=apisix</span></span></code></pre>
+<p>注意，如需使用自建 prometheus 或者 prometheus operator，可以自行搜索相关文章进行修改。</p>
+<h3 id="初始化应用">初始化应用</h3>
+<p>Flagger 可以作用于 Kubernetes 的 deployment 以及其他的 workload，也可以和 HPA 结合在一起工作。它将会创建一系列的对象（比如 Kubernetes deployments、ClusterIP services 和 ApisixRoute）。这些对象可以将应用暴露到集群外提供服务，并用于金丝雀发布过程的分析和发布。</p>
+<p>首先使用 <code>kubectl create ns test</code> 命令来新建一个 namespace，这里我们将其命名为 <code>test</code>。然后通过 <code>kubectl apply -k https://github.com/fluxcd/flagger//kustomize/podinfo?ref=main</code> 命令，新建一个 deployment 和 HPA，这里使用 Flagger 官方示例程序。</p>
+<p>接下来可通过 <code>helm upgrade -i flagger-loadtester flagger/loadtester \</code></p>
+<p><code>--namespace=test</code> 指令来部署 Flagger 的负载测试服务，用于在金丝雀发布期间产生流量时，方便对其进行分析。</p>
+<p>此时，创建 Apache APISIX 的<code>ApisixRoute</code>，Flagger 将会引用该资源，并且生成金丝雀版本的 Apache APISIX Ingress 的<code>ApisixRoute</code>，具体可参考下方示例（示例中的<code>app.example.com</code>可以替换成你的实际域名）。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">test</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">backends</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo</span></span>
+<span class="line"><span style="color:#7EE787">          servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        hosts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">app.example.com</span></span>
+<span class="line"><span style="color:#7EE787">        methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">GET</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">method</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prometheus</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">            prefer_name</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>将上方代码保存为 <code>podinfo-apisixroute.yaml</code> 文件并且提交到集群中。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> ./podinfo-apisixroute.yaml</span></span></code></pre>
+<p>接下来可以创建 Flagger 的自定义资源 Canary，如下所示（示例中的 <code>app.example.com</code> 可以替换成你的实际域名）。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">flagger.app/v1beta1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Canary</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">test</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  targetRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apps/v1</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Deployment</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo</span></span>
+<span class="line"><span style="color:#8B949E">  # 引用 apisix route</span></span>
+<span class="line"><span style="color:#7EE787">  routeRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo</span></span>
+<span class="line"><span style="color:#7EE787">  progressDeadlineSeconds</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span></span>
+<span class="line"><span style="color:#7EE787">  service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">    targetPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9898</span></span>
+<span class="line"><span style="color:#7EE787">  analysis</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#8B949E">    # 调度间隔 (默认 60s)</span></span>
+<span class="line"><span style="color:#7EE787">    interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">10s</span></span>
+<span class="line"><span style="color:#8B949E">    # 最大的metric检测失败次数，超过将会自动回滚</span></span>
+<span class="line"><span style="color:#7EE787">    threshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#8B949E">    # 流量路由到canary应用的最大百分比</span></span>
+<span class="line"><span style="color:#8B949E">    # (0-100)</span></span>
+<span class="line"><span style="color:#7EE787">    maxWeight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">50</span></span>
+<span class="line"><span style="color:#8B949E">    # 金丝雀分析渐进的步长</span></span>
+<span class="line"><span style="color:#8B949E">    # (0-100)</span></span>
+<span class="line"><span style="color:#7EE787">    stepWeight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#8B949E">    # 通过Prometheus检查APISIX上的流量状况</span></span>
+<span class="line"><span style="color:#7EE787">    metrics</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">request-success-rate</span></span>
+<span class="line"><span style="color:#8B949E">        # 最小的请求成功率 (非 5xx 响应)</span></span>
+<span class="line"><span style="color:#8B949E">        # (0-100)</span></span>
+<span class="line"><span style="color:#7EE787">        thresholdRange</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          min</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">99</span></span>
+<span class="line"><span style="color:#7EE787">        interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">1m</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">request-duration</span></span>
+<span class="line"><span style="color:#8B949E">        # P99 最大的请求延迟</span></span>
+<span class="line"><span style="color:#8B949E">        # 单位是毫秒</span></span>
+<span class="line"><span style="color:#7EE787">        thresholdRange</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          max</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">500</span></span>
+<span class="line"><span style="color:#7EE787">        interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">30s</span></span>
+<span class="line"><span style="color:#7EE787">    webhooks</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#8B949E">        # 自动产生流量以便进行金丝雀分析，根据实际业务场景修改</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">load-test</span></span>
+<span class="line"><span style="color:#7EE787">        url</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://flagger-loadtester.test/</span></span>
+<span class="line"><span style="color:#7EE787">        timeout</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">5s</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">rollout</span></span>
+<span class="line"><span style="color:#7EE787">        metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          cmd</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|-</span></span>
+<span class="line"><span style="color:#A5D6FF">            hey -z 1m -q 10 -c 2 -h2 -host app.example.com http://apisix-gateway.apisix/api/info</span></span></code></pre>
+<p>将上述代码保存为 <code>podinfo-canary.yaml</code> 文件，并提交到集群中。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> ./podinfo-canary.yaml</span></span></code></pre>
+<p>稍等一下 Flagger 就会自动生成相关的资源。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># 主动提交的</span></span>
+<span class="line"><span style="color:#FFA657">deployment.apps/podinfo</span></span>
+<span class="line"><span style="color:#FFA657">horizontalpodautoscaler.autoscaling/podinfo</span></span>
+<span class="line"><span style="color:#FFA657">apisixroute/podinfo</span></span>
+<span class="line"><span style="color:#FFA657">canary.flagger.app/podinfo</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 自动生成的</span></span>
+<span class="line"><span style="color:#FFA657">deployment.apps/podinfo-primary</span></span>
+<span class="line"><span style="color:#FFA657">horizontalpodautoscaler.autoscaling/podinfo-primary</span></span>
+<span class="line"><span style="color:#FFA657">service/podinfo</span></span>
+<span class="line"><span style="color:#FFA657">service/podinfo-canary</span></span>
+<span class="line"><span style="color:#FFA657">service/podinfo-primary</span></span>
+<span class="line"><span style="color:#FFA657">apisixroute/podinfo-podinfo-canary</span></span></code></pre>
+<p>此时你通过域名 app.example.com 访问应用（示例中的 <code>app.example.com</code> 可以替换成你的实际域名），你将会看到当前版本的应用细节。</p>
+<p><img src="https://static.apiseven.com/2022/12/26/63a9a4798e616.png" alt="版本 1"></p>
+<h2 id="具体功能实践">具体功能实践</h2>
+<h3 id="自动金丝雀发布">自动金丝雀发布</h3>
+<p>Flagger 实现了一个控制循环，在持续测量 HTTP 请求成功率、请求平均持续时间和 Pod 健康状况等关键性能指标的同时，逐渐将流量转移至金丝雀节点。根据对相关指标的分析，发布或中止金丝雀部署，并将分析结果发布到相关平台例如 Slack、MS Teams 或者 Prometheus Alert Manager 等。</p>
+<p><img src="https://static.apiseven.com/2022/12/26/63a9a47bb7a3d.png" alt="Flagger 控制循环"></p>
+<p>具体可通过更新容器镜像版本，来触发金丝雀发布。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> set</span><span style="color:#A5D6FF"> image</span><span style="color:#A5D6FF"> deployment/podinfo</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">podinfod=stefanprodan/podinfo:6.0.1</span></span></code></pre>
+<p>当 Flagger 检测到 deployment 有新版变更时，就会开始试运行金丝雀分析发布。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> describe</span><span style="color:#A5D6FF"> canary/podinfo</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Status:</span></span>
+<span class="line"><span style="color:#FFA657">  Canary</span><span style="color:#A5D6FF"> Weight:</span><span style="color:#79C0FF">  0</span></span>
+<span class="line"><span style="color:#FFA657">  Conditions:</span></span>
+<span class="line"><span style="color:#FFA657">    Message:</span><span style="color:#A5D6FF">               Canary</span><span style="color:#A5D6FF"> analysis</span><span style="color:#A5D6FF"> completed</span><span style="color:#A5D6FF"> successfully,</span><span style="color:#A5D6FF"> promotion</span><span style="color:#A5D6FF"> finished.</span></span>
+<span class="line"><span style="color:#FFA657">    Reason:</span><span style="color:#A5D6FF">                Succeeded</span></span>
+<span class="line"><span style="color:#FFA657">    Status:</span><span style="color:#A5D6FF">                True</span></span>
+<span class="line"><span style="color:#FFA657">    Type:</span><span style="color:#A5D6FF">                  Promoted</span></span>
+<span class="line"><span style="color:#FFA657">  Failed</span><span style="color:#A5D6FF"> Checks:</span><span style="color:#79C0FF">           1</span></span>
+<span class="line"><span style="color:#FFA657">  Iterations:</span><span style="color:#79C0FF">              0</span></span>
+<span class="line"><span style="color:#FFA657">  Phase:</span><span style="color:#A5D6FF">                   Succeeded</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Events:</span></span>
+<span class="line"><span style="color:#FFA657">  Type</span><span style="color:#A5D6FF">     Reason</span><span style="color:#A5D6FF">  Age</span><span style="color:#A5D6FF">                    From</span><span style="color:#A5D6FF">     Message</span></span>
+<span class="line"><span style="color:#FFA657">  ----</span><span style="color:#79C0FF">     ------</span><span style="color:#79C0FF">  ----</span><span style="color:#79C0FF">                   ----</span><span style="color:#79C0FF">     -------</span></span>
+<span class="line"><span style="color:#FFA657">  Warning</span><span style="color:#A5D6FF">  Synced</span><span style="color:#A5D6FF">  2m59s</span><span style="color:#A5D6FF">                  flagger</span><span style="color:#A5D6FF">  podinfo-primary.test</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> ready:</span><span style="color:#A5D6FF"> waiting</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> rollout</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> finish:</span><span style="color:#A5D6FF"> observed</span><span style="color:#A5D6FF"> deployment</span><span style="color:#A5D6FF"> generation</span><span style="color:#A5D6FF"> less</span><span style="color:#A5D6FF"> than</span><span style="color:#A5D6FF"> desired</span><span style="color:#A5D6FF"> generation</span></span>
+<span class="line"><span style="color:#FFA657">  Warning</span><span style="color:#A5D6FF">  Synced</span><span style="color:#A5D6FF">  2m50s</span><span style="color:#A5D6FF">                  flagger</span><span style="color:#A5D6FF">  podinfo-primary.test</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> ready:</span><span style="color:#A5D6FF"> waiting</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> rollout</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> finish:</span><span style="color:#79C0FF"> 0</span><span style="color:#A5D6FF"> of</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3"> (readyThreshold </span><span style="color:#A5D6FF">100%</span><span style="color:#E6EDF3">) updated replicas are available</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  2m40s</span><span style="color:#E6EDF3"> (x3 </span><span style="color:#A5D6FF">over</span><span style="color:#A5D6FF"> 2m59s</span><span style="color:#E6EDF3">)  flagger  all the metrics providers are available</span><span style="color:#FF7B72">!</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  2m39s</span><span style="color:#A5D6FF">                  flagger</span><span style="color:#A5D6FF">  Initialization</span><span style="color:#A5D6FF"> done!</span><span style="color:#A5D6FF"> podinfo.test</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  2m20s</span><span style="color:#A5D6FF">                  flagger</span><span style="color:#A5D6FF">  New</span><span style="color:#A5D6FF"> revision</span><span style="color:#A5D6FF"> detected!</span><span style="color:#A5D6FF"> Scaling</span><span style="color:#A5D6FF"> up</span><span style="color:#A5D6FF"> podinfo.test</span></span>
+<span class="line"><span style="color:#FFA657">  Warning</span><span style="color:#A5D6FF">  Synced</span><span style="color:#A5D6FF">  2m</span><span style="color:#E6EDF3"> (x2 </span><span style="color:#A5D6FF">over</span><span style="color:#A5D6FF"> 2m10s</span><span style="color:#E6EDF3">)     flagger  canary deployment podinfo.test not ready: waiting </span><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> rollout to finish: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3"> of </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">readyThreshold</span><span style="color:#A5D6FF"> 100%</span><span style="color:#E6EDF3">) updated replicas are available</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  110s</span><span style="color:#A5D6FF">                   flagger</span><span style="color:#A5D6FF">  Starting</span><span style="color:#A5D6FF"> canary</span><span style="color:#A5D6FF"> analysis</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> podinfo.test</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  109s</span><span style="color:#A5D6FF">                   flagger</span><span style="color:#A5D6FF">  Advance</span><span style="color:#A5D6FF"> podinfo.test</span><span style="color:#A5D6FF"> canary</span><span style="color:#A5D6FF"> weight</span><span style="color:#79C0FF"> 10</span></span>
+<span class="line"><span style="color:#FFA657">  Warning</span><span style="color:#A5D6FF">  Synced</span><span style="color:#A5D6FF">  100s</span><span style="color:#A5D6FF">                   flagger</span><span style="color:#A5D6FF">  Halt</span><span style="color:#A5D6FF"> advancement</span><span style="color:#A5D6FF"> no</span><span style="color:#A5D6FF"> values</span><span style="color:#A5D6FF"> found</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> metric</span><span style="color:#A5D6FF"> request-success-rate</span><span style="color:#A5D6FF"> probably</span><span style="color:#A5D6FF"> podinfo.test</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> receiving</span><span style="color:#A5D6FF"> traffic:</span><span style="color:#A5D6FF"> running</span><span style="color:#A5D6FF"> query</span><span style="color:#A5D6FF"> failed:</span><span style="color:#A5D6FF"> no</span><span style="color:#A5D6FF"> values</span><span style="color:#A5D6FF"> found</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  90s</span><span style="color:#A5D6FF">                    flagger</span><span style="color:#A5D6FF">  Advance</span><span style="color:#A5D6FF"> podinfo.test</span><span style="color:#A5D6FF"> canary</span><span style="color:#A5D6FF"> weight</span><span style="color:#79C0FF"> 20</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  80s</span><span style="color:#A5D6FF">                    flagger</span><span style="color:#A5D6FF">  Advance</span><span style="color:#A5D6FF"> podinfo.test</span><span style="color:#A5D6FF"> canary</span><span style="color:#A5D6FF"> weight</span><span style="color:#79C0FF"> 30</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  69s</span><span style="color:#A5D6FF">                    flagger</span><span style="color:#A5D6FF">  Advance</span><span style="color:#A5D6FF"> podinfo.test</span><span style="color:#A5D6FF"> canary</span><span style="color:#A5D6FF"> weight</span><span style="color:#79C0FF"> 40</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  59s</span><span style="color:#A5D6FF">                    flagger</span><span style="color:#A5D6FF">  Advance</span><span style="color:#A5D6FF"> podinfo.test</span><span style="color:#A5D6FF"> canary</span><span style="color:#A5D6FF"> weight</span><span style="color:#79C0FF"> 50</span></span>
+<span class="line"><span style="color:#FFA657">  Warning</span><span style="color:#A5D6FF">  Synced</span><span style="color:#A5D6FF">  30s</span><span style="color:#E6EDF3"> (x2 </span><span style="color:#A5D6FF">over</span><span style="color:#A5D6FF"> 40s</span><span style="color:#E6EDF3">)      flagger  podinfo-primary.test not ready: waiting </span><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> rollout to finish: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3"> old replicas are pending termination</span></span>
+<span class="line"><span style="color:#FFA657">  Normal</span><span style="color:#A5D6FF">   Synced</span><span style="color:#A5D6FF">  9s</span><span style="color:#E6EDF3"> (x3 </span><span style="color:#A5D6FF">over</span><span style="color:#A5D6FF"> 50s</span><span style="color:#E6EDF3">)       flagger  (</span><span style="color:#FFA657">combined</span><span style="color:#A5D6FF"> from</span><span style="color:#A5D6FF"> similar</span><span style="color:#A5D6FF"> events</span><span style="color:#E6EDF3">): Promotion completed</span><span style="color:#FF7B72">!</span><span style="color:#FFA657"> Scaling</span><span style="color:#A5D6FF"> down</span><span style="color:#A5D6FF"> podinfo.test</span></span></code></pre>
+<p>在新版本金丝雀发布的过程中，你可以通过域名 app.example.com 访问应用（示例中的 <code>app.example.com</code> 可以替换成你的实际域名），这里将会出现不同版本的响应切换。</p>
+<p><img src="https://static.apiseven.com/2022/12/26/63a9a47b281b0.png" alt="版本 2"></p>
+<p>通过查看由 Flagger 自动创建出来的 Apache APISIX 的 <code>ApisixRoute</code> 资源 <code>podinfo-podinfo-canary</code>，会发现 service <code>podinfo-primary</code> 和 service <code>podinfo-canary</code> 的权重跟随着发布过程一起变化。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">backends</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo-primary</span></span>
+<span class="line"><span style="color:#7EE787">          servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#8B949E">          # Flagger自动调整</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">podinfo-canary</span></span>
+<span class="line"><span style="color:#7EE787">          servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#8B949E">          # Flagger自动调整</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">20</span></span></code></pre>
+<p>当最终发布完成后，将会看到稳定的最新版本。</p>
+<p><img src="https://static.apiseven.com/2022/12/26/63a9a479d5bbe.png" alt="版本 3"></p>
+<div class="admonition admonition-note"><p class="admonition-title">注意</p><p>如若在金丝雀发布期间再次变更了 deployment，Flagger 将会重新进行金丝雀分析。你可以通过以下命令来观察到所有的金丝雀发布细节。</p></div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">watch</span><span style="color:#A5D6FF"> kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> canaries</span><span style="color:#79C0FF"> --all-namespaces</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">NAMESPACE</span><span style="color:#A5D6FF">   NAME</span><span style="color:#A5D6FF">      STATUS</span><span style="color:#A5D6FF">      WEIGHT</span><span style="color:#A5D6FF">   LASTTRANSITIONTIME</span></span>
+<span class="line"><span style="color:#79C0FF">test</span><span style="color:#A5D6FF">        podinfo-2</span><span style="color:#A5D6FF">   Progressing</span><span style="color:#79C0FF">   10</span><span style="color:#A5D6FF">       2022-11-23T05:00:54Z</span></span>
+<span class="line"><span style="color:#79C0FF">test</span><span style="color:#A5D6FF">        podinfo</span><span style="color:#A5D6FF">     Succeeded</span><span style="color:#79C0FF">     0</span><span style="color:#A5D6FF">        2022-11-23T06:00:54Z</span></span></code></pre>
+<h3 id="自动回滚">自动回滚</h3>
+<p>在金丝雀发布分析期间，你可以通过生成 HTTP <code>500</code> 错误请求，测试 Flagger 暂停金丝雀发布并回滚到旧版本。</p>
+<p>首先需要触发另一个金丝雀发布。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> set</span><span style="color:#A5D6FF"> image</span><span style="color:#A5D6FF"> deployment/podinfo</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">podinfod=stefanprodan/podinfo:6.0.2</span></span></code></pre>
+<p>然后进入到 load tester 容器中。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> exec</span><span style="color:#79C0FF"> -it</span><span style="color:#A5D6FF"> deploy/flagger-loadtester</span><span style="color:#A5D6FF"> bash</span></span></code></pre>
+<p>接着去生成 HTTP <code>500</code> 错误，并模拟服务延迟。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">hey</span><span style="color:#79C0FF"> -z</span><span style="color:#A5D6FF"> 1m</span><span style="color:#79C0FF"> -c</span><span style="color:#79C0FF"> 5</span><span style="color:#79C0FF"> -q</span><span style="color:#79C0FF"> 5</span><span style="color:#79C0FF"> -host</span><span style="color:#A5D6FF"> app.example.com</span><span style="color:#A5D6FF"> http://apisix-gateway.apisix/status/500</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">watch</span><span style="color:#79C0FF"> -n</span><span style="color:#79C0FF"> 1</span><span style="color:#A5D6FF"> curl</span><span style="color:#79C0FF"> -H</span><span style="color:#FF7B72"> \"</span><span style="color:#A5D6FF">host:</span><span style="color:#A5D6FF"> app.example.com</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> http://apisix-gateway.apisix/delay/1</span></span></code></pre>
+<p>当失败指标的检测次数达到金丝雀分析的阈值时，流量将被自动路由到主节点。金丝雀节点被缩小到零，该金丝雀发布过程被标记为失败。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> logs</span><span style="color:#A5D6FF"> deploy/flagger</span><span style="color:#79C0FF"> -f</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> jq</span><span style="color:#A5D6FF"> .msg</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">"New revision detected! Scaling up podinfo.test"</span></span>
+<span class="line"><span style="color:#FFA657">"canary deployment podinfo.test not ready: waiting for rollout to finish: 0 of 1 (readyThreshold 100%) updated replicas are available"</span></span>
+<span class="line"><span style="color:#FFA657">"Starting canary analysis for podinfo.test"</span></span>
+<span class="line"><span style="color:#FFA657">"Advance podinfo.test canary weight 10"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 0.00% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 26.76% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 34.19% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 37.32% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 39.04% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 40.13% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 48.28% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 50.35% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 56.92% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Halt podinfo.test advancement success rate 67.70% &#x3C; 99%"</span></span>
+<span class="line"><span style="color:#FFA657">"Rolling back podinfo.test failed checks threshold reached 10"</span></span>
+<span class="line"><span style="color:#FFA657">"Canary failed! Scaling down podinfo.test"</span></span></code></pre>
+<h3 id="自定义指标金丝雀分析">自定义指标金丝雀分析</h3>
+<p>金丝雀分析可以通过查询 Prometheus 的指标进行扩展，具体可根据实际业务场景进行调整。主要操作是需要创建一个指标模板，并提交到集群。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">flagger.app/v1beta1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">MetricTemplate</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">not-found-percentage</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">test</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  provider</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prometheus</span></span>
+<span class="line"><span style="color:#7EE787">    address</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://flagger-prometheus.apisix:9090</span></span>
+<span class="line"><span style="color:#7EE787">  query</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">    sum(</span></span>
+<span class="line"><span style="color:#A5D6FF">      rate(</span></span>
+<span class="line"><span style="color:#A5D6FF">        apisix_http_status{</span></span>
+<span class="line"><span style="color:#A5D6FF">          route=~"{{ namespace }}_{{ route }}-{{ target }}-canary_.+",</span></span>
+<span class="line"><span style="color:#A5D6FF">          code!~"4.."</span></span>
+<span class="line"><span style="color:#A5D6FF">        }[{{ interval }}]</span></span>
+<span class="line"><span style="color:#A5D6FF">      )</span></span>
+<span class="line"><span style="color:#A5D6FF">    )</span></span>
+<span class="line"><span style="color:#A5D6FF">    /</span></span>
+<span class="line"><span style="color:#A5D6FF">    sum(</span></span>
+<span class="line"><span style="color:#A5D6FF">      rate(</span></span>
+<span class="line"><span style="color:#A5D6FF">        apisix_http_status{</span></span>
+<span class="line"><span style="color:#A5D6FF">          route=~"{{ namespace }}_{{ route }}-{{ target }}-canary_.+"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }[{{ interval }}]</span></span>
+<span class="line"><span style="color:#A5D6FF">      )</span></span>
+<span class="line"><span style="color:#A5D6FF">    ) * 100</span></span>
+<span class="line"><span style="color:#8B949E"># 修改金丝雀发布中的 analysis，添加上面创建的指标模版。</span></span>
+<span class="line"><span style="color:#7EE787">  analysis</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    metrics</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"404s percentage"</span></span>
+<span class="line"><span style="color:#7EE787">        templateRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">not-found-percentage</span></span>
+<span class="line"><span style="color:#7EE787">        thresholdRange</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          max</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span></span>
+<span class="line"><span style="color:#7EE787">        interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">1m</span></span></code></pre>
+<p>上述配置内容主要是通过检查 HTTP <code>404</code> 请求的 QPS 是否高于总流量的 5% 来验证金丝雀。如果 HTTP <code>404</code> 请求超过 5% 的阈值，那么金丝雀发布就失败了。</p>
+<h2 id="总结">总结</h2>
+<p>当然，以上过程还可以通过更多的自定义指标检查、Webhook、手动审批和 Slack 或 MS Teams 通知等进行扩展。</p>
+<p>通过 Apache APISIX 和 Flagger 的整合，实现了非常顺滑的金丝雀发布。在业务实践的过程中，提高了发布效率，降低了发布风险。后续两个社区也会通过更紧密的合作，去实现 Blue/Green Mirroring 和 A/B Testing 等更多的发布能力特性。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

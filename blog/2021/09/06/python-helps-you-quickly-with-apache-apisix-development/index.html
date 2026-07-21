@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Python helps you develop Apache APISIX plugin | Apache APISIX</title><meta name="description" content="This article will introduce you how to use Python to develop custom plugins and environment deployment on the cloud-native API gateway Apache APISIX."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Python helps you develop Apache APISIX plugin | Apache APISIX"><meta property="og:description" content="This article will introduce you how to use Python to develop custom plugins and environment deployment on the cloud-native API gateway Apache APISIX."><meta property="og:url" content="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Python helps you develop Apache APISIX plugin","description":"This article will introduce you how to use Python to develop custom plugins and environment deployment on the cloud-native API gateway Apache APISIX.","datePublished":"2021-09-06","author":{"@type":"Person","name":"Jinchao Shuai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Python helps you develop Apache APISIX plugin</h1> <p class="article-meta"> 2021-09-06 · Jinchao Shuai  </p> <blockquote>
+<p>The <a href="https://github.com/apache/apisix-java-plugin-runner">Java Plugin</a> and <a href="https://github.com/apache/apisix-java-plugin-runner">Go Plugin</a> languages have been supported in the community before the Apache APISIX Python Runner, and today Python Runner is now available, giving the community another option for developing plugins for Apache APISIX.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="introduction">Introduction</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><code>Apache APISIX</code> is a high-performance cloud-native open-source API gateway that provides unified request interception and governance (e.g., authentication, caching, versioning, fusing, auditing, etc.) to help developers easily provide secure and reliable services to the outside world, while developers only need to focus on business implementation with <code>Apache APISIX</code>, which saves a lot of time in developing and maintaining generic capabilities and reduces the complexity of the overall business architecture.</p>
+<h3 id="python">Python</h3>
+<p>Python is an interpreted high-level programming language with a simple syntax, good code readability, cross-platform, portability, and development efficiency.
+As a high-level programming language, it has a high degree of abstraction and shields a lot of underlying details (e.g., <code>GC</code>).
+) allows us to focus more on the development of application logic in the development process. As a 30-year old development language, Python has a well-developed ecology and various modules, and most of our development and application scenarios can be found in mature modules or solutions from the community. <code>Python</code>
+We won’t go into all the other advantages. The disadvantages of <code>Python</code> are also obvious: <code>Python</code>, as an interpreted language, has a relatively large performance gap compared to compiled languages like <code>C++</code> and <code>Go</code>.</p>
+<h3 id="apache-apisix-python-runner">Apache APISIX Python Runner</h3>
+<p><a href="https://github.com/apache/apisix-python-plugin-runner">apache-apisix-python-runner</a> This project can be interpreted as <code>Apache APISIX</code>
+and <code>Python</code>.
+The most important thing is to let more <code>Python developers</code> who are interested in <code>Apache APISIX</code> and <code>API gateways</code> to learn more about the use of <code>Apache APISIX</code> and <code>API gateways</code> through this project.
+The following is a diagram of the architecture of <code>Apache APISIX</code> multi-language support.</p>
+<p><img src="https://static.apiseven.com/202108/1639468460315-bb51d913-be72-4329-a47b-7e987dff21ba.png" alt="Apache APISIX work flow"></p>
+<p>The above diagram shows the workflow of <code>Apache APISIX</code> on the left, and the <code>Plugin Runner</code> on the right is the plug-in runner for each language, the <code>apisix-python-plugin-runner</code> introduced in this article is the one that supports <code>Python</code>.
+language.</p>
+<p>When you configure a <code>Plugin Runner</code> in <code>Apache APISIX</code>, <code>Apache APISIX</code> will start a child process to run the <code>Plugin Runner</code> that belongs to the same user as the <code>Apache APISIX</code> process belongs to the same user, and when we restart or reload <code>Apache APISIX</code>, <code>Plugin Runner</code> will also be restarted.</p>
+<p>If you configure the <code>ext-plugin-*</code> plugin for a given route, a request to hit that route will trigger an <code>Apache APISIX</code> <code>RPC</code> call to the <code>Plugin Runner</code> via the <code>Unix Socket</code>. The call is split into two phases.</p>
+<ul>
+<li><a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md">ext-plugin-pre-req</a>: Before executing the <code>Apache APISIX</code> built-in plugin (Lua language plugin).</li>
+<li><a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md">ext-plugin-post-req</a>: after executing the <code>Apache APISIX</code> plug-in (Lua language plug-in).</li>
+</ul>
+<p>You can choose and configure the execution timing of <code>Plugin Runner</code> as needed.</p>
+<p>The <code>Plugin Runner</code> handles the <code>RPC</code> call, creates a simulated request inside it, and then runs the multilingual plugin and returns the result to Apache APISIX.</p>
+<p>The execution order of multilingual plugins is defined in the <code>ext-plugin-*</code> plugin configuration entry, and like other plugins, they can be enabled and redefined on the fly.</p>
+<h2 id="deploy-test">Deploy test</h2>
+<h3 id="base-runtime-environment">Base runtime environment</h3>
+<ul>
+<li>Apache APISIX 2.7</li>
+<li>Python 3.6+</li>
+</ul>
+<p>To deploy Apache APISIX, please refer to the <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md">Apache APISIX official documentation: How to build Apache APISIX</a> for details.</p>
+<h3 id="download-and-install-python-runner">Download and install Python Runner</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-python-plugin-runner.git</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> apisix-python-plugin-runner</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> make</span><span style="color:#A5D6FF"> install</span></span></code></pre>
+<h3 id="configuring-python-runner">Configuring Python Runner</h3>
+<h4 id="development-mode">development mode</h4>
+<h5 id="run-python-runner">Run Python Runner</h5>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> /path/to/apisix-python-plugin-runner</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock</span><span style="color:#A5D6FF"> python3</span><span style="color:#A5D6FF"> apisix/main.py</span><span style="color:#A5D6FF"> start</span></span></code></pre>
+<h5 id="modify-apisix-configuration-file">Modify APISIX configuration file</h5>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vim</span><span style="color:#A5D6FF"> /path/to/apisix/conf/config.yaml</span></span>
+<span class="line"><span style="color:#FFA657">apisix:</span></span>
+<span class="line"><span style="color:#FFA657">  admin_key:</span></span>
+<span class="line"><span style="color:#FFA657">    -</span><span style="color:#A5D6FF"> name:</span><span style="color:#A5D6FF"> "admin"</span></span>
+<span class="line"><span style="color:#FFA657">      key:</span><span style="color:#A5D6FF"> edd1c9f034335f136f87ad84b625c8f1</span></span>
+<span class="line"><span style="color:#FFA657">      role:</span><span style="color:#A5D6FF"> admin</span></span>
+<span class="line"><span style="color:#FFA657">ext-plugin:</span></span>
+<span class="line"><span style="color:#FFA657">  path_for_test:</span><span style="color:#A5D6FF"> /tmp/runner.sock</span></span></code></pre>
+<h4 id="production-mode">Production mode</h4>
+<h5 id="modify-apisix-configuration-file-1">Modify APISIX configuration file</h5>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vim</span><span style="color:#A5D6FF"> /path/to/apisix/conf/config.yaml</span></span>
+<span class="line"><span style="color:#FFA657">apisix:</span></span>
+<span class="line"><span style="color:#FFA657">  admin_key:</span></span>
+<span class="line"><span style="color:#FFA657">    -</span><span style="color:#A5D6FF"> name:</span><span style="color:#A5D6FF"> "admin"</span></span>
+<span class="line"><span style="color:#FFA657">      key:</span><span style="color:#A5D6FF"> edd1c9f034335f136f87ad84b625c8f1</span></span>
+<span class="line"><span style="color:#FFA657">      role:</span><span style="color:#A5D6FF"> admin</span></span>
+<span class="line"><span style="color:#FFA657">ext-plugin:</span></span>
+<span class="line"><span style="color:#FFA657">  cmd:</span><span style="color:#E6EDF3"> [ </span><span style="color:#A5D6FF">"python3",</span><span style="color:#A5D6FF"> "/path/to/apisix-python-plugin-runner/apisix/main.py",</span><span style="color:#A5D6FF"> "start"</span><span style="color:#A5D6FF"> ]</span></span></code></pre>
+<h4 id="python-runner-configuration-optional">Python Runner configuration (optional)</h4>
+<p>If you need to adjust the <code>Log Level</code> or <code>Unix Domain Socket</code> environment variables, you can modify the <code>Runner</code> configuration file</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vim</span><span style="color:#A5D6FF"> /path/to/apisix-python-plugin-runner/apisix/config.yaml</span></span>
+<span class="line"><span style="color:#FFA657">socket:</span></span>
+<span class="line"><span style="color:#FFA657">  file:</span><span style="color:#E6EDF3"> $env</span><span style="color:#A5D6FF">.APISIX_LISTEN_ADDRESS</span><span style="color:#8B949E"> # Environment variable or absolute path</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">logging:</span></span>
+<span class="line"><span style="color:#FFA657">  level:</span><span style="color:#A5D6FF"> debug</span><span style="color:#8B949E"> # error warn info debug</span></span>
+<span class="line"><span style="color:#FFA657">debug</span></span></code></pre>
+<h3 id="start-python-runner">Start Python Runner</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> /path/to/apisix</span></span>
+<span class="line"><span style="color:#8B949E"># Start or Restart</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> ./bin/apisix</span><span style="color:#E6EDF3"> [ </span><span style="color:#A5D6FF">start</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> restart</span><span style="color:#A5D6FF"> ]</span></span></code></pre>
+<p>Start or restart <code>APISIX</code>, when <code>APISIX</code> and <code>Python Runner</code> have been configured and started.</p>
+<h3 id="testing-python-runner">Testing Python Runner</h3>
+<h4 id="configuring-apache-apisix-routing-and-plugin-information">Configuring Apache APISIX Routing and Plugin Information</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># Test with the default demo plugin</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "ext-plugin-pre-req": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "conf": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        { "name": "stop", "value":"{\"body\":\"hello\"}"}</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ul>
+<li><code>plugins.ext-plugin-pre-req.conf</code> is the <code>Runner</code> plugin configuration, <code>conf</code> is an array format to set multiple plugins at the same time.</li>
+<li>The <code>name</code> in the plugin configuration object is the name of the plugin, which should be the same as the plugin code file and object name.</li>
+<li><code>value</code> in the plugin configuration object is the plugin configuration, which can be a <code>JSON</code> string.</li>
+</ul>
+<h4 id="access-verification">access verification</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/get</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Fri,</span><span style="color:#79C0FF"> 13</span><span style="color:#A5D6FF"> Aug</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 13:39:18</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">host:</span><span style="color:#A5D6FF"> 127.0.0.1:9080</span></span>
+<span class="line"><span style="color:#FFA657">accept:</span><span style="color:#79C0FF"> *</span><span style="color:#A5D6FF">/</span><span style="color:#79C0FF">*</span></span>
+<span class="line"><span style="color:#FFA657">user-agent:</span><span style="color:#A5D6FF"> curl/7.64.1</span></span>
+<span class="line"><span style="color:#FFA657">X-Resp-A6-Runner:</span><span style="color:#A5D6FF"> Python</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.7</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Hello,</span><span style="color:#A5D6FF"> Python</span><span style="color:#A5D6FF"> Runner</span><span style="color:#A5D6FF"> of</span><span style="color:#A5D6FF"> APISIX</span></span></code></pre>
+<h2 id="plugin-development">Plugin Development</h2>
+<h3 id="plugin-directory">Plugin directory</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">/path/to/apisix-python-plugin-runner/apisix/plugins</span></span></code></pre>
+<p>The <code>.py</code> files in this directory will be loaded automatically.</p>
+<h3 id="plugin-example">Plugin example</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">/path/to/apisix-python-plugin-runner/apisix/plugins/stop.py</span></span>
+<span class="line"><span style="color:#FFA657">/path/to/apisix-python-plugin-runner/apisix/plugins/rewrite.py</span></span></code></pre>
+<h3 id="plugin-format">Plugin format</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.plugin.base </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Base</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.http.request </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Request</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.http.response </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Response</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> Stop</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">Base</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#79C0FF"> __init__</span><span style="color:#E6EDF3">(self):</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        Example of `stop` type plugin, features:</span></span>
+<span class="line"><span style="color:#A5D6FF">            This type of plugin can customize response `body`, `header`, `http_code`</span></span>
+<span class="line"><span style="color:#A5D6FF">            This type of plugin will interrupt the request</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#79C0FF">        super</span><span style="color:#E6EDF3">(Stop, </span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">). </span><span style="color:#79C0FF">__init__</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">__class__</span><span style="color:#E6EDF3">. </span><span style="color:#79C0FF">__name__</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#79C0FF"> filter</span><span style="color:#E6EDF3">(self, request: Request, response: Response):</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        The plugin executes the main function</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param request:</span></span>
+<span class="line"><span style="color:#A5D6FF">            request parameters and information</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param response:</span></span>
+<span class="line"><span style="color:#A5D6FF">            response parameters and information</span></span>
+<span class="line"><span style="color:#A5D6FF">        :return:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#8B949E">        # In the plugin you can get the configuration information through `self.config`,</span></span>
+<span class="line"><span style="color:#8B949E">        # if the plugin configuration is JSON it will be automatically converted to</span></span>
+<span class="line"><span style="color:#8B949E">        # a dictionary structure</span></span>
+<span class="line"><span style="color:#8B949E">        # print(self.config)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # set the response headers</span></span>
+<span class="line"><span style="color:#E6EDF3">        headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> request.headers</span></span>
+<span class="line"><span style="color:#E6EDF3">        headers[</span><span style="color:#A5D6FF">"X-Resp-A6-Runner"</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "Python"</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> headers</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Set the response body information</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.body </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "Hello, Python Runner of APISIX"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Set the response status code</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.status_code </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 201</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Interrupt the request process by calling `self.stop()`, which will immediately respond to the client</span></span>
+<span class="line"><span style="color:#8B949E">        # If `self.stop()` is not shown or if `self.rewrite()` is shown, the request will continue</span></span>
+<span class="line"><span style="color:#8B949E">        # Default is `self.rewrite()`</span></span>
+<span class="line"><span style="color:#79C0FF">        self</span><span style="color:#E6EDF3">.stop()</span></span></code></pre>
+<h3 id="plugin-specifications-and-considerations">Plugin specifications and considerations</h3>
+<ul>
+<li>Plugin object implementation must inherit from the <code>Base</code> class</li>
+<li>The plugin must implement the <code>filter</code> function</li>
+<li><code>filter</code> function parameters can only contain <code>Request</code> and <code>Response</code> class objects as parameters</li>
+<li><code>Request</code> object parameter can get request information</li>
+<li><code>Response</code> object parameter can set the response information</li>
+<li><code>self.config</code> can get the plugin configuration information</li>
+<li>Calling <code>self.stop()</code> in the <code>filter</code> function will immediately break the request and respond to the data.</li>
+<li>When <code>self.rewrite()</code> is called in the <code>filter</code> function, the request will continue.</li>
+</ul>
+<h2 id="welcome-to-participate">Welcome to participate</h2>
+<p>The <code>Runner</code> for <code>Apache APISIX</code> languages is still in the early stages of development, and we will continue to improve its functionality. A successful open source project cannot be achieved without everyone’s participation and contribution, welcome to participate in <code>Apache APISIX Runner</code>.
+Let’s build a bridge between <code>Apache APISIX</code> and other languages together.</p>
+<ul>
+<li><a href="https://github.com/apache/apisix-python-plugin-runner">apisix-python-plugin-runner</a></li>
+<li><a href="https://github.com/apache/apisix-go-plugin-runner">apisix-go-plugin-runner</a></li>
+<li><a href="https://github.com/apache/apisix-java-plugin-runner">apisix-java-plugin-runner</a></li>
+</ul>
+<h2 id="related-reading">Related Reading</h2>
+<ul>
+<li><a href="http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better">Go gives Apache APISIX a run for its money</a></li>
+<li><a href="https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins">How to write Apache APISIX plugins in Java</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

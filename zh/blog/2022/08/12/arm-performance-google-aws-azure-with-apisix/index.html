@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比 | Apache APISIX</title><meta name="description" content="本文使用 API 网关 Apache APISIX 来比较 GCP、AWS 、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比 | Apache APISIX"><meta property="og:description" content="本文使用 API 网关 Apache APISIX 来比较 GCP、AWS 、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比","description":"本文使用 API 网关 Apache APISIX 来比较 GCP、AWS 、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。","datePublished":"2022-08-12","author":{"@type":"Person","name":"赵士瑞"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比</h1> <p class="article-meta"> 2022-08-12 · 赵士瑞  </p> <blockquote>
+<p>本文使用 Apache APISIX 来比较 GCP、AWS、Azure 和 Oracle ARM 架构服务器在网络 IO 密集型场景下的性能。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景">背景</h2>
+<p>ARM 架构属于 <a href="https://en.wikipedia.org/wiki/Reduced_instruction_set_computer">RISC（Reduced instruction set computer）设计家族</a>，RISC 微处理器架构设计通过使用一组高度优化的指令，使小型处理器能够有效地处理复杂的任务。ARM 架构被广泛地使用在许多嵌入式系统设计中，已成为全球最大的计算机生态系统和移动设备的基石，由于它功耗低、成本低、效能高以及许可灵活，许多专家视其为云计算的未来。因此，以 AWS（Amazon Web Services）、GCP（Google Cloud Platform）、Azure（Microsoft Azure）和 Oracle 为首的主流云厂商都陆续推出了 ARM 架构的服务器，本文将选取这几个厂商的服务器进行性能测试。首先让我们了解下这四大厂商及其产品。</p>
+<h2 id="云厂商-arm-服务器介绍">云厂商 ARM 服务器介绍</h2>
+<h3 id="aws-graviton">AWS Graviton</h3>
+<p>自 2018 年起，经历四年的发展，AWS Graviton 已经发展到第三代，AWS 设计的 AWS Graviton 处理器为 Amazon EC2 中运行的云工作负载提供最佳性价比。这三代处理器的特征如下：</p>
+<ul>
+<li><strong>AWS Graviton1</strong> 处理器采用定制芯片和 64 位 Neoverse 内核。</li>
+<li><strong>AWS Graviton2</strong> 处理器基于 Graviton2 的实例支持广泛的通用型、突发型、计算优化型、内存优化型、存储优化型和加速计算型工作负载，包括应用程序服务器、微服务、高性能计算 (HPC)、基于 CPU 的机器学习 (ML) 推理、视频编码、电子设计自动化、游戏、开源数据库和内存中的缓存。同时为提供一站式服务体验，许多 AWS 服务也支持基于 Graviton2 的实例。</li>
+<li><strong>AWS Graviton3</strong> 处理器作为该系列的最新产品，相比 AWS Graviton2 计算性能提高25%，浮点性能提高2倍，加密工作负载性能最多加快 2 倍。针对机器学习 (ML) 工作负载，AWS Graviton3 处理器所提供的性能比 AWS Graviton2 处理器高出多达 3 倍，并支持 bfloat16。它们还支持 DDR5 内存，相比 DDR4 内存带宽增加了 50%。</li>
+</ul>
+<p>下图展示了搭载 AWS Graviton3 处理器的主要机型：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0812/1.png" alt="AWS Graviton3 处理器主要机型"></p>
+<h3 id="google-cloud-platform-t2a">Google Cloud Platform T2A</h3>
+<p>2022年7月，谷歌云首次推出 ARM 架构的虚拟机预览版，它由 Ampere® Altra® 处理器提供支持，提供卓越的单线程性能。T2A VM 有多种预定义的 VM 产品形态，每个 VM 最多有 48 个 vCPU，每个 vCPU 有 4GB 内存。它们可以提供高达 32 Gbps 的网络带宽和广泛的网络附加存储选项，使 T2A VM 非常适合横向扩展工作负载，包括 Web 服务器、容器化微服务、数据记录处理、媒体转码和大型 Java 应用程序。另外，它还具备以下两大特点：</p>
+<ul>
+<li><strong>与谷歌云生态系统集成</strong>：T2A 虚拟机支持大多数流行的Linux操作系统，例如 RHEL、CentOS、Ubuntu 和 Rocky Linux；还支持 Container-Optimized OS，以快速、高效、安全地启动 Docker 容器；同时，在 Google Cloud 上构建应用程序的开发人员可以将多个 Google Cloud 服务与 T2A 虚拟机一起使用。</li>
+<li><strong>ISV 合作伙伴和生态系统</strong>：Ampere 当前已罗列了 100 多个已经在基于 Ampere 的 T2A 虚拟机上运行的应用程序、数据库、云原生软件和编程语言，数量还在不断增加。</li>
+</ul>
+<p>主要机型如下图所示：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0812/2.png" alt="Tau T2A VM"></p>
+<h3 id="azure-arm-based-virtual-machines">Azure ARM-based Virtual Machines</h3>
+<p>2022 年 4 月，微软宣布推出基于 Ampere® Altra® Arm 处理器的 Azure 虚拟机系列预览版。新的 VM 旨在高效运行横向扩展工作负载、Web 服务器、应用程序服务器、开源数据库、云原生以及丰富的 .NET 应用程序、Java 应用程序、游戏服务器和媒体服务器等。新的 VM 系列包括通用 Dpsv5 和内存优化的 Epsv5 VM，主要机型如下图所示:</p>
+<p><img src="https://static.apiseven.com/2022/blog/0812/3.png" alt="Dpsv5 和 Epsv5 VM"></p>
+<h3 id="oracle-cloud-infrastructure-ampere-a1-compute">Oracle Cloud Infrastructure Ampere A1 Compute</h3>
+<p>2021 年 5 月底，甲骨文发布了首款以 Arm 为基础的运算产品：OCI Ampere A1 Compute。该产品将可以在 Oracle 云端基础设施 (Oracle Cloud Infrastructure，以下简称 OCI) 上运行，主要机型是：VM.Standard.A1.Flex（以下简称 OCI A1），其CPU 核心和内存都可以灵活配置。</p>
+<p>为了支持 OCI 中的新 Ampere A1 Compute 实例， Oracle 创建了一个 <a href="https://blogs.oracle.com/cloud-infrastructure/oracle-makes-building-applications-on-ampere-a1-compute-instances-easy">Arm 开发人员生态系统</a>，使开发人员能够在 OCI Arm 实例上无缝转换、构建和运行应用程序。此外，Oracle 已与 Ampere Computing、Arm、GitLab、Jenkins 等公司合作，以加速 Arm 开发者生态系统。Arm 处理器已从移动设备发展为云端服务器，为开发人员提供工具和平台，以过渡、构建和运行基于 Arm 的工作负载。</p>
+<h2 id="云厂商-arm-服务器性能测试">云厂商 ARM 服务器性能测试</h2>
+<p>下面我们将通过测试单核心性能来反映各服务器的整体性能。这里选取网络 IO 密集型的 API 网关 <a href="https://apisix.apache.org/">Apache APISIX</a>，分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5（属于 Dpsv5 系列，双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。</p>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> 是一个云原生、高性能、可扩展、开源的 API 网关。与传统 API 网关相比，Apache APISIX 基于 NGINX 与 LuaJIT 开发，具有动态路由和插件热加载等特性，非常适合云原生架构下的 API 管理。架构图如下所示：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0812/4.png" alt="Apache APISIX"></p>
+<p>我们将使用 Apache APISIX 分别在 AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5 （虽然名称含D2ps，但实际是属于 Dpsv5 系列的双核 CPU）和 OCI A1 四款机型上绑定单个 CPU 核心进行压力测试，并通过 QPS 和响应延迟两个指标来分析服务器的性能。</p>
+<p>我们将使用 APISIX 官方开源的<a href="https://github.com/apache/apisix/blob/master/benchmark/run.sh">性能测试脚本</a>进行测试。</p>
+<h3 id="测试用例">测试用例</h3>
+<p>本文我们将测试 Apache APISIX 在两个典型场景下的表现，以便获取更加真实、丰富的测试数据进行对比。</p>
+<ul>
+<li><strong>场景一：单个上游。</strong> 该场景下使用单个上游（不包含任何插件），主要测试 APISIX 在纯代理回源模式下的性能表现。</li>
+<li><strong>场景二：单上游+多插件。</strong> 该场景使用单上游与多插件配合，在这里使用了两个插件。主要测试 APISIX 在开启 <code>limit-count</code> 和 <code>prometheus</code> 两个核心消耗性能插件时的性能表现。</li>
+</ul>
+<h3 id="测试结果">测试结果</h3>
+<p>下图是AWS c7g.large、GCP t2a-standard-2、Azure D2ps v5 和 OCI A1 四款机型的 QPS（每秒查询数）测试结果，QPS 数值越大代表该服务器的性能越好。</p>
+<p><img src="https://static.apiseven.com/2022/10/14/6348f70deefc4.png" alt="QPS 结果"></p>
+<ul>
+<li>
+<p>将性能从优至劣进行排序：</p>
+<p><strong>场景一：AWS c7g.large > Azure D2ps v5 > OCI A1 > GCP t2a-standard-2</strong></p>
+<p>在单个上游不包含任何插件的情况下， AWS c7g.large 的 QPS 达到 23000 次/秒，性能几乎是最落后的 GCP t2a-standard-2 （QPS 为 11300 次/秒）的两倍，Azure D2ps v5、OCI A1 和 GCP t2a-standard-2 这三者差距不大，OCI A1 和 GCP t2a-standard-2 性能相当，仅相差 200 次/秒。</p>
+<p><strong>场景二：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1</strong></p>
+<p>在单个上游及两个插件的场景下， AWS c7g.large 的 QPS 达 18000 次/秒，仍保持领先，但差距有所缩小，Azure D2ps v5 的性能略高于 OCI A1，仅相差 400 次/秒。</p>
+</li>
+</ul>
+<p>下图是响应延迟测试结果，单位为毫秒。数值越小代表其性能越好。</p>
+<p><img src="https://static.apiseven.com/2022/10/14/6348f70d506dd.png" alt="响应延迟结果"></p>
+<p>从响应延迟来看，在类似 Apache APISIX 这种网络 IO 密集型的 API 网关下，这四者的性能表现结论如下：</p>
+<ul>
+<li>
+<p>将性能从优至劣进行排序：</p>
+<p><strong>场景一和场景二均为：AWS c7g.large > Azure D2ps v5 > GCP t2a-standard-2 > OCI A1</strong></p>
+</li>
+</ul>
+<p>在这两个场景下，AWS c7g.large 的性能几乎都是 OCI A1 的两倍，后三者的差距不大。</p>
+<h2 id="总结">总结</h2>
+<p>通过 Apache APISIX 的性能测试结果分析，我们可以看出 AWS Graviton3 拥有比 GCP T2A、Azure Dpsv5 和 OCI A1 更高的性能。我们在测试过程中仅使用了 Apache APISIX 绑定单核心测试，如果使用多核，这四者所呈现的性能可能会有所不同。</p>
+<p>后续有可能会使用多核进行更多测试，敬请关注！</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://aws.amazon.com/cn/blogs/aws/new-amazon-ec2-c7g-instances-powered-by-aws-graviton3-processors/">New – Amazon EC2 C7g Instances, Powered by AWS Graviton3 Processors</a></li>
+<li><a href="https://cloud.google.com/compute/docs/general-purpose-machines#t2a_machines">Tau T2A machine series (Preview)</a></li>
+<li><a href="https://azure.microsoft.com/en-us/blog/now-in-preview-azure-virtual-machines-with-ampere-altra-armbased-processors/">Now in preview: Azure Virtual Machines with Ampere Altra Arm-based processors</a></li>
+<li><a href="https://www.oracle.com/hk/cloud/compute/arm/">Ampere A1 Compute</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

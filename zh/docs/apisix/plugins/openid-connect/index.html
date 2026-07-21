@@ -1,0 +1,962 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>openid-connect | Apache APISIX</title><meta name="description" content="openid-connect 插件支持与 OpenID Connect (OIDC) 身份提供商集成，例如 Keycloak、Auth0、Microsoft Entra ID、Google、Okta 等。它允许 APISIX 在允许或拒绝客户端访问受保护的上游资源之前，先对客户端进行身份验证并从身份提供商获取相关信息。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/openid-connect"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/openid-connect/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/openid-connect/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/openid-connect/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="openid-connect | Apache APISIX"><meta property="og:description" content="openid-connect 插件支持与 OpenID Connect (OIDC) 身份提供商集成，例如 Keycloak、Auth0、Microsoft Entra ID、Google、Okta 等。它允许 APISIX 在允许或拒绝客户端访问受保护的上游资源之前，先对客户端进行身份验证并从身份提供商获取相关信息。"><meta property="og:url" content="https://docs.api7.ai/hub/openid-connect"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"openid-connect","description":"openid-connect 插件支持与 OpenID Connect (OIDC) 身份提供商集成，例如 Keycloak、Auth0、Microsoft Entra ID、Google、Okta 等。它允许 APISIX 在允许或拒绝客户端访问受保护的上游资源之前，先对客户端进行身份验证并从身份提供商获取相关信息。","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/apisix/plugins/openid-connect/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/apisix/plugins/openid-connect/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/apisix/plugins/openid-connect/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/apisix/getting-started/README/" class>入门指南</a>  </li><li> <a href="/zh/docs/apisix/getting-started/configure-routes/" class>配置路由</a>  </li><li> <a href="/zh/docs/apisix/getting-started/load-balancing/" class>负载均衡</a>  </li><li> <a href="/zh/docs/apisix/getting-started/key-authentication/" class>密钥验证</a>  </li><li> <a href="/zh/docs/apisix/getting-started/rate-limiting/" class>限速</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/installation-guide/" class>APISIX 安装指南</a>  </li><li class> <a href="/zh/docs/apisix/architecture-design/apisix/" class>软件架构</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/zh/docs/apisix/tutorials/expose-api/" class>发布 API</a>  </li><li> <a href="/zh/docs/apisix/tutorials/protect-api/" class>保护 API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/zh/docs/apisix/tutorials/observe-your-api/" class>监控 API</a></li><li><a href="/zh/docs/apisix/tutorials/health-check/" class>健康检查</a></li><li><a href="/zh/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/zh/docs/apisix/tutorials/manage-api-consumers/" class>管理 API 消费者</a>  </li><li> <a href="/zh/docs/apisix/tutorials/cache-api-responses/" class>API 响应缓存</a>  </li><li> <a href="/zh/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/zh/docs/apisix/tutorials/client-to-apisix-mtls/" class>配置客户端与 APISIX 之间的双向认证（mTLS）</a>  </li><li> <a href="/zh/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/zh/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/zh/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer-group/" class>Consumer Groups</a>  </li><li> <a href="/zh/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/zh/docs/apisix/terminology/global-rule/" class>Global rules</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/zh/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/zh/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/zh/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/zh/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/zh/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/zh/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/zh/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/zh/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/zh/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/zh/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/zh/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/zh/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/zh/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/zh/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/zh/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/zh/docs/apisix/plugins/gzip/" class>gzip</a></li><li><a href="/zh/docs/apisix/plugins/brotli/" class>brotli</a></li><li><a href="/zh/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/zh/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-pre-req/" class>ext-plugin-pre-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-req/" class>ext-plugin-post-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-resp/" class>ext-plugin-post-resp</a></li><li><a href="/zh/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/zh/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/zh/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/zh/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/grpc-transcode/" class>grpc-transcode</a></li><li><a href="/zh/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/zh/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/zh/docs/apisix/plugins/mocking/" class>mocking</a></li><li><a href="/zh/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/zh/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/zh/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/zh/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/zh/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/zh/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/zh/docs/apisix/plugins/authz-casdoor/" class>authz-casdoor</a></li><li><a href="/zh/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/zh/docs/apisix/plugins/openid-connect/" class="active">openid-connect</a></li><li><a href="/zh/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/zh/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/zh/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/zh/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-casbin/" class>authz-casbin</a></li><li><a href="/zh/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/zh/docs/apisix/plugins/opa/" class>opa</a></li><li><a href="/zh/docs/apisix/plugins/forward-auth/" class>forward-auth</a></li><li><a href="/zh/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/zh/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/zh/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/zh/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/zh/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/zh/docs/apisix/plugins/ua-restriction/" class>ua-restriction</a></li><li><a href="/zh/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/zh/docs/apisix/plugins/csrf/" class>csrf</a></li><li><a href="/zh/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/zh/docs/apisix/plugins/gm/" class>GM</a></li><li><a href="/zh/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/zh/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/zh/docs/apisix/plugins/limit-req/" class>limit-req</a></li><li><a href="/zh/docs/apisix/plugins/limit-conn/" class>limit-conn</a></li><li><a href="/zh/docs/apisix/plugins/limit-count/" class>limit-count</a></li><li><a href="/zh/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/zh/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/zh/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/zh/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/zh/docs/apisix/plugins/api-breaker/" class>api-breaker</a></li><li><a href="/zh/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/zh/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/zh/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/zh/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/zh/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/zh/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/zh/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/zh/docs/apisix/plugins/serverless/" class>serverless</a></li><li><a href="/zh/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/zh/docs/apisix/plugins/openwhisk/" class>openwhisk</a></li><li><a href="/zh/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/zh/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/zh/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/zh/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/zh/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/zh/docs/apisix/plugins/http-dubbo/" class>http-dubbo</a></li><li><a href="/zh/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/zh/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/zh/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/zh/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/zh/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/zh/docs/apisix/building-apisix/" class>源码安装 APISIX</a>  </li><li> <a href="/zh/docs/apisix/build-apisix-dev-environment-on-mac/" class>在 Mac 上构建开发环境</a>  </li><li> <a href="/zh/docs/apisix/support-fips-in-apisix/" class>通过 OpenSSL 3.0 使 APISIX 支持 FIPS 模式</a>  </li><li> <a href="/zh/docs/apisix/external-plugin/" class>外部插件</a>  </li><li> <a href="/zh/docs/apisix/wasm/" class>wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/zh/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/zh/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/zh/docs/apisix/plugin-develop/" class>插件开发</a>  </li><li> <a href="/zh/docs/apisix/debug-mode/" class>调试模式</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/zh/docs/apisix/FAQ/" class>常见问题</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/zh/docs/apisix/discovery/" class>集成服务发现注册中心</a></li><li><a href="/zh/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/zh/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/zh/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/zh/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/zh/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/zh/docs/apisix/discovery/control-plane-service-discovery/" class>控制面服务发现</a></li><li><a href="/zh/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/zh/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/zh/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/zh/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/zh/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/zh/docs/apisix/router-radixtree/" class>路由 RadixTree</a>  </li><li> <a href="/zh/docs/apisix/stream-proxy/" class>TCP/UDP 动态代理</a>  </li><li> <a href="/zh/docs/apisix/grpc-proxy/" class>gRPC 代理</a>  </li><li> <a href="/zh/docs/apisix/customize-nginx-configuration/" class>自定义 Nginx 配置</a>  </li><li> <a href="/zh/docs/apisix/certificate/" class>证书</a>  </li><li> <a href="/zh/docs/apisix/batch-processor/" class>批处理器</a>  </li><li> <a href="/zh/docs/apisix/benchmark/" class>压力测试</a>  </li><li> <a href="/zh/docs/apisix/install-dependencies/" class>安装依赖</a>  </li><li> <a href="/zh/docs/apisix/apisix-variable/" class>APISIX 变量</a>  </li><li> <a href="/zh/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/zh/docs/apisix/mtls/" class>TLS 双向认证</a>  </li><li> <a href="/zh/docs/apisix/debug-function/" class>调试功能</a>  </li><li> <a href="/zh/docs/apisix/profile/" class>基于环境变量进行配置文件切换</a>  </li><li> <a href="/zh/docs/apisix/ssl-protocol/" class>SSL 协议</a>  </li><li> <a href="/zh/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/zh/docs/apisix/http3/" class>HTTP3 协议</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>升级指南</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>openid-connect</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="描述">描述</h2>
+<p><code>openid-connect</code> 插件支持与 <a href="https://openid.net/connect/">OpenID Connect (OIDC)</a> 身份提供商集成，例如 Keycloak、Auth0、Microsoft Entra ID、Google、Okta 等。它允许 APISIX 在允许或拒绝客户端访问受保护的上游资源之前，先对客户端进行身份验证并从身份提供商获取相关信息。</p>
+<h2 id="属性">属性</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>有效值</th><th>描述</th></tr></thead><tbody><tr><td>client_id</td><td>string</td><td>是</td><td></td><td></td><td>OAuth 客户端 ID。</td></tr><tr><td>client_secret</td><td>string</td><td>是</td><td></td><td></td><td>OAuth 客户端密钥。</td></tr><tr><td>discovery</td><td>string</td><td>是</td><td></td><td></td><td>OpenID 提供商的 well-known 发现文档 URL，包含 OP API 端点列表。插件可直接使用发现文档中的端点。你也可以单独配置这些端点，单独配置的值优先于发现文档中提供的端点。</td></tr><tr><td>scope</td><td>string</td><td>否</td><td>openid</td><td></td><td>与认证用户相关信息对应的 OIDC 范围，也称为 <a href="https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">claims</a>。用于授权具有适当权限的用户。默认值为 <code>openid</code>，这是 OIDC 返回唯一标识认证用户的 <code>sub</code> claim 所需的范围。可以附加额外的范围并以空格分隔，例如 <code>openid email profile</code>。</td></tr><tr><td>required_scopes</td><td>array[string]</td><td>否</td><td></td><td></td><td>访问令牌中必须存在的范围。在 <code>bearer_only</code> 为 <code>true</code> 时与 introspection 端点结合使用。如果缺少任何必需范围，插件将以 403 forbidden 错误拒绝请求。</td></tr><tr><td>realm</td><td>string</td><td>否</td><td>apisix</td><td></td><td>由于无效 bearer token 导致 401 未授权请求时，<a href="https://www.rfc-editor.org/rfc/rfc6750#section-3"><code>WWW-Authenticate</code></a> 响应头中的 Realm 值。</td></tr><tr><td>bearer_only</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则严格要求请求中携带 bearer 访问令牌进行身份验证。</td></tr><tr><td>logout_path</td><td>string</td><td>否</td><td>/logout</td><td></td><td>触发注销的路径。</td></tr><tr><td>post_logout_redirect_uri</td><td>string</td><td>否</td><td></td><td></td><td><code>logout_path</code> 收到注销请求后重定向用户的 URL。</td></tr><tr><td>redirect_uri</td><td>string</td><td>否</td><td></td><td></td><td>与 OpenID 提供商完成身份验证后的重定向 URI。注意，重定向 URI 不应与请求 URI 相同，而应为请求 URI 的子路径。例如，如果路由的 <code>uri</code> 为 <code>/api/v1/*</code>，则 <code>redirect_uri</code> 可配置为 <code>/api/v1/redirect</code>。如果未配置 <code>redirect_uri</code>，APISIX 将在请求 URI 后追加 <code>/.apisix/redirect</code> 作为 <code>redirect_uri</code> 的值。</td></tr><tr><td>timeout</td><td>integer</td><td>否</td><td>3</td><td>[1,…]</td><td>请求超时时间，单位为秒。</td></tr><tr><td>ssl_verify</td><td>boolean</td><td>否</td><td>true</td><td></td><td>如果为 true，则验证 OpenID 提供商的 SSL 证书。注意：该属性的默认值在 APISIX 3.16.0 中从 <code>false</code> 更改为 <code>true</code>，这是一个破坏性变更。如果你从早期版本升级，请确保你的 OpenID 提供商 SSL 证书有效，或显式将其设置为 <code>false</code> 以保持之前的行为。</td></tr><tr><td>introspection_endpoint</td><td>string</td><td>否</td><td></td><td></td><td>OpenID 提供商用于内省访问令牌的<a href="https://datatracker.ietf.org/doc/html/rfc7662">令牌内省</a>端点 URL。如果未设置，则使用 well-known 发现文档中提供的内省端点作为<a href="https://github.com/zmartzone/lua-resty-openidc/commit/cdaf824996d2b499de4c72852c91733872137c9c">备选项</a>。</td></tr><tr><td>introspection_endpoint_auth_method</td><td>string</td><td>否</td><td>client_secret_basic</td><td></td><td>令牌内省端点的认证方法。值应为 well-known 发现文档中 <code>introspection_endpoint_auth_methods_supported</code> <a href="https://www.rfc-editor.org/rfc/rfc8414.html">授权服务器元数据</a>指定的认证方法之一，例如 <code>client_secret_basic</code>、<code>client_secret_post</code>、<code>private_key_jwt</code> 和 <code>client_secret_jwt</code>。</td></tr><tr><td>token_endpoint_auth_method</td><td>string</td><td>否</td><td>client_secret_basic</td><td></td><td>令牌端点的认证方法。值应为 well-known 发现文档中 <code>token_endpoint_auth_methods_supported</code> <a href="https://www.rfc-editor.org/rfc/rfc8414.html">授权服务器元数据</a>指定的认证方法之一，例如 <code>client_secret_basic</code>、<code>client_secret_post</code>、<code>private_key_jwt</code> 和 <code>client_secret_jwt</code>。如果配置的方法不受支持，则回退到 <code>token_endpoint_auth_methods_supported</code> 数组中的第一个方法。</td></tr><tr><td>public_key</td><td>string</td><td>否</td><td></td><td></td><td>使用非对称算法时用于验证 JWT 签名的公钥。提供此值进行令牌验证将跳过客户端凭证流中的令牌内省。可以以 <code>-----BEGIN PUBLIC KEY-----\n……\n-----END PUBLIC KEY-----</code> 格式传递公钥。</td></tr><tr><td>use_jwks</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true 且未设置 <code>public_key</code>，则使用 JWKS 验证 JWT 签名并跳过客户端凭证流中的令牌内省。JWKS 端点从发现文档中解析。</td></tr><tr><td>use_pkce</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则按照 <a href="https://datatracker.ietf.org/doc/html/rfc7636">RFC 7636</a> 定义，在授权码流程中使用 PKCE（Proof Key for Code Exchange）。</td></tr><tr><td>token_signing_alg_values_expected</td><td>string</td><td>否</td><td></td><td></td><td>用于签署 JWT 的算法，例如 <code>RS256</code>。</td></tr><tr><td>set_access_token_header</td><td>boolean</td><td>否</td><td>true</td><td></td><td>如果为 true，则在请求标头中设置访问令牌。默认情况下，使用 <code>X-Access-Token</code> 标头。</td></tr><tr><td>access_token_in_authorization_header</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true 并且 <code>set_access_token_header</code> 也为 true，则在 <code>Authorization</code> 标头中设置访问令牌。</td></tr><tr><td>set_id_token_header</td><td>boolean</td><td>否</td><td>true</td><td></td><td>如果为 true 并且 ID 令牌可用，则在 <code>X-ID-Token</code> 请求标头中设置值。</td></tr><tr><td>set_userinfo_header</td><td>boolean</td><td>否</td><td>true</td><td></td><td>如果为 true 并且用户信息数据可用，则在 <code>X-Userinfo</code> 请求标头中设置值。</td></tr><tr><td>set_refresh_token_header</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true 并且刷新令牌可用，则在 <code>X-Refresh-Token</code> 请求标头中设置值。</td></tr><tr><td>session</td><td>object</td><td>否</td><td></td><td></td><td>当 <code>bearer_only</code> 为 <code>false</code> 且插件使用 Authorization Code 流程时使用的 Session 配置。</td></tr><tr><td>session.secret</td><td>string</td><td>是</td><td></td><td>16 个字符以上</td><td>当 <code>bearer_only</code> 为 <code>false</code> 时，用于 session 加密和 HMAC 运算的密钥。</td></tr><tr><td>session.cookie_name</td><td>string</td><td>否</td><td></td><td></td><td>会话 Cookie 名称。作为 <code>cookie_name</code> 透传到 <a href="https://github.com/bungle/lua-resty-session#configuration">lua-resty-session</a> 4.x。</td></tr><tr><td>session.cookie_path</td><td>string</td><td>否</td><td></td><td></td><td>Cookie 路径范围。作为 <code>cookie_path</code> 透传到 lua-resty-session。</td></tr><tr><td>session.cookie_domain</td><td>string</td><td>否</td><td></td><td></td><td>Cookie 域范围。作为 <code>cookie_domain</code> 透传到 lua-resty-session。</td></tr><tr><td>session.cookie_secure</td><td>boolean</td><td>否</td><td></td><td></td><td>若为 true，则设置 Cookie 的 <code>Secure</code> 属性。作为 <code>cookie_secure</code> 透传到 lua-resty-session。</td></tr><tr><td>session.cookie_http_only</td><td>boolean</td><td>否</td><td></td><td></td><td>若为 true，则设置 Cookie 的 <code>HttpOnly</code> 属性。作为 <code>cookie_http_only</code> 透传到 lua-resty-session。</td></tr><tr><td>session.cookie_same_site</td><td>string</td><td>否</td><td></td><td>[“Strict”, “Lax”, “None”, “Default”]</td><td>Cookie 的 <code>SameSite</code> 属性。作为 <code>cookie_same_site</code> 透传到 lua-resty-session。</td></tr><tr><td>session.idling_timeout</td><td>integer</td><td>否</td><td></td><td></td><td>会话空闲超时时间（秒）。作为 <code>idling_timeout</code> 透传到 lua-resty-session。</td></tr><tr><td>session.rolling_timeout</td><td>integer</td><td>否</td><td></td><td></td><td>会话滚动超时时间（秒）。作为 <code>rolling_timeout</code> 透传到 lua-resty-session。</td></tr><tr><td>session.absolute_timeout</td><td>integer</td><td>否</td><td></td><td></td><td>会话绝对生存时间（秒）。作为 <code>absolute_timeout</code> 透传到 lua-resty-session。</td></tr><tr><td>session.cookie.lifetime</td><td>integer</td><td>否</td><td></td><td></td><td>已弃用。当未设置 <code>session.absolute_timeout</code> 时，运行时会将该值映射到 <code>session.absolute_timeout</code>。请改用 <code>session.absolute_timeout</code>。</td></tr><tr><td>session.storage</td><td>string</td><td>否</td><td>cookie</td><td>[“cookie”, “redis”]</td><td>会话存储方式。</td></tr><tr><td>session.redis</td><td>object</td><td>否</td><td></td><td></td><td><code>storage</code> 为 <code>redis</code> 时的 Redis 配置。</td></tr><tr><td>session.redis.host</td><td>string</td><td>否</td><td>127.0.0.1</td><td></td><td>Redis 主机。</td></tr><tr><td>session.redis.port</td><td>integer</td><td>否</td><td>6379</td><td></td><td>Redis 端口。</td></tr><tr><td>session.redis.username</td><td>string</td><td>否</td><td></td><td></td><td>Redis 用户名。</td></tr><tr><td>session.redis.password</td><td>string</td><td>否</td><td></td><td></td><td>Redis 密码。</td></tr><tr><td>session.redis.database</td><td>integer</td><td>否</td><td>0</td><td></td><td>Redis 数据库索引。</td></tr><tr><td>session.redis.prefix</td><td>string</td><td>否</td><td>sessions</td><td></td><td>Redis 键前缀。</td></tr><tr><td>session.redis.ssl</td><td>boolean</td><td>否</td><td>false</td><td></td><td>为 Redis 连接启用 SSL。</td></tr><tr><td>session.redis.ssl_verify</td><td>boolean</td><td>否</td><td>true</td><td></td><td>验证 Redis 连接的 SSL 证书。</td></tr><tr><td>session.redis.server_name</td><td>string</td><td>否</td><td></td><td></td><td>用于 SNI 的 Redis 服务器名称。</td></tr><tr><td>session.redis.connect_timeout</td><td>integer</td><td>否</td><td>1000</td><td></td><td>连接超时时间，单位为毫秒。</td></tr><tr><td>session.redis.send_timeout</td><td>integer</td><td>否</td><td>1000</td><td></td><td>发送超时时间，单位为毫秒。</td></tr><tr><td>session.redis.read_timeout</td><td>integer</td><td>否</td><td>1000</td><td></td><td>读取超时时间，单位为毫秒。</td></tr><tr><td>session.redis.keepalive_timeout</td><td>integer</td><td>否</td><td>10000</td><td></td><td>保活超时时间，单位为毫秒。</td></tr><tr><td>session_contents</td><td>object</td><td>否</td><td></td><td></td><td>会话内容配置。如果未配置，所有数据将存储在会话中。</td></tr><tr><td>session_contents.access_token</td><td>boolean</td><td>否</td><td></td><td></td><td>如果为 true，则在会话中存储访问令牌。</td></tr><tr><td>session_contents.id_token</td><td>boolean</td><td>否</td><td></td><td></td><td>如果为 true，则在会话中存储 ID 令牌。</td></tr><tr><td>session_contents.enc_id_token</td><td>boolean</td><td>否</td><td></td><td></td><td>如果为 true，则在会话中存储加密的 ID 令牌。</td></tr><tr><td>session_contents.user</td><td>boolean</td><td>否</td><td></td><td></td><td>如果为 true，则在会话中存储用户信息。</td></tr><tr><td>unauth_action</td><td>string</td><td>否</td><td>auth</td><td>[“auth”, “deny”, “pass”]</td><td>未认证请求的处理方式。设置为 <code>auth</code> 时，重定向到 OpenID 提供商的认证端点。设置为 <code>pass</code> 时，允许请求不经认证通过。设置为 <code>deny</code> 时，返回 401 未认证响应而不启动授权码授权流程。</td></tr><tr><td>proxy_opts</td><td>object</td><td>否</td><td></td><td></td><td>OpenID 提供商所在代理服务器的配置。</td></tr><tr><td>proxy_opts.http_proxy</td><td>string</td><td>否</td><td></td><td></td><td>HTTP 请求的代理服务器地址，例如 <code>http://&#x3C;proxy_host>:&#x3C;proxy_port></code>。</td></tr><tr><td>proxy_opts.https_proxy</td><td>string</td><td>否</td><td></td><td></td><td>HTTPS 请求的代理服务器地址，例如 <code>http://&#x3C;proxy_host>:&#x3C;proxy_port></code>。</td></tr><tr><td>proxy_opts.http_proxy_authorization</td><td>string</td><td>否</td><td></td><td>Basic [base64 username<div></div>]</td><td>与 <code>http_proxy</code> 一起使用的默认 <code>Proxy-Authorization</code> 头值。可以用自定义 <code>Proxy-Authorization</code> 请求头覆盖。</td></tr><tr><td>proxy_opts.https_proxy_authorization</td><td>string</td><td>否</td><td></td><td>Basic [base64 username<div></div>]</td><td>与 <code>https_proxy</code> 一起使用的默认 <code>Proxy-Authorization</code> 头值。由于 HTTPS 连接时已完成授权，不能用自定义 <code>Proxy-Authorization</code> 请求头覆盖。</td></tr><tr><td>proxy_opts.no_proxy</td><td>string</td><td>否</td><td></td><td></td><td>不需要代理的主机列表，以逗号分隔。</td></tr><tr><td>authorization_params</td><td>object</td><td>否</td><td></td><td></td><td>发送到授权端点请求中的额外参数。</td></tr><tr><td>client_rsa_private_key</td><td>string</td><td>否</td><td></td><td></td><td>用于向 OP 签署 JWT 进行身份验证的客户端 RSA 私钥。当 <code>token_endpoint_auth_method</code> 为 <code>private_key_jwt</code> 时必填。</td></tr><tr><td>client_rsa_private_key_id</td><td>string</td><td>否</td><td></td><td></td><td>用于计算已签名 JWT 的客户端 RSA 私钥 ID。当 <code>token_endpoint_auth_method</code> 为 <code>private_key_jwt</code> 时可选。</td></tr><tr><td>client_jwt_assertion_expires_in</td><td>integer</td><td>否</td><td>60</td><td></td><td>向 OP 进行身份验证的已签名 JWT 的有效期，单位为秒。在 <code>token_endpoint_auth_method</code> 为 <code>private_key_jwt</code> 或 <code>client_secret_jwt</code> 时使用。</td></tr><tr><td>renew_access_token_on_expiry</td><td>boolean</td><td>否</td><td>true</td><td></td><td>如果为 true，则在访问令牌过期或刷新令牌可用时尝试静默续期。如果令牌续期失败，则重定向用户重新认证。</td></tr><tr><td>access_token_expires_in</td><td>integer</td><td>否</td><td></td><td></td><td>当令牌端点响应中没有 <code>expires_in</code> 属性时，访问令牌的有效期，单位为秒。</td></tr><tr><td>refresh_session_interval</td><td>integer</td><td>否</td><td></td><td></td><td>无需重新认证即可刷新用户 ID 令牌的时间间隔，单位为秒。未设置时不检查网关向客户端签发的会话的过期时间。</td></tr><tr><td>iat_slack</td><td>integer</td><td>否</td><td>120</td><td></td><td>ID 令牌 <code>iat</code> claim 时钟偏差容忍度，单位为秒。</td></tr><tr><td>accept_none_alg</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果 OpenID 提供商不对其 ID 令牌进行签名（例如签名算法设置为 <code>none</code>），则设置为 true。</td></tr><tr><td>accept_unsupported_alg</td><td>boolean</td><td>否</td><td>true</td><td></td><td>如果为 true，则忽略 ID 令牌签名以接受不支持的签名算法。</td></tr><tr><td>access_token_expires_leeway</td><td>integer</td><td>否</td><td>0</td><td></td><td>访问令牌续期的过期宽限时间，单位为秒。当设置为大于 0 的值时，令牌续期将在令牌过期前该时间量时进行。这可避免在访问令牌刚到达资源服务器时过期的错误。</td></tr><tr><td>force_reauthorize</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，即使令牌已缓存也执行授权流程。</td></tr><tr><td>use_nonce</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则在授权请求中启用 nonce 参数。</td></tr><tr><td>revoke_tokens_on_logout</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则在注销时通知授权服务器之前获取的刷新令牌或访问令牌不再需要。</td></tr><tr><td>jwk_expires_in</td><td>integer</td><td>否</td><td>86400</td><td></td><td>JWK 缓存的过期时间，单位为秒。</td></tr><tr><td>jwt_verification_cache_ignore</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则强制重新验证 bearer 令牌并忽略任何现有的缓存验证结果。</td></tr><tr><td>cache_segment</td><td>string</td><td>否</td><td></td><td></td><td>缓存段的可选名称，用于分离和区分令牌内省或 JWT 验证使用的缓存。</td></tr><tr><td>introspection_interval</td><td>integer</td><td>否</td><td>0</td><td></td><td>缓存和内省的访问令牌的 TTL，单位为秒。默认值为 0，表示不使用此选项，插件默认使用 <code>introspection_expiry_claim</code> 定义的过期 claim 传递的 TTL。如果 <code>introspection_interval</code> 大于 0 且小于 <code>introspection_expiry_claim</code> 定义的过期 claim 传递的 TTL，则使用 <code>introspection_interval</code>。</td></tr><tr><td>introspection_expiry_claim</td><td>string</td><td>否</td><td>exp</td><td></td><td>过期 claim 的名称，用于控制缓存和内省的访问令牌的 TTL。</td></tr><tr><td>introspection_addon_headers</td><td>array[string]</td><td>否</td><td></td><td></td><td>用于向内省 HTTP 请求追加额外头值。如果指定的头在原始请求中不存在，则不会追加该值。</td></tr><tr><td>claim_validator</td><td>object</td><td>否</td><td></td><td></td><td>JWT claim 验证配置。</td></tr><tr><td>claim_validator.issuer.valid_issuers</td><td>array[string]</td><td>否</td><td></td><td></td><td>受信任的 JWT 颁发者数组。如果未配置，将使用发现端点返回的颁发者。如果两者均不可用，则不验证颁发者。</td></tr><tr><td>claim_validator.audience</td><td>object</td><td>否</td><td></td><td></td><td><a href="https://openid.net/specs/openid-connect-core-1_0.html">受众 claim</a> 验证配置。</td></tr><tr><td>claim_validator.audience.claim</td><td>string</td><td>否</td><td>aud</td><td></td><td>包含受众的 claim 名称。</td></tr><tr><td>claim_validator.audience.required</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则受众 claim 为必填项，claim 名称为 <code>claim</code> 中定义的名称。</td></tr><tr><td>claim_validator.audience.match_with_client_id</td><td>boolean</td><td>否</td><td>false</td><td></td><td>如果为 true，则要求受众与客户端 ID 匹配。如果受众是字符串，则必须与客户端 ID 完全匹配。如果受众是字符串数组，则至少一个值必须与客户端 ID 匹配。如果未找到匹配，将收到 <code>mismatched audience</code> 错误。OpenID Connect 规范规定了此要求，以确保令牌是为特定客户端颁发的。</td></tr><tr><td>claim_schema</td><td>object</td><td>否</td><td></td><td></td><td>OIDC 响应 claim 的 JSON schema。示例：<code>{"type":"object","properties":{"access_token":{"type":"string"}},"required":["access_token"]}</code> - 验证响应包含必填的字符串字段 <code>access_token</code>。</td></tr></tbody></table>
+<p>注意：schema 中还定义了 <code>encrypt_fields = {"client_secret", "client_rsa_private_key"}</code>，这意味着这些字段将在 etcd 中加密存储。详见<a href="/zh/docs/apisix/plugin-develop/#%E5%8A%A0%E5%AF%86%E5%AD%98%E5%82%A8%E5%AD%97%E6%AE%B5">加密存储字段</a>。</p>
+<p>此外，你可以使用环境变量或 APISIX Secret 来存储和引用插件属性。APISIX 目前支持两种存储密钥的方式——<a href="/zh/docs/apisix/terminology/secret/">环境变量和 HashiCorp Vault</a>。</p>
+<p>例如，使用以下命令设置环境变量：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> KEYCLOAK_CLIENT_SECRET</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">abc</span></span></code></pre>
+<p>并在插件配置中引用：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#A5D6FF">"client_secret"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$ENV://KEYCLOAK_CLIENT_SECRET"</span></span></code></pre>
+<h2 id="示例">示例</h2>
+<p>以下示例展示了如何针对不同场景配置 <code>openid-connect</code> 插件。</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>你可以使用以下命令从 <code>config.yaml</code> 中获取 <code>admin_key</code> 并保存到环境变量：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="授权码流程">授权码流程</h3>
+<p>授权码流程在 <a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.1">RFC 6749 第 4.1 节</a>中定义。它涉及将临时授权码换取访问令牌，通常由机密客户端和公共客户端使用。</p>
+<p>下图展示了实现授权码流程时不同实体之间的交互：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/YNKYPd8l_1-authorization-code-flow.webp" alt="授权码流程图"></p>
+<p>当传入请求的头中或合适的会话 Cookie 中不包含访问令牌时，插件作为依赖方重定向到授权服务器以继续授权码流程。</p>
+<p>认证成功后，插件将令牌保存在会话 Cookie 中，后续请求将使用 Cookie 中存储的令牌。</p>
+<p>以下示例创建一个路由，并配置 <code>openid-connect</code> 插件以使用 Keycloak 作为身份提供商的授权码流程：</p>
+<p><strong>Admin API</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "openid-connect-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/api/v1/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "openid-connect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "client_id": "apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "client_secret": "your-client-secret",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "discovery": "http://keycloak:8080/realms/master/.well-known/openid-configuration",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "scope": "openid email profile",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redirect_uri": "http://127.0.0.1:9080/api/v1/redirect",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "ssl_verify": false,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "session": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "secret": "your-session-secret-min-16-chars"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>ADC</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect-route</span></span>
+<span class="line"><span style="color:#7EE787">    uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/api/v1/*</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      openid-connect</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        client_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">        client_secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-client-secret</span></span>
+<span class="line"><span style="color:#7EE787">        discovery</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://keycloak:8080/realms/master/.well-known/openid-configuration</span></span>
+<span class="line"><span style="color:#7EE787">        scope</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid email profile</span></span>
+<span class="line"><span style="color:#7EE787">        redirect_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://127.0.0.1:9080/api/v1/redirect</span></span>
+<span class="line"><span style="color:#7EE787">        ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">        session</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-session-secret-min-16-chars</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        httpbin.org:80</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p><strong>Ingress Controller</strong></p>
+<p><strong>Gateway API</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        client_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">        client_secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-client-secret</span></span>
+<span class="line"><span style="color:#7EE787">        discovery</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://keycloak:8080/realms/master/.well-known/openid-configuration</span></span>
+<span class="line"><span style="color:#7EE787">        scope</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid email profile</span></span>
+<span class="line"><span style="color:#7EE787">        redirect_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://127.0.0.1:9080/api/v1/redirect</span></span>
+<span class="line"><span style="color:#7EE787">        ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">        session</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-session-secret-min-16-chars</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect-route</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PathPrefix</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/api/v1</span></span>
+<span class="line"><span style="color:#7EE787">      backendRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect-plugin-config</span></span></code></pre>
+<p><strong>APISIX Ingress Controller</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect-route</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">rule1</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/api/v1/*</span></span>
+<span class="line"><span style="color:#7EE787">      backends</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">          servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid-connect</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            client_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">            client_secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-client-secret</span></span>
+<span class="line"><span style="color:#7EE787">            discovery</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://keycloak:8080/realms/master/.well-known/openid-configuration</span></span>
+<span class="line"><span style="color:#7EE787">            scope</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid email profile</span></span>
+<span class="line"><span style="color:#7EE787">            redirect_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://127.0.0.1:9080/api/v1/redirect</span></span>
+<span class="line"><span style="color:#7EE787">            ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">            session</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-session-secret-min-16-chars</span></span></code></pre>
+<p>详见<a href="/zh/docs/apisix/tutorials/keycloak-oidc/#%E5%AE%9E%E7%8E%B0-authorization-code-grant">实现授权码授权</a>，获取使用 <code>openid-connect</code> 插件与 Keycloak 集成并使用授权码流程的完整示例。</p>
+<h3 id="pkce-proof-key-for-code-exchange">PKCE (Proof Key for Code Exchange)</h3>
+<p>PKCE 在 <a href="https://datatracker.ietf.org/doc/html/rfc7636">RFC 7636</a> 中定义。PKCE 通过添加代码挑战和验证器来增强授权码流程，防止授权码截取攻击。</p>
+<p>下图展示了实现带 PKCE 的授权码流程时不同实体之间的交互：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/LzQthDM5_2-pkce-flow.webp" alt="带 PKCE 的授权码流程图"></p>
+<p>要使用 PKCE，在插件配置中将 <code>use_pkce</code> 设置为 <code>true</code>。同时确保已配置 IdP 客户端以使用 PKCE。</p>
+<p>详见<a href="/zh/docs/apisix/tutorials/keycloak-oidc/#%E5%AE%9E%E7%8E%B0-authorization-code-grant">实现授权码授权</a>，获取使用 <code>openid-connect</code> 插件与 Keycloak 集成并使用带 PKCE 的授权码流程的示例。</p>
+<h3 id="客户端凭证流程">客户端凭证流程</h3>
+<p>客户端凭证流程在 <a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.4">RFC 6749 第 4.4 节</a>中定义。它涉及客户端使用自身凭证请求访问令牌以访问受保护资源，通常用于机器间认证，不代表特定用户。</p>
+<p>下图展示了实现客户端凭证流程时不同实体之间的交互：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/HvD0Qe34_3-client-credential-flow.webp" alt="客户端凭证流程图"></p>
+<p>详见<a href="/zh/docs/apisix/tutorials/keycloak-oidc/#%E5%AE%9E%E7%8E%B0-client-credential-grant">实现客户端凭证授权</a>，获取使用 <code>openid-connect</code> 插件与 Keycloak 集成并使用客户端凭证流程的示例。</p>
+<h3 id="内省流程">内省流程</h3>
+<p>内省流程在 <a href="https://datatracker.ietf.org/doc/html/rfc7662">RFC 7662</a> 中定义。它涉及通过查询授权服务器的内省端点来验证访问令牌的有效性和详细信息。</p>
+<p>在此流程中，当客户端向资源服务器提供访问令牌时，资源服务器向授权服务器的内省端点发送请求，如果令牌有效，端点将返回令牌详细信息，包括令牌过期时间、关联范围以及令牌所属的用户或客户端等信息。</p>
+<p>下图展示了实现带令牌内省的授权码流程时不同实体之间的交互：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/LWQa6pFl_4-introspection-flow.webp" alt="带内省的客户端凭证流程图"></p>
+<p>详见<a href="/zh/docs/apisix/tutorials/keycloak-oidc/#%E5%AE%9E%E7%8E%B0-client-credential-grant">实现客户端凭证授权</a>，获取使用 <code>openid-connect</code> 插件与 Keycloak 集成并使用带令牌内省的客户端凭证流程的示例。</p>
+<h3 id="密码流程">密码流程</h3>
+<p>密码流程在 <a href="https://datatracker.ietf.org/doc/html/rfc6749#section-4.3">RFC 6749 第 4.3 节</a>中定义。它专为受信任的应用程序设计，允许它们直接使用用户的用户名和密码获取访问令牌。在此授权类型中，客户端应用程序将用户凭证连同其自身的客户端 ID 和密钥一起发送到授权服务器，授权服务器对用户进行身份验证，如果有效则颁发访问令牌。</p>
+<p>尽管效率较高，但此流程仅适用于高度受信任的第一方应用程序，因为它要求应用程序直接处理敏感的用户凭证，如果在第三方场景中使用会带来重大安全风险。</p>
+<p>下图展示了实现密码流程时不同实体之间的交互：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/upuEwfeB_5-password-flow.webp" alt="密码流程图"></p>
+<p>详见<a href="/zh/docs/apisix/tutorials/keycloak-oidc/#%E5%AE%9E%E6%96%BD-password-grant">实现密码授权</a>，获取使用 <code>openid-connect</code> 插件与 Keycloak 集成并使用密码流程的示例。</p>
+<h3 id="刷新令牌授权">刷新令牌授权</h3>
+<p>刷新令牌授权在 <a href="https://datatracker.ietf.org/doc/html/rfc6749#section-6">RFC 6749 第 6 节</a>中定义。它使客户端无需用户重新认证，即可使用之前颁发的刷新令牌请求新的访问令牌。此流程通常在访问令牌过期时使用，允许客户端在无需用户干预的情况下保持对资源的持续访问。刷新令牌与访问令牌一起在某些 OAuth 流程中颁发，其生命周期和安全要求取决于授权服务器的配置。</p>
+<p>下图展示了实现带刷新令牌的密码流程时不同实体之间的交互：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/Te2eJDus_6-refresh-token-grant-flow.webp" alt="带刷新令牌的密码授权流程图"></p>
+<p>详见<a href="/zh/docs/apisix/tutorials/keycloak-oidc/#refresh-token">刷新令牌</a>，获取使用 <code>openid-connect</code> 插件与 Keycloak 集成并使用带令牌刷新的密码流程的示例。</p>
+<h3 id="用户信息">用户信息</h3>
+<p>OpenID Connect (OIDC) 中的 UserInfo 端点在 <a href="https://openid.net/specs/openid-connect-core-1_0.html#UserInfo">OpenID Connect Core 1.0 第 5.3 节</a>中定义。它使客户端能够通过提供有效的访问令牌来检索已认证用户的额外 claim。此端点对于获取用户个人资料信息（如姓名、电子邮件和其他属性）特别有用，这些信息在用户认证后可通过该端点获取。UserInfo 端点返回的数据取决于访问令牌的范围以及授权服务器配置的 claim。</p>
+<p>下图展示了在 APISIX 验证用户信息时，不同实体之间的交互过程。</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/WU7wdpMu_7-user-info-flow.webp" alt="用户信息流程图"></p>
+<p>当 <code>set_userinfo_header</code> 为 <code>true</code>（默认值）时，插件在 <code>X-Userinfo</code> 请求头中设置用户信息数据，上游服务可使用该数据进行进一步处理。</p>
+<h2 id="故障排除">故障排除</h2>
+<p>本节涵盖使用此插件时常见的一些问题，以帮助你进行故障排查。</p>
+<h3 id="apisix-无法连接到-openid-提供商">APISIX 无法连接到 OpenID 提供商</h3>
+<p>如果 APISIX 无法解析或连接到 OpenID 提供商，请检查配置文件 <code>config.yaml</code> 中的 DNS 设置并根据需要进行修改。</p>
+<h3 id="未找到会话状态">未找到会话状态</h3>
+<p>如果在使用<a href="#%E6%8E%88%E6%9D%83%E7%A0%81%E6%B5%81%E7%A8%8B">授权码流程</a>时，日志中出现 <code>500 internal server error</code> 和以下消息，可能有多种原因。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>the error request to the redirect_uri path, but there's no session state found</span></span></code></pre>
+<h4 id="1-重定向-uri-配置错误">1. 重定向 URI 配置错误</h4>
+<p>一个常见的配置错误是将 <code>redirect_uri</code> 配置为与路由 URI 相同。当用户发起访问受保护资源的请求时，请求直接到达重定向 URI，但请求中没有会话 Cookie，导致未找到会话状态的错误。</p>
+<p>要正确配置重定向 URI，确保 <code>redirect_uri</code> 与配置了插件的路由匹配，但不完全相同。例如，正确的配置是将路由的 <code>uri</code> 配置为 <code>/api/v1/*</code>，将 <code>redirect_uri</code> 的路径部分配置为 <code>/api/v1/redirect</code>。</p>
+<p>同时确保 <code>redirect_uri</code> 包含协议，例如 <code>http</code> 或 <code>https</code>。</p>
+<h4 id="2-缺少会话密钥">2. 缺少会话密钥</h4>
+<p>如果你以<a href="/zh/docs/apisix/../../en/latest/deployment-modes/#standalone-mode">独立模式</a>部署 APISIX，请确保配置了 <code>session.secret</code>。</p>
+<p>用户会话以 Cookie 形式存储在浏览器中，并使用会话密钥加密。如果未通过 <code>session.secret</code> 属性配置密钥，则会自动生成密钥并保存到 etcd。但在独立模式下，etcd 不再是配置中心。因此，你应在 YAML 配置中心 <code>apisix.yaml</code> 中为此插件显式配置 <code>session.secret</code>。</p>
+<h4 id="3-cookie-未发送或缺失">3. Cookie 未发送或缺失</h4>
+<p>检查 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value"><code>SameSite</code></a> Cookie 属性是否正确设置（即你的应用程序是否需要跨站发送 Cookie），以判断这是否是阻止 Cookie 保存到浏览器 Cookie 存储或从浏览器发送的因素。</p>
+<h4 id="4-上游发送的头太大">4. 上游发送的头太大</h4>
+<p>如果你在 APISIX 前面使用 NGINX 代理客户端流量，请检查 NGINX 的 <code>error.log</code> 中是否出现以下错误：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>upstream sent too big header while reading response header from upstream</span></span></code></pre>
+<p>如果是，请尝试将 <code>proxy_buffers</code>、<code>proxy_buffer_size</code> 和 <code>proxy_busy_buffers_size</code> 调整为更大的值。</p>
+<p>另一个选项是配置 <code>session_contents</code> 属性来调整存储在会话中的数据。例如，可以将 <code>session_contents.access_token</code> 设置为 <code>true</code>。</p>
+<h4 id="5-客户端密钥无效">5. 客户端密钥无效</h4>
+<p>验证 <code>client_secret</code> 是否有效且正确。无效的 <code>client_secret</code> 会导致认证失败，且不会返回令牌并存储在会话中。</p>
+<h4 id="6-pkce-idp-配置">6. PKCE IdP 配置</h4>
+<p>如果你在授权码流程中启用了 PKCE，请确保你已配置 IdP 客户端以使用 PKCE。例如，在 Keycloak 中，你应在客户端的高级设置中配置 PKCE 挑战方法：</p>
+<p><img src="https://static.api7.ai/uploads/2026/04/21/YhDIbbBO_8-pkce-idp-configuration.webp" alt="PKCE IdP 配置"></p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/zh/latest/plugins/openid-connect.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX OpenWhisk Plugin: Serverless Integration | Apache APISIX</title><meta name="description" content="Learn how the APISIX openwhisk plugin integrates serverless functions with API gateway authentication and authorization."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX OpenWhisk Plugin: Serverless Integration | Apache APISIX"><meta property="og:description" content="Learn how the APISIX openwhisk plugin integrates serverless functions with API gateway authentication and authorization."><meta property="og:url" content="https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX OpenWhisk Plugin: Serverless Integration","description":"Learn how the APISIX openwhisk plugin integrates serverless functions with API gateway authentication and authorization.","datePublished":"2021-12-24","image":"https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png","author":{"@type":"Person","name":"Zeping Bai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX OpenWhisk Plugin: Serverless Integration</h1> <p class="article-meta"> 2021-12-24 · Zeping Bai  </p> <blockquote>
+<p>This article introduces the feature prospect and usage steps of the <code>openwhisk</code> plug-in, which is combined with a variety of identity authentication plug-ins provided by Apache APISIX to achieve authentication and authorization and other functions.</p>
+</blockquote>
+<!--truncate-->
+<p>In this article, we will introduce <code>openwhisk</code>, a new plug-in for Apache APISIX, and show you how to integrate OpenWhisk service with Apache APISIX to enjoy the benefits of serverless computing with detailed steps. This plugin is expected to go live in Apache APISIX 2.12, so stay tuned!</p>
+<p><img src="https://static.apiseven.com/202108/1640313816872-b2c018be-5433-4baf-ba6a-8330e160866a.png" alt="APISIX&#x26;OpenWhisk"></p>
+<h2 id="project-introduction">Project Introduction</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service fusion, authentication, observability, etc. Apache APISIX not only supports plug-in dynamic changes and hot-plugging, but also has many useful plug-ins.</p>
+<h3 id="apache-openwhisk">Apache OpenWhisk</h3>
+<p><a href="https://openwhisk.apache.org/">Apache OpenWhisk</a> is an open source distributed serverless platform that can respond to any scale of time by executing functions. It uses Docker containers to manage infrastructure, servers, and scale to help users build great and efficient applications.</p>
+<p>In OpenWhisk developers can use multiple programming languages to write functions (called Actions) that will be dynamically dispatched and processed by OpenWhisk in response to events (via triggers) or external requests (via HTTP requests).</p>
+<h2 id="integration-principle">Integration Principle</h2>
+<p>Apache APISIX provides plug-in support for easy integration with Apache OpenWhisk. Users can define a route that includes a serverless plug-in and combine it with various authentication plug-ins provided by Apache APISIX to implement authentication and authorization functions.</p>
+<p>The general principle of operation is as follows: users can use the openwhisk plugin to define a “dynamic upstream” in the route, and when the route matches a request, it will abort the request to the original upstream and send a request to the API Host endpoint of OpenWhisk.</p>
+<blockquote>
+<p>The request will contain the Namespace, Action, Service Token and raw HTTP request body data configured by the user for the plugin, and will return the response content obtained from OpenWhisk to the client.</p>
+</blockquote>
+<h2 id="how-to-use">How to use</h2>
+<h3 id="step-1-set-up-apache-openwhisk-test-environment">Step 1: Set up Apache OpenWhisk test environment</h3>
+<ol>
+<li>First, you need to ensure that you are using a Linux system with Docker software installed on it. Execute the following command.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> -d</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -h</span><span style="color:#A5D6FF"> openwhisk</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> openwhisk</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 3233:3233</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 3232:3232</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -v</span><span style="color:#A5D6FF"> /var/run/docker.sock:/var/run/docker.sock</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  openwhisk/standalone:nightly</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#A5D6FF"> openwhisk</span><span style="color:#A5D6FF"> waitready</span></span></code></pre>
+<ol start="2">
+<li>Wait for the command execution to complete and the following will be output.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ok: whisk auth set. Run 'wsk property get --auth' to see the new value.</span></span>
+<span class="line"><span>ok: whisk API host set to http://openwhisk:3233</span></span>
+<span class="line"><span>ok: updated action testme</span></span>
+<span class="line"><span>server initializing...</span></span>
+<span class="line"><span>server initializing...</span></span>
+<span class="line"><span>    "ready": true</span></span>
+<span class="line"><span>ok: deleted action testme</span></span></code></pre>
+<ol start="3">
+<li>Create the following file <code>test.js</code> to be used as a test function.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">function </span><span style="color:#D2A8FF">main</span><span style="color:#E6EDF3">(args) {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "hello"</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> args.name </span><span style="color:#FF7B72">||</span><span style="color:#A5D6FF"> ""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol start="4">
+<li>Register the above functions in OpenWhisk</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Set API Host and authentication information for the OpenWhisk CLI tool，you can download from https://s.apache.org/openwhisk-cli-download</span></span>
+<span class="line"><span style="color:#FFA657">wsk</span><span style="color:#A5D6FF"> property</span><span style="color:#A5D6FF"> set</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --apihost</span><span style="color:#A5D6FF"> 'http://localhost:3233'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --auth</span><span style="color:#A5D6FF"> '23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Create a test function</span></span>
+<span class="line"><span style="color:#FFA657">wsk</span><span style="color:#A5D6FF"> action</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> test.js</span></span></code></pre>
+<h3 id="step-2-create-a-route-and-enable-openwhisk-plugin">Step 2: Create a route and enable OpenWhisk plugin</h3>
+<p>Next we will create a route and add the openwhisk plugin to it. Execute the following command.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "openwhisk": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "api_host": "http://localhost:3233",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "service_token": "23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "namespace": "guest",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "action": "test"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/openwhisk"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="step-3-testing-the-request">Step 3: Testing the request</h3>
+<p>In the following we will use cURL for testing.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Request and send data using POST</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/openwhisk</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "name": "world"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 17</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"hello"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"world"</span><span style="color:#FFA657">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Request using GET</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/openwhisk</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 12</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"hello"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">""</span><span style="color:#FFA657">}</span></span></code></pre>
+<h3 id="step-4-test-complex-responses">Step 4: Test complex responses</h3>
+<ol>
+<li>Create and update the <code>test.js</code> test function</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">function </span><span style="color:#D2A8FF">main</span><span style="color:#E6EDF3">(args) {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "status"</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> "403"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers"</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "test"</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> "header"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body"</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> "A test body"</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol start="2">
+<li>Conducting test requests</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Request using GET</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/openwhisk</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> FORBIDDEN</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 12</span></span>
+<span class="line"><span style="color:#79C0FF">test</span><span style="color:#A5D6FF">:</span><span style="color:#A5D6FF"> header</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">A</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> body</span></span></code></pre>
+<h3 id="addendum-turning-off-the-plugin">Addendum: Turning off the plugin</h3>
+<p>If you are done using the OpenWhisk plug-in, simply remove the OpenWhisk-related configuration from the route configuration and save it to close the OpenWhisk plug-in on the route. At this point you can open other Serverless-like plug-ins or add upstream and other subsequent operations.</p>
+<p>Thanks to the dynamic advantage of Apache APISIX, the process of turning on and off plug-ins does not require restarting Apache APISIX, which is very convenient.</p>
+<h2 id="summary">Summary</h2>
+<p>In this article, we have introduced the feature preview and usage steps of <code>openwhisk</code> plugin. For more information about <code>openwhisk</code> plugin description and full configuration list, please refer to the <a href="https://apisix.apache.org/docs/apisix/next/plugins/openwhisk">official documentation</a>.</p>
+<p>Currently, we are also developing other Serverless plugins to integrate with more cloud services. If you’re interested in such integration projects, feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> or communicate via the <a href="https://apisix.apache.org/docs/general/join/">mailing list</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

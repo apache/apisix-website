@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rate Limit Your APIs With Apache APISIX | Apache APISIX</title><meta name="description" content="A guide to using the rate limit plugins in Apache APISIX with some practical examples."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/08/14/rate-limit/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/08/14/rate-limit/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/08/14/rate-limit/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/08/14/rate-limit/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Rate Limit Your APIs With Apache APISIX | Apache APISIX"><meta property="og:description" content="A guide to using the rate limit plugins in Apache APISIX with some practical examples."><meta property="og:url" content="https://apisix.apache.org/blog/2023/08/14/rate-limit/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Rate Limit Your APIs With Apache APISIX","description":"A guide to using the rate limit plugins in Apache APISIX with some practical examples.","datePublished":"2023-08-14","image":"https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png","author":{"@type":"Person","name":"Navendu Pottekkat"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/08/14/rate-limit/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/08/14/rate-limit/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/08/14/rate-limit/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Rate Limit Your APIs With Apache APISIX</h1> <p class="article-meta"> 2023-08-14 · Navendu Pottekkat  </p> <blockquote>
+<p>In this article, we will look at examples of how we can use the rate limiting plugins in APISIX.</p>
+</blockquote>
+<!--truncate-->
+<p>Setting up rate limits is a solid way to improve the reliability of your services.</p>
+<p>You can ensure your services are not overloaded by setting up rate limits, providing consistent performance for the end users. It can also help enhance security by preventing denial-of-service (DoS) attacks which can take down your services.</p>
+<p>Rate limiting can also be part of your business requirement where you want separate quotas for different tiers of users. For example, you can have a free version of your API where users can only make a small number of API calls and a paid version that allows ample API usage.</p>
+<p>If you are using <a href="https://apisix.apache.org">Apache APISIX</a> as your API gateway, you can leverage the rate limiting plugins, <a href="https://apisix.apache.org/docs/apisix/plugins/limit-req/">limit-req</a>, <a href="https://apisix.apache.org/docs/apisix/plugins/limit-conn/">limit-conn</a>, and <a href="https://apisix.apache.org/docs/apisix/plugins/limit-count/">limit-count</a> to achieve this.</p>
+<p>You can always set this up in your services directly without configuring it in APISIX. But as the number of your services increases, with each service having different constraints, setting up and managing different rate limits and updating them in each of these services becomes a pain point for development teams.</p>
+<p>In this article, we will look at examples of how we can use the rate limiting plugins in APISIX. You can find the complete configuration files and instructions to deploy for this article in <a href="https://github.com/navendu-pottekkat/rate-limit">this repository</a>.</p>
+<h2 id="rate-limit-all-requests">Rate Limit All Requests</h2>
+<p>Setting up a rate limit for all your requests is a good place to start.</p>
+<p>APISIX allows configuring <a href="https://apisix.apache.org/docs/apisix/terminology/global-rule/">global rules</a> that are applied on all requests to APISIX. We can configure a global rule with the <code>limit-req</code> plugin, as shown below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/global_rules/rate_limit_all</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-req": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rate": 30,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "burst": 30,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_msg": "rate limit exceeded!"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>The configuration above will allow 30 requests per second (rate) to your upstream services. When the number of requests exceeds 30 but is under 60 (burst), the additional requests are delayed to match the 30 requests per second limit. If the number of requests exceeds 60, the additional requests are rejected. In short, the upstream services will always have a maximum of 30 requests per second.</p>
+<p>A global rate limit can be helpful when you want to set hard limits on the number of requests your upstream should receive in a second. But sometimes, you might want to rate limit the requests to a particular route instead of all requests.</p>
+<p>To do this, you can configure the plugin on a specific route. The example below shows how you can configure the <code>limit-count</code> plugin on a particular route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/routes/rate_limit_route</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/api",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "count": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "time_window": 60,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "policy": "local",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_msg": "rate limit exceeded!"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>This will allow only ten requests in a minute, and this will be reset every minute.</p>
+<p>A global and route level limit combo can be used to set hard limits on top of use case-specific limits, which is particularly helpful in many practical scenarios. For example, you can configure the <code>limit-rate</code> plugin in a global rule based on how much traffic your upstream services can handle and then configure <code>limt-count</code> plugins on specific routes to handle business specific rate limits.</p>
+<p>If the same plugin is configured globally and at a route level, the lower of the two is used by APISIX.</p>
+<h2 id="limits-for-consumers">Limits for Consumers</h2>
+<p>Rate limiting all requests is cool, but most of you readers might want to be more granular with your limits. A typical scenario is configuring different limits for different consumers of your API. And APISIX achieves this through the aptly-named <a href="https://apisix.apache.org/docs/apisix/terminology/consumer/">consumer</a> object.</p>
+<p>For this example, we can create a consumer and use the <a href="https://apisix.apache.org/docs/apisix/plugins/key-auth/">basic key authentication</a> provided by APISIX. We will then add the <code>limit-conn</code> plugin to this consumer. To create the consumer, send a request to the Admin API as shown:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumers</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "username": "alice",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "beautifulalice"</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-conn": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "conn": 5,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "burst": 3,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "default_conn_delay": 0.1,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_msg": "too many concurrent requests!"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>In the route, we will just enable the <code>key-auth</code> plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/routes/rate_limit_consumer</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/api",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key-auth": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>We can create a different consumer and set up a different rate limit as well:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumers</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "username": "bob",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "bobisawesome"</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-conn": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "conn": 2,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "burst": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "default_conn_delay": 0.1,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_msg": "too many concurrent requests! please upgrade to increase this limit."</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Now APISIX will limit the number of concurrent requests these consumers can make independently as desired.</p>
+<h2 id="grouping-consumers">Grouping Consumers</h2>
+<p>Configuring each consumer individually can be a tedious process. In addition to supporting third-party authentication providers like <a href="https://apisix.apache.org/docs/apisix/plugins/authz-keycloak/">Keycloak</a> and <a href="https://apisix.apache.org/docs/apisix/plugins/authz-casdoor/">Casdoor</a>, APISIX has a consumer group object that lets you group individual consumers and apply configurations to the group.</p>
+<p>So to apply rate limits to a group of consumers, we can create a consumer group object and add the <code>limit-count</code> plugin to it, as shown below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumer_groups/team_acme</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "count": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "time_window": 60,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "policy": "local",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "group": "team_acme"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>We can also create a consumer group for consumers who are from another team on a different plan:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumer_groups/team_rocket</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "count": 100,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "time_window": 60,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "policy": "local",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "group": "team_rocket"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>We can add consumers to these groups to attach the rate limit configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumers</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "username": "eva",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "everydayeva"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "group_id": "team_acme"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Now consumers in the <code>team_acme</code> group can only send ten requests per minute to your API, while consumers in the <code>team_rocket</code> group can send 100. So when <code>alice</code> from <code>team_acme</code> sends nine requests in a minute another user in the team, <code>bob</code> can only send one more request before the rate-limit quota is met.</p>
+<h2 id="multi-node-rate-limits">Multi-Node Rate Limits</h2>
+<p>In many practical scenarios, you will have multiple instances of APISIX deployed for high availability. This could mean that a consumer of your API might be routed to different instances of APISIX for each request by the load balancer in front. In the context of rate limiting, what could go wrong here?</p>
+<p>Well, generally, APISIX tracks the rate limit in memory. And this could be problematic when using the <code>limit-count</code> plugin, where a consumer might be able to bypass the limit when there is a large enough number of APISIX nodes.</p>
+<p>A trivial solution here might be to set up sticky sessions in the load balancer so that each request gets sent to exactly a single node (on a side note, <a href="https://blog.frankel.ch/sticky-sessions-apache-apisix/1/">this article</a> is excellent for learning how to set up sticky sessions with APISIX). But this could limit the scalability we are trying to achieve.</p>
+<p>A better way is to store the counter in a central location and have all APISIX nodes access it. So even if the load balancer routes to different nodes in each request, the same counter would be incremented each time. APISIX does this through <a href="https://redis.io/">Redis</a>.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/08/07/DrQ62A76_redis-counter.png" alt="Storing the counter in Redis"></p>
+<p>The example below shows how you can configure this in a consumer group object:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumer_groups/team_edward</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "count": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "time_window": 60,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "policy": "redis",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_host": "redis",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_port": 6379,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_password": "password",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_database": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_timeout": 1001,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "group": "team_edward"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>You can also use a Redis cluster instead of a single Redis service to make this more fault-tolerant:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9180/apisix/admin/consumer_groups/team_edward</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "count": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "time_window": 60,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key_type": "var",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "policy": "redis-cluster",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_cluster_nodes": ["127.0.0.1:5000", "127.0.0.1:5001"],</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_password": "password",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_cluster_name": "redis-cluster-1",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redis_timeout": 1001,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "group": "team_edward"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>That’s a lot for this article! In the upcoming article, we will examine how APISIX implements rate limiting under the hood and its implications. To learn more about the rate limit plugins, see the documentation at <a href="https://apisix.apache.org/docs/apisix/next/plugins/limit-req/">apisix.apache.org</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

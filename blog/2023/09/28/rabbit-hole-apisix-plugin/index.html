@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Down the rabbit hole of an Apache APISIX plugin | Apache APISIX</title><meta name="description" content="My demo, Evolving your APIs, features a custom Apache APISIX plugin. I believe that the process of creating a custom plugin is relatively well-documented. However, I wanted to check the parameters of the `_M.access(conf, ctx)` function, especially the `ctx` one."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/09/28/rabbit-hole-apisix-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/09/28/rabbit-hole-apisix-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/09/28/rabbit-hole-apisix-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/09/28/rabbit-hole-apisix-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Down the rabbit hole of an Apache APISIX plugin | Apache APISIX"><meta property="og:description" content="My demo, Evolving your APIs, features a custom Apache APISIX plugin. I believe that the process of creating a custom plugin is relatively well-documented. However, I wanted to check the parameters of the `_M.access(conf, ctx)` function, especially the `ctx` one."><meta property="og:url" content="https://apisix.apache.org/blog/2023/09/28/rabbit-hole-apisix-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/09/22/7BPpDQyu_falling-5472195.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Down the rabbit hole of an Apache APISIX plugin","description":"My demo, Evolving your APIs, features a custom Apache APISIX plugin. I believe that the process of creating a custom plugin is relatively well-documented. However, I wanted to check the parameters of the `_M.access(conf, ctx)` function, especially the `ctx` one.\n","datePublished":"2023-09-28","image":"https://static.apiseven.com/uploads/2023/09/22/7BPpDQyu_falling-5472195.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/09/28/rabbit-hole-apisix-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/09/28/rabbit-hole-apisix-plugin/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/09/28/rabbit-hole-apisix-plugin/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Down the rabbit hole of an Apache APISIX plugin</h1> <p class="article-meta"> 2023-09-28 · Nicolas Fränkel  </p> <blockquote>
+<p>My demo, Evolving your APIs, features a custom Apache APISIX plugin. I believe that the process of <a href="https://apisix.apache.org/docs/apisix/plugin-develop/">creating a custom plugin</a> is relatively well-documented. However, I wanted to check the parameters of the <code>_M.access(conf, ctx)</code> function, especially the <code>ctx</code> one.</p>
+</blockquote>
+<!--truncate-->
+<p>The documentation states:</p>
+<blockquote>
+<p>The <code>ctx</code> parameter caches data information related to the request. You can use <code>core.log.warn(core.json.encode(ctx, true))</code> to output it to <code>error.log</code> for viewing.</p>
+</blockquote>
+<p>Unfortunately, <code>core.log</code> ultimately depends on nginx’s logging, and its buffer is limited in size. Thanks to my colleague <a href="https://twitter.com/shreemaan_abhi">Abhishek</a> for finding <a href="http://nginx.org/en/docs/dev/development_guide.html#logging">the info</a>. For this reason, the <code>ctx</code> display is (heavily) truncated. I had to log data bit by bit; however, it was instructive.</p>
+<h2 id="the-context">The context</h2>
+<p>The <code>ctx</code> parameter is a Lua table. In Lua, table data structures are used for regular indexed access (akin to arrays) and key access (like hash maps). A single <code>ctx</code> instance is used for each <em>request</em>.</p>
+<p>The Apache APISIX engine reads and writes data in the <code>ctx</code> table. It’s responsible for forwarding the latter from plugin to plugin. In turn, each plugin can also read and write data.</p>
+<p>I resorted to a custom plugin to conditionally apply rate-limiting in the demo. The custom plugin is a copy-paste of the <a href="https://apisix.apache.org/docs/apisix/plugins/limit-count/">limit-count</a> plugin. Note that the analysis is done in a specific context. Refrain from assuming the same data is available in your own. However, it should be a good starting point.</p>
+<h2 id="overview-of-the-ctx-parameter">Overview of the <code>ctx</code> parameter</h2>
+<p>The data available in the <code>ctx</code> parameter is overwhelming. To better understand it, we shall go from the more general to the more particular. Let’s start from the overview.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/09/22/noheoMDj_ctx-overview.svg" alt="Overview of the ctx parameter"></p>
+<ul>
+<li><code>_plugin_name</code>: self-explanatory</li>
+<li><code>conf_id</code>: either route ID or service ID</li>
+<li><code>proxy_rewrite_regex_uri_capture</code>: data set by the <a href="https://github.com/apache/apisix/blob/a82a2f3c439119ade45b4afffb5a251cd7bb65d2/apisix/plugins/proxy-rewrite.lua#L46C2">proxy-rewrite</a> plugin.</li>
+<li><code>route_id</code>: route ID the plugin is applied to</li>
+<li><code>route_name</code>: route name the plugin is applied to</li>
+<li><code>real_current_req_matched_path</code>: URI for which matching was done</li>
+<li><code>conf_version</code>: etcd-related revision - see below</li>
+<li><code>var</code>: references the <code>ctx</code> object and a cache of data about the request, <em>e.g.</em>, URI, method, etc.</li>
+<li><code>matched_route</code>: the route that was matched based on host header/URI and/or <code>remote_addr</code>; see below</li>
+<li><code>plugins</code>: pairs of plugin/data - see below</li>
+</ul>
+<h2 id="matched-route">Matched route</h2>
+<p>The <code>matched_route</code> row is a complex data tree that deserves a detailed description.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/09/22/fYJFkdDM_matched-route.svg" alt="Matched route row"></p>
+<ul>
+<li>
+<p><code>key</code>: access key in the <code>etcd</code> datastore</p>
+</li>
+<li>
+<p><code>created_index</code>, <code>modifiedIndex</code> and <code>orig_modifiedIndex</code>: these attributes are related to etcd and how it stores metadata associated with revisions. Different revisions of a single key are logged in the <code>create_revision</code> and <code>pre_revision</code> fields. The former points to the initial created row ID and is constant throughout the changes, while the latter points to the row ID of the previous value.</p>
+<p>Apache APISIX maps them respectively to the <code>created_index</code> and <code>modifiedIndex</code> values and uses them for caching. In many places, <code>created_index</code> is later assigned to <code>conf_version</code> - see above.</p>
+</li>
+<li>
+<p><code>prev_plugin_config_ver</code>: after a plugin configuration is merged with the route configuration, the current <code>modifiedIndex</code> is assigned to <code>prev_plugin_config_ver</code>. It allows saving CPU cycles if one attempts to apply the same plugin config later in the call chain.</p>
+</li>
+<li>
+<p><code>update_count</code>: replaced with <code>modifiedIndex</code></p>
+</li>
+<li>
+<p><code>has_domain</code>: whether the matched route references an upstream with a domain, <em>e.g.</em>, <code>http://httpbin.org</code>, or not, <em>e.g.</em>, <code>192.168.0.1</code></p>
+</li>
+<li>
+<p><code>orig_plugins</code>: temporary placeholder used if a route has plugins defined directly and reference a plugins config</p>
+</li>
+<li>
+<p><code>clean_handlers</code>: list of functions scheduled to be called after a plugin has been created</p>
+</li>
+<li>
+<p><code>value</code> has  keys related to how the route was created, as well as a couple of others:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9180/apisix/admin/routes/2</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "name": "Versioned Route to Old API",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uris": ["/v1/hello", "/v1/hello/", "/v1/hello/*"],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream_id": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugin_config_id": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+</li>
+<li>
+<p><code>priority</code>: since we didn’t set it, it has a default value 0. <a href="https://apisix.apache.org/docs/apisix/admin-api/#request-body-parameters">Priority</a> is essential when multiple routes match to determine which one to apply.</p>
+</li>
+<li>
+<p><code>create_time</code>: self-explanatory</p>
+</li>
+<li>
+<p><code>update_time</code>: self-explanatory</p>
+</li>
+<li>
+<p><code>plugins</code>: references to plugin’s function</p>
+</li>
+<li>
+<p><code>status</code>: I couldn’t find this</p>
+</li>
+</ul>
+<h2 id="plugins">Plugins</h2>
+<p>The <code>plugins</code> value contains plugin-related data in an indexed-based Lua table. Each plugin has two entries: the first (even-indexed) entry contains data related to the plugin in general, <em>e.g.</em>, its schema; while the second (odd-index) entry data is related to its configuration in the current route.</p>
+<p>My setup has two plugins, hence four entries, but to keep things simpler, I kept only a single plugin in the following diagram:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/09/22/eEbKgUOu_plugins.svg" alt="Plugins"></p>
+<p>Key values match directly to the plugin schema and configuration; you can check the whole descriptions directly in the plugin.</p>
+<h2 id="a-final-trick">A final trick</h2>
+<p>I initially had issues printing the <code>ctx</code> table because of the nginx buffer limit and had to do it bit by bit. However, you can print it to a file.</p>
+<p>Here’s the function, courtesy of my colleague <a href="https://github.com/bzp2010">Zeping Bai</a>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> file, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> io.open</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"conf/ctx.json"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"w+"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> file </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">(ngx.</span><span style="color:#79C0FF">ERR</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"failed to open file: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"><span style="color:#E6EDF3">file.</span><span style="color:#79C0FF">write</span><span style="color:#E6EDF3">(core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">..</span><span style="color:#A5D6FF"> "</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">file.</span><span style="color:#79C0FF">close</span><span style="color:#E6EDF3">()</span></span></code></pre>
+<p>Here’s the whole <a href="https://www.plantuml.com/plantuml/svg/xLfVSzis4d_Nfy3myj2ciaKfjc9vEhrwNFVYQHff4YSplKRbGCHAH4m2AlxuJpt-xaVIa49lQCDmgaiVel6BYH-0tovs5mjWVzI6AlD1Iz6vwf3o5oNBt2wuI0Gj8DedaHNKccmhvmKtKVS6aqenJpYhcWUhRqibBouJ1UUA6qWKBE0YiOedALqQgq2Nu9iPQdHSzUsTzNiPvBcint0j_QhbvclzyTgDhwGrW2Pr7rTKtu7IN0fWv7NrdHX9nZaZ1vFZDSbQjehBxwiP6woS75mgRYvBJ3-EzxgtMvryrMnpAr9JJhTFueldWvtHxjxk7jtPsujGbxCRLb69s-wZDfrcKD2rQX0HkGHbU5Dr66DrfMgQ9mh-jA1DhN4hD9q3weGwCj2fuajJ4wl78NWSmeKsG5cNdBmuVaFAltT7htyZRr-zEVZvQBif9HxSN2vh3Ssap86A-w0CvjJcfaJFQQwX5NZTtZ_Af3RtIxcane2g9VpZztXhHBV-EjZwxzRszBjlzj-_PrVzxkxrj_z-iYReLvI0SrBDI-PI4RlKHW4j7gAB4id58WeIq2f-ltm5lNW9Oc6o4hOJZuRTXwdY_VlUzjD0eKikZvJvFcJ1nLg0Vf1k2Z2PPFUh1uGjcgxUZlhFqGccY24lZWv-yc4cupSdNinRB-IdevT79qS-rA-_78vV-a27uyblte76xxoJZISdn-DNRxp2lHvFVZv-vLNKo_7XBpxCsrSFGKqEJWvV-40dhmyEZw8xCTDGE_OxZDiBYQet8MUeGSQTb9tGhX2yExHlQHZfbMNTcSWvSTidcLsIr6eZ2_uNC28L0zNKZa-VN1XOWC8wyUW6ExTIKYKAz58A3GyJJGeOprr4yF_y0_gZl5_03R2Gim-GcWUoyAAcdxLCZ6iwo_thqveuVDRCSvuRK8-nUTULC32W2Yv0a_CCJ0QAc0oS5n01m3Gnaio0m0MarW0Zr11bXU45X3W4LOfUUgJj-FGGRX6Uz0ee0uN3YpzJSFtgRC6baqWNuJxva3MaZF6A1yqdpTXOvvLuVh-gF3rSyd9h9fJS1uLjZs2ju71HDY4IpZ0d0HAYNvca_x4__Uw9lsEu8OM7sSq4_t0dtZ1hOOiPg4Uo3kurxMncV3yoGCkH1lD_yxYl7lVLuxvwd892dk4iqUywnmOAZzTuagw0ZhoQB81Yw2dIUs_ZVFNlNg9EE29WYQ--VEhbZvRXKN9JqH5FiE5eUDtTF3iSzJOHZQQRDdLFwpJeQBL-7N4MvGzmWsudFA3v0vZ_JEV8af9i-z3XTdWTVlDiCcg8jZDjkB46o5p9WgGv1s4-kPdkaboUWoBhYwkoiwXHxl25JzfuSJ5HVwmAZKtHarGM1GXJZMGohadvHqb1rMajYhIAS55D06nrtU2UYZht48m4BM1z_xYrUgj2e7ASz3HnmxM_OyL3kXD77JGD2W3UzoTyzCQctn8PwoV1RxQVVjkcsDwJ_ctnfuYX_paFaQ5f2bgtAu76pzWmZW8Ux2eTS0KCITPKlRJYhlqjCho0v9mB9iy_DT1fg2dwRnlGNNDagdkwZ_Bl03pRtRkBx2bS9cx-ptw0EQCgwdeXIIgB6HUqMgNDNUVZLycQt2EkpR1U_WOcTCbBhOUHQTYKPwKkqjngVWQ_Si6BUjMGitXkylsaa1VyO-Wek0cqIIePU3TansOGX_3ftlk4wuRS7OqUP0YxyRCW-MYUo_E4mK9HHjt6UlN57-zrLfAgYqgIFwqqD0dnco1kHbbud44KUk7di-c7xjBdDn1C51JIG48PK-7PqCRpcBRQe_0qvZaTiZY-knodxqyVdFQZL0fj2r19pSoXKSHVXsZKZeBmi14uy5QAjyAsyBGpACE4ny5HwkLrEQCi1YCdY2OvqBf8QC6r0KMe8PanIxtVwvLIQtwnBTMYjsusaYp0a4jfLLL_HOmy1K6eO0J41tb9hAY902DfILyxeV4MqLoYJcDxZ-gSCxLALObdKb2JPYNL9JLPMrrPj08eQStj41-b2gW1TYmON5GJDfGRISKNoSUIiQlhHbjQ1Q0aeuBbe3vfBIJZS_vns6WO_wjVii5svNJNgudftg09iKj63IHhLJIQbWhE7B6oNSnBccVrGWu73LH6TS9aGJao29THvHRjTYXTndQwEbybdAtfu7gSHcKTAh51cJlgtL0oxesYmAU9wcZqhD-MgA9ZK6lFdVvEt1gAa7qabGzNKWz7WxsTGNyunBvbgB6wHI-tLwbLTVxoHUmUjwiWaSKWhhl3FGnJ_8vrmexJtjYxl_Mf_v3cN0jxoJ3krBXcbQaBryY7ga1vsu-JbAPPYq4t3gOuDBGL4qQvJ6bU_OC1pMEkTpHVUtFxBN7zvuFjGRmTRvVojTDVbRkXSZNacMvQDsUhubSYLBYKKKE_FvESaQS_L6v1ozyiXNGu6iLHirDgwYZslO8vA10fQ3AZwMbT3g6aDEJc3Fg3AzdjN7SwFu9WLLtn_m00">data representation with PlantUML</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, I described the structure of the <code>ctx</code> parameter in the <code>access()</code> function. While specific entries vary from configuration to configuration, it gives a good entry point into data manipulated by plugins.</p>
+<p>It’s also a good reminder that even if you’re not fluent in a language or a codebase, you can get quite a lot of information by logging some variables.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://apisix.apache.org/docs/apisix/plugin-develop/#ctx-parameter">ctx parameter</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Chopping the monolith in a smarter way | Apache APISIX</title><meta name="description" content="In my previous post Chopping the Monolith, I explained that some parts of a monolith are pretty stable and only the fast-changing parts are worth being &#34;chopped.&#34; I turned the post into a talk and presented it at several conferences. I think it's pretty well received; I believe it's because most developers understand, or have direct experience, that microservices are not a good fit for traditional organizations, as per Conway's Law."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/11/30/chopping-monolith-smarter-way/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/11/30/chopping-monolith-smarter-way/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/11/30/chopping-monolith-smarter-way/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/11/30/chopping-monolith-smarter-way/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Chopping the monolith in a smarter way | Apache APISIX"><meta property="og:description" content="In my previous post Chopping the Monolith, I explained that some parts of a monolith are pretty stable and only the fast-changing parts are worth being &#34;chopped.&#34; I turned the post into a talk and presented it at several conferences. I think it's pretty well received; I believe it's because most developers understand, or have direct experience, that microservices are not a good fit for traditional organizations, as per Conway's Law."><meta property="og:url" content="https://apisix.apache.org/blog/2023/11/30/chopping-monolith-smarter-way/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/11/29/LfrGvISN_roger_stone.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Chopping the monolith in a smarter way","description":"In my previous post Chopping the Monolith, I explained that some parts of a monolith are pretty stable and only the fast-changing parts are worth being \"chopped.\" I turned the post into a talk and presented it at several conferences. I think it's pretty well received; I believe it's because most developers understand, or have direct experience, that microservices are not a good fit for traditional organizations, as per Conway's Law.\n","datePublished":"2023-11-30","image":"https://static.apiseven.com/uploads/2023/11/29/LfrGvISN_roger_stone.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/11/30/chopping-monolith-smarter-way/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/11/30/chopping-monolith-smarter-way/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/11/30/chopping-monolith-smarter-way/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Chopping the monolith in a smarter way</h1> <p class="article-meta"> 2023-11-30 · Nicolas Fränkel  </p> <blockquote>
+<p>In my previous post <a href="https://blog.frankel.ch/chopping-monolith-smarter-way/">Chopping the Monolith</a>, I explained that some parts of a monolith are pretty stable and only the fast-changing parts are worth being “chopped.” I turned the post into a talk and presented it at several conferences. I think it’s pretty well received; I believe it’s because most developers understand, or have direct experience, that microservices are not a good fit for traditional organizations, as per <a href="https://en.wikipedia.org/wiki/Conway%27s_law">Conway’s Law</a>.</p>
+</blockquote>
+<!--truncate-->
+<p>In the talk, I use an e-commerce webapp as an example.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/11/29/Cjqme0MX_original-flow.svg" alt="Regular requests flow"></p>
+<p>The pricing needs to change often due to business requirements, and it is a good candidate for chopping. The idea is first to expose pricing as an HTTP route.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/11/29/YMKWYnRr_forked-flow.svg" alt="Forked requests flow"></p>
+<p>At this point, we can configure the Gateway to forward pricing calls with the cart payload to another component, <em>e.g.</em>, a  <abbr title="Function-as-a-Service">FaaS</abbr>.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/11/29/Su1xz9Qf_forked-flow-to-faas.svg" alt="Forked requests flow"></p>
+<p>I expected a lot of pushback because we now need twice the number of HTTP calls. Given that the client is remote, it has a non-trivial performance cost. It has yet to be mentioned, but I’d like to offer another better-designed approach today.</p>
+<p>In particular, we can move the forked calls from the client to the API Gateway. We still have twice the number of calls, but since the Gateway is much closer to the upstream(s), the performance hit is much lower.</p>
+<p>No one will be surprised I’m using <a href="https://github.com/bzp2010/apisix-plugin-pipeline-request">apisix-pipeline-request-plugin README</a> for my demos. It implements a plugin architecture and comes bundled with plugins that address most possible requirements. We need a plugin that pipes an HTTP call’s output to another HTTP call’s input. It’s not part of the current out-of-the-box plugin portfolio; however, when no plugin fits your requirement, you can develop your own - or find one that does. My colleague Zeping Bai has developed such a plugin:</p>
+<blockquote>
+<p>When handling client requests, the plugin will iterate through the nodes section of the configuration, requesting them in turn.</p>
+<p>In the first request, it will send the complete method, query, header, and body of the client request, while in subsequent requests it will only send the last response with the POST method.</p>
+<p>The successful response will be recorded in a temporary variable, and each request in the loop will get the response body of the previous request and overwrite the response body of the current request.</p>
+<p>When the loop ends, the response body will be sent to the client as the final response.</p>
+<p>— <a href="https://github.com/bzp2010/apisix-plugin-pipeline-request">apisix-pipeline-request-plugin README</a></p>
+</blockquote>
+<p>The final sequence is the following:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/11/29/H8K0uGVZ_forked-flow-with-pipeline.svg" alt="Requests flow using the pipeline plugin"></p>
+<p>Note that the <code>apisix-pipeline-request-plugin</code> consumes the input. As we want to return all the necessary data, we must return both the cart lines and the price in the payload. The pricing should return the cart lines, which is not an issue since it receives it as an input.</p>
+<h2 id="apache-apisix-configuration">Apache APISIX configuration</h2>
+<p>The Apache APISIX configuration is the following:</p>
+<table>
+<thead>
+  <tr>
+    <th>Route</th>
+    <th>URI</th>
+    <th>Plugins</th>
+    <th>Comment</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>#1</td>
+    <td><code>/*</code></td>
+    <td> </td>
+    <td>Catch-all route for front-end resources</td>
+  </tr>
+  <tr>
+    <td>#2</td>
+    <td><code>/api*</code></td>
+    <td><code>proxy-rewrite</code></td>
+    <td>
+      <ul>
+        <li>Catch-all route for back-end API calls</li>
+        <li>The plugin rewrites URIs to remove the <code>/api</code> prefix</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>#3</td>
+    <td><code>/api/checkout</code></td>
+    <td><code>pipeline-request</code></td>
+    <td>
+      The magic happens here:
+      <ul>
+        <li>The first pipeline node calls the monolith to return the cart lines</li>
+        <li>The second calls the pricing component with the cart lines to return the cart lines and the pricing computed in the component</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>#4</td>
+    <td><code>/api/price</code></td>
+    <td><code>azure-functions</code></td>
+    <td>I implement the pricing in an Azure FaaS, but it's an implementation detail</td>
+  </tr>
+</tbody>
+</table>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, I offer another alternative to chop the monolith. Instead of forking the call on the client side, we fork the call on the Gateway side. While Apache APISIX doesn’t offer such a plugin out-of-the-box, the community fills in the blank with the <code>apisix-pipeline-request-plugin</code>.</p>
+<p>Compared to the original solution, this alternative has a couple of benefits:</p>
+<ul>
+<li>Better performance, as the fork happens closer to the Gateway</li>
+<li>No impact client-side</li>
+</ul>
+<p>The complete source code for this post can be found on <a href="https://github.com/nfrankel/chop-monolith/tree/api">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://blog.frankel.ch/chopping-monolith/">Chopping the monolith, the original way</a></li>
+<li><a href="https://github.com/bzp2010/apisix-plugin-pipeline-request">apisix-pipeline-request-plugin</a></li>
+<li><a href="https://api7.ai/blog/chaining-api-requests-with-api-gateway">Chaining API requests with API Gateway</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 集成 HashiCorp Vault，生态系统再添一员 | Apache APISIX</title><meta name="description" content="本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关使用细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/01/21/apisix-hashicorp-vault-integration/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/01/21/apisix-hashicorp-vault-integration/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/01/21/apisix-hashicorp-vault-integration/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/01/21/apisix-hashicorp-vault-integration/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 集成 HashiCorp Vault，生态系统再添一员 | Apache APISIX"><meta property="og:description" content="本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关使用细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/01/21/apisix-hashicorp-vault-integration/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/vault.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 集成 HashiCorp Vault，生态系统再添一员","description":"本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关使用细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。","datePublished":"2022-01-21","image":"https://static.apiseven.com/2022/blog/0818/plugins/vault.png","author":{"@type":"Person","name":"Bisakh Mondal"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/01/21/apisix-hashicorp-vault-integration/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/01/21/apisix-hashicorp-vault-integration/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/01/21/apisix-hashicorp-vault-integration/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 集成 HashiCorp Vault，生态系统再添一员</h1> <p class="article-meta"> 2022-01-21 · Bisakh Mondal  </p> <blockquote>
+<p>本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。</p>
+</blockquote>
+<!--truncate-->
+<p>随着微服务架构的兴起，保持服务安全变得比以前更有挑战性。多个后端 server 实例使用单一的静态密钥凭访问数据库 server 会带来巨大的风险。如果发生密钥凭证泄露，整个系统都会受到影响。为了解决密钥凭证泄露所带来的影响，只能撤销这个密钥凭证。而撤销密钥凭证会导致大规模的服务中断，对开发者来说，服务大规模中断是开发者最不想看到事情。</p>
+<p>虽然我们不能提前预知将来会出现哪些安全漏洞，但是我们可以通过配置多个密钥来控制这些安全漏洞的影响范围。为了避免这样的情况，像 HashiCorp Vault（下文简称 Vault）这样密钥凭证解决方案应运而生。</p>
+<p>本文演示了如何将 Vault 与 Apache APISIX 的 <code>jwt-auth</code> 插件集成，在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。</p>
+<h2 id="什么是-vault">什么是 Vault</h2>
+<p>Vault 旨在帮助用户管理服务密钥的访问权限，并在多个服务之间安全地传输这些密钥。密钥可以是任何形式的凭证，因为密钥可用于解锁敏感信息，所以需要严密控制密钥。密钥的形式可以是密码、API 密钥、SSH 密钥、RSA 令牌或 OTP。事实上，密钥泄露的情况非常普遍：密钥通常被储存在配置文件中，或作为变量被储存在代码中，如果没有妥善保存，密钥甚至会出现在 GitHub、BitBucket 或 GitLab 等公开可见的代码库中，从而对安全构成了重大威胁。Vault 通过集中密钥解决了这个问题。它为静态密钥提供加密存储，生成具有 TTL 租约的动态密钥，对用户进行认证，以确保他们有权限访问特定的密钥。因此，即使在安全漏洞的情况下，影响范围也小得多，并能得到更好的控制。</p>
+<p>Vault 提供了一个用户界面用于密钥管理，使控制和管理权限变得非常容易。不仅如此，它还提供了灵活且详细审计日志功能，能跟踪到所有用户的历史访问记录。</p>
+<p><img src="https://static.apiseven.com/202108/1642770417379-a91960a5-5aac-45fa-9277-801a4ee2afc6.png" alt="HashiCorp Vault"></p>
+<h2 id="jwt-auth-插件介绍">jwt-auth 插件介绍</h2>
+<p><code>jwt-auth</code> 是一个认证插件，可以附加到任何 APISIX 路由上，在请求被转发到上游 URI 之前执行 JWT 认证。通常情况下，发行者使用私钥或文本密钥来签署 JWT。JWT 的接收者将验证签名，以确保令牌在被发行者签名后没有被改变。整个 JWT 机制的整体完整性取决于签名密钥（或 RSA 密钥对的文本密钥）。这使得未经认证的来源很难猜到签名密钥并试图改变 JWT 中的声明。</p>
+<p>因此，在安全的环境中存储这些密钥是非常关键的。如果密钥落入坏人之手，可能会危及整个基础设施的安全。虽然 Apache APISIX 采取了一切手段来遵循标准的 SecOps 实践，但在生产环境中有一个集中的密钥管理解决方案也是一件好事。例如 Vault，有详细的审计日志，定时的密钥轮换，密钥撤销等功能。如果每次在整个基础设施发生密钥轮换时，你都要更新 Apache APISIX 配置，这将是一个相当麻烦的问题。</p>
+<h2 id="如何集成-vault-和-apache-apisix">如何集成 Vault 和 Apache APISIX</h2>
+<p>为了与 Vault 集成，Apache APISIX 需要在 <a href="https://github.com/apache/apisix/blob/master/conf/config.yaml">config.yaml</a> 文件中加载 Vault 的相关配置信息。</p>
+<p>Apache APISIX 与 Vault server <a href="https://www.vaultproject.io/docs/secrets/kv/kv-v1">KV secret engine v1</a> HTTP <a href="https://www.vaultproject.io/api/secret/kv/kv-v1">APIs</a> 进行通信。由于大多数企业解决方案倾向于在生产环境中使用 KV Secrets Engine - Version 1，在 APISIX-Vault 支持的初始阶段，我们只使用这个版本。在以后的版本中，我们将增加对 K/V - Version 2 的支持。</p>
+<p>使用 Vault 而不是 APISIX etcd 后端的主要顾虑是在低信任度环境下的安全问题。因为 Vault 访问令牌是小范围的，可以授予 APISIX server 有限的权限。</p>
+<h3 id="配置-vault">配置 Vault</h3>
+<p>本节分享了在 Apache APISIX 生态系统中使用 Vault 的最佳实践。如果你已经有了一个具有必要权限的 Vault 实例在运行，请跳过本节。</p>
+<h4 id="启动-vault-server">启动 Vault server</h4>
+<p>在这里，你有多种选择，可以自由选择 Docker、预编译二进制包或从源代码构建。至于与 Vault server 的通信，你需要一个 Vault CLI 客户端。请运行以下命令启动 server：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> server</span><span style="color:#79C0FF"> -dev</span><span style="color:#79C0FF"> -dev-root-token-id=root</span></span>
+<span class="line"><span style="color:#FFA657">…</span></span>
+<span class="line"><span style="color:#FFA657">WARNING!</span><span style="color:#A5D6FF"> dev</span><span style="color:#A5D6FF"> mode</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> enabled!</span><span style="color:#A5D6FF"> In</span><span style="color:#A5D6FF"> this</span><span style="color:#A5D6FF"> mode,</span><span style="color:#A5D6FF"> Vault</span><span style="color:#A5D6FF"> runs</span><span style="color:#A5D6FF"> entirely</span><span style="color:#A5D6FF"> in-memory</span></span>
+<span class="line"><span style="color:#FFA657">and</span><span style="color:#A5D6FF"> starts</span><span style="color:#A5D6FF"> unsealed</span><span style="color:#A5D6FF"> with</span><span style="color:#A5D6FF"> a</span><span style="color:#A5D6FF"> single</span><span style="color:#A5D6FF"> unseal</span><span style="color:#A5D6FF"> key.</span><span style="color:#A5D6FF"> The</span><span style="color:#A5D6FF"> root</span><span style="color:#A5D6FF"> token</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> already</span></span>
+<span class="line"><span style="color:#FFA657">authenticated</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> CLI,</span><span style="color:#A5D6FF"> so</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> can</span><span style="color:#A5D6FF"> immediately</span><span style="color:#A5D6FF"> begin</span><span style="color:#A5D6FF"> using</span><span style="color:#A5D6FF"> Vault.</span></span>
+<span class="line"><span style="color:#FFA657">You</span><span style="color:#A5D6FF"> may</span><span style="color:#A5D6FF"> need</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> set</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> following</span><span style="color:#A5D6FF"> environment</span><span style="color:#A5D6FF"> variable:</span></span>
+<span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> VAULT_ADDR</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">'http://127.0.0.1:8200'</span></span>
+<span class="line"><span style="color:#FFA657">The</span><span style="color:#A5D6FF"> unseal</span><span style="color:#A5D6FF"> key</span><span style="color:#A5D6FF"> and</span><span style="color:#A5D6FF"> root</span><span style="color:#A5D6FF"> token</span><span style="color:#A5D6FF"> are</span><span style="color:#A5D6FF"> displayed</span><span style="color:#A5D6FF"> below</span><span style="color:#A5D6FF"> in</span><span style="color:#A5D6FF"> case</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> want</span><span style="color:#A5D6FF"> to</span></span>
+<span class="line"><span style="color:#FFA657">seal/unseal</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> Vault</span><span style="color:#A5D6FF"> or</span><span style="color:#A5D6FF"> re-authenticate.</span></span>
+<span class="line"><span style="color:#FFA657">Unseal</span><span style="color:#A5D6FF"> Key:</span><span style="color:#A5D6FF"> 12hURx2eDPKK1tzK+8TkgH9pPhPNJFpyfc/imCLgJKY=</span></span>
+<span class="line"><span style="color:#FFA657">Root</span><span style="color:#A5D6FF"> Token:</span><span style="color:#A5D6FF"> root</span></span>
+<span class="line"><span style="color:#FFA657">Development</span><span style="color:#A5D6FF"> mode</span><span style="color:#A5D6FF"> should</span><span style="color:#A5D6FF"> NOT</span><span style="color:#A5D6FF"> be</span><span style="color:#A5D6FF"> used</span><span style="color:#A5D6FF"> in</span><span style="color:#A5D6FF"> production</span><span style="color:#A5D6FF"> installations!</span></span></code></pre>
+<p>用正确的环境变量设置 Vault CLI 客户端。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> export</span><span style="color:#A5D6FF"> VAULT_ADDR='http://127.0.0.1:8200'</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> export</span><span style="color:#A5D6FF"> VAULT_TOKEN='root'</span></span></code></pre>
+<p>用一个合适的 <code>path</code> 前缀启用 vault k/v version 1的密钥引擎后端。在这个演示中，我们要选择 <code>kv</code> 路径，这样就不会与 vault 默认的 <code>kv</code> version 2 的密钥路径发生冲突。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> secrets</span><span style="color:#A5D6FF"> enable</span><span style="color:#79C0FF"> -path=kv</span><span style="color:#79C0FF"> -version=1</span><span style="color:#A5D6FF"> kv</span></span>
+<span class="line"><span style="color:#FFA657">Success!</span><span style="color:#A5D6FF"> Enabled</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> kv</span><span style="color:#A5D6FF"> secrets</span><span style="color:#A5D6FF"> engine</span><span style="color:#A5D6FF"> at:</span><span style="color:#A5D6FF"> kv/</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># To reconfirm the status, run</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> secrets</span><span style="color:#A5D6FF"> list</span></span>
+<span class="line"><span style="color:#FFA657">Path</span><span style="color:#A5D6FF">          Type</span><span style="color:#A5D6FF">         Accessor</span><span style="color:#A5D6FF">              Description</span></span>
+<span class="line"><span style="color:#FFA657">----</span><span style="color:#79C0FF">          ----</span><span style="color:#79C0FF">         --------</span><span style="color:#79C0FF">              -----------</span></span>
+<span class="line"><span style="color:#FFA657">cubbyhole/</span><span style="color:#A5D6FF">    cubbyhole</span><span style="color:#A5D6FF">    cubbyhole_4eeb394c</span><span style="color:#A5D6FF">    per-token</span><span style="color:#A5D6FF"> private</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> storage</span></span>
+<span class="line"><span style="color:#FFA657">identity/</span><span style="color:#A5D6FF">     identity</span><span style="color:#A5D6FF">     identity_5ca6201e</span><span style="color:#A5D6FF">     identity</span><span style="color:#A5D6FF"> store</span></span>
+<span class="line"><span style="color:#FFA657">kv/</span><span style="color:#A5D6FF">           kv</span><span style="color:#A5D6FF">           kv_92cd6d37</span><span style="color:#A5D6FF">           n/a</span></span>
+<span class="line"><span style="color:#FFA657">secret/</span><span style="color:#A5D6FF">       kv</span><span style="color:#A5D6FF">           kv_6dd46a53</span><span style="color:#A5D6FF">           key/value</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> storage</span></span>
+<span class="line"><span style="color:#FFA657">sys/</span><span style="color:#A5D6FF">          system</span><span style="color:#A5D6FF">       system_2045ddb1</span><span style="color:#A5D6FF">       system</span><span style="color:#A5D6FF"> endpoints</span><span style="color:#A5D6FF"> used</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> control,</span><span style="color:#A5D6FF"> policy</span><span style="color:#A5D6FF"> and</span><span style="color:#A5D6FF"> debugging</span></span></code></pre>
+<h4 id="为-apache-apisix-生成一个-vault-访问令牌">为 Apache APISIX 生成一个 Vault 访问令牌</h4>
+<p>本文是关于在 <code>jwt-auth</code> 插件中使用 Vault 的介绍。因此，对于一个 APISIX Consumer <code>jack</code>，<code>jwt-auth</code> 插件会在 <code>&#x3C;vault.prefix inside config.yaml>/consumer/&#x3C;consumer.username>/jwt-auth</code> 中查找（如果启用了 Vault 配置）<code>secret/s</code> 到 Vault 键值对 存储。在这种情况下，如果你将 <code>kv/apisix</code> 命名空间（Vault 路径）指定为<code>config.yaml</code> 内的 <code>vault.prefix</code>，用于所有 APISIX 相关数据的检索，我们建议你为路径 <code>kv/apisix/consumer/</code> 创建一个策略。最后的星号（*）确保策略允许读取任何具有 <code>kv/apisix/consumer</code> 前缀的路径。</p>
+<p>用 HashiCorp 配置语言（HCL）创建一个策略文件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> tee</span><span style="color:#A5D6FF"> apisix-policy.hcl</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3"> EOF</span></span>
+<span class="line"><span style="color:#A5D6FF">path "kv/apisix/consumer/*" {</span></span>
+<span class="line"><span style="color:#A5D6FF">    capabilities = ["read"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span></code></pre>
+<p>将策略应用于 Vault 实例。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> policy</span><span style="color:#A5D6FF"> write</span><span style="color:#A5D6FF"> apisix-policy</span><span style="color:#A5D6FF"> apisix-policy.hcl</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Success!</span><span style="color:#A5D6FF"> Uploaded</span><span style="color:#A5D6FF"> policy:</span><span style="color:#A5D6FF"> apisix-policy</span></span></code></pre>
+<p>用新定义的策略生成一个令牌，该策略已被配置为很小的访问边界。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> token</span><span style="color:#A5D6FF"> create</span><span style="color:#79C0FF"> -policy=</span><span style="color:#A5D6FF">"apisix-policy"</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Key</span><span style="color:#A5D6FF">                  Value</span></span>
+<span class="line"><span style="color:#FFA657">---</span><span style="color:#79C0FF">                  -----</span></span>
+<span class="line"><span style="color:#FFA657">token</span><span style="color:#A5D6FF">                s.KUWFVhIXgoRuQbbp3j1eMVGa</span></span>
+<span class="line"><span style="color:#FFA657">token_accessor</span><span style="color:#A5D6FF">       nPXT3q0mfZkLmhshfioOyx8L</span></span>
+<span class="line"><span style="color:#FFA657">token_duration</span><span style="color:#A5D6FF">       768h</span></span>
+<span class="line"><span style="color:#FFA657">token_renewable</span><span style="color:#79C0FF">      true</span></span>
+<span class="line"><span style="color:#FFA657">token_policies</span><span style="color:#E6EDF3">       [</span><span style="color:#A5D6FF">"apisix-policy"</span><span style="color:#A5D6FF"> "default"]</span></span>
+<span class="line"><span style="color:#FFA657">identity_policies</span><span style="color:#E6EDF3">    []</span></span>
+<span class="line"><span style="color:#FFA657">policies</span><span style="color:#E6EDF3">             [</span><span style="color:#A5D6FF">"apisix-policy"</span><span style="color:#A5D6FF"> "default"]</span></span></code></pre>
+<p>在这个例子中，<code>s.KUWFVhIXgoRuQbbp3j1eMVGa</code> 是你的访问令牌。</p>
+<h3 id="在-apache-apisix-中添加-vault-配置">在 Apache APISIX 中添加 Vault 配置</h3>
+<p>Apache APISIX 通过 Vault HTTP APIs 与 Vault 实例进行通信。必要的配置必须被添加到 <a href="https://github.com/apache/apisix/blob/master/conf/config.yaml">config.yaml</a> 中。</p>
+<p>下面是关于你可以使用的不同字段的简要信息。</p>
+<ul>
+<li>host： 运行 Vault server 的主机地址。</li>
+<li>timeout： 每次请求的 HTTP 超时。</li>
+<li>token： 从 Vault 实例生成的令牌，授予从 Vault 读取数据的权限。</li>
+<li>prefix：启用前缀可以更好地执行策略，生成有限范围的令牌，严格控制可以从 APISIX 访问的数据。有效的前缀是（<code>kv/apisix</code>、<code>secret</code>等）。</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">vault:</span></span>
+<span class="line"><span style="color:#FFA657">  host:</span><span style="color:#A5D6FF"> 'http://0.0.0.0:8200'</span></span>
+<span class="line"><span style="color:#FFA657">  timeout:</span><span style="color:#79C0FF"> 10</span></span>
+<span class="line"><span style="color:#FFA657">  token:</span><span style="color:#A5D6FF"> 's.KUWFVhIXgoRuQbbp3j1eMVGa'</span></span>
+<span class="line"><span style="color:#FFA657">  prefix:</span><span style="color:#A5D6FF"> 'kv/apisix'</span></span></code></pre>
+<h3 id="创建一个-apisix-consumer">创建一个 APISIX Consumer</h3>
+<p>APISIX 有一个 Consumer 层面的抽象，与认证方案并列。为了启用任何 APISIX 路由的认证，需要一个具有适合该特定类型认证服务配置的 Consumer。之后将通过 APISIX 成功执行 Consumer 配置方面的认证请求转发到上游 URI。APISIX Consumer 有两个字段：一个是 <code>username</code>（必填项），用于识别 Consumer；另一个是 <code>plugins</code>，用于保存 Consumer 所使用的特定插件配置。</p>
+<p>在这里，在这篇文章中，我们将用 <code>jwt-auth</code> 插件创建一个 Consumer。它为各自的路由或服务执行 JWT 认证。</p>
+<p>运行以下命令，启用 Vault 配置的 <code>jwt-auth</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/consumers</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "jack",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "jwt-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "key": "test-key",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "vault": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>在这里，插件在 Consumer 配置中提到的 Consumer <code>jack</code> 的 Vault 路径（<code>&#x3C;vault.prefix from conf.yaml>/consumer/jack/jwt-auth</code>）中查找密钥 <code>secret</code>，并使用它进行后续的签名和 jwt 验证。如果在同一路径中没有找到密钥，该插件会记录错误，并且无法执行 JWT 验证。</p>
+<h4 id="设置一个测试的上游-server">设置一个测试的上游 server</h4>
+<p>为了测试这个行为，你可以为一个上游创建一个路由（一个简单的 ping 处理程序，返回 pong）。你可以用一个普通的 go HTTP-Server 来设置它。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E">// simple upstream server</span></span>
+<span class="line"><span style="color:#FF7B72">package</span><span style="color:#FFA657"> main</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#D2A8FF"> ping</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">w</span><span style="color:#FFA657"> http</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">ResponseWriter</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">req</span><span style="color:#FF7B72"> *</span><span style="color:#FFA657">http</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">Request</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">    w.</span><span style="color:#D2A8FF">Write</span><span style="color:#E6EDF3">([]</span><span style="color:#FF7B72">byte</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"secure/pong</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">    http.</span><span style="color:#D2A8FF">HandleFunc</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/secure/ping"</span><span style="color:#E6EDF3">, ping)</span></span>
+<span class="line"><span style="color:#E6EDF3">    http.</span><span style="color:#D2A8FF">ListenAndServe</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">":9999"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">nil</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h4 id="创建一个启用了认证的-apisix-路由">创建一个启用了认证的 APISIX 路由</h4>
+<p>用这个安全的 ping HTTP server 和启用了 <code>jwt-auth</code> 认证插件创建一个 APISIX 路由。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "jwt-auth": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:9999": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/secure/ping"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h4 id="从-jwt-auth-插件生成令牌">从 jwt-auth 插件生成令牌</h4>
+<p>现在从 APISIX 签署一个 JWT 密文，可以用于并通过向 APISIX server 的 <code>http://localhost:9080/secure/ping</code> 代理路由发出请求。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/plugin/jwt/sign</span><span style="color:#FF7B72">\?</span><span style="color:#A5D6FF">key</span><span style="color:#FF7B72">\=</span><span style="color:#A5D6FF">test-key</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Tue,</span><span style="color:#79C0FF"> 18</span><span style="color:#A5D6FF"> Jan</span><span style="color:#79C0FF"> 2022</span><span style="color:#A5D6FF"> 07:50:57</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJ0ZXN0LWtleSIsImV4cCI6MTY0MjU3ODY1N30.nkyev1_KUapVgY_QVYETsSApA6gEkDWS8tsHFV1EpD8</span></span></code></pre>
+<p>在上一步中，如果你看到类似 <code>failed to sign jwt</code> 的信息，请确保你有一个私有密钥存储在 vault <code>kv/apisix/consumers/jack/jwt-aut</code> 路径中。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># example</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> kv</span><span style="color:#A5D6FF"> put</span><span style="color:#A5D6FF"> kv/apisix/consumer/jack/jwt-auth</span><span style="color:#A5D6FF"> secret=</span><span style="color:#E6EDF3">$ecr3t</span><span style="color:#A5D6FF">-c0d3</span></span>
+<span class="line"><span style="color:#FFA657">Success!</span><span style="color:#A5D6FF"> Data</span><span style="color:#A5D6FF"> written</span><span style="color:#A5D6FF"> to:</span><span style="color:#A5D6FF"> kv/apisix/consumer/jack/jwt-auth</span></span></code></pre>
+<h4 id="向-apisix-server-发送请求">向 APISIX Server 发送请求</h4>
+<p>现在，向 APISIX 代理发出一个路由 <code>/secure/ping</code> 的请求。验证成功后，它将把请求转发给我们的 go HTTP server。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/secure/ping</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJ0ZXN0LWtleSIsImV4cCI6MTY0MjU3ODU5M30.IYudBr7FTgRme70u4rEBoYNtGmGByzgfGlt8hctI__Q'</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 12</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Tue,</span><span style="color:#79C0FF"> 18</span><span style="color:#A5D6FF"> Jan</span><span style="color:#79C0FF"> 2022</span><span style="color:#A5D6FF"> 08:00:04</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">secure/pong</span></span></code></pre>
+<p>任何无效的 JWT 请求都会抛出 <code>HTTP 401 Unauthorized</code> 的错误。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/secure/ping</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 401</span><span style="color:#A5D6FF"> Unauthorized</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Tue,</span><span style="color:#79C0FF"> 18</span><span style="color:#A5D6FF"> Jan</span><span style="color:#79C0FF"> 2022</span><span style="color:#A5D6FF"> 08:00:33</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"message"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"Missing JWT token in request"</span><span style="color:#FFA657">}</span></span></code></pre>
+<h3 id="vault-与-apisix-jwt-auth-插件集成的不同用例">Vault 与 APISIX jwt-auth 插件集成的不同用例</h3>
+<p>Apache APISIX <code>jwt-auth</code> 插件可以被配置为从 Vault 存储中获取简单的文本密钥以及 RS256 公私密钥对。</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>对于该集成支持的早期版本，该插件希望存储到金库路径中的密钥名称在 [<code>secret</code>, <code>public_key</code>, <code>private_key</code>] 之间，以成功使用该密钥。在未来的版本中，我们将增加对引用自定义命名的密钥的支持。</p></div>
+<ol>
+<li>
+<p>你在 Vault 内存储了 HS256 签名密钥，你想用它来进行 jwt 签名和验证。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/consumers</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "username": "jack",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">         "jwt-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">             "key": "key-1",</span></span>
+<span class="line"><span style="color:#A5D6FF">             "vault": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>在这里，插件在 Consumer 配置中提到的 Consumer 用户 <code>jack</code> 的 Vault 路径（<code>&#x3C;vault.prefix from conf.yaml>/consumer/jack/jwt-auth</code>）中查找密钥 <code>secret</code>，并使用它进行后续的签名和 jwt 验证。如果在同一路径中没有找到密钥，该插件将记录一个错误，并且无法执行 JWT 验证。</p>
+</li>
+<li>
+<p>RS256 RSA 密钥对，公钥和私钥都存储在 Vault 中。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/consumers</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "username": "jim",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">         "jwt-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">             "key": "rsa-keypair",</span></span>
+<span class="line"><span style="color:#A5D6FF">             "algorithm": "RS256",</span></span>
+<span class="line"><span style="color:#A5D6FF">             "vault": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>该插件在 Vault 键值对路径（<code>&#x3C;vault.prefix from conf.yaml>/consumer/jim/jwt-auth</code>）中为插件 Vault 配置中提到的用户 <code>jim</code> 查找 <code>public_key</code> 和 <code>private_key</code>。如果没有找到，认证失败。</p>
+<p>如果你不确定如何将公钥和私钥存储到 Vault 键值对中，请使用这个命令。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># provided, your current directory contains the files named "public.pem" and "private.pem"</span></span>
+<span class="line"><span style="color:#FFA657"> $</span><span style="color:#A5D6FF"> vault</span><span style="color:#A5D6FF"> kv</span><span style="color:#A5D6FF"> put</span><span style="color:#A5D6FF"> kv/apisix/consumer/jim/jwt-auth</span><span style="color:#A5D6FF"> public_key=@public.pem</span><span style="color:#A5D6FF"> private_key=@private.pem</span></span>
+<span class="line"><span style="color:#FFA657"> Success!</span><span style="color:#A5D6FF"> Data</span><span style="color:#A5D6FF"> written</span><span style="color:#A5D6FF"> to:</span><span style="color:#A5D6FF"> kv/apisix/consumer/jim/jwt-auth</span></span></code></pre>
+</li>
+<li>
+<p>Consumer 配置中的公钥，而私钥在 Vault 中。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/consumers</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "username": "john",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">         "jwt-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">             "key": "user-key",</span></span>
+<span class="line"><span style="color:#A5D6FF">             "algorithm": "RS256",</span></span>
+<span class="line"><span style="color:#A5D6FF">             "public_key": "-----BEGIN PUBLIC KEY-----\n……\n-----END PUBLIC KEY-----"</span></span>
+<span class="line"><span style="color:#A5D6FF">             "vault": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>这个插件使用来自 Consumer 配置的 RSA 公钥，并使用直接从 Vault 获取的私钥。</p>
+</li>
+</ol>
+<h3 id="禁用-vault-插件">禁用 Vault 插件</h3>
+<p>现在，要禁用 <code>jwt-auth</code> 插件的 Vault 查询，只需从 Consumer 插件配置中删除空的 Vault 对象（本例中是 <code>jack</code>）。这将使 JWT 插件在随后对已启用 <code>jwt-auth</code> 配置的 URI 路由的请求中，将查找签名密钥（包括 HS256/HS512 或 RS512 密钥对）纳入插件配置。即使你在 APISIX <code>config.yaml</code> 中启用了 Vault 配置，也不会有请求被发送到 Vault server。</p>
+<p>Apache APISIX 插件是热加载的，因此不需要重新启动 Apache APISIX，配置可以立即生效。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/consumers</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "jack",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "jwt-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "key": "test-key",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "secret": "my-secret-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="结语">结语</h2>
+<p>本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关细节。</p>
+<p>欢迎随时在 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 中发起讨论，或通过<a href="https://apisix.apache.org/zh/docs/general/join">邮件列表</a>进行交流。</p>
+<h2 id="reference">Reference</h2>
+<p><a href="https://blog.bisakh.com/blog/vault-apisix-jwt-auth">Bisakh’s Blog</a></p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

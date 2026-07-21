@@ -1,0 +1,888 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>prometheus | Apache APISIX</title><meta name="description" content="本文将介绍 prometheus 插件，以及将 APISIX 与 Prometheus 集成以进行指标收集和持续监控。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/prometheus"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/prometheus/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/prometheus/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="prometheus | Apache APISIX"><meta property="og:description" content="本文将介绍 prometheus 插件，以及将 APISIX 与 Prometheus 集成以进行指标收集和持续监控。"><meta property="og:url" content="https://docs.api7.ai/hub/prometheus"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"prometheus","description":"本文将介绍 prometheus 插件，以及将 APISIX 与 Prometheus 集成以进行指标收集和持续监控。","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/apisix/plugins/prometheus/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/apisix/plugins/prometheus/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/apisix/getting-started/README/" class>入门指南</a>  </li><li> <a href="/zh/docs/apisix/getting-started/configure-routes/" class>配置路由</a>  </li><li> <a href="/zh/docs/apisix/getting-started/load-balancing/" class>负载均衡</a>  </li><li> <a href="/zh/docs/apisix/getting-started/key-authentication/" class>密钥验证</a>  </li><li> <a href="/zh/docs/apisix/getting-started/rate-limiting/" class>限速</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/installation-guide/" class>APISIX 安装指南</a>  </li><li class> <a href="/zh/docs/apisix/architecture-design/apisix/" class>软件架构</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/zh/docs/apisix/tutorials/expose-api/" class>发布 API</a>  </li><li> <a href="/zh/docs/apisix/tutorials/protect-api/" class>保护 API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/zh/docs/apisix/tutorials/observe-your-api/" class>监控 API</a></li><li><a href="/zh/docs/apisix/tutorials/health-check/" class>健康检查</a></li><li><a href="/zh/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/zh/docs/apisix/tutorials/manage-api-consumers/" class>管理 API 消费者</a>  </li><li> <a href="/zh/docs/apisix/tutorials/cache-api-responses/" class>API 响应缓存</a>  </li><li> <a href="/zh/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/zh/docs/apisix/tutorials/client-to-apisix-mtls/" class>配置客户端与 APISIX 之间的双向认证（mTLS）</a>  </li><li> <a href="/zh/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/zh/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/zh/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer-group/" class>Consumer Groups</a>  </li><li> <a href="/zh/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/zh/docs/apisix/terminology/global-rule/" class>Global rules</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/zh/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/zh/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/zh/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/zh/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/zh/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/zh/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/zh/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/zh/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/zh/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/zh/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/zh/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/zh/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/zh/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/zh/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/zh/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/zh/docs/apisix/plugins/gzip/" class>gzip</a></li><li><a href="/zh/docs/apisix/plugins/brotli/" class>brotli</a></li><li><a href="/zh/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/zh/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-pre-req/" class>ext-plugin-pre-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-req/" class>ext-plugin-post-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-resp/" class>ext-plugin-post-resp</a></li><li><a href="/zh/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/zh/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/zh/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/zh/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/grpc-transcode/" class>grpc-transcode</a></li><li><a href="/zh/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/zh/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/zh/docs/apisix/plugins/mocking/" class>mocking</a></li><li><a href="/zh/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/zh/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/zh/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/zh/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/zh/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/zh/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/zh/docs/apisix/plugins/authz-casdoor/" class>authz-casdoor</a></li><li><a href="/zh/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/zh/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/zh/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/zh/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/zh/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/zh/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-casbin/" class>authz-casbin</a></li><li><a href="/zh/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/zh/docs/apisix/plugins/opa/" class>opa</a></li><li><a href="/zh/docs/apisix/plugins/forward-auth/" class>forward-auth</a></li><li><a href="/zh/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/zh/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/zh/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/zh/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/zh/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/zh/docs/apisix/plugins/ua-restriction/" class>ua-restriction</a></li><li><a href="/zh/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/zh/docs/apisix/plugins/csrf/" class>csrf</a></li><li><a href="/zh/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/zh/docs/apisix/plugins/gm/" class>GM</a></li><li><a href="/zh/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/zh/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/zh/docs/apisix/plugins/limit-req/" class>limit-req</a></li><li><a href="/zh/docs/apisix/plugins/limit-conn/" class>limit-conn</a></li><li><a href="/zh/docs/apisix/plugins/limit-count/" class>limit-count</a></li><li><a href="/zh/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/zh/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/zh/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/zh/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/zh/docs/apisix/plugins/api-breaker/" class>api-breaker</a></li><li><a href="/zh/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/zh/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/zh/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/zh/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/zh/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/zh/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/zh/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/zh/docs/apisix/plugins/serverless/" class>serverless</a></li><li><a href="/zh/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/zh/docs/apisix/plugins/openwhisk/" class>openwhisk</a></li><li><a href="/zh/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/zh/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/zh/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/zh/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/zh/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/zh/docs/apisix/plugins/http-dubbo/" class>http-dubbo</a></li><li><a href="/zh/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/zh/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/zh/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/zh/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/zh/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/zh/docs/apisix/building-apisix/" class>源码安装 APISIX</a>  </li><li> <a href="/zh/docs/apisix/build-apisix-dev-environment-on-mac/" class>在 Mac 上构建开发环境</a>  </li><li> <a href="/zh/docs/apisix/support-fips-in-apisix/" class>通过 OpenSSL 3.0 使 APISIX 支持 FIPS 模式</a>  </li><li> <a href="/zh/docs/apisix/external-plugin/" class>外部插件</a>  </li><li> <a href="/zh/docs/apisix/wasm/" class>wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/zh/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/zh/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/zh/docs/apisix/plugin-develop/" class>插件开发</a>  </li><li> <a href="/zh/docs/apisix/debug-mode/" class>调试模式</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/zh/docs/apisix/FAQ/" class>常见问题</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/zh/docs/apisix/discovery/" class>集成服务发现注册中心</a></li><li><a href="/zh/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/zh/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/zh/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/zh/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/zh/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/zh/docs/apisix/discovery/control-plane-service-discovery/" class>控制面服务发现</a></li><li><a href="/zh/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/zh/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/zh/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/zh/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/zh/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/zh/docs/apisix/router-radixtree/" class>路由 RadixTree</a>  </li><li> <a href="/zh/docs/apisix/stream-proxy/" class>TCP/UDP 动态代理</a>  </li><li> <a href="/zh/docs/apisix/grpc-proxy/" class>gRPC 代理</a>  </li><li> <a href="/zh/docs/apisix/customize-nginx-configuration/" class>自定义 Nginx 配置</a>  </li><li> <a href="/zh/docs/apisix/certificate/" class>证书</a>  </li><li> <a href="/zh/docs/apisix/batch-processor/" class>批处理器</a>  </li><li> <a href="/zh/docs/apisix/benchmark/" class>压力测试</a>  </li><li> <a href="/zh/docs/apisix/install-dependencies/" class>安装依赖</a>  </li><li> <a href="/zh/docs/apisix/apisix-variable/" class>APISIX 变量</a>  </li><li> <a href="/zh/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/zh/docs/apisix/mtls/" class>TLS 双向认证</a>  </li><li> <a href="/zh/docs/apisix/debug-function/" class>调试功能</a>  </li><li> <a href="/zh/docs/apisix/profile/" class>基于环境变量进行配置文件切换</a>  </li><li> <a href="/zh/docs/apisix/ssl-protocol/" class>SSL 协议</a>  </li><li> <a href="/zh/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/zh/docs/apisix/http3/" class>HTTP3 协议</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>升级指南</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>prometheus</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="描述">描述</h2>
+<p><code>prometheus</code> 插件提供将 APISIX 与 Prometheus 集成的能力。</p>
+<p>启用该插件后，APISIX 将开始收集相关指标，例如 API 请求和延迟，并以<a href="https://prometheus.io/docs/instrumenting/exposition_formats/#exposition-formats">基于文本的展示格式</a>导出到 Prometheus。然后，你可以在 Prometheus 中创建事件监控和警报，以监控 API 网关和 API 的健康状况。</p>
+<h2 id="静态配置">静态配置</h2>
+<p>默认情况下，已在默认配置文件 <a href="https://github.com/apache/apisix/blob/master/apisix/cli/config.lua"><code>config.lua</code></a> 中对 <code>prometheus</code> 进行预配置。</p>
+<p>要自定义这些值，请将相应的配置添加到 config.yaml 中。例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:                               </span><span style="color:#8B949E"># 插件：prometheus 属性</span></span>
+<span class="line"><span style="color:#7EE787">    export_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix/prometheus/metrics</span><span style="color:#8B949E">  # 设置 Prometheus 指标端点的 URI。</span></span>
+<span class="line"><span style="color:#7EE787">    metric_prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix_</span><span style="color:#8B949E">                  # 设置 APISIX 生成的 Prometheus 指标的前缀。</span></span>
+<span class="line"><span style="color:#7EE787">    enable_export_server</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#8B949E">              # 启用 Prometheus 导出服务器。</span></span>
+<span class="line"><span style="color:#7EE787">    export_addr</span><span style="color:#E6EDF3">:                            </span><span style="color:#8B949E"># 设置 Prometheus 导出服务器的地址。</span></span>
+<span class="line"><span style="color:#7EE787">      ip</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span><span style="color:#8B949E">                         # 设置 IP。</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9091</span><span style="color:#8B949E">                            # 设置端口。</span></span>
+<span class="line"><span style="color:#8B949E">    # metrics:                              # 为指标创建额外的标签。</span></span>
+<span class="line"><span style="color:#8B949E">    #  http_status:                         # 这些指标将以 `apisix_` 为前缀。</span></span>
+<span class="line"><span style="color:#8B949E">    #    extra_labels:                      # 设置 http_status 指标的额外标签。</span></span>
+<span class="line"><span style="color:#8B949E">    #      - upstream_addr: $upstream_addr</span></span>
+<span class="line"><span style="color:#8B949E">    #      - status: $upstream_status</span></span>
+<span class="line"><span style="color:#8B949E">    #    expire: 0                          # 指标的过期时间（秒）。</span></span>
+<span class="line"><span style="color:#8B949E">                                            # 0 表示指标不会过期。</span></span>
+<span class="line"><span style="color:#8B949E">    #  http_latency:</span></span>
+<span class="line"><span style="color:#8B949E">    #    extra_labels:                      # 设置 http_latency 指标的额外标签。</span></span>
+<span class="line"><span style="color:#8B949E">    #      - upstream_addr: $upstream_addr</span></span>
+<span class="line"><span style="color:#8B949E">    #    expire: 0                          # 指标的过期时间（秒）。</span></span>
+<span class="line"><span style="color:#8B949E">                                            # 0 表示指标不会过期。</span></span>
+<span class="line"><span style="color:#8B949E">    #  bandwidth:</span></span>
+<span class="line"><span style="color:#8B949E">    #    extra_labels:                      # 设置 bandwidth 指标的额外标签。</span></span>
+<span class="line"><span style="color:#8B949E">    #      - upstream_addr: $upstream_addr</span></span>
+<span class="line"><span style="color:#8B949E">    #    expire: 0                          # 指标的过期时间（秒）。</span></span>
+<span class="line"><span style="color:#8B949E">                                            # 0 表示指标不会过期。</span></span>
+<span class="line"><span style="color:#8B949E">    # default_buckets:                      # 设置 `http_latency` 指标直方图的默认桶。</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 10</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 50</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 100</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 200</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 500</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 1000</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 2000</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 5000</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 10000</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 30000</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 60000</span></span>
+<span class="line"><span style="color:#8B949E">    #   - 500</span></span></code></pre>
+<p>你可以使用 <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html">Nginx 变量</a>创建 <code>extra_labels</code>。请参见<a href="#%E4%B8%BA%E6%8C%87%E6%A0%87%E6%B7%BB%E5%8A%A0%E9%A2%9D%E5%A4%96%E6%A0%87%E7%AD%BE">为指标添加额外标签</a>。</p>
+<p>重新加载 APISIX 以使更改生效。</p>
+<h2 id="属性">属性</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>prefer_name</td><td>boolean</td><td>否</td><td>false</td><td>当设置为 <code>true</code> 时，则在<code>prometheus</code> 指标中导出路由/服务名称而非它们的 <code>id</code>。</td></tr></tbody></table>
+<h2 id="元数据">元数据</h2>
+<p>你可以通过插件的<a href="/zh/docs/apisix/terminology/plugin-metadata/">元数据（Plugin Metadata）</a>进行配置。元数据通过 Admin API 动态设置，无需重启即可在运行时生效。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>描述</th></tr></thead><tbody><tr><td>disabled_labels</td><td>object</td><td>否</td><td>按指标配置的内置标签列表，列出的标签其值会被设置为空字符串 <code>""</code> 以降低指标基数。以指标名称作为键：<code>http_status</code>、<code>http_latency</code>、<code>bandwidth</code>、<code>llm_latency</code>、<code>llm_prompt_tokens</code>、<code>llm_completion_tokens</code>、<code>llm_active_connections</code>、<code>llm_prompt_tokens_dist</code>、<code>llm_completion_tokens_dist</code>、<code>ai_cache_hits_total</code>、<code>ai_cache_misses_total</code>、<code>ai_cache_bypasses_total</code>、<code>ai_cache_embedding_latency</code>。定义指标本身含义的结构性标签（<code>http_status</code> 的 <code>code</code>、<code>http_latency</code>、<code>bandwidth</code> 与 <code>llm_latency</code> 的 <code>type</code>、<code>ai_cache_hits_total</code> 的 <code>layer</code>）不可被禁用。</td></tr></tbody></table>
+<p>将标签值设置为 <code>""</code> 时，标签仍保留在指标 schema 中，因此现有的仪表盘、<code>absent()</code> 告警和 recording rule 都不受影响——只是将仅因这些标签而不同的高基数时间序列合并为一条。这在 Kubernetes 弹性伸缩等动态环境中尤其有用：此时上游节点 IP（<code>node</code> 标签）频繁变化，否则会很快撑爆 <code>prometheus-metrics</code> 共享字典。</p>
+<p>示例请参见<a href="#%E9%80%9A%E8%BF%87%E7%A6%81%E7%94%A8%E6%A0%87%E7%AD%BE%E9%99%8D%E4%BD%8E%E6%8C%87%E6%A0%87%E5%9F%BA%E6%95%B0">通过禁用标签降低指标基数</a>。</p>
+<p><code>request_llm_model</code> 与 <code>llm_model</code> 标签值来源于客户端提供的模型名称。为了限制基数，APISIX 在记录前会将这两个标签值截断为 128 字节。如果你不需要按模型细分，可将 <code>request_llm_model</code> 和 <code>llm_model</code> 列入 LLM 指标的 <code>disabled_labels</code>，从而将其折叠为一条空值时间序列。</p>
+<h2 id="指标">指标</h2>
+<p>Prometheus 中有不同类型的指标。要了解它们之间的区别，请参见<a href="https://prometheus.io/docs/concepts/metric_types/">指标类型</a>。</p>
+<p>以下是 <code>prometheus</code> 插件默认导出的指标。有关示例，请参见[获取 APISIX 指标](#获取 APISIX 指标)。请注意，一些指标，例如 <code>apisix_batch_process_entries</code>，如果没有数据，将不可见。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>apisix_bandwidth</td><td>counter</td><td>APISIX 中每个服务消耗的总流量（字节）。</td></tr><tr><td>apisix_etcd_modify_indexes</td><td>gauge</td><td>APISIX 键的 etcd 修改次数。</td></tr><tr><td>apisix_batch_process_entries</td><td>gauge</td><td>发送数据时批处理中的剩余条目数，例如使用 <code>http logger</code> 和其他日志插件。</td></tr><tr><td>apisix_etcd_reachable</td><td>gauge</td><td>APISIX 是否可以访问 etcd。值为 <code>1</code> 表示可达，<code>0</code> 表示不可达。</td></tr><tr><td>apisix_http_status</td><td>counter</td><td>从上游服务返回的 HTTP 状态代码。</td></tr><tr><td>apisix_http_requests_total</td><td>gauge</td><td>来自客户端的 HTTP 请求数量。</td></tr><tr><td>apisix_nginx_http_current_connections</td><td>gauge</td><td>当前与客户端的连接数量。</td></tr><tr><td>apisix_nginx_metric_errors_total</td><td>counter</td><td><code>nginx-lua-prometheus</code> 错误的总数。</td></tr><tr><td>apisix_http_latency</td><td>histogram</td><td>HTTP 请求延迟（毫秒）。</td></tr><tr><td>apisix_node_info</td><td>gauge</td><td>APISIX 节点的信息，例如主机名和当前的 APISIX 版本号。</td></tr><tr><td>apisix_shared_dict_capacity_bytes</td><td>gauge</td><td><a href="https://github.com/openresty/lua-nginx-module#ngxshareddict">NGINX 共享字典</a> 的总容量。</td></tr><tr><td>apisix_shared_dict_free_space_bytes</td><td>gauge</td><td><a href="https://github.com/openresty/lua-nginx-module#ngxshareddict">NGINX 共享字典</a> 中剩余的空间。</td></tr><tr><td>apisix_upstream_status</td><td>gauge</td><td>上游节点的健康检查状态，如果在上游配置了健康检查，则可用。值为 <code>1</code> 表示健康，<code>0</code> 表示不健康。</td></tr><tr><td>apisix_stream_connection_total</td><td>counter</td><td>每个 Stream Route 处理的总连接数。</td></tr></tbody></table>
+<h2 id="标签">标签</h2>
+<p><a href="https://prometheus.io/docs/practices/naming/#labels">标签</a> 是指标的属性，用于区分指标。</p>
+<p>例如，<code>apisix_http_status</code> 指标可以使用 <code>route</code> 信息进行标记，以识别 HTTP 状态的来源路由。</p>
+<p>以下是 APISIX 指标的非详尽标签及其描述。</p>
+<h3 id="apisix_http_status-的标签"><code>apisix_http_status</code> 的标签</h3>
+<p>以下标签用于区分 <code>apisix_http_status</code> 指标。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>code</td><td>上游节点返回的 HTTP 响应代码。</td></tr><tr><td>route</td><td>HTTP 状态来源的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>matched_uri</td><td>匹配请求的路由 URI。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>matched_host</td><td>匹配请求的路由主机。如果请求不匹配任何路由，或路由未配置主机，则默认为空字符串。</td></tr><tr><td>service</td><td>HTTP 状态来源的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_bandwidth-的标签"><code>apisix_bandwidth</code> 的标签</h3>
+<p>以下标签用于区分 <code>apisix_bandwidth</code> 指标。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>type</td><td>流量类型，<code>egress</code> 或 <code>ingress</code>。</td></tr><tr><td>route</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_llm_latency-的标签"><code>apisix_llm_latency</code> 的标签</h3>
+<p><code>type</code> 标签用于区分延迟类型，与 <code>apisix_http_latency</code> 类似：</p>
+<ul>
+<li><code>total</code>：完整的响应延迟，<code>ai_chat</code> 和 <code>ai_stream</code> 请求都会记录。</li>
+<li><code>ttft</code>：首个 token 到达时间，仅 <code>ai_stream</code> 请求记录（非流式响应没有”首个 token”这一时刻）。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>type</td><td>延迟类型：<code>total</code> 或 <code>ttft</code>。</td></tr><tr><td>route_id</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service_id</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_llm_active_connections-的标签"><code>apisix_llm_active_connections</code> 的标签</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>route</td><td>请求对应的路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>route_id</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>matched_uri</td><td>匹配请求的路由 URI。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>matched_host</td><td>匹配请求的路由主机。如果请求不匹配任何路由，或路由未配置主机，则默认为空字符串。</td></tr><tr><td>service</td><td>请求对应的服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>service_id</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_llm_completion_tokens-的标签"><code>apisix_llm_completion_tokens</code> 的标签</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>route_id</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service_id</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_llm_prompt_tokens-的标签"><code>apisix_llm_prompt_tokens</code> 的标签</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>route_id</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service_id</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_llm_prompt_tokens_dist-的标签"><code>apisix_llm_prompt_tokens_dist</code> 的标签</h3>
+<p><code>apisix_llm_prompt_tokens_dist</code> 是每次请求消耗的 prompt token 数的直方图，作为 <code>apisix_llm_prompt_tokens</code> 计数器的补充，提供分布信息以便计算分位数（如 p95 prompt 大小）。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>route_id</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service_id</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_llm_completion_tokens_dist-的标签"><code>apisix_llm_completion_tokens_dist</code> 的标签</h3>
+<p><code>apisix_llm_completion_tokens_dist</code> 是每次请求生成的 completion token 数的直方图，作为 <code>apisix_llm_completion_tokens</code> 计数器的补充，提供分布信息。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>route_id</td><td>请求对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service_id</td><td>请求对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h3 id="apisix_ai_cache_-系列指标的标签"><code>apisix_ai_cache_*</code> 系列指标的标签</h3>
+<p><a href="/zh/docs/apisix/ai-cache/"><code>ai-cache</code></a> 插件导出以下四个指标：</p>
+<ul>
+<li><code>apisix_ai_cache_hits_total</code>：统计由缓存命中并直接返回的请求数，按命中的缓存层区分。</li>
+<li><code>apisix_ai_cache_misses_total</code>：统计经过插件查询但未命中缓存的请求数。</li>
+<li><code>apisix_ai_cache_bypasses_total</code>：统计完全绕过缓存查询的请求数。</li>
+<li><code>apisix_ai_cache_embedding_latency</code>：语义层发起的 embedding 调用延迟（毫秒）的直方图，围绕 embedding 服务的完整往返计时，成功与失败的调用均会记录。</li>
+</ul>
+<p>它们共享以下标签：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>layer</td><td>仅存在于 <code>apisix_ai_cache_hits_total</code>。命中的缓存层：<code>exact</code> 或 <code>semantic</code>。</td></tr><tr><td>route</td><td>指标对应的路由名称。如果路由未配置名称或请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>route_id</td><td>指标对应的路由 ID。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service</td><td>匹配路由所属的服务名称。如果匹配的路由不属于任何服务，则默认为空字符串。</td></tr><tr><td>service_id</td><td>匹配路由所属的服务 ID。如果匹配的路由不属于任何服务，则默认为空字符串。</td></tr><tr><td>consumer</td><td>与请求关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td><code>ai-proxy</code> 或 <code>ai-proxy-multi</code> 插件选中的 LLM 实例名称，例如 <code>ai-proxy-openai</code>。这些插件上报的是实例名称而非上游 IP 地址，缓存命中与未命中时均是如此。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>request_llm_model</td><td>客户端请求的模型名称。</td></tr><tr><td>llm_model</td><td>LLM 响应中报告的模型名称。缓存命中的请求不会到达 LLM，此标签为空字符串。</td></tr></tbody></table>
+<h3 id="apisix_http_latency-的标签"><code>apisix_http_latency</code> 的标签</h3>
+<p>以下标签用于区分 <code>apisix_http_latency</code> 指标。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>type</td><td>延迟类型。有关详细信息，请参见 <a href="#%E5%BB%B6%E8%BF%9F%E7%B1%BB%E5%9E%8B">延迟类型</a>。</td></tr><tr><td>route</td><td>延迟对应的路由 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用路由 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用路由名称。如果请求不匹配任何路由，则默认为空字符串。</td></tr><tr><td>service</td><td>延迟对应的服务 ID，当 <code>prefer_name</code> 为 <code>false</code>（默认）时，使用服务 ID，当 <code>prefer_name</code> 为 <code>true</code> 时，使用服务名称。如果匹配的路由不属于任何服务，则默认为路由上配置的主机值。</td></tr><tr><td>consumer</td><td>与延迟关联的消费者名称。如果请求没有与之关联的消费者，则默认为空字符串。</td></tr><tr><td>node</td><td>与延迟关联的上游节点的 IP 地址。</td></tr><tr><td>request_type</td><td>traditional_http / ai_chat / ai_stream</td></tr><tr><td>llm_model</td><td>对于非传统的 http 请求，llm 模型的名称</td></tr></tbody></table>
+<h4 id="延迟类型">延迟类型</h4>
+<p><code>apisix_http_latency</code> 可以标记为以下三种类型之一：</p>
+<ul>
+<li>
+<p><code>request</code> 表示从客户端读取第一个字节到最后一个字节发送到客户端之间的时间。</p>
+</li>
+<li>
+<p><code>upstream</code> 表示等待上游服务响应的时间。</p>
+</li>
+<li>
+<p><code>apisix</code> 表示 <code>request</code> 延迟与 <code>upstream</code> 延迟之间的差异。</p>
+</li>
+</ul>
+<p>换句话说，APISIX 延迟不仅归因于 Lua 处理。应理解为：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>APISIX 延迟</span></span>
+<span class="line"><span>  = 下游请求时间 - 上游响应时间</span></span>
+<span class="line"><span>  = 下游流量延迟 + NGINX 延迟</span></span></code></pre>
+<h3 id="apisix_upstream_status-的标签"><code>apisix_upstream_status</code> 的标签</h3>
+<p>以下标签用于区分 <code>apisix_upstream_status</code> 指标。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>描述</th></tr></thead><tbody><tr><td>name</td><td>与健康检查配置的上游对应的资源 ID，例如 <code>/apisix/routes/1</code> 和 <code>/apisix/upstreams/1</code>。</td></tr><tr><td>ip</td><td>上游节点的 IP 地址。</td></tr><tr><td>port</td><td>节点的端口号。</td></tr></tbody></table>
+<h2 id="示例">示例</h2>
+<p>以下示例演示如何在不同场景中使用 <code>prometheus</code> 插件。</p>
+<h3 id="获取-apisix-指标">获取 APISIX 指标</h3>
+<p>以下示例演示如何从 APISIX 获取指标。</p>
+<p>默认的 Prometheus 指标端点和其他与 Prometheus 相关的配置可以在 <a href="#%E9%9D%99%E6%80%81%E9%85%8D%E7%BD%AE">静态配置</a> 中找到。如果你希望自定义这些配置，更新 <code>config.yaml</code> 并重新加载 APISIX。</p>
+<p>如果你在容器化环境中部署 APISIX，并希望外部访问 Prometheus 指标端点，请按如下方式更新配置文件并重新加载 APISIX：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    export_addr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ip</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.0.0.0</span></span></code></pre>
+<p>向 APISIX Prometheus 指标端点发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9091/apisix/prometheus/metrics"</span></span></code></pre>
+<p>你应该看到类似以下的输出：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># HELP apisix_bandwidth Total bandwidth in bytes consumed per Service in Apisix</span></span>
+<span class="line"><span># TYPE apisix_bandwidth counter</span></span>
+<span class="line"><span>apisix_bandwidth{type="egress",route="",service="",consumer="",node="",request_type="traditional_http",request_llm_model="",llm_model=""} 8417</span></span>
+<span class="line"><span>apisix_bandwidth{type="egress",route="1",service="",consumer="",node="127.0.0.1",request_type="traditional_http",request_llm_model="",llm_model=""} 1420</span></span>
+<span class="line"><span>apisix_bandwidth{type="egress",route="2",service="",consumer="",node="127.0.0.1",request_type="traditional_http",request_llm_model="",llm_model=""} 1420</span></span>
+<span class="line"><span>apisix_bandwidth{type="ingress",route="",service="",consumer="",node="",request_type="traditional_http",request_llm_model="",llm_model=""} 189</span></span>
+<span class="line"><span>apisix_bandwidth{type="ingress",route="1",service="",consumer="",node="127.0.0.1",request_type="traditional_http",request_llm_model="",llm_model=""} 332</span></span>
+<span class="line"><span>apisix_bandwidth{type="ingress",route="2",service="",consumer="",node="127.0.0.1",request_type="traditional_http",request_llm_model="",llm_model=""} 332</span></span>
+<span class="line"><span># HELP apisix_etcd_modify_indexes Etcd modify index for APISIX keys</span></span>
+<span class="line"><span># TYPE apisix_etcd_modify_indexes gauge</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="consumers"} 0</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="global_rules"} 0</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<h3 id="在公共-api-端点上公开-apisix-指标">在公共 API 端点上公开 APISIX 指标</h3>
+<p>以下示例演示如何禁用默认情况下在端口 <code>9091</code> 上公开的 Prometheus 导出服务器，并在 APISIX 用于监听其他客户端请求的公共 API 端点上公开 APISIX Prometheus 指标。</p>
+<div class="admonition admonition-caution"><p class="admonition-title">CAUTION</p><p>如果收集了大量指标，插件可能会占用大量 CPU 资源进行指标计算，从而对常规请求的处理产生负面影响。</p><p>为了解决这个问题，APISIX 使用<a href="https://github.com/openresty/lua-resty-core/blob/master/lib/ngx/process.md#enable_privileged_agent">特权代理</a>，将指标收集和计算卸载到一个单独的进程，并通过共享缓存供 HTTP 处理器返回。如果你使用配置文件中配置的指标端点（如<a href="#%E8%8E%B7%E5%8F%96-apisix-%E6%8C%87%E6%A0%87">上文</a>所示），此优化将自动生效。如果你使用 <code>public-api</code> 插件公开指标端点，仍然会使用这一缓存/卸载机制；不过，请求会额外经过 API 路由处理链，并且指标会暴露在公共监听端口上。</p></div>
+<p>在配置文件中禁用 Prometheus 导出服务器，并重新加载 APISIX 以使更改生效：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enable_export_server</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>接下来，使用 <a href="/zh/docs/apisix/public-api/"><code>public-api</code></a> 插件创建一个路由，并为 APISIX 指标公开一个公共 API 端点：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/prometheus-metrics"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/apisix/prometheus/metrics",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "public-api": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向新指标端点发送请求以进行验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/apisix/prometheus/metrics"</span></span></code></pre>
+<p>你应该看到类似以下的输出：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># HELP apisix_http_requests_total 自 APISIX 启动以来客户端请求的总数。</span></span>
+<span class="line"><span># TYPE apisix_http_requests_total gauge</span></span>
+<span class="line"><span>apisix_http_requests_total 1</span></span>
+<span class="line"><span># HELP apisix_nginx_http_current_connections 当前 HTTP 连接数量。</span></span>
+<span class="line"><span># TYPE apisix_nginx_http_current_connections gauge</span></span>
+<span class="line"><span>apisix_nginx_http_current_connections{state="accepted"} 1</span></span>
+<span class="line"><span>apisix_nginx_http_current_connections{state="active"} 1</span></span>
+<span class="line"><span>apisix_nginx_http_current_connections{state="handled"} 1</span></span>
+<span class="line"><span>apisix_nginx_http_current_connections{state="reading"} 0</span></span>
+<span class="line"><span>apisix_nginx_http_current_connections{state="waiting"} 0</span></span>
+<span class="line"><span>apisix_nginx_http_current_connections{state="writing"} 1</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<h3 id="监控上游健康状态">监控上游健康状态</h3>
+<p>以下示例演示如何监控上游节点的健康状态。</p>
+<p>使用 <code>prometheus</code> 插件创建一个路由，并配置上游的主动健康检查：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "prometheus-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "prometheus": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "127.0.0.1:20001": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "checks": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "active": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "timeout": 5,</span></span>
+<span class="line"><span style="color:#A5D6FF">          "http_path": "/status",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "healthy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "interval": 2,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "successes": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          "unhealthy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "interval": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "http_failures": 2</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "passive": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "healthy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "http_statuses": [200, 201],</span></span>
+<span class="line"><span style="color:#A5D6FF">            "successes": 3</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          "unhealthy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "http_statuses": [500],</span></span>
+<span class="line"><span style="color:#A5D6FF">            "http_failures": 3,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "tcp_failures": 3</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向 APISIX Prometheus 指标端点发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9091/apisix/prometheus/metrics"</span></span></code></pre>
+<p>你应该看到类似以下的输出：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># HELP apisix_upstream_status 上游健康检查的状态</span></span>
+<span class="line"><span># TYPE apisix_upstream_status gauge</span></span>
+<span class="line"><span>apisix_upstream_status{name="/apisix/routes/1",ip="54.237.103.220",port="80"} 1</span></span>
+<span class="line"><span>apisix_upstream_status{name="/apisix/routes/1",ip="127.0.0.1",port="20001"} 0</span></span></code></pre>
+<p>这显示上游节点 <code>httpbin.org:80</code> 是健康的，而上游节点 <code>127.0.0.1:20001</code> 是不健康的。</p>
+<h3 id="为指标添加额外标签">为指标添加额外标签</h3>
+<p>以下示例演示如何为指标添加额外标签，并在标签值中使用 <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html">Nginx 变量</a>。</p>
+<p>目前，仅以下指标支持额外标签：</p>
+<ul>
+<li>apisix_http_status</li>
+<li>apisix_http_latency</li>
+<li>apisix_bandwidth</li>
+</ul>
+<p>在配置文件中包含以下配置以为指标添加标签，并重新加载 APISIX 以使更改生效：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:                                </span><span style="color:#8B949E"># 插件：prometheus</span></span>
+<span class="line"><span style="color:#7EE787">    metrics</span><span style="color:#E6EDF3">:                                 </span><span style="color:#8B949E"># 根据 NGINX 变量创建额外标签。</span></span>
+<span class="line"><span style="color:#7EE787">      http_status</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        extra_labels</span><span style="color:#E6EDF3">:                        </span><span style="color:#8B949E"># 设置 `http_status` 指标的额外标签。</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#7EE787">upstream_addr</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">$upstream_addr</span><span style="color:#8B949E">    # 添加一个额外的 `upstream_addr` 标签，其值为 NGINX 变量 $upstream_addr。</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#7EE787">route_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">$route_name</span><span style="color:#8B949E">          # 添加一个额外的 `route_name` 标签，其值为 APISIX 变量 $route_name。</span></span></code></pre>
+<p>请注意，如果你在标签值中定义了一个变量，但它与任何现有的 <a href="https://apisix.apache.org/zh/docs/apisix/apisix-variable/">APISIX 变量</a> 和 <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html">Nginx 变量</a> 不对应，则标签值将默认为空字符串。</p>
+<p>使用 <code>prometheus</code> 插件创建一个路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "prometheus-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "name": "extra-label",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "prometheus": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向路由发送请求以进行验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span></span></code></pre>
+<p>你应该看到 <code>HTTP/1.1 200 OK</code> 的响应。</p>
+<p>向 APISIX Prometheus 指标端点发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9091/apisix/prometheus/metrics"</span></span></code></pre>
+<p>你应该看到类似以下的输出：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># HELP apisix_http_status APISIX 中每个服务的 HTTP 状态代码</span></span>
+<span class="line"><span># TYPE apisix_http_status counter</span></span>
+<span class="line"><span>apisix_http_status{code="200",route="1",matched_uri="/get",matched_host="",service="",consumer="",node="54.237.103.220",upstream_addr="54.237.103.220:80",route_name="extra-label"} 1</span></span></code></pre>
+<h3 id="通过禁用标签降低指标基数">通过禁用标签降低指标基数</h3>
+<p>以下示例演示如何通过<a href="/zh/docs/apisix/terminology/plugin-metadata/">插件元数据（Plugin Metadata）</a>将选定内置标签的值折叠为空字符串 <code>""</code>，从而降低指标基数。这在 Kubernetes 弹性伸缩等动态环境中尤其有用：此时上游节点 IP（<code>node</code> 标签）频繁变化，否则会很快撑爆 <code>prometheus-metrics</code> 共享字典。</p>
+<p>将标签值折叠后，标签仍保留在指标 schema 中，因此现有的仪表盘、<code>absent()</code> 告警和 recording rule 都不受影响。定义指标本身含义的结构性标签（<code>http_status</code> 的 <code>code</code>、<code>http_latency</code>、<code>bandwidth</code> 与 <code>llm_latency</code> 的 <code>type</code>）不可被禁用。</p>
+<p>创建一个启用 <code>prometheus</code> 插件的路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "prometheus-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "prometheus": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>配置插件元数据，将 <code>apisix_http_status</code> 的 <code>node</code> 和 <code>consumer</code> 标签、以及 <code>apisix_http_latency</code> 的 <code>node</code> 标签的值折叠：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/plugin_metadata/prometheus"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "disabled_labels": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "http_status": ["node", "consumer"],</span></span>
+<span class="line"><span style="color:#A5D6FF">      "http_latency": ["node"]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向路由发送请求以进行验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span></span></code></pre>
+<p>你应该看到 <code>HTTP/1.1 200 OK</code> 的响应。</p>
+<p>向 APISIX Prometheus 指标端点发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9091/apisix/prometheus/metrics"</span></span></code></pre>
+<p>你应该看到 <code>apisix_http_status</code> 中的 <code>node</code> 和 <code>consumer</code> 被折叠为空字符串，而未列出的指标（如 <code>apisix_bandwidth</code>）仍保留其所有标签值：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># HELP apisix_http_status APISIX 中每个服务的 HTTP 状态代码</span></span>
+<span class="line"><span># TYPE apisix_http_status counter</span></span>
+<span class="line"><span>apisix_http_status{code="200",route="prometheus-route",matched_uri="/get",matched_host="",service="",consumer="",node="",request_type="traditional_http",request_llm_model="",llm_model="",response_source="upstream"} 1</span></span></code></pre>
+<h3 id="使用-prometheus-监控-tcpudp-流量">使用 Prometheus 监控 TCP/UDP 流量</h3>
+<p>以下示例演示如何在 APISIX 中收集 TCP/UDP 流量指标。</p>
+<p>在 <code>config.yaml</code> 中包含以下配置以启用 Stream proxy 和 <code>prometheus</code> 插件。重新加载 APISIX 以使更改生效：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  proxy_mode</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http&#x26;stream</span><span style="color:#8B949E">   # 启用 L4 和 L7 代理</span></span>
+<span class="line"><span style="color:#7EE787">  stream_proxy</span><span style="color:#E6EDF3">:             </span><span style="color:#8B949E"># 配置 L4 代理</span></span>
+<span class="line"><span style="color:#7EE787">    tcp</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#79C0FF">9100</span><span style="color:#8B949E">                # 设置 TCP 代理监听端口</span></span>
+<span class="line"><span style="color:#7EE787">    udp</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#79C0FF">9200</span><span style="color:#8B949E">                # 设置 UDP 代理监听端口</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">stream_plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">prometheus</span><span style="color:#8B949E">              # 为 stream proxy 启用 prometheus</span></span></code></pre>
+<p>使用 <code>prometheus</code> 插件创建一个 Stream Route：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/stream_routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "prometheus-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "prometheus": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向该 Stream Route 发送请求以进行验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9100"</span></span></code></pre>
+<p>你应该看到 <code>HTTP/1.1 200 OK</code> 的响应。</p>
+<p>向 APISIX Prometheus 指标端点发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9091/apisix/prometheus/metrics"</span></span></code></pre>
+<p>你应该看到类似以下的输出：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># HELP apisix_stream_connection_total APISIX 中每个 Stream Route 处理的总连接数</span></span>
+<span class="line"><span># TYPE apisix_stream_connection_total counter</span></span>
+<span class="line"><span>apisix_stream_connection_total{route="1"} 1</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/zh/latest/plugins/prometheus.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

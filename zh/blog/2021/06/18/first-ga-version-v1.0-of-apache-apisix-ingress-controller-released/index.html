@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！ | Apache APISIX</title><meta name="description" content="Apache APISIX Ingress Controller 正式发布，支持 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 K8s 原生 Ingress 资源等控制外部流量访问部署在 K8s 中的服务。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！ | Apache APISIX"><meta property="og:description" content="Apache APISIX Ingress Controller 正式发布，支持 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 K8s 原生 Ingress 资源等控制外部流量访问部署在 K8s 中的服务。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！","description":"Apache APISIX Ingress Controller 正式发布，支持 ApisixRoute 和  ApisixUpstream 等自定义资源，以及 K8s 原生 Ingress 资源等控制外部流量访问部署在 K8s 中的服务。","datePublished":"2021-06-18","author":{"@type":"Person","name":"张晋涛"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX Ingress Controller 首个 GA 版本 v1.0 正式发布！</h1> <p class="article-meta"> 2021-06-18 · 张晋涛  </p> <blockquote>
+<p>Apache APISIX Ingress Controller v1.0 正式发布，可支持使用包括 <code>ApisixRoute</code>、<code>ApisixUpstream</code> 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="关于-apache-apisix-ingress-controller">关于 Apache APISIX Ingress Controller</h2>
+<p>Apache APISIX Ingress Controller 是一个使用 Apache APISIX 作为数据面承载流量的云原生 Ingress Controller 实现，采用 CRD 的方式对 Kubernetes 进行了扩展。</p>
+<!--truncate-->
+<p>可支持使用包括 ApisixRoute、ApisixUpstream 等自定义资源，以及 Kubernetes 原生 Ingress 资源等控制外部流量访问部署在 Kubernetes 中的服务。</p>
+<p>整体架构如下：</p>
+<p><img src="https://static.apiseven.com/202108/1639464578081-06d7c64a-b597-444f-a59f-0217676e1ffc.png" alt="Apache APISIX Ingress Controller 架构图"></p>
+<h2 id="v10-最新特性">v1.0 最新特性</h2>
+<h3 id="增加-apisixconsumer-自定义资源使配置认证更方便">增加 ApisixConsumer 自定义资源使配置认证更方便</h3>
+<p>在之前的版本中，如果想要配置 keyAuth 或者 basicAuth 需要手动去调用 Apache APISIX 的 admin api 创建 consumer 配置。</p>
+<p>在 v1.0 版本中，我们增加了 <code>ApisixConsumer</code> 资源，用户可以使用更原生的方式来定义 consumer 资源及为 ApisixRoute 配置认证。</p>
+<p>例如通过以下配置定义一个 keyAuth 资源：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">keyauth</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    keyAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">API</span></span></code></pre>
+<p>在 ApisixRoute 中只需要增加对应类型的 <code>authentication</code> 配置即可。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">   ...</span></span>
+<span class="line"><span style="color:#7EE787">   authentication</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">     enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">     type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">keyAuth</span></span></code></pre>
+<h3 id="为-apisixtls-增加-mtls-支持">为 ApisixTls 增加 mTLS 支持</h3>
+<p>在 v1.0 版本中我们也为 ApisixTls 自定义资源增加了 mTLS 的支持，只需要在 ApisixTls 资源的配置中增加 client 配置即可，例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixTls</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">sample-tls</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span>
+<span class="line"><span style="color:#7EE787">  client</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    caSecret</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">client-ca-secret</span></span>
+<span class="line"><span style="color:#7EE787">      namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span></code></pre>
+<h3 id="为原生-ingress-资源增加了更多-annotation-来丰富其功能">为原生 Ingress 资源增加了更多 annotation 来丰富其功能</h3>
+<ul>
+<li><code>k8s.apisix.apache.org/blocklist-source-range</code> 可对来源 IP 进行限制；</li>
+<li><code>k8s.apisix.apache.org/rewrite-target</code> 和 <code>k8s.apisix.apache.org/rewrite-target-regex</code> 可进行 target 的 rewrite 操作；</li>
+<li><code>k8s.apisix.apache.org/http-to-https</code> 可进行 HTTP 到 HTTPS 的强制重定向；</li>
+</ul>
+<p>更多特性变更请参考项目 <a href="https://github.com/apache/apisix-ingress-controller/blob/master/CHANGELOG.md">CHANGELOG</a> 。</p>
+<h2 id="为什么使用-apisix-ingress-controller">为什么使用 APISIX Ingress Controller</h2>
+<p>Apache APISIX Ingress Controller 使用 Apache APISIX 作为其数据面承载业务流量，所以其从 Apache APISIX 继承了如下优势：</p>
+<ul>
+<li><strong>高性能 &#x26; 稳定性</strong>：Apache APISIX 是一款云原生高性能动态 API 网关，已在众多企业大规模流量场景下使用，其性能及稳定性久经考验。</li>
+<li><strong>生态丰富</strong>：Apache APISIX 是当前最活跃的开源网关项目，作为 Apache 顶级项目，无论是社区活跃度还是其插件生态都非常丰富，可满足用户的多种使用场景和需求；</li>
+</ul>
+<p>此外，由于 APISIX Ingress Controller 还具备如下独有的优势：</p>
+<ul>
+<li><strong>兼容性好</strong>：支持多个 Ingress 资源版本，在不同的 Kubernetes 版本中均可正常工作；</li>
+<li><strong>动态更新</strong>：无论是 Ingress 资源或是证书等配置的更新，均已实现热加载，无需 reload，保障业务平稳运行；</li>
+<li><strong>扩容灵活</strong>：由于 APISIX Ingress Controller 采用控制面和数据面分离的架构，所以在扩容时，可以单独扩容 Apache APISIX 这个数据面集群，而无须对 Apache APISIX Ingress Controller 进行扩容；</li>
+<li><strong>运维友好</strong>：在当前架构下，用户可按实际情况选择将数据面 Apache APISIX 集群部署在 Kubernetes 集群中，或是部署在物理机环境。且 Apache APISIX Ingress Controller 故障不会对业务流量造成任何影响。</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

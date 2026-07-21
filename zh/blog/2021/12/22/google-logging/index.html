@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API 网关现已支持对接 Google Cloud Logging | Apache APISIX</title><meta name="description" content="本文介绍了如何通过 API 网关 Apache APISIX 的 google-cloud-logging 插件与 Google Cloud Logging 服务对接，并将 Apache APISIX 的日志上传到 Google 云中。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/12/22/google-logging/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/22/google-logging/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/22/google-logging/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/22/google-logging/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="API 网关现已支持对接 Google Cloud Logging | Apache APISIX"><meta property="og:description" content="本文介绍了如何通过 API 网关 Apache APISIX 的 google-cloud-logging 插件与 Google Cloud Logging 服务对接，并将 Apache APISIX 的日志上传到 Google 云中。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/12/22/google-logging/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/Google-cloud.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API 网关现已支持对接 Google Cloud Logging","description":"本文介绍了如何通过 API 网关 Apache APISIX 的 google-cloud-logging 插件与 Google Cloud Logging 服务对接，并将 Apache APISIX 的日志上传到 Google 云中。","datePublished":"2021-12-22","image":"https://static.apiseven.com/2022/blog/0818/plugins/Google-cloud.png","author":{"@type":"Person","name":"帅进超"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/12/22/google-logging/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/12/22/google-logging/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/12/22/google-logging/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>API 网关现已支持对接 Google Cloud Logging</h1> <p class="article-meta"> 2021-12-22 · 帅进超  </p> <blockquote>
+<p>本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1640155567091-2611f8b8-8181-42d8-8756-e892b3768a8d.png" alt="Apache APISIX-Google Cloud logging cover"></p>
+<p>日志是大型分布式系统的重要基础设施，可以帮助开发者检查观测服务运行的状态，提高服务故障排查和诊断效率以及进行多维度的分析，以此提高系统整体的稳定性和运行效率。</p>
+<p>Google Cloud Logging 是由 Google Cloud 提供的全代管式实时日志管理服务，提供 EB 级的存储、搜索、分析和提醒等服务。通过 Google Cloud Loging 的日志浏览器你可以简单高效的对日志进行对日志进行搜索、排序和分析，并且 Google Cloud Logging 还提供了保存查询和丰富的图表功能可以使日志筛查结果可回溯且有更直观的呈现。</p>
+<p>Apache APISIX 在此之前已经支持集成了 <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/http-logger.md">HTTP Logger</a> 、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/tcp-logger.md">TCP Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/kafka-logger.md">Kafka Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/udp-logger.md">UDP Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/rocketmq-logger.md">RocketMQ Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/skywalking-logger.md">SkyWalking Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/sls-logger.md">Aliyun Cloud Logging（SLS）</a>等众多开源及云日志服务解决方案。</p>
+<p>最近，Apache APISIX 对 Google Cloud Logging 也完成了支持，在使用 Apache APISIX 作为网关时用户又多了一种新的日志解决方案：使用 google-cloud-logging 插件，将 Apache APISIX 的请求日志转发到 Google Cloud Logging 服务中进行分析和存储。</p>
+<p>启用该插件后， Apache APISIX 将在 Log Phase 获取请求上下文信息并序列化为 Google Cloud Logging 的日志格式，然后将序列化后的日志数据提交到批处理队列中，当批处理队列触发用户设置的时间或条目阈值时会将日志数据通过 Google Cloud API 批量转发到 Google Cloud Logging 服务中。</p>
+<p>本文将为大家介绍如何在 Apache APISIX 中配置和使用 Google Cloud Logging 服务。</p>
+<h2 id="配置-google-cloud">配置 Google Cloud</h2>
+<ol>
+<li>打开浏览器，访问 Google Cloud 首页。</li>
+<li>输入用户名和密码，登录 Google Cloud 控制台。</li>
+<li>单击 Google Cloud 控制台左侧菜单，选择 “IAM &#x26; Admin > Create a Project”，开始创建项目。
+<img src="https://static.apiseven.com/202108/1640137078950-3a0b472b-df9f-4f75-9c03-816138860f74.png" alt="创建项目"></li>
+<li>输入项目名称，选择组织名称，单击 “CREATE” 创建项目。
+<img src="https://static.apiseven.com/202108/1640137136967-effec599-2263-45e7-874d-53a547b83aae.png" alt="创建项目-2"></li>
+<li>创建项目成功后，控制台右上角提示创建成功。
+<img src="https://static.apiseven.com/202108/1640137177601-6ac703ef-99e4-4ac2-82e3-5b978348f458.png" alt="成功创建项目"></li>
+<li>在窗口中点击选择项目，或在控制台首页顶部导航栏选择项目操作路径。选择项目后，将跳转至控制台首页，此时在顶部导航栏和信息中心的项目信息中已经可以看到当前项目的相关数据。
+<img src="https://static.apiseven.com/202108/1640137215687-4a2a4789-09d3-4cc0-85fa-be67762cf9b7.png" alt="查看项目"></li>
+<li>完成项目创建后，你需要为该项目创建服务账号。请返回 Google Cloud 控制台首页，单击左侧菜单“IAM &#x26; Admin > Service Account”，开始创建服务账号。
+<img src="https://static.apiseven.com/202108/1640137733012-6c9808c8-9c96-401e-a680-03a276b964c0.png" alt="开始创建服务账号"></li>
+<li>单击“CREATE SERVICE ACCOUNT”创建服务账号。
+<img src="https://static.apiseven.com/202108/1640137784375-e47cbe0e-7735-4e7b-a881-1a9ec1c12ffc.png" alt="创建服务账号"></li>
+<li>输入服务账号名称及 ID（ID 一般跟随账号生成），然后单击 “CREATE AND CONTINUE”。
+<img src="https://static.apiseven.com/202108/1640137834702-76166e6f-ed98-4a85-a759-2ce78f795794.png" alt="创建服务账号-2"></li>
+<li>单击“Role”，在搜索框中输入“Logging Admin”搜索这个角色，选择“Logging Admin”作为角色。
+<img src="https://static.apiseven.com/202108/1640137883981-0f780040-8398-4d38-9600-a5e54b29b48e.png" alt="创建服务账号-3"></li>
+<li>单击“DONE”，完成服务账号创建，跳转到服务账号首页。此时你可以在列表中看到刚刚创建的账号及详情。
+<img src="https://static.apiseven.com/202108/1640137970837-ed1994be-87d0-48b8-bec5-010200fe1f1d.png" alt="查看账号及详情"></li>
+<li>在服务账号最后一列的操作栏单击“Manage keys”，进入秘钥管理界面。
+<img src="https://static.apiseven.com/202108/1640138660649-cd57da29-5965-4251-9deb-300de830dfd9.png" alt="进入秘钥管理界面"></li>
+<li>单击“ADD KEY > Create new key”，开始创建新秘钥。
+<img src="https://static.apiseven.com/202108/1640138732589-1aea201b-de2d-455a-8c04-c3f5a28dfa91.png" alt="创建新秘钥"></li>
+<li>在弹窗页中选择秘钥类型为“JSON”，然后单击“CREATE”，创建新秘钥。
+<img src="https://static.apiseven.com/202108/1640138785425-23ee8efe-bc0d-428a-a627-2f428440da37.png" alt="创建新秘钥-2"></li>
+<li>私钥信息将通过浏览器自动下载到系统默认 Downloads 目录中，启用 google-cloud-logging 插件时，需要使用这个私钥中的信息，因此请妥善保存私钥文件。
+<img src="https://static.apiseven.com/202108/1640138820163-aa459874-e78e-4156-ab74-58fc7e2ae13f.png" alt="下载私钥文件"></li>
+</ol>
+<h2 id="配置-apache-apisix">配置 Apache APISIX</h2>
+<h3 id="启用-google-cloud-logging-插件">启用 google-cloud-logging 插件</h3>
+<h4 id="方式一上传私钥文件配置">方式一：上传私钥文件配置</h4>
+<ol>
+<li>将私钥文件上传到 Apache APISIX 节点服务器中。</li>
+<li>将文件路径配置到 <code>google-cloud-logging. auth_file</code> 配置项上，如下所示：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/logging.do",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "google-cloud-logging":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            // Google Cloud Logging 私钥文件</span></span>
+<span class="line"><span style="color:#A5D6FF">            "auth_file":"/path/to/apache-apisix-fcafc68c2f41.json",</span></span>
+<span class="line"><span style="color:#A5D6FF">            // 每个批处理队列最大容纳日志条目数</span></span>
+<span class="line"><span style="color:#A5D6FF">            "batch_max_size": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">            // 刷新批处理队列缓冲区的最大时间（以秒为单位）</span></span>
+<span class="line"><span style="color:#A5D6FF">            "inactive_timeout": 10</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h4 id="通过-json-文本配置">通过 JSON 文本配置</h4>
+<ol>
+<li>打开私钥文件。</li>
+<li>将 <code>project_id</code> 的值配置到 <code>google-cloud-logging. auth_config.project_id</code> 配置项中。</li>
+<li>将 <code>private_key</code> 的值配置到 <code>google-cloud-logging. auth_config. private_key</code> 配置项中。</li>
+</ol>
+<p>如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/logging.do",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "google-cloud-logging":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            // Google Cloud Logging 私钥文件</span></span>
+<span class="line"><span style="color:#A5D6FF">            "auth_config":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                "project_id":"apache-apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "private_key":"-----BEGIN RSA PRIVATE KEY-----your private key-----END RSA PRIVATE KEY-----"</span></span>
+<span class="line"><span style="color:#A5D6FF">            },</span></span>
+<span class="line"><span style="color:#A5D6FF">            // 每个批处理队列最大容纳日志条目数</span></span>
+<span class="line"><span style="color:#A5D6FF">            "batch_max_size": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">            // 刷新批处理队列缓冲区的最大时间（以秒为单位）</span></span>
+<span class="line"><span style="color:#A5D6FF">            "inactive_timeout": 10</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h4 id="参数说明">参数说明</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">参数名称</th><th align="left">是否必填</th><th align="left">默认值</th><th align="left">描述</th></tr></thead><tbody><tr><td align="left">auth_config</td><td align="left">否</td><td align="left">n/a</td><td align="left">Google Cloud Logging 私钥文件，必须配置 auth_config 或 auth_file 之一</td></tr><tr><td align="left">auth_config.private_key</td><td align="left">是</td><td align="left">n/a</td><td align="left">Google Cloud Logging 的私钥参数</td></tr><tr><td align="left">auth_config.project_id</td><td align="left">是</td><td align="left">n/a</td><td align="left">谷歌服务帐号的项目 ID</td></tr><tr><td align="left">auth_config.token_uri</td><td align="left">否</td><td align="left">oauth2.googleapis.com/token</td><td align="left">请求 Google Service Account 的令牌的 URI</td></tr><tr><td align="left">auth_config.entries_uri</td><td align="left">否</td><td align="left">logging.googleapis.com/v2/entries<div></div></td><td align="left">Google Cloud Logging 写入日志条目的 API</td></tr><tr><td align="left">auth_config.scopes</td><td align="left">否</td><td align="left">[“<a href="https://www.googleapis.com/auth/logging.read%22,%22https://www.googleapis.com/auth/logging.write%22,%22https://www.googleapis.com/auth/logging.admin%22,%22https://www.googleapis.com/auth/cloud-platform">https://www.googleapis.com/auth/logging.read”,“https://www.googleapis.com/auth/logging.write”,“https://www.googleapis.com/auth/logging.admin”,“https://www.googleapis.com/auth/cloud-platform</a>”]</td><td align="left">谷歌服务账号的访问范围, 参考：<a href="https://developers.google.com/identity/protocols/oauth2/scopes#logging">OAuth 2.0 Scopes for Google APIs</a></td></tr><tr><td align="left">auth_file</td><td align="left">否</td><td align="left">n/a</td><td align="left">谷歌服务账号 JSON 文件的路径（必须配置 auth_config 或 auth_file 之一）</td></tr><tr><td align="left">ssl_verify</td><td align="left">否</td><td align="left">TRUE</td><td align="left">启用 SSL 验证, 配置根据 <a href="https://github.com/openresty/lua-nginx-module#tcpsocksslhandshake">OpenResty documentation</a>选项</td></tr><tr><td align="left">resource</td><td align="left">否</td><td align="left">{“type”: “global”}</td><td align="left">谷歌监控资源，参考：<a href="https://cloud.google.com/logging/docs/reference/v2/rest/v2/MonitoredResource">MonitoredResource</a></td></tr><tr><td align="left">log_id</td><td align="left">否</td><td align="left">apisix.apache.org%2Flogs</td><td align="left">谷歌日志 ID，参考：<a href="https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry">LogEntry</a>.</td></tr><tr><td align="left">max_retry_count</td><td align="left">否</td><td align="left">0</td><td align="left">从处理管道中移除之前的最大重试次数</td></tr><tr><td align="left">retry_delay</td><td align="left">否</td><td align="left">1</td><td align="left">如果执行失败，流程执行应延迟的秒数</td></tr><tr><td align="left">buffer_duration</td><td align="left">否</td><td align="left">60</td><td align="left">必须先处理批次中最旧条目的最大期限（以秒为单位）</td></tr><tr><td align="left">inactive_timeout</td><td align="left">否</td><td align="left">10</td><td align="left">刷新缓冲区的最大时间（以秒为单位）</td></tr><tr><td align="left">batch_max_size</td><td align="left">否</td><td align="left">100</td><td align="left">每个批处理队列可容纳的最大条目数</td></tr></tbody></table>
+<h3 id="验证插件是否成功运行">验证插件是否成功运行</h3>
+<ol>
+<li>运行以下命令，向 Google Cloud Logging 发送请求。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/logging.do</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/html</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Fri,</span><span style="color:#79C0FF"> 10</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:57:52</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Hello,</span><span style="color:#A5D6FF"> Google</span><span style="color:#A5D6FF"> Cloud</span><span style="color:#A5D6FF"> Logging</span></span></code></pre>
+<ol start="2">
+<li>打开浏览器，访问 Google Cloud 首页。</li>
+<li>输入用户名和密码，登录 Google Cloud 控制台。</li>
+<li>通过日志浏览器查看发送的请求日志，返回结果如下图所示。
+<img src="https://static.apiseven.com/202108/1640139014263-fac86f87-d008-475c-aeae-289ab4ba62a8.png" alt="查看日志"></li>
+</ol>
+<h3 id="停用-google-cloud-logging-插件">停用 google-cloud-logging 插件</h3>
+<p>如使用结束，可以移除 <code>google-cloud-logging</code> 相关配置块进行停用该插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/logging.do",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文为大家描述了 Apache APISIX 和 Google Cloud Logging 对接的详细操作步骤，希望通过本文可以让大家对于在 Apache APISIX 中使用 Google Cloud Logging 有更清晰的理解，方便后续进行上手实操。</p>
+<p>Apache APISIX 不仅致力于保持自身的高性能，也一直非常重视开源生态的建设。目前 Apache APISIX 已经拥有了 10+ 个日志相关的插件，支持与业界主流的开源日志项目对接。</p>
+<p>如果你有对接其他日志的需求，不妨访问 Apache APISIX 的 <a href="https://github.com/apache/apisix/issues">GitHub</a>，通过 issue 留下你的建议；或订阅 Apache APISIX 的<a href="https://apisix.apache.org/zh/docs/general/join">邮件列表</a>，通过邮件表达你的想法。</p>
+<h2 id="相关阅读">相关阅读</h2>
+<p><a href="https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin/">强强联合！APISIX 集成 SkyWalking 打造全方位日志处理</a></p>
+<p><a href="https://apisix.apache.org/zh/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin/">Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城</a></p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

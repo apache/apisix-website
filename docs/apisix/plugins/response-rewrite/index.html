@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>response-rewrite | Apache APISIX</title><meta name="description" content="The response-rewrite Plugin offers options to rewrite responses that APISIX and its Upstream services return to clients. With the Plugin, you can modify HTTP status codes, request headers, response body, and more."><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/response-rewrite"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/response-rewrite/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/response-rewrite/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/response-rewrite/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="response-rewrite | Apache APISIX"><meta property="og:description" content="The response-rewrite Plugin offers options to rewrite responses that APISIX and its Upstream services return to clients. With the Plugin, you can modify HTTP status codes, request headers, response body, and more."><meta property="og:url" content="https://docs.api7.ai/hub/response-rewrite"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"response-rewrite","description":"The response-rewrite Plugin offers options to rewrite responses that APISIX and its Upstream services return to clients. With the Plugin, you can modify HTTP status codes, request headers, response body, and more.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/plugins/response-rewrite/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/plugins/response-rewrite/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/plugins/response-rewrite/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class="active">response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class>Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>response-rewrite</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="description">Description</h2>
+<p>The <code>response-rewrite</code> Plugin offers options to rewrite responses that APISIX and its Upstream services return to clients. With the Plugin, you can modify HTTP status codes, request headers, response body, and more.</p>
+<p>For instance, you can use this Plugin to:</p>
+<ul>
+<li>Support <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> by setting <code>Access-Control-Allow-*</code> headers.</li>
+<li>Indicate redirection by setting HTTP status codes and <code>Location</code> header.</li>
+</ul>
+<div class="admonition admonition-tip"><p class="admonition-title">TIP</p><p>You can also use the <a href="/docs/apisix/redirect/">redirect</a> Plugin to set up redirects.</p></div>
+<h2 id="attributes">Attributes</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Valid values</th><th>Description</th></tr></thead><tbody><tr><td>status_code</td><td>integer</td><td>False</td><td></td><td>[200, 598]</td><td>New HTTP status code in the response. If unset, falls back to the original status code.</td></tr><tr><td>body</td><td>string</td><td>False</td><td></td><td></td><td>New response body. The <code>Content-Length</code> header would also be reset. Should not be configured with <code>filters</code>.</td></tr><tr><td>body_base64</td><td>boolean</td><td>False</td><td>false</td><td></td><td>If true, decode the response body configured in <code>body</code> before sending to client, which is useful for image and protobuf decoding. Note that this configuration cannot be used to decode Upstream response.</td></tr><tr><td>headers</td><td>object</td><td>False</td><td></td><td></td><td>Actions to be executed in the order of <code>add</code>, <code>remove</code>, and <code>set</code>.</td></tr><tr><td>headers.add</td><td>array[string]</td><td>False</td><td></td><td></td><td>Headers to append to requests. If a header already present in the request, the header value will be appended. Header value could be set to a constant, or one or more <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html">Nginx variables</a>.</td></tr><tr><td>headers.set</td><td>object</td><td>False</td><td></td><td></td><td>Headers to set to requests. If a header already present in the request, the header value will be overwritten. Header value could be set to a constant, or one or more <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html">Nginx variables</a>.</td></tr><tr><td>headers.remove</td><td>array[string]</td><td>False</td><td></td><td></td><td>Headers to remove from requests.</td></tr><tr><td>vars</td><td>array[array]</td><td>False</td><td></td><td></td><td>An array of one or more matching conditions in the form of <a href="https://github.com/api7/lua-resty-expr#operator-list">lua-resty-expr</a> to conditionally execute the Plugin.</td></tr><tr><td>filters</td><td>array[object]</td><td>False</td><td></td><td></td><td>List of filters that modify the response body by replacing one specified string with another. Should not be configured with <code>body</code>.</td></tr><tr><td>filters.regex</td><td>string</td><td>True</td><td></td><td></td><td>RegEx pattern to match on the response body.</td></tr><tr><td>filters.scope</td><td>string</td><td>False</td><td>”once”</td><td>[“once”,“global”]</td><td>Scope of substitution. <code>once</code> substitutes the first matched instance and <code>global</code> substitutes globally.</td></tr><tr><td>filters.replace</td><td>string</td><td>True</td><td></td><td></td><td>Content to substitute with.</td></tr><tr><td>filters.options</td><td>string</td><td>False</td><td>”jo”</td><td></td><td>RegEx options to control how the match operation should be performed. See <a href="https://github.com/openresty/lua-nginx-module#ngxrematch">Lua NGINX module</a> for the available options.</td></tr></tbody></table>
+<h2 id="examples">Examples</h2>
+<p>The examples below demonstrate how you can configure <code>response-rewrite</code> on a Route in different scenarios.</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>You can fetch the <code>admin_key</code> from <code>config.yaml</code> and save to an environment variable with the following command:</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="rewrite-header-and-body">Rewrite Header and Body</h3>
+<p>The following example demonstrates how to add response body and headers, only to responses with <code>200</code> HTTP status codes.</p>
+<p>Create a Route with the <code>response-rewrite</code> Plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "response-rewrite-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/headers",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "response-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body": "{\"code\":\"ok\",\"message\":\"new json body\"}",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "set": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "X-Server-id": 3,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "X-Server-status": "on",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "X-Server-balancer-addr": "$balancer_ip:$balancer_port"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          [ "status","==",200 ]</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to verify:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/headers"</span></span></code></pre>
+<p>You should receive a <code>HTTP/1.1 200 OK</code> response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>...</span></span>
+<span class="line"><span>X-Server-id: 3</span></span>
+<span class="line"><span>X-Server-status: on</span></span>
+<span class="line"><span>X-Server-balancer-addr: 50.237.103.220:80</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{"code":"ok","message":"new json body"}</span></span></code></pre>
+<h3 id="rewrite-header-with-regex-filter">Rewrite Header With RegEx Filter</h3>
+<p>The following example demonstrates how to use RegEx filter matching to replace <code>X-Amzn-Trace-Id</code> for responses.</p>
+<p>Create a Route with the <code>response-rewrite</code> Plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "response-rewrite-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/headers",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">      "response-rewrite":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "filters":[</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "regex":"X-Amzn-Trace-Id",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "scope":"global",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "replace":"X-Amzn-Trace-Id-Replace"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to verify:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/headers"</span></span></code></pre>
+<p>You should see a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "headers": {</span></span>
+<span class="line"><span>    "Accept": "*/*",</span></span>
+<span class="line"><span>    "Host": "127.0.0.1",</span></span>
+<span class="line"><span>    "User-Agent": "curl/8.2.1",</span></span>
+<span class="line"><span>    "X-Amzn-Trace-Id-Replace": "Root=1-6500095d-1041b05e2ba9c6b37232dbc7",</span></span>
+<span class="line"><span>    "X-Forwarded-Host": "127.0.0.1"</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="decode-body-from-base64">Decode Body from Base64</h3>
+<p>The following example demonstrates how to Decode Body from Base64 format.</p>
+<p>Create a Route with the <code>response-rewrite</code> Plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "response-rewrite-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">      "response-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body": "SGVsbG8gV29ybGQ=",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body_base64": true</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to verify:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span></span></code></pre>
+<p>You should see a response of the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Hello World</span></span></code></pre>
+<h3 id="rewrite-response-and-its-connection-with-execution-phases">Rewrite Response and Its Connection with Execution Phases</h3>
+<p>The following example demonstrates the connection between the <code>response-rewrite</code> Plugin and <a href="/docs/apisix/terminology/plugin/#plugins-execution-lifecycle">execution phases</a> by configuring the Plugin with the <code>key-auth</code> Plugin, and see how the response is still rewritten to <code>200 OK</code> in the case of an unauthenticated request.</p>
+<p>Create a Consumer <code>jack</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "jack"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Create <code>key-auth</code> credential for the Consumer:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/jack/credentials"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "cred-jack-key-auth",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "jack-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Create a Route with <code>key-auth</code> and configure <code>response-rewrite</code> to rewrite the response status code and body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">   -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">   -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "response-rewrite-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">      "response-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "status_code": 200,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body": "{\"code\": 200, \"msg\": \"success\"}"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to the Route with the valid key:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'apikey: jack-key'</span></span></code></pre>
+<p>You should receive an <code>HTTP/1.1 200 OK</code> response of the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>{"code": 200, "msg": "success"}</span></span></code></pre>
+<p>Send a request to the Route without any key:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span></span></code></pre>
+<p>You should still receive an <code>HTTP/1.1 200 OK</code> response of the same, instead of <code>HTTP/1.1 401 Unauthorized</code> from the <code>key-auth</code> Plugin. This shows that the <code>response-rewrite</code> Plugin still rewrites the response.</p>
+<p>This is because <strong>header_filter</strong> and <strong>body_filter</strong> phase logics of the <code>response-rewrite</code> Plugin will continue to run after <a href="https://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API/#ngxexit"><code>ngx.exit</code></a> in the <strong>access</strong> or <strong>rewrite</strong> phases from other plugins.</p>
+<p>The following table summarizes the impact of <code>ngx.exit</code> on execution phases.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Phase</th><th>rewrite</th><th>access</th><th>header_filter</th><th>body_filter</th></tr></thead><tbody><tr><td><strong>rewrite</strong></td><td>ngx.exit</td><td></td><td></td><td></td></tr><tr><td><strong>access</strong></td><td>×</td><td>ngx.exit</td><td></td><td></td></tr><tr><td><strong>header_filter</strong></td><td>✓</td><td>✓</td><td>ngx.exit</td><td></td></tr><tr><td><strong>body_filter</strong></td><td>✓</td><td>✓</td><td>×</td><td>ngx.exit</td></tr></tbody></table>
+<p>For example, if <code>ngx.exit</code> takes places in the <strong>rewrite</strong> phase, it will interrupt the execution of <strong>access</strong> phase but not interfere with <strong>header_filter</strong> and <strong>body_filter</strong> phases.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/plugins/response-rewrite.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

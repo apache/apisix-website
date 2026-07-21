@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Apache APISIX 2.13.0 | Apache APISIX</title><meta name="description" content="Apache APISIX 2.13.0 LTS version is released. This version not only has more stable performance, but also supports more observability and service discovery plugins."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/03/28/release-apache-apisix-2.13/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/28/release-apache-apisix-2.13/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/28/release-apache-apisix-2.13/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/28/release-apache-apisix-2.13/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Release Apache APISIX 2.13.0 | Apache APISIX"><meta property="og:description" content="Apache APISIX 2.13.0 LTS version is released. This version not only has more stable performance, but also supports more observability and service discovery plugins."><meta property="og:url" content="https://apisix.apache.org/blog/2022/03/28/release-apache-apisix-2.13/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Release Apache APISIX 2.13.0","description":"Apache APISIX 2.13.0 LTS version is released. This version not only has more stable performance, but also supports more observability and service discovery plugins.","datePublished":"2022-03-28","author":{"@type":"Person","name":"Zexuan Luo"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/03/28/release-apache-apisix-2.13/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/03/28/release-apache-apisix-2.13/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/03/28/release-apache-apisix-2.13/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Release Apache APISIX 2.13.0</h1> <p class="article-meta"> 2022-03-28 · Zexuan Luo  </p> <blockquote>
+<p>Apache APISIX community has rolled out a new LTS version, 2.13.0. This version not only delivers more stable performance, but also supports more observability and service discovery plugins, as well as a more robust multilingual development system.</p>
+</blockquote>
+<!--truncate-->
+<p>It has been more than half a year since the last LTS release of Apache APISIX, and today the Apache APISIX community is bringing a new LTS release, 2.13.0, which is not only more stable, but also supports more observability and service discovery plugins, and a more complete multilingual development system.</p>
+<p>If you’re trying to find a balance between stability and new features, Apache APISIX 2.13.0 is an ideal choice. Since 2.13.0 is a LTS version, we will release a series of patch releases based on 2.13.0.</p>
+<p><img src="https://static.apiseven.com/202108/1648452101951-d69cb087-a6b4-490f-9a7b-47e122f72240.png" alt="Apache APISIX 2.13.0 Features Preview"></p>
+<h2 id="features-preview">Features Preview</h2>
+<h3 id="new-change-api-is-no-longer-exposed-by-default">New Change: API Is No Longer Exposed by Default</h3>
+<p>In versions prior to 2.13.0, we allowed plugins to register APIs that could be called by clients. For example, the <code>jwt-auth</code> plugin would register a JWT-signed interface that could be accessed by clients to generate signatures for validation. However, this design has a  drawback - since it is the interface that is exposed and not the route, it is not possible to enforce security for it in the same way as for routes. While existing mechanisms allow users to intercept interface access by writing a corresponding plugin interceptor, there are still security risks in this approach.</p>
+<p><strong>Starting with version 2.13.0, we decide to make a major change and no longer expose the API by default</strong>. If a user needs to expose an interface, they need to bind the interface to the corresponding route via the <code>public-api</code> plugin. This approach brings two benefits.</p>
+<ol>
+<li>registered APIs will have higher visibility, currently registered APIs only take effect through display configuration, and access is user-defined.</li>
+<li>More security options are allowed, and registered APIs have the same permission controls as routes.</li>
+</ol>
+<p>Of course, there are other new changes in version 2.13.0, such as fixing unusual behaviors in previous versions. See <a href="https://github.com/apache/apisix/blob/release/2.13/CHANGELOG.md#2130">Apache APISIX 2.13.0 Changelog</a> for detailed information.</p>
+<h3 id="new-features-enhancements-in-observability">New Features: Enhancements in Observability</h3>
+<p>As an API gateway, Apache APISIX has been working to connect more services and open up more observability upstream and downstream. We’ve been puting efforts in this field with every release, and 2.13.0 is also included.</p>
+<p><strong>This time we have added a new tracing plugin: <code>opentelemetry</code>, which allows sending OpenTelemetry tracing data to the configured collector</strong>. Here is an example.</p>
+<p>The collector is set in the static configuration.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  opentelemetry</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    resource</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      service.name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">APISIX</span></span>
+<span class="line"><span style="color:#7EE787">      tenant.id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">business_id</span></span>
+<span class="line"><span style="color:#7EE787">    collector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      address</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1:4317"</span></span>
+<span class="line"><span style="color:#7EE787">    batch_span_processor</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      drop_on_queue_full</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">      max_queue_size</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6</span></span>
+<span class="line"><span style="color:#7EE787">      batch_timeout</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">      inactive_timeout</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">      max_export_batch_size</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span></code></pre>
+<p>After that, tracing can be enabled on a specific route.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72">  \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uris": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "/uid/*"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "opentelemetry": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "sampler": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "name": "always_on"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:8089": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Requests that hit this route will report OpenTelemetry data to the corresponding collector.</p>
+<p>In addition, we have added two new logging plugins that support reporting logs to ClickHouse and Loggly.</p>
+<p>ClickHouse is one of the fastest OLAP databases in the world. Apache APISIX supports sending access logs and error logs to ClickHouse, as shown in the following example.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72">  \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">      "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "clickhouse-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "user": "default",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "password": "a",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "database": "default",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "logtable": "test",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "endpoint_addr": "http://127.0.0.1:8123"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">       },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">           "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">           "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">               "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">           }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "uri": "/hello"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/plugin_metadata/error-log-logger</span><span style="color:#FF7B72">  \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "clickhouse": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "user": "default",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "password": "a",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "database": "error_log",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "logtable": "t",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "endpoint_addr": "http://127.0.0.1:8123"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Loggly is SolarWinds’ SaaS platform for log processing, and we support sending access logs via syslog or HTTP/HTTPS. Examples are as follows.</p>
+<p>Configure reporting method.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/plugin_metadata/loggly</span><span style="color:#FF7B72">  \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "protocol": "http"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Configure the routes that need to be reported.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72">  \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "loggly":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "customer_token":"xxx",</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/index.html"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="better-multilingual-development-system">Better Multilingual Development System</h3>
+<p>Apache APISIX has supported Wasm (Proxy Wasm SDK) since version 2.11, but the LTS version has not provided support for it. We add and improv this feature in 2.13.0.</p>
+<p>After six months of development with over 10,000 lines of code (including testing and documentation), APISIX now has full support for running Wasm code in all four phases of <strong>processing request headers, request bodies, response headers, and response bodies</strong>. Apache APISIX 2.13.0 is the first LTS release to support Wasm, and we consider it as a milestone.</p>
+<p>In addition to Wasm, we are also working on a traditional, RPC-based multilingual plugin system. Not long ago, we released Python Runner version 0.2.0. In a few days, we will also release Go Runner 0.3.0.</p>
+<h2 id="bugfixes">Bugfixes</h2>
+<ul>
+<li>SkyWalking and OpenTelemetry do not track authentication failures.</li>
+<li><code>log-rotate</code> cutting logs do not support completion by hours.</li>
+<li><code>deepcopy</code> does not copy <code>metatable</code>.</li>
+<li><code>request-validate</code> handling of duplicate keys in JSON.</li>
+<li><code>prometheus</code> duplicate calculation metrics.</li>
+<li><code>conf.method</code> in <code>proxy-rewrite</code> does not work when <code>conf.headers</code> is missing.</li>
+<li><code>traffic-split</code> fails to match when the first rule fails.</li>
+<li>etcd timeout triggers <code>resync_delay</code>.</li>
+<li><code>proto</code> definition conflict.</li>
+<li><code>limit-count</code> configuration remains unchanged and resets the counter.</li>
+<li>Admin API’s <code>plugin-metadata</code> count and <code>global-rule</code> count report wrong count numbers.</li>
+<li>Labels are missing when merging route and service.</li>
+</ul>
+<h2 id="more-details">More Details</h2>
+<p>In addition to the above features and components, Apache APISIX version 2.13.0 has been updated with the following features.</p>
+<ul>
+<li>grpc-transcode support for processing proto definitions with import via <code>.pb</code> files.</li>
+<li>Support for fetching upstream nodes from K8s configuration.</li>
+<li>Added <code>csrf</code> plugin to provide protection against cross-site request forgery.</li>
+<li>Add <code>mocking</code> plugin to generate test data easily.</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

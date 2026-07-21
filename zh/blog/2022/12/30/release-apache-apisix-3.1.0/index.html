@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.1.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.1.0 版本正式发布！此版本带来很多关于安全层面的功能支持，同时新增内置调试插件，旨在优化对 APISIX 的使用体验。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/12/30/release-apache-apisix-3.1.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/12/30/release-apache-apisix-3.1.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/12/30/release-apache-apisix-3.1.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/12/30/release-apache-apisix-3.1.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 3.1.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.1.0 版本正式发布！此版本带来很多关于安全层面的功能支持，同时新增内置调试插件，旨在优化对 APISIX 的使用体验。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/12/30/release-apache-apisix-3.1.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.1.0 正式发布","description":"Apache APISIX 3.1.0 版本正式发布！此版本带来很多关于安全层面的功能支持，同时新增内置调试插件，旨在优化对 APISIX 的使用体验。","datePublished":"2022-12-30","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/12/30/release-apache-apisix-3.1.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/12/30/release-apache-apisix-3.1.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/12/30/release-apache-apisix-3.1.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 3.1.0 正式发布</h1> <p class="article-meta"> 2022-12-30 · 罗泽轩  </p> <blockquote>
+<p>Apache APISIX 3.1.0 版本正式发布！此版本带来很多关于安全层面的功能支持，同时新增内置调试插件，旨在优化对 APISIX 的使用体验。</p>
+</blockquote>
+<!--truncate-->
+<p>时隔一个月，新版本又来了。这次的 APISIX 3.1.0 是 3.0 大版本以来的第一个新版本，在 3.x 的新时代里，我们一如既往地在每个版本中给大家奉上更多的新功能。</p>
+<p>此次发布的 3.1.0 版本，添加了对插件配置的加密存储和存储在外部安全服务的支持，着重于让用户能够更安全、更放心地使用他们的配置。在这之外，我们还引入了许多新的特性，旨在优化对 APISIX 的使用体验。</p>
+<h2 id="新特性插件配置的加密存储">新特性：插件配置的加密存储</h2>
+<p>新版本支持将插件的特定字段加密保存到 etcd 中。</p>
+<p>在之前的版本中，APISIX 提供了一个 <code>key_encrypt_salt</code> 的配置项，支持对 etcd 里面存储的 SSL key 进行加密，避免明文存储私钥数据。毕竟像私钥这样的敏感数据，少一个地方存储明文，就能多一份安心。那么对于其他同样敏感的配置，比如 <code>jwt-auth</code> 插件中的 secret，我们能不能也加密起来，避免在 etcd 里面存储明文呢？</p>
+<p>3.1 版本中就把加密存储的功能拓展到其他字段上。有了这个功能，我们可以在某个特定的插件上指定需要加密的字段，然后在 <code>config.yaml</code> 文件中开启加密，即可避免明文存储。</p>
+<p>举个例子，我们给 <code>jwt-auth</code> 插件新增了如下的标记：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">     encrypt_fields </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"secret"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"private_key"</span><span style="color:#E6EDF3">},</span></span></code></pre>
+<p>当我们在 <code>config.yaml</code> 里开启了字段的加密功能：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    data_encryption</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">        keyring</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">            - </span><span style="color:#A5D6FF">edd1c9f0985e76a2</span></span></code></pre>
+<p>那么写入到 etcd 的 <code>jwt-auth</code> 插件的配置中的 secret 和 private_key，就会被加密存储。通过 <code>etcdctl get --prefix /</code> 看到的配置，会是诸如 ““secret”:“77+NmbYqNfN+oL…”” 这样的数据，而不是原始的配置信息。</p>
+<h2 id="新特性将敏感信息存储在外部安全服务">新特性：将敏感信息存储在外部安全服务</h2>
+<p>除了可以将敏感信息加密存储在 etcd 之外，还可以选择从别的系统中动态获取敏感信息，而不再要求敏感信息必须存储在 APISIX 的配置存储（如 etcd）中。</p>
+<p>在 3.1 版本中，我们上线了名为 APISIX Secret 的功能。APISIX Secret 允许用户在 APISIX 中通过一些密钥管理服务（Vault 等）来存储 secret，在使用的时候根据 key 进行读取，确保 secret 在整个平台中不以明文的形式存在。</p>
+<p>APISIX 目前支持通过以下方式存储 secret：</p>
+<ul>
+<li>环境变量</li>
+<li>HashiCorp Vault</li>
+</ul>
+<h3 id="相关示例">相关示例</h3>
+<p>以 <code>key-auth</code> 插件为例，我们来示范下如何使用特性。</p>
+<h4 id="基于环境变量的敏感信息存储">基于环境变量的敏感信息存储</h4>
+<p>第一步：APISIX 实例启动前创建环境变量</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> JACK_AUTH_KEY</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">abc</span></span></code></pre>
+<p>第二步：在 <code>key-auth</code> 插件中引用环境变量</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/consumers</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "jack",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "key": "$ENV://JACK_AUTH_KEY"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>通过以上步骤，可以将 <code>key-auth</code> 插件中的 key 配置保存在环境变量中，而不是在配置插件时明文显示。</p>
+<h4 id="基于-vault-的敏感信息存储">基于 Vault 的敏感信息存储</h4>
+<p>第一步：在 Vault 中创建对应的配置，可以使用如下命令：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">vault</span><span style="color:#A5D6FF"> kv</span><span style="color:#A5D6FF"> put</span><span style="color:#A5D6FF"> apisix/jack</span><span style="color:#A5D6FF"> auth-key=value</span></span></code></pre>
+<p>第二步：通过 Admin API 添加 Secret 资源，配置 Vault 的地址等连接信息：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/secrets/vault/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "https://127.0.0.1:8200"，</span></span>
+<span class="line"><span style="color:#A5D6FF">    "prefix": "apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "token": "root"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>第三步：在 <code>key-auth</code> 插件中引用 APISIX Secret 资源，填充配置在 Vault 中的位置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/consumers</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "jack",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "key": "$secret://vault/1/jack/auth-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>通过以上步骤，可以将 <code>key-auth</code> 插件中的 key 配置保存在 Vault 中，而不是在配置插件时明文显示。</p>
+<h2 id="新特性实验性基于-grpc-的-etcd-配置同步">新特性：实验性基于 gRPC 的 etcd 配置同步</h2>
+<p>在本次新版本中，我们还引入了实验性的基于 gRPC 的 etcd 配置同步。当前 APISIX 同步 etcd 的配置，是基于 HTTP long pulling，这就要求 etcd 开启 gRPC-gateway （所幸的是默认就是开启的）。</p>
+<p>在实践过程中，我们遇到了 etcd 的 HTTP API 出现问题，也许是因为通过 HTTP 同步配置并非 etcd 的主流使用方式，所以会更容易遇到 bug。通过把 etcd 配置同步由 HTTP long pulling 切换到 gRPC 上面来，APISIX 实现了同步方式与主流接轨。</p>
+<p>另外由于 gRPC 本身提供了多路复用的支持，改用 gRPC 同步配置能大幅降低 APISIX 到 etcd 的连接数。当前 APISIX 同步每一类配置都要有独立的 HTTP 连接，切换到 gRPC 后每个进程只有一条用于配置同步的连接（如果开启了 L4 代理，那么是两条）。</p>
+<p>启用实验性的基于 gRPC 的配置同步，需要在配置文件 <code>config.yaml</code> 中设置 <code>use_grpc: true</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    use_grpc</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    timeout</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3600</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://127.0.0.1:2379"</span></span>
+<span class="line"><span style="color:#7EE787">    prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix"</span></span></code></pre>
+<h2 id="新特性基于-consul-的服务发现">新特性：基于 Consul 的服务发现</h2>
+<p>在 APISIX 之前的版本里，有热心的贡献者提供了基于 Consul KV 的服务发现实现。不过 Consul KV 跟 Consul 自身的服务发现功能有些不同。Consul 自身的服务发现支持额外的一些功能，比如对注册服务的健康检查，所以在使用上会更为广泛些。本次 3.1 版本中，另一位热心贡献者提供了基于 Consul 的服务发现，填补了这一空缺。</p>
+<p>基于 Consul 的服务发现和之前版本里基于 Consul KV 的服务发现有着相似的配置。首先，需要在 <code>config.yaml</code> 文件中启用该服务发现：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">discovery</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  consul</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    servers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://127.0.0.1:8500"</span></span></code></pre>
+<p>然后在具体的 upstream 中配置对应的 <code>service_name</code> 和 <code>discovery_type</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/upstreams/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "service_name": "service_a",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "discovery_type": "consul"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>对应的 upstream 在使用过程中，就会根据 Consul 里面配置的值去得到真正的上游节点。</p>
+<h2 id="新特性内置的调试插件">新特性：内置的调试插件</h2>
+<p>工欲善其事，必先利其器。调试是程序员日常工作的一部分。作为注重调试体验的网关，APISIX 在 3.1 版本中以插件的形式内置了一个 Lua 调试器插件，支持动态设置断点、添加回调等等。</p>
+<p>默认的配置如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">inspect</span></span>
+<span class="line"><span style="color:#79C0FF">    ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  inspect</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    delay</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">    hooks_file</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/usr/local/apisix/plugin_inspect_hooks.lua"</span></span></code></pre>
+<p>APISIX 在启动后，会定期查看配置的 hooks_file （这里是 <code>/usr/local/apisix/plugin_inspect_hooks.lua</code> 文件），如果文件里面有内容，就会根据里面的内容设置断点和回调。比如下方内容会给 <code>limit-req.lua</code> 文件的 88 行上设置一个断点，并在该断点上注册了回调函数 <code>function(info) ... end</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> dbg </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#A5D6FF"> "apisix.inspect.dbg"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">dbg.</span><span style="color:#79C0FF">set_hook</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"limit-req.lua"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">88</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.plugins.limit-req"</span><span style="color:#E6EDF3">).</span><span style="color:#79C0FF">access</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">function</span><span style="color:#E6EDF3">(info)</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">(ngx.</span><span style="color:#79C0FF">INFO</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">debug.traceback</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"foo traceback"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">3</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#79C0FF"> true</span></span>
+<span class="line"><span style="color:#FF7B72">end</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<h2 id="新功能优化以及更多小功能">新功能：优化以及更多小功能</h2>
+<p>除了上面提到的几个大的功能外，此次发布也包含许多值得述说的改动：</p>
+<ul>
+<li>优化 Prometheus 指标采集的资源占用</li>
+<li>支持在 L4 的代理中，配置域名作为上游</li>
+</ul>
+<p>如果你对新版本的完整更新细节感兴趣，请参考 3.1.0 发布的 <a href="https://github.com/apache/apisix/blob/release/3.1/docs/zh/latest/CHANGELOG.md#310">CHANGELOG</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

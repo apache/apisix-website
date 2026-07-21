@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Documentation style guide | Apache APISIX</title><meta name="description" content="Style guide for Apache APISIX documentation."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/docs/general/documentation-style-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/general/documentation-style-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/general/documentation-style-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/general/documentation-style-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Documentation style guide | Apache APISIX"><meta property="og:description" content="Style guide for Apache APISIX documentation."><meta property="og:url" content="https://apisix.apache.org/zh/docs/general/documentation-style-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Documentation style guide","description":"Style guide for Apache APISIX documentation.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/general/documentation-style-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/general/documentation-style-guide/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/general/documentation-style-guide/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/zh/docs/general/blog/" class>Contribute a blog post</a>  </li><li class> <a href="/zh/docs/general/committer-guide/" class>Project management structure</a>  </li><li class> <a href="/zh/docs/general/contributor-guide/" class>Contributing flow</a>  </li><li class> <a href="/zh/docs/general/documentation-style-guide/" class="active">Documentation style guide</a>  </li><li class> <a href="/zh/docs/general/how-to-contribute/" class>How to Contribute</a>  </li><li class> <a href="/zh/docs/general/join/" class>Join the conversation</a>  </li><li class> <a href="/zh/docs/general/release-guide/" class>Release Guide</a>  </li><li class> <a href="/zh/docs/general/security/" class>Report a security vulnerability</a>  </li><li class> <a href="/zh/docs/general/submit-issue/" class>Submitting an issue</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Documentation style guide</h1> <p>This document is a style guide for Apache APISIX documentation. This document is intended for contributors to APISIX’s documentation and should be followed to ensure consistency.</p>
+<p>To learn more about contributing, see <a href="/docs/general/contributor-guide/">Contributing flow</a>.</p>
+<h2 id="tone-content-and-audience">Tone, content and audience</h2>
+<ul>
+<li>Aim for a voice and tone that’s conversational, friendly, and respectful without being frivolous. Learn more on <a href="https://developers.google.com/style/tone">Voice and tone</a>.</li>
+<li>Write for accessibility. See <a href="https://developers.google.com/style/accessibility#general-dos-and-donts">General do’s and don’ts</a> to learn more.</li>
+<li>Identify the intended audience and write for them. Find the common ground for you and your target audience.</li>
+</ul>
+<h2 id="language">Language</h2>
+<ul>
+<li>Use second person while writing unless it isn’t appropriate.</li>
+<li>Use active voice while writing.</li>
+<li>Use standard American spellings.</li>
+<li>Always place <a href="https://developers.google.com/style/clause-order">conditional clauses before instructions</a>.</li>
+<li>Use the following spellings for project specific entities:
+<ul>
+<li>
+<p>Use Apache APISIX instead of APISIX when referencing the project in introductions and when referencing to the project community.</p>
+</li>
+<li>
+<p>Use APISIX instead when referencing to the project inside documentation.</p>
+</li>
+<li>
+<p>APISIX specific component names like Plugin and Route are always capitalized.</p>
+</li>
+<li>
+<p>Use correct acronyms when necessary. Use the expanded word in first usage and proceed to use the acronym in the rest of the references. For example:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>✅</th><th>❌</th></tr></thead><tbody><tr><td>URL</td><td>url</td></tr><tr><td>API</td><td>api</td></tr><tr><td>APISIX Dashboard</td><td>Apisix dashboard</td></tr><tr><td>gRPC</td><td>GRPC/grpc</td></tr></tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="formatting-punctuation-and-organization">Formatting, punctuation and organization</h2>
+<ul>
+<li>Use sentence case for all headings and subheadings.</li>
+<li>Use advanced markdown features and admonitions provided by Docusaurus when necessary:
+<ul>
+<li>Use <a href="https://docusaurus.io/docs/next/markdown-features/tabs">tabs</a> and <a href="https://docusaurus.io/docs/next/markdown-features/tabs#syncing-tab-choices">synced tabs</a> when you have to show multiple paths based on a user’s configuration or environment.</li>
+<li>Use <a href="https://docusaurus.io/docs/next/markdown-features/code-blocks">code blocks</a> to display code. Add the file being modified as the title of the codeblock (for example, <code>coonf/config.yaml</code>). Use line highlighting to focus the attention of the use while explaining code.</li>
+<li>Use <a href="https://docusaurus.io/docs/next/markdown-features/admonitions">admonitions</a> to highlight important information. Use them as suggested below:
+<ul>
+<li>Note: for general information you want to stand out.</li>
+<li>Tip: to give users bonus tips that build on top of the rest of the content. Can be ignored generally.</li>
+<li>Important: to give extra emphasis to general information.</li>
+<li>Warning: to highlight possibilities of loss of configuration or data.</li>
+<li>Danger: user should be very careful about what is mentioned in the block. Use only in cases of maximum severity.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Use tables to convey appropriate information easily. See <a href="/docs/apisix/FAQ#what-is-the-difference-between-plugin-metadata-and-plugin-configs-in-apache-apisix">how they are used in FAQ</a>.</li>
+<li>Use relative paths within markdown files <code>../xxx/xxx</code> instead of absolute paths.</li>
+</ul>
+<h3 id="directory-structure">Directory structure</h3>
+<p>The documents are organized as shown below. To create a new page, create a new file in the latest folder of the language you are writing the doc in.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/docs</span></span>
+<span class="line"><span>├── assets</span></span>
+<span class="line"><span>│   ├── images</span></span>
+<span class="line"><span>│   │   ├── xxxxx.png</span></span>
+<span class="line"><span>│   └── other</span></span>
+<span class="line"><span>│       └── xxxxx.xxx</span></span>
+<span class="line"><span>├── en</span></span>
+<span class="line"><span>│   └── latest</span></span>
+<span class="line"><span>│       ├── doc1.md</span></span>
+<span class="line"><span>│       └── folder</span></span>
+<span class="line"><span>│           └── doc2.md</span></span>
+<span class="line"><span>│               └── folder2</span></span>
+<span class="line"><span>│                   └── doc3.md</span></span>
+<span class="line"><span>│</span></span>
+<span class="line"><span>└── zh</span></span>
+<span class="line"><span>    └── latest</span></span>
+<span class="line"><span>        └── ...</span></span></code></pre>
+<h3 id="configuration-file">Configuration file</h3>
+<p>The configuration file is located in <code>/docs/&#x3C;locale>/latest/config.json</code> where locale represents the locale code (language). Refer to <a href="https://www.science.co.il/language/Locale-codes.php">Locale Codes</a> for more info. Note that locale is always all lowercase.</p>
+<p>You can learn more about the sidebar from the <a href="https://v2.docusaurus.io/docs/next/sidebar">Docusaurus docs</a>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="jsonc"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "version"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2.3</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "sidebar"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#8B949E">    // The left sidebar of the APISIX website</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"doc"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"doc2"</span><span style="color:#8B949E"> // id is the filename of the md file</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"category"</span><span style="color:#E6EDF3">, </span><span style="color:#8B949E">// category is a collapsed column, nestable</span></span>
+<span class="line"><span style="color:#7EE787">      "label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"folder"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "items"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"doc"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"folder/doc2"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"category"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"folder2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "items"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">            "folder2/doc3"</span></span>
+<span class="line"><span style="color:#E6EDF3">          ]</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      ]</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"link"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "label"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"CHANGELOG"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "href"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://github.com/apache/apisix/blob/master/CHANGELOG"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="images-and-embedded-content">Images and embedded content</h2>
+<ul>
+<li>Use images of good quality such that the information presented is clearly visible to the reader.</li>
+<li>The images are currently uploaded to a private CDN to ensure smaller repo size and fast loads. Please reach out to the project team to upload/change an image.</li>
+<li>Use the default APISIX admin account while taking screenshots.</li>
+<li>Provide meaningful file names and alt text for the images.</li>
+<li>Please do not use a transparent background as the base color of the image. If you use an image with a white background, please make sure that the background color of the image is white, otherwise the text will be blurred when the image is enlarged.</li>
+</ul> <div class="docs-meta"> <a href="https://github.com/apache/apisix-website/edit/master/website/docs/general/documentation-style-guide.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

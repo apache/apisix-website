@@ -1,0 +1,584 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>kafka-logger | Apache APISIX</title><meta name="description" content="kafka-logger 插件将请求和响应日志作为 JSON 对象批量推送到 Apache Kafka 集群，并支持自定义日志格式以便更好地管理数据。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/kafka-logger"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/kafka-logger/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/kafka-logger/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/kafka-logger/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="kafka-logger | Apache APISIX"><meta property="og:description" content="kafka-logger 插件将请求和响应日志作为 JSON 对象批量推送到 Apache Kafka 集群，并支持自定义日志格式以便更好地管理数据。"><meta property="og:url" content="https://docs.api7.ai/hub/kafka-logger"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"kafka-logger","description":"kafka-logger 插件将请求和响应日志作为 JSON 对象批量推送到 Apache Kafka 集群，并支持自定义日志格式以便更好地管理数据。","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/apisix/plugins/kafka-logger/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/apisix/plugins/kafka-logger/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/apisix/plugins/kafka-logger/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/apisix/getting-started/README/" class>入门指南</a>  </li><li> <a href="/zh/docs/apisix/getting-started/configure-routes/" class>配置路由</a>  </li><li> <a href="/zh/docs/apisix/getting-started/load-balancing/" class>负载均衡</a>  </li><li> <a href="/zh/docs/apisix/getting-started/key-authentication/" class>密钥验证</a>  </li><li> <a href="/zh/docs/apisix/getting-started/rate-limiting/" class>限速</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/installation-guide/" class>APISIX 安装指南</a>  </li><li class> <a href="/zh/docs/apisix/architecture-design/apisix/" class>软件架构</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/zh/docs/apisix/tutorials/expose-api/" class>发布 API</a>  </li><li> <a href="/zh/docs/apisix/tutorials/protect-api/" class>保护 API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/zh/docs/apisix/tutorials/observe-your-api/" class>监控 API</a></li><li><a href="/zh/docs/apisix/tutorials/health-check/" class>健康检查</a></li><li><a href="/zh/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/zh/docs/apisix/tutorials/manage-api-consumers/" class>管理 API 消费者</a>  </li><li> <a href="/zh/docs/apisix/tutorials/cache-api-responses/" class>API 响应缓存</a>  </li><li> <a href="/zh/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/zh/docs/apisix/tutorials/client-to-apisix-mtls/" class>配置客户端与 APISIX 之间的双向认证（mTLS）</a>  </li><li> <a href="/zh/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/zh/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/zh/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer-group/" class>Consumer Groups</a>  </li><li> <a href="/zh/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/zh/docs/apisix/terminology/global-rule/" class>Global rules</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/zh/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/zh/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/zh/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/zh/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/zh/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/zh/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/zh/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/zh/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/zh/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/zh/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/zh/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/zh/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/zh/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/zh/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/zh/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/zh/docs/apisix/plugins/gzip/" class>gzip</a></li><li><a href="/zh/docs/apisix/plugins/brotli/" class>brotli</a></li><li><a href="/zh/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/zh/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-pre-req/" class>ext-plugin-pre-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-req/" class>ext-plugin-post-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-resp/" class>ext-plugin-post-resp</a></li><li><a href="/zh/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/zh/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/zh/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/zh/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/grpc-transcode/" class>grpc-transcode</a></li><li><a href="/zh/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/zh/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/zh/docs/apisix/plugins/mocking/" class>mocking</a></li><li><a href="/zh/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/zh/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/zh/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/zh/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/zh/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/zh/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/zh/docs/apisix/plugins/authz-casdoor/" class>authz-casdoor</a></li><li><a href="/zh/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/zh/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/zh/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/zh/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/zh/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/zh/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-casbin/" class>authz-casbin</a></li><li><a href="/zh/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/zh/docs/apisix/plugins/opa/" class>opa</a></li><li><a href="/zh/docs/apisix/plugins/forward-auth/" class>forward-auth</a></li><li><a href="/zh/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/zh/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/zh/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/zh/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/zh/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/zh/docs/apisix/plugins/ua-restriction/" class>ua-restriction</a></li><li><a href="/zh/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/zh/docs/apisix/plugins/csrf/" class>csrf</a></li><li><a href="/zh/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/zh/docs/apisix/plugins/gm/" class>GM</a></li><li><a href="/zh/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/zh/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/zh/docs/apisix/plugins/limit-req/" class>limit-req</a></li><li><a href="/zh/docs/apisix/plugins/limit-conn/" class>limit-conn</a></li><li><a href="/zh/docs/apisix/plugins/limit-count/" class>limit-count</a></li><li><a href="/zh/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/zh/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/zh/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/zh/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/zh/docs/apisix/plugins/api-breaker/" class>api-breaker</a></li><li><a href="/zh/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/zh/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/zh/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/zh/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/zh/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/zh/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/zh/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/zh/docs/apisix/plugins/serverless/" class>serverless</a></li><li><a href="/zh/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/zh/docs/apisix/plugins/openwhisk/" class>openwhisk</a></li><li><a href="/zh/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/zh/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/zh/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/zh/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/zh/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/zh/docs/apisix/plugins/http-dubbo/" class>http-dubbo</a></li><li><a href="/zh/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/zh/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/zh/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/zh/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/zh/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/zh/docs/apisix/building-apisix/" class>源码安装 APISIX</a>  </li><li> <a href="/zh/docs/apisix/build-apisix-dev-environment-on-mac/" class>在 Mac 上构建开发环境</a>  </li><li> <a href="/zh/docs/apisix/support-fips-in-apisix/" class>通过 OpenSSL 3.0 使 APISIX 支持 FIPS 模式</a>  </li><li> <a href="/zh/docs/apisix/external-plugin/" class>外部插件</a>  </li><li> <a href="/zh/docs/apisix/wasm/" class>wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/zh/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/zh/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/zh/docs/apisix/plugin-develop/" class>插件开发</a>  </li><li> <a href="/zh/docs/apisix/debug-mode/" class>调试模式</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/zh/docs/apisix/FAQ/" class>常见问题</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/zh/docs/apisix/discovery/" class>集成服务发现注册中心</a></li><li><a href="/zh/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/zh/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/zh/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/zh/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/zh/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/zh/docs/apisix/discovery/control-plane-service-discovery/" class>控制面服务发现</a></li><li><a href="/zh/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/zh/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/zh/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/zh/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/zh/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/zh/docs/apisix/router-radixtree/" class>路由 RadixTree</a>  </li><li> <a href="/zh/docs/apisix/stream-proxy/" class>TCP/UDP 动态代理</a>  </li><li> <a href="/zh/docs/apisix/grpc-proxy/" class>gRPC 代理</a>  </li><li> <a href="/zh/docs/apisix/customize-nginx-configuration/" class>自定义 Nginx 配置</a>  </li><li> <a href="/zh/docs/apisix/certificate/" class>证书</a>  </li><li> <a href="/zh/docs/apisix/batch-processor/" class>批处理器</a>  </li><li> <a href="/zh/docs/apisix/benchmark/" class>压力测试</a>  </li><li> <a href="/zh/docs/apisix/install-dependencies/" class>安装依赖</a>  </li><li> <a href="/zh/docs/apisix/apisix-variable/" class>APISIX 变量</a>  </li><li> <a href="/zh/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/zh/docs/apisix/mtls/" class>TLS 双向认证</a>  </li><li> <a href="/zh/docs/apisix/debug-function/" class>调试功能</a>  </li><li> <a href="/zh/docs/apisix/profile/" class>基于环境变量进行配置文件切换</a>  </li><li> <a href="/zh/docs/apisix/ssl-protocol/" class>SSL 协议</a>  </li><li> <a href="/zh/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/zh/docs/apisix/http3/" class>HTTP3 协议</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>升级指南</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>kafka-logger</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="描述">描述</h2>
+<p><code>kafka-logger</code> 插件将请求和响应日志作为 JSON 对象批量推送到 Apache Kafka 集群，并支持自定义日志格式。</p>
+<p>接收日志数据可能需要一些时间。数据将在 <a href="/zh/docs/apisix/batch-processor/">批处理器</a> 中的计时器函数到期后自动发送。</p>
+<h2 id="属性">属性</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>是否必需</th><th>默认值</th><th>有效值</th><th>描述</th></tr></thead><tbody><tr><td>broker_list</td><td>object</td><td>否</td><td></td><td></td><td>已废弃，请改用 <code>brokers</code> 属性。原指需要推送的 Kafka 的 broker 列表。</td></tr><tr><td>brokers</td><td>array</td><td>是</td><td></td><td></td><td>需要推送的 Kafka 的 broker 列表。</td></tr><tr><td>brokers.host</td><td>string</td><td>是</td><td></td><td></td><td>Kafka broker 的节点地址，例如 <code>192.168.1.1</code>。</td></tr><tr><td>brokers.port</td><td>integer</td><td>是</td><td></td><td>[1, 65535]</td><td>Kafka broker 的节点端口。</td></tr><tr><td>brokers.sasl_config</td><td>object</td><td>否</td><td></td><td></td><td>Kafka broker 的 SASL 配置。</td></tr><tr><td>brokers.sasl_config.mechanism</td><td>string</td><td>否</td><td>”PLAIN”</td><td>[“PLAIN”, “SCRAM-SHA-256”, “SCRAM-SHA-512”]</td><td>SASL 认证机制。</td></tr><tr><td>brokers.sasl_config.user</td><td>string</td><td>是</td><td></td><td></td><td>SASL 配置中的用户名。如果配置了 <code>sasl_config</code>，则必须填写。</td></tr><tr><td>brokers.sasl_config.password</td><td>string</td><td>是</td><td></td><td></td><td>SASL 配置中的密码。如果配置了 <code>sasl_config</code>，则必须填写。</td></tr><tr><td>kafka_topic</td><td>string</td><td>是</td><td></td><td></td><td>用于推送日志的目标 topic。</td></tr><tr><td>producer_type</td><td>string</td><td>否</td><td>async</td><td>[“async”, “sync”]</td><td>生产者发送消息的模式。</td></tr><tr><td>required_acks</td><td>integer</td><td>否</td><td>1</td><td>[1, -1]</td><td>生产者在确认一个请求发送完成之前需要收到的确认信息数量，用于保证发送请求的可靠性。该属性与 Kafka 的 <code>acks</code> 属性配置相同，<code>required_acks</code> 不能为 0。详情请参考 <a href="https://kafka.apache.org/documentation/#producerconfigs_acks">Apache Kafka 文档</a>。</td></tr><tr><td>key</td><td>string</td><td>否</td><td></td><td></td><td>用于消息分区的键。</td></tr><tr><td>timeout</td><td>integer</td><td>否</td><td>3</td><td>[1,…]</td><td>发送数据的超时时间（秒）。</td></tr><tr><td>name</td><td>string</td><td>否</td><td>”kafka logger”</td><td></td><td>批处理器的唯一标识符。如果使用 Prometheus 监控 APISIX 指标，该名称将以 <code>apisix_batch_process_entries</code> 导出。</td></tr><tr><td>meta_format</td><td>enum</td><td>否</td><td>”default”</td><td>[“default”,“origin”]</td><td>收集请求信息的格式。设置为 <code>default</code> 时以 JSON 格式收集信息，设置为 <code>origin</code> 时以 HTTP 原始请求格式收集信息。详情请参考下方 <a href="#meta_format-%E7%A4%BA%E4%BE%8B">示例</a>。</td></tr><tr><td>log_format</td><td>object</td><td>否</td><td></td><td></td><td>以 JSON 键值对声明的日志格式。值支持字符串和嵌套对象（最多五层，超出部分将被截断）。字符串中可通过在前面加上 <code>$</code> 来引用 <a href="/zh/docs/apisix/apisix-variable/">APISIX 变量</a> 或 <a href="http://nginx.org/en/docs/varindex.html">NGINX 内置变量</a>。</td></tr><tr><td>include_req_body</td><td>boolean</td><td>否</td><td>false</td><td>[false, true]</td><td>设置为 <code>true</code> 时，在日志中包含请求体。<strong>注意</strong>：如果请求体过大无法完全存放在内存中，由于 NGINX 的限制，将无法记录。</td></tr><tr><td>include_req_body_expr</td><td>array</td><td>否</td><td></td><td></td><td>当 <code>include_req_body</code> 设置为 <code>true</code> 时的过滤条件。只有当此处设置的表达式计算结果为 <code>true</code> 时，才会记录请求体。详情请参考 <a href="https://github.com/api7/lua-resty-expr">lua-resty-expr</a>。</td></tr><tr><td>max_req_body_bytes</td><td>integer</td><td>否</td><td>524288</td><td>>=1</td><td>允许推送到 Kafka 的最大请求体大小（字节）。如果超过该值，请求体在推送前会被截断。</td></tr><tr><td>include_resp_body</td><td>boolean</td><td>否</td><td>false</td><td>[false, true]</td><td>设置为 <code>true</code> 时，在日志中包含响应体。</td></tr><tr><td>include_resp_body_expr</td><td>array</td><td>否</td><td></td><td></td><td>当 <code>include_resp_body</code> 设置为 <code>true</code> 时的过滤条件。只有当此处设置的表达式计算结果为 <code>true</code> 时，才会记录响应体。详情请参考 <a href="https://github.com/api7/lua-resty-expr">lua-resty-expr</a>。</td></tr><tr><td>max_resp_body_bytes</td><td>integer</td><td>否</td><td>524288</td><td>>=1</td><td>允许推送到 Kafka 的最大响应体大小（字节）。如果超过该值，响应体在推送前会被截断。</td></tr><tr><td>cluster_name</td><td>integer</td><td>否</td><td>1</td><td>[1,…]</td><td>Kafka 集群的名称，在有两个或多个 Kafka 集群时使用。仅当 <code>producer_type</code> 设置为 <code>async</code> 时有效。</td></tr><tr><td>producer_batch_num</td><td>integer</td><td>否</td><td>200</td><td>[1,…]</td><td>对应 <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> 中的 <code>batch_num</code> 参数，聚合消息批量提交，单位为消息条数。</td></tr><tr><td>producer_batch_size</td><td>integer</td><td>否</td><td>1048576</td><td>[0,…]</td><td>对应 <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> 中的 <code>batch_size</code> 参数，单位为字节。</td></tr><tr><td>producer_max_buffering</td><td>integer</td><td>否</td><td>50000</td><td>[1,…]</td><td>对应 <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> 中的 <code>max_buffering</code> 参数，表示最大缓冲区大小，单位为条。</td></tr><tr><td>producer_time_linger</td><td>integer</td><td>否</td><td>1</td><td>[1,…]</td><td>对应 <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> 中的 <code>flush_time</code> 参数，单位为秒。</td></tr><tr><td>meta_refresh_interval</td><td>integer</td><td>否</td><td>30</td><td>[1,…]</td><td>对应 <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> 中的 <code>refresh_interval</code> 参数，用于指定自动刷新 metadata 的间隔时长，单位为秒。</td></tr><tr><td>api_version</td><td>integer</td><td>否</td><td>1</td><td>[0, 1, 2]</td><td>对应 <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> 中的 <code>api_version</code> 参数，用于指定 Kafka Produce API 的版本。设置为 <code>2</code> 时 broker 才会存储消息的时间戳，否则时间戳为 <code>-1</code>（部分消费端会显示为 <code>1970-01-01</code>）。需要 Kafka 0.10 及以上版本。</td></tr></tbody></table>
+<p>该插件支持使用批处理器来聚合并批量处理条目（日志/数据），避免频繁提交数据。默认情况下，批处理器每 <code>5</code> 秒或队列中的数据达到 <code>1000</code> 条时提交数据。如需了解批处理器相关参数设置，请参考<a href="/zh/docs/apisix/batch-processor/#%E9%85%8D%E7%BD%AE">批处理器</a>配置部分。</p>
+<div class="admonition admonition-info"><p class="admonition-title">重要</p><p>数据首先写入缓冲区。当缓冲区超过 <code>batch_max_size</code> 或 <code>buffer_duration</code> 设置的值时，数据将发送到 Kafka 服务器并刷新缓冲区。</p><p>如果发送成功，则返回 <code>true</code>。如果出现错误，则返回 <code>nil</code>，并带有描述错误的字符串 <code>buffer overflow</code>。</p></div>
+<h3 id="meta_format-示例">meta_format 示例</h3>
+<ul>
+<li>
+<p><code>default</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1:1980"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "start_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1619414294760</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "client_ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "service_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "route_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "request"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "querystring"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "ab"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cd"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">90</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/hello?ab=cd"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://localhost:1984/hello?ab=cd"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"localhost"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "content-length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"6"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"close"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"abcdef"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "response"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"close"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "content-type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"text/plain; charset=utf-8"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "date"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Mon, 26 Apr 2021 05:18:14 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "server"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"APISIX/2.5"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "transfer-encoding"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"chunked"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">190</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "server"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "hostname"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"localhost"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "version"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2.5"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "latency"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+</li>
+<li>
+<p><code>origin</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="http"><code><span class="line"><span style="color:#FF7B72">GET</span><span style="color:#E6EDF3"> /hello?ab=cd </span><span style="color:#FF7B72">HTTP</span><span style="color:#E6EDF3">/</span><span style="color:#79C0FF">1.1</span></span>
+<span class="line"><span style="color:#7EE787">host</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> localhost</span></span>
+<span class="line"><span style="color:#7EE787">content-length</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> 6</span></span>
+<span class="line"><span style="color:#7EE787">connection</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> close</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">abcdef</span></span></code></pre>
+</li>
+</ul>
+<h2 id="插件元数据">插件元数据</h2>
+<p>你也可以通过配置插件元数据来设置日志格式。可用配置如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>是否必需</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>log_format</td><td>object</td><td>否</td><td></td><td>以 JSON 键值对声明的日志格式。值支持字符串和嵌套对象（最多五层，超出部分将被截断）。字符串中可通过在前面加上 <code>$</code> 来引用 <a href="/zh/docs/apisix/apisix-variable/">APISIX 变量</a> 或 <a href="http://nginx.org/en/docs/varindex.html">NGINX 内置变量</a>。</td></tr><tr><td>max_pending_entries</td><td>integer</td><td>否</td><td></td><td>批处理器开始丢弃待处理条目之前可缓冲的最大待处理条目数。</td></tr></tbody></table>
+<div class="admonition admonition-info"><p class="admonition-title">重要</p><p>插件元数据配置为全局生效。这意味着它将对所有使用 <code>kafka-logger</code> 插件的路由和服务生效。</p></div>
+<h2 id="示例">示例</h2>
+<p>以下示例展示了 <code>kafka-logger</code> 插件在不同使用场景下的配置方式。</p>
+<p>按照示例操作前，请先使用 Docker Compose 启动一个 Kafka 集群：</p>
+<div class="code-title">docker-compose.yml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  zookeeper</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">confluentinc/cp-zookeeper:7.8.0</span></span>
+<span class="line"><span style="color:#7EE787">    container_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">zookeeper</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ZOOKEEPER_CLIENT_PORT</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2181</span></span>
+<span class="line"><span style="color:#7EE787">      ZOOKEEPER_TICK_TIME</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2000</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">  kafka</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">confluentinc/cp-kafka:7.8.0</span></span>
+<span class="line"><span style="color:#7EE787">    container_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">kafka</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">zookeeper</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      KAFKA_BROKER_ID</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">      KAFKA_ZOOKEEPER_CONNECT</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">zookeeper:2181</span></span>
+<span class="line"><span style="color:#7EE787">      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT</span></span>
+<span class="line"><span style="color:#7EE787">      KAFKA_ADVERTISED_LISTENERS</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PLAINTEXT://kafka:29092,PLAINTEXT_HOST://127.0.0.1:9092</span></span>
+<span class="line"><span style="color:#7EE787">      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">      KAFKA_AUTO_CREATE_TOPICS_ENABLE</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9092:9092"</span></span></code></pre>
+<p>启动容器：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> compose</span><span style="color:#A5D6FF"> up</span><span style="color:#79C0FF"> -d</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>你可以这样从 <code>config.yaml</code> 中获取 <code>admin_key</code> 并存入环境变量：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="使用不同的元日志格式记录日志">使用不同的元日志格式记录日志</h3>
+<p>以下示例演示了如何在路由上启用 <code>kafka-logger</code> 插件记录客户端请求并将日志推送到 Kafka，同时介绍 <code>default</code> 和 <code>origin</code> 元日志格式的区别。</p>
+<p>在另一个终端中，等待配置的 Kafka topic 中的消息：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#79C0FF"> -it</span><span style="color:#A5D6FF"> kafka</span><span style="color:#A5D6FF"> kafka-console-consumer</span><span style="color:#79C0FF"> --bootstrap-server</span><span style="color:#A5D6FF"> localhost:9092</span><span style="color:#79C0FF"> --topic</span><span style="color:#A5D6FF"> test2</span><span style="color:#79C0FF"> --from-beginning</span></span></code></pre>
+<p>打开一个新终端，执行以下操作。</p>
+<p>创建一条启用 <code>kafka-logger</code> 插件的路由。将 <code>meta_format</code> 设置为 <code>default</code> 日志格式，并将 <code>batch_max_size</code> 设置为 <code>1</code> 以立即发送日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "kafka-logger-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "kafka-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "meta_format": "default",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "brokers": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "port": 9092</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ],</span></span>
+<span class="line"><span style="color:#A5D6FF">        "kafka_topic": "test2",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "key1",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "batch_max_size": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向路由发送请求以生成日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span></span></code></pre>
+<p>你应该收到一个 <code>HTTP/1.1 200 OK</code> 响应。</p>
+<p>你应该在 Kafka topic 中看到类似如下的日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "latency"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">411.00001335144</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "request"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "querystring"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1:9080"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "user-agent"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"curl/8.7.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "x-forwarded-proto"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "x-forwarded-host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "x-forwarded-port"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"9080"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">83</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/get"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1:9080/get"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "response"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "content-length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"233"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "access-control-allow-credentials"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "content-type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"application/json"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"close"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "access-control-allow-origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "date"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Fri, 10 Nov 2023 06:02:44 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "server"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"APISIX/3.16.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">475</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "route_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"kafka-logger-route"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "client_ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "server"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "hostname"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "version"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3.16.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "apisix_latency"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">18.00001335144</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "service_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream_latency"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">393</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "start_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1699596164550</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"54.90.18.68:80"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>将元日志格式更新为 <code>origin</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/kafka-logger-route"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PATCH</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "kafka-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "meta_format": "origin"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>再次向路由发送请求以生成新的日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span></span></code></pre>
+<p>你应该收到一个 <code>HTTP/1.1 200 OK</code> 响应。</p>
+<p>你应该在 Kafka topic 中看到类似如下的日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>GET /get HTTP/1.1</span></span>
+<span class="line"><span>x-forwarded-proto: http</span></span>
+<span class="line"><span>x-forwarded-host: 127.0.0.1</span></span>
+<span class="line"><span>user-agent: curl/8.7.1</span></span>
+<span class="line"><span>x-forwarded-port: 9080</span></span>
+<span class="line"><span>host: 127.0.0.1:9080</span></span>
+<span class="line"><span>accept: */*</span></span></code></pre>
+<h3 id="通过插件元数据记录请求和响应头">通过插件元数据记录请求和响应头</h3>
+<p>以下示例演示了如何使用<a href="/zh/docs/apisix/terminology/plugin-metadata/">插件元数据</a>和<a href="/zh/docs/apisix/apisix-variable/">内置变量</a>自定义日志格式，以记录请求和响应中的特定头字段。</p>
+<p>插件元数据用于配置同一插件的所有插件实例的公共元数据字段，当一个插件在多个资源上启用且需要统一更新其元数据字段时非常有用。</p>
+<p>首先，创建一条启用 <code>kafka-logger</code> 插件的路由。将 <code>meta_format</code> 设置为 <code>default</code>（使用插件元数据自定义日志格式时必须设置），并将 <code>batch_max_size</code> 设置为 <code>1</code> 以立即发送日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "kafka-logger-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "kafka-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "meta_format": "default",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "brokers": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "port": 9092</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ],</span></span>
+<span class="line"><span style="color:#A5D6FF">        "kafka_topic": "test2",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "key1",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "batch_max_size": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>如果 <code>meta_format</code> 设置为 <code>origin</code>，无论插件元数据中的日志格式配置如何，日志条目都将保持 <code>origin</code> 格式。</p></div>
+<p>接下来，为 <code>kafka-logger</code> 配置插件元数据，以记录自定义请求头 <code>env</code> 和响应头 <code>Content-Type</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/plugin_metadata/kafka-logger"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "log_format": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "host": "$host",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "@timestamp": "$time_iso8601",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "client_ip": "$remote_addr",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "env": "$http_env",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "resp_content_type": "$sent_http_Content_Type"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>向路由发送带有 <code>env</code> 头的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/get"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "env: dev"</span></span></code></pre>
+<p>你应该在 Kafka topic 中看到类似如下的日志条目：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "@timestamp"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2023-11-10T23:09:04+00:00"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "client_ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "route_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"kafka-logger-route"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "env"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"dev"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "resp_content_type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"application/json"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="按条件记录请求体">按条件记录请求体</h3>
+<p>以下示例演示了如何有条件地记录请求体。</p>
+<p>创建一条启用 <code>kafka-logger</code> 插件的路由。将 <code>include_req_body</code> 设置为 <code>true</code> 以包含请求体，并设置 <code>include_req_body_expr</code>，使其仅在 URL 查询字符串 <code>log_body</code> 等于 <code>yes</code> 时才包含请求体：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "kafka-logger-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/post",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "kafka-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "brokers": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "port": 9092</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ],</span></span>
+<span class="line"><span style="color:#A5D6FF">        "kafka_topic": "test2",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "key1",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "batch_max_size": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "include_req_body": true,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "include_req_body_expr": [["arg_log_body", "==", "yes"]]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>发送满足条件的请求（包含查询字符串）：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/post?log_body=yes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{"env": "dev"}'</span></span></code></pre>
+<p>你应该看到请求体被记录到日志中：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "..."</span><span style="color:#FFA198;font-style:italic">,</span></span>
+<span class="line"><span style="color:#7EE787">  "request"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">env</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">dev</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">179</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>发送不包含查询字符串的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/post"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{"env": "dev"}'</span></span></code></pre>
+<p>此时日志中不会包含请求体。</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>如果在将 <code>include_req_body</code> 或 <code>include_resp_body</code> 设置为 <code>true</code> 的同时自定义了 <code>log_format</code>，插件将不会在日志中包含请求体或响应体。作为变通方案，可以在日志格式中使用 NGINX 变量 <code>$request_body</code>：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "kafka-logger"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "log_format"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$request_body"</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre></div> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/zh/latest/plugins/kafka-logger.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Backend-for-Frontend: the demo | Apache APISIX</title><meta name="description" content="The Backend-For-Frontend pattern describes how to return different data for each client in a microservices architecture. This article goes through the code required to implement the different possible implementations."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/08/17/backend-for-frontend-demo/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/08/17/backend-for-frontend-demo/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/08/17/backend-for-frontend-demo/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/08/17/backend-for-frontend-demo/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Backend-for-Frontend: the demo | Apache APISIX"><meta property="og:description" content="The Backend-For-Frontend pattern describes how to return different data for each client in a microservices architecture. This article goes through the code required to implement the different possible implementations."><meta property="og:url" content="https://apisix.apache.org/blog/2022/08/17/backend-for-frontend-demo/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/11/03/63634494405e7.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Backend-for-Frontend: the demo","description":"The Backend-For-Frontend pattern describes how to return different data for each client in a microservices architecture. This article goes through the code required to implement the different possible implementations.","datePublished":"2022-08-17","image":"https://static.apiseven.com/2022/11/03/63634494405e7.png","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/08/17/backend-for-frontend-demo/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/08/17/backend-for-frontend-demo/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/08/17/backend-for-frontend-demo/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Backend-for-Frontend: the demo</h1> <p class="article-meta"> 2022-08-17 · Nicolas Fränkel  </p> <blockquote>
+<p>This article describes a demo code to implement the Backend-For-Frontend pattern.</p>
+</blockquote>
+<!--truncate-->
+<p>In <a href="https://blog.frankel.ch/backend-for-frontend/">one of my earlier posts</a>, I described the Backend-for-Frontend pattern. In short, it offers a single facade over multiple backend parts. Moreover, it provides each client type, <em>e.g.</em> desktop, mobile, exactly the data that it needs and not more in the format required by this client type.</p>
+<h2 id="the-use-case">The use-case</h2>
+<p>Imagine the following use-case. In a e-commerce shop, the home page should display multiple <em>unrelated</em> data at once.</p>
+<ul>
+<li>Products: The business could configure which items are shown on the home page. They could be generic, “hero” products, or personalized, products that the customer ordered previously.</li>
+<li>News: Again, the newsfeed could be generic or personalized.</li>
+<li>Profile-related information</li>
+<li>Cart content</li>
+<li>Non-business related information, such as build number, build timestamp, version, etc.</li>
+</ul>
+<p>Depending on the client, we want more or less data. For example, on a client with limited display size, we probably want to limit a product to its name and its image. On the other hand, on desktop, we are happy to display both the above, plus a catch phrase (or a more catchy - and longer - name) and the full description.</p>
+<p>Every client requires its specific data and for performance reasons, we want to fetch them in a single call. It sounds like a use-case for <abbr title="Backend-for-Frontend">BFF</abbr>.</p>
+<h2 id="setting-up-the-demo">Setting up the demo</h2>
+<p>In order to simplify things, I’ll keep only three sources of data: products, news and technical data. Three unrelated data sources are enough to highlight the issue.</p>
+<p>In the demo, I’m using Python and Flask, but the underlying technology is irrelevant, since BFF is an architectural pattern.</p>
+<p>The initial situation is a monolith. The monolith offers an endpoint for each data source, and a single aggregating endpoint for all of them:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D2A8FF">@app.route</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">def</span><span style="color:#D2A8FF"> home</span><span style="color:#E6EDF3">():</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">      'products'</span><span style="color:#E6EDF3">: products,       </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#A5D6FF">      'news'</span><span style="color:#E6EDF3">: news,               </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#A5D6FF">      'info'</span><span style="color:#E6EDF3">: debug               </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span></code></pre>
+<p>Somehow get the data internally, <em>e.g.</em>, from the database.</p>
+<p>At this point, everything is fine. We can provide different data depending on the client:</p>
+<ul>
+<li>If we want to put the responsibility on the client, we provide a dedicated endpoint</li>
+<li>If we want it server-side, we can read the <code>User-Agent</code> from the request (or agree on a specific <code>X-</code> HTTP header)</li>
+</ul>
+<p>As it doesn’t add anything to the demo, I won’t provide different data depending on the client in the following.</p>
+<h2 id="migrating-to-microservices">Migrating to microservices</h2>
+<p>At one point, the organization decides to migrate to a microservices architecture. The reason might be because the CTO read about microservices in a blog post, because the team lead wants to add microservices on its resume, or even because the development grew too big and the organization do need to evolve. In any case, the monolith has to be split in <em>two</em> microservices: a catalog providing products and a newsfeed providing… news.</p>
+<p>Here’s the code for each microservice:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D2A8FF">@app.route</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/info"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">def</span><span style="color:#D2A8FF"> info</span><span style="color:#E6EDF3">():</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> debug                 </span><span style="color:#8B949E">#1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D2A8FF">@app.route</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/products"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">def</span><span style="color:#D2A8FF"> get_products</span><span style="color:#E6EDF3">():</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> jsonify(products)     </span><span style="color:#8B949E">#2</span></span></code></pre>
+<ol>
+<li>Each microservice has its own <code>debug</code> endpoint</li>
+<li>The payload is not an object anymore but an array</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D2A8FF">@app.route</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/info"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">def</span><span style="color:#D2A8FF"> info</span><span style="color:#E6EDF3">():</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> debug                 </span><span style="color:#8B949E">#1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D2A8FF">@app.route</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/news"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">def</span><span style="color:#D2A8FF"> get_news</span><span style="color:#E6EDF3">():</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> jsonify(news)         </span><span style="color:#8B949E">#1</span></span></code></pre>
+<p>As shown above, now each client needs two calls, and filter out data that are not relevant.</p>
+<h2 id="dedicated-backend-for-frontend">Dedicated backend-for-frontend</h2>
+<p>Because of the issues highlighted above, a solution is to develop one application that does the aggregation and filtering. There should be one for each client type, and it should be cared for by the same team as the client. Again, for this demo, it’s enough to have a single one that only does aggregation.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D2A8FF">@app.route</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">def</span><span style="color:#D2A8FF"> home</span><span style="color:#E6EDF3">():</span></span>
+<span class="line"><span style="color:#E6EDF3">    products </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> requests.get(products_uri).json()            </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#E6EDF3">    catalog_info </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> requests.get(catalog_info_uri).json()    </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#E6EDF3">    news </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> requests.get(news_uri).json()                    </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#E6EDF3">    news_info </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> requests.get(news_info_uri).json()          </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">      'products'</span><span style="color:#E6EDF3">: products,</span></span>
+<span class="line"><span style="color:#A5D6FF">      'news'</span><span style="color:#E6EDF3">: news,</span></span>
+<span class="line"><span style="color:#A5D6FF">      'info'</span><span style="color:#E6EDF3">: {                                             </span><span style="color:#8B949E">#3</span></span>
+<span class="line"><span style="color:#A5D6FF">          'catalog'</span><span style="color:#E6EDF3">: catalog_info,</span></span>
+<span class="line"><span style="color:#A5D6FF">          'news'</span><span style="color:#E6EDF3">: news_info</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span></code></pre>
+<ol>
+<li>Get data</li>
+<li>Get debug info</li>
+<li>The returned JSON should be designed for easy consumption on the client side. To illustrate it, I chose for the debug data to be nested instead of top-level.</li>
+</ol>
+<h2 id="backend-for-frontend-at-the-api-gateway-level">Backend-for-frontend at the API Gateway level</h2>
+<p>If you’re offering APIs, whether internally or to the outside world, chances are high that you’re already using an API Gateway. If not, you should probably <a href="https://apisix.apache.org/docs/apisix/terminology/api-gateway/">deeply consider</a> starting to. In the following, I assume that you do use one.</p>
+<p>In the previous section, we developed a dedicated backend-for-frontend application. However, requests already go through the gateway. In this case, the gateway can be seen as a container where to deploy BFF plugins. I’ll be using <a href="https://apisix.apache.org/">Apache APISIX</a> to demo how to do it, but the idea can be replicated on other gateways as well.</p>
+<p>First things first, there’s no generic way to achieve the result we want. For this reason, we cannot rely on an existing plugin, but we have to design our own. APISIX documents <a href="https://apisix.apache.org/docs/apisix/plugin-develop/">how to do so</a>. Our goal is to fetch data from all endpoints as above, but via the plugin.</p>
+<p>First, we need to expose a dedicated endpoint, <em>e.g.</em>, <code>/bff/desktop</code> or <code>/bff/phone</code>. APISIX allows such <em>virtual</em> endpoints via the <a href="https://apisix.apache.org/docs/apisix/plugins/public-api/">public-api</a> plugin. Next, we need to develop our plugin, <code>bff</code>. Here’s the configuration snippet:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span><span style="color:#8B949E">                     #1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      bff</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span><span style="color:#8B949E">                   #2</span></span>
+<span class="line"><span style="color:#7EE787">      public-api</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span><span style="color:#8B949E">            #2</span></span></code></pre>
+<ol>
+<li>For demo purposes, I preferred to set it at the root instead of <code>/bff/*</code></li>
+<li>Declare the two plugins. Note that I’m using the <a href="https://apisix.apache.org/docs/apisix/deployment-modes/#standalone">stand-alone mode</a>.</li>
+</ol>
+<p>First, we need to describe the plugin and not forget to return it at the end of the file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> 'bff-plugin'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {                           </span><span style="color:#8B949E">--1</span></span>
+<span class="line"><span style="color:#E6EDF3">    version </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1.0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 100</span><span style="color:#E6EDF3">,                    </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#E6EDF3">    name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {},                       </span><span style="color:#8B949E">--3</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> _M                              </span><span style="color:#8B949E">--4</span></span></code></pre>
+<ol>
+<li>The table needs to be named <code>_M</code></li>
+<li>In this scenario, <code>priority</code> is irrelevant as no other plugins are involved (but <code>public_api</code>)</li>
+<li>No schema is necessary as there’s no configuration</li>
+<li>Don’t forget to return it!</li>
+</ol>
+<p>A plugin that has a public API needs to define an <code>api()</code> function returning an object describing matching HTTP methods, the matching URI, and the handler function.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">api</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#E6EDF3">            methods </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> { </span><span style="color:#A5D6FF">'GET' </span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">            uri </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "/"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            handler </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> fetch_all_data,</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>Now, we have to define the <code>fetch_all_data</code> function. It’s only a matter of making HTTP calls to the catalog and newsfeed microservices. Have a look at <a href="https://github.com/ajavageek/backend-for-frontend/blob/master/bff_plugin/init.lua#L24-L52">the code</a> if you’re interested in the exact details.</p>
+<p>At this point, the (single) client can query <code>http://localhost:9080/</code> and get the complete payload.</p>
+<p>In a “real life” microservices-based organization, every team should be independent of each other. With this approach, each can develop its own BFF as a plugin and deploy it independently in the gateway.</p>
+<h2 id="bonus-a-poor-mans-bff">Bonus: a poor man’s BFF</h2>
+<p>The microservices architecture creates two problems for clients:</p>
+<ol>
+<li>The need to fetch all data and filter out the unnecessary ones</li>
+<li>Multiple calls to each service</li>
+</ol>
+<p>The BFF pattern allows to fix both of them, at the cost of custom development, regardless whether it’s for a dedicated app or a gateway plugin. If you’re not willing to spend time in custom development, you can still avoid #2 by using a nifty plugin of Apache APISIX, <code>batch-requests</code>:</p>
+<blockquote>
+<p>The <code>batch-requests</code> plugin accepts multiple requests, sends them from APISIX via HTTP pipelining, and returns an aggregated response to the client.</p>
+<p>This improves the performance significantly in cases where the client needs to access multiple APIs.</p>
+<p>— <a href="https://apisix.apache.org/docs/apisix/plugins/batch-requests/">batch-requests</a></p>
+</blockquote>
+<p>In essence, the client would need to send the following payload to a previously configured endpoint:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "timeout"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">502</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "pipeline"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">            "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "path"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/products"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">            "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "path"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/news"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">            "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "path"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/catalog/info"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">            "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "path"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/news/info"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>The response will in turn look like:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"OK"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">ret</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:200,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">products</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">[ ... ]</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "Connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"keep-alive"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Date"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Sat, 11 Apr 2020 17:53:20 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"application/json"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"123"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Server"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"APISIX web server"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"OK"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">ret</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:200,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">news</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">[ ... ]</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "Connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"keep-alive"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Date"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Sat, 11 Apr 2020 17:53:20 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"application/json"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"456"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Server"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"APISIX web server"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"OK"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">ret</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:200,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">version</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">...</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "Connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"keep-alive"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Date"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Sat, 11 Apr 2020 17:53:20 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"application/json"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"78"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Server"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"APISIX web server"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"OK"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">ret</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:200,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">version</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">...</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "Connection"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"keep-alive"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Date"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Sat, 11 Apr 2020 17:53:20 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"application/json"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Content-Length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"90"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "Server"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"APISIX web server"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">]</span></span></code></pre>
+<p>It’s up to the client to filter out unnecessary data. It’s not as good as true BFF, but we still managed to make a single call out of 4.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>A microservices architecture brings a ton of technical issues to cope with. Among them is the need to dispatch only the required data to each kind of client. The BFF pattern aims to cope with this issue.</p>
+<p>In the previous <a href="https://blog.frankel.ch/backend-for-frontend/">post</a>, I described the pattern from a theoretical point of view. In this post, I used a very simple ecommerce use-case to demo how to implement BFF with and without the help of Apache APISIX.</p>
+<p>The complete source code for this post can be found on <a href="https://github.com/ajavageek/backend-for-frontend">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://samnewman.io/patterns/architectural/bff/">Pattern: Backends For Frontends</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/direct-client-to-microservice-communication-versus-the-api-gateway-pattern">The API gateway pattern versus the Direct client-to-microservice communication</a></li>
+<li><a href="https://www.manuelkruisz.com/blog/posts/api-gateway-vs-bff">API Gateway vs Backend For Frontend</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

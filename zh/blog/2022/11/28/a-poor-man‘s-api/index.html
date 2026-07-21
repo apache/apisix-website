@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>译文 | A poor man&#39;s API</title><meta name="description" content="本文将展示如何在不编写任何代码的情况下，简单实现一个 API 实践。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/11/28/a-poor-man‘s-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/11/28/a-poor-man‘s-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/11/28/a-poor-man‘s-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/11/28/a-poor-man‘s-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="译文 | A poor man's API"><meta property="og:description" content="本文将展示如何在不编写任何代码的情况下，简单实现一个 API 实践。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/11/28/a-poor-man‘s-api/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/11/28/63841cb4ad10a.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"译文 | A poor man's API","description":"本文将展示如何在不编写任何代码的情况下，简单实现一个 API 实践。","datePublished":"2022-11-28","image":"https://static.apiseven.com/2022/11/28/63841cb4ad10a.png","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/11/28/a-poor-man‘s-api/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/11/28/a-poor-man‘s-api/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/11/28/a-poor-man‘s-api/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>译文 | A poor man&#39;s API</h1> <p class="article-meta"> 2022-11-28 · Nicolas Fränkel  </p> <blockquote>
+<p>在 API 日渐流行的年代，越来越多的非技术人员也希望能从 API 的使用中获利，而创建一套成熟的 API 方案需要时间成本和金钱两方面的资源加持。在这个过程中，你需要考虑模型、设计、REST 原则等，而不仅仅是编写一行代码。如何打造一个具有高性价比且能持续迭代的产品，成为越来越多技术团队的目标。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="方案初试">方案初试</h2>
+<p>该解决方案主要使用的是 PostgreSQL 数据库，PostgreSQL 是一个开源 SQL 数据库。同时我们没有编写 REST API，而是使用了 PostgREST 组件。</p>
+<p><a href="https://postgrest.org/">PostgREST</a> 是一个独立的 Web 服务器，它可以将 PostgreSQL 数据库直接转换为 RESTful API。如果你想了解 PostgREST 的使用方法，可以参考<a href="https://postgrest.org/en/stable/tutorials/tut0.html">入门指南</a>文档，内容非常全面且开箱即用。</p>
+<p>接下来，我们将它应用到一个简单的示例中。</p>
+<h3 id="具体步骤">具体步骤</h3>
+<blockquote>
+<p>以下过程你可以在 <a href="https://github.com/ajavageek/poor-man-api">GitHub</a> 上找到完整源代码。
+下方展示了一个通过 CRUD API 公开的 product 表。</p>
+</blockquote>
+<p><img src="https://static.apiseven.com/2022/12/02/63896834f0e22.png" alt="表结构"></p>
+<p>由于我没有找到任何现成的 Docker 镜像，所以我单独创建了一份新的 Dockerfile。其中主要涉及依赖项的安装和参数化数据生成。</p>
+<p><em><strong>Dockerfile</strong></em></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#FF7B72">FROM</span><span style="color:#E6EDF3"> debian:bookworm-slim</span></span>
+<span class="line"><span style="color:#FF7B72">ARG</span><span style="color:#E6EDF3"> POSTGREST_VERSION=v10.1.1</span></span>
+<span class="line"><span style="color:#FF7B72">ARG</span><span style="color:#E6EDF3"> POSTGREST_FILE=postgrest-$POSTGREST_VERSION-linux-static-x64.tar.xz</span></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> mkdir postgrest</span></span>
+<span class="line"><span style="color:#FF7B72">WORKDIR</span><span style="color:#E6EDF3"> postgrest</span></span>
+<span class="line"><span style="color:#FF7B72">ADD</span><span style="color:#E6EDF3"> https://github.com/PostgREST/postgrest/releases/download/$POSTGREST_VERSION/$POSTGREST_FILE \</span></span>
+<span class="line"><span style="color:#E6EDF3">    .</span></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> apt-get update &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">    apt-get install -y libpq-dev xz-utils &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">    tar xvf $POSTGREST_FILE &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">    rm $POSTGREST_FILE</span></span></code></pre>
+<p>之后，Docker 镜像在  <code>/postgrest</code>  文件夹中会包含一个名为  <code>postgrest</code>  的可执行文件。这里可以通过 Docker Compose 来部署：</p>
+<p><em><strong>docker-compose.yml</strong></em></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  postgrest</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    build</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">./postgrest</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./postgrest/product.conf:/etc/product.conf:ro</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"3000:3000"</span></span>
+<span class="line"><span style="color:#7EE787">    entrypoint</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/postgrest/postgrest"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#7EE787">    command</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/etc/product.conf"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">postgres</span></span>
+<span class="line"><span style="color:#7EE787">  postgres</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">postgres:15-alpine</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      POSTGRES_PASSWORD</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"root"</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./postgres:/docker-entrypoint-initdb.d:ro</span></span></code></pre>
+<p>接下来可以执行以下命令，查询前文提到的  <code>product</code>  表：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl localhost:3000/product</span></span></code></pre>
+<p>得到如下结果反馈：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[{</span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"name"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Stickers pack"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"description"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"A pack of rad stickers to display on your laptop or wherever you feel like. Show your love for Apache APISIX"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"price"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">0.49</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"hero"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3"> {</span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"name"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Lapel pin"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"description"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"With this </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">Powered by Apache APISIX</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> lapel pin, support your favorite API Gateway and let everybody know about it."</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"price"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1.49</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"hero"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3"> {</span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">3</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"name"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Tee-Shirt"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"description"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"The classic geek product! At a conference, at home, at work, this tee-shirt will be your best friend."</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"price"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">9.99</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"hero"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">}]</span></span></code></pre>
+<h2 id="方案优化">方案优化</h2>
+<p>尽管上文提到的这套解决方案有效，但仍存在很大的改进空间。比如数据库用户不能更改数据、实际操作中每个人都可以访问相关数据等。这对于与产品相关的数据来说，可能不是一个大问题，但如果是医疗数据呢？</p>
+<p>PostgREST 的官网<a href="https://postgrest.org/en/stable/admin.html">使用文档</a>中提到了这一点，并明确提出：建议用户使用反向代理。</p>
+<p>提到反向代理，就不得不将目光转向到 API 网关行列。与 NGINX 不同，这里我选取了<strong>开源领域非常活跃的 API 网关产品 — Apache APISIX</strong>。APISIX 是一个动态、实时、高性能的 API 网关，提供了负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。</p>
+<p>首先，我们可以在 Docker Compose 文件中补充 APISIX 相关信息，包括 APISIX 及其依赖的存储 etcd，而 etcd 主要用于存储 APISIX 的路由、插件等配置信息。</p>
+<p><em><strong>docker-compose.yml</strong></em></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:2.15.0-alpine</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080"</span></span>
+<span class="line"><span style="color:#7EE787">    restart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">always</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">postgrest</span></span>
+<span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">bitnami/etcd:3.5.2</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ETCD_ENABLE_V2</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">      ALLOW_NONE_AUTHENTICATION</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"yes"</span></span>
+<span class="line"><span style="color:#7EE787">      ETCD_ADVERTISE_CLIENT_URLS</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://0.0.0.0:2397"</span></span>
+<span class="line"><span style="color:#7EE787">      ETCD_LISTEN_CLIENT_URLS</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://0.0.0.0:2397"</span></span></code></pre>
+<p>然后将 APISIX 配置为  <code>postgrest</code>  的代理进行调用。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl http://apisix:9080/apisix/admin/upstreams/1 -H </span><span style="color:#FFA657">'X-API-KEY: 123xyz'</span><span style="color:#FFA657"> -X PUT -d </span><span style="color:#FFA657">'</span></span>
+<span class="line"><span style="color:#FFA657">{</span></span>
+<span class="line"><span style="color:#FFA657">  "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#FFA657">  "nodes": {</span></span>
+<span class="line"><span style="color:#FFA657">    "postgrest:3000": 1</span></span>
+<span class="line"><span style="color:#FFA657">  }</span></span>
+<span class="line"><span style="color:#FFA657">}'</span></span>
+<span class="line"><span style="color:#FFA657">curl http://apisix:9080/apisix/admin/routes/1 -H </span><span style="color:#FFA657">'X-API-KEY: 123xyz'</span><span style="color:#FFA657"> -X PUT -d </span><span style="color:#FFA657">'</span></span>
+<span class="line"><span style="color:#FFA657">{</span></span>
+<span class="line"><span style="color:#FFA657">  "uri": "/*",</span></span>
+<span class="line"><span style="color:#FFA657">  "upstream_id": 1</span></span>
+<span class="line"><span style="color:#FFA657">}</span></span></code></pre>
+<p>现在再来查询端点，会得到与上文一致的返回结果。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl localhost:9080/product</span></span></code></pre>
+<h2 id="添砖加瓦">添砖加瓦</h2>
+<p>虽然到目前为止，我们还没有添加任何实际项目，但准备工作已经全部就绪了。接下来就让我们为这个 API 添加一些其他功能，让其更安全有效，易于追踪。</p>
+<h3 id="ddos-保护">DDoS 保护</h3>
+<p>API 作为一个连接属性的组件，必然要保证其过程中的传输安全。因此，在这里我们对 API 增加一些防护，让其免受 DDoS 攻击。APISIX 提供了非常多的官方插件，涉及鉴权、流量处理、监控等等。为了防止 DDoS，我们可以使用 APISIX 的  <code>limit-count</code>  插件。</p>
+<p>在 APISIX 中使用插件时，你可以在创建特定路由时在每个路由上设置某个插件。如果你想让某个插件在每个路由上都生效，则可以使用全局规则。如下方所示，我们希望在默认情况下可以保护每个路由，所以使用全局规则设定  <code>limit-count</code>  插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl http://apisix:9080/apisix/admin/global_rules/1 -H </span><span style="color:#FFA657">'X-API-KEY: 123xyz'</span><span style="color:#FFA657"> -X PUT -d </span><span style="color:#FFA657">'</span></span>
+<span class="line"><span style="color:#FFA657">{</span></span>
+<span class="line"><span style="color:#FFA657">  "plugins": {</span></span>
+<span class="line"><span style="color:#FFA657">    "limit-count": {</span></span>
+<span class="line"><span style="color:#FFA657">      "count": 1,</span></span>
+<span class="line"><span style="color:#FFA657">      "time_window": 5,</span></span>
+<span class="line"><span style="color:#FFA657">      "rejected_code": 429</span></span>
+<span class="line"><span style="color:#FFA657">    }</span></span>
+<span class="line"><span style="color:#FFA657">  }</span></span>
+<span class="line"><span style="color:#FFA657">}'</span></span></code></pre>
+<p>现在，如果我们执行太多的请求，APISIX 将会保护上游。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl localhost:9080/product</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">html</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">head</span><span style="color:#E6EDF3">>&#x3C;</span><span style="color:#7EE787">title</span><span style="color:#E6EDF3">>429 Too Many Requests&#x3C;/</span><span style="color:#7EE787">title</span><span style="color:#E6EDF3">>&#x3C;/</span><span style="color:#7EE787">head</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">body</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">center</span><span style="color:#E6EDF3">>&#x3C;</span><span style="color:#7EE787">h1</span><span style="color:#E6EDF3">>429 Too Many Requests&#x3C;/</span><span style="color:#7EE787">h1</span><span style="color:#E6EDF3">>&#x3C;/</span><span style="color:#7EE787">center</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">hr</span><span style="color:#E6EDF3">>&#x3C;</span><span style="color:#7EE787">center</span><span style="color:#E6EDF3">>openresty&#x3C;/</span><span style="color:#7EE787">center</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">body</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">html</span><span style="color:#E6EDF3">></span></span></code></pre>
+<h3 id="增加鉴权">增加鉴权</h3>
+<p>PostgREST 还在根端提供了一个 OpenAPI endpoint。因此，我们现在有两条路由： <code>/</code> （控制 Open API 规范）和  <code>/product</code>  （控制产品）。</p>
+<p>假设我们现在需要制定一套限制访问的操作，即不允许未经授权的人访问数据。普通用户可以访问产品端信息，而管理员用户可以访问 Open API 规范和产品端信息。</p>
+<p>APISIX 提供了几种<a href="https://apisix.apache.org/plugins/#authentication">身份验证方法</a>，这些身份认证方式都可以通过插件进行实现。这里我们选取 APISIX 中最常用也是最简单的认证插件 <a href="https://apisix.apache.org/docs/apisix/plugins/key-auth/">key-auth</a>，它依赖于 <a href="https://apisix.apache.org/docs/apisix/terminology/consumer/">Consumer</a>（消费者）抽象。 <code>key-auth</code>  插件的使用中需要一个特定的 header，这样插件就可以根据值数据进行反向查找，并找到其对应的 Consumer。</p>
+<p>以下代码展示了如何新建一个 Consumer：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl http://apisix:9080/apisix/admin/consumers -H </span><span style="color:#FFA657">'X-API-KEY: 123xyz'</span><span style="color:#FFA657"> -X PUT -d </span><span style="color:#FFA657">'</span></span>
+<span class="line"><span style="color:#FFA657">{</span></span>
+<span class="line"><span style="color:#FFA657">  "username": "admin",</span></span>
+<span class="line"><span style="color:#FFA657">  "plugins": {</span></span>
+<span class="line"><span style="color:#FFA657">    "key-auth": {</span></span>
+<span class="line"><span style="color:#FFA657">      "key": "admin"</span></span>
+<span class="line"><span style="color:#FFA657">    }</span></span>
+<span class="line"><span style="color:#FFA657">  }</span></span>
+<span class="line"><span style="color:#FFA657">}'</span></span></code></pre>
+<p>同样的，我们需要对 Consumer  <code>user</code>  和 Key  <code>user</code>   进行相关操作。现在可以创建一个专用路由来配置它们，以便只有来自  <code>admin</code>  的请求才能通过：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl http://apisix:9080/apisix/admin/routes -H </span><span style="color:#FFA657">'X-API-KEY: 123xyz'</span><span style="color:#FFA657"> -X POST -d </span><span style="color:#FFA657">'</span></span>
+<span class="line"><span style="color:#FFA657">{</span></span>
+<span class="line"><span style="color:#FFA657">  "uri": "/",</span></span>
+<span class="line"><span style="color:#FFA657">  "upstream_id": 1,</span></span>
+<span class="line"><span style="color:#FFA657">  "plugins": {</span></span>
+<span class="line"><span style="color:#FFA657">    "key-auth": {},</span></span>
+<span class="line"><span style="color:#FFA657">    "consumer-restriction": {</span></span>
+<span class="line"><span style="color:#FFA657">      "whitelist": [ "admin" ]</span></span>
+<span class="line"><span style="color:#FFA657">    }</span></span>
+<span class="line"><span style="color:#FFA657">  }</span></span>
+<span class="line"><span style="color:#FFA657">}'</span></span></code></pre>
+<p>然后使用以下命令测试一下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl localhost:9080</span></span></code></pre>
+<p>发现并没有起作用。这是因为我们没有通过 API 密钥的 header 进行身份验证。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"message"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"Missing API key found in request"</span><span style="color:#FFA657">}</span></span></code></pre>
+<p>添加 header 后再次进行测试：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: user"</span><span style="color:#A5D6FF"> localhost:9080</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"message"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"The consumer_name is forbidden."</span><span style="color:#FFA657">}</span></span></code></pre>
+<p>发现仍然没有效果。这是因为这里 API key 为 <code>user</code> ，我们前边仅为 <code>admin</code> 也就是管理员设置了相关权限。所以如果更换为  <code>admin</code> ，就会如期返回 Open API 规范的相关信息。</p>
+<h3 id="配置监控">配置监控</h3>
+<p>在软件系统中，总有一个被人们低估重要性的功能 —— <strong>可观测性</strong>。在生产环境中部署了任何组件，都需要监控其运行状况。</p>
+<p>如今，很多服务都提供了可观测性的功能，比如 <a href="https://prometheus.io/">Prometheus</a>。得益于 Prometheus 的开源属性，它被广泛应用于实践中。因此，这里我们也选用 Prometheus 进行相关数据的监控。</p>
+<p>为了通过图表等形式显示数据，我们也同时需要依赖于 <a href="https://grafana.com/">Grafana</a>。接下来，将这些组件添加到 Docker Compose 文件中。</p>
+<p><em><strong>docker-compose.yml</strong></em></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prom/prometheus:v2.40.1</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  grafana</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">grafana/grafana:8.5.15</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./grafana/provisioning:/etc/grafana/provisioning</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./grafana/dashboards:/var/lib/grafana/dashboards</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./grafana/config/grafana.ini:/etc/grafana/grafana.ini</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"3001:3000"</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">prometheus</span></span></code></pre>
+<p>以上操作需注意：APISIX 的默认监控方案中自带 Grafana，因此只需从 APISIX 中获取<a href="https://github.com/apache/apisix/blob/master/docs/assets/other/json/apisix-grafana-dashboard.json">相关配置</a> 即可。同时将默认端口从 3000 更改为 3001 是为了避免与 PostgREST 服务发生冲突。</p>
+<p>一旦监控基础设施到位，我们只需要指示 APISIX 以 Prometheus 期望的格式提供数据即可。可以通过配置插件和新的全局规则来实现这一目标：</p>
+<p>config.yaml</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    export_addr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ip</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.0.0"</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9091</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/global_rules/2</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "prometheus": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>此时发送几个查询请求，并打开 Grafana 仪表板，可看到类似数据。如果运行较多请求，则会出现更丰富的数据仪表。</p>
+<p><img src="https://static.apiseven.com/2022/12/02/63896834c6f18.png" alt="仪表盘"></p>
+<p><img src="https://static.apiseven.com/2022/12/02/6389683506d5f.png" alt="监控数据"></p>
+<h2 id="总结">总结</h2>
+<p>创建一个成熟的 RESTful API 是一项巨大的投资。你可以通过 PostgREST 将数据库暴露在 CRUD API 中来快速测试一个简单的 API。但是，这样的体系结构不适用于实际生产。要想使其更具实践性，就需要在 PostgREST 前设置一个 facade、一个反向代理，或者更好的 API 网关。</p>
+<p>Apache APISIX 作为云原生 API 网关，提供了广泛的特性，从流量处理到认证授权和可观测性等。有了 APISIX，你就可以用较低的成本快速验证你的 API 需求。锦上添花的是，当你验证需求完成之后，还可以保留现有的 facade，并用自定义开发的 API 来替换 PostgREST。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Certificate | Apache APISIX</title><meta name="description" content="It is most common for an SSL certificate to contain only one domain. We can create an ssl object. Here is a simple case, creates a ssl object and route object."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/apisix/certificate/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/certificate/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/certificate/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/certificate/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Certificate | Apache APISIX"><meta property="og:description" content="It is most common for an SSL certificate to contain only one domain. We can create an ssl object. Here is a simple case, creates a ssl object and route object."><meta property="og:url" content="https://apisix.apache.org/docs/apisix/certificate/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Certificate","description":"It is most common for an SSL certificate to contain only one domain. We can create an ssl object. Here is a simple case, creates a ssl object and route object.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/certificate/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/certificate/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/certificate/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class="active">Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Certificate</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p><code>APISIX</code> supports to load multiple SSL certificates by TLS extension Server Name Indication (SNI).</p>
+<h3 id="single-sni">Single SNI</h3>
+<p>It is most common for an SSL certificate to contain only one domain. We can create an <code>ssl</code> object. Here is a simple case, creates a <code>ssl</code> object and <code>route</code> object.</p>
+<ul>
+<li><code>cert</code>: PEM-encoded public certificate of the SSL key pair.</li>
+<li><code>key</code>: PEM-encoded private key of the SSL key pair.</li>
+<li><code>snis</code>: Hostname(s) to associate with this certificate as SNIs. To set this attribute this certificate must have a valid private key associated with it.</li>
+</ul>
+<p>The following is an example of configuring an SSL certificate with a single SNI in APISIX.</p>
+<p>Create an SSL object with the certificate and key valid for the SNI:</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>You can fetch the <code>admin_key</code> from <code>config.yaml</code> and save to an environment variable with the following command:</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/ssls/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">"X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">     "cert" : "'"$(</span><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> t/certs/apisix.crt)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "key": "'"$(</span><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> t/certs/apisix.key)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "snis": ["test.com"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Create a Router object:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "hosts": ["test.com"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Send a request to verify:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --resolve</span><span style="color:#A5D6FF"> 'test.com:9443:127.0.0.1'</span><span style="color:#A5D6FF"> https://test.com:9443/get</span><span style="color:#79C0FF"> -k</span><span style="color:#79C0FF"> -vvv</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Added test.com:9443:127.0.0.1 to DNS cache</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> About to </span><span style="color:#D2A8FF">connect</span><span style="color:#E6EDF3">() to test.com port 9443 (#0)</span></span>
+<span class="line"><span style="color:#FFA657">*</span><span style="color:#A5D6FF">   Trying</span><span style="color:#A5D6FF"> 127.0.0.1...</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Connected to test.com (</span><span style="color:#FFA657">127.0.0.1</span><span style="color:#E6EDF3">) port 9443 (#0)</span></span>
+<span class="line"><span style="color:#FFA657">*</span><span style="color:#A5D6FF"> SSL</span><span style="color:#A5D6FF"> connection</span><span style="color:#A5D6FF"> using</span><span style="color:#A5D6FF"> TLSv1.3</span><span style="color:#A5D6FF"> /</span><span style="color:#A5D6FF"> TLS_AES_256_GCM_SHA384</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> ALPN, server accepted to use h2</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Server certificate:</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   subject: C</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">CN</span><span style="color:#E6EDF3">; ST</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">GuangDong</span><span style="color:#E6EDF3">; L</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">ZhuHai</span><span style="color:#E6EDF3">; O</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">iresty</span><span style="color:#E6EDF3">; CN</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">test.com</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   start date: Jun 24 22:18:05 2019 GMT</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   expire date: May 31 22:18:05 2119 GMT</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   issuer: C</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">CN</span><span style="color:#E6EDF3">; ST</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">GuangDong</span><span style="color:#E6EDF3">; L</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">ZhuHai</span><span style="color:#E6EDF3">; O</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">iresty</span><span style="color:#E6EDF3">; CN</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">test.com</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   SSL certificate verify result: self-signed certificate (</span><span style="color:#FFA657">18</span><span style="color:#E6EDF3">), continuing anyway.</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> GET /get HTTP/2</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> Host: test.com:9443</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> user-agent: curl/7.81.0</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> accept: </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">/</span><span style="color:#FF7B72">*</span></span></code></pre>
+<h3 id="wildcard-sni">wildcard SNI</h3>
+<p>An SSL certificate could also be valid for a wildcard domain like <code>*.test.com</code>, which means it is valid for any domain of that pattern, including <code>www.test.com</code> and <code>mail.test.com</code>.</p>
+<p>The following is an example of configuring an SSL certificate with a wildcard SNI in APISIX.</p>
+<p>Create an SSL object with the certificate and key valid for the SNI:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/ssls/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "cert" : "'"$(</span><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> t/certs/apisix.crt)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "'"$(</span><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> t/certs/apisix.key)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "snis": ["*.test.com"]</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>Create a Router object:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "hosts": ["*.test.com"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Send a request to verify:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --resolve</span><span style="color:#A5D6FF"> 'www.test.com:9443:127.0.0.1'</span><span style="color:#A5D6FF"> https://www.test.com:9443/get</span><span style="color:#79C0FF"> -k</span><span style="color:#79C0FF"> -vvv</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Added www.test.com:9443:127.0.0.1 to DNS cache</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Hostname www.test.com was found in DNS cache</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   Trying 127.0.0.1:9443...</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Connected to www.test.com (</span><span style="color:#FFA657">127.0.0.1</span><span style="color:#E6EDF3">) port 9443 (#0)</span></span>
+<span class="line"><span style="color:#FFA657">*</span><span style="color:#A5D6FF"> SSL</span><span style="color:#A5D6FF"> connection</span><span style="color:#A5D6FF"> using</span><span style="color:#A5D6FF"> TLSv1.3</span><span style="color:#A5D6FF"> /</span><span style="color:#A5D6FF"> TLS_AES_256_GCM_SHA384</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> ALPN, server accepted to use h2</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Server certificate:</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">  subject: C</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">CN</span><span style="color:#E6EDF3">; ST</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">GuangDong</span><span style="color:#E6EDF3">; L</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">ZhuHai</span><span style="color:#E6EDF3">; O</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">iresty</span><span style="color:#E6EDF3">; CN</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">test.com</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">  start date: Jun 24 22:18:05 2019 GMT</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">  expire date: May 31 22:18:05 2119 GMT</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">  issuer: C</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">CN</span><span style="color:#E6EDF3">; ST</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">GuangDong</span><span style="color:#E6EDF3">; L</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">ZhuHai</span><span style="color:#E6EDF3">; O</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">iresty</span><span style="color:#E6EDF3">; CN</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">test.com</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">  SSL certificate verify result: self signed certificate (</span><span style="color:#FFA657">18</span><span style="color:#E6EDF3">), continuing anyway.</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> GET /get HTTP/2</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> Host: www.test.com:9443</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> user-agent: curl/7.74.0</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> accept: </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">/</span><span style="color:#FF7B72">*</span></span></code></pre>
+<h3 id="multiple-domain">multiple domain</h3>
+<p>If your SSL certificate may contain more than one domain, like <code>www.test.com</code> and <code>mail.test.com</code>, then you can add them into the <code>snis</code> array. For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "snis"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"www.test.com"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"mail.test.com"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="multiple-certificates-for-a-single-domain">multiple certificates for a single domain</h3>
+<p>If you want to configure multiple certificate for a single domain, for
+instance, supporting both the
+<a href="https://en.wikipedia.org/wiki/Elliptic-curve_cryptography">ECC</a>
+and RSA key-exchange algorithm, then just configure the extra certificates (the
+first certificate and private key should be still put in <code>cert</code> and <code>key</code>) and
+private keys by <code>certs</code> and <code>keys</code>.</p>
+<ul>
+<li><code>certs</code>: PEM-encoded certificate array.</li>
+<li><code>keys</code>: PEM-encoded private key array.</li>
+</ul>
+<p><code>APISIX</code> will pair certificate and private key with the same indice as a SSL key
+pair. So the length of <code>certs</code> and <code>keys</code> must be same.</p>
+<h3 id="set-up-multiple-ca-certificates">set up multiple CA certificates</h3>
+<p>APISIX currently uses CA certificates in several places, such as <a href="/docs/apisix/mtls/#protect-admin-api">Protect Admin API</a>, <a href="/docs/apisix/mtls/#etcd-with-mtls">etcd with mTLS</a>, and <a href="/docs/apisix/deployment-modes/">Deployment Modes</a>.</p>
+<p>In these places, <code>ssl_trusted_certificate</code> or <code>trusted_ca_cert</code> will be used to set up the CA certificate, but these configurations will eventually be translated into <a href="https://github.com/openresty/lua-nginx-module#lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</a> directive in OpenResty.</p>
+<p>If you need to set up different CA certificates in different places, then you can package these CA certificates into a CA bundle file and point to this file when you need to set up CAs. This will avoid the problem that the generated <code>lua_ssl_trusted_certificate</code> has multiple locations and overwrites each other.</p>
+<p>The following is a complete example to show how to set up multiple CA certificates in APISIX.</p>
+<p>Suppose we let client and APISIX Admin API, APISIX and ETCD communicate with each other using mTLS protocol, and currently there are two CA certificates, <code>foo_ca.crt</code> and <code>bar_ca.crt</code>, and use each of these two CA certificates to issue client and server certificate pairs, <code>foo_ca.crt</code> and its issued certificate pair are used to protect Admin API, and <code>bar_ca.crt</code> and its issued certificate pair are used to protect ETCD.</p>
+<p>The following table details the configurations involved in this example and what they do:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Configuration</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>foo_ca.crt</td><td>CA cert</td><td>Issues the secondary certificate required for the client to communicate with the APISIX Admin API over mTLS.</td></tr><tr><td>foo_client.crt</td><td>cert</td><td>A certificate issued by <code>foo_ca.crt</code> and used by the client to prove its identity when accessing the APISIX Admin API.</td></tr><tr><td>foo_client.key</td><td>key</td><td>Issued by <code>foo_ca.crt</code>, used by the client, the key file required to access the APISIX Admin API.</td></tr><tr><td>foo_server.crt</td><td>cert</td><td>Issued by <code>foo_ca.crt</code>, used by APISIX, corresponding to the <code>admin_api_mtls.admin_ssl_cert</code> configuration entry.</td></tr><tr><td>foo_server.key</td><td>key</td><td>Issued by <code>foo_ca.crt</code>, used by APISIX, corresponding to the <code>admin_api_mtls.admin_ssl_cert_key</code> configuration entry.</td></tr><tr><td>admin.apisix.dev</td><td>doname</td><td>Common Name used in issuing <code>foo_server.crt</code> certificate, through which the client accesses APISIX Admin API</td></tr><tr><td>bar_ca.crt</td><td>CA cert</td><td>Issues the secondary certificate required for APISIX to communicate with ETCD over mTLS.</td></tr><tr><td>bar_etcd.crt</td><td>cert</td><td>Issued by <code>bar_ca.crt</code> and used by ETCD, corresponding to the <code>-cert-file</code> option in the ETCD startup command.</td></tr><tr><td>bar_etcd.key</td><td>key</td><td>Issued by <code>bar_ca.crt</code> and used by ETCD, corresponding to the <code>--key-file</code> option in the ETCD startup command.</td></tr><tr><td>bar_apisix.crt</td><td>cert</td><td>Issued by <code>bar_ca.crt</code>, used by APISIX, corresponding to the <code>etcd.tls.cert</code> configuration entry.</td></tr><tr><td>bar_apisix.key</td><td>key</td><td>Issued by <code>bar_ca.crt</code>, used by APISIX, corresponding to the <code>etcd.tls.key</code> configuration entry.</td></tr><tr><td>etcd.cluster.dev</td><td>key</td><td>Common Name used in issuing <code>bar_etcd.crt</code> certificate, which is used as SNI when APISIX communicates with ETCD over mTLS. corresponds to <code>etcd.tls.sni</code> configuration item.</td></tr><tr><td>apisix.ca-bundle</td><td>CA bundle</td><td>Merged from <code>foo_ca.crt</code> and <code>bar_ca.crt</code>, replacing <code>foo_ca.crt</code> and <code>bar_ca.crt</code>.</td></tr></tbody></table>
+<ol>
+<li>Create CA bundle files</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> /path/to/foo_ca.crt</span><span style="color:#A5D6FF"> /path/to/bar_ca.crt</span><span style="color:#FF7B72"> ></span><span style="color:#A5D6FF"> apisix.ca-bundle</span></span></code></pre>
+<ol start="2">
+<li>Start the ETCD cluster and enable client authentication</li>
+</ol>
+<p>Start by writing a <code>goreman</code> configuration named <code>Procfile-single-enable-mtls</code>, the content as:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span># Use goreman to run `go get github.com/mattn/goreman`</span></span>
+<span class="line"><span>etcd1: etcd --name infra1 --listen-client-urls https://127.0.0.1:12379 --advertise-client-urls https://127.0.0.1:12379 --listen-peer-urls http://127.0.0.1:12380 --initial-advertise-peer-urls http://127.0.0.1:12380 --initial-cluster-token etcd-cluster-1 --initial-cluster 'infra1=http://127.0.0.1:12380,infra2=http://127.0.0.1:22380,infra3=http://127.0.0.1:32380' --initial-cluster-state new --cert-file /path/to/bar_etcd.crt --key-file /path/to/bar_etcd.key --client-cert-auth --trusted-ca-file /path/to/apisix.ca-bundle</span></span>
+<span class="line"><span>etcd2: etcd --name infra2 --listen-client-urls https://127.0.0.1:22379 --advertise-client-urls https://127.0.0.1:22379 --listen-peer-urls http://127.0.0.1:22380 --initial-advertise-peer-urls http://127.0.0.1:22380 --initial-cluster-token etcd-cluster-1 --initial-cluster 'infra1=http://127.0.0.1:12380,infra2=http://127.0.0.1:22380,infra3=http://127.0.0.1:32380' --initial-cluster-state new --cert-file /path/to/bar_etcd.crt --key-file /path/to/bar_etcd.key --client-cert-auth --trusted-ca-file /path/to/apisix.ca-bundle</span></span>
+<span class="line"><span>etcd3: etcd --name infra3 --listen-client-urls https://127.0.0.1:32379 --advertise-client-urls https://127.0.0.1:32379 --listen-peer-urls http://127.0.0.1:32380 --initial-advertise-peer-urls http://127.0.0.1:32380 --initial-cluster-token etcd-cluster-1 --initial-cluster 'infra1=http://127.0.0.1:12380,infra2=http://127.0.0.1:22380,infra3=http://127.0.0.1:32380' --initial-cluster-state new --cert-file /path/to/bar_etcd.crt --key-file /path/to/bar_etcd.key --client-cert-auth --trusted-ca-file /path/to/apisix.ca-bundle</span></span></code></pre>
+<p>Use <code>goreman</code> to start the ETCD cluster:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">goreman</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> Procfile-single-enable-mtls</span><span style="color:#A5D6FF"> start</span><span style="color:#FF7B72"> ></span><span style="color:#A5D6FF"> goreman.log</span><span style="color:#FF7B72"> 2>&#x26;1</span><span style="color:#E6EDF3"> &#x26;</span></span></code></pre>
+<ol start="3">
+<li>Update <code>config.yaml</code></li>
+</ol>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">    admin_key</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">admin</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">your-admin-key</span></span>
+<span class="line"><span style="color:#7EE787">        role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">admin</span></span>
+<span class="line"><span style="color:#7EE787">    admin_listen</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ip</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9180</span></span>
+<span class="line"><span style="color:#7EE787">    https_admin</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    admin_api_mtls</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      admin_ssl_ca_cert</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/apisix.ca-bundle</span></span>
+<span class="line"><span style="color:#7EE787">      admin_ssl_cert</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/foo_server.crt</span></span>
+<span class="line"><span style="color:#7EE787">      admin_ssl_cert_key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/foo_server.key</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ssl</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    ssl_trusted_certificate</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/apisix.ca-bundle</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">traditional</span></span>
+<span class="line"><span style="color:#7EE787">  role_traditional</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    config_provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"https://127.0.0.1:12379"</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"https://127.0.0.1:22379"</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"https://127.0.0.1:32379"</span></span>
+<span class="line"><span style="color:#7EE787">    tls</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      cert</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/bar_apisix.crt</span></span>
+<span class="line"><span style="color:#7EE787">      key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/bar_apisix.key</span></span>
+<span class="line"><span style="color:#7EE787">      sni</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd.cluster.dev</span></span></code></pre>
+<ol start="4">
+<li>Test APISIX Admin API</li>
+</ol>
+<p>Start APISIX, if APISIX starts successfully and there is no abnormal output in <code>logs/error.log</code>, it means that mTLS communication between APISIX and ETCD is normal.</p>
+<p>Use curl to simulate a client, communicate with APISIX Admin API with mTLS, and create a route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -vvv</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --resolve</span><span style="color:#A5D6FF"> 'admin.apisix.dev:9180:127.0.0.1'</span><span style="color:#A5D6FF"> https://admin.apisix.dev:9180/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --cert</span><span style="color:#A5D6FF"> /path/to/foo_client.crt</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --key</span><span style="color:#A5D6FF"> /path/to/foo_client.key</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --cacert</span><span style="color:#A5D6FF"> /path/to/apisix.ca-bundle</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>A successful mTLS communication between curl and the APISIX Admin API is indicated if the following SSL handshake process is output:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">OUT</span><span style="color:#E6EDF3">), TLS handshake, Client hello (</span><span style="color:#FFA657">1</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">IN</span><span style="color:#E6EDF3">), TLS handshake, Server hello (</span><span style="color:#FFA657">2</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">IN</span><span style="color:#E6EDF3">), TLS handshake, Encrypted Extensions (</span><span style="color:#FFA657">8</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">IN</span><span style="color:#E6EDF3">), TLS handshake, Request CERT (</span><span style="color:#FFA657">13</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">IN</span><span style="color:#E6EDF3">), TLS handshake, Certificate (</span><span style="color:#FFA657">11</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">IN</span><span style="color:#E6EDF3">), TLS handshake, CERT verify (</span><span style="color:#FFA657">15</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">IN</span><span style="color:#E6EDF3">), TLS handshake, Finished (</span><span style="color:#FFA657">20</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">OUT</span><span style="color:#E6EDF3">), TLS change cipher, Change cipher spec (</span><span style="color:#FFA657">1</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">OUT</span><span style="color:#E6EDF3">), TLS handshake, Certificate (</span><span style="color:#FFA657">11</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">OUT</span><span style="color:#E6EDF3">), TLS handshake, CERT verify (</span><span style="color:#FFA657">15</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> TLSv1.3 (</span><span style="color:#FFA657">OUT</span><span style="color:#E6EDF3">), TLS handshake, Finished (</span><span style="color:#FFA657">20</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384</span></span></code></pre>
+<ol start="5">
+<li>Verify APISIX proxy</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/get</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 298</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Tue,</span><span style="color:#79C0FF"> 26</span><span style="color:#A5D6FF"> Jul</span><span style="color:#79C0FF"> 2022</span><span style="color:#A5D6FF"> 16:31:00</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Access-Control-Allow-Origin:</span><span style="color:#79C0FF"> *</span></span>
+<span class="line"><span style="color:#FFA657">Access-Control-Allow-Credentials:</span><span style="color:#79C0FF"> true</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.14.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">...</span></span></code></pre>
+<p>APISIX proxied the request to the <code>/get</code> path of the upstream <code>httpbin.org</code> and returned <code>HTTP/1.1 200 OK</code>. The whole process is working fine using CA bundle instead of CA certificate.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/certificate.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

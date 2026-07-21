@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contribute a blog post | Apache APISIX</title><meta name="description" content="This article contains guidelines for contributors who want to write/update blogs posts on the Apache APISIX website."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/docs/general/blog/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/general/blog/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/general/blog/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/general/blog/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Contribute a blog post | Apache APISIX"><meta property="og:description" content="This article contains guidelines for contributors who want to write/update blogs posts on the Apache APISIX website."><meta property="og:url" content="https://apisix.apache.org/zh/docs/general/blog/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Contribute a blog post","description":"This article contains guidelines for contributors who want to write/update blogs posts on the Apache APISIX website.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/general/blog/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/general/blog/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/general/blog/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/zh/docs/general/blog/" class="active">Contribute a blog post</a>  </li><li class> <a href="/zh/docs/general/committer-guide/" class>Project management structure</a>  </li><li class> <a href="/zh/docs/general/contributor-guide/" class>Contributing flow</a>  </li><li class> <a href="/zh/docs/general/documentation-style-guide/" class>Documentation style guide</a>  </li><li class> <a href="/zh/docs/general/how-to-contribute/" class>How to Contribute</a>  </li><li class> <a href="/zh/docs/general/join/" class>Join the conversation</a>  </li><li class> <a href="/zh/docs/general/release-guide/" class>Release Guide</a>  </li><li class> <a href="/zh/docs/general/security/" class>Report a security vulnerability</a>  </li><li class> <a href="/zh/docs/general/submit-issue/" class>Submitting an issue</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Contribute a blog post</h1> <p>Please follow this guide while writing/updating <a href="/blog/">blog posts</a> on the Apache APISIX website.</p>
+<p>Please <a href="/docs/general/submit-issue">submit an issue</a> if you find any issues in the published blog posts. Also feel free to <a href="/docs/general/contributor-guide/#open-a-pull-request">open a pull request</a> to fix the issue yourself.</p>
+<p>The blogs are written in both <a href="/blog/">English</a> and <a href="/zh/blog/">Chinese</a>. Contributors are encouraged to write blogs in their preferred language. Translations can be handled later and you can review the pull request.</p>
+<p>English blogs are located in the <code>/apisix-website/blog/en/blog</code>  directory, in which they are categorized by year, month and date.</p>
+<p>For example, <code>/apisix-website/blog/en/blog/2022/03/01/apisix-integration-public-api-plugin.md</code> means that a blog named <code>develop-apisix-ingress-with-nocalhost-in-kubernetes.md</code> was published on November 22nd, 2021, and it is located in the <code>/apisix-website/blog/en/blog/2021/11/22</code> directory. Once it is reviewed and megered, the URL should be: <code>https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/</code>.</p>
+<p>Similarly, Chinese blogs are located in <code>/apisix-website/blog/zh/blog</code> directory and follow the same patterns described above.</p>
+<h2 id="areas-to-contribute">Areas to contribute</h2>
+<p>You are encouraged to write blogs posts about how you use Apache APISIX or how you are contributing to Apache APISIX.</p>
+<p>You can also update the existing blogs by updating the content or fixing issues like broken links and typos.</p>
+<h3 id="writing-a-new-blog">Writing a new blog</h3>
+<p>Writing a new blog post is one of the best ways to contribute to Apache APISIX. Users and contributors of the project will be able to learn from your experience through your content.</p>
+<ol>
+<li>
+<p>To create a post, first find the right place to store it.</p>
+<ol>
+<li>If you are submitting a blog written in <strong>English</strong>, create a markdown file under the <code>/apisix-website/blog/en/blog</code> directory.</li>
+<li>If you are submitting a blog written in <strong>Chinese</strong>, create a markdown file under the <code>/apisix-website/blog/zh/blog</code> directory.</li>
+<li>If you don’t find a directory that matches the year, month or date, you can create one yourself to store your post.</li>
+</ol>
+</li>
+<li>
+<p>Once you find a place to store your post, you can create a markdown file in the directory. Note that the file name should be in English with no capitalized letters. Reviewers might suggest changing the file name to improve SEO (some of the file names contain capital letters and this is being fixed in <a href="https://github.com/apache/apisix-website/issues/713">#713</a>).</p>
+</li>
+<li>
+<p>You can add text, images, diagrams and charts to your post by adding them to the markdown file. You can learn more about formatting in markdown from <a href="https://www.markdownguide.org/">The Markdown Guide</a>.</p>
+<ul>
+<li>To add images to your post, first upload the images to this <a href="https://markdown.apiseven.com">public image CDN service</a> and copy the links to the markdown file.</li>
+</ul>
+ <!-- This link seems to be broken -->
+<ul>
+<li>Charts and diagrams are always cool and we are happy to see them! From experience, charts with 4 columns or less fit perfectly to any screen.</li>
+</ul>
+</li>
+<li>
+<p><a href="/docs/general/contributor-guide/#open-a-pull-request">Open a pull request</a> with your new blog post.</p>
+</li>
+</ol>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>You can inspect your changes locally by building the website. This can ensure that there aren’t any typos or issues left behind before you make a PR. We run CI checks to catch these errors but it is a recommended practice to test it locally.</p></div>
+<!-- Future: Move this to the contributing guide -->
+<p>You can check your changes by building the web environment locally. This ensures no typos or lingering issues before you submit a PR. Although the Apache APISIX Website will run CI to check and report these errors, it is recommended to test in the local environment first. For the specific construction process, please refer to <a href="https://github.com/apache/apisix-website/blob/master/README.md">Building a Webpage Environment</a>.</p>
+<h4 id="configuring-blog-headers">Configuring blog headers</h4>
+<p>Each of the blog posts have a YAML front matter or a header before the content. These are enclosed within the two <code>---</code> in the markdown file.</p>
+<p>The header section contains fields such as <code>title</code>, <code>description</code>, <code>authors</code>, and <code>tags</code>. A description of these fields and templates to copy are described below.</p>
+<h5 id="single-author-template">Single author template</h5>
+<p>You can use template if your post only has a single author.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#E6EDF3">title: "Blog's Title"</span></span>
+<span class="line"><span style="color:#E6EDF3">authors:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#E6EDF3"> name: "Author's Name"</span></span>
+<span class="line"><span style="color:#E6EDF3">    title: "Author"</span></span>
+<span class="line"><span style="color:#E6EDF3">    url: "Author's GitHub"</span></span>
+<span class="line"><span style="color:#E6EDF3">    image_url: "Author's Image URL"</span></span>
+<span class="line"><span style="color:#E6EDF3">keywords:</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 1</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 2</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 3</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 4</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 5</span></span>
+<span class="line"><span style="color:#E6EDF3">description: Description of the post</span></span>
+<span class="line"><span style="color:#E6EDF3">tags: [</span><span style="color:#A5D6FF">tag1,tag2,...,tagn</span><span style="color:#E6EDF3">]</span></span></code></pre>
+<h5 id="co-author-template">Co-author template</h5>
+<p>Translating and editing articles consume time and effort and deserves credit. For this, you can use the co-author template to add multiple authors to the blog post.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#E6EDF3">title: "Blog's Title"</span></span>
+<span class="line"><span style="color:#E6EDF3">authors:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#E6EDF3"> name: "Author's Name"</span></span>
+<span class="line"><span style="color:#E6EDF3">    title: "Author's title"</span></span>
+<span class="line"><span style="color:#E6EDF3">    url: "Author's GitHub"</span></span>
+<span class="line"><span style="color:#E6EDF3">    image_url: "Author's Image URL"</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#E6EDF3"> name: "Translator/Technical Writer's name"</span></span>
+<span class="line"><span style="color:#E6EDF3">    title: "Translator or Technical Writer"</span></span>
+<span class="line"><span style="color:#E6EDF3">    url: "Translator/Technical Writer's GitHub"</span></span>
+<span class="line"><span style="color:#E6EDF3">    image_url: "Translator/Technical Writer's Image URL"</span></span>
+<span class="line"><span style="color:#E6EDF3">keywords:</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 1</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 2</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 3</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 4</span></span>
+<span class="line"><span style="color:#FFA657">-</span><span style="color:#E6EDF3"> keywords 5</span></span>
+<span class="line"><span style="color:#E6EDF3">description: Description of the post</span></span>
+<span class="line"><span style="color:#E6EDF3">tags: [</span><span style="color:#A5D6FF">tag1,tag2,...,tagn</span><span style="color:#E6EDF3">]</span></span></code></pre>
+<p>Each of these fields are described in detail below.</p>
+<h5 id="authors">authors</h5>
+<p>This is a required field to be used when the blog is co-authored by two or more people to give credit to both the authors. <code>authors</code> field is composed of the following fields.</p>
+<ul>
+<li><code>authors.name</code>: authors’ names in plain text, for example: <code>name: "John Doe"</code>.</li>
+<li><code>authors.title</code>: author’s title in plain text, for example: <code>title: "Technical Writer"</code>.</li>
+<li><code>authors.url</code>: authors’ GitHub page, for example: <code>url: "https://github.com/yzeng25"</code>.</li>
+<li><code>authors.image_url</code>: author’s GitHub avatar, for example: <code>authors.image_url: "https://avatars.githubusercontent.com/u/36651058?v=4"</code>.</li>
+</ul>
+<h5 id="keywords">keywords</h5>
+<p>This is a required field used to enhance SEO performance.</p>
+<p>Usually the first three keywords are “APISIX”, “Apache APISIX” and “API Gateway”, and the last two are specific to the blog post.</p>
+<h5 id="description">description</h5>
+<p>This is also a required field used to enhance SEO performance.</p>
+<p>A brief summary of the blog post would be a good description. A good rule of thumb is to keep the number of characters in the description between 150 and 160. You can calculate with <a href="https://charactercalculator.com/">Character Statistics Software</a>.</p>
+<h5 id="tags">tags</h5>
+<p>This is a required filed used to categorize the blog post.</p>
+<p>Each post can have multiple tags. The tags used currently are given below and each post usually fits into one or more of these tags.</p>
+<p>Each post can have more than one tag. The available tags and explanations are as follows. If none of the tags below fits, please leave a comment in your pull request, and we will handle it together. Please note that these tags and rules of applying tags could change over time.</p>
+<ul>
+<li><strong>Community</strong>: Content related to community, community activities, and version release tags, such as: “How to contribute to the community in a form other than code?”, live broadcast preview, event preview, meeting content and project meeting content.</li>
+<li><strong>Security</strong>: Security Vulnerability Notifications and Methods to Address Security Vulnerabilities. There are currently <a href="/blog/tags/security/">six articles</a>, and they all have the same title as CVE-xxxxxxx.</li>
+<li><strong>Case Studies</strong>: Blog about using Apache APISIX in the enterprise, let us know how you are using Apache APISIX!</li>
+<li><strong>Plugins</strong>: Blog related to Apache APISIX plugins.</li>
+<li><strong>Ecosystem</strong>: Content related to the surrounding ecology of Apache APISIX.</li>
+</ul>
+<p>Reviewers will help you find the right tags while reviewing your PR.</p>
+<h5 id="obtaining-authorsimage_url">Obtaining authors.image_url</h5>
+<ol>
+<li>Open your browser.</li>
+<li>Enter the URL of the author’s GitHub page, adding <code>.png</code> to the end of the URL, for example:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span></span></span>
+<span class="line"><span>Author Github URL: https://github.com/yzeng25</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Author Avatar URL: https://github.com/yzeng25.png</span></span>
+<span class="line"><span></span></span></code></pre>
+<ol start="3">
+<li>This will open the author’s avatar image and you can copy the url to the image.</li>
+<li>Paste this image url to the <code>authors.image_url</code> field.</li>
+</ol>
+<h4 id="truncate-and-summary">Truncate and summary</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#E6EDF3">title: "Blog's Title"</span></span>
+<span class="line"><span style="color:#79C0FF;font-weight:bold">---</span></span>
+<span class="line"><span style="color:#E6EDF3">This is the summary.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">And this is also part of the summary.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">&#x3C;!--truncate--></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">But this is not part of the summary.</span></span></code></pre>
+<p>You can use the <code>&#x3C;!--truncate--></code> marker in your posts to decide what will be shown as the post summary in the list of posts page.</p>
+<p>Anything above <code>&#x3C;!--truncate--></code> will be part of this summary.</p>
+<p>You can learn more from the <a href="https://docusaurus.io/docs/blog#blog-list">Docusaurus docs</a>.</p>
+<h5 id="difference-between-description-and-summary">Difference between Description and Summary</h5>
+<p>Summary and description could essentially be the same. Then why do we repeat them on two fields?</p>
+<p>Well, the description’s primary purpose is for SEO enhancement and is mainly read by computers where as the summary gives human readers an idea about the content of the blog post.</p>
+<h3 id="fixing-typos-formatting-and-keeping-up-to-date">Fixing typos, formatting and keeping up-to-date</h3>
+<p>You can also make impactful contributions by fixing/updating the existing blog posts.</p>
+<ol>
+<li>To start, locate the file for the blog post. Note that English blogs are located in the <code>website/blog</code> directory and the Chinese blogs are located in <code>website/i18n/zh/docusaurus-plugin-content-blog</code> directory.</li>
+<li>Once you locate the file, make the necessary changes.</li>
+<li><a href="/docs/general/contributor-guide/#open-a-pull-request">Open a pull request</a> with the updated blog post.</li>
+</ol> <div class="docs-meta"> <a href="https://github.com/apache/apisix-website/edit/master/website/docs/general/blog.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

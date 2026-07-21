@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Key Authentication | Apache APISIX</title><meta name="description" content="Explore how to configure key authentication in APISIX using APISIX Ingress Controller, which implement access control to your APIs."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/docs/ingress-controller/getting-started/key-authentication/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/ingress-controller/getting-started/key-authentication/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/ingress-controller/getting-started/key-authentication/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/ingress-controller/getting-started/key-authentication/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Key Authentication | Apache APISIX"><meta property="og:description" content="Explore how to configure key authentication in APISIX using APISIX Ingress Controller, which implement access control to your APIs."><meta property="og:url" content="https://apisix.apache.org/zh/docs/ingress-controller/getting-started/key-authentication/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Key Authentication","description":"Explore how to configure key authentication in APISIX using APISIX Ingress Controller, which implement access control to your APIs.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/ingress-controller/getting-started/key-authentication/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/ingress-controller/getting-started/key-authentication/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/ingress-controller/getting-started/key-authentication/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/zh/docs/ingress-controller/overview/" class>Overview</a>  </li><li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/ingress-controller/getting-started/get-apisix-ingress-controller/" class>Get APISIX and APISIX Ingress Controller</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/key-authentication/" class="active">Key Authentication</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class="cat"> <span>Concepts</span> <ul> <li> <a href="/zh/docs/ingress-controller/concepts/resources/" class>APISIX Ingress Controller Resources</a>  </li><li> <a href="/zh/docs/ingress-controller/concepts/gateway-api/" class>Gateway API</a>  </li><li> <a href="/zh/docs/ingress-controller/concepts/deployment-architecture/" class>Deployment Architecture</a>  </li> </ul> </li><li class> <a href="/zh/docs/ingress-controller/install/" class>Install with Helm</a>  </li><li class> <a href="/zh/docs/ingress-controller/developer-guide/" class>Developer Guide</a>  </li><li class="cat"> <span>Reference</span> <ul> <li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/" class>Custom Resource Definitions API Reference</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/examples/" class>Configuration Examples</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/configuration-troubleshoot/" class>Configuration Troubleshooting</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/configuration-file/" class>Configuration File</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/annotation/" class>Annotations</a>  </li> </ul> </li><li class> <a href="/zh/docs/ingress-controller/upgrade-guide/" class>Upgrade Guide</a>  </li><li class> <a href="/zh/docs/ingress-controller/FAQ/" class>FAQ</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Key Authentication</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p>APISIX has a flexible plugin extension system and a number of existing plugins for user authentication and authorization.</p>
+<p>In this tutorial, you will create a Consumer, configure its key authentication Credential, and enable key authentication on a route, using APISIX Ingress Controller.</p>
+<h2 id="prerequisite">Prerequisite</h2>
+<ol>
+<li>Complete <a href="/docs/ingress-controller/get-apisix-ingress-controller/">Get APISIX and APISIX Ingress Controller</a>.</li>
+</ol>
+<h2 id="configure-key-authentication">Configure Key Authentication</h2>
+<p>For demonstration purpose, you will be creating a route to the <a href="https://httpbin.org">publicly hosted httpbin services</a>. If you would like to proxy requests to services on Kubernetes, please modify accordingly.</p>
+<div class="admonition admonition-important"><p class="admonition-title">IMPORTANT</p><p>If you are using Gateway API, you should first configure the GatewayClass and Gateway resources:</p><details><summary>Show configuration</summary><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">GatewayClass</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  controllerName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/apisix-ingress-controller</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Gateway</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  listeners</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http</span></span>
+<span class="line"><span style="color:#7EE787">    protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTP</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">  infrastructure</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    parametersRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">      kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">GatewayProxy</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-config</span></span></code></pre><p>Note that the <code>port</code> in the Gateway listener is required but ignored. This is due to limitations in the data plane: it cannot dynamically open new ports. Since the Ingress Controller does not manage the data plane deployment, it cannot automatically update the configuration or restart the data plane to apply port changes.</p></details><p>If you are using Ingress or APISIX custom resources, you can proceed without additional configuration, as the IngressClass resource below is already applied with installation:</p><details><summary>Show configuration</summary><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">IngressClass</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  controller</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/apisix-ingress-controller</span></span>
+<span class="line"><span style="color:#7EE787">  parameters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apiGroup</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">GatewayProxy</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-config</span></span>
+<span class="line"><span style="color:#7EE787">    namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">    scope</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Namespace</span></span></code></pre></details><p>See <a href="/docs/ingress-controller/reference/example/#define-controller-and-gateway">Define Controller and Gateway</a> for more information on parameters.</p></div>
+<p><strong>gateway-api</strong></p>
+<p>Create a Kubernetes manifest file to configure a consumer:</p>
+<div class="code-title">consumer.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Consumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tom</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">key-auth</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">primary-key</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">secret-key</span></span></code></pre>
+<p>Create a Kubernetes manifest file to configure a route and enable key authentication:</p>
+<div class="code-title">httpbin-route.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">key-auth</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getting-started-ip</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">: </span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">        value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/ip</span></span>
+<span class="line"><span style="color:#7EE787">    filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">      extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">        kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">        name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">    backendRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>Apply the configurations to your cluster:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> consumer.yaml</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> httpbin-route.yaml</span></span></code></pre>
+<p><strong>apisix-crd</strong></p>
+<p>Create a Kubernetes manifest file to configure a consumer:</p>
+<div class="code-title">consumer.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tom</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    keyAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">secret-key</span></span></code></pre>
+<p>Create a Kubernetes manifest file to configure a route and enable key authentication:</p>
+<div class="code-title">httpbin-route.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixUpstream</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  externalNodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Domain</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getting-started-ip</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getting-started-ip</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/ip</span></span>
+<span class="line"><span style="color:#7EE787">      upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      authentication</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">keyAuth</span></span></code></pre>
+<p>Apply the configurations to your cluster:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> consumer.yaml</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> httpbin-route.yaml</span></span></code></pre>
+<h2 id="verify">Verify</h2>
+<p>Expose the service port to your local machine by port forwarding:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> port-forward</span><span style="color:#A5D6FF"> svc/apisix-gateway</span><span style="color:#A5D6FF"> 9080:80</span><span style="color:#E6EDF3"> &#x26;</span></span></code></pre>
+<p>Send a request without the <code>apikey</code> header.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/ip"</span></span></code></pre>
+<p>You should receive an an <code>HTTP/1.1 401 Unauthorized</code> response.</p>
+<p>Send a request with a wrong key in the <code>apikey</code> header.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/ip"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'apikey: wrong-key'</span></span></code></pre>
+<p>Since the key is incorrect, you should receive an <code>HTTP/1.1 401 Unauthorized</code> response.</p>
+<p>Send a request with the correct key in the <code>apikey</code> header.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/ip"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'apikey: secret-key'</span></span></code></pre>
+<p>You should receive an <code>HTTP/1.1 200 OK</code> response.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix-ingress-controller/edit/master/docs/zh/latest/getting-started/key-authentication.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

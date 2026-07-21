@@ -1,0 +1,1088 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>basic-auth | Apache APISIX</title><meta name="description" content="basic-auth 插件为消费者添加了基本访问身份验证，以便消费者在访问上游资源之前进行身份验证。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/basic-auth"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/basic-auth/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/basic-auth/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/basic-auth/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="basic-auth | Apache APISIX"><meta property="og:description" content="basic-auth 插件为消费者添加了基本访问身份验证，以便消费者在访问上游资源之前进行身份验证。"><meta property="og:url" content="https://docs.api7.ai/hub/basic-auth"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"basic-auth","description":"basic-auth 插件为消费者添加了基本访问身份验证，以便消费者在访问上游资源之前进行身份验证。","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/apisix/plugins/basic-auth/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/apisix/plugins/basic-auth/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/apisix/plugins/basic-auth/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/apisix/getting-started/README/" class>入门指南</a>  </li><li> <a href="/zh/docs/apisix/getting-started/configure-routes/" class>配置路由</a>  </li><li> <a href="/zh/docs/apisix/getting-started/load-balancing/" class>负载均衡</a>  </li><li> <a href="/zh/docs/apisix/getting-started/key-authentication/" class>密钥验证</a>  </li><li> <a href="/zh/docs/apisix/getting-started/rate-limiting/" class>限速</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/installation-guide/" class>APISIX 安装指南</a>  </li><li class> <a href="/zh/docs/apisix/architecture-design/apisix/" class>软件架构</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/zh/docs/apisix/tutorials/expose-api/" class>发布 API</a>  </li><li> <a href="/zh/docs/apisix/tutorials/protect-api/" class>保护 API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/zh/docs/apisix/tutorials/observe-your-api/" class>监控 API</a></li><li><a href="/zh/docs/apisix/tutorials/health-check/" class>健康检查</a></li><li><a href="/zh/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/zh/docs/apisix/tutorials/manage-api-consumers/" class>管理 API 消费者</a>  </li><li> <a href="/zh/docs/apisix/tutorials/cache-api-responses/" class>API 响应缓存</a>  </li><li> <a href="/zh/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/zh/docs/apisix/tutorials/client-to-apisix-mtls/" class>配置客户端与 APISIX 之间的双向认证（mTLS）</a>  </li><li> <a href="/zh/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/zh/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/zh/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer-group/" class>Consumer Groups</a>  </li><li> <a href="/zh/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/zh/docs/apisix/terminology/global-rule/" class>Global rules</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/zh/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/zh/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/zh/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/zh/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/zh/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/zh/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/zh/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/zh/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/zh/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/zh/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/zh/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/zh/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/zh/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/zh/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/zh/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/zh/docs/apisix/plugins/gzip/" class>gzip</a></li><li><a href="/zh/docs/apisix/plugins/brotli/" class>brotli</a></li><li><a href="/zh/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/zh/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-pre-req/" class>ext-plugin-pre-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-req/" class>ext-plugin-post-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-resp/" class>ext-plugin-post-resp</a></li><li><a href="/zh/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/zh/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/zh/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/zh/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/grpc-transcode/" class>grpc-transcode</a></li><li><a href="/zh/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/zh/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/zh/docs/apisix/plugins/mocking/" class>mocking</a></li><li><a href="/zh/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/zh/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/zh/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/zh/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/zh/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/zh/docs/apisix/plugins/basic-auth/" class="active">basic-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/zh/docs/apisix/plugins/authz-casdoor/" class>authz-casdoor</a></li><li><a href="/zh/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/zh/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/zh/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/zh/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/zh/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/zh/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-casbin/" class>authz-casbin</a></li><li><a href="/zh/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/zh/docs/apisix/plugins/opa/" class>opa</a></li><li><a href="/zh/docs/apisix/plugins/forward-auth/" class>forward-auth</a></li><li><a href="/zh/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/zh/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/zh/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/zh/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/zh/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/zh/docs/apisix/plugins/ua-restriction/" class>ua-restriction</a></li><li><a href="/zh/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/zh/docs/apisix/plugins/csrf/" class>csrf</a></li><li><a href="/zh/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/zh/docs/apisix/plugins/gm/" class>GM</a></li><li><a href="/zh/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/zh/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/zh/docs/apisix/plugins/limit-req/" class>limit-req</a></li><li><a href="/zh/docs/apisix/plugins/limit-conn/" class>limit-conn</a></li><li><a href="/zh/docs/apisix/plugins/limit-count/" class>limit-count</a></li><li><a href="/zh/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/zh/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/zh/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/zh/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/zh/docs/apisix/plugins/api-breaker/" class>api-breaker</a></li><li><a href="/zh/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/zh/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/zh/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/zh/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/zh/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/zh/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/zh/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/zh/docs/apisix/plugins/serverless/" class>serverless</a></li><li><a href="/zh/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/zh/docs/apisix/plugins/openwhisk/" class>openwhisk</a></li><li><a href="/zh/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/zh/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/zh/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/zh/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/zh/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/zh/docs/apisix/plugins/http-dubbo/" class>http-dubbo</a></li><li><a href="/zh/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/zh/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/zh/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/zh/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/zh/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/zh/docs/apisix/building-apisix/" class>源码安装 APISIX</a>  </li><li> <a href="/zh/docs/apisix/build-apisix-dev-environment-on-mac/" class>在 Mac 上构建开发环境</a>  </li><li> <a href="/zh/docs/apisix/support-fips-in-apisix/" class>通过 OpenSSL 3.0 使 APISIX 支持 FIPS 模式</a>  </li><li> <a href="/zh/docs/apisix/external-plugin/" class>外部插件</a>  </li><li> <a href="/zh/docs/apisix/wasm/" class>wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/zh/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/zh/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/zh/docs/apisix/plugin-develop/" class>插件开发</a>  </li><li> <a href="/zh/docs/apisix/debug-mode/" class>调试模式</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/zh/docs/apisix/FAQ/" class>常见问题</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/zh/docs/apisix/discovery/" class>集成服务发现注册中心</a></li><li><a href="/zh/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/zh/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/zh/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/zh/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/zh/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/zh/docs/apisix/discovery/control-plane-service-discovery/" class>控制面服务发现</a></li><li><a href="/zh/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/zh/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/zh/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/zh/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/zh/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/zh/docs/apisix/router-radixtree/" class>路由 RadixTree</a>  </li><li> <a href="/zh/docs/apisix/stream-proxy/" class>TCP/UDP 动态代理</a>  </li><li> <a href="/zh/docs/apisix/grpc-proxy/" class>gRPC 代理</a>  </li><li> <a href="/zh/docs/apisix/customize-nginx-configuration/" class>自定义 Nginx 配置</a>  </li><li> <a href="/zh/docs/apisix/certificate/" class>证书</a>  </li><li> <a href="/zh/docs/apisix/batch-processor/" class>批处理器</a>  </li><li> <a href="/zh/docs/apisix/benchmark/" class>压力测试</a>  </li><li> <a href="/zh/docs/apisix/install-dependencies/" class>安装依赖</a>  </li><li> <a href="/zh/docs/apisix/apisix-variable/" class>APISIX 变量</a>  </li><li> <a href="/zh/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/zh/docs/apisix/mtls/" class>TLS 双向认证</a>  </li><li> <a href="/zh/docs/apisix/debug-function/" class>调试功能</a>  </li><li> <a href="/zh/docs/apisix/profile/" class>基于环境变量进行配置文件切换</a>  </li><li> <a href="/zh/docs/apisix/ssl-protocol/" class>SSL 协议</a>  </li><li> <a href="/zh/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/zh/docs/apisix/http3/" class>HTTP3 协议</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>升级指南</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>basic-auth</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="描述">描述</h2>
+<p><code>basic-auth</code> 插件为<a href="/zh/docs/apisix/terminology/consumer/">消费者</a>添加了<a href="https://en.wikipedia.org/wiki/Basic_access_authentication">基本访问身份验证</a>，以便消费者在访问上游资源之前进行身份验证。</p>
+<p>当消费者成功通过身份验证后，APISIX 会在将请求代理到上游服务之前向请求添加其他标头，例如 <code>X-Consumer-Username</code>、<code>X-Credential-Identifier</code> 和其他消费者自定义标头（如果已配置）。上游服务将能够区分消费者并根据需要实现其他逻辑。如果这些值中的任何一个不可用，则不会添加相应的标头。</p>
+<h2 id="属性">属性</h2>
+<p>消费者/凭证端：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>有效值</th><th>描述</th></tr></thead><tbody><tr><td>username</td><td>string</td><td>是</td><td></td><td></td><td>消费者的唯一基本认证用户名。</td></tr><tr><td>password</td><td>string</td><td>是</td><td></td><td></td><td>消费者的基本认证密码。密码在存储到 etcd 之前会使用 AES 加密。你也可以将其存储在环境变量中并使用 <code>env://</code> 前缀引用，或存储在 HashiCorp Vault 等密钥管理器中并使用 <code>secret://</code> 前缀引用。</td></tr></tbody></table>
+<p>Route 端：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>有效值</th><th>描述</th></tr></thead><tbody><tr><td>hide_credentials</td><td>boolean</td><td>否</td><td>false</td><td></td><td>若为 <code>true</code>，则不将 Authorization 请求标头传递给上游服务。</td></tr><tr><td>anonymous_consumer</td><td>string</td><td>否</td><td></td><td></td><td>匿名消费者名称。如果已配置，则允许匿名用户绕过身份验证。</td></tr><tr><td>realm</td><td>string</td><td>否</td><td>basic</td><td></td><td>在身份验证失败时，<code>401 Unauthorized</code> 响应中 <a href="https://datatracker.ietf.org/doc/html/rfc7235#section-4.1"><code>WWW-Authenticate</code></a> 标头的域值。该参数在 Apache APISIX 3.15.0 及以上版本中可用。</td></tr></tbody></table>
+<h2 id="示例">示例</h2>
+<p>以下示例演示了如何在不同场景中使用 <code>basic-auth</code> 插件。</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="在路由上实现基本身份验证">在路由上实现基本身份验证</h3>
+<p>以下示例演示如何在路由上实现基本身份验证。</p>
+<p><strong>admin-api</strong></p>
+<p>创建消费者 <code>johndoe</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "johndoe"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>为消费者创建 <code>basic-auth</code> 凭证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/johndoe/credentials"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "cred-john-basic-auth",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "username": "johndoe",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "password": "john-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>创建一个带有 <code>basic-auth</code> 的路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "basic-auth-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<p>创建带有 <code>basic-auth</code> 凭证的消费者以及配置了 <code>basic-auth</code> 插件的路由：</p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">    credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">          password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          basic-auth</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p>创建带有 <code>basic-auth</code> 凭证的消费者以及配置了 <code>basic-auth</code> 插件的路由：</p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Consumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">primary-cred</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">      backendRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p><strong>apisix-ingress-controller</strong></p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    basicAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixUpstream</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  externalNodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Domain</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<h4 id="使用有效凭证进行验证">使用有效凭证进行验证</h4>
+<p>使用有效凭证发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -u</span><span style="color:#A5D6FF"> johndoe:john-key</span></span></code></pre>
+<p>你应该会看到类似于以下内容的 <code>HTTP/1.1 200 OK</code> 响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "Accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Basic am9obmRvZTpqb2huLWtleQ=="</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "User-Agent"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"curl/8.6.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Amzn-Trace-Id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Root=1-66e5107c-5bb3e24f2de5baf733aec1cc"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Consumer-Username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"johndoe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Credential-Identifier"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cred-john-basic-auth"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Forwarded-Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"192.168.65.1, 205.198.122.37"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1/anything"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h4 id="使用无效凭证进行验证">使用无效凭证进行验证</h4>
+<p>使用无效凭证发送请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -u</span><span style="color:#A5D6FF"> johndoe:invalid-password</span></span></code></pre>
+<p>你应该看到以下 <code>HTTP/1.1 401 Unauthorized</code> 响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>{"message":"Invalid user authorization"}</span></span></code></pre>
+<h4 id="不使用凭证进行验证">不使用凭证进行验证</h4>
+<p>发送不携带凭证的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span></span></code></pre>
+<p>你应该看到以下 <code>HTTP/1.1 401 Unauthorized</code> 响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>{"message":"Missing authorization in request"}</span></span></code></pre>
+<h3 id="隐藏上游的身份验证信息">隐藏上游的身份验证信息</h3>
+<p>以下示例演示了如何通过配置 <code>hide_credentials</code> 来防止客户端凭证（<code>Authorization</code> 标头）被发送到上游服务。APISIX 默认情况下会将包含客户端凭证的 <code>Authorization</code> 标头转发到上游服务，这在某些情况下可能会导致安全风险，你应该考虑按本示例更新 <code>hide_credentials</code>。</p>
+<p><strong>admin-api</strong></p>
+<p>创建消费者 <code>johndoe</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "johndoe"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>为消费者创建 <code>basic-auth</code> 凭证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/johndoe/credentials"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "cred-john-basic-auth",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "username": "johndoe",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "password": "john-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<h4 id="不隐藏凭据">不隐藏凭据</h4>
+<p>使用 <code>basic-auth</code> 创建路由，并将 <code>hide_credentials</code> 配置为 <code>false</code>（默认配置）：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">"X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-d </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "id": "basic-auth-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "hide_credentials": false</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<p>创建带有 <code>basic-auth</code> 凭证的消费者以及配置了 <code>basic-auth</code> 插件的路由：</p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">    credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">          password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          basic-auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            hide_credentials</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p>创建带有 <code>basic-auth</code> 凭证的消费者以及配置了 <code>basic-auth</code> 插件的路由：</p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Consumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">primary-cred</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">        hide_credentials</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">      backendRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p><strong>apisix-ingress-controller</strong></p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    basicAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixUpstream</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  externalNodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Domain</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">        config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          hide_credentials</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p>发送带有有效凭证的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -u</span><span style="color:#A5D6FF"> johndoe:john-key</span></span></code></pre>
+<p>你应该看到以下 <code>HTTP/1.1 200 OK</code> 响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "Accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Basic am9obmRvZTpqb2huLWtleQ=="</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "User-Agent"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"curl/8.6.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Amzn-Trace-Id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Root=1-66cc2195-22bd5f401b13480e63c498c6"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Consumer-Username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"johndoe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Credential-Identifier"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cred-john-basic-auth"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Forwarded-Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"192.168.65.1, 43.228.226.23"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1/anything"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>请注意，凭证以 base64 编码格式对上游服务可见。你也可以使用 <code>Authorization</code> 标头在请求中传递 base64 编码的凭据：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "Authorization: Basic am9obmRvZTpqb2huLWtleQ=="</span></span></code></pre>
+<h4 id="隐藏凭据">隐藏凭据</h4>
+<p><strong>admin-api</strong></p>
+<p>将插件的 <code>hide_credentials</code> 更新为 <code>true</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/basic-auth-route"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PATCH</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">"X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-d </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "hide_credentials": true</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<p>更新路由配置：</p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># 其他配置</span></span>
+<span class="line"><span style="color:#8B949E"># ...</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          basic-auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            hide_credentials</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<p>更新 PluginConfig，将 <code>hide_credentials</code> 设置为 <code>true</code>：</p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># 其他配置</span></span>
+<span class="line"><span style="color:#8B949E"># ---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">        hide_credentials</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p><strong>apisix-ingress-controller</strong></p>
+<p>更新 ApisixRoute，将 <code>hide_credentials</code> 设置为 <code>true</code>：</p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># 其他配置</span></span>
+<span class="line"><span style="color:#8B949E"># ---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">        config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          hide_credentials</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p>发送带有有效凭证的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -u</span><span style="color:#A5D6FF"> johndoe:john-key</span></span></code></pre>
+<p>你应该看到以下 <code>HTTP/1.1 200 OK</code> 响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "Accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "User-Agent"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"curl/8.6.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Amzn-Trace-Id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Root=1-66cc21a7-4f6ac87946e25f325167d53a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Consumer-Username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"johndoe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Credential-Identifier"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cred-john-basic-auth"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Forwarded-Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"192.168.65.1, 43.228.226.23"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1/anything"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>请注意，上游服务不再可见这些凭据。</p>
+<h3 id="将消费者自定义-id-添加到标头">将消费者自定义 ID 添加到标头</h3>
+<p>以下示例演示了如何在 <code>Consumer-Custom-Id</code> 标头中将消费者自定义 ID 附加到经过身份验证的请求，该 ID 可用于根据需要实现其他逻辑。</p>
+<p><strong>admin-api</strong></p>
+<p>创建带有自定义 ID 标签的消费者 <code>johndoe</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "johndoe",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "labels": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "custom_id": "495aec6a"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>为消费者创建 <code>basic-auth</code> 凭证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/johndoe/credentials"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "cred-john-basic-auth",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "username": "johndoe",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "password": "john-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>创建一个带有 <code>basic-auth</code> 的路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "basic-auth-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<p>创建带有 <code>basic-auth</code> 凭证的消费者以及启用 <code>basic-auth</code> 插件的路由：</p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">    labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      custom_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"495aec6a"</span></span>
+<span class="line"><span style="color:#7EE787">    credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">          password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          basic-auth</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p>创建带有 <code>basic-auth</code> 凭据的消费者，并启用 <code>basic-auth</code> 插件的路由：</p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Consumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    custom_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"495aec6a"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">primary-key</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">      backendRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p><strong>apisix-crd</strong></p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    custom_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"495aec6a"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    basicAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixUpstream</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  externalNodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Domain</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              disable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p>使用有效凭证向路由发送请求进行验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -u</span><span style="color:#A5D6FF"> johndoe:john-key</span></span></code></pre>
+<p>你应该看到一个带有 <code>X-Consumer-Custom-Id</code> 的 <code>HTTP/1.1 200 OK</code> 响应，类似于以下内容：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "Accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Basic am9obmRvZTpqb2huLWtleQ=="</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "User-Agent"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"curl/8.6.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Amzn-Trace-Id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Root=1-66ea8d64-33df89052ae198a706e18c2a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Consumer-Username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"aic_johndoe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Credential-Identifier"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cred-john-basic-auth"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Consumer-Custom-Id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"495aec6a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Forwarded-Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"192.168.65.1, 205.198.122.37"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1/anything"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="匿名消费者的速率限制">匿名消费者的速率限制</h3>
+<p>以下示例演示了如何为普通消费者和匿名消费者配置不同的速率限制策略，其中匿名消费者不需要进行身份验证，并且配额较少。</p>
+<p><strong>admin-api</strong></p>
+<p>创建普通消费者 <code>johndoe</code> 并配置 <code>limit-count</code> 插件以允许 30 秒内的配额为 3：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "johndoe",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "count": 3,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "time_window": 30,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "policy": "local"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>为消费者 <code>johndoe</code> 创建 <code>basic-auth</code> 凭证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/johndoe/credentials"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "cred-john-basic-auth",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "username": "johndoe",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "password": "john-key"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>创建匿名用户 <code>anonymous</code>，并配置 <code>limit-count</code> 插件，以允许 30 秒内配额为 1：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "anonymous",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "limit-count": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "count": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "time_window": 30,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "rejected_code": 429,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "policy": "local"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>创建一个路由并配置 <code>basic-auth</code> 插件来接受匿名消费者 <code>anonymous</code> 绕过身份验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "basic-auth-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "anonymous_consumer": "anonymous"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<p>配置具有不同速率限制的消费者以及接受匿名用户的路由：</p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      limit-count</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        policy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">local</span></span>
+<span class="line"><span style="color:#7EE787">    credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">        config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">          password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">anonymous</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      limit-count</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        policy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">local</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">anonymous-rate-limit-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          basic-auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            anonymous_consumer</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">anonymous</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<p>配置具有不同速率限制的消费者以及接受匿名用户的路由：</p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Consumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">primary-key</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">limit-count</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        policy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">local</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Consumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">anonymous</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  gatewayRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">limit-count</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        policy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">local</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        anonymous_consumer</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic_anonymous</span><span style="color:#8B949E">  # namespace_consumername</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">      backendRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p><strong>apisix-ingress-controller</strong></p>
+<p>配置具有不同速率限制的消费者和接受匿名用户的路由：</p>
+<div class="code-title">basic-auth-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    basicAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">        password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">limit-count</span></span>
+<span class="line"><span style="color:#7EE787">      enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        policy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">local</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">anonymous</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">limit-count</span></span>
+<span class="line"><span style="color:#7EE787">      enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        policy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">local</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixUpstream</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  externalNodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Domain</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">      upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-external-domain</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            anonymous_consumer</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic_anonymous</span><span style="color:#8B949E">  # namespace_consumername</span></span></code></pre>
+<p>将配置应用到集群：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> basic-auth-ic.yaml</span></span></code></pre>
+<p>为了验证，请使用 <code>johndoe</code> 的凭证发送五个连续的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">resp</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">seq</span><span style="color:#79C0FF"> 5</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> xargs</span><span style="color:#79C0FF"> -I</span><span style="color:#E6EDF3">{} curl "http://127.0.0.1:9080/anything" -u johndoe:john-key -o /dev/null -s -w "%{http_code}\n") &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">  count_200</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#79C0FF">echo</span><span style="color:#A5D6FF"> "</span><span style="color:#E6EDF3">$resp</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> "200"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> wc</span><span style="color:#79C0FF"> -l</span><span style="color:#E6EDF3">) &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#E6EDF3">  count_429</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#79C0FF">echo</span><span style="color:#A5D6FF"> "</span><span style="color:#E6EDF3">$resp</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> "429"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> wc</span><span style="color:#79C0FF"> -l</span><span style="color:#E6EDF3">) &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">  echo</span><span style="color:#A5D6FF"> "200":</span><span style="color:#E6EDF3"> $count_200</span><span style="color:#A5D6FF">,</span><span style="color:#A5D6FF"> "429":</span><span style="color:#E6EDF3"> $count_429</span></span></code></pre>
+<p>你应该看到以下响应，显示在 5 个请求中，3 个请求成功（状态代码 200），而其他请求被拒绝（状态代码 429）。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>200:    3, 429:    2</span></span></code></pre>
+<p>发送五个匿名请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">resp</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">seq</span><span style="color:#79C0FF"> 5</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> xargs</span><span style="color:#79C0FF"> -I</span><span style="color:#E6EDF3">{} curl "http://127.0.0.1:9080/anything" -o /dev/null -s -w "%{http_code}\n") &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">  count_200</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#79C0FF">echo</span><span style="color:#A5D6FF"> "</span><span style="color:#E6EDF3">$resp</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> "200"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> wc</span><span style="color:#79C0FF"> -l</span><span style="color:#E6EDF3">) &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#E6EDF3">  count_429</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#79C0FF">echo</span><span style="color:#A5D6FF"> "</span><span style="color:#E6EDF3">$resp</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> "429"</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> wc</span><span style="color:#79C0FF"> -l</span><span style="color:#E6EDF3">) &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">  echo</span><span style="color:#A5D6FF"> "200":</span><span style="color:#E6EDF3"> $count_200</span><span style="color:#A5D6FF">,</span><span style="color:#A5D6FF"> "429":</span><span style="color:#E6EDF3"> $count_429</span></span></code></pre>
+<p>你应该看到以下响应，表明只有一个请求成功：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>200:    1, 429:    4</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/zh/latest/plugins/basic-auth.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

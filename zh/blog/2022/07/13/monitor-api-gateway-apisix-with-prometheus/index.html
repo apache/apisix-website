@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>使用 Prometheus 监控云原生 API 网关 APISIX | Apache APISIX</title><meta name="description" content="本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="使用 Prometheus 监控云原生 API 网关 APISIX | Apache APISIX"><meta property="og:description" content="本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"使用 Prometheus 监控云原生 API 网关 APISIX","description":"本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。","datePublished":"2022-07-13","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png","author":{"@type":"Person","name":"韩飞"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>使用 Prometheus 监控云原生 API 网关 APISIX</h1> <p class="article-meta"> 2022-07-13 · 韩飞  </p> <blockquote>
+<p>本文将为你介绍 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，并且也为你演示了如何在 APISIX Dashboard 中配置 Grafana。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为 API 网关，Apache APISIX 不仅拥有丰富的插件，而且支持插件的热加载。</p>
+<p>Prometheus 是一款开源的云原生监控报警系统，它为用户提供强大的指标存储功能、告警功能和近实时查询引擎，支持多种 exporter 采集数据和 pushgateway 进行数据上报。Prometheus 的性能足够支撑上万台规模的集群，是目前最流行的开源监控系统之一。</p>
+<h2 id="插件介绍">插件介绍</h2>
+<p>APISIX 通过 Prometheus Exporter 以 HTTP 的方式向外暴露 APISIX 设定的监控指标，包括 APISIX 的连接数、HTTP 请求的状态码分布、HTTP 请求总数、HTTP 请求延时等重要指标。你可以使用 <code>prometheus</code> 插件，来监控 APISIX 的各个指标，以便及时地了解系统运行状态。</p>
+<h2 id="配置步骤">配置步骤</h2>
+<h3 id="步骤一启用-prometheus-插件">步骤一：启用 prometheus 插件</h3>
+<p>首先，你需要安装完成 APISIX，本文所有步骤基于 CentOS 7.6 系统进行。你需要完成 APISIX 的安装，具体细节可参考 <a href="https://apisix.apache.org/zh/docs/apisix/how-to-build/">APISIX 安装指南</a>。</p>
+<p>APISIX 默认启用 <code>prometheus</code> 插件，该插件默认创建 <code>/apisix/prometheus/metrics</code> 接口，并通过独立的服务地址（默认为 <code>127.0.0.1:9091</code>）暴露指标，本文将使用该地址进行。</p>
+<p>你也可以在配置文件中添加如下配置，修改默认的服务地址：</p>
+<div class="code-title">./conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    export_addr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ip</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9092</span></span></code></pre>
+<p>建议在 <code>ip</code> 参数中配置内网地址，确保仅在局域网内暴露 Prometheus Exporter 接口。当然你也可以使用 <a href="https://apisix.apache.org/zh/docs/apisix/plugins/public-api/">public-api</a> 插件保护此接口。为了方便在测试环境中使用，你也可以将 Prometheus Exporter 直接暴露在数据面的端口上。如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enable_export_server</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>配置完成后，你可以通过以下命令提取相关监控指标：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9091/apisix/prometheus/metrics</span></span></code></pre>
+<p>返回如下结果即为配置成功。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> openresty</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Wed,</span><span style="color:#79C0FF"> 23</span><span style="color:#A5D6FF"> Mar</span><span style="color:#79C0FF"> 2022</span><span style="color:#A5D6FF"> 13:22:58</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># HELP apisix_etcd_modify_indexes Etcd modify index for APISIX keys</span></span>
+<span class="line"><span style="color:#8B949E"># TYPE apisix_etcd_modify_indexes gauge</span></span>
+<span class="line"><span style="color:#FFA657">apisix_etcd_modify_indexes</span><span style="color:#A5D6FF">{key=</span><span style="color:#FFA657">"consumers"</span><span style="color:#FFA657">}</span><span style="color:#79C0FF"> 0</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#8B949E"># TYPE apisix_node_info gauge</span></span>
+<span class="line"><span style="color:#FFA657">apisix_node_info</span><span style="color:#A5D6FF">{hostname=</span><span style="color:#FFA657">"APISIX"</span><span style="color:#FFA657">}</span><span style="color:#79C0FF"> 1</span></span></code></pre>
+<h3 id="步骤二配置-prometheus">步骤二：配置 Prometheus</h3>
+<ol>
+<li>安装 Prometheus：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> /usr/local</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">wget</span><span style="color:#A5D6FF"> https://github.com/prometheus/prometheus/releases/download/v2.33.0-rc.0/prometheus-2.33.0-rc.0.linux-amd64.tar.gz</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">tar</span><span style="color:#79C0FF"> -zxvf</span><span style="color:#A5D6FF"> prometheus-2.33.0-rc.0.linux-amd64.tar.gz</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> /usr/local/prometheus-2.33.0-rc.0.linux-amd64/</span></span></code></pre>
+<ol start="2">
+<li>通过在 Prometheus 的 <code>prometheus.yml</code> 配置文件中添加相关配置，Prometheus 就可以自动抓取指标数据。具体配置如下：</li>
+</ol>
+<div class="code-title">./prometheus.yml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">scrape_configs:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#A5D6FF"> job_name:</span><span style="color:#A5D6FF"> "apisix"</span></span>
+<span class="line"><span style="color:#FFA657">    scrape_interval:</span><span style="color:#A5D6FF"> 15s</span></span>
+<span class="line"><span style="color:#FFA657">    metrics_path:</span><span style="color:#A5D6FF"> "/apisix/prometheus/metrics"</span></span>
+<span class="line"><span style="color:#FFA657">    static_configs:</span></span>
+<span class="line"><span style="color:#FFA657">      -</span><span style="color:#A5D6FF"> targets:</span><span style="color:#E6EDF3"> [</span><span style="color:#A5D6FF">"127.0.0.1:9091"</span><span style="color:#E6EDF3">]</span></span></code></pre>
+<p>其中 <code>scrape_interval</code> 的取值与 Prometheus QL 中 <code>rate</code> 函数的时间范围有关系，<code>rate</code> 函数中的时间范围应该是此参数取值的两倍。<code>targets</code> 是在 APISIX 中配置的 Prometheus Exporter 暴露指标的地址。更多关于 Prometheus 的使用方法请参考 <a href="https://prometheus.io/docs/introduction/overview/">Prometheus 官方文档</a>。</p>
+<ol start="3">
+<li>启动 Prometheus，并指定监听端口为 <code>9094</code>。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">./prometheus</span><span style="color:#79C0FF"> --config.file=prometheus.yml</span><span style="color:#79C0FF"> --web.listen-address=:9094</span><span style="color:#79C0FF"> --web.enable-lifecycle</span><span style="color:#E6EDF3"> &#x26;</span></span></code></pre>
+<p>访问 <code>127.0.0.1:9094</code>，选择 <code>Status > Targets</code>，页面如下则表示配置成功：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0713/1.png" alt="network error/prometheus.png"></p>
+<h3 id="步骤三创建路由">步骤三：创建路由</h3>
+<p>启用 <code>prometheus</code> 插件后，访问 Prometheus Exporter 获取的 Metrics 数据中并不包括 HTTP 请求的相关指标，仅有 APISIX 实例相关的指标。因此启用插件之后还需要将它绑定在指定的路由上或者创建一个<a href="https://apisix.apache.org/zh/docs/apisix/terminology/global-rule/">全局规则</a>。以下示例是创建一个路由并将该插件绑定在该路由上：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-d </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "prometheus": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "prefer_name": false</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "httpbin.org": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }'</span></span></code></pre>
+<p>如果你需要收集所有路由的指标数据，可以通过以下命令创建全局规则：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/global_rules/1</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "prometheus": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "prefer_name": false</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }'</span></span></code></pre>
+<h3 id="步骤四配置-grafana">步骤四：配置 Grafana</h3>
+<ol>
+<li>通过以下命令安装 Grafana。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> /usr/local</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">wget</span><span style="color:#A5D6FF"> https://dl.grafana.com/enterprise/release/grafana-enterprise-8.3.3-1.x86_64.rpm</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">sudo</span><span style="color:#A5D6FF"> yum</span><span style="color:#79C0FF"> -y</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> grafana-enterprise-8.3.3-1.x86_64.rpm</span></span></code></pre>
+<ol start="2">
+<li>你需要修改 Grafana 相关配置才可以在 APISIX Dashboard 正常使用 Grafana。请在 Grafana 配置文件 <code>defaults.ini</code> 修改如下配置：</li>
+</ol>
+<div class="code-title">/usr/share/grafana/conf/defaults.ini</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#FF7B72">allow_embedding</span><span style="color:#E6EDF3"> = true</span></span>
+<span class="line"><span style="color:#8B949E"># 由于安全策略，设置为 true 时，浏览器才可以正确呈现 Grafana 页面。</span></span>
+<span class="line"><span style="color:#8B949E">#... 其他配置</span></span>
+<span class="line"><span style="color:#FFA657">[auth.anonymous]</span></span>
+<span class="line"><span style="color:#8B949E"># 启用匿名登录</span></span>
+<span class="line"><span style="color:#FF7B72">enabled</span><span style="color:#E6EDF3"> = true</span></span></code></pre>
+<ol start="3">
+<li>配置完成后，请使用以下命令启动 Grafana：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">systemctl</span><span style="color:#A5D6FF"> start</span><span style="color:#A5D6FF"> grafana-server</span></span></code></pre>
+<ol start="4">
+<li>登录 Grafana（默认地址为 <code>http://127.0.0.1:3000</code>），默认用户和密码均为 <code>admin</code>。登录成功后，在当前页面单击 <code>Add your first data source</code>，选择 <code>Prometheus</code>，配置 URL 为 <code>http://127.0.0.1:9094</code>。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0713/2.png" alt="network error/import.png"></p>
+<ol start="5">
+<li>单击左侧 <code>+</code> 号并选择 <code>Import</code>，单击 <code>Upload JSON file</code> 上传 <a href="https://github.com/apache/apisix/blob/master/docs/assets/other/json/apisix-grafana-dashboard.json">APISIX Grafana Dashboard 元数据文件</a>。上传后，单击 <code>Import</code>，Grafana 就配置成功了。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0713/3.png" alt="network error/apisix grafana.png"></p>
+<h3 id="步骤五请求-apisix">步骤五：请求 APISIX</h3>
+<p>完成上述步骤后，可以通过以下命令请求路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/index.html</span></span></code></pre>
+<p>返回 Grafana 页面，单击左侧导航栏搜索按钮，就可以查看 APISIX 相关的指标了。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0713/4.png" alt="network error/apisix grafana.png"></p>
+<h3 id="步骤六嵌入-apisix-dashboard">步骤六：嵌入 APISIX Dashboard</h3>
+<ol>
+<li>安装并登录 APISIX Dashboard，默认地址为 <code>127.0.0.1:9000</code>。具体细节可参考 <a href="https://apisix.apache.org/zh/docs/dashboard/install/">APISIX Dashboard 安装指南</a>。</li>
+<li>选择右上角 <code>APISIX USER >系统设置</code>。</li>
+<li>在设置页面中的 Grafana 地址处填写 Grafana 的地址并单击提交。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0713/5.png" alt="network error/apisix dashboard.png"></p>
+<h2 id="总结">总结</h2>
+<p>本文详细介绍了如何使用 Prometheus 监控 APISIX，并且展示了如何在 APISIX Dashboard 中嵌入 Grafana 监控面板。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果你对此有兴趣，你可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join/">邮件列表</a>进行交流。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

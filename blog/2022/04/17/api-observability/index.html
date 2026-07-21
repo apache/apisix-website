@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Observability with APISIX Plugins | Apache APISIX</title><meta name="description" content="This article describes the power of some Apache APISIX Observability Plugins, how to set up these plugins and use them to understand API behavior."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/04/17/api-observability/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/04/17/api-observability/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/04/17/api-observability/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/04/17/api-observability/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="API Observability with APISIX Plugins | Apache APISIX"><meta property="og:description" content="This article describes the power of some Apache APISIX Observability Plugins, how to set up these plugins and use them to understand API behavior."><meta property="og:url" content="https://apisix.apache.org/blog/2022/04/17/api-observability/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API Observability with APISIX Plugins","description":"This article describes the power of some Apache APISIX Observability Plugins, how to set up these plugins and use them to understand API behavior.","datePublished":"2022-04-17","author":{"@type":"Person","name":"Boburmirzo"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/04/17/api-observability/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/04/17/api-observability/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/04/17/api-observability/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>API Observability with APISIX Plugins</h1> <p class="article-meta"> 2022-04-17 · Boburmirzo  </p> <blockquote>
+<p>This article describes the power of some Apache APISIX Observability Plugins, how to set up these plugins and use them to understand API behavior.</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1650506677636-f4d1ffa0-d848-4264-b497-de1061da0faf.png" alt="Cover image for API Observability with Apache APISIX Plugins"></p>
+<h2 id="apis-are-everywhere">APIs are everywhere</h2>
+<p>APIs — by now, we’re all familiar with the term. Every service we use today either uses an API or is an API itself. APIs are central in building and delivering your services. Also, you know that the success of your services depends on the integrity, availability, and performance of your APIs.</p>
+<p>Nowadays <strong>API Observability</strong> is already a part of every API development as it addresses many problems related to API consistency, reliability, and the ability to quickly iterate on new API features. When you design for full-stack observability, you get everything you need to find issues and catch breaking changes.</p>
+<p>API observability can help every team in your organization:</p>
+<ul>
+<li>
+<p>Sales and growth teams to monitor your API usage, free trials, observe expansion opportunities and ensure that API serves the correct data.</p>
+</li>
+<li>
+<p>Engineering teams to monitor and troubleshoot API issues.</p>
+</li>
+<li>
+<p>Product teams to understand API usage and business value.</p>
+</li>
+<li>
+<p>Security teams to detect and protect from API threats.</p>
+</li>
+</ul>
+<h2 id="a-central-point-for-observation">A central point for observation</h2>
+<p>We know that an API gateway offers a central control point for incoming traffic to a variety of destinations but it can also be a central point for observation as well since it is uniquely qualified to know about all the traffic moving between clients and our service networks. Instead of spending time integrating your services with other many APIs and technologies to improve observability, you can easily manage all work with <a href="https://apisix.apache.org/plugins">Apache APISIX Plugins</a>.</p>
+<p><img src="https://static.apiseven.com/202108/1650506058593-265ec5da-4b0b-49f0-add4-cabd4a4f52cb.png" alt="A central point for observation"></p>
+<p>Most observability platforms like (Prometheus, SkyWalking, and Opentelemetry) provide pre-built connectors that you can easily integrate with Apache APISIX. You can leverage these connectors to ingest log data from your API gateways to further derive useful metrics and gain complete visibility into the usage, management performance, and security of your APIs in your environment.</p>
+<p>The core of observability breaks down into <strong>three key areas</strong>: structured logs, metrics, and traces. Let’s break down each pillar of API observability and learn how with Apache APISIX Plugins we can simplify these tasks and provides a solution that you can use to better understand API usage.</p>
+<p><img src="https://static.apiseven.com/202108/1650506177111-04b43058-d8e1-426d-97e4-ac1d0a8c4b3e.png" alt="Observability of three key areas"></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before enabling our plugins we need to install Apache APISIX, create a route, an upstream, and map the route to the upstream. You can simply follow <a href="https://apisix.apache.org/docs/apisix/getting-started">getting started guide</a> provided on the website.</p>
+<h2 id="logs">Logs</h2>
+<p><strong>Logs</strong> are also easy to instrument and trivial steps of API observability, they can be used to inspect API calls in real-time for debugging, auditing, and recording time-stamped events that happened over time. There are several logger plugins Apache APISIX provides such as:</p>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/http-logger/">http-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/skywalking-logger/">skywalking-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/tcp-logger">tcp-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/kafka-logger">kafka-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/rocketmq-logger">rocketmq-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/udp-logger">udp-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/clickhouse-logger">clickhouse-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/error-log-logger">error-logger</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/google-cloud-logging">google-cloud-logging</a></p>
+</li>
+</ul>
+<p>And you can see the <a href="https://apisix.apache.org/docs/apisix/plugins/zipkin">full list</a> on the official website of Apache APISIX. Now for demo purposes, let’s choose a simple but mostly used <em>http-logger</em> plugin that is capable of sending API Log data requests to HTTP/HTTPS servers or sends as JSON objects to Monitoring tools. We can assume that a route and an upstream are created. You can learn how to set up them in the <strong><a href="https://youtu.be/dUOjJkb61so">Getting started with Apache APISIX</a></strong> video tutorial. Also, you can find all command-line examples on the GitHub page <a href="https://boburmirzo.github.io/apisix-observability-plugins/">apisix-observability-plugins</a>.</p>
+<p>You can generate a mock HTTP server at <a href="https://mockbin.org/">mockbin.com</a> to record and view the logs. Note that we also bind the route to an upstream (You can refer to this documentation to learn about more <a href="https://apisix.apache.org/docs/apisix/architecture-design/apisix">core concepts of Apache APISIX</a>).</p>
+<p>The following is an example of how to enable the http-logger for a specific route.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 \-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>          "http-logger": {</span></span>
+<span class="line"><span>              "uri": "http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61"</span></span>
+<span class="line"><span>          }</span></span>
+<span class="line"><span>     },</span></span>
+<span class="line"><span>    "upstream_id": "1",</span></span>
+<span class="line"><span>    "uri": "/get"</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<blockquote>
+<p>To http-logger plugin settings, your can just put your mock server URI address like below:</p>
+</blockquote>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{"uri": "http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61"}</span></span></code></pre>
+<p>Once we get a successful response from APISIX server, we can send a request to this <em>get</em> endpoint to generate logs.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i http://127.0.0.1:9080/get</span></span></code></pre>
+<p>Then if you click and navigate to the following <a href="http://mockbin.org/bin/5451b7cd-af27-41b8-8df1-282ffea13a61/log">mock server link</a> some recent logs are sent and we can see them:</p>
+<p><img src="https://static.apiseven.com/202108/1650506211706-09f0bb8a-9d63-4b5c-ae5f-01be1a76a9ba.png" alt="http-logger-plugin-test-screenshot"></p>
+<h2 id="metrics">Metrics</h2>
+<p><strong>Metrics</strong> are a numeric representation of data measured over intervals of time. You can also aggregate this data into daily or weekly frequency and run queries against a distributed system like <a href="https://www.elastic.co/">Elasticsearch</a>. Or sometimes based on metrics you trigger alerts to take any action later. Once API metrics are collected, you can track them with metrics tracking tools such as <a href="https://prometheus.io/">Prometheus</a>.</p>
+<p>Apache APISIX API Gateway also offers <a href="https://apisix.apache.org/docs/apisix/plugins/prometheus/">prometheus-plugin</a> to fetch your API metrics and expose them in Prometheus. Behind the scene, Apache APISIX downloads the Grafana dashboard meta, imports it to <a href="https://grafana.com/">Grafana</a>, and fetches real-time metrics from the Prometheus plugin.</p>
+<p>Let’s enable prometheus-plugin for our route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl http://127.0.0.1:9080/apisix/admin/routes/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "uri": "/get",</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "prometheus":{}</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "upstream_id": "1"</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>We fetch the metric data from the specified URL <code>/apisix/prometheus/</code>metrics.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i http://127.0.0.1:9091/apisix/prometheus/metrics</span></span></code></pre>
+<p>You will get a response with Prometheus metrics something like below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>Server: openresty</span></span>
+<span class="line"><span>Date: Fri, 25 Mar 2022 11:13:14 GMT</span></span>
+<span class="line"><span>Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>Transfer-Encoding: chunked</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span># HELP apisix_batch_process_entries batch process remaining entries</span></span>
+<span class="line"><span># TYPE apisix_batch_process_entries gauge</span></span>
+<span class="line"><span>apisix_batch_process_entries{name="http logger",route_id="1",server_addr="172.19.0.8"} 0</span></span>
+<span class="line"><span># HELP apisix_etcd_modify_indexes Etcd modify index for APISIX keys</span></span>
+<span class="line"><span># TYPE apisix_etcd_modify_indexes gauge</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="consumers"} 17819</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="global_rules"} 17832</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="max_modify_index"} 20028</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="prev_index"} 18963</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="protos"} 0</span></span>
+<span class="line"><span>apisix_etcd_modify_indexes{key="routes"} 20028</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<p>And we can also check the status of our endpoint at the Prometheus dashboard by pointing to this URL <code>http://localhost:9090/targets</code>.</p>
+<p><img src="https://static.apiseven.com/202108/1650506275118-b49f881f-caff-4d9a-aedc-01e95e45c77f.png" alt="plugin-orchestration-configure-rule-screenshot"></p>
+<p>As you can see, Apache APISIX exposed metrics endpoint is upon and running.</p>
+<p>Now you can query metrics for <code>apisix_http_status</code> to see what HTTP requests are handled by API Gateway and what was the outcome.</p>
+<p><img src="https://static.apiseven.com/202108/1650506329360-f6e53316-cf26-475b-a5d7-dc77fb200130.png" alt="prometheus-plugin-dashboard-query-http-status-screenshot"></p>
+<p><img src="https://static.apiseven.com/202108/1650506385033-9913d5e6-2441-4761-bb49-c185048f3caf.png" alt="prometheus-plugin-dashboard-query-http-status-table-screenshot"></p>
+<p>In addition to this, you can view the Grafana dashboard running in your local instance. Go to <code>http://localhost:3000/</code></p>
+<p><img src="https://static.apiseven.com/202108/1650506413963-781b2820-b82a-4556-b06c-6dfd7a23abab.png" alt="prometheus-plugin-grafana-dashboard-screenshot"></p>
+<h2 id="tracing">Tracing</h2>
+<p>The third is <strong>tracing</strong> or distributed tracing allows you to understand the life of a request as it traverses your service network and allows you to answer questions like what service has this request touched and how much latency was introduced. Traces enable you to further explore which logs to look at for a particular session or related set of API calls.</p>
+<p><a href="https://zipkin.io/">Zipkin</a>, an open-source distributed tracing system. <a href="https://apisix.apache.org/docs/apisix/plugins/zipkin">APISIX plugin</a> is supported to collect tracing and report to Zipkin Collector based on <a href="https://zipkin.io/pages/instrumenting.html">Zipkin API specification</a>.</p>
+<p>Here’s an example to enable the <em>zipkin plugin</em> on the specified route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72">  \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "zipkin": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "endpoint": "http://127.0.0.1:9411/api/v2/spans",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "sample_ratio": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream_id": "1"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>We can test our example by simply running the following curl command:</p>
+<p><code>curl -i http://127.0.0.1:9080/get</code></p>
+<p>As you can see, there are some additional trace identifiers (like traceId, spanId, parentId) were appended to the headers:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>"X-B3-Parentspanid": "61bd3f4046a800e7",</span></span>
+<span class="line"><span>"X-B3-Sampled": "1",</span></span>
+<span class="line"><span>"X-B3-Spanid": "855cd5465957f414",</span></span>
+<span class="line"><span>"X-B3-Traceid": "e18985df47dab632d62083fd96626692",</span></span></code></pre>
+<p>Then you can use a browser to access <code>http://127.0.0.1:9411/zipkin</code>, see traces on the Web UI of Zipkin.</p>
+<blockquote>
+<p>Note that you need to run the Zipkin instance in order to install Zipkin Web UI. For example, by using docker you can simply run it:
+<code>docker run -d -p 9411:9411 openzipkin/zipkin</code></p>
+</blockquote>
+<p><img src="https://static.apiseven.com/202108/1650506478581-395f9706-e3f4-4687-9744-4fb7e7f17d93.png" alt="Zipkin plugin output 1"></p>
+<p><img src="https://static.apiseven.com/202108/1650506596789-f5a1207b-21ea-4250-abc6-a8f3c35d877d.png" alt="Zipkin plugin output 2"></p>
+<p>As you noticed, the recent traces were exposed in the above pictures.</p>
+<h2 id="summary">Summary</h2>
+<p>As we learned, API Observability is a sort of framework for managing your applications in an API world and Apache APISIX API Gateway plugins can help when observing modern API-driven applications by integrating to several observability platforms. So, you can make your development work focused on core business features instead of building a custom integration for observability tools.</p>
+<p>You can also click below to get more details:</p>
+<ul>
+<li><a href="https://apisix.apache.org/downloads">Download Apache APISIX</a></li>
+<li><a href="https://youtu.be/dUOjJkb61so">Getting Started with Apache APISIX</a></li>
+<li><a href="https://youtu.be/-9-HZKK2ccI">Getting Started with Apache APISIX Dashboard</a></li>
+<li><a href="https://youtu.be/ixSZA4ILBKQ">Overview of Apache APISIX Plugins</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/how-to-build">Install Apache APISIX</a></li>
+<li><a href="https://youtu.be/XK0xcui5BQU">Watch the Video version of the blog post</a></li>
+</ul>
+<p>If you have any questions, feel free to mail <a href="https://apisix.apache.org/docs/general/join/">Apache APISIX Community</a></p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

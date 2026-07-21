@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 是怎么保护用户的敏感数据不被泄露的？ | Apache APISIX</title><meta name="description" content="本文以 APISIX 作为例子，为大家介绍了如何借助 `Global Data Encryption` 功能来保护敏感数据，确保不会有任何敏感数据进行明文存储，这样即使 etcd 中所有存储的数据都被盗取，也不会造成敏感数据泄露，从而有效提升了 APISIX 的安全性。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX 是怎么保护用户的敏感数据不被泄露的？ | Apache APISIX"><meta property="og:description" content="本文以 APISIX 作为例子，为大家介绍了如何借助 `Global Data Encryption` 功能来保护敏感数据，确保不会有任何敏感数据进行明文存储，这样即使 etcd 中所有存储的数据都被盗取，也不会造成敏感数据泄露，从而有效提升了 APISIX 的安全性。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 是怎么保护用户的敏感数据不被泄露的？","description":"本文以 APISIX 作为例子，为大家介绍了如何借助 `Global Data Encryption` 功能来保护敏感数据，确保不会有任何敏感数据进行明文存储，这样即使 etcd 中所有存储的数据都被盗取，也不会造成敏感数据泄露，从而有效提升了 APISIX 的安全性。","datePublished":"2023-02-23","author":{"@type":"Person","name":"刘维"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/02/23/how-to-prevent-sensitive-data-from-leaking/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX 是怎么保护用户的敏感数据不被泄露的？</h1> <p class="article-meta"> 2023-02-23 · 刘维  </p> <blockquote>
+<p>本文以 APISIX 作为例子，为大家介绍了如何借助 <code>Global Data Encryption</code> 功能来保护敏感数据，确保不会有任何敏感数据进行明文存储，这样即使 etcd 中所有存储的数据都被盗取，也不会造成敏感数据泄露，从而有效提升了 APISIX 的安全性。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>作者<a href="https://github.com/monkeyDluffy6017">刘维</a>，API7.ai 技术工程师，Apache APISIX Contributor。</p>
+</blockquote>
+<h2 id="什么是敏感数据">什么是敏感数据</h2>
+<p>敏感数据，又称隐私数据，主要是指泄露后可能会给个人或者公司带来严重危害的数据，包括但不限于个人身份信息，企业经营数据等。</p>
+<h2 id="为什么要保护敏感数据">为什么要保护敏感数据</h2>
+<p>对于个人来说，如果敏感数据被泄露，轻则可能受到无止尽的广告骚扰，重则可能导致人格尊严受到侵害，或者人身、财产安全受到危害。</p>
+<p>对于企业来说，敏感数据直接关系企业的信息安全。例如密钥，证书等敏感信息，一旦遭受泄露，企业将会遭受信任损失和财务损失，甚至可能面临法律责任。</p>
+<h2 id="在-api-网关中有哪些敏感数据">在 API 网关中有哪些敏感数据</h2>
+<p>API 网关作为业务流量的入口，往往包含了大量的敏感数据，例如 API 密钥、用于鉴权认证的 token 等，除了基本的负载均衡、流量管理等功能外，提升安全、防止敏感信息泄露，也至关重要，因此对 API 网关中的敏感数据进行保护具有重要意义。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/02/03/a86d0nVj_sensitive_data.png" alt="Sensitive Data"></p>
+<h2 id="api-网关怎么保护隐私数据">API 网关怎么保护隐私数据</h2>
+<p>大致思路一般如下：</p>
+<ol>
+<li>
+<p>将敏感数据置于保护区内，对访问权限进行严格的控制</p>
+</li>
+<li>
+<p>增加风控系统，对异常行为和业务合规进行风险控制</p>
+</li>
+<li>
+<p>对敏感数据进行脱敏处理或加密存储</p>
+</li>
+</ol>
+<p>下面将以 Apache APISIX 为例，展示如何在 API 网关中对敏感数据进行保护。</p>
+<h2 id="apache-apisix-在保护隐私数据中的实践">Apache APISIX 在保护隐私数据中的实践</h2>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> 是 Apache 软件基金会的顶级开源项目，也是当前最活跃的开源网关项目。作为一个动态、实时、高性能的开源 API 网关，Apache APISIX 提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。</p>
+<p>用户可以通过编写插件来对 Apache APISIX 功能进行扩展，得益于成熟的社区和越来越多的活跃开发者，Apache APISIX 的插件数量在日益增多，其中有些插件携带敏感信息，例如 <a href="https://apisix.apache.org/docs/apisix/plugins/jwt-auth/">jwt-auth</a> 插件的配置项 <code>secret</code> 和 <code>private_key</code>，为了防止这些数据被非法获取，我们有必要对其进行加密存储。</p>
+<p>为了增强 APISIX 的安全性，更好的保护用户的隐私，APISIX 在 3.1.0 版本中引入了 <code>Global Data Encryption</code> 功能，有了这个功能，开发者在开发新插件的时候，只需要在插件的 schema 中指定要加密的数据，APISIX 就能在控制面写入的时候自动进行加密存储，数据面读取的时候自动解密，对开发者完全透明。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/02/03/o7B7uR2a_global_data_encryption.png" alt="Global Data Encryption"></p>
+<p>下面我们来看看具体的示例。</p>
+<h3 id="未开启数据加密功能">未开启数据加密功能</h3>
+<ol>
+<li>下发配置</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">curl </span><span style="color:#FFA657">http</span><span style="color:#E6EDF3">:</span><span style="color:#FF7B72">//</span><span style="color:#79C0FF">127.0</span><span style="color:#E6EDF3">.0.1:</span><span style="color:#79C0FF">9180</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">apisix</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">admin</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">consumers </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' </span><span style="color:#FF7B72">-</span><span style="color:#E6EDF3">X PUT </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "basic-auth"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "password"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"bar"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span><span style="color:#A5D6FF">'</span></span></code></pre>
+<ol start="2">
+<li>确定 etcd 中的敏感数据状态</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">etcdctl get </span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">apisix</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">consumers</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">foo</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#A5D6FF">"username"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"update_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1675414313</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"create_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1674009211</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"plugins"</span><span style="color:#E6EDF3">:{</span><span style="color:#A5D6FF">"basic-auth"</span><span style="color:#E6EDF3">:{</span><span style="color:#A5D6FF">"username"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"password"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"bar"</span><span style="color:#E6EDF3">}}}</span></span></code></pre>
+<p><strong>可以看到 <code>password</code> 字段是明文存储</strong></p>
+<h3 id="开启数据加密功能">开启数据加密功能</h3>
+<ol>
+<li>在 <code>config.yaml</code> 中开启 <code>data_encryption</code>：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    data_encryption</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    keyring</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#A5D6FF">edd1c9f0985e76a2</span></span></code></pre>
+<ol start="2">
+<li>启用已经支持敏感数据加密的插件，这里以 <code>basic-auth</code> 插件为例</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">curl </span><span style="color:#FFA657">http</span><span style="color:#E6EDF3">:</span><span style="color:#FF7B72">//</span><span style="color:#79C0FF">127.0</span><span style="color:#E6EDF3">.0.1:</span><span style="color:#79C0FF">9180</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">apisix</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">admin</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">consumers </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' </span><span style="color:#FF7B72">-</span><span style="color:#E6EDF3">X PUT </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "basic-auth"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "password"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"bar"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span><span style="color:#A5D6FF">'</span></span></code></pre>
+<ol start="3">
+<li>验证插件功能</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "methods": ["GET"],</span></span>
+<span class="line"><span>    "uri": "/get",</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "basic-auth": {}</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "nodes": {</span></span>
+<span class="line"><span>            "httpbin.org": 1</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>能正常访问</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i -ufoo:bar http://127.0.0.1:9080/get</span></span>
+<span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<p>密码错误，不能访问</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i -ufoo:test http://127.0.0.1:9080/get</span></span>
+<span class="line"><span>HTTP/1.1 401 Unauthorized</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>{"message":"Invalid user authorization"}</span></span></code></pre>
+<p>插件功能正常</p>
+<ol start="4">
+<li>确定 etcd 中的敏感数据状态</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">etcdctl get </span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">apisix</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">consumers</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">foo</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#A5D6FF">"create_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1674009211</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"update_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1674009211</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"plugins"</span><span style="color:#E6EDF3">:{</span><span style="color:#A5D6FF">"basic-auth"</span><span style="color:#E6EDF3">:{</span><span style="color:#A5D6FF">"password"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"+kOEVUuRc5rC5ZwvvAMLwg=="</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"username"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">}},</span><span style="color:#A5D6FF">"username"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"foo"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<p><strong>可以看到 <code>password</code> 字段已经被成功加密</strong>，此时就算数据被泄露，其他人也无法破解。</p>
+<h2 id="总结">总结</h2>
+<p>在 API 网关中，包含了大量的敏感数据，因此需要采取有效的手段来对数据进行保护，本文以 APISIX 作为例子，为大家介绍了如何借助 <code>Global Data Encryption</code> 功能来保护敏感数据，确保不会有任何敏感数据进行明文存储，这样即使 etcd 中所有存储的数据都被盗取，也不会造成敏感数据泄露，从而有效提升了 APISIX 的安全性。同时除了对敏感数据进行加密以外，APISIX 还支持将敏感信息直接放到第三方服务，即<a href="https://api7.ai/blog/how-to-use-secret-manager-with-api-gateway">Secret Manager</a>功能，进一步提升了安全性。</p>
+<p>希望通过上述分享，能够使大家更多的了解如何在 API 网关中保护敏感数据，从而保障企业的信息安全。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

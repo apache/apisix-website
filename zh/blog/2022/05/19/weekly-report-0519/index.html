@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区双周报（5.01 - 5.15） | Apache APISIX</title><meta name="description" content="“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/05/19/weekly-report-0519/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/05/19/weekly-report-0519/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/05/19/weekly-report-0519/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/05/19/weekly-report-0519/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="社区双周报（5.01 - 5.15） | Apache APISIX"><meta property="og:description" content="“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/05/19/weekly-report-0519/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区双周报（5.01 - 5.15）","description":"“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。","datePublished":"2022-05-19","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/05/19/weekly-report-0519/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/05/19/weekly-report-0519/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/05/19/weekly-report-0519/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>社区双周报（5.01 - 5.15）</h1> <p class="article-meta"> 2022-05-19  </p> <blockquote>
+<p>从 5.01 - 5.15，有 35 位开发者为 Apache APISIX 提交了 77 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦！</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p>Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。</p>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。</p>
+<p>我们还整理了一些适合新来社区的小伙伴们参加的 issue！感兴趣的同学们，走过路过不要错过！</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/202108/1652939409552-1bae4e92-f70a-4715-9ba0-fb0dff31ebf9.png" alt="本周贡献者名单"></p>
+<p><img src="https://static.apiseven.com/202108/1652939511212-d95ad226-f8ff-41b7-a4c5-03ac049b4d5c.png" alt="本周新晋贡献者"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-7052">Issue #7052</h3>
+<p><strong>链接</strong>：<a href="https://github.com/apache/apisix/issues/7052">https://github.com/apache/apisix/issues/7052</a></p>
+<p><strong>问题描述</strong>：作为用户，希望能够使用带有 <a href="https://oauth.net/2/pkce/">PKCE</a> 支持的 OAuth2，这样就可以在不使用客户端/密码的情况下配置 OAuth2 连接。 我用的是 IdP。它已经实现了 <a href="https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth">Authorization Code Flow</a>。以下介绍来自 IdP 的文档：</p>
+<p>IdP 可以实现 Authorization Code Flow，最好搭配 PKCE (Proof Key for Code Exchange)。PKCE 流程是推荐和最通用的授权流程，它支持移动应用程序、单页应用程序和传统的服务器渲染应用程序，并且不需要交换共享密钥。</p>
+<p>具体流程如下：</p>
+<ul>
+<li>用户打开一个 web 应用（在我的例子中是一个 <code>APISIXROUTE</code>，使用 <code>openid</code> 插件）</li>
+<li>使用 <strong>SHA256</strong> 的代码难题是由 <code>openid</code> 插件创建的</li>
+<li>重定向到 IdP 授权端点</li>
+<li>用户登录</li>
+<li>使用 <code>authcode</code> 作为 URL 查询参数重定向到 <code>redirect_url</code></li>
+<li><code>openid</code> 插件使用 <code>authcode</code> 从 IdP 令牌端点接收 JWT</li>
+</ul>
+<p>能否用 PKCE 支持实现这个 OAuth 流？此外，请在文档中添加一节，介绍 PKCE 和重定向 url 的配置。</p>
+<h2 id="issue-6939">Issue #6939</h2>
+<p><strong>链接</strong>：<a href="https://github.com/apache/apisix/issues/6939">https://github.com/apache/apisix/issues/6939</a></p>
+<p><strong>问题描述</strong>：如 <a href="https://github.com/apache/apisix/blob/dbe7eeebba06229d4a8df75263f2a78301cc1ca0/apisix/stream/router/ip_port.lua#L82">ip_port.lua</a> 文件的第 82 行中所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>   -- TODO: check the subordinate relationship in the Admin API</span></span></code></pre>
+<p>作为用户，需要检查 Admin API 中的从属关系，包括：</p>
+<ul>
+<li>验证是否存在具有上级 id 的流路由并且其协议与下级匹配</li>
+<li>删除流路由时，请检查它是否被其他流路由引用</li>
+</ul>
+<h2 id="近期功能特性亮点">近期功能特性亮点</h2>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6965">xRPC 框架支持 timeout 设置</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6953">移植 syslog 插件到 stream 子系统</a>（贡献者：<a href="https://github.com/tzssangglass">tzssangglass</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6959">xRPC 框架实现 Redis 协议支持 pipeline</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6991">key-auth 插件隐藏 credentials 时只需更改 uri args 或 headers</a>（贡献者：<a href="https://github.com/jwrookie">jwrookie</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6984">支持 servlet 的 URI 规范</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6981">在 APISIX 初始化时，batch-requests 插件支持处理 CIDR 格式 的 real_ip_from</a>（贡献者：<a href="https://github.com/kwanhur">kwanhur</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6960">xRPC 框架支持日志过滤</a>（贡献者：<a href="https://github.com/tzssangglass">tzssangglass</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/7028">新增 pubsub 框架</a>（贡献者：<a href="https://github.com/bzp2010">bzp2010</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/7031">xRPC 框架实现 Redis 协议支持 pipeline （增加测试）</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6988">real-ip 插件支持递归搜索</a>（贡献者：<a href="https://github.com/crazyMonkey1995">crazyMonkey1995</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6968">ext-plugin 支持处理 response body</a>（贡献者：<a href="https://github.com/soulbird">soulbird</a>）</p>
+</li>
+</ul>
+<p>Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

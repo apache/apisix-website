@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>使用 Apache APISIX 代理 gRPC 服务 | Apache APISIX</title><meta name="description" content="本文为大家介绍如何在 Apache APISIX 中通过 `grpc-transcode`插件来将客户端的 HTTP 流量代理到后端 gRPC 服务上。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/12/30/apisix-proxy-grpc-service/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/30/apisix-proxy-grpc-service/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/30/apisix-proxy-grpc-service/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/30/apisix-proxy-grpc-service/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="使用 Apache APISIX 代理 gRPC 服务 | Apache APISIX"><meta property="og:description" content="本文为大家介绍如何在 Apache APISIX 中通过 `grpc-transcode`插件来将客户端的 HTTP 流量代理到后端 gRPC 服务上。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/12/30/apisix-proxy-grpc-service/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"使用 Apache APISIX 代理 gRPC 服务","description":"本文为大家介绍如何在 Apache APISIX 中通过 `grpc-transcode`插件来将客户端的 HTTP 流量代理到后端 gRPC 服务上。","datePublished":"2021-12-30","author":{"@type":"Person","name":"喻柏仲"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/12/30/apisix-proxy-grpc-service/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/12/30/apisix-proxy-grpc-service/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/12/30/apisix-proxy-grpc-service/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>使用 Apache APISIX 代理 gRPC 服务</h1> <p class="article-meta"> 2021-12-30 · 喻柏仲  </p> <blockquote>
+<p>本文为大家介绍如何在 Apache APISIX 中通过 <code>grpc-transcode</code>插件来将客户端的 HTTP 流量代理到后端 gRPC 服务上。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="项目介绍">项目介绍</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多丰富的插件资源库。</p>
+<h3 id="grpc">gRPC</h3>
+<p><a href="https://grpc.io/">gRPC</a> 是 Google 发起的一个开源远程过程调用（Remote procedure call）系统。该系统基于 HTTP/2 协议传输，使用 Protocol Buffers 作为接口描述语言，可以在任何环境中运行。通过 gRPC 服务可对负载均衡、链路追踪、健康检查和身份认证等功能进行可插拔模式支持，有效地连接数据中心之间的多项服务。</p>
+<h2 id="插件介绍">插件介绍</h2>
+<p>为了增加对 gRPC 服务代理的支持，Apache APISIX 发布了基于 gRPC 的插件 <code>grpc-transcode</code>，通过 RESTful 方式调用 gRPC 服务。</p>
+<p>该插件支持在 Apache APISIX 中指定 <code>.proto</code> 文件的内容，并通过用户自定义 gRPC 服务来实现不同 gRPC 服务的代理。</p>
+<h3 id="集成原理">集成原理</h3>
+<p>用户在 Apache APISIX 中指定 <code>.proto</code> 内容，通过在 <code>grpc-transcode</code> 插件中的 <code>proto_id</code> 绑定相应的 proto，并配置 <code>.proto</code> 中定义的 Service 和 Method，即可实现 gRPC 服务的代理。</p>
+<p>基本原理如下：用户可以在路由中配置一个 <code>grpc-transcode</code> 插件，当路由匹配到请求时，会转发 gRPC 请求到上游的服务中。</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p><code>grpc-transcode</code> 插件支持对 <code>proto_id</code>、<code>grpc service name</code>、<code>grpc service method</code>、<code>grpc deadline</code> 以及 <code>pb_option</code> 进行配置。基于配置调用上游的 gRPC 服务，并将从上游 gRPC 服务中获取到的响应内容返回至客户端。</p></div>
+<h2 id="如何使用">如何使用</h2>
+<h3 id="环境准备">环境准备</h3>
+<p>在配置 Apache APISIX 之前，需要先启动 gRPC 服务。</p>
+<h4 id="步骤一配置-grpc-server-example-服务">步骤一：配置 grpc-server-example 服务</h4>
+<ol>
+<li>克隆 <code>grpc-server-example</code> 仓库。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/api7/grpc_server_example</span></span></code></pre>
+<ol start="2">
+<li>启动 grpc-server。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> grpc_server_example</span></span>
+<span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> run</span><span style="color:#A5D6FF"> main.go</span></span></code></pre>
+<ol start="3">
+<li>验证 gRPC 服务，推荐使用 <code>grpcurl</code> 来验证服务的可用性。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">grpcurl</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{"name": "zhangsan"}'</span><span style="color:#79C0FF"> -plaintext</span><span style="color:#A5D6FF"> 127.0.0.1:50051</span><span style="color:#A5D6FF"> helloworld.Greeter.SayHello</span></span></code></pre>
+<p>正确启动 gRPC 服务后，执行上述命令将会输出以下内容。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787"> "message"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Hello zhangsan"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h4 id="步骤二配置-apache-apisix">步骤二：配置 Apache APISIX</h4>
+<ol>
+<li>添加 proto</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/proto/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "content" : "syntax = \"proto3\";</span></span>
+<span class="line"><span style="color:#A5D6FF">    package helloworld;</span></span>
+<span class="line"><span style="color:#A5D6FF">    service Greeter {</span></span>
+<span class="line"><span style="color:#A5D6FF">        rpc SayHello (HelloRequest) returns (HelloReply) {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">    message HelloRequest {</span></span>
+<span class="line"><span style="color:#A5D6FF">        string name = 1;</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">    message HelloReply {</span></span>
+<span class="line"><span style="color:#A5D6FF">        string message = 1;</span></span>
+<span class="line"><span style="color:#A5D6FF">    }"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol start="2">
+<li>在指定 Route 中，代理 gRPC 服务接口。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/grpctest",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "grpc-transcode": {</span></span>
+<span class="line"><span style="color:#A5D6FF">         "proto_id": "1",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "service": "helloworld.Greeter",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "method": "SayHello"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "scheme": "grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:50051": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>具体代码释义与支持的参数详情可参考下方：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">名称</th><th align="left">类型</th><th align="left">存在</th><th align="left">默认值</th><th align="left">描述</th></tr></thead><tbody><tr><td align="left">proto_id</td><td align="left">string/integer</td><td align="left">必须</td><td align="left">N/A</td><td align="left"><code>.proto</code> 内容的 id</td></tr><tr><td align="left">service</td><td align="left">string</td><td align="left">必须</td><td align="left">N/A</td><td align="left">gRPC 服务名</td></tr><tr><td align="left">method</td><td align="left">string</td><td align="left">必须</td><td align="left">N/A</td><td align="left">gRPC 服务中要调用的方法名</td></tr><tr><td align="left">deadline</td><td align="left">number</td><td align="left">可选</td><td align="left">0</td><td align="left">gRPC 服务截止时间</td></tr><tr><td align="left">pb_option</td><td align="left">array[string(pb_option_def)]</td><td align="left">可选</td><td align="left">N/A</td><td align="left">proto 编码过程中的转换选项</td></tr></tbody></table>
+<h3 id="测试请求">测试请求</h3>
+<p>下面我们将使用 cURL 进行测试。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/grpctest</span><span style="color:#FF7B72">\?</span><span style="color:#A5D6FF">name=world</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 27</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 06:24:47</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"><span style="color:#FFA657">Trailer:</span><span style="color:#A5D6FF"> grpc-status</span></span>
+<span class="line"><span style="color:#FFA657">Trailer:</span><span style="color:#A5D6FF"> grpc-message</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"message"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"Hello world"</span><span style="color:#FFA657">}</span></span>
+<span class="line"><span style="color:#FFA657">grpc-status:</span><span style="color:#79C0FF"> 0</span></span>
+<span class="line"><span style="color:#FFA657">grpc-message:</span></span></code></pre>
+<p>通过代码反馈可知，已成功将请求代理到后端 gRPC 服务上。</p>
+<h3 id="关闭插件">关闭插件</h3>
+<p>如使用完毕，只需要移除路由配置里 <code>plugin</code> 相关的配置，即可关闭路由上的 <code>grpc-transcode</code> 插件。得益于 Apache APISIX 插件热加载模式，开启和关闭都无需重启 Apache APISIX。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 关闭插件</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/111</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/grpctest",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "scheme": "grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:50051": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文为大家介绍了关于 <code>grpc-transcode</code> 插件的使用步骤，通过 RESTful 将请求代理到后端 gRPC 服务上。通过使用该插件，Apache APISIX 仅需通过配置即可实现对 gRPC 服务的代理。</p>
+<p>更多关于 <code>grpc-transcode</code> 插件的说明和完整配置列表，请参考<a href="https://apisix.apache.org/docs/apisix/next/plugins/grpc-transcode/">官方文档</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

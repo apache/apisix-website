@@ -1,0 +1,2831 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Custom Resource Definitions API Reference | Apache APISIX</title><meta name="description" content="Explore detailed reference documentation for the custom resource definitions (CRDs) supported by the APISIX Ingress Controller."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Custom Resource Definitions API Reference | Apache APISIX"><meta property="og:description" content="Explore detailed reference documentation for the custom resource definitions (CRDs) supported by the APISIX Ingress Controller."><meta property="og:url" content="https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Custom Resource Definitions API Reference","description":"Explore detailed reference documentation for the custom resource definitions (CRDs) supported by the APISIX Ingress Controller.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/ingress-controller/overview/" class>Overview</a>  </li><li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/ingress-controller/getting-started/get-apisix-ingress-controller/" class>Get APISIX and APISIX Ingress Controller</a>  </li><li> <a href="/docs/ingress-controller/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/ingress-controller/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/ingress-controller/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/ingress-controller/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class="cat"> <span>Concepts</span> <ul> <li> <a href="/docs/ingress-controller/concepts/resources/" class>APISIX Ingress Controller Resources</a>  </li><li> <a href="/docs/ingress-controller/concepts/gateway-api/" class>Gateway API</a>  </li><li> <a href="/docs/ingress-controller/concepts/deployment-architecture/" class>Deployment Architecture</a>  </li> </ul> </li><li class> <a href="/docs/ingress-controller/install/" class>Install with Helm</a>  </li><li class> <a href="/docs/ingress-controller/developer-guide/" class>Developer Guide</a>  </li><li class="cat"> <span>Reference</span> <ul> <li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/" class="active">Custom Resource Definitions API Reference</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/examples/" class>Configuration Examples</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/configuration-troubleshoot/" class>Configuration Troubleshooting</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/configuration-file/" class>Configuration File</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/annotation/" class>Annotations</a>  </li> </ul> </li><li class> <a href="/docs/ingress-controller/upgrade-guide/" class>Upgrade Guide</a>  </li><li class> <a href="/docs/ingress-controller/FAQ/" class>FAQ</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Custom Resource Definitions API Reference</h1> <p>This document provides the API resource description for the APISIX Ingress Controller custom resource definitions (CRDs).</p>
+<h2 id="packages">Packages</h2>
+<ul>
+<li><a href="#apisixapacheorgv1alpha1">apisix.apache.org/v1alpha1</a></li>
+<li><a href="#apisixapacheorgv2">apisix.apache.org/v2</a></li>
+</ul>
+<h2 id="apisixapacheorgv1alpha1">apisix.apache.org/v1alpha1</h2>
+<p>Package v1alpha1 contains API Schema definitions for the apisix.apache.org v1alpha1 API group.</p>
+<ul>
+<li><a href="#backendtrafficpolicy">BackendTrafficPolicy</a></li>
+<li><a href="#consumer">Consumer</a></li>
+<li><a href="#gatewayproxy">GatewayProxy</a></li>
+<li><a href="#httproutepolicy">HTTPRoutePolicy</a></li>
+<li><a href="#pluginconfig">PluginConfig</a></li>
+</ul>
+<h3 id="backendtrafficpolicy">BackendTrafficPolicy</h3>
+<p>BackendTrafficPolicy defines configuration for traffic handling policies applied to backend services.</p>
+<!-- BackendTrafficPolicy resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v1alpha1</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>BackendTrafficPolicy</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#backendtrafficpolicyspec">BackendTrafficPolicySpec</a></em></td><td>BackendTrafficPolicySpec defines traffic handling policies applied to backend services, such as load balancing strategy, connection settings, and failover behavior.</td></tr></tbody></table>
+<h3 id="consumer">Consumer</h3>
+<p>Consumer defines configuration for a consumer.</p>
+<!-- Consumer resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v1alpha1</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>Consumer</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#consumerspec">ConsumerSpec</a></em></td><td>ConsumerSpec defines configuration for a consumer, including consumer name, authentication credentials, and plugin settings.</td></tr></tbody></table>
+<h3 id="gatewayproxy">GatewayProxy</h3>
+<p>GatewayProxy defines configuration for the gateway proxy instances used to route traffic to services.</p>
+<!-- GatewayProxy resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v1alpha1</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>GatewayProxy</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#gatewayproxyspec">GatewayProxySpec</a></em></td><td>GatewayProxySpec defines configuration of gateway proxy instances, including networking settings, global plugins, and plugin metadata.</td></tr></tbody></table>
+<h3 id="httproutepolicy">HTTPRoutePolicy</h3>
+<p>HTTPRoutePolicy defines configuration of traffic policies.</p>
+<!-- HTTPRoutePolicy resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v1alpha1</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>HTTPRoutePolicy</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#httproutepolicyspec">HTTPRoutePolicySpec</a></em></td><td>HTTPRoutePolicySpec defines configuration of a HTTPRoutePolicy, including route priority and request matching conditions.</td></tr></tbody></table>
+<h3 id="pluginconfig">PluginConfig</h3>
+<p>PluginConfig defines plugin configuration.</p>
+<!-- PluginConfig resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v1alpha1</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>PluginConfig</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#pluginconfigspec">PluginConfigSpec</a></em></td><td>PluginConfigSpec defines the desired state of a PluginConfig, in which plugins and their configuration are specified.</td></tr></tbody></table>
+<h3 id="types">Types</h3>
+<p>This section describes the types used by the CRDs.</p>
+<h4 id="activehealthcheck">ActiveHealthCheck</h4>
+<p>ActiveHealthCheck defines the active upstream health check configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type is the health check type. Can be <code>http</code>, <code>https</code>, or <code>tcp</code>.</td></tr><tr><td><code>timeout</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Timeout sets health check timeout.</td></tr><tr><td><code>concurrency</code> <em>integer</em></td><td>Concurrency sets the number of targets to be checked at the same time.</td></tr><tr><td><code>host</code> <em>string</em></td><td>Host sets the upstream host used in the health check request.</td></tr><tr><td><code>port</code> <em>integer</em></td><td>Port sets the port on the upstream node to probe.</td></tr><tr><td><code>httpPath</code> <em>string</em></td><td>HTTPPath sets the HTTP path for the probe request.</td></tr><tr><td><code>strictTLS</code> <em>boolean</em></td><td>StrictTLS controls whether TLS certificate validation is enforced.</td></tr><tr><td><code>requestHeaders</code> <em>string array</em></td><td>RequestHeaders sets additional HTTP request headers for the probe.</td></tr><tr><td><code>healthy</code> <em><a href="#activehealthcheckhealthy">ActiveHealthCheckHealthy</a></em></td><td>Healthy configures the thresholds for marking a node healthy.</td></tr><tr><td><code>unhealthy</code> <em><a href="#activehealthcheckunhealthy">ActiveHealthCheckUnhealthy</a></em></td><td>Unhealthy configures the thresholds for marking a node unhealthy.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#healthcheck">HealthCheck</a></li>
+</ul>
+<h4 id="activehealthcheckhealthy">ActiveHealthCheckHealthy</h4>
+<p>ActiveHealthCheckHealthy defines thresholds for actively marking an upstream node healthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes is the list of HTTP status codes considered healthy.</td></tr><tr><td><code>successes</code> <em>integer</em></td><td>Successes is the number of consecutive successful responses required to mark a node healthy.</td></tr><tr><td><code>interval</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Interval defines the time between health check probes. Minimum is 1s.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheck">ActiveHealthCheck</a></li>
+</ul>
+<h4 id="activehealthcheckunhealthy">ActiveHealthCheckUnhealthy</h4>
+<p>ActiveHealthCheckUnhealthy defines thresholds for actively marking an upstream node unhealthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes is the list of HTTP status codes considered unhealthy.</td></tr><tr><td><code>httpFailures</code> <em>integer</em></td><td>HTTPFailures is the number of HTTP failures to mark a node unhealthy.</td></tr><tr><td><code>tcpFailures</code> <em>integer</em></td><td>TCPFailures is the number of TCP failures to mark a node unhealthy.</td></tr><tr><td><code>timeouts</code> <em>integer</em></td><td>Timeouts is the number of timeouts to mark a node unhealthy.</td></tr><tr><td><code>interval</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Interval defines the time between health check probes. Minimum is 1s.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheck">ActiveHealthCheck</a></li>
+</ul>
+<h4 id="adminkeyauth">AdminKeyAuth</h4>
+<p>AdminKeyAuth defines the admin key authentication configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>value</code> <em>string</em></td><td>Value sets the admin key value explicitly (not recommended for production).</td></tr><tr><td><code>valueFrom</code> <em><a href="#adminkeyvaluefrom">AdminKeyValueFrom</a></em></td><td>ValueFrom specifies the source of the admin key.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#controlplaneauth">ControlPlaneAuth</a></li>
+</ul>
+<h4 id="adminkeyvaluefrom">AdminKeyValueFrom</h4>
+<p>AdminKeyValueFrom defines the source of the admin key.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretKeyRef</code> <em><a href="#secretkeyselector">SecretKeySelector</a></em></td><td>SecretKeyRef references a key in a Secret.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#adminkeyauth">AdminKeyAuth</a></li>
+</ul>
+<h4 id="authtype">AuthType</h4>
+<p><em>Base type:</em> <code>string</code></p>
+<p>AuthType defines the type of authentication.</p>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#controlplaneauth">ControlPlaneAuth</a></li>
+</ul>
+<h4 id="backendpolicytargetreferencewithsectionname">BackendPolicyTargetReferenceWithSectionName</h4>
+<p><em>Base type:</em> <code>LocalPolicyTargetReferenceWithSectionName</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>group</code> <em><a href="#group">Group</a></em></td><td>Group is the group of the target resource.</td></tr><tr><td><code>kind</code> <em><a href="#kind">Kind</a></em></td><td>Kind is kind of the target resource.</td></tr><tr><td><code>name</code> <em><a href="#objectname">ObjectName</a></em></td><td>Name is the name of the target resource.</td></tr><tr><td><code>sectionName</code> <em><a href="#sectionname">SectionName</a></em></td><td>SectionName is the name of a section within the target resource. When unspecified, this targetRef targets the entire resource. In the following resources, SectionName is interpreted as the following:<br><br> • Gateway: Listener name<br> • HTTPRoute: HTTPRouteRule name<br> • Service: Port name<br><br> If a SectionName is specified, but does not exist on the targeted object, the Policy must fail to attach, and the policy implementation should record a <code>ResolvedRefs</code> or similar Condition in the Policy’s status.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#backendtrafficpolicyspec">BackendTrafficPolicySpec</a></li>
+</ul>
+<h4 id="backendtrafficpolicyspec">BackendTrafficPolicySpec</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>targetRefs</code> <em><a href="#backendpolicytargetreferencewithsectionname">BackendPolicyTargetReferenceWithSectionName</a> array</em></td><td>TargetRef identifies an API object to apply policy to. Currently, Backends (i.e. Service, ServiceImport, or any implementation-specific backendRef) are the only valid API target references.</td></tr><tr><td><code>loadbalancer</code> <em><a href="#loadbalancer">LoadBalancer</a></em></td><td>LoadBalancer represents the load balancer configuration for Kubernetes Service. The default strategy is round robin.</td></tr><tr><td><code>scheme</code> <em>string</em></td><td>Scheme is the protocol used to communicate with the upstream. Default is <code>http</code>. Can be <code>http</code>, <code>https</code>, <code>grpc</code>, or <code>grpcs</code>.</td></tr><tr><td><code>retries</code> <em>integer</em></td><td>Retries specify the number of times the gateway should retry sending requests when errors such as timeouts or 502 errors occur.</td></tr><tr><td><code>timeout</code> <em><a href="#timeout">Timeout</a></em></td><td>Timeout sets the read, send, and connect timeouts to the upstream.</td></tr><tr><td><code>passHost</code> <em>string</em></td><td>PassHost configures how the host header should be determined when a request is forwarded to the upstream. Default is <code>pass</code>. Can be <code>pass</code>, <code>node</code> or <code>rewrite</code>:<br> • <code>pass</code>: preserve the original Host header<br> • <code>node</code>: use the upstream node’s host<br> • <code>rewrite</code>: set to a custom host via <code>upstreamHost</code></td></tr><tr><td><code>upstreamHost</code> <em><a href="#hostname">Hostname</a></em></td><td>UpstreamHost specifies the host of the Upstream request. Used only if passHost is set to <code>rewrite</code>.</td></tr><tr><td><code>healthCheck</code> <em><a href="#healthcheck">HealthCheck</a></em></td><td>HealthCheck defines active and passive health check configuration for the upstream backends. When configured, APISIX will probe backends (active) or monitor live traffic (passive) to detect and bypass unhealthy nodes.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#backendtrafficpolicy">BackendTrafficPolicy</a></li>
+</ul>
+<h4 id="consumerspec">ConsumerSpec</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>gatewayRef</code> <em><a href="#gatewayref">GatewayRef</a></em></td><td>GatewayRef specifies the gateway details.</td></tr><tr><td><code>credentials</code> <em><a href="#credential">Credential</a> array</em></td><td>Credentials specifies the credential details of a consumer.</td></tr><tr><td><code>plugins</code> <em><a href="#plugin">Plugin</a> array</em></td><td>Plugins define the plugins associated with a consumer.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#consumer">Consumer</a></li>
+</ul>
+<h4 id="controlplaneauth">ControlPlaneAuth</h4>
+<p>ControlPlaneAuth defines the authentication configuration for control plane.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em><a href="#authtype">AuthType</a></em></td><td>Type specifies the type of authentication. Can only be <code>AdminKey</code>.</td></tr><tr><td><code>adminKey</code> <em><a href="#adminkeyauth">AdminKeyAuth</a></em></td><td>AdminKey specifies the admin key authentication configuration.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#controlplaneprovider">ControlPlaneProvider</a></li>
+</ul>
+<h4 id="controlplaneprovider">ControlPlaneProvider</h4>
+<p>ControlPlaneProvider defines configuration for control plane provider.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>mode</code> <em>string</em></td><td>Mode specifies the mode of control plane provider. Can be <code>apisix</code> or <code>apisix-standalone</code>.</td></tr><tr><td><code>endpoints</code> <em>string array</em></td><td>Endpoints specifies the list of control plane endpoints.</td></tr><tr><td><code>service</code> <em><a href="#providerservice">ProviderService</a></em></td><td></td></tr><tr><td><code>tlsVerify</code> <em>boolean</em></td><td>TlsVerify specifies whether to verify the TLS certificate of the control plane.</td></tr><tr><td><code>auth</code> <em><a href="#controlplaneauth">ControlPlaneAuth</a></em></td><td>Auth specifies the authentication configuration.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#gatewayproxyprovider">GatewayProxyProvider</a></li>
+</ul>
+<h4 id="credential">Credential</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type specifies the type of authentication to configure credentials for. Can be <code>jwt-auth</code>, <code>basic-auth</code>, <code>key-auth</code>, or <code>hmac-auth</code>.</td></tr><tr><td><code>config</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#json-v1-apiextensions-k8s-io">JSON</a></em></td><td>Config specifies the credential details for authentication.</td></tr><tr><td><code>secretRef</code> <em><a href="#secretreference">SecretReference</a></em></td><td>SecretRef references to the Secret that contains the credentials.</td></tr><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the credential.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#consumerspec">ConsumerSpec</a></li>
+</ul>
+<h4 id="gatewayproxyplugin">GatewayProxyPlugin</h4>
+<p>GatewayProxyPlugin contains plugin configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the plugin.</td></tr><tr><td><code>enabled</code> <em>boolean</em></td><td>Enabled defines whether the plugin is enabled.</td></tr><tr><td><code>config</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#json-v1-apiextensions-k8s-io">JSON</a></em></td><td>Config defines the plugin’s configuration details.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#gatewayproxyspec">GatewayProxySpec</a></li>
+</ul>
+<h4 id="gatewayproxyprovider">GatewayProxyProvider</h4>
+<p>GatewayProxyProvider defines the provider configuration for GatewayProxy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em><a href="#providertype">ProviderType</a></em></td><td>Type specifies the type of provider. Can only be <code>ControlPlane</code>.</td></tr><tr><td><code>controlPlane</code> <em><a href="#controlplaneprovider">ControlPlaneProvider</a></em></td><td>ControlPlane specifies the configuration for control plane provider.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#gatewayproxyspec">GatewayProxySpec</a></li>
+</ul>
+<h4 id="gatewayproxyspec">GatewayProxySpec</h4>
+<p>GatewayProxySpec defines the desired state of GatewayProxy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>publishService</code> <em>string</em></td><td>PublishService specifies the LoadBalancer-type Service whose external address the controller uses to update the status of Ingress resources.</td></tr><tr><td><code>statusAddress</code> <em>string array</em></td><td>StatusAddress specifies the external IP addresses that the controller uses to populate the status field of GatewayProxy or Ingress resources for developers to access.</td></tr><tr><td><code>provider</code> <em><a href="#gatewayproxyprovider">GatewayProxyProvider</a></em></td><td>Provider configures the provider details.</td></tr><tr><td><code>plugins</code> <em><a href="#gatewayproxyplugin">GatewayProxyPlugin</a> array</em></td><td>Plugins configure global plugins.</td></tr><tr><td><code>pluginMetadata</code> <em>object (keys<div></div>, values:<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#json-v1-apiextensions-k8s-io">JSON</a>)</em></td><td>PluginMetadata configures common configuration shared by all plugin instances of the same name.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#gatewayproxy">GatewayProxy</a></li>
+</ul>
+<h4 id="gatewayref">GatewayRef</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the gateway.</td></tr><tr><td><code>kind</code> <em>string</em></td><td>Kind is the type of Kubernetes object. Default is <code>Gateway</code>.</td></tr><tr><td><code>group</code> <em>string</em></td><td>Group is the API group the resource belongs to. Default is <code>gateway.networking.k8s.io</code>.</td></tr><tr><td><code>namespace</code> <em>string</em></td><td>Namespace is namespace of the resource.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#consumerspec">ConsumerSpec</a></li>
+</ul>
+<h4 id="httproutepolicyspec">HTTPRoutePolicySpec</h4>
+<p>HTTPRoutePolicySpec defines the desired state of HTTPRoutePolicy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>targetRefs</code> <em>LocalPolicyTargetReferenceWithSectionName array</em></td><td>TargetRef identifies an API object (i.e. HTTPRoute, Ingress) to apply HTTPRoutePolicy to.</td></tr><tr><td><code>priority</code> <em>integer</em></td><td>Priority sets the priority for route. when multiple routes have the same URI path, a higher value sets a higher priority in route matching.</td></tr><tr><td><code>vars</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#json-v1-apiextensions-k8s-io">JSON</a> array</em></td><td>Vars sets the request matching conditions.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#httproutepolicy">HTTPRoutePolicy</a></li>
+</ul>
+<h4 id="healthcheck">HealthCheck</h4>
+<p>HealthCheck defines the active and passive health check configuration for upstream nodes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>active</code> <em><a href="#activehealthcheck">ActiveHealthCheck</a></em></td><td>Active health checks proactively send requests to upstream nodes to determine their availability.</td></tr><tr><td><code>passive</code> <em><a href="#passivehealthcheck">PassiveHealthCheck</a></em></td><td>Passive health checks evaluate upstream health based on observed traffic (timeouts, errors).</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#backendtrafficpolicyspec">BackendTrafficPolicySpec</a></li>
+</ul>
+<h4 id="hostname">Hostname</h4>
+<p><em>Base type:</em> <code>string</code></p>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#backendtrafficpolicyspec">BackendTrafficPolicySpec</a></li>
+</ul>
+<h4 id="loadbalancer">LoadBalancer</h4>
+<p>LoadBalancer describes the load balancing parameters.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type specifies the load balancing algorithms to route traffic to the backend. Default is <code>roundrobin</code>. Can be <code>roundrobin</code>, <code>chash</code>, <code>ewma</code>, or <code>least_conn</code>.</td></tr><tr><td><code>hashOn</code> <em>string</em></td><td>HashOn specified the type of field used for hashing, required when type is <code>chash</code>. Default is <code>vars</code>. Can be <code>vars</code>, <code>header</code>, <code>cookie</code>, <code>consumer</code>, or <code>vars_combinations</code>.</td></tr><tr><td><code>key</code> <em>string</em></td><td>Key is used with HashOn, generally required when type is <code>chash</code>. When HashOn is <code>header</code> or <code>cookie</code>, specifies the name of the header or cookie. When HashOn is <code>consumer</code>, key is not required, as the consumer name is used automatically. When HashOn is <code>vars</code> or <code>vars_combinations</code>, key refers to one or a combination of <a href="https://apisix.apache.org/docs/apisix/apisix-variable/">APISIX variable</a>.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#backendtrafficpolicyspec">BackendTrafficPolicySpec</a></li>
+</ul>
+<h4 id="passivehealthcheck">PassiveHealthCheck</h4>
+<p>PassiveHealthCheck defines passive health check configuration based on observed traffic.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type is the passive health check type. Can be <code>http</code>, <code>https</code>, or <code>tcp</code>.</td></tr><tr><td><code>healthy</code> <em><a href="#passivehealthcheckhealthy">PassiveHealthCheckHealthy</a></em></td><td>Healthy defines conditions under which a node is considered healthy.</td></tr><tr><td><code>unhealthy</code> <em><a href="#passivehealthcheckunhealthy">PassiveHealthCheckUnhealthy</a></em></td><td>Unhealthy defines conditions under which a node is considered unhealthy.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#healthcheck">HealthCheck</a></li>
+</ul>
+<h4 id="passivehealthcheckhealthy">PassiveHealthCheckHealthy</h4>
+<p>PassiveHealthCheckHealthy defines conditions for passively marking a node healthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes is the list of HTTP status codes considered healthy.</td></tr><tr><td><code>successes</code> <em>integer</em></td><td>Successes is the number of consecutive successful responses required to mark a node healthy.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheckhealthy">ActiveHealthCheckHealthy</a></li>
+<li><a href="#passivehealthcheck">PassiveHealthCheck</a></li>
+</ul>
+<h4 id="passivehealthcheckunhealthy">PassiveHealthCheckUnhealthy</h4>
+<p>PassiveHealthCheckUnhealthy defines conditions for passively marking a node unhealthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes is the list of HTTP status codes considered unhealthy.</td></tr><tr><td><code>httpFailures</code> <em>integer</em></td><td>HTTPFailures is the number of HTTP failures to mark a node unhealthy.</td></tr><tr><td><code>tcpFailures</code> <em>integer</em></td><td>TCPFailures is the number of TCP failures to mark a node unhealthy.</td></tr><tr><td><code>timeouts</code> <em>integer</em></td><td>Timeouts is the number of timeouts to mark a node unhealthy.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheckunhealthy">ActiveHealthCheckUnhealthy</a></li>
+<li><a href="#passivehealthcheck">PassiveHealthCheck</a></li>
+</ul>
+<h4 id="plugin">Plugin</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the plugin.</td></tr><tr><td><code>config</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#json-v1-apiextensions-k8s-io">JSON</a></em></td><td>Config is plugin configuration details.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#consumerspec">ConsumerSpec</a></li>
+<li><a href="#pluginconfigspec">PluginConfigSpec</a></li>
+</ul>
+<h4 id="pluginconfigspec">PluginConfigSpec</h4>
+<p>PluginConfigSpec defines the desired state of PluginConfig.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>plugins</code> <em><a href="#plugin">Plugin</a> array</em></td><td>Plugins are an array of plugins and their configuration to be applied.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#pluginconfig">PluginConfig</a></li>
+</ul>
+<h4 id="providerservice">ProviderService</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the provider.</td></tr><tr><td><code>port</code> <em>integer</em></td><td>Port is the port of the provider.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#controlplaneprovider">ControlPlaneProvider</a></li>
+</ul>
+<h4 id="providertype">ProviderType</h4>
+<p><em>Base type:</em> <code>string</code></p>
+<p>ProviderType defines the type of provider.</p>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#gatewayproxyprovider">GatewayProxyProvider</a></li>
+</ul>
+<h4 id="secretkeyselector">SecretKeySelector</h4>
+<p>SecretKeySelector defines a reference to a specific key within a Secret.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the secret.</td></tr><tr><td><code>key</code> <em>string</em></td><td>Key is the key in the secret to retrieve the secret from.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#adminkeyvaluefrom">AdminKeyValueFrom</a></li>
+</ul>
+<h4 id="secretreference">SecretReference</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the secret.</td></tr><tr><td><code>namespace</code> <em>string</em></td><td>Namespace is the namespace of the secret.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#credential">Credential</a></li>
+</ul>
+<h4 id="status">Status</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>conditions</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#condition-v1-meta">Condition</a> array</em></td><td></td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#consumerstatus">ConsumerStatus</a></li>
+</ul>
+<h4 id="timeout">Timeout</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>connect</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Connection timeout. Default is <code>60s</code>.</td></tr><tr><td><code>send</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Send timeout. Default is <code>60s</code>.</td></tr><tr><td><code>read</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Read timeout. Default is <code>60s</code>.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#backendtrafficpolicyspec">BackendTrafficPolicySpec</a></li>
+</ul>
+<h2 id="apisixapacheorgv2">apisix.apache.org/v2</h2>
+<p>Package v2 contains API Schema definitions for the apisix.apache.org v2 API group.</p>
+<ul>
+<li><a href="#apisixconsumer">ApisixConsumer</a></li>
+<li><a href="#apisixglobalrule">ApisixGlobalRule</a></li>
+<li><a href="#apisixpluginconfig">ApisixPluginConfig</a></li>
+<li><a href="#apisixroute">ApisixRoute</a></li>
+<li><a href="#apisixtls">ApisixTls</a></li>
+<li><a href="#apisixupstream">ApisixUpstream</a></li>
+</ul>
+<h3 id="apisixconsumer">ApisixConsumer</h3>
+<p>ApisixConsumer defines configuration of a consumer and their authentication details.</p>
+<!-- ApisixConsumer resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v2</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>ApisixConsumer</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#apisixconsumerspec">ApisixConsumerSpec</a></em></td><td>ApisixConsumerSpec defines the consumer authentication configuration.</td></tr></tbody></table>
+<h3 id="apisixglobalrule">ApisixGlobalRule</h3>
+<p>ApisixGlobalRule defines configuration for global plugins.</p>
+<!-- ApisixGlobalRule resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v2</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>ApisixGlobalRule</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#apisixglobalrulespec">ApisixGlobalRuleSpec</a></em></td><td>ApisixGlobalRuleSpec defines the global plugin configuration.</td></tr></tbody></table>
+<h3 id="apisixpluginconfig">ApisixPluginConfig</h3>
+<p>ApisixPluginConfig defines a reusable set of plugin configuration that can be referenced by routes.</p>
+<!-- ApisixPluginConfig resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v2</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>ApisixPluginConfig</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#apisixpluginconfigspec">ApisixPluginConfigSpec</a></em></td><td>ApisixPluginConfigSpec defines the plugin config configuration.</td></tr></tbody></table>
+<h3 id="apisixroute">ApisixRoute</h3>
+<p>ApisixRoute defines configuration for HTTP and stream routes.</p>
+<!-- ApisixRoute resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v2</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>ApisixRoute</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#apisixroutespec">ApisixRouteSpec</a></em></td><td>ApisixRouteSpec defines HTTP and stream route configuration.</td></tr></tbody></table>
+<h3 id="apisixtls">ApisixTls</h3>
+<p>ApisixTls defines configuration for TLS and mutual TLS (mTLS).</p>
+<!-- ApisixTls resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v2</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>ApisixTls</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#apisixtlsspec">ApisixTlsSpec</a></em></td><td>ApisixTlsSpec defines the TLS configuration.</td></tr></tbody></table>
+<h3 id="apisixupstream">ApisixUpstream</h3>
+<p>ApisixUpstream defines configuration for upstream services.</p>
+<!-- ApisixUpstream resource -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>apiVersion</code> <em>string</em></td><td><code>apisix.apache.org/v2</code></td></tr><tr><td><code>kind</code> <em>string</em></td><td><code>ApisixUpstream</code></td></tr><tr><td><code>metadata</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#objectmeta-v1-meta">ObjectMeta</a></em></td><td>Please refer to the Kubernetes API documentation for details on the <code>metadata</code> field.</td></tr><tr><td><code>spec</code> <em><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></em></td><td>ApisixUpstreamSpec defines the upstream configuration.</td></tr></tbody></table>
+<h3 id="types-1">Types</h3>
+<p>This section describes the types used by the CRDs.</p>
+<h4 id="activehealthcheck-1">ActiveHealthCheck</h4>
+<p>ActiveHealthCheck defines the active upstream health check configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type is the health check type. Can be <code>http</code>, <code>https</code>, or <code>tcp</code>.</td></tr><tr><td><code>timeout</code> <em><a href="#duration">Duration</a></em></td><td>Timeout sets health check timeout in seconds.</td></tr><tr><td><code>concurrency</code> <em>integer</em></td><td>Concurrency sets the number of targets to be checked at the same time.</td></tr><tr><td><code>host</code> <em>string</em></td><td>Host sets the upstream host.</td></tr><tr><td><code>port</code> <em>integer</em></td><td>Port sets the upstream port.</td></tr><tr><td><code>httpPath</code> <em>string</em></td><td>HTTPPath sets the HTTP probe request path.</td></tr><tr><td><code>strictTLS</code> <em>boolean</em></td><td>StrictTLS sets whether to enforce TLS.</td></tr><tr><td><code>requestHeaders</code> <em>string array</em></td><td>RequestHeaders sets the request headers.</td></tr><tr><td><code>healthy</code> <em><a href="#activehealthcheckhealthy">ActiveHealthCheckHealthy</a></em></td><td>Healthy configures the rules that define an upstream node as healthy.</td></tr><tr><td><code>unhealthy</code> <em><a href="#activehealthcheckunhealthy">ActiveHealthCheckUnhealthy</a></em></td><td>Unhealthy configures the rules that define an upstream node as unhealthy.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#healthcheck">HealthCheck</a></li>
+</ul>
+<h4 id="activehealthcheckhealthy-1">ActiveHealthCheckHealthy</h4>
+<p>UpstreamActiveHealthCheckHealthy defines the conditions used to actively determine whether an upstream node is healthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes define a list of HTTP status codes that are considered healthy.</td></tr><tr><td><code>successes</code> <em>integer</em></td><td>Successes define the number of successful probes to define a healthy target.</td></tr><tr><td><code>interval</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Interval defines the time interval for checking targets, in seconds.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheck">ActiveHealthCheck</a></li>
+</ul>
+<h4 id="activehealthcheckunhealthy-1">ActiveHealthCheckUnhealthy</h4>
+<p>UpstreamActiveHealthCheckHealthy defines the conditions used to actively determine whether an upstream node is unhealthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes define a list of HTTP status codes that are considered unhealthy.</td></tr><tr><td><code>httpFailures</code> <em>integer</em></td><td>HTTPFailures define the number of HTTP failures to define an unhealthy target.</td></tr><tr><td><code>tcpFailures</code> <em>integer</em></td><td>TCPFailures define the number of TCP failures to define an unhealthy target.</td></tr><tr><td><code>timeout</code> <em>integer</em></td><td>Timeout sets the number of timeouts to define an unhealthy target.</td></tr><tr><td><code>interval</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Interval defines the time interval for checking targets, in seconds.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheck">ActiveHealthCheck</a></li>
+</ul>
+<h4 id="apisixconsumerauthparameter">ApisixConsumerAuthParameter</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>basicAuth</code> <em><a href="#apisixconsumerbasicauth">ApisixConsumerBasicAuth</a></em></td><td>BasicAuth configures the basic authentication details.</td></tr><tr><td><code>keyAuth</code> <em><a href="#apisixconsumerkeyauth">ApisixConsumerKeyAuth</a></em></td><td>KeyAuth configures the key authentication details.</td></tr><tr><td><code>wolfRBAC</code> <em><a href="#apisixconsumerwolfrbac">ApisixConsumerWolfRBAC</a></em></td><td>WolfRBAC configures the Wolf RBAC authentication details.</td></tr><tr><td><code>jwtAuth</code> <em><a href="#apisixconsumerjwtauth">ApisixConsumerJwtAuth</a></em></td><td>JwtAuth configures the JWT authentication details.</td></tr><tr><td><code>hmacAuth</code> <em><a href="#apisixconsumerhmacauth">ApisixConsumerHMACAuth</a></em></td><td>HMACAuth configures the HMAC authentication details.</td></tr><tr><td><code>ldapAuth</code> <em><a href="#apisixconsumerldapauth">ApisixConsumerLDAPAuth</a></em></td><td>LDAPAuth configures the LDAP authentication details.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerspec">ApisixConsumerSpec</a></li>
+</ul>
+<h4 id="apisixconsumerbasicauth">ApisixConsumerBasicAuth</h4>
+<p>ApisixConsumerBasicAuth defines configuration for basic authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretRef</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core">LocalObjectReference</a></em></td><td>SecretRef references a Kubernetes Secret containing the basic authentication credentials.</td></tr><tr><td><code>value</code> <em><a href="#apisixconsumerbasicauthvalue">ApisixConsumerBasicAuthValue</a></em></td><td>Value specifies the basic authentication credentials.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></li>
+</ul>
+<h4 id="apisixconsumerbasicauthvalue">ApisixConsumerBasicAuthValue</h4>
+<p>ApisixConsumerBasicAuthValue defines the username and password configuration for basic authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>username</code> <em>string</em></td><td>Username is the basic authentication username.</td></tr><tr><td><code>password</code> <em>string</em></td><td>Password is the basic authentication password.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerbasicauth">ApisixConsumerBasicAuth</a></li>
+</ul>
+<h4 id="apisixconsumerhmacauth">ApisixConsumerHMACAuth</h4>
+<p>ApisixConsumerHMACAuth defines configuration for the HMAC authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretRef</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core">LocalObjectReference</a></em></td><td>SecretRef references a Kubernetes Secret containing the HMAC credentials.</td></tr><tr><td><code>value</code> <em><a href="#apisixconsumerhmacauthvalue">ApisixConsumerHMACAuthValue</a></em></td><td>Value specifies HMAC authentication credentials.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></li>
+</ul>
+<h4 id="apisixconsumerhmacauthvalue">ApisixConsumerHMACAuthValue</h4>
+<p>ApisixConsumerHMACAuthValue defines configuration for HMAC authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>key_id</code> <em>string</em></td><td>KeyID is the identifier used to look up the HMAC secret.</td></tr><tr><td><code>secret_key</code> <em>string</em></td><td>SecretKey is the HMAC secret used to sign the request.</td></tr><tr><td><code>access_key</code> <em>string</em></td><td>AccessKey is the identifier used to look up the HMAC secret. Deprecated from consumer configuration</td></tr><tr><td><code>algorithm</code> <em>string</em></td><td>Algorithm specifies the hashing algorithm (e.g., “hmac-sha256”). Deprecated from consumer configuration</td></tr><tr><td><code>clock_skew</code> <em>integer</em></td><td>ClockSkew is the allowed time difference (in seconds) between client and server clocks. Deprecated from consumer configuration</td></tr><tr><td><code>signed_headers</code> <em>string array</em></td><td>SignedHeaders lists the headers that must be included in the signature. Deprecated from consumer configuration</td></tr><tr><td><code>keep_headers</code> <em>boolean</em></td><td>KeepHeaders determines whether the HMAC signature headers are preserved after verification. Deprecated from consumer configuration</td></tr><tr><td><code>encode_uri_params</code> <em>boolean</em></td><td>EncodeURIParams indicates whether URI parameters are encoded when calculating the signature. Deprecated from consumer configuration</td></tr><tr><td><code>validate_request_body</code> <em>boolean</em></td><td>ValidateRequestBody enables HMAC validation of the request body. Deprecated from consumer configuration</td></tr><tr><td><code>max_req_body</code> <em>integer</em></td><td>MaxReqBody sets the maximum size (in bytes) of the request body that can be validated. Deprecated from consumer configuration</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerhmacauth">ApisixConsumerHMACAuth</a></li>
+</ul>
+<h4 id="apisixconsumerjwtauth">ApisixConsumerJwtAuth</h4>
+<p>ApisixConsumerJwtAuth defines configuration for JWT authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretRef</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core">LocalObjectReference</a></em></td><td>SecretRef references a Kubernetes Secret containing JWT authentication credentials.</td></tr><tr><td><code>value</code> <em><a href="#apisixconsumerjwtauthvalue">ApisixConsumerJwtAuthValue</a></em></td><td>Value specifies JWT authentication credentials.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></li>
+</ul>
+<h4 id="apisixconsumerjwtauthvalue">ApisixConsumerJwtAuthValue</h4>
+<p>ApisixConsumerJwtAuthValue defines configuration for JWT authentication.
+For asymmetric algorithms (RS*, ES*, PS*, EdDSA), at least one of public_key
+or private_key must be provided. Symmetric algorithms (HS256, HS384, HS512)
+and unset algorithm do not require any key field.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code> <em>string</em></td><td>Key is the unique identifier for the JWT credential.</td></tr><tr><td><code>secret</code> <em>string</em></td><td>Secret is the shared secret used to sign the JWT (for symmetric algorithms).</td></tr><tr><td><code>public_key</code> <em>string</em></td><td>PublicKey is the public key used to verify JWT signatures (for asymmetric algorithms).</td></tr><tr><td><code>private_key</code> <em>string</em></td><td>PrivateKey is the private key used to sign the JWT (for asymmetric algorithms).</td></tr><tr><td><code>algorithm</code> <em>string</em></td><td>Algorithm specifies the signing algorithm. Can be <code>HS256</code>, <code>HS384</code>, <code>HS512</code>, <code>RS256</code>, <code>RS384</code>, <code>RS512</code>, <code>ES256</code>, <code>ES384</code>, <code>ES512</code>, <code>PS256</code>, <code>PS384</code>, <code>PS512</code>, or <code>EdDSA</code>.</td></tr><tr><td><code>exp</code> <em>integer</em></td><td>Exp is the token expiration period in seconds.</td></tr><tr><td><code>base64_secret</code> <em>boolean</em></td><td>Base64Secret indicates whether the secret is base64-encoded.</td></tr><tr><td><code>lifetime_grace_period</code> <em>integer</em></td><td>LifetimeGracePeriod is the allowed clock skew in seconds for token expiration.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerjwtauth">ApisixConsumerJwtAuth</a></li>
+</ul>
+<h4 id="apisixconsumerkeyauth">ApisixConsumerKeyAuth</h4>
+<p>ApisixConsumerKeyAuth defines configuration for the key auth.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretRef</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core">LocalObjectReference</a></em></td><td>SecretRef references a Kubernetes Secret containing the key authentication credentials.</td></tr><tr><td><code>value</code> <em><a href="#apisixconsumerkeyauthvalue">ApisixConsumerKeyAuthValue</a></em></td><td>Value specifies the key authentication credentials.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></li>
+</ul>
+<h4 id="apisixconsumerkeyauthvalue">ApisixConsumerKeyAuthValue</h4>
+<p>ApisixConsumerKeyAuthValue defines configuration for key authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code> <em>string</em></td><td>Key is the credential used for key authentication.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerkeyauth">ApisixConsumerKeyAuth</a></li>
+</ul>
+<h4 id="apisixconsumerldapauth">ApisixConsumerLDAPAuth</h4>
+<p>ApisixConsumerLDAPAuth defines configuration for the LDAP authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretRef</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core">LocalObjectReference</a></em></td><td>SecretRef references a Kubernetes Secret containing the LDAP credentials.</td></tr><tr><td><code>value</code> <em><a href="#apisixconsumerldapauthvalue">ApisixConsumerLDAPAuthValue</a></em></td><td>Value specifies LDAP authentication credentials.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></li>
+</ul>
+<h4 id="apisixconsumerldapauthvalue">ApisixConsumerLDAPAuthValue</h4>
+<p>ApisixConsumerLDAPAuthValue defines configuration for LDAP authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>user_dn</code> <em>string</em></td><td>UserDN is the distinguished name (DN) of the LDAP user.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerldapauth">ApisixConsumerLDAPAuth</a></li>
+</ul>
+<h4 id="apisixconsumerspec">ApisixConsumerSpec</h4>
+<p>ApisixConsumerSpec defines the desired state of ApisixConsumer.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressClassName</code> <em>string</em></td><td>IngressClassName is the name of an IngressClass cluster resource. The controller uses this field to decide whether the resource should be managed.</td></tr><tr><td><code>authParameter</code> <em><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></em></td><td>AuthParameter defines the authentication credentials and configuration for this consumer.</td></tr><tr><td><code>plugins</code> <em><a href="#apisixrouteplugin">ApisixRoutePlugin</a> array</em></td><td>Plugins lists additional consumer-scoped plugins to attach to this consumer. These plugins are applied alongside any authentication plugin derived from AuthParameter. An enabled plugin with the same name as the auth plugin derived from AuthParameter takes precedence.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumer">ApisixConsumer</a></li>
+</ul>
+<h4 id="apisixconsumerwolfrbac">ApisixConsumerWolfRBAC</h4>
+<p>ApisixConsumerWolfRBAC defines configuration for the Wolf RBAC authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>secretRef</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localobjectreference-v1-core">LocalObjectReference</a></em></td><td>SecretRef references a Kubernetes Secret containing the Wolf RBAC token.</td></tr><tr><td><code>value</code> <em><a href="#apisixconsumerwolfrbacvalue">ApisixConsumerWolfRBACValue</a></em></td><td>Value specifies the Wolf RBAC token.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerauthparameter">ApisixConsumerAuthParameter</a></li>
+</ul>
+<h4 id="apisixconsumerwolfrbacvalue">ApisixConsumerWolfRBACValue</h4>
+<p>ApisixConsumerWolfRBACValue defines configuration for Wolf RBAC authentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>server</code> <em>string</em></td><td>Server is the URL of the Wolf RBAC server.</td></tr><tr><td><code>appid</code> <em>string</em></td><td>Appid is the application identifier used when communicating with the Wolf RBAC server.</td></tr><tr><td><code>header_prefix</code> <em>string</em></td><td>HeaderPrefix is the prefix added to request headers for RBAC enforcement.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerwolfrbac">ApisixConsumerWolfRBAC</a></li>
+</ul>
+<h4 id="apisixglobalrulespec">ApisixGlobalRuleSpec</h4>
+<p>ApisixGlobalRuleSpec defines configuration for global plugins.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressClassName</code> <em>string</em></td><td>IngressClassName is the name of an IngressClass cluster resource. The controller uses this field to decide whether the resource should be managed.</td></tr><tr><td><code>plugins</code> <em><a href="#apisixrouteplugin">ApisixRoutePlugin</a> array</em></td><td>Plugins contain a list of global plugins.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixglobalrule">ApisixGlobalRule</a></li>
+</ul>
+<h4 id="apisixmutualtlsclientconfig">ApisixMutualTlsClientConfig</h4>
+<p>ApisixMutualTlsClientConfig describes the mutual TLS CA and verification settings.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>caSecret</code> <em><a href="#apisixsecret">ApisixSecret</a></em></td><td>CASecret references the secret containing the CA certificate for client certificate validation.</td></tr><tr><td><code>depth</code> <em>integer</em></td><td>Depth specifies the maximum verification depth for the client certificate chain.</td></tr><tr><td><code>skip_mtls_uri_regex</code> <em>string array</em></td><td>SkipMTLSUriRegex contains RegEx patterns for URIs to skip mutual TLS verification.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixtlsspec">ApisixTlsSpec</a></li>
+</ul>
+<h4 id="apisixpluginconfigspec">ApisixPluginConfigSpec</h4>
+<p>ApisixPluginConfigSpec defines the desired state of ApisixPluginConfigSpec.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressClassName</code> <em>string</em></td><td>IngressClassName is the name of an IngressClass cluster resource. The controller uses this field to decide whether the resource should be managed.</td></tr><tr><td><code>plugins</code> <em><a href="#apisixrouteplugin">ApisixRoutePlugin</a> array</em></td><td>Plugins contain a list of plugins.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixpluginconfig">ApisixPluginConfig</a></li>
+</ul>
+<h4 id="apisixrouteauthentication">ApisixRouteAuthentication</h4>
+<p>ApisixRouteAuthentication represents authentication-related configuration in ApisixRoute.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>enable</code> <em>boolean</em></td><td>Enable toggles authentication on or off.</td></tr><tr><td><code>type</code> <em>string</em></td><td>Type specifies the authentication type.</td></tr><tr><td><code>keyAuth</code> <em><a href="#apisixrouteauthenticationkeyauth">ApisixRouteAuthenticationKeyAuth</a></em></td><td>KeyAuth defines configuration for key authentication.</td></tr><tr><td><code>jwtAuth</code> <em><a href="#apisixrouteauthenticationjwtauth">ApisixRouteAuthenticationJwtAuth</a></em></td><td>JwtAuth defines configuration for JWT authentication.</td></tr><tr><td><code>ldapAuth</code> <em><a href="#apisixrouteauthenticationldapauth">ApisixRouteAuthenticationLDAPAuth</a></em></td><td>LDAPAuth defines configuration for LDAP authentication.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttp">ApisixRouteHTTP</a></li>
+</ul>
+<h4 id="apisixrouteauthenticationjwtauth">ApisixRouteAuthenticationJwtAuth</h4>
+<p>ApisixRouteAuthenticationJwtAuth defines JWT authentication configuration in ApisixRouteAuthentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>header</code> <em>string</em></td><td>Header specifies the HTTP header name to look for the JWT token.</td></tr><tr><td><code>query</code> <em>string</em></td><td>Query specifies the URL query parameter name to look for the JWT token.</td></tr><tr><td><code>cookie</code> <em>string</em></td><td>Cookie specifies the cookie name to look for the JWT token.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixrouteauthentication">ApisixRouteAuthentication</a></li>
+</ul>
+<h4 id="apisixrouteauthenticationkeyauth">ApisixRouteAuthenticationKeyAuth</h4>
+<p>ApisixRouteAuthenticationKeyAuth defines key authentication configuration in ApisixRouteAuthentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>header</code> <em>string</em></td><td>Header specifies the HTTP header name to look for the key authentication token.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixrouteauthentication">ApisixRouteAuthentication</a></li>
+</ul>
+<h4 id="apisixrouteauthenticationldapauth">ApisixRouteAuthenticationLDAPAuth</h4>
+<p>ApisixRouteAuthenticationLDAPAuth defines LDAP authentication configuration in ApisixRouteAuthentication.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>base_dn</code> <em>string</em></td><td>BaseDN is the base distinguished name (DN) for LDAP searches.</td></tr><tr><td><code>ldap_uri</code> <em>string</em></td><td>LDAPURI is the URI of the LDAP server.</td></tr><tr><td><code>use_tls</code> <em>boolean</em></td><td>UseTLS indicates whether to use TLS for the LDAP connection.</td></tr><tr><td><code>uid</code> <em>string</em></td><td>UID is the user identifier attribute in LDAP.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixrouteauthentication">ApisixRouteAuthentication</a></li>
+</ul>
+<h4 id="apisixroutehttp">ApisixRouteHTTP</h4>
+<p>ApisixRouteHTTP represents a single HTTP route configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the unique rule name and cannot be empty.</td></tr><tr><td><code>priority</code> <em>integer</em></td><td>Priority defines the route priority when multiple routes share the same URI path. Higher values mean higher priority in route matching.</td></tr><tr><td><code>timeout</code> <em><a href="#upstreamtimeout">UpstreamTimeout</a></em></td><td>Timeout specifies upstream timeout settings.</td></tr><tr><td><code>match</code> <em><a href="#apisixroutehttpmatch">ApisixRouteHTTPMatch</a></em></td><td>Match defines the HTTP request matching criteria.</td></tr><tr><td><code>backends</code> <em><a href="#apisixroutehttpbackend">ApisixRouteHTTPBackend</a> array</em></td><td>Backends lists potential backend services to proxy requests to. If more than one backend is specified, the <code>traffic-split</code> plugin is used to distribute traffic according to backend weights.</td></tr><tr><td><code>upstreams</code> <em><a href="#apisixrouteupstreamreference">ApisixRouteUpstreamReference</a> array</em></td><td>Upstreams references ApisixUpstream CRDs.</td></tr><tr><td><code>websocket</code> <em>boolean</em></td><td>Websocket enables or disables websocket support for this route.</td></tr><tr><td><code>plugin_config_name</code> <em>string</em></td><td>PluginConfigName specifies the name of the plugin config to apply.</td></tr><tr><td><code>plugin_config_namespace</code> <em>string</em></td><td>PluginConfigNamespace specifies the namespace of the plugin config. Defaults to the namespace of the ApisixRoute if not set.</td></tr><tr><td><code>plugins</code> <em><a href="#apisixrouteplugin">ApisixRoutePlugin</a> array</em></td><td>Plugins lists additional plugins applied to this route.</td></tr><tr><td><code>authentication</code> <em><a href="#apisixrouteauthentication">ApisixRouteAuthentication</a></em></td><td>Authentication holds authentication-related configuration for this route.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutespec">ApisixRouteSpec</a></li>
+</ul>
+<h4 id="apisixroutehttpbackend">ApisixRouteHTTPBackend</h4>
+<p>ApisixRouteHTTPBackend represents an HTTP backend (Kubernetes Service).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>serviceName</code> <em>string</em></td><td>ServiceName is the name of the Kubernetes Service. Cross-namespace references are not supported—ensure the ApisixRoute and the Service are in the same namespace.</td></tr><tr><td><code>servicePort</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#intorstring-intstr-util">IntOrString</a></em></td><td>ServicePort is the port of the Kubernetes Service. This can be either the port name or port number.</td></tr><tr><td><code>resolveGranularity</code> <em>string</em></td><td>ResolveGranularity determines how the backend service is resolved. Valid values are <code>endpoints</code> and <code>service</code>. When set to <code>endpoints</code>, individual pod IPs will be used; otherwise, the Service’s ClusterIP or ExternalIP is used. The default is <code>endpoints</code>.</td></tr><tr><td><code>weight</code> <em>integer</em></td><td>Weight specifies the relative traffic weight for this backend.</td></tr><tr><td><code>subset</code> <em>string</em></td><td>Subset specifies a named subset of the target Service. The subset must be pre-defined in the corresponding ApisixUpstream resource.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttp">ApisixRouteHTTP</a></li>
+</ul>
+<h4 id="apisixroutehttpmatch">ApisixRouteHTTPMatch</h4>
+<p>ApisixRouteHTTPMatch defines the conditions used to match incoming HTTP requests.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>paths</code> <em>string array</em></td><td>Paths is a list of URI path patterns to match. At least one path must be specified. Supports exact matches and prefix matches. For prefix matches, append <code>*</code> to the path, such as <code>/foo*</code>.</td></tr><tr><td><code>methods</code> <em>string array</em></td><td>Methods specifies the HTTP methods to match.</td></tr><tr><td><code>hosts</code> <em>string array</em></td><td>Hosts specifies Host header values to match. Supports exact and wildcard domains. Only one level of wildcard is allowed (e.g., <code>*.example.com</code> is valid, but <code>*.*.example.com</code> is not).</td></tr><tr><td><code>remoteAddrs</code> <em>string array</em></td><td>RemoteAddrs is a list of source IP addresses or CIDR ranges to match. Supports both IPv4 and IPv6 formats.</td></tr><tr><td><code>exprs</code> <em><a href="#apisixroutehttpmatchexprs">ApisixRouteHTTPMatchExprs</a></em></td><td>NginxVars defines match conditions based on Nginx variables.</td></tr><tr><td><code>filter_func</code> <em>string</em></td><td>FilterFunc is a user-defined function for advanced request filtering. The function can use Nginx variables through the <code>vars</code> parameter.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttp">ApisixRouteHTTP</a></li>
+</ul>
+<h4 id="apisixroutehttpmatchexpr">ApisixRouteHTTPMatchExpr</h4>
+<p>ApisixRouteHTTPMatchExpr represents a binary expression used to match requests based on Nginx variables.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>subject</code> <em><a href="#apisixroutehttpmatchexprsubject">ApisixRouteHTTPMatchExprSubject</a></em></td><td>Subject defines the left-hand side of the expression. It can be any <a href="https://apisix.apache.org/docs/apisix/apisix-variable">APISIX variable</a> or string literal.</td></tr><tr><td><code>op</code> <em>string</em></td><td>Op specifies the operator used in the expression. Can be <code>Equal</code>, <code>NotEqual</code>, <code>GreaterThan</code>, <code>GreaterThanEqual</code>, <code>LessThan</code>, <code>LessThanEqual</code>, <code>RegexMatch</code>, <code>RegexNotMatch</code>, <code>RegexMatchCaseInsensitive</code>, <code>RegexNotMatchCaseInsensitive</code>, <code>In</code>, or <code>NotIn</code>.</td></tr><tr><td><code>set</code> <em>string array</em></td><td>Set provides a list of acceptable values for the expression. This should be used when Op is <code>In</code> or <code>NotIn</code>.</td></tr><tr><td><code>value</code> <em>string</em></td><td>Value defines a single value to compare against the subject. This should be used when Op is not <code>In</code> or <code>NotIn</code>. Set and Value are mutually exclusive—only one should be set at a time.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttpmatchexprs">ApisixRouteHTTPMatchExprs</a></li>
+</ul>
+<h4 id="apisixroutehttpmatchexprsubject">ApisixRouteHTTPMatchExprSubject</h4>
+<p>ApisixRouteHTTPMatchExprSubject describes the subject of a route matching expression.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>scope</code> <em>string</em></td><td>Scope specifies the subject scope. Supported values: <code>Header</code>, <code>Query</code>, <code>Path</code>, <code>Cookie</code>, <code>Variable</code>, <code>Body</code>. When Scope is <code>Path</code>, Name will be ignored. When Scope is <code>Body</code>, Name supports dot-notation JSON path (e.g., “model.version”, “messages[*].role”) and maps to APISIX’s <code>post_arg.&#x3C;name></code> variable, which works with application/json, application/x-www-form-urlencoded, and multipart/form-data.</td></tr><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the subject within the given scope: the header name, query parameter name, cookie name, Nginx variable name, or body field name (dot-notation JSON path supported for Body scope). Optional when Scope is Path.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttpmatchexpr">ApisixRouteHTTPMatchExpr</a></li>
+</ul>
+<h4 id="apisixroutehttpmatchexprs">ApisixRouteHTTPMatchExprs</h4>
+<p><em>Base type:</em> <code>[ApisixRouteHTTPMatchExpr](#apisixroutehttpmatchexpr)</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>subject</code> <em><a href="#apisixroutehttpmatchexprsubject">ApisixRouteHTTPMatchExprSubject</a></em></td><td>Subject defines the left-hand side of the expression. It can be any <a href="https://apisix.apache.org/docs/apisix/apisix-variable">APISIX variable</a> or string literal.</td></tr><tr><td><code>op</code> <em>string</em></td><td>Op specifies the operator used in the expression. Can be <code>Equal</code>, <code>NotEqual</code>, <code>GreaterThan</code>, <code>GreaterThanEqual</code>, <code>LessThan</code>, <code>LessThanEqual</code>, <code>RegexMatch</code>, <code>RegexNotMatch</code>, <code>RegexMatchCaseInsensitive</code>, <code>RegexNotMatchCaseInsensitive</code>, <code>In</code>, or <code>NotIn</code>.</td></tr><tr><td><code>set</code> <em>string array</em></td><td>Set provides a list of acceptable values for the expression. This should be used when Op is <code>In</code> or <code>NotIn</code>.</td></tr><tr><td><code>value</code> <em>string</em></td><td>Value defines a single value to compare against the subject. This should be used when Op is not <code>In</code> or <code>NotIn</code>. Set and Value are mutually exclusive—only one should be set at a time.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttpmatch">ApisixRouteHTTPMatch</a></li>
+</ul>
+<h4 id="apisixrouteplugin">ApisixRoutePlugin</h4>
+<p>ApisixRoutePlugin represents an APISIX plugin.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>The plugin name.</td></tr><tr><td><code>enable</code> <em>boolean</em></td><td>Whether this plugin is in use, default is true.</td></tr><tr><td><code>config</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#json-v1-apiextensions-k8s-io">JSON</a></em></td><td>Plugin configuration.</td></tr><tr><td><code>secretRef</code> <em>string</em></td><td>Plugin configuration secretRef.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixconsumerspec">ApisixConsumerSpec</a></li>
+<li><a href="#apisixglobalrulespec">ApisixGlobalRuleSpec</a></li>
+<li><a href="#apisixpluginconfigspec">ApisixPluginConfigSpec</a></li>
+<li><a href="#apisixroutehttp">ApisixRouteHTTP</a></li>
+<li><a href="#apisixroutestream">ApisixRouteStream</a></li>
+</ul>
+<h4 id="apisixroutespec">ApisixRouteSpec</h4>
+<p>ApisixRouteSpec is the spec definition for ApisixRoute.
+It defines routing rules for both HTTP and stream traffic.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressClassName</code> <em>string</em></td><td>IngressClassName is the name of the IngressClass this route belongs to. It allows multiple controllers to watch and reconcile different routes.</td></tr><tr><td><code>http</code> <em><a href="#apisixroutehttp">ApisixRouteHTTP</a> array</em></td><td>HTTP defines a list of HTTP route rules. Each rule specifies conditions to match HTTP requests and how to forward them.</td></tr><tr><td><code>stream</code> <em><a href="#apisixroutestream">ApisixRouteStream</a> array</em></td><td>Stream defines a list of stream route rules. Each rule specifies conditions to match TCP/UDP traffic and how to forward them.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroute">ApisixRoute</a></li>
+</ul>
+<h4 id="apisixroutestream">ApisixRouteStream</h4>
+<p>ApisixRouteStream defines the configuration for a Layer 4 (TCP/UDP) route.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is a unique identifier for the route. This field must not be empty.</td></tr><tr><td><code>protocol</code> <em>string</em></td><td>Protocol specifies the L4 protocol to match. Can be <code>TCP</code> or <code>UDP</code>.</td></tr><tr><td><code>match</code> <em><a href="#apisixroutestreammatch">ApisixRouteStreamMatch</a></em></td><td>Match defines the criteria used to match incoming TCP or UDP connections.</td></tr><tr><td><code>backend</code> <em><a href="#apisixroutestreambackend">ApisixRouteStreamBackend</a></em></td><td>Backend specifies the destination service to which traffic should be forwarded.</td></tr><tr><td><code>plugins</code> <em><a href="#apisixrouteplugin">ApisixRoutePlugin</a> array</em></td><td>Plugins defines a list of plugins to apply to this route.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutespec">ApisixRouteSpec</a></li>
+</ul>
+<h4 id="apisixroutestreambackend">ApisixRouteStreamBackend</h4>
+<p>ApisixRouteStreamBackend represents the backend service for a TCP or UDP stream route.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>serviceName</code> <em>string</em></td><td>ServiceName is the name of the Kubernetes Service. Cross-namespace references are not supported—ensure the ApisixRoute and the Service are in the same namespace.</td></tr><tr><td><code>servicePort</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#intorstring-intstr-util">IntOrString</a></em></td><td>ServicePort is the port of the Kubernetes Service. This can be either the port name or port number.</td></tr><tr><td><code>resolveGranularity</code> <em>string</em></td><td>ResolveGranularity determines how the backend service is resolved. Valid values are <code>endpoint</code> and <code>service</code>. When set to <code>endpoint</code>, individual pod IPs will be used; otherwise, the Service’s ClusterIP or ExternalIP is used. The default is <code>endpoint</code>.</td></tr><tr><td><code>subset</code> <em>string</em></td><td>Subset specifies a named subset of the target Service. The subset must be pre-defined in the corresponding ApisixUpstream resource.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutestream">ApisixRouteStream</a></li>
+</ul>
+<h4 id="apisixroutestreammatch">ApisixRouteStreamMatch</h4>
+<p>ApisixRouteStreamMatch represents the matching conditions for a stream route.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressPort</code> <em>integer</em></td><td>IngressPort is the port on which the APISIX Ingress proxy server listens. This must be a statically configured port, as APISIX does not support dynamic port binding.</td></tr><tr><td><code>host</code> <em>string</em></td><td>Host is the destination host address used to match the incoming TCP/UDP traffic.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutestream">ApisixRouteStream</a></li>
+</ul>
+<h4 id="apisixrouteupstreamreference">ApisixRouteUpstreamReference</h4>
+<p>ApisixRouteUpstreamReference references an ApisixUpstream CRD to be used as a backend.
+It can be used in traffic-splitting scenarios or to select a specific upstream configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the ApisixUpstream resource.</td></tr><tr><td><code>weight</code> <em>integer</em></td><td>Weight is the weight assigned to this upstream.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttp">ApisixRouteHTTP</a></li>
+</ul>
+<h4 id="apisixsecret">ApisixSecret</h4>
+<p>ApisixSecret describes a reference to a Kubernetes Secret, including its name and namespace.
+This is used to locate secrets such as certificates or credentials for plugins or TLS configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of the Kubernetes Secret.</td></tr><tr><td><code>namespace</code> <em>string</em></td><td>Namespace is the namespace where the Kubernetes Secret is located.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixmutualtlsclientconfig">ApisixMutualTlsClientConfig</a></li>
+<li><a href="#apisixtlsspec">ApisixTlsSpec</a></li>
+<li><a href="#apisixupstreamconfig">ApisixUpstreamConfig</a></li>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul>
+<h4 id="apisixtlsspec">ApisixTlsSpec</h4>
+<p>ApisixTlsSpec defines configurations for TLS and mutual TLS.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressClassName</code> <em>string</em></td><td>IngressClassName specifies which IngressClass this resource is associated with. The APISIX controller only processes this resource if the class matches its own.</td></tr><tr><td><code>hosts</code> <em><a href="#hosttype">HostType</a> array</em></td><td>Hosts lists the SNI (Server Name Indication) hostnames that this TLS configuration applies to. Must contain at least one host.</td></tr><tr><td><code>secret</code> <em><a href="#apisixsecret">ApisixSecret</a></em></td><td>Secret refers to the Kubernetes TLS secret containing the certificate and private key. This secret must exist in the specified namespace and contain valid TLS data.</td></tr><tr><td><code>client</code> <em><a href="#apisixmutualtlsclientconfig">ApisixMutualTlsClientConfig</a></em></td><td>Client defines mutual TLS (mTLS) settings, such as the CA certificate and verification depth.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixtls">ApisixTls</a></li>
+</ul>
+<h4 id="apisixupstreamconfig">ApisixUpstreamConfig</h4>
+<p>ApisixUpstreamConfig defines configuration for upstream services.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>loadbalancer</code> <em><a href="#loadbalancer">LoadBalancer</a></em></td><td>LoadBalancer specifies the load balancer configuration for Kubernetes Service.</td></tr><tr><td><code>scheme</code> <em>string</em></td><td>Scheme is the protocol used to communicate with the upstream. Default is <code>http</code>. Can be <code>http</code>, <code>https</code>, <code>grpc</code>, or <code>grpcs</code>.</td></tr><tr><td><code>retries</code> <em>integer</em></td><td>Retries defines the number of retry attempts APISIX should make when a failure occurs. Failures include timeouts, network errors, or 5xx status codes.</td></tr><tr><td><code>timeout</code> <em><a href="#upstreamtimeout">UpstreamTimeout</a></em></td><td>Timeout specifies the connection, send, and read timeouts for upstream requests.</td></tr><tr><td><code>healthCheck</code> <em><a href="#healthcheck">HealthCheck</a></em></td><td>HealthCheck defines the active and passive health check configuration for the upstream.</td></tr><tr><td><code>tlsSecret</code> <em><a href="#apisixsecret">ApisixSecret</a></em></td><td>TLSSecret references a Kubernetes Secret that contains the client certificate and key for mutual TLS when connecting to the upstream.</td></tr><tr><td><code>subsets</code> <em><a href="#apisixupstreamsubset">ApisixUpstreamSubset</a> array</em></td><td>Subsets defines labeled subsets of service endpoints, typically used for service versioning or canary deployments.</td></tr><tr><td><code>passHost</code> <em>string</em></td><td>PassHost configures how the host header should be determined when a request is forwarded to the upstream. Default is <code>pass</code>. Can be <code>pass</code>, <code>node</code> or <code>rewrite</code>:<br> • <code>pass</code>: preserve the original Host header<br> • <code>node</code>: use the upstream node’s host<br> • <code>rewrite</code>: set to a custom host via upstreamHost</td></tr><tr><td><code>upstreamHost</code> <em>string</em></td><td>UpstreamHost sets a custom Host header when passHost is set to <code>rewrite</code>.</td></tr><tr><td><code>discovery</code> <em><a href="#discovery">Discovery</a></em></td><td>Discovery configures service discovery for the upstream.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul>
+<h4 id="apisixupstreamexternalnode">ApisixUpstreamExternalNode</h4>
+<p>ApisixUpstreamExternalNode defines configuration for an external upstream node.
+This allows referencing services outside the cluster.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the hostname or IP address of the external node.</td></tr><tr><td><code>type</code> <em><a href="#apisixupstreamexternaltype">ApisixUpstreamExternalType</a></em></td><td>Type indicates the kind of external node. Can be <code>Domain</code>, or <code>Service</code>.</td></tr><tr><td><code>weight</code> <em>integer</em></td><td>Weight defines the load balancing weight of this node. Higher values increase the share of traffic sent to this node.</td></tr><tr><td><code>port</code> <em>integer</em></td><td>Port specifies the port number on which the external node is accepting traffic.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+</ul>
+<h4 id="apisixupstreamexternaltype">ApisixUpstreamExternalType</h4>
+<p><em>Base type:</em> <code>string</code></p>
+<p>ApisixUpstreamExternalType is the external service type</p>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamexternalnode">ApisixUpstreamExternalNode</a></li>
+</ul>
+<h4 id="apisixupstreamspec">ApisixUpstreamSpec</h4>
+<p>ApisixUpstreamSpec describes the desired configuration of an ApisixUpstream resource.
+It defines how traffic should be routed to backend services, including upstream node
+definitions and custom configuration.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>ingressClassName</code> <em>string</em></td><td>IngressClassName is the name of an IngressClass cluster resource. Controller implementations use this field to determine whether they should process this ApisixUpstream resource.</td></tr><tr><td><code>externalNodes</code> <em><a href="#apisixupstreamexternalnode">ApisixUpstreamExternalNode</a> array</em></td><td>ExternalNodes defines a static list of backend nodes. These can be external hosts outside the cluster or cluster-internal Services specified by their DNS name. When this field is set, the upstream will route traffic directly to these nodes without DNS resolution or service discovery.</td></tr><tr><td><code>loadbalancer</code> <em><a href="#loadbalancer">LoadBalancer</a></em></td><td>LoadBalancer specifies the load balancer configuration for Kubernetes Service.</td></tr><tr><td><code>scheme</code> <em>string</em></td><td>Scheme is the protocol used to communicate with the upstream. Default is <code>http</code>. Can be <code>http</code>, <code>https</code>, <code>grpc</code>, or <code>grpcs</code>.</td></tr><tr><td><code>retries</code> <em>integer</em></td><td>Retries defines the number of retry attempts APISIX should make when a failure occurs. Failures include timeouts, network errors, or 5xx status codes.</td></tr><tr><td><code>timeout</code> <em><a href="#upstreamtimeout">UpstreamTimeout</a></em></td><td>Timeout specifies the connection, send, and read timeouts for upstream requests.</td></tr><tr><td><code>healthCheck</code> <em><a href="#healthcheck">HealthCheck</a></em></td><td>HealthCheck defines the active and passive health check configuration for the upstream.</td></tr><tr><td><code>tlsSecret</code> <em><a href="#apisixsecret">ApisixSecret</a></em></td><td>TLSSecret references a Kubernetes Secret that contains the client certificate and key for mutual TLS when connecting to the upstream.</td></tr><tr><td><code>subsets</code> <em><a href="#apisixupstreamsubset">ApisixUpstreamSubset</a> array</em></td><td>Subsets defines labeled subsets of service endpoints, typically used for service versioning or canary deployments.</td></tr><tr><td><code>passHost</code> <em>string</em></td><td>PassHost configures how the host header should be determined when a request is forwarded to the upstream. Default is <code>pass</code>. Can be <code>pass</code>, <code>node</code> or <code>rewrite</code>:<br> • <code>pass</code>: preserve the original Host header<br> • <code>node</code>: use the upstream node’s host<br> • <code>rewrite</code>: set to a custom host via upstreamHost</td></tr><tr><td><code>upstreamHost</code> <em>string</em></td><td>UpstreamHost sets a custom Host header when passHost is set to <code>rewrite</code>.</td></tr><tr><td><code>discovery</code> <em><a href="#discovery">Discovery</a></em></td><td>Discovery configures service discovery for the upstream.</td></tr><tr><td><code>portLevelSettings</code> <em><a href="#portlevelsettings">PortLevelSettings</a> array</em></td><td>PortLevelSettings allows fine-grained upstream configuration for specific ports, useful when a backend service exposes multiple ports with different behaviors or protocols.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstream">ApisixUpstream</a></li>
+</ul>
+<h4 id="apisixupstreamsubset">ApisixUpstreamSubset</h4>
+<p>ApisixUpstreamSubset defines a single endpoints group of one Service.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code> <em>string</em></td><td>Name is the name of subset.</td></tr><tr><td><code>labels</code> <em>object (keys<div></div>, values<div></div>)</em></td><td>Labels is the label set of this subset.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamconfig">ApisixUpstreamConfig</a></li>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul>
+<h4 id="discovery">Discovery</h4>
+<p>Discovery defines the service discovery configuration for dynamically resolving upstream nodes.
+This is used when APISIX integrates with a service registry such as Nacos, Consul, or Eureka.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>serviceName</code> <em>string</em></td><td>ServiceName is the name of the service to discover.</td></tr><tr><td><code>type</code> <em>string</em></td><td>Type is the name of the service discovery provider.</td></tr><tr><td><code>args</code> <em>object (keys<div></div>, values<div></div>)</em></td><td>Args contains additional configuration parameters required by the discovery provider. These are passed as key-value pairs.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamconfig">ApisixUpstreamConfig</a></li>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul>
+<h4 id="healthcheck-1">HealthCheck</h4>
+<p>HealthCheck defines the health check configuration for upstream nodes.
+It includes active checks (proactively probing the nodes) and optional passive checks (monitoring based on traffic).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>active</code> <em><a href="#activehealthcheck">ActiveHealthCheck</a></em></td><td>Active health checks proactively send requests to upstream nodes to determine their availability.</td></tr><tr><td><code>passive</code> <em><a href="#passivehealthcheck">PassiveHealthCheck</a></em></td><td>Passive health checks evaluate upstream health based on observed traffic, such as timeouts or errors.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamconfig">ApisixUpstreamConfig</a></li>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul>
+<h4 id="hosttype">HostType</h4>
+<p><em>Base type:</em> <code>string</code></p>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixtlsspec">ApisixTlsSpec</a></li>
+</ul>
+<h4 id="loadbalancer-1">LoadBalancer</h4>
+<p>LoadBalancer defines the load balancing strategy for distributing traffic across upstream nodes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type specifies the load balancing algorithms to route traffic to the backend. Default is <code>roundrobin</code>. Can be <code>roundrobin</code>, <code>chash</code>, <code>ewma</code>, or <code>least_conn</code>.</td></tr><tr><td><code>hashOn</code> <em>string</em></td><td>HashOn specified the type of field used for hashing, required when type is <code>chash</code>. Default is <code>vars</code>. Can be <code>vars</code>, <code>header</code>, <code>cookie</code>, <code>consumer</code>, or <code>vars_combinations</code>.</td></tr><tr><td><code>key</code> <em>string</em></td><td>Key is used with HashOn, generally required when type is <code>chash</code>. When HashOn is <code>header</code> or <code>cookie</code>, specifies the name of the header or cookie. When HashOn is <code>consumer</code>, key is not required, as the consumer name is used automatically. When HashOn is <code>vars</code> or <code>vars_combinations</code>, key refers to one or a combination of <a href="https://apisix.apache.org/docs/apisix/apisix-variable">APISIX variables</a>.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamconfig">ApisixUpstreamConfig</a></li>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul>
+<h4 id="passivehealthcheck-1">PassiveHealthCheck</h4>
+<p>PassiveHealthCheck defines the conditions used to determine whether
+an upstream node is healthy or unhealthy based on passive observations.
+Passive health checks rely on real traffic responses instead of active probes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>type</code> <em>string</em></td><td>Type specifies the type of passive health check. Can be <code>http</code>, <code>https</code>, or <code>tcp</code>.</td></tr><tr><td><code>healthy</code> <em><a href="#passivehealthcheckhealthy">PassiveHealthCheckHealthy</a></em></td><td>Healthy defines the conditions under which an upstream node is considered healthy.</td></tr><tr><td><code>unhealthy</code> <em><a href="#passivehealthcheckunhealthy">PassiveHealthCheckUnhealthy</a></em></td><td>Unhealthy defines the conditions under which an upstream node is considered unhealthy.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#healthcheck">HealthCheck</a></li>
+</ul>
+<h4 id="passivehealthcheckhealthy-1">PassiveHealthCheckHealthy</h4>
+<p>PassiveHealthCheckHealthy defines the conditions used to passively determine whether an upstream node is healthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes define a list of HTTP status codes that are considered healthy.</td></tr><tr><td><code>successes</code> <em>integer</em></td><td>Successes define the number of successful probes to define a healthy target.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheckhealthy">ActiveHealthCheckHealthy</a></li>
+<li><a href="#passivehealthcheck">PassiveHealthCheck</a></li>
+</ul>
+<h4 id="passivehealthcheckunhealthy-1">PassiveHealthCheckUnhealthy</h4>
+<p>UpstreamPassiveHealthCheckUnhealthy defines the conditions used to passively determine whether an upstream node is unhealthy.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>httpCodes</code> <em>integer array</em></td><td>HTTPCodes define a list of HTTP status codes that are considered unhealthy.</td></tr><tr><td><code>httpFailures</code> <em>integer</em></td><td>HTTPFailures define the number of HTTP failures to define an unhealthy target.</td></tr><tr><td><code>tcpFailures</code> <em>integer</em></td><td>TCPFailures define the number of TCP failures to define an unhealthy target.</td></tr><tr><td><code>timeout</code> <em>integer</em></td><td>Timeout sets the number of timeouts to define an unhealthy target.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#activehealthcheckunhealthy">ActiveHealthCheckUnhealthy</a></li>
+<li><a href="#passivehealthcheck">PassiveHealthCheck</a></li>
+</ul>
+<h4 id="portlevelsettings">PortLevelSettings</h4>
+<p>PortLevelSettings configures the ApisixUpstreamConfig for each individual port. It inherits
+configuration from the outer level (the whole Kubernetes Service) and overrides some of
+them if they are set on the port level.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>loadbalancer</code> <em><a href="#loadbalancer">LoadBalancer</a></em></td><td>LoadBalancer specifies the load balancer configuration for Kubernetes Service.</td></tr><tr><td><code>scheme</code> <em>string</em></td><td>Scheme is the protocol used to communicate with the upstream. Default is <code>http</code>. Can be <code>http</code>, <code>https</code>, <code>grpc</code>, or <code>grpcs</code>.</td></tr><tr><td><code>retries</code> <em>integer</em></td><td>Retries defines the number of retry attempts APISIX should make when a failure occurs. Failures include timeouts, network errors, or 5xx status codes.</td></tr><tr><td><code>timeout</code> <em><a href="#upstreamtimeout">UpstreamTimeout</a></em></td><td>Timeout specifies the connection, send, and read timeouts for upstream requests.</td></tr><tr><td><code>healthCheck</code> <em><a href="#healthcheck">HealthCheck</a></em></td><td>HealthCheck defines the active and passive health check configuration for the upstream.</td></tr><tr><td><code>tlsSecret</code> <em><a href="#apisixsecret">ApisixSecret</a></em></td><td>TLSSecret references a Kubernetes Secret that contains the client certificate and key for mutual TLS when connecting to the upstream.</td></tr><tr><td><code>subsets</code> <em><a href="#apisixupstreamsubset">ApisixUpstreamSubset</a> array</em></td><td>Subsets defines labeled subsets of service endpoints, typically used for service versioning or canary deployments.</td></tr><tr><td><code>passHost</code> <em>string</em></td><td>PassHost configures how the host header should be determined when a request is forwarded to the upstream. Default is <code>pass</code>. Can be <code>pass</code>, <code>node</code> or <code>rewrite</code>:<br> • <code>pass</code>: preserve the original Host header<br> • <code>node</code>: use the upstream node’s host<br> • <code>rewrite</code>: set to a custom host via upstreamHost</td></tr><tr><td><code>upstreamHost</code> <em>string</em></td><td>UpstreamHost sets a custom Host header when passHost is set to <code>rewrite</code>.</td></tr><tr><td><code>discovery</code> <em><a href="#discovery">Discovery</a></em></td><td>Discovery configures service discovery for the upstream.</td></tr><tr><td><code>port</code> <em>integer</em></td><td>Port is a Kubernetes Service port.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+</ul>
+<h4 id="upstreamtimeout">UpstreamTimeout</h4>
+<p>UpstreamTimeout defines timeout settings for connecting, sending, and reading from the upstream.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>connect</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Connect timeout for establishing a connection to the upstream.</td></tr><tr><td><code>send</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Send timeout for sending data to the upstream.</td></tr><tr><td><code>read</code> <em><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#duration-v1-meta">Duration</a></em></td><td>Read timeout for reading data from the upstream.</td></tr></tbody></table>
+<p><em>Appears in:</em></p>
+<ul>
+<li><a href="#apisixroutehttp">ApisixRouteHTTP</a></li>
+<li><a href="#apisixupstreamconfig">ApisixUpstreamConfig</a></li>
+<li><a href="#apisixupstreamspec">ApisixUpstreamSpec</a></li>
+<li><a href="#portlevelsettings">PortLevelSettings</a></li>
+</ul> <div class="docs-meta"> <a href="https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/reference/apisix-ingress-controller/api-reference.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Implement Idempotency-Key in APISIX | Apache APISIX</title><meta name="description" content="Build an APISIX plugin implementing the IETF Idempotency-Key spec to prevent duplicate API requests and ensure safe retries."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/04/11/implement-idempotency-key-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/04/11/implement-idempotency-key-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/04/11/implement-idempotency-key-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/04/11/implement-idempotency-key-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Implement Idempotency-Key in APISIX | Apache APISIX"><meta property="og:description" content="Build an APISIX plugin implementing the IETF Idempotency-Key spec to prevent duplicate API requests and ensure safe retries."><meta property="og:url" content="https://apisix.apache.org/blog/2024/04/11/implement-idempotency-key-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/04/09/0rfsRevo_stormtrooper-2899993.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Implement Idempotency-Key in APISIX","description":"Build an APISIX plugin implementing the IETF Idempotency-Key spec to prevent duplicate API requests and ensure safe retries.\n","datePublished":"2024-04-11","image":"https://static.apiseven.com/uploads/2024/04/09/0rfsRevo_stormtrooper-2899993.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/04/11/implement-idempotency-key-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/04/11/implement-idempotency-key-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/04/11/implement-idempotency-key-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Implement Idempotency-Key in APISIX</h1> <p class="article-meta"> 2024-04-11 · Nicolas Fränkel  </p> <blockquote>
+<p>Last week, I wrote an <a href="https://apisix.apache.org/blog/2024/04/04/fix-duplicate-api-requests/">analysis</a> of the <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-idempotency-key-header-04">IETF Idempotency-Key specification</a>. The specification aims to avoid duplicated requests. In short, the idea is for the client to send a unique key along with the request:</p>
+<ul>
+<li>If the server doesn’t know the key, it proceeds as usual and then stores the response</li>
+<li>If the server knows the key, it short-circuits any further processing and immediately returns the stored response</li>
+</ul>
+<p>This post shows how to implement it with <a href="https://apisix.apache.org/">Apache APISIX</a>.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="overview">Overview</h2>
+<p>Before starting coding, we need to define a couple of things. Apache APISIX offers a plugin-based architecture. Hence, we will code the above logic in a plugin.</p>
+<p>Apache APISIX builds upon OpenResty, which builds upon nginx. Each component defines phases, which map more or less across the components. For more info on phases, please see <a href="https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/">this previous post</a>.</p>
+<p>Finally, we shall decide on a priority. Priority defines the order in which APISIX runs plugins <em>inside a phase</em>. I decided on <code>1500</code>, as all authentication plugins have a priority in the <code>2000</code> and more range, but I want to return the cached response ASAP.</p>
+<p>The specification requires us to store data. APISIX offers many abstractions, but storage is not one of them. We need access via the idempotency key so it looks like a key-value store.</p>
+<p>I arbitrarily chose Redis, as it’s pretty widespread <strong>and</strong> the client is already part of the APISIX distribution. Note that simple Redis doesn’t offer JSON storage; hence, I use the <code>redis-stack</code> Docker image.</p>
+<p>The local infrastructure is the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:3.9.0-debian</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro</span><span style="color:#8B949E"> #1</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./plugin/src:/opt/apisix/plugins:ro</span><span style="color:#8B949E">                  #2</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080"</span></span>
+<span class="line"><span style="color:#7EE787">  redis</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">redis/redis-stack:7.2.0-v9</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"8001:8001"</span><span style="color:#8B949E">                                          #3</span></span></code></pre>
+<ol>
+<li>Static route configuration</li>
+<li>Path to our future plugin</li>
+<li>Port of Redis Insights (GUI). Not necessary <em>per se</em>, but very useful during development for debugging</li>
+</ol>
+<p>The APISIX configuration is the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">data_plane</span></span>
+<span class="line"><span style="color:#7EE787">  role_data_plane</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    config_provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">yaml</span><span style="color:#8B949E">                                    #1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  extra_lua_path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/opt/?.lua</span><span style="color:#8B949E">                                 #2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">idempotency</span><span style="color:#8B949E">                    # priority: 1500          #3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:                                                 </span><span style="color:#8B949E">#4</span></span>
+<span class="line"><span style="color:#7EE787">  idempotency</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">redis</span><span style="color:#8B949E">                                              #5</span></span></code></pre>
+<ol>
+<li>Configure APISIX for static routes configuration</li>
+<li>Configure the location of our plugin</li>
+<li>Custom plugins need to be explicitly declared. The priority comment is not required but is good practice and improves maintainability</li>
+<li>Common plugin configuration across all routes</li>
+<li>See below</li>
+</ol>
+<p>Finally, we declare our single route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      idempotency</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span><span style="color:#8B949E">                                         #1</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#8B949E">                                  #2</span></span>
+<span class="line"><span style="color:#8B949E">#END                                                         #3</span></span></code></pre>
+<ol>
+<li>Declare the plugin that we are going to create</li>
+<li>httpbin is a useful upstream as we can try different URIs and methods</li>
+<li>Mandatory for static routes configuration!</li>
+</ol>
+<p>With this infrastructure in place, we can start the implementation.</p>
+<h2 id="laying-out-the-plugin">Laying out the plugin</h2>
+<p>The foundations of an Apache APISIX plugin are pretty basic:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "idempotency"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    version </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1.0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1500</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {},</span></span>
+<span class="line"><span style="color:#E6EDF3">    name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> _M</span></span></code></pre>
+<p>The next step is configuration, <em>e.g.</em> Redis host and port. For starters, we shall offer a single Redis configuration across all routes. That’s the idea behind the <code>plugin_attr</code> section in the <code>config.yaml</code> file: common configuration. Let’s flesh out our plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.plugin"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> attr_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {                                       </span><span style="color:#8B949E">--1</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        host </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            description </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "Redis host"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            default </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "localhost"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        port </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "integer"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            description </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "Redis port"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            default </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 6379</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">init</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> attr </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin.</span><span style="color:#79C0FF">plugin_attr</span><span style="color:#E6EDF3">(plugin_name) </span><span style="color:#FF7B72">or</span><span style="color:#E6EDF3"> {}</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(attr_schema, attr)    </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Failed to check the plugin_attr["</span><span style="color:#E6EDF3">, plugin_name, </span><span style="color:#A5D6FF">"]"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">": "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#79C0FF"> false</span><span style="color:#E6EDF3">, err</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>Define the shape of the configuration</li>
+<li>Check the configuration is valid</li>
+</ol>
+<p>Because I defined default values in the plugin, I can override only the <code>host</code> to <code>redis</code> to run inside my Docker Compose infrastructure and use the default port.</p>
+<p>Next, I need to create the Redis client. Note that the platform prevents me from connecting in any phase after the rewrite/access section. Hence, I’ll create it in the <code>init()</code> method and keep it until the end.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> redis_new </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"resty.redis"</span><span style="color:#E6EDF3">).</span><span style="color:#79C0FF">new</span><span style="color:#8B949E">                --1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">init</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">    -- ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    redis </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> redis_new</span><span style="color:#E6EDF3">()                                     </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#FFA657">    redis</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">set_timeout</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">1000</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> redis</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">connect</span><span style="color:#E6EDF3">(attr.</span><span style="color:#79C0FF">host</span><span style="color:#E6EDF3">, attr.</span><span style="color:#79C0FF">port</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Failed to connect to Redis: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#79C0FF"> false</span><span style="color:#E6EDF3">, err</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>Reference the <code>new</code> function of the OpenResty Redis module</li>
+<li>Call it to get an instance</li>
+</ol>
+<p>The Redis client is now available in the <code>redis</code> variable throughout the rest of the plugin execution cycle.</p>
+<h2 id="implementing-the-nominal-path">Implementing the nominal path</h2>
+<p>In my previous software engineer life, I usually implemented the nominal path first. Afterward, I made the code more robust by managing error cases individually. This way, if I had to release at any point, I would still deliver business values - with warnings. I shall approach this mini-project the same way.</p>
+<p>The pseudo-algorithm on the nominal path looks like the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DO extract idempotency key from request</span></span>
+<span class="line"><span>DO look up value from Redis</span></span>
+<span class="line"><span>IF value doesn't exist</span></span>
+<span class="line"><span>  DO set key in Redis with empty value</span></span>
+<span class="line"><span>ELSE</span></span>
+<span class="line"><span>  RETURN cached response</span></span>
+<span class="line"><span>DO forward to upstream</span></span>
+<span class="line"><span>DO store response in Redis</span></span>
+<span class="line"><span>RETURN response</span></span></code></pre>
+<p>We need to map the logic to the phase I mentioned above. Two phases are available before the upstream, <code>rewrite</code> and <code>access</code>; three after, <code>header_filter</code>, <code>body_filter</code> and <code>log</code>. The <code>access</code> phase seemed obvious for work before, but I needed to figure out between the three others. I randomly chose the <code>body_filter</code>, but I’m more than willing to listen to sensible arguments for other phases.</p>
+<p>Note that I removed logs to make the code more readable. Error and informational logs are necessary to ease debugging production issues.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> idempotency_key </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">header</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#A5D6FF">"Idempotency-Key"</span><span style="color:#E6EDF3">) </span><span style="color:#8B949E">--1</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> redis_key </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "idempotency#" </span><span style="color:#FF7B72">..</span><span style="color:#E6EDF3"> idempotency_key     </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> resp, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> redis</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">hgetall</span><span style="color:#E6EDF3">(redis_key)              </span><span style="color:#8B949E">--3</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> resp </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#79C0FF"> next</span><span style="color:#E6EDF3">(resp) </span><span style="color:#FF7B72">==</span><span style="color:#79C0FF"> nil</span><span style="color:#FF7B72"> then</span><span style="color:#8B949E">                               --4</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> resp, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> redis</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">hset</span><span style="color:#E6EDF3">(redis_key, </span><span style="color:#A5D6FF">"request"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3"> ) </span><span style="color:#8B949E">--4</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> resp </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span></span>
+<span class="line"><span style="color:#FF7B72">        end</span></span>
+<span class="line"><span style="color:#FF7B72">    else</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> data </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> normalize_hgetall_result</span><span style="color:#E6EDF3">(resp)         </span><span style="color:#8B949E">--5</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> response </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">decode</span><span style="color:#E6EDF3">(data[</span><span style="color:#A5D6FF">"response"</span><span style="color:#E6EDF3">]) </span><span style="color:#8B949E">--6</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> response[</span><span style="color:#A5D6FF">"body"</span><span style="color:#E6EDF3">]                       </span><span style="color:#8B949E">--7</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> status_code </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> response[</span><span style="color:#A5D6FF">"status"</span><span style="color:#E6EDF3">]              </span><span style="color:#8B949E">--7</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> response[</span><span style="color:#A5D6FF">"headers"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#FF7B72">        for</span><span style="color:#E6EDF3"> k, v </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> pairs</span><span style="color:#E6EDF3">(headers) </span><span style="color:#FF7B72">do</span><span style="color:#8B949E">                       --7</span></span>
+<span class="line"><span style="color:#E6EDF3">            core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">set_header</span><span style="color:#E6EDF3">(k, v)</span></span>
+<span class="line"><span style="color:#FF7B72">        end</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exit</span><span style="color:#E6EDF3">(status_code, body)        </span><span style="color:#8B949E">--8</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>Extract the idempotency key from the request</li>
+<li>Prefix the key so we avoid potential collisions</li>
+<li>Get the data set stored in Redis under the idempotency key</li>
+<li>If the key is not found, store it with a boolean mark</li>
+<li>Transform the data in a Lua table via a custom utility function</li>
+<li>The response is stored in JSON format to account for headers</li>
+<li>Reconstruct the response</li>
+<li>Return the reconstructed response to the client. Note the <code>return</code> statement: APISIX skips the later lifecycle phases</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">body_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> idempotency_key </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">header</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#A5D6FF">"Idempotency-Key"</span><span style="color:#E6EDF3">) </span><span style="color:#8B949E">--1</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> redis_key </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "idempotency#" </span><span style="color:#FF7B72">..</span><span style="color:#E6EDF3"> idempotency_key</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#FF7B72"> then</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> response </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {                                  </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#E6EDF3">            status </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">status</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">hold_body_chunk</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">            headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">resp</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">get_headers</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> redis_key </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "idempotency#" </span><span style="color:#FF7B72">..</span><span style="color:#E6EDF3"> redis_key</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> resp, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> red</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">set</span><span style="color:#E6EDF3">(redis_key, </span><span style="color:#A5D6FF">"response"</span><span style="color:#E6EDF3">, core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(response)) </span><span style="color:#8B949E">--3</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> resp </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">            return</span></span>
+<span class="line"><span style="color:#FF7B72">        end</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>Extract the idempotency key from the request</li>
+<li>Arrange the different elements of a response in a Lua table</li>
+<li>Store the JSON-encoded response in a Redis set</li>
+</ol>
+<p>Tests reveal that it works as expected.
+Try:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'Idempotency-Key: A'</span><span style="color:#A5D6FF"> localhost:9080/response-headers</span><span style="color:#FF7B72">\?</span><span style="color:#A5D6FF">freeform=hello</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'Idempotency-Key: B'</span><span style="color:#A5D6FF"> localhost:9080/status/250</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'Idempotency-Key: C'</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'foo: bar'</span><span style="color:#A5D6FF">  localhost:9080/status/250</span></span></code></pre>
+<p>Also, try to reuse a mismatched idempotency key, <em>e.g.</em>, <code>A</code>, for the third request. As we haven’t implemented any error management yet, you’ll get the cached response for another request. It’s time to up our game.</p>
+<h2 id="implementing-error-paths">Implementing error paths</h2>
+<p>The specification defines several error paths:</p>
+<ul>
+<li>Idempotency-Key is missing</li>
+<li>Idempotency-Key is already used</li>
+<li>A request is outstanding for this Idempotency-Key</li>
+</ul>
+<p>Let’s implement them one by one. First, let’s check that the request has an idempotency key. Note that we can configure the plugin on a per-route basis, so if the route includes the plugin, we can conclude that it’s mandatory.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> idempotency_key </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">header</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#A5D6FF">"Idempotency-Key"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> idempotency_key </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exit</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">400</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"This operation is idempotent and it requires correct usage of Idempotency Key"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#8B949E">    -- ...</span></span></code></pre>
+<p>Just return the appropriate 400 if the key is missing. That one was easy.</p>
+<p>Checking the reuse of an existing key for a different request is slightly more involved. We first need to store the request, or more precisely, the fingerprint of what constitutes a request. Two requests are the same if they have: the same method, the same path, the same body, and the same headers. Depending on your situation, the domain (and the port) might or may not be part of them. For my simple implementation, I’ll leave it out.</p>
+<p>There are several problems to solve. First, I didn’t find an existing API to hash the <code>core.request</code> object like there is in other languages I’m more familiar with, <em>e.g.</em>, Java’s <code>Object.hash()</code>. I decided to encode the object in JSON and hash the string. However, the existing <code>core.request</code> has sub-elements that cannot be converted to JSON. I had to extract the parts mentioned above and convert the table.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> hash_request</span><span style="color:#E6EDF3">(request, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> request </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {                                       </span><span style="color:#8B949E">--1</span></span>
+<span class="line"><span style="color:#E6EDF3">        method </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">get_method</span><span style="color:#E6EDF3">(),</span></span>
+<span class="line"><span style="color:#E6EDF3">        uri </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ctx.</span><span style="color:#79C0FF">var</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">request_uri</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">headers</span><span style="color:#E6EDF3">(),</span></span>
+<span class="line"><span style="color:#E6EDF3">        body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">get_body</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> json </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">stably_encode</span><span style="color:#E6EDF3">(request)           </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">encode_base64</span><span style="color:#E6EDF3">(json)                          </span><span style="color:#8B949E">--3</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>Create a table with only the relevant parts</li>
+<li>The <code>cjson</code> library produces JSON whose members might be sorted differently across several calls. Hence, it results in different hashes. The <code>core.json.stably_encode</code> fixes that issue.</li>
+<li>Hash it</li>
+</ol>
+<p>Then, instead of storing a boolean when receiving the request, we store the resulting hash instead.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> hash </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> hash_request</span><span style="color:#E6EDF3">(core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">if</span><span style="color:#79C0FF"> next</span><span style="color:#E6EDF3">(resp) </span><span style="color:#FF7B72">==</span><span style="color:#79C0FF"> nil</span><span style="color:#FF7B72"> then</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"No key found in Redis for Idempotency-Key, set it: "</span><span style="color:#E6EDF3">, redis_key)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> resp, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> redis</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">hset</span><span style="color:#E6EDF3">(redis_key, </span><span style="color:#A5D6FF">"request"</span><span style="color:#E6EDF3">, hash)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> resp </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Failed to set data in Redis: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">then</span><span style="color:#8B949E"> -- ...</span></span></code></pre>
+<p>We read the hash stored under the idempotency key on the other branch. If they don’t match, we exit with the relevant error code:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> data </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> normalize_hgetall_result</span><span style="color:#E6EDF3">(resp)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> stored_hash </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> data[</span><span style="color:#A5D6FF">"request"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#FF7B72">if</span><span style="color:#E6EDF3"> hash </span><span style="color:#FF7B72">~=</span><span style="color:#E6EDF3"> stored_hash </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exit</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">422</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"This operation is idempotent and it requires correct usage of Idempotency Key. Idempotency Key MUST not be reused across different payloads of this operation."</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>The final error management happens just afterward. Imagine the following scenario:</p>
+<ol>
+<li>A request comes with idempotency key X</li>
+<li>The plugin fingerprints and stores the hash in Redis</li>
+<li>APISIX forwards the request to the upstream</li>
+<li>A duplicate request comes with the same idempotency key, X</li>
+<li>The plugin reads the data from Redis and finds no cached response</li>
+</ol>
+<p>The upstream didn’t finish processing the request; hence, the first request hasn’t yet reached the <code>body_filter</code> phase.</p>
+<p>We append the following code to the above snippet:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> data[</span><span style="color:#A5D6FF">"response"</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exit</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">409</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">" request with the same Idempotency-Key for the same operation is being processed or is outstanding."</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>That’s it.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, I showed a simple implementation of the <code>Idempotency-Key</code> header specification on Apache APISIX via a plugin. At this stage, it has room for improvement: automated tests, the ability to configure Redis on a per route basis, configure the domain/path to be part of the request, configure a Redis cluster instead of a single instance, use another K/V store, etc.</p>
+<p>Yet, it does implement the specification and has the potential to evolve into a more production-grade implementation.</p>
+<p>The complete source code for this post can be found on <a href="https://github.com/ajavageek/apisix-idempotency-plugin">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-idempotency-key-header-04">Idempotency-Key HTTP Header Field</a></li>
+<li><a href="https://apisix.apache.org/blog/2024/04/04/fix-duplicate-api-requests/">Fixing duplicate API requests</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugin-develop/">Plugin Develop - APISIX website</a></li>
+<li><a href="https://api7.ai/blog/how-to-build-an-apache-apisix-plugin-from-0-to-1">How to Build an Apache APISIX Plugin From 0 to 1?</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

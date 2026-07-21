@@ -1,0 +1,6 @@
+# Staging config for this preview branch — see .asf.yaml on master and
+# https://github.com/apache/infrastructure-asfyaml (autostage section).
+staging:
+  profile: ~
+  whoami: asf-staging
+  autostage: preview/*

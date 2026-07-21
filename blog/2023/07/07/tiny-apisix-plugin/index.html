@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>A &quot;Tiny&quot; APISIX Plugin | Apache APISIX</title><meta name="description" content="A &#34;tiny&#34; example to demonstrate how Apache APISIX supports Wasm plugins."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/07/07/tiny-apisix-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/07/07/tiny-apisix-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/07/07/tiny-apisix-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/07/07/tiny-apisix-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="A &#34;Tiny&#34; APISIX Plugin | Apache APISIX"><meta property="og:description" content="A &#34;tiny&#34; example to demonstrate how Apache APISIX supports Wasm plugins."><meta property="og:url" content="https://apisix.apache.org/blog/2023/07/07/tiny-apisix-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"A \"Tiny\" APISIX Plugin","description":"A \"tiny\" example to demonstrate how Apache APISIX supports Wasm plugins.","datePublished":"2023-07-07","image":"https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png","author":{"@type":"Person","name":"Navendu Pottekkat"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/07/07/tiny-apisix-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/07/07/tiny-apisix-plugin/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/07/07/tiny-apisix-plugin/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>A &quot;Tiny&quot; APISIX Plugin</h1> <p class="article-meta"> 2023-07-07 · Navendu Pottekkat  </p> <blockquote>
+<p>In this article, we will write a “tiny” Go plugin for APISIX, compile it to a Wasm binary, run it in APISIX, and learn how it all works. We will also compare the benefits and costs of using Wasm plugins, external plugins (plugin runners), and native Lua plugins.</p>
+</blockquote>
+<!--truncate-->
+<p>A key feature of Apache APISIX is its pluggable architecture. In addition to providing <a href="https://apisix.apache.org/plugins/">80+ Lua plugins</a> out of the box, APISIX also supports external plugins written in other languages through <a href="https://apisix.apache.org/docs/go-plugin-runner/getting-started/">plugin runners</a> and <a href="https://apisix.apache.org/docs/apisix/wasm/">WebAssembly (Wasm)</a>.</p>
+<p>In this article, we will write a “tiny” Go plugin for APISIX, compile it to a Wasm binary, run it in APISIX, and learn how it all works. We will also compare the benefits and costs of using Wasm plugins, external plugins (plugin runners), and native Lua plugins.</p>
+<h2 id="apisix-and-wasm">APISIX and Wasm</h2>
+<p>APISIX supports Wasm through the <a href="https://github.com/proxy-wasm/spec">WebAssembly for Proxies (proxy-wasm) specification</a>. APISIX is a host environment that implements the specification, and developers can use the <a href="https://github.com/proxy-wasm/spec#sdks">SDKs</a> available in multiple languages to create plugins.</p>
+<p>Using Wasm plugins in APISIX has multiple advantages:</p>
+<ul>
+<li>Many programming languages compile to Wasm. This allows you to leverage the capabilities of your tech stack in APISIX plugins.</li>
+<li>The plugins run inside APISIX and not on external plugin runners. This means you compromise less on performance while writing external plugins.</li>
+<li>Wasm plugins run inside APISIX but in a separate VM. So even if the plugin crashes, APISIX can continue to run.</li>
+<li><em>APISIX can only maintain its Wasm support without having to maintain plugin runners for multiple languages*.</em></li>
+</ul>
+<p><em>* These advantages come with a set of caveats which we will look at later.</em></p>
+<p>APISIX’s plugin architecture below shows native Lua plugins, external plugins through plugin runners, and Wasm plugins:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/27/yBnZnCrv_plugin-route-light.png" alt="Lua plugins, plugin runners, and Wasm plugins"></p>
+<h2 id="a-tiny-go-plugin">A “Tiny” Go Plugin</h2>
+<p>Let’s get coding! To write a Go plugin, we will use the <a href="https://github.com/tetratelabs/proxy-wasm-go-sdk">proxy-wasm-go-sdk</a>.</p>
+<p>Reading through the documentation, you will understand why this plugin is called “tiny,” i.e., the SDK uses the <a href="https://tinygo.org/">TinyGo</a> compiler instead of the official Go compiler. You can read more about why this is the case on the <a href="https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/main/doc/OVERVIEW.md">SDK’s overview page</a>, but the TLDR version is that the Go compiler can only produce Wasm binaries that run in the browser.</p>
+<p>For our example, we will create a plugin that adds a response header. The code below is pretty self-explanatory, and you can refer to <a href="https://github.com/apache/apisix/blob/master/t/wasm/">other plugins</a> for more implementation details:</p>
+<div class="code-title">main.go</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E">// references:</span></span>
+<span class="line"><span style="color:#8B949E">// https://github.com/tetratelabs/proxy-wasm-go-sdk/tree/main/examples</span></span>
+<span class="line"><span style="color:#8B949E">// https://github.com/apache/apisix/blob/master/t/wasm/</span></span>
+<span class="line"><span style="color:#FF7B72">package</span><span style="color:#FFA657"> main</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">    "github.com/tetratelabs/proxy-wasm-go-sdk/proxywasm"</span></span>
+<span class="line"><span style="color:#A5D6FF">    "github.com/tetratelabs/proxy-wasm-go-sdk/proxywasm/types"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">    "github.com/valyala/fastjson"</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3">    proxywasm.</span><span style="color:#D2A8FF">SetVMContext</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">&#x26;</span><span style="color:#FFA657">vmContext</span><span style="color:#E6EDF3">{})</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// each plugin has its own VMContext.</span></span>
+<span class="line"><span style="color:#8B949E">// it is responsible for creating multiple PluginContexts for each route.</span></span>
+<span class="line"><span style="color:#FF7B72">type</span><span style="color:#FFA657"> vmContext</span><span style="color:#FF7B72"> struct</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">    types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">DefaultVMContext</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// each route has its own PluginContext.</span></span>
+<span class="line"><span style="color:#8B949E">// it corresponds to one instance of the plugin.</span></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">*</span><span style="color:#FFA657">vmContext</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">NewPluginContext</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">contextID</span><span style="color:#FF7B72"> uint32</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">PluginContext</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#FF7B72"> &#x26;</span><span style="color:#FFA657">pluginContext</span><span style="color:#E6EDF3">{}</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">type</span><span style="color:#FFA657"> header</span><span style="color:#FF7B72"> struct</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    Name  </span><span style="color:#FF7B72">string</span></span>
+<span class="line"><span style="color:#E6EDF3">    Value </span><span style="color:#FF7B72">string</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">type</span><span style="color:#FFA657"> pluginContext</span><span style="color:#FF7B72"> struct</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">    types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">DefaultPluginContext</span></span>
+<span class="line"><span style="color:#E6EDF3">    Headers []</span><span style="color:#FFA657">header</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">ctx </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">pluginContext</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">OnPluginStart</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">pluginConfigurationSize</span><span style="color:#FF7B72"> int</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">OnPluginStartStatus</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    data, err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> proxywasm.</span><span style="color:#D2A8FF">GetPluginConfiguration</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        proxywasm.</span><span style="color:#D2A8FF">LogErrorf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"error reading plugin configuration: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusFailed</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    var</span><span style="color:#E6EDF3"> p </span><span style="color:#FFA657">fastjson</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">Parser</span></span>
+<span class="line"><span style="color:#E6EDF3">    v, err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> p.</span><span style="color:#D2A8FF">ParseBytes</span><span style="color:#E6EDF3">(data)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        proxywasm.</span><span style="color:#D2A8FF">LogErrorf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"error decoding plugin configuration: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusFailed</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">    headers </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> v.</span><span style="color:#D2A8FF">GetArray</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"headers"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">    ctx.Headers </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> make</span><span style="color:#E6EDF3">([]</span><span style="color:#FFA657">header</span><span style="color:#E6EDF3">, </span><span style="color:#D2A8FF">len</span><span style="color:#E6EDF3">(headers))</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> i, hdr </span><span style="color:#FF7B72">:=</span><span style="color:#FF7B72"> range</span><span style="color:#E6EDF3"> headers {</span></span>
+<span class="line"><span style="color:#E6EDF3">        ctx.Headers[i] </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> header</span><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#E6EDF3">            Name:  </span><span style="color:#FF7B72">string</span><span style="color:#E6EDF3">(hdr.</span><span style="color:#D2A8FF">GetStringBytes</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"name"</span><span style="color:#E6EDF3">)),</span></span>
+<span class="line"><span style="color:#E6EDF3">            Value: </span><span style="color:#FF7B72">string</span><span style="color:#E6EDF3">(hdr.</span><span style="color:#D2A8FF">GetStringBytes</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"value"</span><span style="color:#E6EDF3">)),</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusOK</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// each HTTP request to a route has its own HTTPContext</span></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">ctx </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">pluginContext</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">NewHttpContext</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">contextID</span><span style="color:#FF7B72"> uint32</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">HttpContext</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#FF7B72"> &#x26;</span><span style="color:#FFA657">httpContext</span><span style="color:#E6EDF3">{parent: ctx}</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">type</span><span style="color:#FFA657"> httpContext</span><span style="color:#FF7B72"> struct</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">    types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">DefaultHttpContext</span></span>
+<span class="line"><span style="color:#E6EDF3">    parent </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">pluginContext</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">ctx </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">httpContext</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">OnHttpResponseHeaders</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">numHeaders</span><span style="color:#FF7B72"> int</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">endOfStream</span><span style="color:#FF7B72"> bool</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">Action</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    plugin </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> ctx.parent</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> _, hdr </span><span style="color:#FF7B72">:=</span><span style="color:#FF7B72"> range</span><span style="color:#E6EDF3"> plugin.Headers {</span></span>
+<span class="line"><span style="color:#E6EDF3">        proxywasm.</span><span style="color:#D2A8FF">ReplaceHttpResponseHeader</span><span style="color:#E6EDF3">(hdr.Name, hdr.Value)</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> types.ActionContinue</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>To compile our plugin to a Wasm binary, we can run:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">tinygo</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> custom_response_header.go.wasm</span><span style="color:#79C0FF"> -scheduler=none</span><span style="color:#79C0FF"> -target=wasi</span><span style="color:#A5D6FF"> ./main.go</span></span></code></pre>
+<h2 id="configuring-apisix-to-run-the-plugin">Configuring APISIX to Run the Plugin</h2>
+<p>To use the Wasm plugin, we first have to update our APISIX configuration file to add this:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">wasm</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">custom-response-header</span></span>
+<span class="line"><span style="color:#7EE787">      priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">7000</span></span>
+<span class="line"><span style="color:#7EE787">      file</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/opt/apisix/wasm/custom_response_header.go.wasm</span></span></code></pre>
+<p>Now we can create a route and enable this plugin:</p>
+<div class="code-title">apisix.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">        "127.0.0.1:80"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      custom-response-header</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">       conf</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "headers": [{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "name": "X-Go-Wasm", "value": "APISIX"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#8B949E">#END</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>The above configuration assumes that APISIX is deployed in <a href="https://apisix.apache.org/docs/apisix/deployment-modes/#standalone">standalone mode</a>.</p></div>
+<h2 id="testing-the-plugin">Testing the Plugin</h2>
+<p>We can send a request to the created route to test the plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080</span><span style="color:#79C0FF"> -s</span><span style="color:#79C0FF"> --head</span></span></code></pre>
+<p>The response header would be as shown below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>...</span></span>
+<span class="line"><span>X-Go-Wasm: APISIX</span></span></code></pre>
+<h2 id="wasm-for-the-win">Wasm for the Win?</h2>
+<p>From this article, it seems like using Wasm plugins benefits both users and APISIX maintainers.</p>
+<p>A test using our example <code>custom-response-header</code> function implemented through a Lua plugin, an external Go plugin runner, and a Wasm plugin show how the performance varies:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/27/bbkiAJgI_plugin-performance-light.png" alt="Wasm plugins aren&#x27;t that bad!"></p>
+<p><em>Running 30s tests with 5 threads and 50 connections using <a href="https://github.com/wg/wrk">wrk</a>.</em></p>
+<p>Looking solely at this example, it might be tempting to ask why anyone would want to use plugin runners or write Lua plugins. Well, all the advantages of using Wasm comes with the following caveats:</p>
+<ul>
+<li><strong>Limited plugins</strong>: The Wasm implementation of programming languages often lacks complete support. For Go, we were limited to using the TinyGo compiler, similar to other languages.</li>
+<li><strong>Immature stack</strong>: Wasm and its usage outside the browser is still a relatively new concept. The proxy-wasm spec also has its limitations due to its relative novelty.</li>
+<li><strong>Lack of concurrency</strong>: Wasm does not have built-in concurrency support. This could be a deal breaker for typical APISIX uses cases where high performance is critical.</li>
+<li><strong>Better alternatives</strong>: Since APISIX can be extended using Lua plugins or plugin runners, there are always alternatives to using Wasm.</li>
+</ul>
+<p>Despite these caveats, the future of Wasm in APISIX and other proxies seems promising. You can choose to hop on the Wasm bandwagon if its benefits tip the scale against these costs. But currently, APISIX plans to continue supporting all three ways of creating custom plugins for the foreseeable future.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

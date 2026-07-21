@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>后端新手如何从 0 到 1 在 API 网关上开发 APISIX 插件 | Apache APISIX</title><meta name="description" content="本文介绍了没有后端经验的前端工程师如何在云原生 API 网关 Apache APISIX 上开发 file-logger 插件的具体步骤，从中你可以学习到在 APISIX 上进行开发插件。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/02/16/file-logger-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/16/file-logger-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/16/file-logger-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="后端新手如何从 0 到 1 在 API 网关上开发 APISIX 插件 | Apache APISIX"><meta property="og:description" content="本文介绍了没有后端经验的前端工程师如何在云原生 API 网关 Apache APISIX 上开发 file-logger 插件的具体步骤，从中你可以学习到在 APISIX 上进行开发插件。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/02/16/file-logger-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"后端新手如何从 0 到 1 在 API 网关上开发 APISIX 插件","description":"本文介绍了没有后端经验的前端工程师如何在云原生 API 网关 Apache APISIX 上开发 file-logger 插件的具体步骤，从中你可以学习到在 APISIX 上进行开发插件。","datePublished":"2022-02-16","author":{"@type":"Person","name":"郭奇"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/02/16/file-logger-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/02/16/file-logger-api-gateway/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/02/16/file-logger-api-gateway/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>后端新手如何从 0 到 1 在 API 网关上开发 APISIX 插件</h1> <p class="article-meta"> 2022-02-16 · 郭奇  </p> <blockquote>
+<p>本篇文章记录了一个没有后端经验的前端工程师开发 <code>file-logger</code> 插件的过程。</p>
+</blockquote>
+<!--truncate-->
+<p>在过去的几个月，社区用户为 Apache APISIX 添加了许多插件，丰富了 Apache APISIX 的生态。从使用者的角度而言，更多样化的插件出现无疑是一件好事，它们在完善 Apache APISIX 高性能和低延迟的基础之上，满足了使用者对于网关的更多期望，即“一站式”和“多功能”。</p>
+<p>社区的贡献者们是如何为 Apache APISIX 开发插件的呢？Apache APISIX 博客上的文章似乎都没有详细讲述过开发插件的流程。那么这次我们换一个视角，从插件开发者的角度出发，一起来看看一款插件诞生的全过程吧！</p>
+<p>本篇文章记录了一个<strong>没有后端经验的前端工程师</strong>在 API 网关上开发 <code>file-logger</code> 插件的过程。在详细说明实现过程之前，先向大家简单介绍下 <code>file-logger</code> 的功能。</p>
+<h2 id="功能介绍">功能介绍</h2>
+<p><code>file-logger</code> 支持使用 Apache APISIX 插件元数据生成自定义的日志格式，用户可以通过 <code>file-logger</code> 插件将 JSON 格式的请求和响应数据附加到日志文件中，也可以将 Log 数据流推送到指定位置。</p>
+<p>试想，在监控某一个路由的访问日志时，很多时候我们关注的不仅是某些请求和响应数据的值，还希望将日志数据单独写入到指定的文件中。这时就可以使用 <code>file-logger</code> 插件来帮忙实现这些需求。</p>
+<p><img src="https://static.apiseven.com/202108/1644996258131-a0e32942-dcc5-4129-873f-0a7551532e77.png" alt="功能介绍"></p>
+<p>具体实现过程中我们可以通过 <code>file-logger</code> 将日志数据单独写入指定的日志文件，简化监控和调试的过程。</p>
+<h2 id="开发实现过程">开发实现过程</h2>
+<p>介绍完 <code>file-logger</code> 的功能之后，大家也算对这个插件有了更多的认识。下面为大家详细讲解一下，<strong>没有服务端经验</strong>的我是如何从 0 开始为 Apache APISIX 完成该插件并添加相应测试的。</p>
+<h3 id="确定插件名称及优先级">确定插件名称及优先级</h3>
+<p>打开 <a href="https://apisix.apache.org/zh/docs/apisix/plugin-develop/#%E6%8F%92%E4%BB%B6%E5%91%BD%E5%90%8D%EF%BC%8C%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E5%85%B6%E4%BB%96">Apache APISIX 插件开发指南</a>，按照先后顺序需要确定以下几项：</p>
+<ol>
+<li>确定插件分类。</li>
+<li>确定插件优先级，并更新 <code>conf/config-default.yaml</code> 文件。</li>
+</ol>
+<p>因为此次开发的 <code>file-logger</code> 属于日志类型的插件，所以我参考了 Apache APISIX 已有的日志插件的名称和排序，将 <code>file-logger</code> 放到了这里：</p>
+<p><img src="https://static.apiseven.com/202108/1644996436166-58305d35-3798-4df2-b8df-1874f3e0cb01.png" alt="确认 file-logger 插件名称和优先级"></p>
+<p>咨询了其他插件的作者和社区的热心成员之后，最终确认了该插件的名称 <code>file-logger</code> 和优先级 <code>399</code>。</p>
+<blockquote>
+<p>需要注意的是，插件的优先级与执行顺序有关，优先级的值越大，执行越靠前。而插件名称的排序与执行顺序无关。</p>
+</blockquote>
+<h3 id="创建最小可执行插件文件">创建最小可执行插件文件</h3>
+<p>确认好插件名称和优先级后，便可在 <code>apisix/plugins/</code> 目录下创建我们的插件代码文件，这里有两点需要注意：</p>
+<ul>
+<li>如果是直接在 <code>apisix/plugins/</code> 目录下直接创建插件代码文件，就无需更改 <code>Makefile</code> 文件。</li>
+<li>如果你的插件有新建自己的代码目录，那么就需要更新 <code>Makefile 文件</code>，详细步骤可参考 <a href="https://apisix.apache.org/zh/docs/apisix/plugin-develop/#%E6%8F%92%E4%BB%B6%E5%91%BD%E5%90%8D%EF%BC%8C%E4%BC%98%E5%85%88%E7%BA%A7%E5%92%8C%E5%85%B6%E4%BB%96">Apache APISIX 插件开发指南</a>。</li>
+</ul>
+<ol>
+<li>下面我们在 <code>apisix/plugins/</code> 目录下创建 <code>file-logger.lua</code> 文件。</li>
+<li>然后根据官方给出的 <code>example-plugin</code> 的例子做参考，来完成一个初始化版本。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- 在头部引入我们所需要的模块</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> log_util     </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF">   require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.utils.log-util"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core         </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF">   require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin       </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF">   require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.plugin"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> ngx          </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">   ngx</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- 声明插件名称</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "file-logger"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- 定义插件 schema 格式</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        path </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"path"</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- 插件元数据 schema</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> metadata_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        log_format </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> log_util.</span><span style="color:#79C0FF">metadata_schema_log_format</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    version </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0.1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 399</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> schema,</span></span>
+<span class="line"><span style="color:#E6EDF3">    metadata_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> metadata_schema</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- 检查插件配置是否正确</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">check_schema</span><span style="color:#E6EDF3">(conf, schema_type)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> schema_type </span><span style="color:#FF7B72">==</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">TYPE_METADATA</span><span style="color:#FF7B72"> then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(metadata_schema, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(schema, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- 日志阶段</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"conf: "</span><span style="color:#E6EDF3">, core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(conf))</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"ctx: "</span><span style="color:#E6EDF3">, core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(ctx, </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> _M</span></span></code></pre>
+<p>通过 <code>example-plugin</code> 的例子完成了一个最小的可用插件文件后，便可通过 <code>core.log.warn(core.json.encode(conf))</code> 和 <code>core.log.warn("ctx: ", core.json.encode(ctx, true))</code> 将插件的配置数据和请求相关的数据信息输出到 <code>error.log</code> 文件中去。</p>
+<h3 id="启用插件并测试">启用插件并测试</h3>
+<p>下面通过创建一条测试路由，来测试插件是否能成功将我们为其配置的插件数据和请求相关的数据信息，打印到错误日志文件中去。</p>
+<ol>
+<li>
+<p>在本地准备一个测试上游（本文中使用的测试上游是我在本地创建的 <code>127.0.0.1:3030/api/hello</code>）。</p>
+</li>
+<li>
+<p>通过 <code>curl</code> 命令创建一条路由并启用我们新增的插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF"> "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "file-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "path": "logs/file.log"</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> },</span></span>
+<span class="line"><span style="color:#A5D6FF"> "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "127.0.0.1:3030": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> },</span></span>
+<span class="line"><span style="color:#A5D6FF"> "uri": "/api/hello"</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>接着就会看到一个 <code>200</code> 的状态码，表明已成功创建了路由。</p>
+</li>
+<li>
+<p>运行 <code>curl</code> 命令向该路由发送请求，测试 <code>file-logger</code> 插件是否已经启动。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/api/hello</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#FFA657">hello,</span><span style="color:#A5D6FF"> world</span></span></code></pre>
+</li>
+<li>
+<p>在 <code>logs/error.log</code> 文件中会有一条这样的记录：</p>
+<p><img src="https://static.apiseven.com/202108/1644996952020-7a79d5df-e679-42f1-94f3-40a913db790c.png" alt="logs/error.log 记录"></p>
+<p>可以看到， 在 <code>conf</code> 参数中我们为插件配置的 <code>path: logs/file.log</code> 已经成功地保存了。到此我们已经成功创建了一个最小可用的插件，在日志阶段打印了 <code>conf</code> 和 <code>ctx</code> 参数的数据。</p>
+<p>之后，我们可以直接在该 <code>file-logger.lua</code> 插件代码文件中，为它编写核心功能。这里我们可以直接运行 <code>apisix reload</code> 命令来重新加载最新的插件代码，而无需重启 Apache APISIX。</p>
+</li>
+</ol>
+<h3 id="为-file-logger-插件编写核心功能">为 file-logger 插件编写核心功能</h3>
+<p><code>file-logger</code> 插件的主要功能是写日志数据。在经过询问和查阅资料后，我了解到 <a href="https://www.tutorialspoint.com/lua/lua_file_io.htm">Lua 的 IO 库</a>，于是确认了该插件的功能逻辑大致为以下几步：</p>
+<ol>
+<li>
+<p>每次接受请求之后，将日志数据输出到插件配置的 <code>path</code> 中去。</p>
+<ol>
+<li>首先，在日志阶段通过 <code>conf</code> 拿到 <code>file-logger</code> 中 <code>path</code> 的值。</li>
+<li>然后，通过 Lua IO 库来完成文件「创建」、「打开」、「写」、「刷新缓存」、「关闭」的操作。</li>
+</ol>
+</li>
+<li>
+<p>处理「文件打开」失败、「文件创建」失败等错误。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72"> local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> write_file_data</span><span style="color:#E6EDF3">(conf, log_message)</span></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> msg, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(log_message)</span></span>
+<span class="line"><span style="color:#FF7B72">     if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">         return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"message json serialization failed, error info : "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">     end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> file, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> io_open</span><span style="color:#E6EDF3">(conf.</span><span style="color:#79C0FF">path</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'a+'</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">     if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> file </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">         core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to open file: "</span><span style="color:#E6EDF3">, conf.</span><span style="color:#79C0FF">path</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">", error info: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">     else</span></span>
+<span class="line"><span style="color:#FF7B72">         local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> file</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">write</span><span style="color:#E6EDF3">(msg, </span><span style="color:#A5D6FF">'</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">'</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">         if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">             core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to write file: "</span><span style="color:#E6EDF3">, conf.</span><span style="color:#79C0FF">path</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">", error info: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">         else</span></span>
+<span class="line"><span style="color:#FFA657">             file</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">flush</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">         end</span></span>
+<span class="line"><span style="color:#FFA657">         file</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">close</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">     end</span></span>
+<span class="line"><span style="color:#FF7B72"> end</span></span></code></pre>
+</li>
+<li>
+<p>参考 <code>http-logger</code> 插件源码，完成了将日记数据传给写日志数据的方法和 metadata 的一些判断和处理。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> metadata </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin.</span><span style="color:#79C0FF">plugin_metadata</span><span style="color:#E6EDF3">(plugin_name)</span></span>
+<span class="line"><span style="color:#FF7B72">     local</span><span style="color:#E6EDF3"> entry</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">     if</span><span style="color:#E6EDF3"> metadata </span><span style="color:#FF7B72">and</span><span style="color:#E6EDF3"> metadata.</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">log_format</span></span>
+<span class="line"><span style="color:#FF7B72">         and</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">table</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">nkeys</span><span style="color:#E6EDF3">(metadata.</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">log_format</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">></span><span style="color:#79C0FF"> 0</span></span>
+<span class="line"><span style="color:#FF7B72">     then</span></span>
+<span class="line"><span style="color:#E6EDF3">         entry </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> log_util.</span><span style="color:#79C0FF">get_custom_format_log</span><span style="color:#E6EDF3">(ctx, metadata.</span><span style="color:#79C0FF">value</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">log_format</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">     else</span></span>
+<span class="line"><span style="color:#E6EDF3">         entry </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> log_util.</span><span style="color:#79C0FF">get_full_log</span><span style="color:#E6EDF3">(ngx, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">     end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">     write_file_data</span><span style="color:#E6EDF3">(conf, entry)</span></span>
+<span class="line"><span style="color:#FF7B72"> end</span></span></code></pre>
+</li>
+</ol>
+<h2 id="验证及添加测试">验证及添加测试</h2>
+<h3 id="验证收集日志记录">验证收集日志记录</h3>
+<p>因为在创建测试路由时已经启用了 <code>file-logger</code> 插件，并且配置了 <code>path</code> 为 <code>logs/file.log</code>，所以此时我们只需给测试路由发送请求，以验证日志收集的结果：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/api/hello</span></span></code></pre>
+<p>在对应的 <code>logs/file.log</code> 中我们可以看到每条记录都是以 JSON 的格式保存下来。将其中一条数据格式化之后如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "server"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "hostname"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"...."</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "version"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"2.11.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "client_ip"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1:3030"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "route_id"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "start_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1641285122961</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "latency"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">13.999938964844</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "response"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "status"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "size"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">252</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "headers"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">            "server"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"APISIX</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">2.11.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "content-type"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"application</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">json; charset=utf-8"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "date"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Tue, 04 Jan 2022 08:32:02 GMT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "vary"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Accept-Encoding"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "content-length"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"19"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "connection"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"close"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "etag"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">13-5j0ZZR0tI549fSRsYxl8c9vAU78</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "service_id"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "request"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "querystring"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "size"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">87</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "method"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "headers"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">            "host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1:9080"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "accept"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"*</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "user-agent"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"curl</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">7.77.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "url"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"http:</span><span style="color:#FF7B72">\/\/</span><span style="color:#A5D6FF">127.0.0.1:9080</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">api</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">hello"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "uri"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">api</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>至此验证收集日志记录的环节结束了，验证结果说明插件成功启动并返回了应有的数据。</p>
+<h3 id="为插件添加测试">为插件添加测试</h3>
+<p>对于 <code>add_block_preprocessor</code> 部分的代码，由于我没有学过 Perl ，所以在刚开始编写时比较困惑。在询问之后才了解到它的正确使用方式：如果我们在数据部分没有编写相关的 <code>request</code> 断言和 <code>no_error_log</code> 断言时，那么默认断言如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">--- request</span></span>
+<span class="line"><span style="color:#E6EDF3">GET </span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">t</span></span>
+<span class="line"><span style="color:#8B949E">--- no_error_log</span></span>
+<span class="line"><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">]</span></span></code></pre>
+<p>综合参考了一些其他的日志测试文件以后，我在 <code>t/plugin/</code> 目录下创建 <code>file-logger.t</code> 文件。</p>
+<p>每一份测试文件都由 <code>__DATA__</code> 分为序言部分和数据部分。由于目前官网测试相关文档没有明确归档分类，更多具体内容可参考文末的相关资料。下面我为大家列出参考相关资料后完成的其中一个测试用例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#FF7B72">use</span><span style="color:#E6EDF3"> t::APISIX </span><span style="color:#A5D6FF">'no_plan'</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">no_long_string();</span></span>
+<span class="line"><span style="color:#E6EDF3">no_root_location();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">add_block_preprocessor(</span><span style="color:#FF7B72">sub</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    my</span><span style="color:#E6EDF3"> ($block) = @_;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (! $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">request) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">set_value(</span><span style="color:#A5D6FF">"request"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"GET /t"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (! $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">no_error_log &#x26;&#x26; ! $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">error_log) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">set_value(</span><span style="color:#A5D6FF">"no_error_log"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"[error]"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">});</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">run_tests;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">__DATA__</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">=== TEST 1: sanity</span></span>
+<span class="line"><span style="color:#8B949E">--- config</span></span>
+<span class="line"><span style="color:#8B949E">    location /t {</span></span>
+<span class="line"><span style="color:#8B949E">        content_by_lua_block {</span></span>
+<span class="line"><span style="color:#8B949E">            local configs = {</span></span>
+<span class="line"><span style="color:#8B949E">                -- full configuration</span></span>
+<span class="line"><span style="color:#8B949E">                {</span></span>
+<span class="line"><span style="color:#8B949E">                    path = "file.log"</span></span>
+<span class="line"><span style="color:#8B949E">                },</span></span>
+<span class="line"><span style="color:#8B949E">                -- property "path" is required</span></span>
+<span class="line"><span style="color:#8B949E">                {</span></span>
+<span class="line"><span style="color:#8B949E">                    path = nil</span></span>
+<span class="line"><span style="color:#8B949E">                }</span></span>
+<span class="line"><span style="color:#8B949E">            }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">            local plugin = require("apisix.plugins.file-logger")</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">            for i = 1, #configs do</span></span>
+<span class="line"><span style="color:#8B949E">                ok, err = plugin.check_schema(configs[i])</span></span>
+<span class="line"><span style="color:#8B949E">                if err then</span></span>
+<span class="line"><span style="color:#8B949E">                    ngx.say(err)</span></span>
+<span class="line"><span style="color:#8B949E">                else</span></span>
+<span class="line"><span style="color:#8B949E">                    ngx.say("done")</span></span>
+<span class="line"><span style="color:#8B949E">                end</span></span>
+<span class="line"><span style="color:#8B949E">            end</span></span>
+<span class="line"><span style="color:#8B949E">        }</span></span>
+<span class="line"><span style="color:#8B949E">    }</span></span>
+<span class="line"><span style="color:#8B949E">--- response_body_like</span></span>
+<span class="line"><span style="color:#8B949E">done</span></span>
+<span class="line"><span style="color:#8B949E">property "path" is required</span></span></code></pre>
+<p>至此插件添加测试环节结束。</p>
+<h2 id="总结">总结</h2>
+<p>以上就是我作为一个后端新手，从 0 开始实现一款 Apache APISIX 插件的全过程。在开发插件的过程中确实碰到了很多坑，比较幸运的是 Apache APISIX 社区里面有很多热心的大佬帮我解惑，使得 <code>file-logger</code> 插件的开发和测试全程都比较顺畅。如果你对这个插件感兴趣，或想要查看插件详情，可以参考 <a href="https://apisix.apache.org/zh/docs/apisix/next/plugins/file-logger/">Apache APISIX 官方文档</a>。</p>
+<p>目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a> 中发起讨论，也可通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流讨论。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugin-develop/">Apache APISIX 插件开发指南</a></li>
+<li><a href="https://www.tutorialspoint.com/lua/lua_file_io.htm">Lua - File I/O 使用指南</a></li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/how-to-build/#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E6%A1%88%E4%BE%8B">如何运行 Apache APISIX 测试案例</a></li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugin-develop/#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B">如何编写测试用例</a></li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/internal/testing-framework/">Apache APISIX 测试框架介绍</a></li>
+<li><a href="https://metacpan.org/pod/Test%3A%3ANginx%3A%3ASocket">test-nginx 相关的一些 API 介绍</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

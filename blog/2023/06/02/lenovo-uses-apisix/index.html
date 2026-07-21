@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Boosts Lenovo to Build Lightweight and Decentralized Gateway | Apache APISIX</title><meta name="description" content="Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/06/02/lenovo-uses-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/06/02/lenovo-uses-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/06/02/lenovo-uses-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/06/02/lenovo-uses-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX Boosts Lenovo to Build Lightweight and Decentralized Gateway | Apache APISIX"><meta property="og:description" content="Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system."><meta property="og:url" content="https://apisix.apache.org/blog/2023/06/02/lenovo-uses-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/06/02/pRRqKigM_img_v2_d8efd0f7-2a28-46c2-8ed3-6e59f17cafag.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Boosts Lenovo to Build Lightweight and Decentralized Gateway","description":"Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.","datePublished":"2023-06-02","image":"https://static.apiseven.com/uploads/2023/06/02/pRRqKigM_img_v2_d8efd0f7-2a28-46c2-8ed3-6e59f17cafag.png","author":{"@type":"Person","name":"Leon Yang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/06/02/lenovo-uses-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/06/02/lenovo-uses-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/06/02/lenovo-uses-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX Boosts Lenovo to Build Lightweight and Decentralized Gateway</h1> <p class="article-meta"> 2023-06-02 · Leon Yang  </p> <blockquote>
+<p>Lenovo established a decentralized gateway and centralized dev portal based on APISIX, resolving the bottlenecks of its previous system.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="overview">Overview</h2>
+<p>I’m Leon Yang, a Senior IT Architect at Lenovo, dedicated to promoting the reuse of software engineering components and building a sharing technology ecosystem. In the past two years, I have published more than 20 patents in enterprise software, big data, and artificial intelligence.</p>
+<p>Lenovo Group Limited, which was founded on November 1, 1984, as Legend and is commonly referred to as Lenovo, is an American-Chinese multinational technology company specializing in designing, manufacturing, and marketing consumer electronics, personal computers, software, business solutions, and related services.</p>
+<h2 id="background">Background</h2>
+<p>Nowadays, businesses are becoming more and more complex. Technologies are changing with each passing day, which has greatly impacted software development. We have been looking for a more efficient way for project delivery at a lower cost, that is reusing original system resources by componentization.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/05/qTyereco_Lenovo-system-architecture.jpeg" alt="Lenovo-system-architecture"></p>
+<p>The first step is to build an out-of-the-box reusable internal API ecosystem with a large number of components. Therefore, our team can reuse existing software assets by componentizing technical functions and standardizing the architecture. It is an effective way for enterprises, enabling developers no longer need to face a variety of technology selections.</p>
+<p>Consequently, our team started developing its internal applications based on component-based patterns, reducing engineering application development costs, and improving software delivery with quality and efficiency. Meantime, we established a high-quality enterprise API service ecosystem for fully reusing the capabilities of internal systems and external partners, thus constructing powerful business solutions.</p>
+<h2 id="challenges-of-centralized-api-gateway-architecture-in-complex-enterprise-environments">Challenges of Centralized API Gateway Architecture in Complex Enterprise Environments</h2>
+<p>The API gateway plays a vital role in the API ecosystem. The following picture shows how we use the API gateway in different scenarios.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/05/gI5G0TAE_Challenges-of-Centralized-API-Gateway.jpeg" alt="Challenges-of-Centralized-API-Gateway"></p>
+<p>In a large enterprise, there will be an intranet and a DMZ (demilitarized zone). In the intranet, if hundreds of application systems need to implement API calls through the API gateway, a centralized intranet gateway will be established to be responsible for API routing, authentication, WAF control, etc. If the API service is to provide external network services, according to the strict architecture design, a centralized gateway needs to be deployed in the DMZ. The API call goes through the DMZ and then will be exposed to the public network through the relevant firewall.</p>
+<p>There are many challenges in this process.</p>
+<ul>
+<li>
+<p>Distributed API information and incorrect use of API bring <strong>high operational costs</strong>.</p>
+</li>
+<li>
+<p><strong>Limited scalability and availability</strong> because of a single point of failure. If the gateway fails, all requests will be blocked, resulting in downtime and disruption of services (centralized team resource).</p>
+</li>
+<li>
+<p>Too many API scenarios and routes deployed in one gateway node can <strong>easily become overwhelming and cause latency issues</strong>.</p>
+</li>
+<li>
+<p><strong>Excessive resource usage or failure</strong> by an API can negatively impact the performance of all APIs.</p>
+</li>
+<li>
+<p>Installing an etcd / ZK for each API gateway makes the <strong>architecture too heavy</strong>. (using admin console)</p>
+</li>
+<li>
+<p>Heterogeneous system architecture has <strong>multiple API authorizations</strong> from API gateway and API service providers, which adds complexity to API usage.</p>
+</li>
+</ul>
+<h2 id="why-lenovo-opted-for-apisix">Why Lenovo Opted for APISIX</h2>
+<p>We chose APISIX mainly because APISIX has merits in the below aspects.</p>
+<ul>
+<li>
+<p>Built with NGINX and LuaJIT, APISIX has <strong>high performance, rich OpenResty library, and is easy for customization</strong>. In the past, we adopted multiple commercial API gateway products that were positioned in the leading quadrant of Gartner. However, these products posed challenges in meeting the unique needs of enterprises, such as customizing authorization flows and dashboards.</p>
+</li>
+<li>
+<p><strong>APISIX Provides lightweight deployment architecture</strong>. We need a lightweight gateway that can function as a component embedded within an application. However, most commercial or open-source API gateway products are too heavy for our system.</p>
+</li>
+<li>
+<p><strong>Dynamic hot reloading</strong> allows for publishing APIs without the need to restart systems, reducing downtime and improving business system operation SLA.</p>
+</li>
+<li>
+<p><strong>Flexible plugin customization</strong> enables developers to create personalized processes that meet the unique needs of the enterprise.</p>
+</li>
+<li>
+<p>With the strong support of an <strong>active community ecosystem and a wide range of high-quality plugins like kafka-logger and authz-keycloak</strong>, we benefit from enhanced functionality and extensive customization options.</p>
+</li>
+<li>
+<p><strong>The enabled Web Application Firewall (WAF) provides essential security measures and traffic control features</strong> to enhance the overall protection and performance of our system.</p>
+</li>
+<li>
+<p><strong>Friendly open-source license: Apache License 2.0.</strong> Lenovo only considers using two protocols, Apache License 2.0 and MIT in terms of security compliance.</p>
+</li>
+</ul>
+<h2 id="decentralized-gateway-and-centralized-dev-portal-based-on-apisix">Decentralized Gateway and Centralized Dev Portal based on APISIX</h2>
+<p>Our team adopted several measures to integrate its architecture with APISIX.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/05/hkkTZixS_API%20Dev%20Portal.jpeg" alt="API-Dev-Portal"></p>
+<h3 id="build-centralized-api-dev-portal">Build Centralized API Dev Portal</h3>
+<p>We established its Centralized API Dev Portal to improve the efficiency and quality of API management and use of API.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/05/3V2Xea7k_Build%20Centralized%20API%20Dev%20Portal.jpeg" alt="Build-Centralized-API-Dev-Portal"></p>
+<p>The Dev Portal has the following features.</p>
+<ul>
+<li>
+<p>Provide unified API service catalog management and API information publishing, including API specifications, use cases &#x26; samples, and access control policies</p>
+</li>
+<li>
+<p>Provide developers with an easy-to-use API marketplace to search, test, and subscribe to APIs efficiently</p>
+</li>
+<li>
+<p>Provide a convenient way for tracking gateway status and notifying the changes of API subscription and policies</p>
+</li>
+<li>
+<p>Use API analytics to track API usage, measure the performance of API gateways and API services (exception, throughput, latency, etc.)</p>
+</li>
+</ul>
+<h3 id="build-centralized-registry-center">Build Centralized Registry Center</h3>
+<p><img src="https://static.apiseven.com/uploads/2023/06/05/CvfRTSda_Build%20Centralized%20Registry%20Center.jpeg" alt="Build-Centralized-Registry-Center"></p>
+<p>Set up a Centralized Registry Center (etcd) for gateway health-check and API subscription synchronization to deploy multiple registry centers.</p>
+<p>API Dev Portal publishes API subscriptions to the Registry Center when developers subscribe to API under a specified gateway.</p>
+<p>Gateway sends a heartbeat to the Registry Center regularly, usually every 10 seconds, to inform the Registry Center that it is still alive. When the subscription under the gateway changes, the Registry Center will trigger the gateway to pull the updates of API subscriptions and deploy them locally. This process ensures that the gateway is always up-to-date with the latest API subscription information.</p>
+<p>The API log &#x26; metrics reporter running as a daemon in the gateway can be configured to regularly post key metrics of the API to the Kafka topic. And the metrics then be consumed by the log receiver of API Analytics.</p>
+<h3 id="provide-lightweight-gateway">Provide Lightweight Gateway</h3>
+<p>Lenovo provided a lightweight gateway delegated in business applications or domains that provides secure access to applications and services without a centralized gateway. This approach allows more granular control over access and authentication, improves scalability and performance, and reduces the risk of a single point of failure.</p>
+<h3 id="offload-authorization-of-api-provision-services">Offload Authorization of API Provision Services</h3>
+<p>By offloading the authorization of API provision services and delegating the authorization of API consumers to the business applications or domains, Lenovo can better manage their API security and improve the developer experience.</p>
+<h2 id="achievements-after-using-apisix">Achievements after Using APISIX</h2>
+<p>After implementing APISIX, a significant number of changes were made within Lenovo.</p>
+<h3 id="improved-performance-with-flexible-configuration">Improved Performance with Flexible Configuration</h3>
+<p><strong>APISIX’s remarkable scalability offers Lenovo the necessary flexibility for customization.</strong> With APISIX,  Lenovo’s decentralized gateway architecture provides high-performance and highly scalable enterprise-level API gateway solutions, effectively eliminating the bottleneck caused by centralization.</p>
+<p>Previously, the system resources constrain the number of APIs that can be deployed in a single cluster to less than 1,000. The gateway performance is bottlenecked by some resource-intensive APIs, resulting in an average throughput of <strong>less than 4,000 TPS</strong>. Furthermore, any API failure will degrade the overall API routing performance and affect all clients.</p>
+<p>However, by leveraging APISIX, Lenovo’s decentralized gateway architecture enables the efficient deployment of gateway nodes and APIs based on specific business scenarios. Each gateway node can be configured and optimized independently according to its system resources and workload. Consequently, there is no longer a limit on the total number of APIs that can be deployed across the network. Moreover, with proper tuning, <strong>the gateway performance can be significantly improved to exceed 20,000 TPS</strong>.</p>
+<h3 id="inreased-security-and-scalability">Inreased Security and Scalability</h3>
+<p><strong>Deploying a lightweight gateway as a component of an application or business domain improved the application security, as well as greatly enhanced the flexibility of deploying API by scenarios.</strong></p>
+<p>Each business scenario can benefit from independent API routing and customized security policies, which provide complete isolation between different scenarios. This enables each business scenario to perform API changes and start-stop operations according to specific plans.</p>
+<p>So far, <strong>more than 100 low-code business applications have leveraged this lightweight API gateway component architecture, which has enhanced their performance and resilience</strong> without being hampered by the unified gateway operation and maintenance challenges. This lightweight API gateway component architecture is projected to encompass most of the business scenarios in the next 2 to 3 years.</p>
+<h3 id="realized-full-api-lifecycle-management">Realized Full API Lifecycle Management</h3>
+<p><strong>Centralized API Dev Portal enables API providers to efficiently manage the full API lifecycle in a unified manner for all gateways.</strong></p>
+<p>Utilizing an API Dev Portal to manage API information can effectively prevent various business teams from duplicating their API admin tools. Additionally, it enables the possibility of establishing unified API technical standards, documentation standards, and security standards. To integrate complex heterogeneous systems or legacy systems from different business domains, the API Dev Portal also provides various <a href="https://api7.ai/blog/apisix-permission-policy">authorization</a> processes extended from the APISIX plugin for the backend services of APIs, such as Basic Authorization, oAuth2, Customized Header, and so on. So far, <strong>100+ developers are using the API Dev Portal for API management</strong>.</p>
+<h3 id="provided-unified-api-management-marketplace">Provided Unified API Management Marketplace</h3>
+<p>API Marketplaces, such as the one facilitated by APISIX, play a vital role in simplifying the process of finding the required APIs for developers. These marketplaces also facilitate efficient sharing and discovery of API information across departments in large enterprises, thereby reducing the time spent on searching for APIs.</p>
+<p>Currently, <strong>the API market is already being leveraged by over 1000 developers from various business domains to search and access the necessary API information</strong>. It has proven to be an indispensable tool for streamlining the development process and ensuring access to the most up-to-date and accurate API information.</p>
+<p>As APISIX continues to expand its functionality and coverage within the API market, more developers are expected to rely on it as a valuable resource for their development needs. <strong>APISIX provides developers with a centralized platform to search for and access the APIs they require, significantly saving them time and effort during the development process.</strong> Furthermore, the API market powered by APISIX offers developers a collaborative environment to share their own APIs, fostering innovation and collaboration within the development community.</p>
+<h3 id="achieved-enhanced-monitoring">Achieved Enhanced Monitoring</h3>
+<p>API Analytics and <a href="https://api7.ai/blog/apache-apisix-datadog-integration">Monitoring</a> provides businesses with valuable insights into the performance of their APIs. <strong>APISIX plays a crucial role in assisting Lenovo in monitoring its platforms, enabling developers to optimize APIs for enhanced performance, scalability, and reliability.</strong> Additionally, it aids in the early detection of potential risks, such as errors and latency, preventing them from becoming significant problems.</p>
+<h2 id="summary-and-outlook">Summary and Outlook</h2>
+<p>I believe that the combination of a high-performance tech stack and a flexible open-source architecture empowers organizations, including ours, to create robust and efficient solutions. This powerful combination equips us with the necessary tools and capabilities to tackle complex challenges and deliver exceptional outcomes.</p>
+<p>Considering these remarkable capabilities, we at Lenovo have immense confidence in APISIX and its vibrant community. With the unwavering support of APISIX, we are in a favorable position to achieve remarkable milestones and maintain our leadership in technological advancements within the industry. By leveraging the strengths of APISIX, we can drive innovation, foster growth, and continue to lead the way in delivering cutting-edge solutions that cater to the evolving needs of the market.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

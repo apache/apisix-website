@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Gateway vs Load Balancer: Key Differences Explained | Apache APISIX</title><meta name="description" content="Understand the differences between an API gateway and a load balancer. Learn when to use each, how they complement each other, and where they overlap."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/learning-center/api-gateway-vs-load-balancer/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="API Gateway vs Load Balancer: Key Differences Explained | Apache APISIX"><meta property="og:description" content="Understand the differences between an API gateway and a load balancer. Learn when to use each, how they complement each other, and where they overlap."><meta property="og:url" content="https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"API Gateway vs Load Balancer: Key Differences Explained","description":"Understand the differences between an API gateway and a load balancer. Learn when to use each, how they complement each other, and where they overlap.","datePublished":"2026-04-14","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/learning-center/api-gateway-vs-load-balancer/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/learning-center/api-gateway-vs-load-balancer/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>API Gateway vs Load Balancer: Key Differences Explained</h1> <p class="article-meta">2026-04-14</p> <p>An API gateway and a load balancer serve different primary purposes. A load balancer distributes network traffic across multiple backend servers to maximize throughput and availability. An API gateway operates at the application layer to manage, secure, and transform API traffic with features like authentication, rate limiting, and request routing. In modern architectures, they complement each other and are frequently deployed together.</p>
+<h2 id="what-is-a-load-balancer">What is a Load Balancer</h2>
+<p>A load balancer sits between clients and a pool of backend servers, distributing incoming requests to ensure no single server becomes overwhelmed. Load balancers operate at either Layer 4 (TCP/UDP) or Layer 7 (HTTP/HTTPS) of the OSI model.</p>
+<p>Layer 4 load balancers route traffic based on IP address and port number without inspecting the request content. They are fast, protocol-agnostic, and add minimal latency. Layer 7 load balancers inspect HTTP headers, URLs, and sometimes request bodies to make more intelligent routing decisions.</p>
+<p>Load balancers are foundational infrastructure. The vast majority of organizations use some form of load balancing in their production environments. The technology has been a networking staple for over two decades, with the core algorithms (round-robin, least connections, weighted distribution) remaining largely unchanged.</p>
+<p>The primary value of a load balancer is availability. By distributing traffic and performing health checks, load balancers ensure that the failure of a single backend instance does not cause a service outage. They also enable horizontal scaling: adding more backend instances to handle increased traffic without changing the client-facing endpoint.</p>
+<h2 id="what-is-an-api-gateway">What is an API Gateway</h2>
+<p>An API gateway is an application-layer proxy that acts as the single entry point for API consumers. Beyond routing requests to the correct backend service, an API gateway provides a rich set of cross-cutting concerns: authentication, authorization, rate limiting, request and response transformation, caching, logging, and monitoring.</p>
+<p>API gateways emerged from the needs of microservices architectures and API-first product strategies. When an organization exposes dozens or hundreds of microservices, a gateway centralizes the operational concerns that would otherwise be duplicated across every service.</p>
+<p>An API gateway typically operates exclusively at Layer 7 and understands application-level protocols like HTTP, gRPC, WebSocket, and GraphQL. It makes routing decisions based on URL paths, headers, query parameters, and even request body content.</p>
+<h2 id="feature-comparison">Feature Comparison</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Capability</th><th>Load Balancer</th><th>API Gateway</th></tr></thead><tbody><tr><td>Traffic distribution</td><td>Yes (core function)</td><td>Yes (built-in)</td></tr><tr><td>Health checks</td><td>Yes</td><td>Yes</td></tr><tr><td>SSL/TLS termination</td><td>Yes</td><td>Yes</td></tr><tr><td>Layer 4 routing</td><td>Yes</td><td>Typically no</td></tr><tr><td>Layer 7 routing</td><td>L7 LB only</td><td>Yes (core function)</td></tr><tr><td>Authentication</td><td>No</td><td>Yes</td></tr><tr><td>Authorization</td><td>No</td><td>Yes</td></tr><tr><td>Rate limiting</td><td>Basic (some L7 LBs)</td><td>Yes (granular)</td></tr><tr><td>Request transformation</td><td>No</td><td>Yes</td></tr><tr><td>Response transformation</td><td>No</td><td>Yes</td></tr><tr><td>API versioning</td><td>No</td><td>Yes</td></tr><tr><td>Protocol translation</td><td>Limited</td><td>Yes (HTTP to gRPC, REST to GraphQL)</td></tr><tr><td>Caching</td><td>Limited</td><td>Yes</td></tr><tr><td>Developer portal</td><td>No</td><td>Yes (with management layer)</td></tr><tr><td>Analytics and monitoring</td><td>Basic metrics</td><td>Detailed API analytics</td></tr><tr><td>Circuit breaking</td><td>Some implementations</td><td>Yes</td></tr><tr><td>Canary/blue-green deploys</td><td>Some implementations</td><td>Yes</td></tr></tbody></table>
+<p>The table makes the distinction clear: load balancers focus on network-level traffic distribution, while API gateways focus on application-level API management. The overlap exists primarily in Layer 7 load balancers, which have gradually added some application-aware features.</p>
+<h2 id="key-differences-explained">Key Differences Explained</h2>
+<h3 id="scope-of-concern">Scope of Concern</h3>
+<p>A load balancer answers the question: which backend server should handle this connection? An API gateway answers a broader set of questions: is this client authenticated? Are they authorized for this endpoint? Have they exceeded their rate limit? Does the request need transformation before forwarding? Should the response be cached?</p>
+<p>In practice, most organizations using API gateways configure multiple cross-cutting policies (authentication, rate limiting, logging, and CORS), none of which fall within a traditional load balancer’s responsibility.</p>
+<h3 id="protocol-awareness">Protocol Awareness</h3>
+<p>Load balancers, especially at Layer 4, are largely protocol-agnostic. They route TCP connections without understanding the application protocol. API gateways are deeply protocol-aware. They parse HTTP methods, match URL patterns, inspect headers, and in many cases understand domain-specific protocols like gRPC and GraphQL.</p>
+<p>This protocol awareness enables capabilities that load balancers cannot provide. For example, an API gateway can route GraphQL queries to different backend services based on the query’s requested fields, or translate between REST and gRPC protocols transparently.</p>
+<h3 id="configuration-granularity">Configuration Granularity</h3>
+<p>Load balancer configuration centers on server pools, health check parameters, and distribution algorithms. API gateway configuration is far more granular: per-route authentication requirements, per-consumer rate limits, request header injection, response body transformation, and conditional plugin execution.</p>
+<p>A typical enterprise API gateway configuration manages 50-200 routes with distinct policy combinations, compared to a load balancer managing 10-30 server pools. The operational complexity reflects the difference in scope.</p>
+<h3 id="performance-profile">Performance Profile</h3>
+<p>Layer 4 load balancers add microsecond-level latency because they operate below the HTTP layer. API gateways add millisecond-level latency because they must parse, inspect, and potentially transform HTTP requests. High-performance gateways like Apache APISIX, built on NGINX and LuaJIT, keep this overhead under 1ms for typical configurations. According to APISIX benchmark data, the gateway processes over 20,000 requests per second per core with authentication and rate limiting enabled.</p>
+<h2 id="when-to-use-which">When to Use Which</h2>
+<h3 id="use-a-load-balancer-when">Use a Load Balancer When</h3>
+<ul>
+<li>You need to distribute TCP or UDP traffic across backend instances.</li>
+<li>Your primary concern is availability and horizontal scaling.</li>
+<li>You are load balancing non-HTTP protocols (databases, message queues, custom TCP services).</li>
+<li>You want minimal latency overhead with no application-layer processing.</li>
+</ul>
+<h3 id="use-an-api-gateway-when">Use an API Gateway When</h3>
+<ul>
+<li>You expose APIs to external consumers who need authentication and rate limiting.</li>
+<li>You run a microservices architecture and need centralized cross-cutting concerns.</li>
+<li>You need request or response transformation between clients and services.</li>
+<li>You require detailed API analytics, logging, and monitoring.</li>
+<li>You manage multiple API versions or need protocol translation.</li>
+</ul>
+<h3 id="use-both-together">Use Both Together</h3>
+<p>In most production architectures, load balancers and API gateways coexist at different layers. A common deployment pattern places a Layer 4 or cloud-native load balancer (AWS NLB, Google Cloud Load Balancing) in front of a cluster of API gateway instances. The load balancer distributes traffic across gateway nodes for high availability, while the gateway handles application-level API management.</p>
+<p>This separation of concerns allows each component to do what it does best.</p>
+<h2 id="how-apache-apisix-combines-both">How Apache APISIX Combines Both</h2>
+<p>Apache APISIX is an API gateway that includes built-in load balancing capabilities, effectively combining both roles into a single component for many use cases.</p>
+<p>APISIX supports multiple load balancing algorithms natively, documented in its <a href="/docs/apisix/getting-started/load-balancing/">load balancing guide</a>:</p>
+<ul>
+<li><strong>Round-robin (weighted):</strong> Distributes requests across upstream nodes based on configured weights.</li>
+<li><strong>Consistent hashing:</strong> Routes requests to the same backend based on a configurable key (IP, header, URI), useful for cache-friendly distributions.</li>
+<li><strong>Least connections:</strong> Sends requests to the upstream node with the fewest active connections.</li>
+<li><strong>EWMA (Exponential Weighted Moving Average):</strong> Selects the upstream node with the lowest response latency, adapting to real-time backend performance.</li>
+</ul>
+<p>By combining API gateway features with production-grade load balancing, APISIX reduces architectural complexity for many deployments. Organizations that would otherwise deploy a separate load balancer and a separate API gateway can consolidate into a single APISIX layer, reducing operational overhead and network hops.</p>
+<p>For large-scale deployments, a dedicated Layer 4 load balancer in front of APISIX nodes still makes sense for TCP-level high availability and DDoS protection. But within the application layer, APISIX handles both traffic distribution and API management without requiring an additional component.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="can-an-api-gateway-replace-a-load-balancer-entirely">Can an API gateway replace a load balancer entirely?</h3>
+<p>For HTTP and gRPC traffic, a modern API gateway like Apache APISIX can replace a Layer 7 load balancer because it includes equivalent load balancing algorithms. However, for non-HTTP protocols (raw TCP, UDP, database connections) or for Layer 4 DDoS protection, a dedicated load balancer remains necessary. The most common production pattern uses both: a Layer 4 load balancer for network-level distribution and an API gateway for application-level management.</p>
+<h3 id="does-adding-an-api-gateway-increase-latency-compared-to-a-load-balancer-alone">Does adding an API gateway increase latency compared to a load balancer alone?</h3>
+<p>Yes, but the increase is typically small. A Layer 4 load balancer adds microseconds of latency. An API gateway adds 0.5-2ms depending on the number of active plugins. For most APIs where upstream service response times are 10-500ms, the gateway overhead is negligible. The operational benefits of centralized authentication, rate limiting, and observability far outweigh the minor latency cost.</p>
+<h3 id="should-i-use-a-cloud-providers-managed-api-gateway-or-deploy-my-own">Should I use a cloud provider’s managed API gateway or deploy my own?</h3>
+<p>Managed gateways (AWS API Gateway, Google Apigee) reduce operational burden but limit customization and can become expensive at high traffic volumes. AWS API Gateway charges per million requests, which can reach thousands of dollars monthly for high-traffic APIs. Self-managed gateways like Apache APISIX offer full control, unlimited throughput on your infrastructure, and no per-request fees, but require your team to operate the gateway cluster. Evaluate based on your traffic volume, customization needs, and operations capacity.</p>
+<h3 id="how-does-an-api-gateway-differ-from-a-reverse-proxy">How does an API gateway differ from a reverse proxy?</h3>
+<p>A reverse proxy forwards client requests to backend servers and is the foundation of both load balancers and API gateways. An API gateway is a specialized reverse proxy that adds API-specific features: authentication, rate limiting, request transformation, API versioning, and developer-facing analytics. NGINX, for example, can function as a reverse proxy, load balancer, or (with extensions) an API gateway. Apache APISIX is purpose-built as an API gateway with load balancing built in.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="/learning-center/what-is-an-api-gateway/">What is an API gateway?</a></li>
+<li><a href="/comparisons/">Compare API gateways</a></li>
+<li><a href="/learning-center/api-gateway-for-microservices/">API gateway for microservices</a></li>
+</ul>  </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Protect APIs with OWASP Coraza WAF in APISIX | Apache APISIX</title><meta name="description" content="Deploy the Coraza WAF with OWASP Core Rule Set in APISIX to protect APIs against the OWASP Top 10 vulnerabilities including injection and XSS."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Protect APIs with OWASP Coraza WAF in APISIX | Apache APISIX"><meta property="og:description" content="Deploy the Coraza WAF with OWASP Core Rule Set in APISIX to protect APIs against the OWASP Top 10 vulnerabilities including injection and XSS."><meta property="og:url" content="https://apisix.apache.org/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/02/10/vVlFQu7C_img-HDlf4Xx9m1iqS0Ico3oBZ.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Protect APIs with OWASP Coraza WAF in APISIX","description":"Deploy the Coraza WAF with OWASP Core Rule Set in APISIX to protect APIs against the OWASP Top 10 vulnerabilities including injection and XSS.\n","datePublished":"2024-02-13","image":"https://static.apiseven.com/uploads/2024/02/10/vVlFQu7C_img-HDlf4Xx9m1iqS0Ico3oBZ.png","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Protect APIs with OWASP Coraza WAF in APISIX</h1> <p class="article-meta"> 2024-02-13 · Nicolas Fränkel  </p> <blockquote>
+<p>In this post, I’d like to describe how to fix some of them via the <a href="https://apisix.apache.org/">Apache APISIX API Gateway</a>.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="the-owasp-top-10-2021">The OWASP Top 10 2021</h2>
+<p>In 2021, the report mentions:</p>
+<ul>
+<li>A01<div></div> Access Control</li>
+<li>A02<div></div> Failures</li>
+<li>A03<div></div></li>
+<li>A04<div></div></li>
+<li>A05<div></div> Misconfiguration</li>
+<li>A06<div></div> and Outdated Components</li>
+<li>A07<div></div> and Authentication Failures</li>
+<li>A08<div></div> and Data Integrity Failures</li>
+<li>A09<div></div> Logging and Monitoring Failures</li>
+<li>A10<div></div> Request Forgery</li>
+</ul>
+<p>For more details, please check the complete <a href="https://owasp.org/www-project-top-ten/">report</a>.</p>
+<p>Fixing a vulnerability depends on its exact nature. For example, fixing <em>Vulnerable and Outdated Components</em> is process-driven, requiring discipline in managing versions and retiring older ones. Some, however, are technical and only require proper configuration in the reverse proxy or API Gateway, <em>e.g.</em>, <em>Server Side Request Forgery</em>.</p>
+<h2 id="nobody-cares-about-security">Nobody cares about security</h2>
+<p>Security is a touchy subject because hardening security doesn’t bring any value to the business. Career-driven managers won’t care about security as they won’t be able to showcase they increased the company’s profit by X% on their next yearly evaluation. Unless the board considers security seriously, chances are nobody will care. For this reason, most organizations implement checkbox-based security, aka plausible deniability. If you’re interested in implementing security properly, I’ve written some thoughts in a previous blog post: <a href="https://blog.frankel.ch/treat-security-as-risk/">Treat security as a risk</a>.</p>
+<p>All in all, securing applications will not get a lot of budget, if any. Hence, we must be smart about it and search for an existing component. Fortunately, the OWASP offers an out-of-the-box configuration to handle the Top 10, which is fixable via a configuration named <strong>Core Rule Set</strong>. Unfortunately, it targets ModSecurity:</p>
+<blockquote>
+<p>ModSecurity, sometimes called Modsec, is an open-source web application firewall (WAF). Originally designed as a module for the Apache HTTP Server, it has evolved to provide an array of Hypertext Transfer Protocol request and response filtering capabilities along with other security features across a number of different platforms including Apache HTTP Server, Microsoft IIS and Nginx. It is free software released under the Apache license 2.0.</p>
+<p>—<a href="https://en.wikipedia.org/wiki/ModSecurity">ModSecurity on Wikipedia</a></p>
+</blockquote>
+<p>While it’s theoretically possible to configure Nginx via Apache APISIX configuration, there’s another more straightforward way.</p>
+<h2 id="the-owasp-core-ruleset-and-coraza">The OWASP Core Ruleset and Coraza</h2>
+<p>The description of the Core Ruleset is pretty relevant to our needs:</p>
+<blockquote>
+<p>The OWASP® ModSecurity Core Rule Set (CRS) is a set of generic attack detection rules for use with ModSecurity or compatible web application firewalls. The CRS aims to protect web applications from a wide range of attacks, including the OWASP Top Ten, with a minimum of false alerts. The CRS provides protection against many common attack categories, including:</p>
+<ul>
+<li>SQL Injection (SQLi)</li>
+<li>Cross Site Scripting (XSS)</li>
+<li>Local File Inclusion (LFI)</li>
+<li>Remote File Inclusion (RFI)</li>
+<li>PHP Code Injection</li>
+<li>Java Code Injection</li>
+<li>HTTPoxy</li>
+<li>Shellshock</li>
+<li>Unix/Windows Shell Injection</li>
+<li>Session Fixation</li>
+<li>Scripting/Scanner/Bot Detection</li>
+<li>Metadata/Error Leakages</li>
+</ul>
+<p>—<a href="https://coreruleset.org/">OWASP® ModSecurity Core Rule Set website</a></p>
+</blockquote>
+<p>OWASP also provides <a href="https://coraza.io/">Coraza</a>, a port of ModSecurity available as a Go library. <a href="https://github.com/proxy-wasm/spec">Coraza Proxy Wasm</a> is built on top of Coraza and implements the <a href="https://github.com/proxy-wasm/spec">proxy-wasm ABI</a>, which specifies a set of Wasm interfaces for proxies. Finally, Apache APISIX offers proxy-wasm integration.</p>
+<h2 id="putting-it-all-together">Putting it all together</h2>
+<p>Let’s sum up:</p>
+<ol>
+<li>The OWASP provides a list of the Top 10 web security vulnerabilities</li>
+<li>It implements them for ModSecurity via the Core Ruleset</li>
+<li>Coraza is a port of ModSecurity, available as a proxy-wasm implementation</li>
+</ol>
+<p>We can configure Apache APISIX with sane and secure defaults this way. Let’s do it.</p>
+<p>First things first: Coraza isn’t part of the Apache APISIX distribution. Yet, it’s straightforward to add it here with Docker:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="docker"><code><span class="line"><span style="color:#FF7B72">FROM</span><span style="color:#E6EDF3"> apache/apisix:3.8.0-debian</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">ENV</span><span style="color:#E6EDF3"> VERSION 0.5.0                                                           #1</span></span>
+<span class="line"><span style="color:#FF7B72">ENV</span><span style="color:#E6EDF3"> CORAZA_FILENAME coraza-proxy-wasm-${VERSION}.zip                        #1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">ADD</span><span style="color:#E6EDF3"> https://github.com/corazawaf/coraza-proxy-wasm/releases/download/$VERSION/$CORAZA_FILENAME . #2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">USER</span><span style="color:#E6EDF3"> root                                                                   #3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> &#x3C;&#x3C;EOF</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">  apt-get install zip -y                                                    #4</span></span>
+<span class="line"><span style="color:#E6EDF3">  unzip $CORAZA_FILENAME -d /usr/local/apisix/proxywasm</span></span>
+<span class="line"><span style="color:#E6EDF3">  rm $CORAZA_FILENAME</span></span>
+<span class="line"><span style="color:#E6EDF3">  apt-get remove zip -y</span></span>
+<span class="line"><span style="color:#E6EDF3">  chown -R apisix:apisix /usr/local/apisix/proxywasm</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">USER</span><span style="color:#E6EDF3"> apisix                                                                 #5</span></span></code></pre>
+<ol>
+<li>Define variables for better maintainability</li>
+<li>Get the Coraza Wasm release</li>
+<li>In recent APISIX versions, the user is <code>apisix</code> to harden security. As we need to install packages, we must switch to <code>root</code>.</li>
+<li>Install <code>unzip</code> as it’s not installed, unzip the downloaded archive, remove the archive, uninstall <code>unzip</code>, and change the owner of the extracted folder</li>
+<li>Switch back to user <code>apisix</code></li>
+</ol>
+<p>The next step is configuring APISIX itself to use the Coraza Wasm plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">wasm</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">coraza-filter</span><span style="color:#8B949E">                                                   #1</span></span>
+<span class="line"><span style="color:#7EE787">      priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">7999</span><span style="color:#8B949E">                                                        #2</span></span>
+<span class="line"><span style="color:#7EE787">      file</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm</span><span style="color:#8B949E">              #3</span></span></code></pre>
+<ol>
+<li>Filter’s name set in Wasm code</li>
+<li>Set the highest priority so it runs before any other plugin</li>
+<li>Path to the extracted file, see the <code>Dockerfile</code> above</li>
+</ol>
+<p>Finally, we can assign the plugin to routes or set it as a global rule to apply to every route. I’m using static configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">global_rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      coraza-filter</span><span style="color:#E6EDF3">:                                                        </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#7EE787">        conf</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          directives_map</span><span style="color:#E6EDF3">:                                                   </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#7EE787">            default</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">              - </span><span style="color:#A5D6FF">SecDebugLogLevel 9</span><span style="color:#8B949E">                                          #3</span></span>
+<span class="line"><span style="color:#E6EDF3">              - </span><span style="color:#A5D6FF">SecRuleEngine On</span><span style="color:#8B949E">                                            #4</span></span>
+<span class="line"><span style="color:#E6EDF3">              - </span><span style="color:#A5D6FF">Include @crs-setup-conf</span><span style="color:#8B949E">                                     #5</span></span>
+<span class="line"><span style="color:#E6EDF3">              - </span><span style="color:#A5D6FF">Include @owasp_crs/*.conf</span><span style="color:#8B949E">                                   #6</span></span>
+<span class="line"><span style="color:#7EE787">          default_directives</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span><span style="color:#8B949E">                                       #7</span></span></code></pre>
+<ol>
+<li>Configure the <code>coraza-filter</code> plugin now that it’s available</li>
+<li>Define configurations. Here, we define a single one, <code>default</code>, but we could define several and use different ones in different routes</li>
+<li>Increase the log level to see what happens in logs</li>
+<li>Switch on the engine</li>
+<li>Use Coraza setup</li>
+<li>Use all rules. We could pick and choose the ones we want for more fine-grained control</li>
+<li>Use the <code>default</code> configuration defined above</li>
+</ol>
+<p>We proceed to define routes to <a href="https://httpbin.org/">https://httpbin.org/</a> to test our setup. Let’s call the route to <code>/get</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080?user=foobar</span></span></code></pre>
+<p>The response is as expected:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "user"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"foobar"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "Accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"localhost"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "User-Agent"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"curl/8.4.0"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Amzn-Trace-Id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Root=1-65b9fa13-75900dc029e156ec764ae204"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "X-Forwarded-Host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"localhost"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"192.168.65.1, 176.153.7.175"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://localhost/get?user=foobar"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Now, let’s try to send JavaScript in the query string. There’s no way this request is expected server-side, so our infrastructure should protect us from it.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> 'localhost:9080?user=&#x3C;script>alert(1)&#x3C;/script>'</span></span></code></pre>
+<p>The response is a 403 HTTP status code.
+If we look at the log, we can see the following hints:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Coraza: Warning. XSS Attack Detected via libinjection [file "@owasp_crs/REQUEST-941-APPLICATION-ATTACK-XSS.conf"]</span></span>
+<span class="line"><span>Coraza: Warning. NoScript XSS InjectionChecker: HTML Injection</span></span>
+<span class="line"><span>Coraza: Warning. Javascript method detected</span></span>
+<span class="line"><span>Coraza: Access denied (phase 1). Inbound Anomaly Score Exceeded in phase 1</span></span></code></pre>
+<p>Coraza did the job!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Most organizations don’t incentivize for security. Hence, we need to be smart about it and use existing components as much as possible.</p>
+<p>We can harden Apache APISIX against the OWASP Top 10 by using Coraza and the Core Ruleset.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://owasp.org/www-project-top-ten/">OWASP Security Top 10</a></li>
+<li><a href="https://coreruleset.org/">OWASP ModSecurity Core Ruleset</a></li>
+<li><a href="https://coraza.io/">OWASP Coraza WAF</a></li>
+<li><a href="https://docs.api7.ai/apisix/how-to-guide/security/waf/integrate-with-coraza">APISIX - Integrate with Coraza</a></li>
+</ul>
+<p>The complete source code for this post can be found on <a href="https://github.com//ajavageek/apisix-coraza">GitHub</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

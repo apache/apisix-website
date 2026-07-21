@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX + open-appsec: ML-Based WAF Protection | Apache APISIX</title><meta name="description" content="Protect APIs exposed by APISIX against known and zero-day attacks using open-appsec, a machine learning-based web application firewall."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/10/22/apisix-integrates-with-open-appsec/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/10/22/apisix-integrates-with-open-appsec/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/10/22/apisix-integrates-with-open-appsec/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/10/22/apisix-integrates-with-open-appsec/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX + open-appsec: ML-Based WAF Protection | Apache APISIX"><meta property="og:description" content="Protect APIs exposed by APISIX against known and zero-day attacks using open-appsec, a machine learning-based web application firewall."><meta property="og:url" content="https://apisix.apache.org/blog/2024/10/22/apisix-integrates-with-open-appsec/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/10/18/8d1iVJWL_logo%20x%20open-appsec.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX + open-appsec: ML-Based WAF Protection","description":"Protect APIs exposed by APISIX against known and zero-day attacks using open-appsec, a machine learning-based web application firewall.","datePublished":"2024-10-22","image":"https://static.apiseven.com/uploads/2024/10/18/8d1iVJWL_logo%20x%20open-appsec.png","author":{"@type":"Person","name":"Christopher Lutat"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/10/22/apisix-integrates-with-open-appsec/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/10/22/apisix-integrates-with-open-appsec/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/10/22/apisix-integrates-with-open-appsec/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX + open-appsec: ML-Based WAF Protection</h1> <p class="article-meta"> 2024-10-22 · Christopher Lutat  </p> <blockquote>
+<p>We are excited to announce a new integration between Apache APISIX and open-appsec WAF, combining the power of a dynamic API gateway with cutting-edge application security.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="introduction">Introduction</h2>
+<p>open-appsec WAF is excited to announce a new integration with the open-source API gateway Apache APISIX.</p>
+<p>This new collaboration between the open-appsec and API7 teams now allows users to protect their web APIs and other web services exposed by Apache APISIX against unknown and known attack types effectively based on open-appsec’s advanced machine-learning-based technology and also adds several more enhanced security capabilities.</p>
+<h3 id="about-apache-apisix">About Apache APISIX</h3>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> is a modern, flexible, and high-performance open-source API gateway solution designed to handle various use cases in microservices and cloud-native architectures. Its primary purpose is to facilitate API management by serving as a gateway for managing, securing, and optimizing API traffic between clients and backend services.</p>
+<p>Further use cases for APISIX as an API gateway include load balancing, rate limiting, authentication, and authorization. It provides comprehensive features such as traffic control, dynamic upstream, and plugin extensibility, enabling developers to customize and extend functionality according to their specific needs.</p>
+<ul>
+<li>
+<p>Website: <a href="https://apisix.apache.org">apisix.apache.org</a></p>
+</li>
+<li>
+<p>Github: <a href="https://github.com/apache/apisix">github.com/apache/apisix</a></p>
+</li>
+<li>
+<p>Docs: <a href="https://apisix.apache.org/docs">apisix.apache.org/docs</a></p>
+</li>
+</ul>
+<h3 id="about-open-appsec-waf">About open-appsec WAF</h3>
+<p><a href="https://www.openappsec.io">open-appsec WAF</a> provides automatic, preemptive threat prevention and integrates with various types of reverse proxies like NGINX as well as API gateways like APISIX. It is machine-learning-based, meaning it doesn’t require signatures (or updates) at all. This enables it to provide automatic, state-of-the-art threat prevention even for true zero-day attacks while significantly reducing both administrative effort and the amount of false positives.</p>
+<p>In addition, open-appsec provides many additional security layers such as AntiBot, rate limiting, schema enforcement, snort signature support, custom rules/exceptions, and more. open-appsec can be managed centrally using a Web UI provided as a SaaS service and also locally using a declarative configuration file.</p>
+<ul>
+<li>
+<p>Website: <a href="https://www.openappsec.io">www.openappsec.io</a></p>
+</li>
+<li>
+<p>Github: <a href="https://github.com/openappsec">github.com/openappsec</a></p>
+</li>
+<li>
+<p>Docs: <a href="https://docs.openappsec.io">docs.openappsec.io</a></p>
+</li>
+<li>
+<p>Playgrounds: <a href="https://www.openappsec.io/playground">www.openappsec.io/playground</a></p>
+</li>
+</ul>
+<h2 id="integrating-apache-apisix-with-open-appsec">Integrating Apache APISIX with open-appsec</h2>
+<p>With this new integration, APISIX users will now have access to open-appsec WAF as an integrated, state-of-the-art machine-learning-based WAF solution for the protection of their web APIs and web applications.</p>
+<p>They can now use e.g. open-appsec’s free and open-source “Community Edition” to get effective, AI-based protection against known but also unknown attacks for everything exposed by their APISIX API gateway, while at the same time reducing the amount of false positives significantly unburdening the administrator from tedious tasks such as creating exceptions, updating traditional signature-based policies and more.</p>
+<p>This integration will be available for all common platforms: Linux, Docker, and Kubernetes.</p>
+<h3 id="linux">Linux</h3>
+<p><strong>For Linux “embedded” deployments</strong> of APISIX, an open-appsec installer will add an “open-appsec attachment” module to the existing APISIX installation and also install the “open-appsec agent” alongside it, which will receive the traffic from the attachment, inspect it, and return the concluded action to block or allow the traffic back to the APISIX respectively the open-appsec attachment integrated with it.</p>
+<p>Here’s a simple architecture schematic for Linux deployment.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/10/18/6QZvRy6P_linux-deployment.png" alt="Architecture for Linus Deployment"></p>
+<h3 id="docker">Docker</h3>
+<p><strong>For Docker-based deployments</strong> of APISIX with open-appsec WAF, there is a special APISIX container image available, to which the open-appsec attachment was already added and also an enhanced docker-compose file, which deploys both, the APISIX gateway container as well as an open-appsec Agent that does the security inspection and returns the concluded decisions to the APISIX gateway to allow or block traffic.</p>
+<p>Here’s a simple architecture schematic for deployment on Docker.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/10/18/bxKsXOqW_docker-deployment.png" alt="Architecture for Docker-Based Deployment"></p>
+<h3 id="kubernetes">Kubernetes</h3>
+<p><strong>For Kubernetes based-deployments</strong> of APISIX integrated with open-appsec, there’s a Helm chart available, which is based on the official APISIX Helm chart and further enhanced to also include the open-appsec attachment in the APISIX gateway container and also deploys the open-appsec agent. Further, you will have the option to configure open-appsec in a declarative “DevOps-style” way using custom resources in K8s as an alternative to using the open-appsec central management Web UI.</p>
+<p>Here’s a simple architecture schematic for deployment on Kubernetes.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/10/18/SEZQ6E14_k8s-deployment.png" alt="Architecture for Kubernetes Deployment"></p>
+<h2 id="adding-open-appsec-waf-to-apisix-on-linux">Adding open-appsec WAF to APISIX on Linux</h2>
+<p>To install open-appsec on a Linux system with APISIX installed, please follow these steps:</p>
+<h3 id="1-prerequisites">1. Prerequisites</h3>
+<ul>
+<li>The Linux platform must be Ubuntu 22.04.</li>
+<li>Make sure to have APISIX installed.</li>
+</ul>
+<p>You can find the list of supported APISIX versions here: <a href="https://downloads.openappsec.io/packages/supported-apisix.txt">https://downloads.openappsec.io/packages/supported-apisix.txt</a>.</p>
+<p>If you don’t have APISIX installed yet, you can use the following commands to perform an APISIX installation in “traditional mode”. By running these commands you will first install the etcd database for APISIX, then add the required repos before installing and starting APISIX.</p>
+<p><strong>Install etcd Database</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">ETCD_VERSION='</span><span style="color:#79C0FF">3.5</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">4</span><span style="color:#E6EDF3">'</span></span>
+<span class="line"><span style="color:#E6EDF3">wget https:</span><span style="color:#8B949E">//github.com/etcd-io/etcd/releases/download/v${ETCD_VERSION}/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz</span></span>
+<span class="line"><span style="color:#E6EDF3">tar -xvf etcd-v${</span><span style="color:#FFA198;font-style:italic">ETCD_VERSION</span><span style="color:#E6EDF3">}-linux-amd</span><span style="color:#79C0FF">64</span><span style="color:#E6EDF3">.tar.gz &#x26;&#x26; cd etcd-v${</span><span style="color:#FFA198;font-style:italic">ETCD_VERSION</span><span style="color:#E6EDF3">}-linux-amd</span><span style="color:#79C0FF">64</span></span>
+<span class="line"><span style="color:#E6EDF3">cp -a etcd etcdctl /usr/bin/</span></span>
+<span class="line"><span style="color:#E6EDF3">nohup etcd >/tmp/etcd.log </span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">>&#x26;</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3"> &#x26;</span></span>
+<span class="line"><span style="color:#E6EDF3">etcd</span></span></code></pre>
+<p><strong>Add and Update Package Repositories</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">apt install gnupg</span></span>
+<span class="line"><span style="color:#E6EDF3">echo </span><span style="color:#A5D6FF">"deb http://openresty.org/package/debian bullseye openresty"</span><span style="color:#E6EDF3"> | tee /etc/apt/sources.list.d/openresty.list</span></span>
+<span class="line"><span style="color:#E6EDF3">wget -O - https:</span><span style="color:#8B949E">//openresty.org/package/pubkey.gpg | apt-key add -</span></span>
+<span class="line"><span style="color:#E6EDF3">wget -O - http:</span><span style="color:#8B949E">//repos.apiseven.com/pubkey.gpg | apt-key add -</span></span>
+<span class="line"><span style="color:#E6EDF3">echo </span><span style="color:#A5D6FF">"deb http://repos.apiseven.com/packages/debian bullseye main"</span><span style="color:#E6EDF3"> | tee /etc/apt/sources.list.d/apisix.list</span></span>
+<span class="line"><span style="color:#E6EDF3">apt update</span></span></code></pre>
+<p><strong>Install, Initiate, and Start APISIX</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">apt install apisix=</span><span style="color:#79C0FF">3.9</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">1-0</span></span>
+<span class="line"><span style="color:#E6EDF3">apisix init</span></span>
+<span class="line"><span style="color:#E6EDF3">apisix start</span></span></code></pre>
+<h3 id="2-download-the-open-appsec-installer">2. Download the open-appsec Installer</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">wget https:</span><span style="color:#8B949E">//downloads.openappsec.io/open-appsec-install &#x26;&#x26; chmod +x open-appsec-install</span></span></code></pre>
+<h3 id="3-install-open-appsec">3. Install open-appsec</h3>
+<p>Install open-appsec to integrate with the existing APISIX installation.</p>
+<blockquote>
+<p>Note that the <code>--prevent</code> flag will install open-appsec with a default policy already set to prevent mode.</p>
+</blockquote>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">./open-appsec-install</span><span style="color:#79C0FF"> --auto</span><span style="color:#79C0FF"> --prevent</span></span></code></pre>
+<h3 id="4-get-and-store-apisix-admin-key">4. Get and Store APISIX Admin Key</h3>
+<p>Get the APISIX admin key from the APISIX <code>config.yaml</code> configuration file and store it in the <code>APISIX_KEY</code> env variable.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> APISIX_KEY</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">awk</span><span style="color:#A5D6FF"> '/key:/{ if ($2 ~ /^edd1/) print $2 }'</span><span style="color:#A5D6FF"> /usr/local/apisix/conf/config.yaml</span><span style="color:#E6EDF3"> )</span></span></code></pre>
+<h3 id="5-configure-route-to-expose-services">5. Configure Route to Expose Services</h3>
+<p>Configure an example route in the APISIX gateway to expose an external web service or web API. In this example, we use <code>httpbin.org</code> as the example backend.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl http:</span><span style="color:#8B949E">//127.0.0.1:9180/apisix/admin/routes/100 -H "X-API-KEY:$APISIX_KEY" -X PUT -d '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">      "GET"</span></span>
+<span class="line"><span style="color:#E6EDF3">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/anything"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "httpbin.org:80"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }'</span></span></code></pre>
+<h3 id="6-validate">6. Validate</h3>
+<p>Let’s see if this route works by accessing it.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl -s -v -G --data-urlencode email=user@domain.abc http:</span><span style="color:#8B949E">//localhost:9080/anything</span></span></code></pre>
+<h3 id="7-simulate-an-sql-injection-attack">7. Simulate an SQL Injection Attack</h3>
+<p>Now let’s try to simulate an SQL injection attack (see <code>'OR '1'='1'</code> in the below HTTP request) against the <code>httpbin.org</code> service exposed by the APISIX gateway which is now protected by the open-appsec WAF.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl -s -v -G --data-urlencode email=user@domain.abc' OR '</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">'='</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3"> http:</span><span style="color:#8B949E">//localhost:9080/anything</span></span></code></pre>
+<p>This simulated attack now gets blocked successfully by open-appsec’s contextual machine-learning WAF engine.</p>
+<h3 id="8-review-log-files">8. Review Log Files</h3>
+<p>Check out the corresponding log files showing the “prevent” for the HTTP request with the simulated attack that we just sent.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">tail</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> /var/log/nano_agent/cp-nano-http-transaction-handler.log</span><span style="color:#79C0FF">*</span><span style="color:#FF7B72">|</span><span style="color:#FFA657"> grep</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> user@domain.abc</span></span></code></pre>
+<p>Alternatively you can use the <code>open-appsec-ctl</code> tool:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">open-appsec-ctl</span><span style="color:#79C0FF"> --view-logs</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> user@domain.abc</span></span></code></pre>
+<h3 id="9-connect-to-open-appsec-for-central-management-optional">9. Connect to open-appsec for Central Management (Optional)</h3>
+<p>Optionally you can connect your deployment now to <a href="https://my.openappsec.io">https://my.openappsec.io</a> for centrally managing open-appsec with an easy-to-use Web UI, monitoring security events and more, see section <strong>How to Manage Your open-appsec WAF Deployment Centrally?</strong> further below for more information.</p>
+<p><strong>Congratulations!</strong> You successfully added open-appsec WAF to your existing APISIX installation and verified that your web services exposed by the APISIX gateway are now protected against web attacks.</p>
+<h2 id="deploying-apisix-with-open-appsec-waf-on-containerized-platforms-docker">Deploying APISIX with open-appsec WAF on Containerized Platforms (Docker)</h2>
+<p>To install APISIX integrated with open-appsec on Docker, you can follow the steps shown below.</p>
+<p>Opposite to the above example here we are deploying APISIX in “standalone mode”, which means it’s declaratively configured using a docker volume mount with a yaml file that holds the configurations and therefore won’t require an etcd database deployment.</p>
+<blockquote>
+<p>Note that APISIX supports both, traditional as well as standalone modes in all deployment types (Linux, Docker, …)</p>
+</blockquote>
+<h3 id="1-prerequisite">1. Prerequisite</h3>
+<p>Make sure to have a Linux platform with both Docker and docker-compose tools installed.</p>
+<h3 id="2-create-a-folder-for-open-appsec">2. Create a Folder for open-appsec</h3>
+<p>Within the directory that you want to use for the deployment, create a folder <code>appsec-localconfig</code> which will hold the appsec declarative configuration file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">mkdir ./appsec-localconfig</span></span></code></pre>
+<h3 id="3-download-the-open-appsec-file-into-the-folder">3. Download the open-appsec File into the Folder</h3>
+<p>Download the initial declarative configuration file for open-appsec into that folder.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">wget https:</span><span style="color:#8B949E">//raw.githubusercontent.com/openappsec/openappsec/main/config/linux/latest/prevent/local_policy.yaml -O appsec-localconfig/local_policy.yaml</span></span></code></pre>
+<blockquote>
+<p>Note that this example declarative configuration file is already set to prevent attacks.</p>
+</blockquote>
+<h3 id="4-create-a-folder-for-apisix">4. Create a Folder for APISIX</h3>
+<p>Create another folder <code>apisix-localconfig</code> which will hold the declarative configuration file for APISIX: <code>mkdir ./apisix-localconfig</code>.</p>
+<h3 id="5-download-apisix-file-into-the-folder">5. Download APISIX File into the Folder</h3>
+<p>Let’s download a simple declarative configuration file also for APISIX so we can verify open-appsec protection after the deployment.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">wget https:</span><span style="color:#8B949E">//raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/apisix-example-config/apisix-standalone.yaml -O ./apisix-localconfig/apisix-standalone.yaml</span></span></code></pre>
+<h3 id="6-create-a-docer-composeyaml-file">6. Create a <code>docer-compose.yaml</code> File</h3>
+<p>Create a <code>docker-compose.yaml</code> file with the content below, which can be downloaded as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">wget https:</span><span style="color:#8B949E">//raw.githubusercontent.com/openappsec/openappsec/main/deployment/apisix/docker-compose.yaml</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">version: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">services:</span></span>
+<span class="line"><span style="color:#E6EDF3">  apisix:</span></span>
+<span class="line"><span style="color:#E6EDF3">    container_name: apisix</span></span>
+<span class="line"><span style="color:#E6EDF3">    image: </span><span style="color:#A5D6FF">"ghcr.io/openappsec/apisix-attachment:latest"</span></span>
+<span class="line"><span style="color:#E6EDF3">    ipc: service:appsec-agent</span></span>
+<span class="line"><span style="color:#E6EDF3">    restart: always</span></span>
+<span class="line"><span style="color:#E6EDF3">    volumes:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - ./apisix-localconfig/apisix-standalone.yaml:/usr/local/apisix/conf/apisix.yaml:ro</span></span>
+<span class="line"><span style="color:#E6EDF3">    environment:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - APISIX_STAND_ALONE=</span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">    ports:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9180:9180/tcp"</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080/tcp"</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9091:9091/tcp"</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9443:9443/tcp"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">  appsec-agent:</span></span>
+<span class="line"><span style="color:#E6EDF3">    container_name: appsec-agent</span></span>
+<span class="line"><span style="color:#E6EDF3">    image: 'ghcr.io/openappsec/agent:latest'</span></span>
+<span class="line"><span style="color:#E6EDF3">    ipc: shareable</span></span>
+<span class="line"><span style="color:#E6EDF3">    restart: unless-stopped</span></span>
+<span class="line"><span style="color:#E6EDF3">    environment:</span></span>
+<span class="line"><span style="color:#E6EDF3">      # adjust with your own email below</span></span>
+<span class="line"><span style="color:#E6EDF3">      - user_email=user@email.com</span></span>
+<span class="line"><span style="color:#E6EDF3">      - registered_server=</span><span style="color:#A5D6FF">"APISIX Server"</span></span>
+<span class="line"><span style="color:#E6EDF3">    volumes:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - ./appsec-config:/etc/cp/conf</span></span>
+<span class="line"><span style="color:#E6EDF3">      - ./appsec-data:/etc/cp/data</span></span>
+<span class="line"><span style="color:#E6EDF3">      - ./appsec-logs:/var/log/nano_agent</span></span>
+<span class="line"><span style="color:#E6EDF3">      - ./appsec-localconfig:/ext/appsec</span></span>
+<span class="line"><span style="color:#E6EDF3">    command: /cp-nano-agent</span></span></code></pre>
+<h3 id="7-update-your-email-address-optional">7. Update Your Email Address (Optional)</h3>
+<p>Edit the <code>docker-compose.yaml</code> file and replace “<a href="mailto:user@email.com">user@email.com</a>” with your own email address, so we can provide assistance in case of any issues with the specific deployment in the future and provide information proactively regarding open-appsec.</p>
+<p>This is an optional parameter and can be removed. If we send automatic emails, there will also be an opt-out option included for receiving similar communication in the future.</p>
+<h3 id="8-start-all-containers">8. Start All Containers</h3>
+<p>Run docker-compose up to start the deployment of all relevant containers:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker-compose</span><span style="color:#A5D6FF"> up</span><span style="color:#79C0FF"> -d</span></span></code></pre>
+<h3 id="9-check-container-status">9. Check Container Status</h3>
+<p>Check if the <code>apisix-attachment</code> and the <code>appsec-agent</code> containers are up and running.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> ps</span></span></code></pre>
+<h3 id="10-validate-the-standalone-configuration">10. Validate the Standalone Configuration</h3>
+<p>Let’s see if the standalone configuration works by accessing it.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl -s -v -G --data-urlencode email=user@domain.abc http:</span><span style="color:#8B949E">//localhost:9080/anything</span></span></code></pre>
+<h3 id="11-simulate-an-sql-injection-attack">11. Simulate an SQL Injection Attack</h3>
+<p>Now let’s try to simulate an SQL injection attack against the httpin.org service exposed by the APISIX gateway container which is now protected by open-appsec.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl -s -v -G --data-urlencode email=user@domain.abc' OR '</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">'='</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3"> http:</span><span style="color:#8B949E">//localhost:9080/anything</span></span></code></pre>
+<h3 id="12-connect-to-open-appsec-for-central-management-optional">12. Connect to open-appsec for Central Management (Optional)</h3>
+<p>Optionally you can connect your deployment now to <code>https://my.openappsec.io</code> for centrally managing open-appsec with an easy-to-use Web UI, monitoring security events, and more, see section <strong>How to Manage Your open-appsec WAF Deployment Centrally?</strong> further below for more information.</p>
+<h2 id="deploying-apisix-with-open-appsec-waf-on-kubernetes-using-helm">Deploying APISIX with open-appsec WAF on Kubernetes Using Helm</h2>
+<h3 id="1-prerequisite-1">1. Prerequisite</h3>
+<p>Make sure the Kubernetes platform and Helm tool are available.</p>
+<h3 id="2-download-open-appsec">2. Download open-appsec</h3>
+<p>Download the open-appsec for the APISIX Helm chart here.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">wget https:</span><span style="color:#8B949E">//downloads.openappsec.io/packages/helm-charts/apisix/open-appsec-k8s-apisix-latest.tgz</span></span></code></pre>
+<h3 id="3-install-helm-chart">3. Install Helm Chart</h3>
+<p>This example <code>helm install</code> command is installing the open-appsec for the APISIX Helm chart which is based on an extended version of the official APISIX Helm chart.</p>
+<p>It will deploy the APISIX gateway as the APISIX Ingress Controller, as well as open-appsec WAF integrated with it. It also offers an additional configuration option specifically for open-appsec WAF (see <code>values.yaml</code> inside the Helm chart and open-appsec <a href="https://docs.openappsec.io/">docs</a>).</p>
+<p>After deployment, you can assign your K8s ingress resources to the APISIX gateway by configuring them to use the following ingress class: <code>appsec-apisix</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> open-appsec-k8s-apisix-latest.tgz</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--name-template=appsec-apisix </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">rbac.create=</span><span style="color:#79C0FF">true</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">appsec.mode=standalone</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">service.type=LoadBalancer</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">appsec.persistence.enabled=</span><span style="color:#79C0FF">false</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">ingress-controller.enabled=</span><span style="color:#79C0FF">true</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">ingress-controller.config.ingressClass=appsec-apisix</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">appsec.userEmail=”</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#A5D6FF">your-email-addres</span><span style="color:#E6EDF3">s</span><span style="color:#FF7B72">></span><span style="color:#A5D6FF">”</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--set </span><span style="color:#A5D6FF">appsec.agentToken=</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--create-namespace </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#E6EDF3">-n </span><span style="color:#A5D6FF">appsec-apisix</span></span></code></pre>
+<blockquote>
+<p>Replace <code>&#x3C;your-email-address></code> in the Helm install command above with your own email address, so we can send you news and updates related to open-appsec and better support you with your deployment if needed! You can unsubscribe at any time or alternatively, just remove that line if you prefer not to provide your email.</p>
+</blockquote>
+<h3 id="4-validate">4. Validate</h3>
+<p>Validate that pods were properly deployed and are in a ready state:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> appsec-apisix</span></span></code></pre>
+<h3 id="5-create-an-open-appsec-policy-resource">5. Create an open-appsec Policy Resource</h3>
+<p>Run the following command to create the “open-appsec-best-practice-policy” in K8s.</p>
+<blockquote>
+<p>Note that this example policy is already pre-configured to prevent attacks.</p>
+</blockquote>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">kubectl apply -f https:</span><span style="color:#8B949E">//raw.githubusercontent.com/openappsec/openappsec/main/config/k8s/v1beta1/open-appsec-k8s-prevent-config-v1beta1.yaml</span></span></code></pre>
+<p>You can also create your own custom policy, <a href="https://docs.openappsec.io/getting-started/start-with-kubernetes/configuration-using-crds">here</a> you find all the details.</p>
+<h3 id="6-fetch-the-target-resource-name">6. Fetch the Target Resource Name</h3>
+<p>Find out the name of the relevant ingress resource which you want to protect:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> ing</span><span style="color:#79C0FF"> -A</span></span></code></pre>
+<h3 id="7-edit-the-ingress-resource">7. Edit the Ingress Resource</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> edit</span><span style="color:#A5D6FF"> ing/</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#A5D6FF">ingress</span><span style="color:#A5D6FF"> nam</span><span style="color:#E6EDF3">e</span><span style="color:#FF7B72">></span><span style="color:#79C0FF"> -n</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF">ingress</span><span style="color:#A5D6FF"> namespac</span><span style="color:#E6EDF3">e</span><span style="color:#FF7B72">></span></span></code></pre>
+<h3 id="8-change-the-ingressclassname">8. Change the ingressClassname</h3>
+<p>Change the ingressClassname to use open-appsec:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">spec:</span><span style="color:#A5D6FF"> ingressClassName:</span><span style="color:#A5D6FF"> appsec-apisix</span></span></code></pre>
+<h3 id="9-add-annotation-to-the-ingress-resource">9. Add Annotation to the Ingress Resource</h3>
+<p>Add this annotation to the ingress resource to activate open-appsec for this ingress by specifying the desired open-appsec policy custom resource.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">openappsec.io/policy:</span><span style="color:#A5D6FF"> open-appsec-best-practice-policy</span></span></code></pre>
+<h3 id="10-validate-the-standalone-configuration-1">10. Validate the Standalone Configuration</h3>
+<p>Let’s see if the standalone configuration works by accessing it:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl -s -v -G --data-urlencode email=user@domain.abc http:</span><span style="color:#8B949E">//[YOUR-INGRESS-HOSTNAME]</span></span></code></pre>
+<h3 id="11-simulate-an-sql-injection-attack-1">11. Simulate an SQL Injection Attack</h3>
+<p>Now let’s try to simulate an SQL injection attack against the <code>httpin.org</code> service exposed by the APISIX gateway container which is now protected by open-appsec.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">curl -s -v -G --data-urlencode email=user@domain.abc' OR '</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">'='</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3"> http:</span><span style="color:#8B949E">//[YOUR-INGRESS-HOSTNAME]</span></span></code></pre>
+<p>Replace [YOUR-INGRESS-HOSTNAME] in the command above with the hostname you set in the ingress resource which you protected with open-appsec WAF in the earlier steps, also change “http” to “https” if required.</p>
+<p><strong>Congratulations!</strong> You successfully deployed APISIX integrated with open-appsec WAF and verified that your web services exposed by the APISIX Gateway are now protected against attacks.</p>
+<h2 id="how-to-manage-your-open-appsec-waf-deployment-centrally">How to Manage Your open-appsec WAF Deployment Centrally?</h2>
+<p>If you like you can also manage your open-appsec WAF deployment (integrated with APISIX) centrally using the open-appsec Web UI (SaaS Service) available at <a href="https://my.openappsec.io">https://my.openappsec.io</a>, by connecting the open-appsec agent to a deployment profile in the central Web UI.</p>
+<p>You can alternatively continue to manage your deployment locally but still connect to a central WebUI profile in “Declarative mode” so that you will be able to see the local configuration (read-only) in the Web UI.</p>
+<p>Alongside the configuration of open-appsec the Web UI allows you to also see much more information like the status of deployed open-appsec agents, security logs, dashboards and more.</p>
+<p>For instructions on how to connect your deployment to the central Web UI see the open-appsec docs available at <a href="https://docs.openappsec.io">https://docs.openappsec.io</a>.</p>
+<p>Below you find some screenshots of the Web UI.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/10/11/MzsUwqh3_open-appsec-4.jpeg" alt="Open-websec UI 1"></p>
+<p><img src="https://static.apiseven.com/uploads/2024/10/11/YFofdEzT_open-appsec-5.jpeg" alt="Open-websec UI 2"></p>
+<h2 id="summary">Summary</h2>
+<p>In this blog we explained how open-appsec can integrate with Apache APISIX on all of the following: regular Linux-based deployments, containerized deployments (Docker), and also Kubernetes environments.</p>
+<p>Following the deployment steps for APISIX with open-appsec WAF, we simulated SQL injection attacks, which were effectively prevented by open-appsec’s machine learning-based WAF technology.</p>
+<p>Additionally, it was explained, what the benefits are of connecting to open-appsec central WebUI for managing, monitoring, log analysis, and reporting.</p>
+<p>We hope these new integrations will prove very useful to enhance the security of your APISIX API gateway and its exposed web APIs and web applications with open-appsec machine learning-based WAF.</p>
+<p>Welcome you to contact us if you have any feedback, or questions or might face some technical challenge that you want us to assist with. You can reach the open-appsec team via the chat on <a href="https://www.openappsec.io">https://www.openappsec.io</a> or via email to: <a href="info@openappsec.io">info@openappsec.io</a>.</p>
+<h2 id="additional-resources">Additional Resources</h2>
+<h3 id="open-appsec-waf">open-appsec WAF</h3>
+<p>Website: <a href="https://www.openappsec.io">https://www.openappsec.io</a></p>
+<p>GitHub: <a href="https://github.com/openappsec">https://github.com/openappsec</a></p>
+<p>Docs: <a href="https://docs.openappsec.io">https://docs.openappsec.io</a></p>
+<p>Playgrounds: <a href="https://www.openappsec.io/playground">https://www.openappsec.io/playground</a></p>
+<p>Blogs: <a href="https://www.openappsec.io/blogs">https://www.openappsec.io/blogs</a></p>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p>Website: <a href="https://apisix.apache.org">https://apisix.apache.org</a></p>
+<p>GitHub: <a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></p>
+<p>Docs: <a href="https://apisix.apache.org/docs/">https://apisix.apache.org/docs/</a></p>
+<p>Blogs: <a href="https://apisix.apache.org/blog/">https://apisix.apache.org/blog/</a></p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

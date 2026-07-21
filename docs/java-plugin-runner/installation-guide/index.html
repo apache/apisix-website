@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Installation | Apache APISIX</title><meta name="description" content="This document explains how to installation and use apisix-java-plugin-runner."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/java-plugin-runner/installation-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/java-plugin-runner/installation-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/java-plugin-runner/installation-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/java-plugin-runner/installation-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Installation | Apache APISIX"><meta property="og:description" content="This document explains how to installation and use apisix-java-plugin-runner."><meta property="og:url" content="https://apisix.apache.org/docs/java-plugin-runner/installation-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Installation","description":"This document explains how to installation and use apisix-java-plugin-runner.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/java-plugin-runner/installation-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/java-plugin-runner/installation-guide/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/java-plugin-runner/installation-guide/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/java-plugin-runner/development/" class>Development</a>  </li><li class> <a href="/docs/java-plugin-runner/how-it-works/" class>How it works</a>  </li><li class> <a href="/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/" class>The internal of apisix java plugin runner</a>  </li><li class> <a href="/docs/java-plugin-runner/installation-guide/" class="active">Installation</a>  </li><li class> <a href="/docs/java-plugin-runner/deployment-guide/" class>Deployment Guide</a>  </li><li class> <a href="/docs/java-plugin-runner/hot-reloading/" class>Hot-Reload</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Installation</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="overview">Overview</h2>
+<p>This document explains how to install apisix-java-plugin-runner.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>JDK 21</li>
+<li>APISIX master branch</li>
+<li>Refer to <a href="/docs/java-plugin-runner/how-it-works/#debug">Debug</a>  to build the debug environment.</li>
+</ul>
+<h2 id="install">Install</h2>
+<ol>
+<li>
+<p>Create a simple web application with Spring Boot, and choose Maven as the build tool.</p>
+</li>
+<li>
+<p>Add the apisix-java-plugin-runner dependency in your POM, like:</p>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>org.apache.apisix&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">> </span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>apisix-runner-starter&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>0.6.0&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span></code></pre>
+<ol start="3">
+<li>Configuring the scan package path</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">```java</span></span>
+<span class="line"><span style="color:#E6EDF3">@SpringBootApplication(scanBasePackages = {"your-filter's-package-name","org.apache.apisix.plugin.runner"})</span></span></code></pre>
+<ol start="4">
+<li>Excluding the default logging framework</li>
+</ol>
+<p>To prevent multiple slf4j bindings, exclude the <code>logback-classic</code> and <code>log4j-to-slf4j</code> in <code>pom.xml</code>, like:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>org.springframework.boot&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>spring-boot-starter&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">exclusions</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">           &#x3C;</span><span style="color:#7EE787">exclusion</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">                &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>ch.qos.logback&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">                &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>logback-classic&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">           &#x3C;/</span><span style="color:#7EE787">exclusion</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">           &#x3C;</span><span style="color:#7EE787">exclusion</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">                &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>org.apache.logging.log4j&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">                &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>log4j-to-slf4j&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">           &#x3C;/</span><span style="color:#7EE787">exclusion</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">exclusions</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span></code></pre>
+<ol start="5">
+<li>Configuring the address for Unix Domain Socket communication with APISIX</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="properties"><code><span class="line"><span style="color:#FF7B72">socket.file</span><span style="color:#E6EDF3"> = /tmp/runner.sock</span></span></code></pre>
+<ol start="6">
+<li>Implementing the <code>PluginFilter</code> interface</li>
+</ol>
+<p>When you write your custom plugins, you need to implement the <code>PluginFilter</code> interface and
+inject filters into Spring Boot’s object lifecycle management using <code>@Component</code>.</p>
+<p>code example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Component</span></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> RewriteRequestDemoFilter</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> PluginFilter</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">  ......</span></span>
+<span class="line"><span style="color:#E6EDF3">  implementing functions</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>You can refer to <a href="/docs/java-plugin-runner/development/">Development</a> to learn how to write custom plugins.</p>
+<h2 id="demo">Demo</h2>
+<p>A Demo Project that work with apisix-java-plugin-runner and custom filters
+can be found at: <a href="https://github.com/tzssangglass/java-plugin-runner-demo-1">java-plugin-runner-demo</a>.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix-java-plugin-runner/edit/master/docs/en/latest/installation-guide.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

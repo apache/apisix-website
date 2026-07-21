@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区双周报（8.16-8.22） | Apache APISIX</title><meta name="description" content="本周 Apache APISIX 新增了 gzip 插件支持特殊的 * 来匹配任何类型，ext-plugin 插件支持 ExtraInfo，uri-blocker 插件支持自定义失败响应等功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/08/23/weekly-report/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/23/weekly-report/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/23/weekly-report/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/23/weekly-report/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="社区双周报（8.16-8.22） | Apache APISIX"><meta property="og:description" content="本周 Apache APISIX 新增了 gzip 插件支持特殊的 * 来匹配任何类型，ext-plugin 插件支持 ExtraInfo，uri-blocker 插件支持自定义失败响应等功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/08/23/weekly-report/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区双周报（8.16-8.22）","description":"本周 Apache APISIX 新增了 gzip 插件支持特殊的 * 来匹配任何类型，ext-plugin 插件支持 ExtraInfo，uri-blocker 插件支持自定义失败响应等功能。","datePublished":"2021-08-23","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/08/23/weekly-report/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/08/23/weekly-report/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/08/23/weekly-report/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>社区双周报（8.16-8.22）</h1> <p class="article-meta"> 2021-08-23  </p> <blockquote>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。我们还整理了一些适合新来社区的小伙伴们参加的 issue ！感兴趣的同学们，走过路过不要错过！</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。</p>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。</p>
+<p>我们还整理了一些适合新来社区的小伙伴们参加的 issue ！感兴趣的同学们，走过路过不要错过！</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/202108/1629726394722-84d86d5a-1b62-4bbd-b681-c42b371c53ec.png" alt="weekly_contributor_static_20210823"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-4441">Issue #4441</h3>
+<p>链接：<a href="https://github.com/apache/apisix/issues/4441">https://github.com/apache/apisix/issues/4441</a></p>
+<p><strong>问题描述</strong>：现在 APISIX stream_routes 的参数 “remote_addr”只支持单个 ip，需要支持多个 ip 或者像 “192.168.0.0/16 “这样的匹配规则，就像 http 路由参数 “remote_addr”一样。</p>
+<p><strong>解决方案</strong>：为 APISIX stream_routes 的 “remote_addr”参数支持多个 ip 地址或匹配规则，如 “192.168.0.0/16”</p>
+<p>相关系统参数：</p>
+<ul>
+<li>apisix version (cmd: <code>apisix version</code>): 2.6</li>
+<li>OS (cmd: <code>uname -a</code>): CentOS7</li>
+</ul>
+<h3 id="issue-3931">Issue #3931</h3>
+<p>链接：<a href="https://github.com/apache/apisix/issues/3931">https://github.com/apache/apisix/issues/3931</a></p>
+<p><strong>问题描述</strong>： 重定向插件中的 http_to_https 缺乏 curl 测试</p>
+<p><strong>解决方案</strong>：为重定向插件中的 http_to_https 添加 curl 测试</p>
+<p>更新文档 <a href="http://apisix.apache.org/docs/apisix/plugins/redirect">http://apisix.apache.org/docs/apisix/plugins/redirect</a></p>
+<h2 id="本周功能特性亮点">本周功能特性亮点</h2>
+<ul>
+<li>
+<p><strong>gzip 插件支持特殊的 * 来匹配任何类型</strong><br>
+<strong>相关 PR</strong>：<a href="https://github.com/apache/apisix/pull/4817">https://github.com/apache/apisix/pull/4817</a><br>
+<strong>贡献者</strong>：<a href="https://github.com/RocFang">RocFang</a></p>
+</li>
+<li>
+<p><strong>ext-plugin 插件支持 ExtraInfo</strong><br>
+<strong>相关 PR</strong>：<a href="https://github.com/apache/apisix/pull/4835">https://github.com/apache/apisix/pull/4835</a><br>
+<strong>贡献者</strong>：<a href="https://github.com/spacewander">spacewander</a></p>
+</li>
+<li>
+<p><strong>real-ip 插件为 <code>X-Forwarded-For</code> 添加特殊处理</strong><br>
+<strong>相关 PR</strong>：<a href="https://github.com/apache/apisix/pull/4852">https://github.com/apache/apisix/pull/4852</a><br>
+<strong>贡献者</strong>：<a href="https://github.com/spacewander">spacewander</a></p>
+</li>
+<li>
+<p><strong>uri-blocker 插件支持自定义失败响应</strong>
+<strong>相关 PR</strong>：<a href="https://github.com/apache/apisix/pull/4849">https://github.com/apache/apisix/pull/4849</a><br>
+<strong>贡献者</strong>：<a href="https://github.com/okaybase">okaybase</a></p>
+</li>
+</ul>
+<p>Apache APISIX 的<a href="https://apisix.apache.org/">项目官网</a>和 Github 上的 <a href="https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">issue</a> 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。</p>
+<h2 id="本周博文推荐">本周博文推荐</h2>
+<ul>
+<li>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&#x26;mid=2247486454&#x26;idx=1&#x26;sn=905ab375e0f33a173ba90a0f541995b7&#x26;chksm=e98160ebdef6e9fd58079446c1543c7d6f8fabac966acb4e4165d80bf42f6c64a8183583ff1a&#x26;token=1586118041&#x26;lang=zh_CN#rd">Go 让 Apache APISIX 如虎添翼</a><br>
+这篇文章将详细讲解如何用 Go 来开发 Apache APISIX 插件。通过拥抱 Go 的生态圈，为 Apache APISIX 开创一片新天地，希望 Go 能让 Apache APISIX 如虎添翼！</p>
+</li>
+<li>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&#x26;mid=2247486406&#x26;idx=1&#x26;sn=5d04353f3d8128f17fca138572667ddb&#x26;chksm=e98160dbdef6e9cd19ddeed4267554a15bcd1a10decfa2c16f2989575bd9a1c9c95349b0c0cc&#x26;token=1586118041&#x26;lang=zh_CN#rd">Apache APISIX 在 Airwallex 的应用 | 专访 Airwallex 技术平台负责人李杨</a><br>
+Airwallex 空中云汇技术平台负责人李杨的专访，一起来听听空中云汇与 Apache APISIX 之间的故事。</p>
+</li>
+<li>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI1MDU3NjQ5OA==&#x26;mid=2247486382&#x26;idx=1&#x26;sn=f041eb8c38dd528450e5bf4280b60b0f&#x26;chksm=e98160b3def6e9a5331f9485d8a478f9546475f949a31f8142c4188d9c104d39eec9a281bbf2&#x26;token=1586118041&#x26;lang=zh_CN#rd">Apache APISIX 社区周报 ｜ 2021 8.9-8.15</a><br>
+“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。</p>
+</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

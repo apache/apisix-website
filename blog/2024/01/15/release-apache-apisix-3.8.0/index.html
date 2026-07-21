@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Apache APISIX 3.8.0 | Apache APISIX</title><meta name="description" content="The Apache APISIX 3.8.0 version is released on January 15, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/01/15/release-apache-apisix-3.8.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/01/15/release-apache-apisix-3.8.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/01/15/release-apache-apisix-3.8.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/01/15/release-apache-apisix-3.8.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Release Apache APISIX 3.8.0 | Apache APISIX"><meta property="og:description" content="The Apache APISIX 3.8.0 version is released on January 15, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences."><meta property="og:url" content="https://apisix.apache.org/blog/2024/01/15/release-apache-apisix-3.8.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Release Apache APISIX 3.8.0","description":"The Apache APISIX 3.8.0 version is released on January 15, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences.","datePublished":"2024-01-15","author":{"@type":"Person","name":"Xin Rong"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/01/15/release-apache-apisix-3.8.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/01/15/release-apache-apisix-3.8.0/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/01/15/release-apache-apisix-3.8.0/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Release Apache APISIX 3.8.0</h1> <p class="article-meta"> 2024-01-15 · Xin Rong  </p> <p>We are glad to present Apache APISIX 3.8.0 with exciting new features, bug fixes, and other improvements to user experiences.</p>
+<!--truncate-->
+<p>This new release adds a number of new features, including the support for JWE decryption, brotli compression, multiple authentication methods on routes and services, required scopes in <code>openid-connect</code> plugin, and more.</p>
+<h2 id="new-features">New Features</h2>
+<h3 id="support-decrypting-jwe-in-requests-using-jwe-decrypt-plugin">Support decrypting JWE in requests using <code>jwe-decrypt</code> plugin</h3>
+<p>Support the decryption of <a href="https://datatracker.ietf.org/doc/html/rfc7516">JWE</a> authorization headers in requests with the new <code>jwe-decrypt</code> plugin.</p>
+<p>The plugin creates an internal endpoint <code>/apisix/plugin/jwe/encrypt</code> for JWE encryption, which can be exposed using the <code>public-api</code> plugin. You will also configure the decryption key in Consumers.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10252">PR #10252</a> and <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/jwe-decrypt.md">plugin documentation</a>.</p>
+<h3 id="support-multiple-authentication-methods-on-routes-and-services">Support multiple authentication methods on routes and services</h3>
+<p>Support multiple authentication methods on routes and services with the new <code>multi-auth</code> plugin. The plugin iterates through the list of authentication plugins configured in the <code>auth_plugins</code> attribute. It allows consumers using different authentication methods to share the same route or service.</p>
+<p>For example, you can have one consumer using basic authentication:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/consumers</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer1",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "basic-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "username": "consumer1",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "password": "consumer1_pwd"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>And another consumer using key authentication:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/consumers</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer2",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer2_s3cr3t"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Both consumers can access the route below upon successful authentication using their respective authentication method:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "multi-auth":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "auth_plugins":[</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "basic-auth":{ }</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "key-auth":{</span></span>
+<span class="line"><span style="color:#A5D6FF">              "query":"apikey",</span></span>
+<span class="line"><span style="color:#A5D6FF">              "hide_credentials":true,</span></span>
+<span class="line"><span style="color:#A5D6FF">              "header":"apikey"</span></span>
+<span class="line"><span style="color:#A5D6FF">             }</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10482">PR #10482</a> and <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/multi-auth.md">plugin documentation</a>.</p>
+<h3 id="support-the-use-of-filtersregex-with-compressed-data-in-response-rewrite-plugin">Support the use of <code>filters.regex</code> with compressed data in <code>response-rewrite</code> plugin</h3>
+<p>Support the use of <code>filters.regex</code> with brotli and gzip compressed data in <code>response-rewrite</code> plugin.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10588">PR #10588</a> and <a href="https://github.com/apache/apisix/pull/10637">PR #10637</a>.</p>
+<h3 id="support-specifying-the-required-scopes-in-openid-connect-plugin">Support specifying the required scopes in <code>openid-connect</code> plugin</h3>
+<p>Support specifying the required scopes in <code>openid-connect</code> plugin in the <code>required_scopes</code> attribute. When configured, the plugin will check if all required scopes are present in the scopes returned by the introspection endpoint.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10493">PR #10493</a>.</p>
+<h3 id="support-timing-allow-origin-header-in-cors-plugin">Support <code>Timing-Allow-Origin</code> header in <code>cors</code> plugin</h3>
+<p>New attributes <code>timing_allow_origins</code> and <code>timing_allow_origins_by_regex</code> are available in the cors plugin to support selective viewing of timing by origin.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/9365">PR #9365</a>.</p>
+<h3 id="support-brotli-compression-algorithm">Support brotli compression algorithm</h3>
+<p>Support brotli compression algorithm in the new <code>brotli</code> plugin, which dynamically sets the behavior of <a href="https://github.com/google/ngx_brotli">brotli in NGINX</a>. Before using the plugin, you should first build and install brotli shared libraries.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10515">PR #10515</a> and <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/brotli.md">plugin documentation</a>.</p>
+<h3 id="expand-capability-of-parameter-parsing-in-body-transformer-plugin">Expand capability of parameter parsing in <code>body-transformer</code> plugin</h3>
+<p>Support parsing parameters from POST requests of <code>application/x-www-form-urlencoded</code> content type and URI parameters from GET requests in <code>body-transformer</code> plugin.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10496">PR #10496</a>.</p>
+<h3 id="support-the-use-of-variables-for-sensitive-information-in-limit-count-plugin-attributes">Support the use of variables for sensitive information in <code>limit-count</code> plugin attributes</h3>
+<p>Support the use of variables for sensitive information in <code>limit-count</code> plugin attributes. For example, you could save <code>redis_password</code> to an environment variable and configure the value in the plugin as <code>$ENV://REDIS_PASSWORD</code>.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10597">PR #10597</a>.</p>
+<h2 id="other-updates">Other Updates</h2>
+<ul>
+<li>Improve performance with lua-resty-events module (<a href="https://github.com/apache/apisix/pull/10550">PR #10550</a> and <a href="https://github.com/apache/apisix/pull/10558">PR #10558</a>)</li>
+<li>Upgrade OpenSSL 1.1.1 to OpenSSL 3 (<a href="https://github.com/apache/apisix/pull/10724">PR #10724</a>)</li>
+<li>Reduce the required number of <code>redis_cluster_nodes</code> from 2 to 1 in <code>limit-count</code> plugin  (<a href="https://github.com/apache/apisix/pull/10612">PR #10612</a>)</li>
+<li>Allow port to be an optional field when upstream nodes are of array type (<a href="https://github.com/apache/apisix/pull/10477">PR #10477</a>)</li>
+<li>Fix counter sharing among consumers when using the <code>limit-count</code> plugin (<a href="https://github.com/apache/apisix/pull/10540">PR #10540</a>)</li>
+<li>Add <code>redirect_after_logout_uri</code> attribute for <code>openid-connect</code> plugin, used when <code>end_session_endpoint</code> is not provided (<a href="https://github.com/apache/apisix/pull/10653">PR #10653</a>)</li>
+<li>Fix counter sharing among consumers when using the <code>limit-count</code> plugin (<a href="https://github.com/apache/apisix/pull/10540">PR #10540</a>)</li>
+<li>Fix <code>forward-auth</code> plugin 403 error when POST request body is too large (<a href="https://github.com/apache/apisix/pull/10589">PR #10589</a>)</li>
+</ul>
+<h2 id="changelog">Changelog</h2>
+<p>For a complete list of changes in this release, please see <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#380">CHANGELOG</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

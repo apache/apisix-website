@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX Extensions Guide | Apache APISIX</title><meta name="description" content="This article introduces the expansion direction of Rewrite or Access, configuring service discovery, configuring load balancing, and processing responses."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/10/29/extension-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/10/29/extension-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/10/29/extension-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/10/29/extension-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX Extensions Guide | Apache APISIX"><meta property="og:description" content="This article introduces the expansion direction of Rewrite or Access, configuring service discovery, configuring load balancing, and processing responses."><meta property="og:url" content="https://apisix.apache.org/blog/2021/10/29/extension-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX Extensions Guide","description":"This article introduces the expansion direction of Rewrite or Access, configuring service discovery, configuring load balancing, and processing responses.","datePublished":"2021-10-29","author":{"@type":"Person","name":"Zexuan Luo"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/10/29/extension-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/10/29/extension-guide/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/10/29/extension-guide/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX Extensions Guide</h1> <p class="article-meta"> 2021-10-29 · Zexuan Luo  </p> <blockquote>
+<p>This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX.</p>
+</blockquote>
+<!--truncate-->
+<p>Apache APISIX provides more than 50 plugins, several commonly used load balancing selectors, and support for mainstream service discovery (such as Nacos and DNS). The API gateway is closely related to the internal business of the enterprise. In order to meet the business needs of the enterprise, users usually need to add some code on the basis of Apache APISIX to realize the functions required by the business. How to expand Apache APISIX has become a common pain point for many users: on the premise of ensuring the smooth operation of Apache APISIX, how to add business code to meet actual needs?</p>
+<p>This article provides an extension guide for Apache APISIX, aiming to provide users with some ideas for extending Apache APISIX. Since Apache APISIX is in a stage of rapid development and the frequency of version iterations is relatively high, this article will be based on the first LTS version v2.10.0 of Apache APISIX. If your Apache APISIX version is lower than 2.10.0, you may need to make some modifications based on actual conditions. In addition, although this article only explains the HTTP-related logic, the TCP-related parts are generally similar.</p>
+<h2 id="expansion-direction-1-rewrite-or-access">Expansion Direction 1: Rewrite or Access?</h2>
+<p>Let’s start with the life cycle of the request: when a request enters Apache APISIX, it will first be processed by the method <code>http_access_phase</code>. Readers who are familiar with the concept of OpenResty phases may be a little confused: OpenResty has a total of 6 phases, which are arranged in order of execution: <code>rewrite</code>, <code>access</code>, <code>before_proxy</code>, <code>header_filter</code>, <code>body_filter</code> and <code>log</code>, why is <code>access</code> at the beginning, and where is <code>rewrite</code>?</p>
+<p>The phases concept of the Apache APISIX plug-in is slightly different from the OpenResty phases concept. In order to improve the performance of Apache APISIX, the rewrite method of the APISIX plugin will run in the access phase of OpenResty. Users can still customize the logic of <code>rewrite</code> at the plugin level, but at the code level, <code>rewrite</code> is actually executed in <code>access</code>.</p>
+<p>Although both the logic of <code>rewrite</code> and the logic of <code>access</code> run in the access phase, the logic of <code>rewrite</code> will still be executed before the logic of <code>access</code>. In order to avoid the failure of subsequent plugins to execute <code>rewrite</code> and fail to execute <code>access</code>, which will cause trace omissions, trace logic must be added to <code>rewrite</code>.</p>
+<p>In addition to the order of execution, there is another difference between <code>rewrite</code> and <code>access</code>, that is, there is a logic for processing <code>consumer</code> between them:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span> plugin.run_plugin("rewrite", plugins, api_ctx)</span></span>
+<span class="line"><span>        if api_ctx.consumer then</span></span>
+<span class="line"><span>            ...</span></span>
+<span class="line"><span>        end</span></span>
+<span class="line"><span>        plugin.run_plugin("access", plugins, api_ctx)</span></span></code></pre>
+<p><code>consumer</code> represents an identity. You can control permissions for different consumers. For example, use the plugin <code>consumer-restriction</code> to implement role-based permission control, which is what everyone calls RBAC. In addition, you can also set corresponding current limiting strategies for different <code>consumer</code>.</p>
+<p>The authentication plugin in Apache APISIX (with <code>type = "auth"</code> in the plugin definition), you need to select the <code>consumer</code> in the <code>rewrite</code> stage. Here we use the <code>key-auth</code> plugin as an example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>local _M = {</span></span>
+<span class="line"><span>    version = 0.1,</span></span>
+<span class="line"><span>    priority = 2500,</span></span>
+<span class="line"><span>    type = 'auth',</span></span>
+<span class="line"><span>    name = plugin_name,</span></span>
+<span class="line"><span>    schema = schema,</span></span>
+<span class="line"><span>    consumer_schema = consumer_schema,</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>function _M.rewrite(conf, ctx)</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>    local consumer_conf = consumer_mod.plugin(plugin_name)</span></span>
+<span class="line"><span>    if not consumer_conf then</span></span>
+<span class="line"><span>        return 401, {message = "Missing related consumer"}</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    local consumers = lrucache("consumers_key", consumer_conf.conf_version,</span></span>
+<span class="line"><span>        create_consume_cache, consumer_conf)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    local consumer = consumers[key]</span></span>
+<span class="line"><span>    if not consumer then</span></span>
+<span class="line"><span>        return 401, {message = "Invalid API key in request"}</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    consumer_mod.attach_consumer(ctx, consumer, consumer_conf)</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>The execution logic of the authentication plugins is similar: first obtain a certain set of parameters from the input of the users, then find the corresponding <code>consumer</code> according to the parameters, and finally append the <code>consumer_conf</code> corresponding to the plugin to <code>ctx</code>.</p>
+<p>In summary, for plugins that do not need to be executed in the early stage of the request and do not need to find the <code>consumer</code>, it is recommended to write the logic in the <code>access</code>.</p>
+<h2 id="extension-direction-2-configure-service-discovery">Extension Direction 2: Configure Service Discovery</h2>
+<p>After executing the <code>access</code>, we are about to deal with the Upstream. Normally, the Upstream node is hard-coded on the Upstream configuration. However, it is also possible to obtain nodes from the service discovery to implement discovery.</p>
+<p>Next, we will take Nacos as an example to talk about how to implement it.</p>
+<p>An Upstream configuration that dynamically acquires a node managed by Nacos is as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    "service_name": "APISIX-NACOS",</span></span>
+<span class="line"><span>    "type": "roundrobin",</span></span>
+<span class="line"><span>    "discovery_type": "nacos",</span></span>
+<span class="line"><span>    "discovery_args": {</span></span>
+<span class="line"><span>        "namespace_id": "test_ns",</span></span>
+<span class="line"><span>        "group_name": "test_group"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>We can see three of these important variables:</p>
+<ol>
+<li><code>discovery_type</code>: Types of Service Discovery,<code>"discovery_type": "nacos"</code> indicates service discovery using Nacos.</li>
+<li><code>service_name</code>: Service Name。</li>
+<li><code>discovery_args</code>: different discovery-specific parameters, specific parameters of Nacos include: <code>namespace_id</code> and <code>group_name</code>.</li>
+</ol>
+<p>The Lua code corresponding to Nacos discovery is located in <code>discovery/nacos.lua</code>. Open the file <code>nacos.lua</code>, we can see that several required methods are implemented in it.</p>
+<p>A discovery needs to implement at least two methods: <code>nodes</code> and <code>init_worker</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>function _M.nodes(service_name, discovery_args)</span></span>
+<span class="line"><span>    local namespace_id = discovery_args and</span></span>
+<span class="line"><span>            discovery_args.namespace_id or default_namespace_id</span></span>
+<span class="line"><span>    local group_name = discovery_args</span></span>
+<span class="line"><span>            and discovery_args.group_name or default_group_name</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function _M.init_worker()</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>The function signature of <code>nodes</code> has already explicitly shown the query parameters used to get new nodes: <code>service_name</code> and <code>discovery_args</code>. For each request, Apache APISIX will use this set to query for the latest node. The method returns an array:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    {host = "xxx", port = 12100, weight = 100, priority = 0, metadata = ...},</span></span>
+<span class="line"><span>    # priority and metadata are optional</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>And <code>init_worker</code> is responsible for starting a timer in the background to ensure that the local node data is consistent with the data discovered by the service.</p>
+<h2 id="expansion-direction-3-configure-load-balancing">Expansion Direction 3: Configure Load Balancing</h2>
+<p>After obtaining a set of nodes, we have to decide which node to try first in accordance with the rules of load balancing. If several commonly used load balancing algorithms cannot meet your needs, you can also implement a load balancing by yourself.</p>
+<p>Let’s take load balancing with the least number of connections as an example. The corresponding Lua code is located in <code>balancer/least_conn.lua</code>. Open the file <code>least_conn.lua</code>, we can see that it implements several required methods: <code>new</code>, <code>get</code>, <code>after_balance</code> and <code>before_retry_next_priority</code>.</p>
+<ul>
+<li>
+<p><code>new</code> is responsible for doing some initialization work.</p>
+</li>
+<li>
+<p><code>get</code> is responsible for executing the logic of the selected node.</p>
+</li>
+<li>
+<p><code>after_balance</code> will run in the following two situations:</p>
+<ul>
+<li>Before each retry (when before_retry is true)</li>
+<li>After the last try</li>
+</ul>
+</li>
+<li>
+<p><code>before_retry_next_priority</code> runs before preparing to try the next set of nodes with the same priority, while the current set has been tried.</p>
+</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>function _M.new(up_nodes, upstream)</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    return {</span></span>
+<span class="line"><span>        upstream = upstream,</span></span>
+<span class="line"><span>        get = function (ctx)</span></span>
+<span class="line"><span>            ...</span></span>
+<span class="line"><span>        end,</span></span>
+<span class="line"><span>        after_balance = function (ctx, before_retry)</span></span>
+<span class="line"><span>            ...</span></span>
+<span class="line"><span>            if not before_retry then</span></span>
+<span class="line"><span>                if ctx.balancer_tried_servers then</span></span>
+<span class="line"><span>                    core.tablepool.release("balancer_tried_servers", ctx.balancer_tried_servers)</span></span>
+<span class="line"><span>                    ctx.balancer_tried_servers = nil</span></span>
+<span class="line"><span>                end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>                return nil</span></span>
+<span class="line"><span>            end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>            if not ctx.balancer_tried_servers then</span></span>
+<span class="line"><span>                ctx.balancer_tried_servers = core.tablepool.fetch("balancer_tried_servers", 0, 2)</span></span>
+<span class="line"><span>            end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>            ctx.balancer_tried_servers[server] = true</span></span>
+<span class="line"><span>        end,</span></span>
+<span class="line"><span>        before_retry_next_priority = function (ctx)</span></span>
+<span class="line"><span>            if ctx.balancer_tried_servers then</span></span>
+<span class="line"><span>                core.tablepool.release("balancer_tried_servers", ctx.balancer_tried_servers)</span></span>
+<span class="line"><span>                ctx.balancer_tried_servers = nil</span></span>
+<span class="line"><span>            end</span></span>
+<span class="line"><span>        end,</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>If there is no internal state to maintain, you can directly borrow the fixed template code (in the above code, outside the ellipsis) to fill in the two methods of <code>after_balance</code> and <code>before_retry_next_priority</code>.</p>
+<p>After selecting the node, we can also add additional logic in the form of a plugin. The plugin can implement the <code>before_proxy</code> method. This method will be called after the node is selected, and we can record the information of the currently selected node in this method, which will be useful in trace.</p>
+<h2 id="extension-direction-4-handling-response">Extension Direction 4: Handling Response</h2>
+<p>We can process the responses returned from upstream in <code>header_filter</code> and <code>body_filter</code> through the <code>response-rewrite</code> plugin. The former method modifies the response header, the latter modifies the response body. Note that Apache APISIX response processing is streaming, so if the response header is not modified inside <code>header_filter</code>, the response header will be sent out first and there will be no way to modify the response body when it reaches <code>body_filter</code>.</p>
+<p>This means that if you want to modify the body later, but there are body-related response headers like Content-Length in the header, you have to change those headers in the <code>header_filter</code> in advance. We provide a helper method: <code>core.response.clear_header_as_body_modified</code>, which can be called in <code>header_filter</code>.</p>
+<p>The <code>body_filter</code> is also streaming and will be called multiple times. So if you want to get the full response body, you need to put together the partial response body provided by each <code>body_filter</code>. On the Apache APISIX master branch, we provide a method called <code>core.response.hold_body_chunk</code> to simplify the operation. Interested readers can take a look at the code.</p>
+<h2 id="extension-direction-5-reporting-logs-and-monitoring-parameters">Extension Direction 5: Reporting Logs and Monitoring Parameters</h2>
+<p>After the request is finished, we can also do some cleanup work with the <code>log</code> method. This type of work can be divided into two categories:</p>
+<ol>
+<li>Record metrics, such as the <code>prometheus</code> plugin.</li>
+<li>Record the access log, and then report it regularly, such as the <code>http-logger</code> plugin.</li>
+</ol>
+<p>If you are interested, you can take a look at how the <code>log</code> method of these two plugins is implemented:</p>
+<ul>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/prometheus/"><code>prometheus</code> plugin documentation</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/http-logger/"><code>http-logger</code> plugin documentation</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

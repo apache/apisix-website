@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API versioning | Apache APISIX</title><meta name="description" content="In my previous post Evolving your APIs, I mention the main API versioning approaches. During the talk of the same name, I sometimes get some questions on the subject. In this post, I'll detail each of them. I assume readers know the reasons behind versioning, semantic versioning, and product lifecycle. If not, I encourage you to read a bit about these themes; in particular, chapter 24 of the excellent API Design Patterns book focuses on them. I'll summarize the subject in a few words in any case."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/11/09/api-versioning/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/11/09/api-versioning/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/11/09/api-versioning/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/11/09/api-versioning/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="API versioning | Apache APISIX"><meta property="og:description" content="In my previous post Evolving your APIs, I mention the main API versioning approaches. During the talk of the same name, I sometimes get some questions on the subject. In this post, I'll detail each of them. I assume readers know the reasons behind versioning, semantic versioning, and product lifecycle. If not, I encourage you to read a bit about these themes; in particular, chapter 24 of the excellent API Design Patterns book focuses on them. I'll summarize the subject in a few words in any case."><meta property="og:url" content="https://apisix.apache.org/blog/2023/11/09/api-versioning/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/11/06/PjxXv0E9_signpost-3691159.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API versioning","description":"In my previous post Evolving your APIs, I mention the main API versioning approaches. During the talk of the same name, I sometimes get some questions on the subject. In this post, I'll detail each of them. I assume readers know the reasons behind versioning, semantic versioning, and product lifecycle. If not, I encourage you to read a bit about these themes; in particular, chapter 24 of the excellent API Design Patterns book focuses on them. I'll summarize the subject in a few words in any case.\n","datePublished":"2023-11-09","image":"https://static.apiseven.com/uploads/2023/11/06/PjxXv0E9_signpost-3691159.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/11/09/api-versioning/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/11/09/api-versioning/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/11/09/api-versioning/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>API versioning</h1> <p class="article-meta"> 2023-11-09 · Nicolas Fränkel  </p> <blockquote>
+<p>In my previous post <a href="https://blog.frankel.ch/evolve-apis/">Evolving your APIs</a>, I mention the main API versioning approaches. During the talk of the same name, I sometimes get some questions on the subject. In this post, I’ll detail each of them.</p>
+</blockquote>
+<!--truncate-->
+<p>I assume readers know the reasons behind versioning, semantic versioning, and product lifecycle. If not, I encourage you to read a bit about these themes; in particular, chapter 24 of the excellent <a href="https://blog.frankel.ch/api-design-patterns/">API Design Patterns</a> book focuses on them.</p>
+<p>I’ll summarize the subject in a few words in any case.</p>
+<h2 id="generalities">Generalities</h2>
+<p>Software naturally evolves, because of business need or changing regulations. In some cases, the said software has no clients but humans, <em>e.g.</em>, a monolith with Server-Side Rendering. In all other cases, at least another software component interacts with your software:</p>
+<ul>
+<li>A JavaScript front-end consumes the REST API</li>
+<li>A webservice consumes the REST API</li>
+<li>etc.</li>
+</ul>
+<p>Some changes are backward-compatible - you don’t need to update the client; others are not. Removing an endpoint is not backward compatible; it’s a breaking change. Removing a parameter, adding a required parameter, or changing a parameter type are also breaking changes.</p>
+<p>When introducing a breaking change in regular software, you must increase its major version if you adhere to semantic versioning. It’s the same in the realm of APIs. You let your customers keep using the v1 version while releasing breaking changes in the v2 version.</p>
+<p>The crux of the problem is now how to use a specific version of the endpoint. Three options are available:</p>
+<ul>
+<li>Path-based versioning</li>
+<li>Query-based versioning</li>
+<li>Header-based versioning</li>
+</ul>
+<p>Let’s detail them in turn. It all boils down to routing; I’ll demo the configuration with <a href="https://apisix.apache.org/">Apache APISIX</a> to implement each versioning approach.</p>
+<h2 id="path-based-versioning">Path-based versioning</h2>
+<p>Path-based versioning is so ubiquitous that it’s the approach most people think about when they think about API versioning. The idea is to set the version in the path:</p>
+<ul>
+<li><code>/v1/foo</code></li>
+<li><code>/v2/foo</code></li>
+</ul>
+<p>Path-based versioning seems easy to implement with Apache APISIX:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream_1:8080"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream_2:8080"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/v1/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/v2/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span></code></pre>
+<p>The above setup doesn’t work unfortunately: as it stands, we forward <code>/v1/*</code> to the upstream, whereas it probably can handle only <code>*</code> - the path behind the version prefix. We need to remove the version prefix before forwarding to the upstream:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/v1/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-rewrite</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        regex_uri</span><span style="color:#E6EDF3">: [ </span><span style="color:#A5D6FF">"/v1(.*)"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"$1"</span><span style="color:#E6EDF3"> ]        </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/v2/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-rewrite</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        regex_uri</span><span style="color:#E6EDF3">: [ </span><span style="color:#A5D6FF">"/v2(.*)"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"$1"</span><span style="color:#E6EDF3"> ]        </span><span style="color:#8B949E">#1</span></span></code></pre>
+<ol>
+<li>Remove the version path prefix before forwarding</li>
+</ol>
+<p>Beware if you use other plugins, which may forward the request before the prefix is removed, <em>e.g.</em>, <code>proxy-mirror</code>. In this case, we must apply <code>proxy-rewrite</code> <em>before</em> <code>proxy-mirror</code>. Apache APISIX orders plugins by their default priority, so we need to increase the priority of the former:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/v1/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-rewrite</span><span style="color:#E6EDF3">:                          </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#7EE787">        regex_uri</span><span style="color:#E6EDF3">: [ </span><span style="color:#A5D6FF">"/v1(.*)"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"$1"</span><span style="color:#E6EDF3"> ]</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-mirror</span><span style="color:#E6EDF3">:                           </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#7EE787">        host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://api.v2:8080"</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1000</span><span style="color:#8B949E">                      #3</span></span></code></pre>
+<ol>
+<li><code>proxy-rewrite</code> default priority is <code>1008</code></li>
+<li><code>proxy-mirror</code> default priority is <code>1010</code></li>
+<li>Set it to <code>1000</code> so that it now applies <em>after</em> the rewrite takes place</li>
+</ol>
+<h2 id="query-based-versioning">Query-based versioning</h2>
+<p>Another way to version is to use query parameters, <em>e.g.</em>, <code>?version=v1</code>. While I’ve never seen it in the wild, it deserves a mention nonetheless. We can leverage the following Apache APISIX configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span><span style="color:#8B949E">                                   #1</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    vars</span><span style="color:#E6EDF3">: [[ </span><span style="color:#A5D6FF">"arg_version"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"v1"</span><span style="color:#E6EDF3"> ]]     </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span><span style="color:#8B949E">                               #1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span><span style="color:#8B949E">                                   #1</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">    vars</span><span style="color:#E6EDF3">: [[ </span><span style="color:#A5D6FF">"arg_version"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"v2"</span><span style="color:#E6EDF3"> ]]     </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span><span style="color:#8B949E">                               #1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span><span style="color:#8B949E">                                   #1-3</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<ol>
+<li>Both routes match the same URI, so we must evaluate them in order. That’s the role of <code>priority</code>: Apache APISIX evaluates the highest priority first</li>
+<li>Evaluate the query parameter named <code>version</code></li>
+<li>Default route when no <code>version</code> is provided. Here, I route to version 1, but you can also return an HTTP status <code>4xx</code> to require a version.</li>
+</ol>
+<h2 id="header-based-versioning">Header-based versioning</h2>
+<p>The last alternative for versioning is to use HTTP headers. Here’s a custom header:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="http"><code><span class="line"><span style="color:#FF7B72">GET</span><span style="color:#E6EDF3"> / HTTP1.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">Version</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> 1</span></span></code></pre>
+<p>From an HTTP point of view, asking for a version via a header is the definition of <em>content negotiation</em> between the client and the server:</p>
+<blockquote>
+<p>Content negotiation refers to mechanisms defined as a part of HTTP that make it possible to serve different versions of a document (or more generally, representations of a resource) at the same URI, so that user agents can specify which version fits their capabilities the best.</p>
+<p>— <a href="https://en.wikipedia.org/wiki/Content_negotiation">Content Negotiation on Wikipedia</a></p>
+</blockquote>
+<p>The agreed-upon content type format follows the pattern <code>application/vnd.aaa.bbb.vX+format</code>, where:</p>
+<ul>
+<li><code>aaa.bbb</code> is a reversed domain name, <em>e.g.</em>, <code>ch.frankel</code></li>
+<li><code>X</code> is the version number, <em>e.g.</em>, <code>1</code></li>
+<li><code>format</code> is the accepted format, <em>e.g.</em>, <code>json</code></li>
+</ul>
+<p>Hence, here’s a possible request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="http"><code><span class="line"><span style="color:#FF7B72">GET</span><span style="color:#E6EDF3"> / HTTP1.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">Accept</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> application/vnd.ch.frankel.myservice.v1+json</span></span></code></pre>
+<p>Theoretically, the client can leverage the <em>quality</em>  of <code>Accept</code> headers to communicate that it can handle different versions. The following request tells that the client prefers version 2 but can handle version 1 if the need be:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="http"><code><span class="line"><span style="color:#FF7B72">GET</span><span style="color:#E6EDF3"> / HTTP1.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">Accept</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> application/vnd.ch.frankel.myservice.v2+json;q=0.8, application/vnd.ch.frankel.myservice.v1+json;q=0.2</span></span></code></pre>
+<p>In practice, quality requires a high level of maturity, both on the server-side - handling qualities and on the client-side - handling two versions simultaneously.</p>
+<p>Here’s the APISIX configuration for quality-less content negotiation. It’s very similar to the one above, the only difference being the Nginx variable in play, <code>http_X</code> instead of <code>arg_Y</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    vars</span><span style="color:#E6EDF3">: [[ </span><span style="color:#A5D6FF">"http_accept"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"vnd.ch.frankel.myservice.v1+json"</span><span style="color:#E6EDF3"> ]]</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">    vars</span><span style="color:#E6EDF3">: [[ </span><span style="color:#A5D6FF">"http_accept"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"vnd.ch.frankel.myservice.v2+json"</span><span style="color:#E6EDF3"> ]]</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this short post, we detailed the three options for versioning HTTP APIs: path-based, query-based, and header-based. They don’t differ much, each having its little tricky parts. Whatever path you choose, though, make sure it’s consistent across all the organization.</p>
+<p>The complete source code for this post can be found on <a href="https://github.com/ajavageek/api-versioning">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://navendu.me/posts/api-deployment-strategies/">API deployment strategies</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-content-negotiation">Content Negotiation in RFC 9110</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/router-radixtree/">Routing in Apache APISIX</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

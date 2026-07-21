@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX with CoreDNS enrich service discovery | Apache APISIX</title><meta name="description" content="Configure CoreDNS as a service discovery backend in APISIX. Dynamic upstream resolution with DNS-based service registry."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX with CoreDNS enrich service discovery | Apache APISIX"><meta property="og:description" content="Configure CoreDNS as a service discovery backend in APISIX. Dynamic upstream resolution with DNS-based service registry."><meta property="og:url" content="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/CoreDNS.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX with CoreDNS enrich service discovery","description":"Configure CoreDNS as a service discovery backend in APISIX. Dynamic upstream resolution with DNS-based service registry.","datePublished":"2022-03-04","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/CoreDNS.png","author":{"@type":"Person","name":"Zijie Chen"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX with CoreDNS enrich service discovery</h1> <p class="article-meta"> 2022-03-04 · Zijie Chen  </p> <blockquote>
+<p>Apache APISIX is a dynamic, real-time, high-performance cloud-native API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, grayscale publishing, service interruption, identity authentication, and observability. As a cloud native API gateway, Apache APISIX also integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in Apache APISIX.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="background-information">Background information</h2>
+<p>In traditional physical machine and virtual machine deployment, calls between various services can be made through fixed <strong>IP + port</strong>. With the advent of the cloud-native era, enterprise business deployment is more inclined to cloud-native containerization. However, in a containerized environment, the startup and destruction of service instances are very frequent. Manual maintenance by operation and maintenance personnel will not only be a heavy workload, but also ineffective. Therefore, a mechanism is needed that can automatically detect the service status, and dynamically bind a new address when the service address changes. The service discovery mechanism came into being.</p>
+<h2 id="service-discovery">Service Discovery</h2>
+<p>The service discovery mechanism can be split into two parts:</p>
+<ul>
+<li>Service Registry: Store host and port information for services.</li>
+</ul>
+<p>If a container provides a service for calculating the average, we use the service name of average as the unique identifier, then it will be stored in the form of a key-value pair (average</p><div></div>.168.1.21) in the service registry.<p></p>
+<ul>
+<li>Service Discovery: Allows other users to discover the information stored during the service registration phase. It is divided into client discovery mode and server discovery mode.</li>
+</ul>
+<h3 id="client-service-discovery-mode">Client Service Discovery Mode</h3>
+<p>When using the client discovery mode, the client obtains the actual network address of the available service by querying the storage information of the service registry, selects an available service instance through a load balancing algorithm, and sends the request to the service.</p>
+<ul>
+<li>Advantages: Simple architecture, flexible expansion, and easy implementation of load balancing functions.</li>
+<li>Disadvantages: heavy client, strong coupling, there is a certain development cost.</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1646299277491-53bd8cd0-a984-4fed-bcbd-d251c18f5b7f.png" alt="error/client service discovery.png"></p>
+<p>The implementation logic of client discovery mode is as follows:</p>
+<ol>
+<li>When a new service is started, it will actively register with the registration center, and the service registration center will store the service name and address of the new service;</li>
+<li>When the client needs this service, it will use the service name to initiate a query to the service registry;</li>
+<li>The service registry returns the available addresses, and the client selects one of the addresses to initiate the call according to the specific algorithm.</li>
+</ol>
+<p>In this process, in addition to service registration, the work of service discovery is basically completed by the client independently, and the addresses of the registry and the server are also fully visible to the client.</p>
+<h3 id="server-service-discovery-mode">Server Service Discovery Mode</h3>
+<p>The client sends a request to the Load Balancer, and the Load Balancer queries the service registry according to the client’s request, finds an available service, and forwards the request to the service. Like the client service discovery mode, the service needs to be registered and deregistered in the registry.</p>
+<ul>
+<li>Advantages: The discovery logic of the service is transparent to the client.</li>
+<li>Disadvantages: Requires additional deployment and maintenance of a Load Balancer.</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1646299327406-0172de7f-94a8-4964-b109-562795941d0e.png" alt="error/server service discovery.png"></p>
+<p>The implementation logic of server discovery mode is as follows:</p>
+<ol>
+<li>When a new service is started, it will actively register with the registry, and the service registry will store the service name and address of the new service;</li>
+<li>When the client needs a service, it will use the service name to initiate a query to the load balancer;</li>
+<li>According to the service name requested by the client, the Load Balancer proxies the client to initiate a request to the service registry;</li>
+<li>After the Load Balancer obtains the returned address, it selects one of the addresses to initiate the call according to the specific algorithm.</li>
+</ol>
+<h2 id="advantages-of-using-coredns">Advantages of using CoreDNS</h2>
+<p>CoreDNS is an open source DNS server written in <code>Go</code>, which is commonly used for DNS services and service discovery in multi-container environments due to its flexibility and extensibility. CoreDNS is built on top of Caddy, the HTTP/2 web server, and implements a plug-in chain architecture, abstracting many DNS related logic into layer-by-layer plug-ins, which are more flexible and easy to expand, and user selected plugin It will be compiled into the final executable file, and the running efficiency is also very high. CoreDNS is the first cloud native open source project to join CNCF (Cloud Native Computing Foundation) and has graduated, and it is also the default DNS service in Kubernetes.</p>
+<p>Compared with common service discovery frameworks (Apache ZooKeeper and Consul), what are the advantages of CoreDNS implementing service discovery?</p>
+<p>The principle of service discovery is similar to DNS domain name system, which is an important infrastructure in computer networks. The DNS domain name system binds domain names that rarely change with frequently changing server IP addresses, while the service discovery mechanism is to seldom change domain names. The service name is bound to the service address. In this way, we can use DNS to achieve a function similar to the service registry, and only need to convert the domain name stored in the DNS into the service name. Since many computers have built in DNS functions, we only need to modify the configuration on the original DNS system without doing too many extra things.</p>
+<h2 id="principle-architecture">Principle Architecture</h2>
+<p>The overall structure is as follows:</p>
+<ol>
+<li>The client initiates a request to APISIX to call the service.</li>
+<li>APISIX accesses the upstream service node according to the set route (the specific configuration can be seen below). In APISIX, you can set the upstream information to obtain through DNS. As long as the IP address of the DNS server is set correctly, APISIX will automatically initiate a request to this address , to obtain the address of the corresponding service in DNS.</li>
+<li>CoreDNS returns a list of available addresses based on the requested service name.</li>
+<li>APISIX selects one of the available addresses and the configured algorithm to initiate the call.</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1646299394984-76683b2c-03ae-45b0-b5a6-8b8f3b6d47cf.png" alt="error/architecture.png"></p>
+<h2 id="how-to-use">How to Use</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>This article is based on the following environments.</p>
+<ul>
+<li>OS: Centos 7.9.</li>
+<li>Apache APISIX 2.12.1, please refer to: <a href="https://apisix.apache.org/docs/apisix/how-to-build">How-to-Bulid Apache APISIX</a>.</li>
+<li>CoreDNS 1.9.0，please refer to: <a href="https://coredns.io/manual/toc/#installation">CoreDNS Installation Guide</a>.</li>
+<li>Node.js, please refer to: <a href="https://github.com/nodejs/help/wiki/Installation">Node.js Installation</a>.</li>
+</ul>
+<h3 id="procedure">Procedure</h3>
+<ol>
+<li>Use Node.js’s <code>Koa</code> framework starts a simple test service on port <code>3005</code>.</li>
+</ol>
+<p>Accessing this service will return the string <code>Hello World</code>, and we will get the address of this service via CoreDNS later.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  const Koa = require('koa');</span></span>
+<span class="line"><span>  const app = new Koa();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  app.use(async ctx => {</span></span>
+<span class="line"><span>    ctx.body = 'Hello World';</span></span>
+<span class="line"><span>  });</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  app.listen(3005);</span></span></code></pre>
+<ol start="2">
+<li>Configure CoreDNS.</li>
+</ol>
+<p>CoreDNS listens on port <code>53</code> by default, and will read the <code>Corefile</code> configuration file in the same directory. Under the initial conditions, there is no <code>Corefile</code> file in the same directory, so we need to create and complete the configuration.</p>
+<p><code>Corefile</code> mainly implements functions by configuring plugins, so we need to configure three plugins:</p>
+<ul>
+<li><code>hosts</code>: You can use this parameter to bind the service name and IP address. Fallthrough means that when the current plugin cannot return normal data, the request can be forwarded to the next plugin for processing (if it exists).</li>
+<li><code>forward</code>: Indicates to proxy the request to the specified address, usually the authoritative DNS server address.</li>
+<li><code>log</code>: Don’t configure any parameters to print log information to the console interface for debugging.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  .:1053 {                           # Listen on port 1053</span></span>
+<span class="line"><span>      hosts {</span></span>
+<span class="line"><span>          10.10.10.10 hello</span></span>
+<span class="line"><span>          # Bind the service name "coredns" to the IP address</span></span>
+<span class="line"><span>          fallthrough</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>      forward . 114.114.114.114:53</span></span>
+<span class="line"><span>      log</span></span>
+<span class="line"><span>  }</span></span></code></pre>
+<ol start="3">
+<li>Configuring Apache APISIX.</li>
+</ol>
+<p>Add the relevant configuration in the <code>conf/config.yaml</code> file and reload Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  # config.yml</span></span>
+<span class="line"><span>  # ...other config</span></span>
+<span class="line"><span>  discovery:</span></span>
+<span class="line"><span>     dns:</span></span>
+<span class="line"><span>       servers:</span></span>
+<span class="line"><span>          - "127.0.0.1:1053"          # Use the real address of the DNS server,</span></span>
+<span class="line"><span>                                      # here is the 1053 port of the local machine.</span></span></code></pre>
+<ol start="4">
+<li>Configure routing information in Apache APISIX.</li>
+</ol>
+<p>Next, we configure the relevant routing information by requesting the <code>Admin API</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "uri": "/core/*",</span></span>
+<span class="line"><span>      "upstream": {</span></span>
+<span class="line"><span>          "service_name": "hello:3005",</span></span>
+<span class="line"><span>          # Name the service as coredns, consistent with</span></span>
+<span class="line"><span>          # the configuration of the hosts plugin in CoreDNS</span></span>
+<span class="line"><span>          "type": "roundrobin",</span></span>
+<span class="line"><span>          "discovery_type": "dns" # Set service discovery type to DNS</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<ol start="5">
+<li>verify.</li>
+</ol>
+<ul>
+<li>Authenticate on the local machine</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl 127.0.0.1:9080/core/hello -i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>  Content-Length: 11</span></span>
+<span class="line"><span>  Connection: keep-alive</span></span>
+<span class="line"><span>  Date: Wed, 16 Feb 2022 08:44:08 GMT</span></span>
+<span class="line"><span>  Server: APISIX/2.12.1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  Hello World</span></span></code></pre>
+<ul>
+<li>Verify on other hosts</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl 10.10.10.10:9080/core/hello -i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>  Content-Length: 11</span></span>
+<span class="line"><span>  Connection: keep-alive</span></span>
+<span class="line"><span>  Date: Wed, 16 Feb 2022 08:43:32 GMT</span></span>
+<span class="line"><span>  Server: APISIX/2.12.0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  Hello World</span></span></code></pre>
+<p>As you can see from the above results, the service is running normally.</p>
+<ol start="6">
+<li>The IP address of the simulated container is changed because the container cannot provide services for various reasons.</li>
+</ol>
+<p>We need to set up the same service on another server, also running on port <code>3005</code>, but with the IP address changed, and the return string changed to <code>Hello, Apache APISIX</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>const Koa = require('koa');</span></span>
+<span class="line"><span>const app = new Koa();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.use(async ctx => {</span></span>
+<span class="line"><span>  ctx.body = 'Hello, Apache APISIX';</span></span>
+<span class="line"><span>});</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.listen(3005);</span></span></code></pre>
+<p>Modify the <code>Corefile</code> configuration and restart Core DNS. Leave other configurations unchanged. The configuration example is as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>.:1053 {                         # Listen on port 1053</span></span>
+<span class="line"><span>    hosts {</span></span>
+<span class="line"><span>        10.10.10.11 hello        # Modify service IP address</span></span>
+<span class="line"><span>        # Bind the service name "coredns" to the IP address</span></span>
+<span class="line"><span>        fallthrough</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    forward . 114.114.114.114:53</span></span>
+<span class="line"><span>    log</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<blockquote>
+<p>DNS has a caching mechanism. When we use the <code>dig</code> command to request to resolve a new domain name, we will see a number field in the returned <code>DNS record</code>, that is, the <code>TTL</code> field, which is generally <code>3600</code>, which is one hour. Requests sent to the domain name within the <code>TTL</code> period will no longer request the DNS server to resolve the address, but will directly obtain the address corresponding to the domain name in the local cache.</p>
+</blockquote>
+<p>By verifying, we can find that the request has been redirected to the new address. Verify as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl 127.0.0.1:9080/core/hello -i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>  Content-Length: 11</span></span>
+<span class="line"><span>  Connection: keep-alive</span></span>
+<span class="line"><span>  Date: Wed, 16 Feb 2022 08:44:08 GMT</span></span>
+<span class="line"><span>  Server: APISIX/2.12.0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  Hello, Apache APISIX</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>This article mainly introduces the types of service discovery and how to use CoreDNS in Apache APISIX. You can use Apache APISIX and CoreDNS according to your business needs and past technical architecture.</p>
+<p>Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a>, or via the <a href="https://apisix.apache.org/zh/docs/general/join">mailing list</a> to communicate.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

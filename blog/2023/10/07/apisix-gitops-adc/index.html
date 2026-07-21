@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Embracing GitOps: APISIX&#39;s New Feature for Declarative Configuration | Apache APISIX</title><meta name="description" content="APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/10/07/apisix-gitops-adc/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/10/07/apisix-gitops-adc/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/10/07/apisix-gitops-adc/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/10/07/apisix-gitops-adc/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Embracing GitOps: APISIX's New Feature for Declarative Configuration | Apache APISIX"><meta property="og:description" content="APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC."><meta property="og:url" content="https://apisix.apache.org/blog/2023/10/07/apisix-gitops-adc/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/10/19/634f6677742a1.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Embracing GitOps: APISIX's New Feature for Declarative Configuration","description":"APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.","datePublished":"2023-10-07","image":"https://static.apiseven.com/2022/10/19/634f6677742a1.png","author":{"@type":"Person","name":"Jintao Zhang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/10/07/apisix-gitops-adc/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/10/07/apisix-gitops-adc/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/10/07/apisix-gitops-adc/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Embracing GitOps: APISIX&#39;s New Feature for Declarative Configuration</h1> <p class="article-meta"> 2023-10-07 · Jintao Zhang  </p> <p>APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.</p>
+<!--truncate-->
+<p>With the widespread adoption of cloud-native and microservices, the API gateway has emerged as a critical component for connecting and managing various microservices. However, as the number of services continues to grow and changes occur more frequently, the traditional imperative configuration has become increasingly challenging to manage and maintain. GitOps, on the other hand, is an operational model that leverages version control systems and automated workflows. By supporting declarative configurations, GitOps provides a more efficient, reliable, and traceable mode of operation.</p>
+<p>To enhance developing efficiency and operational reliability, APISIX has introduced a new tool that supports GitOps in a declarative manner. By embracing the declarative nature of GitOps, APISIX strengthens its integration with modern development and operational workflows. This integration enables smoother collaboration between developers and operations teams, promoting efficient and reliable management of the APISIX platform.</p>
+<h2 id="why-does-apisix-support-gitops-declarative-configuration">Why Does APISIX Support GitOps Declarative Configuration</h2>
+<p>Although APISIX offers a stand-alone mode that allows configuration through YAML files, it lacks seamless integration with related ecosystems such as CI/CD tools like Jenkins and ArgoCD. While the APISIX Ingress Controller project makes significant strides in this area, APISIX itself does not provide a comprehensive set of declarative tools to support GitOps when used in non-Kubernetes environments such as bare metal or virtual machines.</p>
+<p>In traditional API gateway management, configurations and policies are typically manipulated using imperative methods, requiring manual modifications through command-line tools or management interfaces. This approach poses several challenges:</p>
+<ul>
+<li>
+<p><strong>Cumbersome Configuration Management</strong>: Manual modifications of configurations are prone to errors, especially when dealing with large-scale gateways.</p>
+</li>
+<li>
+<p><strong>Poor Traceability</strong>: Tracking the change history and version control of configurations becomes difficult.</p>
+</li>
+<li>
+<p><strong>Lack of Consistency</strong>: Configuration discrepancies among multiple environments result in inconsistencies between development, testing, and production environments.</p>
+</li>
+</ul>
+<p>The APISIX development team recognized several benefits of supporting GitOps in a declarative manner to effectively address these challenges:</p>
+<ol>
+<li>
+<p><strong>Improved Developer Efficiency</strong>: By using GitOps with a declarative configuration approach, developers can directly manage API gateway configurations by modifying and committing configuration files in the code repository. This method aligns with the development workflow that developers are familiar with, reducing the learning curve and tool-switching costs, and thus enhancing developer productivity.</p>
+</li>
+<li>
+<p><strong>Enhanced Operational Reliability</strong>: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This function enables traceability and auditability and reduces the risk of failures caused by human errors.</p>
+</li>
+<li>
+<p><strong>Streamlined Multi-Environment Management</strong>: Managing different configurations across development, testing, and production environments can be simplified. By utilizing GitOps, it becomes effortless to create different branches or tags for managing configuration files in different environments, ensuring consistency across environments and reducing manual configuration errors.</p>
+</li>
+<li>
+<p><strong>Facilitated Team Collaboration</strong>: The GitOps workflow promotes collaboration and communication among team members. Developers can actively participate in the development and maintenance of API gateway configurations through practices such as submitting merge requests and code reviews, thereby improving team collaboration efficiency and code quality.</p>
+</li>
+</ol>
+<h2 id="how-does-apisix-support-gitops-declarative-configuration">How Does APISIX Support GitOps Declarative Configuration</h2>
+<h3 id="adc-and-its-usage-scenarios-and-functions">ADC and Its Usage Scenarios and Functions</h3>
+<p>ADC, APISIX declarative CLI, is a declarative configuration tool for APISIX. It assists users in achieving various integrations in non-Kubernetes environments using a declarative approach.</p>
+<p>ADC allows interaction with APISIX instances through the command line and currently provides the following functionalities:</p>
+<ul>
+<li><strong>Configuration of connection information</strong>: ADC allows the configuration of the address, port, login token, and other details of the APISIX instance to connect to.</li>
+<li><strong>Configuration validation</strong>: ADC provides the functionality to validate the syntax of APISIX configuration files.</li>
+<li><strong>Configuration synchronization</strong>: Local configuration files can be synchronized to the APISIX instance using ADC.</li>
+<li><strong>Configuration export</strong>: ADC enables the export of configuration files from the APISIX instance.</li>
+<li><strong>Configuration diff comparison</strong>: ADC can compare the differences between the local configuration and the configuration on the APISIX instance.</li>
+<li><strong>OpenAPI conversion</strong>: ADC can convert OpenAPI specification files into APISIX configuration files.</li>
+<li><strong>Runtime diagnostics</strong>: ADC supports diagnostic commands such as ping to assist in debugging the connection between ADC and the gateway.</li>
+</ul>
+<p>In essence, ADC provides a declarative approach to APISIX configuration and management, eliminating the need for manual calls to the admin API or using tools like the Dashboard. Instead, configuration synchronization can be achieved through simple commands.</p>
+<h2 id="how-does-apisix-use-adc-for-declarative-configuration">How Does APISIX Use ADC for Declarative Configuration</h2>
+<h3 id="installing-apisix-and-adc">Installing APISIX and ADC</h3>
+<p>Please refer to the <a href="https://apisix.apache.org/docs/apisix/getting-started/README/">APISIX documentation</a> for installing APISIX. Once APISIX is installed, you can proceed to install the ADC binary to the <code>$GOPATH/bin</code> directory using the <code>go install</code> command.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> github.com/api7/adc@latest</span></span></code></pre>
+<p>Add this line of code to your <code>$PATH</code> environment variable:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> PATH</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$PATH:$GOPATH/bin</span></span></code></pre>
+<p>If you don’t have Go installed, you can download the latest <code>adc</code> binary and add it to your <code>/bin</code> folder:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">wget</span><span style="color:#A5D6FF"> https://github.com/api7/adc/releases/download/v0.2.0/adc_0.2.0_linux_amd64.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657">tar</span><span style="color:#79C0FF"> -zxvf</span><span style="color:#A5D6FF"> adc_0.2.0_linux_amd64.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657">mv</span><span style="color:#A5D6FF"> adc</span><span style="color:#A5D6FF"> /usr/local/bin/adc</span></span></code></pre>
+<p>You can find binaries for other operating systems on the <a href="https://github.com/api7/adc/releases/tag/v0.2.0">releases page</a>. In the future, these files will be published on package management tools like Homebrew.</p>
+<p>Run the following code to confirm that <code>adc</code> has been installed:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#79C0FF"> --help</span></span></code></pre>
+<p>If everything goes well, you will see a list of available subcommands and using guide.</p>
+<h3 id="configuring-adc-with-apisix-instance">Configuring ADC with APISIX Instance</h3>
+<p>Next, configure the APISIX instance in the ADC.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> configure</span></span></code></pre>
+<p>It will prompt you to pass in the APISIX server address (‘<a href="http://127.0.0.1:9180">http://127.0.0.1:9180</a>’ if you followed along) and token. If everything is filled in correctly, you can see the following content:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">ADC</span><span style="color:#A5D6FF"> configured</span><span style="color:#A5D6FF"> successfully!</span></span>
+<span class="line"><span style="color:#FFA657">Connected</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> APISIX</span><span style="color:#A5D6FF"> successfully!</span></span></code></pre>
+<p>You can use the <code>ping</code> subcommand to check the APISIX connection at any time:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> ping</span></span></code></pre>
+<h3 id="validating-apisix-configuration-files">Validating APISIX Configuration Files</h3>
+<p>Create a basic APISIX configuration with a route that forwards traffic to upstreams:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Basic configuration"</span></span>
+<span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1.0.0"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-service</span></span>
+<span class="line"><span style="color:#7EE787">    hosts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">api7.ai</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-route</span></span>
+<span class="line"><span style="color:#7EE787">    service_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-service</span></span>
+<span class="line"><span style="color:#7EE787">    uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/anything"</span></span>
+<span class="line"><span style="color:#7EE787">    methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">GET</span></span></code></pre>
+<p>Once the ADC is connected to the running APISIX instance, you can use it to validate this configuration before applying it by running:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> validate</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> config.yaml</span></span></code></pre>
+<p>If the configuration is valid, you will receive a response similar to:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">Read</span><span style="color:#A5D6FF"> configuration</span><span style="color:#A5D6FF"> file</span><span style="color:#A5D6FF"> successfully:</span><span style="color:#A5D6FF"> config</span><span style="color:#A5D6FF"> name:</span><span style="color:#A5D6FF"> Basic</span><span style="color:#A5D6FF"> configuration,</span><span style="color:#A5D6FF"> version:</span><span style="color:#A5D6FF"> 1.0.0,</span><span style="color:#A5D6FF"> routes:</span><span style="color:#A5D6FF"> 1,</span><span style="color:#A5D6FF"> services:</span><span style="color:#A5D6FF"> 1.</span></span>
+<span class="line"><span style="color:#FFA657">Successfully</span><span style="color:#A5D6FF"> validated</span><span style="color:#A5D6FF"> configuration</span><span style="color:#A5D6FF"> file!</span></span></code></pre>
+<h3 id="syncing-configuration-to-apisix-instance">Syncing Configuration to APISIX Instance</h3>
+<p>ADC can now be used to synchronize valid configurations with connected APISIX instances. To do this, run:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> config.yaml</span></span></code></pre>
+<p>This will create a route and a service as we declared in the configuration file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">creating</span><span style="color:#A5D6FF"> service:</span><span style="color:#A5D6FF"> "httpbin-service"</span></span>
+<span class="line"><span style="color:#FFA657">creating</span><span style="color:#A5D6FF"> route:</span><span style="color:#A5D6FF"> "httpbin-route"</span></span>
+<span class="line"><span style="color:#FFA657">Summary:</span><span style="color:#A5D6FF"> created</span><span style="color:#A5D6FF"> 2,</span><span style="color:#A5D6FF"> updated</span><span style="color:#A5D6FF"> 0,</span><span style="color:#A5D6FF"> deleted</span><span style="color:#79C0FF"> 0</span></span></code></pre>
+<p>To verify that the route was created correctly, let’s try sending a request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/anything</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "host:api7.ai"</span></span></code></pre>
+<p>If everything is correct, you will receive a response from <a href="httpbin.org">httpbin.org</a>.</p>
+<h3 id="comparing-local-and-running-configuration">Comparing Local and Running Configuration</h3>
+<p>Now, let’s update the local configuration in the <code>config.yaml</code> file by adding another route:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Basic configuration"</span></span>
+<span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1.0.0"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-service</span></span>
+<span class="line"><span style="color:#7EE787">    hosts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">api7.ai</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-route-anything</span></span>
+<span class="line"><span style="color:#7EE787">    service_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-service</span></span>
+<span class="line"><span style="color:#7EE787">    uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/anything"</span></span>
+<span class="line"><span style="color:#7EE787">    methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">GET</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-route-ip</span></span>
+<span class="line"><span style="color:#7EE787">    service_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-service</span></span>
+<span class="line"><span style="color:#7EE787">    uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/ip"</span></span>
+<span class="line"><span style="color:#7EE787">    methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">GET</span></span></code></pre>
+<p>Before synchronizing this configuration with APISIX, ADC allows you to check the differences between it and the existing APISIX configuration. You can run the following operations:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> diff</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> config.yaml</span></span></code></pre>
+<p>You can see the added and deleted configurations and check the changes before applying the configuration.</p>
+<h3 id="converting-openapi-definitions-to-apisix-configurations">Converting OpenAPI Definitions to APISIX Configurations</h3>
+<p>ADC also supports the use of <a href="https://spec.openapis.org/oas/v3.0.0">OpenAPI definitions</a>. ADC allows the conversion of OpenAPI format definitions into APISIX configurations.</p>
+<p>For example, if you document your API in OpenAPI format like this:</p>
+<div class="code-title">openAPI.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">openapi</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3.0.0</span></span>
+<span class="line"><span style="color:#7EE787">info</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  title</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin API</span></span>
+<span class="line"><span style="color:#7EE787">  description</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Routes for httpbin API</span></span>
+<span class="line"><span style="color:#7EE787">  version</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1.0.0</span></span>
+<span class="line"><span style="color:#7EE787">servers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">url</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://httpbin.org</span></span>
+<span class="line"><span style="color:#7EE787">paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  /anything</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    get</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      tags</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">      summary</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Returns anything that is passed in the request data</span></span>
+<span class="line"><span style="color:#7EE787">      operationId</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getAnything</span></span>
+<span class="line"><span style="color:#7EE787">      parameters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">host</span></span>
+<span class="line"><span style="color:#7EE787">          in</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">header</span></span>
+<span class="line"><span style="color:#7EE787">          schema</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">string</span></span>
+<span class="line"><span style="color:#7EE787">          example</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{{host}}"</span></span>
+<span class="line"><span style="color:#7EE787">      responses</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">        "200"</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          description</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Successfully return anything</span></span>
+<span class="line"><span style="color:#7EE787">          content</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            application/json</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  /ip</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    get</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      tags</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">      summary</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Returns the IP address of the requester</span></span>
+<span class="line"><span style="color:#7EE787">      operationId</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getIP</span></span>
+<span class="line"><span style="color:#7EE787">      responses</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">        "200"</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          description</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Successfully return IP</span></span>
+<span class="line"><span style="color:#7EE787">          content</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            application/json</span><span style="color:#E6EDF3">: {}</span></span></code></pre>
+<p>You can convert this to an APISIX configuration using the subcommand <code>openapi2apisix</code> as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> openapi2apisix</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> config.yaml</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> openAPI.yaml</span></span></code></pre>
+<p>This will create a configuration file as shown below:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">- </span><span style="color:#7EE787">desc</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Returns anything that is passed in the request data</span></span>
+<span class="line"><span style="color:#7EE787">  id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#7EE787">  methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">GET</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getAnything</span></span>
+<span class="line"><span style="color:#7EE787">  uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#E6EDF3">- </span><span style="color:#7EE787">desc</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Returns the IP address of the requester</span></span>
+<span class="line"><span style="color:#7EE787">  id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#7EE787">  methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">GET</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">getIP</span></span>
+<span class="line"><span style="color:#7EE787">  uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">/ip</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">- </span><span style="color:#7EE787">desc</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Routes for httpbin API</span></span>
+<span class="line"><span style="color:#7EE787">  id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin API</span></span>
+<span class="line"><span style="color:#7EE787">  upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span></span>
+<span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span></code></pre>
+<p>As you can see, the configuration is incomplete and a lot of configuration still needs to be added manually. We are improving ADC to bridge the gap between OpenAPI definitions and configurations that can be mapped directly to APISIX.</p>
+<h3 id="tip-use-autocomplete">Tip: Use Autocomplete</h3>
+<p>ADC offers many functions, and the list of features is sure to grow. To learn how to use any subcommand, you can use the <code>--help</code> or <code>-h</code> flag, which will display the documentation for that subcommand.</p>
+<p>To make it even easier, you can use the <code>completion</code> subcommand to generate an autocompletion script for your shell environment. For example, if you are using a zsh shell, you can run:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> completion</span><span style="color:#A5D6FF"> zsh</span></span></code></pre>
+<p>You can then copy and paste the output into your <code>.zshrc</code> file and it will start showing hints when you use <code>adc</code>.</p>
+<p>ADC is still in its infancy and is constantly being improved. To learn more about the project, report a bug, or suggest a feature, visit <a href="github.com/api7/adc">github.com/api7/adc</a>.</p>
+<h2 id="summary">Summary</h2>
+<p>By using the declarative configuration tool ADC, APISIX provides a more simplified, reliable, and traceable management method, allowing developers to manage and deploy API gateway configurations more efficiently. This new feature brings many benefits to team collaboration, environmental consistency, and configuration management, providing strong support for building reliable cloud-native architectures.</p>
+<p>In non-Kubernetes environments, users can seamlessly integrate tools like Jenkins and ArgoCD. They can leverage GitOps’ internal CI/CD approach to manage various aspects of APISIX, enabling functions like multi-environment releases.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

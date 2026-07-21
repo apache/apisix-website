@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gateway API | Apache APISIX</title><meta name="description" content="Gateway API is dedicated to achieving expressive and scalable Kubernetes service networking through various custom resources."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/ingress-controller/concepts/gateway-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Gateway API | Apache APISIX"><meta property="og:description" content="Gateway API is dedicated to achieving expressive and scalable Kubernetes service networking through various custom resources."><meta property="og:url" content="https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Gateway API","description":"Gateway API is dedicated to achieving expressive and scalable Kubernetes service networking through various custom resources.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/ingress-controller/concepts/gateway-api/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/ingress-controller/concepts/gateway-api/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/ingress-controller/overview/" class>Overview</a>  </li><li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/ingress-controller/getting-started/get-apisix-ingress-controller/" class>Get APISIX and APISIX Ingress Controller</a>  </li><li> <a href="/docs/ingress-controller/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/ingress-controller/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/ingress-controller/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/ingress-controller/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class="cat"> <span>Concepts</span> <ul> <li> <a href="/docs/ingress-controller/concepts/resources/" class>APISIX Ingress Controller Resources</a>  </li><li> <a href="/docs/ingress-controller/concepts/gateway-api/" class="active">Gateway API</a>  </li><li> <a href="/docs/ingress-controller/concepts/deployment-architecture/" class>Deployment Architecture</a>  </li> </ul> </li><li class> <a href="/docs/ingress-controller/install/" class>Install with Helm</a>  </li><li class> <a href="/docs/ingress-controller/developer-guide/" class>Developer Guide</a>  </li><li class="cat"> <span>Reference</span> <ul> <li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/" class>Custom Resource Definitions API Reference</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/examples/" class>Configuration Examples</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/configuration-troubleshoot/" class>Configuration Troubleshooting</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/configuration-file/" class>Configuration File</a>  </li><li> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/annotation/" class>Annotations</a>  </li> </ul> </li><li class> <a href="/docs/ingress-controller/upgrade-guide/" class>Upgrade Guide</a>  </li><li class> <a href="/docs/ingress-controller/FAQ/" class>FAQ</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Gateway API</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements. See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p>Gateway API is dedicated to achieving expressive and scalable Kubernetes service networking through various custom resources.</p>
+<p>By supporting Gateway API, the APISIX Ingress controller can realize richer functions, including Gateway management, multi-cluster support, and other features. It is also possible to manage running instances of the APISIX gateway through Gateway API resource management.</p>
+<h2 id="concepts">Concepts</h2>
+<ul>
+<li><strong>GatewayClass</strong>: Defines a class of Gateways with a shared configuration and behavior. Each GatewayClass is managed by a single controller, although a controller may support multiple GatewayClasses.</li>
+<li><strong>Gateway</strong>: Represents a request for network traffic handling within the cluster. A Gateway specifies how traffic enters the cluster and is directed to backend Services, typically by binding to one or more listeners.</li>
+<li><strong>HTTPRoute</strong>: Configures routing for HTTP traffic.</li>
+<li><strong>GRPCRoute</strong>: Configures routing for gRPC traffic.</li>
+<li><strong>ReferenceGrant</strong>: Grants permission to reference resources across namespaces.</li>
+<li><strong>TLSRoute</strong>: Defines routing rules for terminating or passing through TLS traffic.</li>
+<li><strong>TCPRoute</strong>: Configures routing for TCP traffic.</li>
+<li><strong>UDPRoute</strong>: Configures routing for UDP traffic.</li>
+<li><strong>BackendTLSPolicy</strong>: Specifies how a Gateway should validate TLS connections to its backends, including trusted certificate authorities and verification modes.</li>
+</ul>
+<h2 id="gateway-api-support-level">Gateway API Support Level</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Resource</th><th>Core Support Level</th><th>Extended Support Level</th><th>Implementation-Specific Support Level</th><th>API Version</th></tr></thead><tbody><tr><td>GatewayClass</td><td>Supported</td><td>N/A</td><td>Not supported</td><td>v1</td></tr><tr><td>Gateway</td><td>Partially supported</td><td>Partially supported</td><td>Not supported</td><td>v1</td></tr><tr><td>HTTPRoute</td><td>Supported</td><td>Partially supported</td><td>Not supported</td><td>v1</td></tr><tr><td>GRPCRoute</td><td>Supported</td><td>Supported</td><td>Not supported</td><td>v1</td></tr><tr><td>ReferenceGrant</td><td>Supported</td><td>Not supported</td><td>Not supported</td><td>v1beta1</td></tr><tr><td>TLSRoute</td><td>Supported</td><td>Supported</td><td>Not supported</td><td>v1alpha2</td></tr><tr><td>TCPRoute</td><td>Supported</td><td>Supported</td><td>Not supported</td><td>v1alpha2</td></tr><tr><td>UDPRoute</td><td>Supported</td><td>Supported</td><td>Not supported</td><td>v1alpha2</td></tr><tr><td>BackendTLSPolicy</td><td>Not supported</td><td>Not supported</td><td>Not supported</td><td>v1alpha3</td></tr></tbody></table>
+<h2 id="examples">Examples</h2>
+<p>For configuration examples, see the Gateway API tabs in <a href="/docs/ingress-controller/reference/example/">Configuration Examples</a>.</p>
+<p>For a complete list of configuration options, refer to the <a href="https://gateway-api.sigs.k8s.io/reference/1.3/spec/">Gateway API Reference</a>. Be aware that some fields are not supported, or partially supported.</p>
+<h2 id="unsupported--partially-supported-fields">Unsupported / Partially Supported Fields</h2>
+<p>The fields below are specified in the Gateway API specification but are either partially implemented or not yet supported in the APISIX Ingress Controller.</p>
+<h3 id="httproute">HTTPRoute</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Fields</th><th>Status</th><th>Notes</th></tr></thead><tbody><tr><td><code>spec.timeouts</code></td><td>Not supported</td><td>The field is unsupported because ADC provides finer-grained timeout configuration (connect, read, write), whereas <code>spec.timeouts</code> only allows a general total timeout and upstream timeout, so it cannot be directly mapped. To configure route timeouts, you can use <a href="/docs/ingress-controller/reference/api-reference/#backendtrafficpolicyspec">BackendTrafficPolicy</a>.</td></tr><tr><td><code>spec.retries</code></td><td>Not supported</td><td>The field is unsupported because APISIX does not support the features in retries. To configure route retries, you can use <a href="/docs/ingress-controller/reference/api-reference/#backendtrafficpolicyspec">BackendTrafficPolicy</a>.</td></tr><tr><td><code>spec.sessionPersistence</code></td><td>Not supported</td><td>APISIX does not support the configuration of cookie lifetimes. As an alternative, you can use <a href="/docs/ingress-controller/reference/api-reference/#loadbalancer"><code>chash</code> load balancer</a>.</td></tr><tr><td><code>spec.rules[].backendRefs[].filters[]</code></td><td>Not supported</td><td>BackendRef-level filters are not implemented as data plane does not support filtering at this level; only rule-level filters (<code>spec.rules[].filters[]</code>) are supported.</td></tr></tbody></table>
+<h3 id="gateway">Gateway</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Fields</th><th>Status</th><th>Notes</th></tr></thead><tbody><tr><td><code>spec.listeners[].port</code></td><td>Partially supported</td><td>Controls <code>server_port</code> route-var injection; behaviour is configured via <a href="/docs/ingress-controller/reference/configuration-file/"><code>listener_port_match_mode</code></a> (<code>auto</code> / <code>explicit</code> / <code>off</code>). The controller cannot dynamically open data plane ports, so APISIX must already listen on the specified port.</td></tr><tr><td><code>spec.listeners[].tls.certificateRefs[].group</code></td><td>Partially supported</td><td>Only <code>""</code> is supported; other group values cause validation failure.</td></tr><tr><td><code>spec.listeners[].tls.certificateRefs[].kind</code></td><td>Partially supported</td><td>Only <code>Secret</code> is supported.</td></tr><tr><td><code>spec.listeners[].tls.mode</code></td><td>Partially supported</td><td><code>Terminate</code> is implemented; <code>Passthrough</code> is effectively unsupported for Gateway listeners.</td></tr><tr><td><code>spec.addresses</code></td><td>Not supported</td><td>Controller does not read or act on <code>spec.addresses</code>.</td></tr></tbody></table> <div class="docs-meta"> <a href="https://github.com/apache/apisix-ingress-controller/edit/master/docs/en/latest/concepts/gateway-api.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

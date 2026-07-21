@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>data-mask | Apache APISIX</title><meta name="description" content="API 网关 Apache APISIX data-mask 插件可用于在请求数据写入访问日志或日志插件之前，对敏感字段进行掩码或脱敏处理。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/data-mask"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/data-mask/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/data-mask/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/data-mask/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="data-mask | Apache APISIX"><meta property="og:description" content="API 网关 Apache APISIX data-mask 插件可用于在请求数据写入访问日志或日志插件之前，对敏感字段进行掩码或脱敏处理。"><meta property="og:url" content="https://docs.api7.ai/hub/data-mask"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"data-mask","description":"API 网关 Apache APISIX data-mask 插件可用于在请求数据写入访问日志或日志插件之前，对敏感字段进行掩码或脱敏处理。","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/apisix/plugins/data-mask/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/apisix/plugins/data-mask/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/apisix/plugins/data-mask/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/apisix/getting-started/README/" class>入门指南</a>  </li><li> <a href="/zh/docs/apisix/getting-started/configure-routes/" class>配置路由</a>  </li><li> <a href="/zh/docs/apisix/getting-started/load-balancing/" class>负载均衡</a>  </li><li> <a href="/zh/docs/apisix/getting-started/key-authentication/" class>密钥验证</a>  </li><li> <a href="/zh/docs/apisix/getting-started/rate-limiting/" class>限速</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/installation-guide/" class>APISIX 安装指南</a>  </li><li class> <a href="/zh/docs/apisix/architecture-design/apisix/" class>软件架构</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/zh/docs/apisix/tutorials/expose-api/" class>发布 API</a>  </li><li> <a href="/zh/docs/apisix/tutorials/protect-api/" class>保护 API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/zh/docs/apisix/tutorials/observe-your-api/" class>监控 API</a></li><li><a href="/zh/docs/apisix/tutorials/health-check/" class>健康检查</a></li><li><a href="/zh/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/zh/docs/apisix/tutorials/manage-api-consumers/" class>管理 API 消费者</a>  </li><li> <a href="/zh/docs/apisix/tutorials/cache-api-responses/" class>API 响应缓存</a>  </li><li> <a href="/zh/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/zh/docs/apisix/tutorials/client-to-apisix-mtls/" class>配置客户端与 APISIX 之间的双向认证（mTLS）</a>  </li><li> <a href="/zh/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/zh/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/zh/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer-group/" class>Consumer Groups</a>  </li><li> <a href="/zh/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/zh/docs/apisix/terminology/global-rule/" class>Global rules</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/zh/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/zh/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/zh/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/zh/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/zh/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/zh/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/zh/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/zh/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/zh/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/zh/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/zh/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/zh/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/zh/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/zh/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/zh/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/zh/docs/apisix/plugins/gzip/" class>gzip</a></li><li><a href="/zh/docs/apisix/plugins/brotli/" class>brotli</a></li><li><a href="/zh/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/zh/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-pre-req/" class>ext-plugin-pre-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-req/" class>ext-plugin-post-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-resp/" class>ext-plugin-post-resp</a></li><li><a href="/zh/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/zh/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/zh/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/zh/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/grpc-transcode/" class>grpc-transcode</a></li><li><a href="/zh/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/zh/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/zh/docs/apisix/plugins/mocking/" class>mocking</a></li><li><a href="/zh/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/zh/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/zh/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/zh/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/zh/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/zh/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/zh/docs/apisix/plugins/authz-casdoor/" class>authz-casdoor</a></li><li><a href="/zh/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/zh/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/zh/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/zh/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/zh/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/zh/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-casbin/" class>authz-casbin</a></li><li><a href="/zh/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/zh/docs/apisix/plugins/opa/" class>opa</a></li><li><a href="/zh/docs/apisix/plugins/forward-auth/" class>forward-auth</a></li><li><a href="/zh/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/zh/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/zh/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/zh/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/zh/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/zh/docs/apisix/plugins/ua-restriction/" class>ua-restriction</a></li><li><a href="/zh/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/zh/docs/apisix/plugins/csrf/" class>csrf</a></li><li><a href="/zh/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/zh/docs/apisix/plugins/gm/" class>GM</a></li><li><a href="/zh/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/zh/docs/apisix/plugins/data-mask/" class="active">data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/zh/docs/apisix/plugins/limit-req/" class>limit-req</a></li><li><a href="/zh/docs/apisix/plugins/limit-conn/" class>limit-conn</a></li><li><a href="/zh/docs/apisix/plugins/limit-count/" class>limit-count</a></li><li><a href="/zh/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/zh/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/zh/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/zh/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/zh/docs/apisix/plugins/api-breaker/" class>api-breaker</a></li><li><a href="/zh/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/zh/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/zh/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/zh/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/zh/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/zh/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/zh/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/zh/docs/apisix/plugins/serverless/" class>serverless</a></li><li><a href="/zh/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/zh/docs/apisix/plugins/openwhisk/" class>openwhisk</a></li><li><a href="/zh/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/zh/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/zh/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/zh/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/zh/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/zh/docs/apisix/plugins/http-dubbo/" class>http-dubbo</a></li><li><a href="/zh/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/zh/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/zh/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/zh/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/zh/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/zh/docs/apisix/building-apisix/" class>源码安装 APISIX</a>  </li><li> <a href="/zh/docs/apisix/build-apisix-dev-environment-on-mac/" class>在 Mac 上构建开发环境</a>  </li><li> <a href="/zh/docs/apisix/support-fips-in-apisix/" class>通过 OpenSSL 3.0 使 APISIX 支持 FIPS 模式</a>  </li><li> <a href="/zh/docs/apisix/external-plugin/" class>外部插件</a>  </li><li> <a href="/zh/docs/apisix/wasm/" class>wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/zh/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/zh/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/zh/docs/apisix/plugin-develop/" class>插件开发</a>  </li><li> <a href="/zh/docs/apisix/debug-mode/" class>调试模式</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/zh/docs/apisix/FAQ/" class>常见问题</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/zh/docs/apisix/discovery/" class>集成服务发现注册中心</a></li><li><a href="/zh/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/zh/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/zh/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/zh/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/zh/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/zh/docs/apisix/discovery/control-plane-service-discovery/" class>控制面服务发现</a></li><li><a href="/zh/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/zh/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/zh/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/zh/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/zh/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/zh/docs/apisix/router-radixtree/" class>路由 RadixTree</a>  </li><li> <a href="/zh/docs/apisix/stream-proxy/" class>TCP/UDP 动态代理</a>  </li><li> <a href="/zh/docs/apisix/grpc-proxy/" class>gRPC 代理</a>  </li><li> <a href="/zh/docs/apisix/customize-nginx-configuration/" class>自定义 Nginx 配置</a>  </li><li> <a href="/zh/docs/apisix/certificate/" class>证书</a>  </li><li> <a href="/zh/docs/apisix/batch-processor/" class>批处理器</a>  </li><li> <a href="/zh/docs/apisix/benchmark/" class>压力测试</a>  </li><li> <a href="/zh/docs/apisix/install-dependencies/" class>安装依赖</a>  </li><li> <a href="/zh/docs/apisix/apisix-variable/" class>APISIX 变量</a>  </li><li> <a href="/zh/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/zh/docs/apisix/mtls/" class>TLS 双向认证</a>  </li><li> <a href="/zh/docs/apisix/debug-function/" class>调试功能</a>  </li><li> <a href="/zh/docs/apisix/profile/" class>基于环境变量进行配置文件切换</a>  </li><li> <a href="/zh/docs/apisix/ssl-protocol/" class>SSL 协议</a>  </li><li> <a href="/zh/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/zh/docs/apisix/http3/" class>HTTP3 协议</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>升级指南</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>data-mask</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="描述">描述</h2>
+<p><code>data-mask</code> 插件可在请求数据（查询参数、请求头、请求体）写入访问日志或日志插件（如 <code>file-logger</code>、<code>http-logger</code>）之前，对敏感字段进行掩码或脱敏处理。</p>
+<p>该插件适用于防止凭证、令牌、支付卡号及其他敏感信息被写入日志的场景。</p>
+<p>插件在 <code>log</code> 阶段运行，支持以下三种掩码动作：</p>
+<ul>
+<li><code>remove</code>：从请求数据中完全删除该字段。</li>
+<li><code>replace</code>：将字段值替换为固定字符串。</li>
+<li><code>regex</code>：对字段值执行正则表达式替换。</li>
+</ul>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>若需要在 Nginx 访问日志中记录掩码后的查询参数，需将 <code>nginx_config.http.access_log_format</code> 中的 <code>$request</code> 替换为 <code>$request_line</code>：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    access_log_format</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'"$request_line" $status $body_bytes_sent "$http_referer" "$http_user_agent"'</span></span></code></pre></div>
+<h2 id="属性">属性</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>request</td><td>array</td><td>否</td><td></td><td>需应用于请求数据的掩码规则列表。</td></tr><tr><td>max_body_size</td><td>integer</td><td>否</td><td>1048576</td><td>处理请求体时允许的最大字节数。超过此大小的请求体将跳过请求体掩码处理。</td></tr><tr><td>max_req_post_args</td><td>integer</td><td>否</td><td>100</td><td>解析 <code>urlencoded</code> 请求体时允许的最大表单字段数量。</td></tr></tbody></table>
+<p><code>request</code> 数组中每个对象包含以下字段：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>描述</th></tr></thead><tbody><tr><td>type</td><td>string</td><td>是</td><td>要掩码的请求数据类型。可选值：<code>query</code>、<code>header</code>、<code>body</code>。</td></tr><tr><td>name</td><td>string</td><td>是</td><td>要掩码的字段名称。对于 <code>query</code> 和 <code>header</code> 类型，填写参数名或请求头名；对于 <code>body</code> 类型且 <code>body_format</code> 为 <code>json</code> 时，填写 <a href="https://goessner.net/articles/JsonPath/">JSONPath</a> 表达式。</td></tr><tr><td>action</td><td>string</td><td>是</td><td>掩码动作。可选值：<code>remove</code>、<code>replace</code>、<code>regex</code>。</td></tr><tr><td>body_format</td><td>string</td><td>当 <code>type</code> 为 <code>body</code> 时必填</td><td>请求体格式。可选值：<code>json</code>、<code>urlencoded</code>。</td></tr><tr><td>regex</td><td>string</td><td>当 <code>action</code> 为 <code>regex</code> 时必填</td><td>用于匹配字段值的正则表达式。可以在 <code>value</code> 中通过 <code>$1</code>、<code>$2</code> 等方式引用捕获组。</td></tr><tr><td>value</td><td>string</td><td>当 <code>action</code> 为 <code>replace</code> 或 <code>regex</code> 时必填</td><td>替换值。当与 <code>action: regex</code> 配合使用时，可通过 <code>$1</code>、<code>$2</code> 等引用正则捕获组。</td></tr></tbody></table>
+<h2 id="示例">示例</h2>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>您可以这样从 <code>config.yaml</code> 中获取 <code>admin_key</code> 并存入环境变量：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="掩码查询参数">掩码查询参数</h3>
+<p>以下示例创建一条路由并配置 <code>data-mask</code> 插件对查询参数进行掩码处理：删除 <code>password</code> 参数，将 <code>token</code> 替换为固定字符串，并通过正则表达式对 <code>card</code> 号码进行部分掩码。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "data-mask": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "request": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "query",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "password",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "remove"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "query",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "token",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "replace",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "value": "*****"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "query",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "card",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "regex",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "regex": "(\\d+)\\-\\d+\\-\\d+\\-(\\d+)",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "value": "$1-****-****-$2"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "file-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "path": "logs/access.log"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>发送一个包含敏感查询参数的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything?password=secret&#x26;token=mytoken&#x26;card=1234-5678-9012-3456"</span></span></code></pre>
+<p>在 <code>logs/access.log</code> 中，记录的请求 URI 将对敏感字段进行掩码处理：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/anything?token=*****&#x26;card=1234-****-****-3456</span></span></code></pre>
+<p><code>password</code> 参数已被删除，<code>token</code> 被替换为 <code>*****</code>，卡号仅保留首尾各四位数字。</p>
+<h3 id="掩码请求头">掩码请求头</h3>
+<p>以下示例对敏感请求头进行掩码处理：删除 <code>Authorization</code> 请求头，将 <code>X-API-Key</code> 替换为固定字符串，并通过正则表达式对自定义请求头 <code>X-Card-Number</code> 进行部分掩码。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "data-mask": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "request": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "header",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "Authorization",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "remove"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "header",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "X-API-Key",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "replace",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "value": "[REDACTED]"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "header",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "X-Card-Number",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "regex",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "regex": "(\\d+)\\-\\d+\\-\\d+\\-(\\d+)",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "value": "$1-****-****-$2"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "file-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "path": "logs/access.log"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>发送一个包含敏感请求头的请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Authorization: Bearer secret-token"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-Key: my-api-key"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-Card-Number: 1234-5678-9012-3456"</span></span></code></pre>
+<p>在 <code>logs/access.log</code> 中，记录的请求头将对敏感值进行掩码处理。</p>
+<h3 id="使用-jsonpath-掩码-json-请求体字段">使用 JSONPath 掩码 JSON 请求体字段</h3>
+<p>以下示例对 JSON 请求体中的字段进行掩码处理：删除顶层的 <code>password</code> 字段，替换 <code>users</code> 数组中每个元素的 <code>token</code> 字段，并对每个用户的嵌套字段 <code>credit.card</code> 应用正则掩码。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "data-mask": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "request": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "body",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "body_format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "$.password",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "remove"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "body",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "body_format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "$.users[*].token",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "replace",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "value": "*****"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "body",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "body_format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "name": "$.users[*].credit.card",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "action": "regex",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "regex": "(\\d+)\\-\\d+\\-\\d+\\-(\\d+)",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "value": "$1-****-****-$2"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "file-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "include_req_body": true,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "path": "logs/access.log"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>发送一个包含敏感字段的 JSON 请求体：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "password": "secret",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "users": [</span></span>
+<span class="line"><span style="color:#A5D6FF">      {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "name": "alice",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "token": "tok_abc123",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "credit": { "card": "1234-5678-9012-3456" }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "name": "bob",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "token": "tok_xyz789",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "credit": { "card": "9876-5432-1098-7654" }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>在 <code>logs/access.log</code> 中，记录的请求体将对敏感字段进行掩码处理：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "users"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"alice"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "token"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*****"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "credit"</span><span style="color:#E6EDF3">: { </span><span style="color:#7EE787">"card"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1234-****-****-3456"</span><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"bob"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "token"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*****"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "credit"</span><span style="color:#E6EDF3">: { </span><span style="color:#7EE787">"card"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"9876-****-****-7654"</span><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p><code>password</code> 字段已被删除，所有 <code>token</code> 字段被替换为 <code>*****</code>，卡号进行了部分掩码处理。</p>
+<h2 id="删除插件">删除插件</h2>
+<p>当你需要删除该插件时，可以通过如下命令删除相应的 JSON 配置，APISIX 将会自动重新加载相关配置，无需重启服务：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/zh/latest/plugins/data-mask.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Ingress Controller：一种无需 etcd 的轻量级部署方式 | Apache APISIX</title><meta name="description" content="APISIX Ingress Controller 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/10/18/ingress-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/10/18/ingress-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/10/18/ingress-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/10/18/ingress-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX Ingress Controller：一种无需 etcd 的轻量级部署方式 | Apache APISIX"><meta property="og:description" content="APISIX Ingress Controller 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/10/18/ingress-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/10/19/634f6677742a1.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Ingress Controller：一种无需 etcd 的轻量级部署方式","description":"APISIX Ingress Controller 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。","datePublished":"2023-10-18","image":"https://static.apiseven.com/2022/10/19/634f6677742a1.png","author":{"@type":"Person","name":"容鑫"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/10/18/ingress-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/10/18/ingress-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/10/18/ingress-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX Ingress Controller：一种无需 etcd 的轻量级部署方式</h1> <p class="article-meta"> 2023-10-18 · 容鑫  </p> <blockquote>
+<p>APISIX Ingress Controller 创新架构，摆脱对 etcd 集群的依赖，极大简化维护成本和系统复杂性。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景">背景</h2>
+<p>APISIX Ingress Controller 是一个基于 Apache APISIX 的 Kubernetes Ingress Controller，它可以将 Kubernetes 中的 Ingress/CRDs 资源转换为 Apache APISIX 的路由规则，并同步到 Apache APISIX 集群中。由此一来，用户可以利用 Apache APISIX 的强大功能，如插件、负载均衡、健康检查等，来管理 Kubernetes 的入口流量。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/10/24/aezup4a9_APISIX-Ingress-1.png" alt="APISIX Ingress Controller Architecture"></p>
+<p><img src="https://static.apiseven.com/uploads/2023/10/24/ZtjVM6dH_APISIX-Ingress-2.png" alt="Architecture of APISIX Ingress Controller with Gateway API"></p>
+<p>在之前的版本中，部署 APISIX Ingress Controller 集群需要额外维护一套高可用的 etcd 集群。实际上在使用过程中，它并不是那么好用，会带来了一些问题：</p>
+<ul>
+<li>
+<p><strong>etcd 集群维护成本高</strong>：部署高可用集群需要较高的学习与维护成本，需要考虑内存等系统资源的消耗。在 Kubernetes 中部署 etcd 集群需要注意的事项较多，往往由于不熟悉 etcd 而无法有效解决问题。还需关心内存等系统资源消耗。</p>
+</li>
+<li>
+<p><strong>使用成本高</strong>：APISIX Ingress Controller 集群的部署需要三个组件，相比于单个组件的 ingress-nginx 而言，当前架构需要较高的学习和调试成本，十分不易于使用，给初次使用者带来额外的负担。</p>
+</li>
+<li>
+<p><strong>数据冗余和一致性问题</strong>：即 Kubernetes etcd 保留一份，APISIX ETCD 集群也保留了一份。在使用过程中，往往需要避免两者数据不一致的情况，但由于 APISIX 并不依赖于 Ingress controller，它们之间处于解耦的关系，很难处理和避免这种情况。</p>
+</li>
+<li>
+<p><strong>实现 Gatewa API 遇到阻碍</strong>：Gateway API 能够动态的管理一组 Gateway（APISIX） 的生命周期，APISIX 配置主要来源于 etcd，Ingress Controlle 需要同时感知一组 etcd 集群与 APISIX 的状态，这使得维护和管理都会十分复杂。</p>
+</li>
+</ul>
+<p>可以看到，在整个架构中，Apache APISIX 并不依赖于 Ingress Controller，后者只承担着配置推送的角色，实际上它并不具备管理 APISIX 的能力，这些问题在现有的架构中难以解决。<strong>为了这些解决问题，我们需要设计新的 APISIX Ingress Controller 架构。</strong></p>
+<h2 id="新架构的设计">新架构的设计</h2>
+<p>如果要解决现有架构的问题，则必须把 etcd 组件去掉。当前主要考虑了以下两个方案：</p>
+<ol>
+<li>
+<p><strong>渲染 <code>apisix.yaml</code> 配置文件</strong>：根据 CRD 生成 <code>apisix.yaml</code> 配置文件，APISIX 在 yaml 部署模式下定期每秒钟全量读取 <code>apisix.yaml</code> 配置文件。</p>
+</li>
+<li>
+<p><strong>模拟 etcd server API</strong>：根据 CRD 构建 KV 内存数据库，并模拟 etcd server API 提供给 APISIX 进行使用。APISIX 将会尝试 watch Controller 提供的资源配置，并通知到 APISIX 实例。</p>
+</li>
+</ol>
+<p>显然，第一种方式会简单很多，但并不适用于网关直连后端 Pod 的场景，因为 Pod IP 在 Kubernetes 中具有动态伸缩的特性，Ingress Controller 会不断的生成 <code>apisix.yaml</code> 配置，这会导致 APISIX 路由树被频繁重建，从而造成长期的性能抖动。最终经社区讨论决定采用第二种方案，它的架构如下图所示：</p>
+<p><img src="https://static.apiseven.com/uploads/2023/10/24/H7xooJ59_APISIX-Ingress-3.png" alt="Architecture of New APISIX Ingress Controller"></p>
+<p><img src="https://static.apiseven.com/uploads/2023/10/24/UbKWYGar_APISIX-Ingress-4.png" alt="Architecture of New APISIX Ingress Controller (HA)"></p>
+<p>APISIX Ingress Controller 在 Release v1.7.0 版本中实现了新架构，它相比具有以下优势：</p>
+<ul>
+<li>
+<p><strong>以声明式配置作为配置的唯一来源</strong>：APISIX 将只会地依赖于 Control Plane 提供的配置信息并作为唯一来源，这是 Kubernetes 常见的方式，极大减少了运维复杂性。</p>
+</li>
+<li>
+<p><strong>无需维护独立的 etcd 集群</strong>：新架构摆脱了对独立 etcd 集群的依赖，对于用户来说，极大减少了维护成本与复杂性，更易于部署与使用。</p>
+</li>
+<li>
+<p><strong>推进 Kubernetes Gateway API 标准</strong>：APISIX 将依赖于 Ingress Controller，使得后者能够管理 Gateway 的生命周期，这有助于落实 Gateway API 的完整实现。</p>
+</li>
+</ul>
+<h3 id="gateway-api-理想中的新架构">Gateway API 理想中的新架构</h3>
+<p>Gateway API 是 Ingress API 的下一代版本，提供了更丰富的功能和表达能力。目前 Gateway API 已得到了众多厂商和项目的支持，APISIX Ingress Controller 作为 Gateway API 的实现者之一，既遵循了 Gateway API 的标准规范，又结合了 Apache APISIX 的丰富特性，为用户提供了更多的网关配置和策略选项。</p>
+<p>新架构的落地能够进一步推进了 Gateway API 的实现，以提供更好的路由配置和策略，并降低维护成本，使其更易部署与使用，同时也可以充分利用 Gateway API 的优势，提高 API 网关的管理效率。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/10/17/9n1XraKT_Ingress-APISIX-5.png" alt="Gateway API"></p>
+<h2 id="新架构部署与使用">新架构部署与使用</h2>
+<p>在本章节中，将会说明在 Kubernetes 中高可用安装和部署 APISIX Ingress Controller，并在例子中演示如何配置 <code>ApisixRoute</code> 以访问 <code>httpbin</code> 应用服务。</p>
+<h3 id="安装-apisix-ingress-controller">安装 APISIX Ingress Controller</h3>
+<ol>
+<li>你可以运行以下命令，从 Github 克隆 APISIX 源码：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#79C0FF"> --depth</span><span style="color:#79C0FF"> 1</span><span style="color:#79C0FF"> --branch</span><span style="color:#79C0FF"> 1.7.0</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-ingress-controller.git</span><span style="color:#A5D6FF"> ingress-apisix-1.7.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> ingress-apisix-1.7.0</span></span></code></pre>
+<ol start="2">
+<li>安装 CRDs</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -k</span><span style="color:#A5D6FF"> samples/deploy/crd/v1/</span></span></code></pre>
+<ol start="3">
+<li>安装 APISIX Ingress Controller</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> samples/deploy/composite.yaml</span></span></code></pre>
+<ol start="4">
+<li>检查部署状态</li>
+</ol>
+<ul>
+<li>
+<p>检查 service</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> service</span><span style="color:#79C0FF">  -n</span><span style="color:#A5D6FF"> ingress-apisix</span><span style="color:#8B949E"> # check service</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">NAME</span><span style="color:#A5D6FF">                        TYPE</span><span style="color:#A5D6FF">        CLUSTER-IP</span><span style="color:#A5D6FF">       EXTERNAL-IP</span><span style="color:#A5D6FF">   PORT</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">S</span><span style="color:#E6EDF3">)                      </span><span style="color:#A5D6FF">AGE</span></span>
+<span class="line"><span style="color:#FFA657">ingress-apisix-gateway</span><span style="color:#A5D6FF">      NodePort</span><span style="color:#79C0FF">    10.99.236.58</span><span style="color:#FF7B72">     &#x3C;</span><span style="color:#A5D6FF">non</span><span style="color:#E6EDF3">e</span><span style="color:#FF7B72">></span><span style="color:#A5D6FF">        80:31143/TCP,443:30166/TCP</span><span style="color:#A5D6FF">   90s</span></span></code></pre>
+</li>
+<li>
+<p>检查 pods</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> ingress-apisix</span><span style="color:#8B949E"> # check pod</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">NAME</span><span style="color:#A5D6FF">                                                 READY</span><span style="color:#A5D6FF">   STATUS</span><span style="color:#A5D6FF">    RESTARTS</span><span style="color:#A5D6FF">   AGE</span></span>
+<span class="line"><span style="color:#FFA657">ingress-apisix-composite-deployment-5df9bc99c7-xxpvq</span><span style="color:#A5D6FF">   2/2</span><span style="color:#A5D6FF">     Running</span><span style="color:#79C0FF">   0</span><span style="color:#A5D6FF">          100s</span></span></code></pre>
+</li>
+</ul>
+<h3 id="高可用部署">高可用部署</h3>
+<ul>
+<li>部署 3 个实例，仅需配置 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">replicas</a> 便可实现高可用。</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657"> kubectl</span><span style="color:#A5D6FF"> scale</span><span style="color:#A5D6FF"> deployment</span><span style="color:#A5D6FF"> ingress-apisix-composite-deployment</span><span style="color:#79C0FF"> --replicas=3</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> ingress</span></span>
+<span class="line"><span style="color:#FFA657">-apisix</span></span></code></pre>
+<ul>
+<li>检查部署状态</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> ingress-apisix</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"></span>
+<span class="line"><span style="color:#FFA657">NAME</span><span style="color:#A5D6FF">                                                   READY</span><span style="color:#A5D6FF">   STATUS</span><span style="color:#A5D6FF">    RESTARTS</span><span style="color:#A5D6FF">   AGE</span></span>
+<span class="line"><span style="color:#FFA657">ingress-apisix-composite-deployment-6bfdc5d6f6-gjgql</span><span style="color:#A5D6FF">   2/2</span><span style="color:#A5D6FF">     Running</span><span style="color:#79C0FF">   0</span><span style="color:#A5D6FF">          20s</span></span>
+<span class="line"><span style="color:#FFA657">ingress-apisix-composite-deployment-6bfdc5d6f6-jb24q</span><span style="color:#A5D6FF">   2/2</span><span style="color:#A5D6FF">     Running</span><span style="color:#79C0FF">   0</span><span style="color:#A5D6FF">          20s</span></span>
+<span class="line"><span style="color:#FFA657">ingress-apisix-composite-deployment-6bfdc5d6f6-sjpzr</span><span style="color:#A5D6FF">   2/2</span><span style="color:#A5D6FF">     Running</span><span style="color:#79C0FF">   0</span><span style="color:#A5D6FF">          45h</span></span></code></pre>
+<h3 id="使用示例">使用示例</h3>
+<blockquote>
+<p>ApisixRoute 是 Ingress 的 CRDs 资源，用于表示将流量路由到具体的后端服务。</p>
+</blockquote>
+<p>以下示例将演示如何配置 <code>ApisixRoute</code> 将流量路由 <code>httpbin</code> 后端服务。</p>
+<h4 id="部署-httpbin-应用服务">部署 httpbin 应用服务</h4>
+<ul>
+<li>部署 <code>httpbin</code> 应用服务以及配置 <code>ApisixRoute</code>：</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> samples/httpbin/httpbin-route.yaml</span></span></code></pre>
+<ul>
+<li>
+<p>具体 <code>ApisixRoute</code> 配置如下：</p>
+<ul>
+<li>带有 <code>Host: httpbin.org</code> 的所有请求将会路由到 <code>httpbin</code> 服务</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>apiVersion: apisix.apache.org/v2</span></span>
+<span class="line"><span>kind: ApisixRoute</span></span>
+<span class="line"><span>metadata:</span></span>
+<span class="line"><span>  name: httpbin-route</span></span>
+<span class="line"><span>spec:</span></span>
+<span class="line"><span>  http:</span></span>
+<span class="line"><span>    - name: route-1</span></span>
+<span class="line"><span>      match:</span></span>
+<span class="line"><span>        hosts:</span></span>
+<span class="line"><span>          - httpbin.org</span></span>
+<span class="line"><span>        paths:</span></span>
+<span class="line"><span>          - /*</span></span>
+<span class="line"><span>      backends:</span></span>
+<span class="line"><span>        - serviceName: httpbin</span></span>
+<span class="line"><span>          servicePort: 80</span></span></code></pre>
+</li>
+</ul>
+<h4 id="访问-httpbin-测试">访问 httpbin 测试</h4>
+<p>通过本地端口转发，访问 <code>ingress-apisix-gateway</code> 服务，请求将从 ingress-apisix-gateway 路由到 httpbin 应用程序。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># forward port 9080 -> service 80</span></span>
+<span class="line"><span>kubectl port-forward service/ingress-apisix-gateway 9080:80 -n ingress-apisix &#x26;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># acesss httpbin</span></span>
+<span class="line"><span>curl http://127.0.0.1:9080/headers -H 'Host: httpbin.org'</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "headers": {</span></span>
+<span class="line"><span>    "Accept": "*/*",</span></span>
+<span class="line"><span>    "Host": "httpbin.org",</span></span>
+<span class="line"><span>    "User-Agent": "curl/7.74.0",</span></span>
+<span class="line"><span>    "X-Forwarded-Host": "httpbin.org"</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文详细探讨了 APISIX Ingress Controller 的创新架构，它摆脱了对 etcd 集群的依赖，极大地简化了维护成本和系统复杂性。同时，APISIX Ingress Controller 也在积极推进 Kubernetes Gateway API 标准在 Ingress Controller 中的落地实现，以提供更丰富和一致的流量管理能力。</p>
+<p>总而言之，无论是 APISIX Ingress Controller 的新架构还是 Kubernetes Gateway API 实现的落地，旨在为用户提供更加强大、灵活和易用的 Ingress Controller 解决方案，以满足不断变化的云原生应用程序部署和流量管理需求。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

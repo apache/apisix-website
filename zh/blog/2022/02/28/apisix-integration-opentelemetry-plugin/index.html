@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>可观测性能力升级，API 网关 Apache APISIX 集成 OpenTelemetry | Apache APISIX</title><meta name="description" content="本文为您介绍了云原生 API 网关 Apache APISIX 的 opentelemetry 插件的概念以及如何在 APISIX 使用 opentelemetry 插件对接 OpenTelemetry，实现 trace 数据采集。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="可观测性能力升级，API 网关 Apache APISIX 集成 OpenTelemetry | Apache APISIX"><meta property="og:description" content="本文为您介绍了云原生 API 网关 Apache APISIX 的 opentelemetry 插件的概念以及如何在 APISIX 使用 opentelemetry 插件对接 OpenTelemetry，实现 trace 数据采集。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"可观测性能力升级，API 网关 Apache APISIX 集成 OpenTelemetry","description":"本文为您介绍了云原生 API 网关 Apache APISIX 的 opentelemetry 插件的概念以及如何在 APISIX 使用 opentelemetry 插件对接 OpenTelemetry，实现 trace 数据采集。","datePublished":"2022-02-28","image":"https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png","author":{"@type":"Person","name":"庄浩潮"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/02/28/apisix-integration-opentelemetry-plugin/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/02/28/apisix-integration-opentelemetry-plugin/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>可观测性能力升级，API 网关 Apache APISIX 集成 OpenTelemetry</h1> <p class="article-meta"> 2022-02-28 · 庄浩潮  </p> <blockquote>
+<p>本文为您介绍了 API 网关 Apache APISIX 中的 <code>opentelemetry</code> 插件的概念以及如何部署 <code>opentelemetry</code> 插件。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为 API 网关，Apache APISIX 不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。</p>
+<p>OpenTelemetry 是一个开源的遥测数据采集和处理系统，它不仅提供了各种 SDK 用于应用端遥测数据的收集和上报，以及数据收集端用于数据接收、加工和导出，还支持通过配置导出到任意一个或者多个已经适配 OpenTelemetry Exporter 的后端，比如 Jaeger、Zipkin、OpenCensus 等。您可以在 opentelemetry collector contrib 库中查看已经适配 OpenTelemetry Collector 的插件列表。</p>
+<p><img src="https://static.apiseven.com/202108/1646037628714-f542841e-ac27-4c13-a4c8-4cdef79ee501.png" alt="error/OpenTelemetry"></p>
+<h2 id="插件介绍">插件介绍</h2>
+<p>Apache APISIX <code>opentelemetry</code> 插件是基于 OpenTelemetry 原生标准（<a href="https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp-request">OTLP/HTTP</a>）实现的 Tracing 数据采集，并通过 HTTP 协议发送至 OpenTelemetry Collector。该功能将在 Apache APISIX 2.13.0  版本中上线支持。</p>
+<p>由于 OpenTelemetry 的 Agent/SDK 与后端实现无关，当应用集成了 OpenTelemetry 的 Agent/SDK 之后，用户能够在应用侧无感知的情况下轻松地、自由地变更可观测性后端服务，比如从 Zipkin 切换成 Jaeger。</p>
+<p><code>opentelemetry</code> 插件在 Apache APISIX 中集成了 OpenTelemetry Agent/SDK，可以实现采集被追踪的请求生成 trace 后转发到 OpenTelemetry Collector。</p>
+<p><code>opentelemetry</code> 插件位于上图中的 Agent 侧，但目前仅支持 <code>trace</code> 协议，还不支持 OpenTelemetry 的 <code>logs</code> 和 <code>metrics</code> 协议。</p>
+<h2 id="如何使用">如何使用</h2>
+<h3 id="启用插件">启用插件</h3>
+<p>您需要在 <code>conf/config.yaml</code> 配置文件中启用 <code>opentelemetry</code> 插件并修改 <code>collector</code> 配置。</p>
+<p>假设您已经完成 OpenTelemetry Collector 的部署，并且启用了 <a href="https://github.com/open-telemetry/opentelemetry-collector/blob/main/receiver/otlpreceiver/README.md">OTLP HTTP Receiver</a>。</p>
+<blockquote>
+<p>如果您未完成部署，可参考下一节的场景示例部分，完成 OpenTelemetry Collector 的部署。</p>
+</blockquote>
+<p>其中 OTLP HTTP Receiver 的默认端口为<code>4318</code>，<code>collector</code> 的地址为 OpenTelemetry Collector 的 HTTP Receiver 地址，相关字段可参考 <a href="https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/">Apache APISIX 官方文档</a>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>plugins</span></span>
+<span class="line"><span>... # 已经启用的其它插件</span></span>
+<span class="line"><span>- opentelemetry</span></span>
+<span class="line"><span>plugin_attr:</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>opentelemetry:</span></span>
+<span class="line"><span>  trace_id_source: x-request-id</span></span>
+<span class="line"><span>  resource:</span></span>
+<span class="line"><span>    service.name: APISIX</span></span>
+<span class="line"><span>  collector:</span></span>
+<span class="line"><span>    address: 127.0.0.1:4318 # OTLP HTTP Receiver 地址</span></span>
+<span class="line"><span>    request_timeout: 3</span></span></code></pre>
+<h4 id="方法一将插件绑定到指定路由">方法一：将插件绑定到指定路由</h4>
+<p>为了更方便的展示测试效果，示例中暂时将 <code>sampler</code> 设置为全采样，以确保每次请求都被追踪后产生 <code>trace</code> 数据，方便您在 Web UI 上查看 <code>trace</code> 的相关数据。您也可以根据实际情况，设置相关参数。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>-X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "uri": "/get",</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>      "opentelemetry": {</span></span>
+<span class="line"><span>          "sampler": {</span></span>
+<span class="line"><span>              "name": "always_on"</span></span>
+<span class="line"><span>          }</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "upstream": {</span></span>
+<span class="line"><span>      "type": "roundrobin",</span></span>
+<span class="line"><span>      "nodes": {</span></span>
+<span class="line"><span>          "httpbin.org:80": 1</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h4 id="方式二设置-global-rules">方式二：设置 Global Rules</h4>
+<p>您也可以通过 Apache APISIX Plugins 功能启用 <code>opentelemetry</code> 插件。完成全局配置后，您仍然需要创建路由，否则将无法进行测试。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl 'http://127.0.0.1:9080/apisix/admin/global_rules/1' \</span></span>
+<span class="line"><span>-H 'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>-X PUT -d '{</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>      "opentelemetry": {</span></span>
+<span class="line"><span>          "sampler": {</span></span>
+<span class="line"><span>              "name": "always_on"</span></span>
+<span class="line"><span>          }</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h4 id="方式三通过-additional_attributes-为-span-自定义标签">方式三：通过 <code>additional_attributes</code> 为 Span 自定义标签</h4>
+<p>关于 <code>sampler</code> 和 <code>additional_attributes</code> 的配置您可以参考 <a href="https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/">Apache APISIX 官方文档</a>，其中 <code>additional_attributes</code> 是一系列的 <code>Key:Value</code> 键值对，您可以使用它为 Span 自定义标签，并且可以跟随 Span 在 Web UI 上展示。通过 <code>additional_attributes</code> 为某个路由的 Span 增加 <code>route_id</code> 和 <code>http_x-custom-ot-key</code>，可以参考如下配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1001 \</span></span>
+<span class="line"><span>-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>-X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "uri": "/put",</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>      "opentelemetry": {</span></span>
+<span class="line"><span>          "sampler": {</span></span>
+<span class="line"><span>              "name": "always_on"</span></span>
+<span class="line"><span>          },</span></span>
+<span class="line"><span>          "additional_attributes":[</span></span>
+<span class="line"><span>              "route_id",</span></span>
+<span class="line"><span>              "http_x-custom-ot-key"</span></span>
+<span class="line"><span>          ]</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "upstream": {</span></span>
+<span class="line"><span>      "type": "roundrobin",</span></span>
+<span class="line"><span>      "nodes": {</span></span>
+<span class="line"><span>          "httpbin.org:80": 1</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h3 id="测试示例">测试示例</h3>
+<p>您可以通过以上三种方式中的任意一种方式启用 <code>opentelemetry</code>，以下示例使用方式三的方法创建路由，创建成功后，您可以参考如下命令访问路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X PUT -H `x-custom-ot-key: test-ot-val` http://127.0.0.1:9080/put</span></span></code></pre>
+<p>访问成功之后，您可以在 Jaeger UI 中看到类似如下图所示 /put 的 Span 详情，并可以看到 Tags 列表中展示了路由中自定义的 tag：<code>http_x-custom-ot-key</code> 和 <code>route_id</code>。</p>
+<p><img src="https://static.apiseven.com/202108/1646039676695-a346734b-0498-4ff6-8882-789a61008544.png" alt="error/Span details.png"></p>
+<p>您需要注意，<code>additional_attributes</code> 配置的设定是从 Apache APISIX 和 Nginx 变量取值作为 <code>attribute</code> 的值，因此 <code>additional_attributes</code> 必须是 Apache APISIX 或者 Nginx 的有效变量。其中也包括 HTTP Header，但是在取 <code>http_header</code> 时，需要添加 <code>http_</code> 作为变量名的前缀。如果变量不存在，就不会展示这个 <code>tag</code> 了。</p>
+<h3 id="场景示例">场景示例</h3>
+<p>本场景示例通过简单修改 OpenTelemetry Collector 官方示例部署 Collector、Jaeger 和 Zipkin 作为后端服务，并且启动两个示例应用程序（Client 和 Server），其中 Server 提供了一个 HTTP 服务，而 Client 会循环调用 Server 提供的 HTTP 接口，从而产生包括两个 Span 的调用链。</p>
+<h4 id="步骤一部署-opentelemetry">步骤一：部署 OpenTelemetry</h4>
+<p>以下使用 <code>docker-compose</code> 作为示例，其它部署可以参考 <a href="https://opentelemetry.io/docs/collector/getting-started/">OpenTelemetry 官方文档</a>。</p>
+<p>您可以参考如下命令部署：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git clone https://github.com/open-telemetry/opentelemetry-collector-contrib.git</span></span>
+<span class="line"><span>cd opentelemetry-collector-contrib/examples/demo</span></span>
+<span class="line"><span>docker-compose up -d</span></span></code></pre>
+<p>在浏览器中输入 <code>http://127.0.0.1:16886</code>（Jaeger UI）或者 <code>http://127.0.0.1:9411/zipkin</code>（Zipkin UI），如果可以正常访问，则表示部署成功。</p>
+<p>下图为访问成功示例：</p>
+<p><img src="https://static.apiseven.com/202108/1646039980335-71bbb6f7-39d5-4153-b6e7-0305f52112f3.png" alt="error/Jaeger example.png"></p>
+<p><img src="https://static.apiseven.com/202108/1646040117233-7a18f85f-4037-43e3-bc63-0ff6d1dbe5c1.png" alt="error/Zipkin example.png"></p>
+<h4 id="步骤二配置测试环境">步骤二：配置测试环境</h4>
+<p>引入 Apache APISIX 服务，最终应用的拓扑如下图所示：</p>
+<p><img src="https://static.apiseven.com/202108/1646040225319-819f10ab-9643-4bd7-8f99-07f9a6c84bf8.png" alt="error/Architecture diagram.png"></p>
+<p>Trace 数据上报流程如下。其中由于 Apache APISIX 是单独部署的，并不在 <code>docker-compose</code> 的网络内，所以 Apache APISIX 是通过本地映射的端口（即 <code>127.0.0.1:4138</code>）访问到 OpenTelemetry Collector 的 OTLP HTTP Receiver 的。</p>
+<p><img src="https://static.apiseven.com/202108/1646040470172-4d44c6ca-b890-4245-9c87-3a42d8b59f47.png" alt="error/Trace data reporting process.png"></p>
+<p>您需要确保已经启用 <code>opentelemetry</code> 插件，并重新加载 Apache APISIX。</p>
+<ol>
+<li>您可以参考如下示例创建一个路由，并且启用 <code>opentelemetry</code> 插件进行采样：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>  -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "uri": "/hello",</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "opentelemetry": {</span></span>
+<span class="line"><span>            "sampler": {</span></span>
+<span class="line"><span>                "name": "always_on",</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "nodes": {</span></span>
+<span class="line"><span>            "127.0.0.1:7080": 1</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<ol start="2">
+<li>修改 <code>./examples/demo/otel-collector-config.yaml</code> 文件，并添加 OTLP HTTP Receiver，如下所示：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>receivers:</span></span>
+<span class="line"><span>  otlp:</span></span>
+<span class="line"><span>    protocols:</span></span>
+<span class="line"><span>      grpc:</span></span>
+<span class="line"><span>      http:${ip:port}   # 添加 OTLP HTTP Receiver，默认端口为 4318</span></span></code></pre>
+<ol start="3">
+<li>修改 <code>docker-compose.yaml</code>。</li>
+</ol>
+<p>您需要修改配置文件，把 Client 调用 Server 的接口地址修改为 Apache APISIX 的地址，将 OTLP HTTP Receiver 和 Server 服务的端口映射到本地。</p>
+<p>以下示例是修改配置后完整的 <code>docker-compose.yaml</code>：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>version: "2"</span></span>
+<span class="line"><span>services:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Jaeger</span></span>
+<span class="line"><span>jaeger-all-in-one:</span></span>
+<span class="line"><span>  image: jaegertracing/all-in-one:latest</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "16686:16686" # jaeger ui 的端口</span></span>
+<span class="line"><span>    - "14268"</span></span>
+<span class="line"><span>    - "14250"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Zipkin</span></span>
+<span class="line"><span>zipkin-all-in-one:</span></span>
+<span class="line"><span>  image: openzipkin/zipkin:latest</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "9411:9411"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Collector</span></span>
+<span class="line"><span>otel-collector:</span></span>
+<span class="line"><span>  image: ${OTELCOL_IMG}</span></span>
+<span class="line"><span>  command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]</span></span>
+<span class="line"><span>  volumes:</span></span>
+<span class="line"><span>    - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "1888:1888"   # pprof extension</span></span>
+<span class="line"><span>    - "8888:8888"   # Prometheus metrics exposed by the collector</span></span>
+<span class="line"><span>    - "8889:8889"   # Prometheus exporter metrics</span></span>
+<span class="line"><span>    - "13133:13133" # health_check extension</span></span>
+<span class="line"><span>    - "4317"        # OTLP gRPC receiver</span></span>
+<span class="line"><span>    - "4318:4318"   # 添加 OTLP HTTP Receiver 端口映射</span></span>
+<span class="line"><span>    - "55670:55679" # zpages extension</span></span>
+<span class="line"><span>  depends_on:</span></span>
+<span class="line"><span>    - jaeger-all-in-one</span></span>
+<span class="line"><span>    - zipkin-all-in-one</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>demo-client:</span></span>
+<span class="line"><span>  build:</span></span>
+<span class="line"><span>    dockerfile: Dockerfile</span></span>
+<span class="line"><span>    context: ./client</span></span>
+<span class="line"><span>  environment:</span></span>
+<span class="line"><span>    - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317</span></span>
+<span class="line"><span>    - DEMO_SERVER_ENDPOINT=http://172.17.0.1:9080/hello # APISIX 的地址</span></span>
+<span class="line"><span>  depends_on:</span></span>
+<span class="line"><span>    - demo-server</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>demo-server:</span></span>
+<span class="line"><span>  build:</span></span>
+<span class="line"><span>    dockerfile: Dockerfile</span></span>
+<span class="line"><span>    context: ./server</span></span>
+<span class="line"><span>  environment:</span></span>
+<span class="line"><span>    - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "7080:7080" # 将 Server 端口映射到宿主机</span></span>
+<span class="line"><span>  depends_on:</span></span>
+<span class="line"><span>    - otel-collector</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>prometheus:</span></span>
+<span class="line"><span>  container_name: prometheus</span></span>
+<span class="line"><span>  image: prom/prometheus:latest</span></span>
+<span class="line"><span>  volumes:</span></span>
+<span class="line"><span>    - ./prometheus.yaml:/etc/prometheus/prometheus.yml</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "9090:9090"</span></span></code></pre>
+<p>需要注意，<code>demo-client.environment.DEMO_SERVER_ENDPOINT</code> 处需要改为您的 Apache APISIX 地址，且保证在容器内可以正常访问。</p>
+<p>当然，您也可以通过 <code>docker-compose.yaml</code> 部署 Apache APISIX ，具体可以参考 <a href="https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md">Apache APISIX 官方文档</a>。</p>
+<h4 id="步骤三测试">步骤三：测试</h4>
+<p>重新部署完成后，访问 Jaeger UI 或者 Zipkin UI 即可看到 Trace 中包含了 APISIX 的 Span，如下图：</p>
+<p><img src="https://static.apiseven.com/202108/1646045290844-acfa071b-5a0d-4f7a-aa77-55838a3cb9f6.png" alt="error/Jaeger example.png"></p>
+<p><img src="https://static.apiseven.com/202108/1646045376329-e1344754-58b4-4a73-8aea-50e6a04f3b70.png" alt="error/Zipkin example.png"></p>
+<h2 id="禁用插件">禁用插件</h2>
+<p>如果您暂时不需要某个路由的 Trace 采集，则仅需修改路由配置，将配置中的 <code>plugins</code> 下的 <code>opentelemetry</code> 相关配置删除即可。</p>
+<p>如果您是通过绑定 Global Rules 全局启用的，则只能删除 <code>opentelemetry</code> 全局插件的配置。得益于 Apache APISIX 的动态化优势，开启关闭插件的过程都不需要重启 Apache APISIX，十分方便。</p>
+<h2 id="总结">总结</h2>
+<p>Apache APISIX 在集成 OpenTelemetry 之后，借助 OpenTelemetry 丰富的插件能够与市场上大部分主流的 Trace 系统轻松实现对接。此外，Apache APISIX 也实现了 SkyWalking 和 Zipkin 原生标准协议插件，也在积极与各大社区合作打造更加强大的生态。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流.</p>
+<h2 id="相关阅读">相关阅读</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/11/04/skywalking">浅谈 Apache APISIX 的可观测性</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2022/02/10/apisix-splunk-integration">生态扩大进行中！API 网关集成 Splunk HTTP Event Collector</a></p>
+</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Apache APISIX 3.4.0 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.4.0 版本于 2023 年 6 月 30 日发布。此版本新增了一个适用于 Grafana Loki 的插件，允许在路由级别上建立 mTLS 连接，并进行性能优化，不断提升 APISIX 的用户体验。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/06/30/release-apache-apisix-3.4.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/06/30/release-apache-apisix-3.4.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/06/30/release-apache-apisix-3.4.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/06/30/release-apache-apisix-3.4.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Release Apache APISIX 3.4.0 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.4.0 版本于 2023 年 6 月 30 日发布。此版本新增了一个适用于 Grafana Loki 的插件，允许在路由级别上建立 mTLS 连接，并进行性能优化，不断提升 APISIX 的用户体验。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/06/30/release-apache-apisix-3.4.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Release Apache APISIX 3.4.0","description":"Apache APISIX 3.4.0 版本于 2023 年 6 月 30 日发布。此版本新增了一个适用于 Grafana Loki 的插件，允许在路由级别上建立 mTLS 连接，并进行性能优化，不断提升 APISIX 的用户体验。","datePublished":"2023-06-30","author":{"@type":"Person","name":"Xin Rong"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/06/30/release-apache-apisix-3.4.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/06/30/release-apache-apisix-3.4.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/06/30/release-apache-apisix-3.4.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Release Apache APISIX 3.4.0</h1> <p class="article-meta"> 2023-06-30 · Xin Rong  </p> <p>我们很高兴地介绍 Apache APISIX 3.4.0，它带来了令人兴奋的新功能和性能改进。</p>
+<!--truncate-->
+<p>此版本提供了一个新的插件 <code>loki-logger</code>，可将日志转发到 <a href="https://grafana.com/oss/loki/">Grafana Loki</a>，并允许在路由级别上建立 mTLS 连接。此外，此版本还还引入了许多新的特性，旨在优化对 APISIX 的使用体验。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="使用-loki-logger-插件支持与-grafana-loki-集成">使用 <code>loki-logger</code> 插件支持与 Grafana Loki 集成</h3>
+<p><code>loki-logger</code> 插件被用于将日志转发到 <a href="https://grafana.com/oss/loki/">Grafana Loki</a> 进行分析和存储。</p>
+<p>启用插件后，APISIX 会将请求上下文信息序列化为<a href="https://grafana.com/docs/loki/latest/api/#push-log-entries-to-loki">JSON 格式的 Log 条目</a>，并将其提交到批处理队列。当队列条件满足时数据将被推送到 Grafana Loki。</p>
+<p>例如，您可以在特定路由上启用 <code>loki-logger</code> 插件：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "loki-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "endpoint_addrs" : ["http://127.0.0.1:3100"]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">           "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">       },</span></span>
+<span class="line"><span style="color:#A5D6FF">       "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>如果成功，APISIX 日志将被转发到运行在 <code>http://127.0.0.1:3100</code> 上的 Loki。</p>
+<p>有关该插件的更多信息，请参见 <code>loki-logger</code> <a href="https://github.com/apache/apisix/blob/release/3.4/docs/en/latest/plugins/loki-logger.md">插件文档</a>。</p>
+<p>有关此功能的 PR 请参见 <a href="https://github.com/apache/apisix/pull/9399">#9399</a>。</p>
+<h3 id="支持路由级别的-mtls">支持路由级别的 mTLS</h3>
+<p>支持在路由级别配置 mTLS。Admin API SSL 对象现提供一个新的配置选项 <code>client.skip_mtls_uri_regex</code>。用户可以在此选项中指定一个 URI 列表白名单（支持正则表达式）。对于这些 URI，APISIX 跳过客户端证书的验证。</p>
+<p>例如，您可以配置如下的路由级别的 mTLS：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/ssls/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "cert": "'"$(</span><span style="color:#FFA657">path/to/certs/mtls_server.crt</span><span style="color:#A5D6FF">)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key": "'"$(</span><span style="color:#FFA657">path/to/certs/mtls_server.key</span><span style="color:#A5D6FF">)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "snis": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "*.apisix.dev"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "client": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "ca": "'"$(</span><span style="color:#FFA657">path/to/certs/mtls_ca.crt</span><span style="color:#A5D6FF">)"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "depth": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "skip_mtls_uri_regex": [</span></span>
+<span class="line"><span style="color:#A5D6FF">            "/anything.*"</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>如果请求的 URI 在 <code>skip_mtls_uri_regex</code> 列表中，则不会检查客户端证书。请注意，如果客户端证书丢失或无效，则关联的 SNI 的其他 URI 将在 SSL 握手阶段得到 HTTP 400 响应而不是警报错误。</p>
+<p>有关详细示例，请参见 <a href="https://github.com/apache/apisix/blob/release/3.4/docs/zh/latest/tutorials/client-to-apisix-mtls.md#%E5%9F%BA%E4%BA%8E%E5%AF%B9-uri-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D%E7%BB%95%E8%BF%87-mtls">教程：基于 URI 的正则表达式匹配来绕过 mTLS</a>。</p>
+<p>有关此功能的 PR 请参见 <a href="https://github.com/apache/apisix/pull/9322">#9322</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<ul>
+<li>支持单个 HTTP 长连接 watch etcd 的全部资源，该优化降低了访问 etcd 的资源损耗，使 watch 性能可达到 与 gRPC 一样的效果（<a href="https://github.com/apache/apisix/pull/9456">PR ＃9456</a>）。</li>
+<li>支持在 <code>proxy_rewrite</code> 插件中使用多个正则表达式模式（<a href="https://github.com/apache/apisix/pull/9194">PR ＃9194</a>）。</li>
+<li>允许用户在 <code>prometheus</code> 插件中自定义配置 <code>DEFAULT_BUCKETS（</code><a href="https://github.com/apache/apisix/pull/9673">PR #9673</a>）。</li>
+</ul>
+<h2 id="更新日志">更新日志</h2>
+<p>有关此版本中包含的所有新功能和错误修复的完整列表，请参见 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md">CHANGELOG</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,1171 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>security-threat-model | Apache APISIX</title><meta name="description" content="Provenance legend — every claim is tagged:"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/apisix/security-threat-model/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/security-threat-model/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/security-threat-model/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/security-threat-model/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="security-threat-model | Apache APISIX"><meta property="og:description" content="Provenance legend — every claim is tagged:"><meta property="og:url" content="https://apisix.apache.org/docs/apisix/security-threat-model/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"security-threat-model","description":"Provenance legend — every claim is tagged:","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/security-threat-model/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/security-threat-model/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/security-threat-model/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class>Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class="active">security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>security-threat-model</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+-->
+<h1 id="apache-apisix--threat-model">Apache APISIX — Threat Model</h1>
+<blockquote>
+<p><strong>This is a maintainer-stewarded threat model owned by the
+Apache APISIX PMC.</strong> It follows the rubric at
+<a href="https://gist.github.com/potiuk/da14a826283038ddfe38cc9fe6310573">https://gist.github.com/potiuk/da14a826283038ddfe38cc9fe6310573</a>.
+A historical first draft is preserved as a gist at
+<a href="https://gist.github.com/potiuk/43aa334087cf1fdb2908662e592a192a">https://gist.github.com/potiuk/43aa334087cf1fdb2908662e592a192a</a>
+for reference; this in-repo document is the canonical version.
+Last revised 2026-05-30.</p>
+</blockquote>
+<p><strong>Provenance legend</strong> — every claim is tagged:</p>
+<ul>
+<li><em>(documented)</em> — verbatim or paraphrased from a project public
+artefact (cited inline).</li>
+<li><em>(maintainer)</em> — confirmed by an APISIX PMC member.</li>
+<li><em>(inferred)</em> — synthesis from public artefacts; the PMC has
+not yet confirmed. Every <em>(inferred)</em> claim also appears in
+§4.14 as an Open Question. (None remain in the current
+revision.)</li>
+</ul>
+<p><strong>Confidence</strong>: ~70 <em>(documented)</em> / 28 <em>(maintainer)</em> / 0
+<em>(inferred)</em>. All §4.14 open questions have been resolved with
+the PMC; q-21 (dashboard admin-key storage) was resolved by
+reducing scan scope (see §4.11a, §4.14 q-21).</p>
+<hr>
+<h2 id="41-header">§4.1 Header</h2>
+<ul>
+<li><strong>Project</strong>: Apache APISIX (gateway), apisix-ingress-controller.
+(apache/apisix-dashboard is out of current scan scope per PMC
+decision 2026-05-26; see §4.11a.)</li>
+<li><strong>Model version</strong>: 2026-05-30 (revised), against <code>apache/apisix@main</code>
+and <code>apache/apisix-ingress-controller@main</code> at the date above.</li>
+<li><strong>Scope</strong>: apache/apisix + apache/apisix-ingress-controller
+(apache/apisix-dashboard out of current scan scope per PMC
+2026-05-26).</li>
+<li><strong>Stewardship</strong>: this document is maintainer-stewarded by the
+Apache APISIX PMC.</li>
+<li><strong>Historical reference</strong>: a first-draft version of this
+document is preserved at
+<a href="https://gist.github.com/potiuk/43aa334087cf1fdb2908662e592a192a">https://gist.github.com/potiuk/43aa334087cf1fdb2908662e592a192a</a>
+for traceability of the §4.14 promotion pass.</li>
+<li><strong>Version binding</strong>: this model describes APISIX as of the
+commits listed above. A report against an earlier release (e.g.,
+3.x) is triaged against the model as it stood for that release;
+if a security property was added later, the earlier release is
+not in scope. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Reporting cross-reference</strong>: findings that fall under §4.8 (claimed
+properties) should be reported privately per the project’s
+disclosure policy (<a href="mailto:security@apache.org">security@apache.org</a>). Findings that fall under
+§4.3 or §4.9 will be closed with a pointer to this document.</li>
+<li><strong>Status</strong>: <strong>maintainer-confirmed; revised 2026-05-30.</strong></li>
+</ul>
+<p><strong>One-paragraph description.</strong> Apache APISIX is a dynamic,
+cloud-native API gateway built on OpenResty (nginx + LuaJIT).
+A single APISIX deployment terminates HTTP/HTTPS/gRPC/TCP/UDP
+client traffic, applies route-matched plugin logic (auth, rate
+limiting, transformation, observability), and forwards to upstream
+services. Configuration is held in etcd (or in YAML in
+standalone mode) and mutated through the <strong>Admin API</strong>. The
+<strong>apisix-ingress-controller</strong> translates Kubernetes Ingress /
+Gateway-API resources into Admin API calls. (The
+<strong>apisix-dashboard</strong> — a React SPA that does the same on behalf
+of a human operator — is part of the broader APISIX project but
+is out of the current scan scope; see §4.11a.)</p>
+<hr>
+<h2 id="42-scope-and-intended-use">§4.2 Scope and intended use</h2>
+<p><strong>Intended deployments</strong> <em>(documented — README, deployment-modes.md)</em>:</p>
+<ul>
+<li><strong>Edge gateway</strong> — single APISIX cluster in front of upstream
+services, performing routing, auth, rate limiting, transformation.</li>
+<li><strong>Service mesh sidecar / ingress controller</strong> — APISIX as a
+Kubernetes Ingress / Gateway-API implementation via
+apisix-ingress-controller.</li>
+<li><strong>Decoupled control-plane / data-plane deployments</strong> — separate
+APISIX instances configured for <code>role: data_plane</code> and
+<code>role: control_plane</code>.</li>
+<li><strong>Standalone mode</strong> — file-backed config (no etcd), suited to
+immutable infrastructure / GitOps. <em>(documented —
+deployment-modes.md)</em></li>
+</ul>
+<p><strong>Caller roles.</strong> A gateway has more than one “caller”:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Role</th><th>Trust level</th><th>Typical channel</th></tr></thead><tbody><tr><td><strong>External client</strong></td><td>untrusted</td><td>HTTPS / HTTP / TCP / UDP traffic to data-plane port (default 9080).</td></tr><tr><td><strong>Operator / admin</strong></td><td>trusted</td><td>Admin API (default 9180) or Kubernetes CRDs via the ingress controller.</td></tr><tr><td><strong>Upstream service</strong></td><td>operator-trusted</td><td>HTTP / HTTPS / gRPC to backend; operator chose to put it behind APISIX.</td></tr><tr><td><strong>etcd peer</strong></td><td>operator-trusted</td><td>gRPC to etcd (TLS optional).</td></tr><tr><td><strong>Plugin runner subprocess</strong> <em>(external plugins)</em></td><td>operator-trusted</td><td>Unix-socket RPC; subprocess inherits APISIX user. <em>(documented — external-plugin.md)</em></td></tr><tr><td><strong>Operator-supplied Lua / serverless code</strong></td><td>operator-trusted</td><td>embedded in route config; executes inside the worker. <em>(documented — plugin-develop.md, serverless-pre-function plugin)</em></td></tr></tbody></table>
+<p><strong>Component-family table.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Family</th><th>Representative entry point</th><th>Process-external side effects</th><th>In/out of model</th></tr></thead><tbody><tr><td>Gateway data-plane (Lua, OpenResty)</td><td><code>POST /any-route</code> on <code>node_listen</code></td><td>network egress to upstream, log sinks, etcd reads</td><td><strong>in</strong></td></tr><tr><td>Gateway control-plane (Admin API)</td><td><code>PUT /apisix/admin/routes/&#x3C;id></code> on <code>admin_listen</code></td><td>etcd writes, plugin reloads</td><td><strong>in</strong></td></tr><tr><td>etcd watch + reload</td><td><code>apisix/core/config_etcd.lua</code></td><td>etcd reads, in-process state mutation</td><td><strong>in</strong></td></tr><tr><td>Plugin host (Lua)</td><td>each route’s <code>plugins:</code> config</td><td>filesystem / network access available to any plugin</td><td><strong>in</strong></td></tr><tr><td>External plugin runner</td><td>unix socket RPC</td><td>subprocess, runs as APISIX uid</td><td><strong>in</strong> <em>(documented — external-plugin.md)</em></td></tr><tr><td>Stream proxy (raw TCP/UDP)</td><td><code>stream_proxy</code> listener</td><td>upstream TCP / UDP</td><td><strong>in</strong></td></tr><tr><td>Ingress controller</td><td>Kubernetes CRD watcher → Admin API</td><td>K8s API, etcd writes via APISIX</td><td><strong>in</strong></td></tr><tr><td><code>bin/</code>, <code>t/</code>, <code>example/</code>, <code>ci/</code>, <code>.github/</code>, demo configs</td><td>n/a</td><td>n/a</td><td><strong>out</strong> <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td>Vendored Lua runtime dependencies under <code>deps/</code> and <code>lua_modules/</code></td><td>varies</td><td>varies</td><td><strong>in</strong> (per apisix-master-0.rockspec runtime deps) <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td>Test fixtures under <code>t/lib/</code></td><td>varies</td><td>varies</td><td><strong>out</strong> <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr></tbody></table>
+<hr>
+<h2 id="43-out-of-scope-explicit-non-goals">§4.3 Out of scope (explicit non-goals)</h2>
+<p>The following are not threat-model scope. A report whose root
+cause sits here is closed as <code>OUT-OF-MODEL</code> with a pointer to the
+specific bullet below.</p>
+<ol>
+<li><strong>Operator misconfiguration</strong> that voids a documented default-secure
+posture. Examples: exposing the Admin API on <code>0.0.0.0</code> without
+changing <code>admin_listen.allow_admin</code> from its default
+<code>127.0.0.0/24</code>; running with the documented-as-known
+default Admin API key <code>edd1c9f034335f136f87ad84b625c8f1</code>
+(the <code>conf/config.yaml</code> warning calls this out explicitly).
+<em>(documented — admin-api.md, conf/config.yaml<div></div>)</em></li>
+<li><strong>etcd security as such.</strong> APISIX assumes etcd is operator-secured
+(TLS, auth, network isolation). A finding that requires
+compromising etcd is not an APISIX finding.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Upstream service vulnerabilities.</strong> APISIX routes traffic to
+operator-chosen upstreams; bugs <em>in those upstreams</em> are out of
+scope. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Operator-supplied Lua code</strong> (custom plugins via
+<code>extra_lua_path</code>, <code>serverless-pre-function</code> /
+<code>serverless-post-function</code> route-embedded code, custom external
+plugin runners). This code is loaded into the same worker
+process with full <code>ngx.*</code> access — by design <em>(documented —
+plugin-develop.md, external-plugin.md)</em>. The PMC is responsible
+for the Apache-maintained plugins under <code>apisix/plugins/</code>; the
+operator is responsible for their own. Exception: the example
+snippets in <code>docs/</code> are PMC responsibility — an exploitable
+documented example is a documentation bug, triaged as
+<code>VALID-HARDENING</code>. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>All plugins are opt-in; none are active without explicit
+per-route configuration.</strong> A plugin is only on the request hot
+path once an operator names it in a route’s <code>plugins:</code> block (or
+in an <code>ApisixPluginConfig</code> / <code>ApisixRoute</code> CRD). There is no
+“default-enabled plugins subset”. Enabling a plugin and finding
+a bug in it is in scope of §4.8 for any plugin shipped under
+<code>apisix/plugins/</code>. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Kubernetes cluster security</strong> — RBAC, namespace isolation,
+network policy, admission controllers. The ingress controller
+assumes the cluster operator has gated who can create
+<code>ApisixRoute</code> / <code>ApisixConsumer</code> / <code>ApisixPluginConfig</code>
+resources (documented duty: creators of <code>ApisixRoute</code> must be
+the namespace owner or equivalent trust tier). The
+controller’s own RBAC requirements are documented in
+<code>apisix-ingress-controller/config/rbac/role.yaml</code>.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Browser-host compromise.</strong> A browser-extension stealing the
+admin key from an operator’s browser is not in scope.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Side-channel attacks</strong> (timing, cache, electromagnetic).
+APISIX is a Lua/Go application; constant-time crypto at the
+TLS layer is the responsibility of the underlying TLS stack
+(OpenSSL via OpenResty / Go’s <code>crypto/tls</code>). APISIX’s own
+credential comparisons (admin key, JWT secret, HMAC signature,
+etc.) are expected to be constant-time — that is a §4.8
+property, not a §4.3 exclusion. <em>(maintainer — confirmed by
+Ming Wen 2026-05-15)</em></li>
+<li><strong>Denial-of-service via resource exhaustion</strong> of layers below
+APISIX (kernel TCP backlog, file descriptor limit, host RAM).
+APISIX provides rate-limiting / circuit-breaker plugins but
+does not enforce them by default. <em>(maintainer — confirmed by
+Ming Wen 2026-05-15; see §4.10)</em></li>
+<li><strong>Code in <code>bin/</code>, <code>t/</code>, <code>example/</code>, <code>benchmark/</code>, <code>ci/</code>,
+<code>.github/</code></strong> — test fixtures, smoke scripts, benchmark
+harnesses, CI configuration. Not deployed to production.
+<code>t/lib/</code> test fixtures are likewise out of model. <em>(maintainer
+— confirmed by Ming Wen 2026-05-15)</em></li>
+</ol>
+<hr>
+<h2 id="44-trust-boundaries-and-data-flow">§4.4 Trust boundaries and data flow</h2>
+<p><strong>Primary trust boundaries</strong> (where untrusted data crosses into
+the trusted core):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>                                            (operator)</span></span>
+<span class="line"><span>                                                |</span></span>
+<span class="line"><span>                                                v</span></span>
+<span class="line"><span>External client --HTTPS-->  [data-plane     &#x3C;--+</span></span>
+<span class="line"><span>(untrusted)                  worker process    |</span></span>
+<span class="line"><span>                             — Lua plugins,    | Admin API</span></span>
+<span class="line"><span>                             route table,      | (X-API-KEY)</span></span>
+<span class="line"><span>                             upstream pool]    |</span></span>
+<span class="line"><span>                                ^      |       |</span></span>
+<span class="line"><span>                                |      |       |</span></span>
+<span class="line"><span>                            (etcd      |       |</span></span>
+<span class="line"><span>                             config    |   [Admin</span></span>
+<span class="line"><span>                             reads)    |    handler]</span></span>
+<span class="line"><span>                                |      v       |</span></span>
+<span class="line"><span>                              etcd &#x3C;---+---> etcd writes</span></span>
+<span class="line"><span>                              (operator-secured, TLS optional)</span></span>
+<span class="line"><span>                                                ^</span></span>
+<span class="line"><span>                                                |</span></span>
+<span class="line"><span>                                (apisix-ingress-controller,</span></span>
+<span class="line"><span>                                 curl / human operator)</span></span></code></pre>
+<p><em>(documented — architecture-design/apisix.md, admin-api.md,
+deployment-modes.md)</em></p>
+<p><strong>Boundary transitions:</strong></p>
+<ol>
+<li><strong>External-client → worker.</strong> OpenResty / nginx parses the
+HTTP message; APISIX Lua plugins then run with the parsed
+request and may inspect / rewrite / reject. Trust transition:
+bytes go from “untrusted network input” to “parsed Lua table
+passed to plugin code”. The parser is the foundational
+defence; plugins after it work with already-parsed inputs.</li>
+<li><strong>Admin API → worker.</strong> Admin API requires <code>X-API-KEY</code>. After
+auth, the JSON body is validated against the resource’s JSON
+Schema before being written to etcd. Trust transition:
+“authenticated operator input” → “schema-validated config”.</li>
+<li><strong>etcd → worker.</strong> Workers subscribe to etcd watches and
+apply config changes. Trust transition: none in principle
+— etcd content was already operator-authored or
+Admin-API-mediated.</li>
+<li><strong>Ingress controller → Admin API.</strong> The controller reads
+Kubernetes CRDs, translates to Admin API calls signed with
+<code>X-API-KEY</code> (configured via a Kubernetes Secret). Trust
+transition: “Kubernetes-authorized CRD” → “Admin API call”.</li>
+</ol>
+<p><strong>Reachability preconditions per family</strong> (the test a triager
+applies to a finding before anything else):</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Family</th><th>A finding here is in-model only if reachable from…</th></tr></thead><tbody><tr><td>Data-plane Lua plugins</td><td>a client request on <code>node_listen</code> that matches a route that has the plugin enabled.</td></tr><tr><td>Admin API handlers</td><td>an authenticated Admin API call from a caller inside <code>allow_admin</code>.</td></tr><tr><td>etcd watch handler</td><td>an etcd write whose key is under <code>prefix</code> (default <code>/apisix</code>).</td></tr><tr><td>Stream proxy</td><td>a TCP/UDP packet on <code>stream_proxy.*_listen</code>.</td></tr><tr><td>Ingress controller</td><td>a CRD a Kubernetes RBAC-authorized user created in a watched namespace.</td></tr><tr><td>External-plugin runner</td><td>the gateway worker is calling the runner via unix socket.</td></tr></tbody></table>
+<hr>
+<h2 id="45-assumptions-about-the-environment">§4.5 Assumptions about the environment</h2>
+<ul>
+<li><strong>Operating system / runtime</strong>: Linux is the only supported
+production deployment target. macOS is dev/test only.
+Windows / BSD / Solaris and other non-Linux platforms are
+out of model; a report against a non-Linux deployment is
+closed as <code>OUT-OF-MODEL: unsupported-platform</code>.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Runtime</strong>: OpenResty (nginx + LuaJIT). Plugin code runs as
+Lua coroutines inside nginx workers. <em>(documented —
+architecture-design/apisix.md)</em></li>
+<li><strong>Concurrency</strong>: nginx multi-worker; per-worker Lua state.
+Plugins must not assume single-worker state. <em>(documented —
+plugin-develop.md notes shared-dict and <code>core.table.new</code> patterns)</em></li>
+<li><strong>Time / clock</strong>: relies on the host clock for cache TTLs and
+rate-limit windows. Clock-drift behaviour (JWT replay-window
+edge cases, rate-limit window roll-over) is <strong>out of model</strong>;
+NTP synchronization is an operator responsibility (see §4.10).
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Network</strong>: data-plane port reachable by clients; Admin API
+port restricted to operator network; etcd reachable from
+workers; outbound from workers to upstreams + log sinks
+(Kafka, Datadog, etc.). <em>(documented — admin-api.md,
+ssl-protocol.md)</em></li>
+<li><strong>Filesystem</strong>: APISIX reads <code>conf/config.yaml</code> and any files
+named under <code>extra_lua_path</code>. SSL cert/key material can be
+stored on filesystem <strong>or</strong> in etcd; etcd-stored keys are
+plaintext-in-etcd by default unless etcd encryption-at-rest is
+configured by the operator, or <code>apisix.data_encryption</code> is
+enabled for field-level encryption. <em>(documented —
+apisix/core/etcd.lua; see §4.8 point 11)</em></li>
+</ul>
+<p><strong>Negative claims — what APISIX does <em>not</em> do to its host:</strong>
+<em>(maintainer — confirmed by Ming Wen 2026-05-15; all 5 hold as
+written.)</em></p>
+<ul>
+<li>Does not require root after startup (drops to non-root worker user).</li>
+<li>Does not install global signal handlers beyond what nginx itself does.</li>
+<li>Does not fork persistent daemon subprocesses beyond
+configured external-plugin runners.</li>
+<li>Does not write outside <code>logs/</code> and the OpenResty / etcd cache
+directories.</li>
+<li>Does not phone home or call any vendor endpoint.</li>
+</ul>
+<hr>
+<h2 id="45a-build-time-and-configuration-variants">§4.5a Build-time and configuration variants</h2>
+<p>The following config knobs change which §4.8 properties hold.
+<strong>Note:</strong> all claims below are <em>(documented)</em> unless tagged otherwise.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Knob</th><th>Default</th><th>Effect when flipped from default</th><th>Maintainer stance</th></tr></thead><tbody><tr><td><code>deployment.admin.admin_key[].key</code></td><td><code>edd1c9f0…</code> (in docs / sample config)</td><td>Without changing it, the Admin API has no real auth.</td><td><strong>Documented as required to change in production.</strong> A report against an unchanged default is <code>OUT-OF-MODEL: operator-misconfig</code> per §4.3. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>deployment.admin.allow_admin</code></td><td><code>127.0.0.0/24</code></td><td>Widening to <code>0.0.0.0/0</code> exposes Admin API to the network.</td><td><code>OUT-OF-MODEL: operator-misconfig</code> if widened and then exploited. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>deployment.admin.enable_admin</code></td><td><code>true</code></td><td><code>false</code> disables the Admin API; the data plane reads etcd directly (decoupled mode).</td><td>Both supported. Decoupled mode is recommended for internet-facing / public-edge deployments; traditional mode is appropriate for internal-network deployments. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>deployment.etcd.tls.{cert,key,verify}</code></td><td>unset (plaintext)</td><td>Enabling TLS protects etcd traffic.</td><td><strong>Required if etcd is networked</strong> (multi-host or cross-zone). Optional for single-host loopback deployments. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>apisix.ssl.listen</code> / <code>ssl_protocols</code></td><td>TLS 1.2 / 1.3, no 1.0/1.1</td><td>Re-enabling 1.0/1.1 weakens transport.</td><td>Documented; not recommended. <em>(documented — ssl-protocol.md)</em></td></tr><tr><td><code>plugins:</code> list</td><td>(no enabled plugins; all opt-in)</td><td>Naming a plugin on a route enables it.</td><td>All plugins are opt-in; a CVE on any Apache-maintained plugin under <code>apisix/plugins/</code> is CVE-equivalent regardless of how widely it tends to be enabled in the wild. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>extra_lua_path</code></td><td>unset</td><td>Loading operator-supplied Lua plugins. Those are out of model per §4.3 point 4.</td><td><em>(documented — plugin-develop.md)</em></td></tr><tr><td><code>apisix.role</code></td><td><code>traditional</code></td><td><code>data_plane</code> / <code>control_plane</code> change which surface is exposed.</td><td>Documented; security implications laid out in deployment-modes.md. <em>(documented)</em></td></tr><tr><td><code>apisix.data_encryption</code></td><td>unset / disabled</td><td>Enables field-level encryption of sensitive consumer-credential fields in etcd.</td><td>Optional in 3.x; not enabled by default. See §4.8 point 11. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr></tbody></table>
+<p><strong>The insecure-default case</strong> (per the rubric): the Admin API
+ships with a documented-as-known weak key. The <code>conf/config.yaml</code>
+sample explicitly says <em>“using fixed API token has security
+risk, please update it when you deploy to production
+environment.”</em> Reading <strong>(b)</strong> is confirmed: the default is a
+dev-convenience and operators are documented as required to flip
+it. A report that exploits the unchanged default key is
+<code>OUT-OF-MODEL: operator-misconfig</code>. <em>(maintainer — confirmed by
+Ming Wen 2026-05-15)</em></p>
+<hr>
+<h2 id="46-assumptions-about-inputs">§4.6 Assumptions about inputs</h2>
+<p><strong>Per-component input table</strong> (grouped by family from §4.2).</p>
+<h3 id="gateway-data-plane">Gateway data-plane</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Endpoint / message</th><th>Field</th><th>Attacker-controllable?</th><th>Caller / operator must enforce</th></tr></thead><tbody><tr><td>Any route on <code>node_listen</code></td><td>request line (method, URI, query)</td><td><strong>yes</strong></td><td>route regex must not be catastrophic backtracking (project applies an Anti-ReDoS policy on input regex). <em>(documented — admin API validation)</em></td></tr><tr><td>Any route</td><td>request headers (incl. <code>X-Forwarded-*</code>)</td><td><strong>yes</strong></td><td>not to be trusted as authentication ground truth unless an <code>ip-restriction</code> / <code>real-ip</code> plugin is on. <em>(documented — real-ip plugin doc)</em></td></tr><tr><td>Any route</td><td>request body</td><td><strong>yes</strong></td><td>size bounded by <code>client_max_body_size</code>; content trusted only insofar as the route’s plugins validated it.</td></tr><tr><td><code>stream_proxy</code></td><td>TCP / UDP payload</td><td><strong>yes</strong></td><td>upstream is responsible for protocol handling; APISIX forwards bytes.</td></tr><tr><td>TLS handshake</td><td>SNI</td><td><strong>yes</strong></td><td>SNI is used for cert selection but <strong>not</strong> treated as authenticated identity. <em>(documented — ssl-protocol.md)</em></td></tr></tbody></table>
+<h3 id="gateway-control-plane-admin-api">Gateway control-plane (Admin API)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Endpoint</th><th>Field</th><th>Attacker-controllable?</th><th>Caller must enforce</th></tr></thead><tbody><tr><td><code>PUT /apisix/admin/routes/&#x3C;id></code></td><td><code>plugins.{*}.{*}</code></td><td><strong>yes if Admin API exposed</strong></td><td>JSON-Schema validated before persist; schema must reject unsafe shapes. <em>(documented — plugin schema validation)</em></td></tr><tr><td><code>PUT /apisix/admin/ssls/&#x3C;id></code></td><td><code>cert</code>, <code>key</code></td><td>trusted (operator)</td><td>private key is stored in etcd; etcd security is the protective layer (see §4.8 point 11 for optional <code>apisix.data_encryption</code>).</td></tr><tr><td><code>PUT /apisix/admin/consumers/&#x3C;id></code></td><td><code>username</code>, plugin creds</td><td>trusted (operator)</td><td>Stored in etcd under <code>/apisix/consumers/&#x3C;username></code>, organized per plugin (key-auth: <code>key</code>; jwt-auth: <code>key</code>+<code>secret</code>+<code>algorithm</code>; basic-auth: <code>username</code>+<code>password</code>; hmac-auth: <code>access_key</code>+<code>secret_key</code>; etc.). Optional field-level encryption via <code>apisix.data_encryption</code>. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>POST /apisix/admin/routes</code></td><td><code>script</code> (legacy)</td><td>trusted (operator)</td><td><strong>arbitrary Lua execution by design</strong> — same trust posture as <code>extra_lua_path</code>. The <code>script</code> field is currently still present and is planned for removal in the next release; semantically equivalent to <code>extra_lua_path</code> (out-of-model per §4.3 point 4). <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr></tbody></table>
+<h3 id="ingress-controller">Ingress controller</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Surface</th><th>Field</th><th>Attacker-controllable?</th><th>Cluster operator must enforce</th></tr></thead><tbody><tr><td><code>ApisixRoute.spec.http[*].plugins[*]</code></td><td>plugin config</td><td>depends on RBAC</td><td>restrict CRD creation to trusted namespaces / users; creators of <code>ApisixRoute</code> must be the namespace owner or equivalent trust tier. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></td></tr><tr><td><code>ApisixConsumer.spec.plugins[*]</code></td><td>credential material</td><td>depends on RBAC</td><td>same as above.</td></tr><tr><td><code>ApisixPluginConfig</code></td><td>shared plugin block</td><td>depends on RBAC</td><td>same.</td></tr></tbody></table>
+<p><strong>Size, shape, rate assumptions.</strong> Request size bounded by
+<code>client_max_body_size</code> (nginx-level; default 8KB but the project
+ships 1m). Connection rate bounded by kernel + worker_connections.
+Rate-limiting and circuit-breaker plugins are <strong>opt-in</strong> — APISIX
+does not rate-limit by default. <em>(documented — limit-req,
+limit-count, limit-concurrency plugin docs)</em></p>
+<hr>
+<h2 id="47-adversary-model">§4.7 Adversary model</h2>
+<p><strong>Adversaries in scope.</strong></p>
+<ol>
+<li><strong>External untrusted client</strong> — a remote network attacker
+speaking HTTP / HTTPS / TCP / UDP / gRPC to <code>node_listen</code>.
+They can send arbitrary, malformed, or oversized requests.
+They aim to: bypass route auth; reach an upstream they
+shouldn’t; crash a worker; cause CPU / memory exhaustion;
+read configured-secret material (e.g., an Authorization
+header that another plugin sets).</li>
+<li><strong>Authenticated client</strong> — a client with valid credentials
+for <strong>one</strong> route or consumer, attempting to reach a route
+or consumer they should not have access to (horizontal
+privilege escalation through auth-plugin bugs).</li>
+<li><strong>Compromised plugin author</strong> — limited to plugins shipped
+in <code>apisix/plugins/</code>, since that’s the trust boundary the
+PMC owns. All Apache-maintained plugin bugs are CVE-equivalent;
+since all plugins are opt-in (§4.3 point 5), there is no
+priority differentiation between “default-loaded” and
+“opt-in”. Operator-supplied plugins are out per §4.3 point 4.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Unprivileged Kubernetes user</strong> with create rights on
+<code>ApisixRoute</code> in some namespace, attempting to influence
+traffic outside that namespace via the ingress controller.
+The cluster operator’s documented duty is to gate CRD
+creation appropriately (§4.3 point 6). <em>(maintainer —
+confirmed by Ming Wen 2026-05-15)</em></li>
+</ol>
+<p><strong>Adversaries out of scope</strong> (cross-ref §4.3):</p>
+<ul>
+<li>Operator with Admin API credentials. They’ve already won.</li>
+<li>Operator-supplied Lua code authors.</li>
+<li>An attacker who has compromised etcd.</li>
+<li>An attacker who has compromised the host running APISIX.</li>
+<li>An attacker with physical access / hypervisor access /
+co-tenant capabilities on the same VM.</li>
+<li>A compromised log-sink endpoint. Log sinks are operator-trusted
+infrastructure. (Sink-failure-availability and
+malicious-sink-response resilience is a §4.8 property — see
+point 10 — not an adversary in this section.) <em>(maintainer —
+confirmed by Ming Wen 2026-05-15)</em></li>
+</ul>
+<hr>
+<h2 id="48-security-properties-the-project-provides">§4.8 Security properties the project provides</h2>
+<p>For each property: the property, violation symptom, severity
+tier, provenance.</p>
+<ol>
+<li>
+<p><strong>HTTP request parsing safety.</strong></p>
+<ul>
+<li>Property: malformed HTTP requests on <code>node_listen</code> cause
+<code>400</code> rejection, not worker memory corruption or RCE.
+HTTP/1.1 / HTTP/2 wire-level parsing bugs are owned by
+upstream nginx (APISIX tracks and ships fixed versions);
+APISIX’s own Lua-phase parsing (custom header / query /
+body handling, gRPC metadata, etc.) is APISIX-owned.</li>
+<li>Violation symptom: worker segfault / OOB read / RCE
+triggered by request bytes.</li>
+<li>Severity: <strong>security-critical (CVE).</strong></li>
+<li>Provenance: <em>(documented — relies on nginx’s parser; project
+does not duplicate parsing)</em>; <em>(maintainer — confirmed by
+Ming Wen 2026-05-15: layered ownership)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Admin API authentication gate.</strong></p>
+<ul>
+<li>Property: any Admin API call without a valid
+<code>X-API-KEY</code> (matching <code>admin_key[].key</code>) returns 401 and
+does not mutate state.</li>
+<li>Violation symptom: an unauthenticated request modifies a
+route or reads a consumer secret.</li>
+<li>Severity: <strong>security-critical (CVE).</strong></li>
+<li>Provenance: <em>(documented — admin-api.md, t/admin/api.t)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Admin API IP allowlist.</strong></p>
+<ul>
+<li>Property: a request from outside
+<code>deployment.admin.allow_admin</code> is rejected at network level
+(returns 403 or connection refused).</li>
+<li>Violation symptom: Admin API reachable from disallowed CIDR.</li>
+<li>Severity: security-critical (CVE) if bypassed; operator
+misconfiguration if widened intentionally.</li>
+<li>Provenance: <em>(documented — config.yaml comments)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>JSON-Schema validation of plugin configs.</strong></p>
+<ul>
+<li>Property: the Admin API rejects plugin configs that fail
+the plugin’s published JSON Schema; only schema-conformant
+configs are written to etcd.</li>
+<li>Violation symptom: a config that violates the schema is
+accepted, then crashes the worker at apply time.</li>
+<li>Severity: high (denial-of-service via crash); CVE if it
+escalates to RCE.</li>
+<li>Provenance: <em>(documented — plugin.lua schema-validation
+path)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>TLS termination.</strong></p>
+<ul>
+<li>Property: APISIX terminates TLS using configured ciphersuites
+in line with <code>ssl_protocols</code>; TLS 1.0 / 1.1 disabled by
+default.</li>
+<li>Violation symptom: SSL/TLS downgrade or cert mis-selection
+under SNI.</li>
+<li>Severity: high (CVE for cipher / protocol bypass).</li>
+<li>Provenance: <em>(documented — ssl-protocol.md)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Plugin chain authorization.</strong></p>
+<ul>
+<li>Property: each plugin runs in the configured phase order;
+a plugin cannot suppress later auth plugins from running
+unless documented to (e.g., <code>serverless-pre-function</code>,
+which is by design able to rewrite, short-circuit, or
+bypass later auth plugins — operators enabling it take on
+responsibility for the resulting trust model, concrete
+instance of §4.3 point 4).</li>
+<li>Violation symptom: a plugin’s misordering causes an
+unauthenticated request to reach the upstream.</li>
+<li>Severity: security-critical (CVE).</li>
+<li>Provenance: <em>(documented — plugin.lua phase chain)</em>;
+<em>(maintainer — confirmed by Ming Wen 2026-05-15:
+<code>serverless-*</code> interactions are by design)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Rate-limit / circuit-break plugin integrity.</strong></p>
+<ul>
+<li>Property: when <code>limit-req</code> / <code>limit-count</code> /
+<code>limit-concurrency</code> are configured, their counters are
+consulted on the request hot path and exceeding the limit
+yields <code>503</code> / <code>429</code> (per config).</li>
+<li>Violation symptom: a counter is bypassed; an attacker
+achieves > N requests per window despite a configured limit.</li>
+<li>Severity: high (DoS) or critical (depending on what the
+limit gated).</li>
+<li>Provenance: <em>(documented — limit-req.md, limit-count.md)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Ingress-controller fidelity.</strong></p>
+<ul>
+<li>Property: every field accepted by an <code>apisix.apache.org</code>
+CRD spec maps to a defined Admin API target. Silent drop,
+injection, or renaming is an <code>apisix-ingress-controller</code>
+bug — not operator misconfiguration. An e2e contract test
+enforcing this invariant is recommended.</li>
+<li>Violation symptom: controller injects fields the CRD did
+not request; or controller silently drops a field that
+was required for security.</li>
+<li>Severity: security-critical if a drop voids an auth-plugin
+configuration.</li>
+<li>Provenance: <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Constant-time comparison of credentials.</strong></p>
+<ul>
+<li>Property: APISIX’s own credential comparisons — admin key,
+JWT secret, HMAC signature, and equivalent secrets stored
+by auth plugins — use constant-time comparison so that
+remote timing cannot be used to recover the secret. (TLS-
+layer side channels remain out of model and are delegated
+to OpenSSL / Go <code>crypto/tls</code>.)</li>
+<li>Violation symptom: a measurable timing oracle on <code>X-API-KEY</code>,
+JWT verification, HMAC verification, etc.</li>
+<li>Severity: high (credential disclosure).</li>
+<li>Provenance: <em>(maintainer — confirmed by Ming Wen 2026-05-15;
+§4.14 q-5)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Log-sink failure / malicious-response resilience.</strong></p>
+<ul>
+<li>Property: a slow, failed, or actively malicious log-sink
+endpoint (Kafka / Datadog / Splunk / HTTP logger) must
+not impact APISIX availability — no worker hang, no RCE,
+no segfault triggered by sink-side bytes.</li>
+<li>Violation symptom: a worker hangs / crashes / executes
+attacker-controlled code as a result of bytes returned by
+a log-sink endpoint.</li>
+<li>Severity: high (DoS) or critical (RCE).</li>
+<li>Provenance: <em>(maintainer — confirmed by Ming Wen 2026-05-15;
+§4.14 q-17)</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Optional field-level encryption of sensitive consumer
+fields (<code>apisix.data_encryption</code>).</strong></p>
+<ul>
+<li>Property: when <code>apisix.data_encryption</code> is enabled (3.x;
+not enabled by default), sensitive fields in consumer /
+ssl resources are encrypted before being written to etcd.</li>
+<li>Violation symptom: with the knob enabled, the protected
+field is still readable in plaintext in etcd.</li>
+<li>Severity: high (credential disclosure if etcd is observed).</li>
+<li>Provenance: <em>(maintainer — confirmed by Ming Wen 2026-05-15;
+§4.14 q-14)</em>.</li>
+</ul>
+</li>
+</ol>
+<!-- §4.8 point 9 (former "Dashboard does not persist the admin key") removed
+in the 2026-05-30 revision because apisix-dashboard is out of current scan
+scope (PMC decision 2026-05-26; see §4.11a and §4.14 q-21). Re-add this
+property as a §4.8 line when dashboard re-enters scope. -->
+<hr>
+<h2 id="49-security-properties-the-project-does-not-provide">§4.9 Security properties the project does NOT provide</h2>
+<ol>
+<li><strong>Default-strong Admin API key</strong> — APISIX ships a documented
+weak default; operators must rotate. <em>(documented — see §4.5a)</em></li>
+<li><strong>etcd-side encryption / authentication by default</strong> —
+etcd ships unauth and plaintext; operator’s responsibility.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>CSRF protection on the Admin API.</strong> The Admin API uses
+<code>X-API-KEY</code>-header auth, not session cookies; CSRF as
+typically understood is not the threat. But: a malicious
+page loaded in the operator’s browser cannot directly read
+Admin API responses (same-origin) unless the operator has
+widened CORS — APISIX does not set permissive CORS by
+default. <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Plugin sandboxing</strong> — Lua plugins run in the same worker
+process with full <code>ngx.*</code> access; external-plugin runners
+inherit the APISIX uid. A compromised in-tree plugin is RCE
+in the gateway. <em>(documented — plugin-develop.md,
+external-plugin.md)</em></li>
+<li><strong>RBAC on the Admin API.</strong> The Admin API has a single global
+admin role; there is no fine-grained read-only vs write
+distinction, no per-resource ACL. <em>(documented — admin-api.md)</em></li>
+<li><strong>Audit log of Admin API changes.</strong> APISIX itself does not
+emit a structured audit log of Admin API mutations; operators
+wire one externally (access-log on the Admin API listener
+combined with <code>kafka-logger</code> / <code>http-logger</code> to a SIEM —
+see §4.10). <em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Rate-limit on the Admin API.</strong> The data-plane rate-limit
+plugins do not protect the Admin API; operator must front
+the Admin API with firewall / WAF / fail2ban (see §4.10).
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Prevention of operator-supplied plugin RCE.</strong> By design;
+see §4.3 point 4.</li>
+</ol>
+<hr>
+<h2 id="410-downstream-responsibilities">§4.10 Downstream responsibilities</h2>
+<p>What the operator must do to inherit the §4.8 properties:</p>
+<ol>
+<li><strong>Change the Admin API key</strong> from the documented default,
+and store it outside <code>config.yaml</code> (env var, K8s Secret,
+external secret manager). <em>(documented)</em></li>
+<li><strong>Restrict <code>allow_admin</code></strong> to operator workstations or
+bastions; do not widen to <code>0.0.0.0/0</code>. <em>(documented)</em></li>
+<li><strong>Run etcd with TLS + auth</strong> if etcd is on a network reachable
+by anything other than the APISIX worker — required when
+networked (multi-host or cross-zone); optional for
+single-host loopback. Configure
+<code>deployment.etcd.tls.{cert,key,verify}</code> accordingly.
+<em>(maintainer — confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Audit operator-supplied plugins</strong> (<code>extra_lua_path</code>,
+serverless-pre/post, external plugin runners) before deploy
+— this code is in the trusted-by-design tier. <em>(documented)</em></li>
+<li><strong>Configure rate-limiting + circuit-breaker plugins</strong> for
+any production-facing route; APISIX does not impose these by
+default. <em>(documented)</em></li>
+<li><strong>Use decoupled mode</strong> (separate <code>data_plane</code> / <code>control_plane</code>
+roles, or <code>standalone</code> mode) for any internet-facing /
+public-edge deployment; this removes the Admin API from the
+data-plane’s blast radius. Traditional mode remains
+appropriate for internal-network deployments. <em>(maintainer
+— confirmed by Ming Wen 2026-05-15)</em></li>
+<li><strong>Restrict Kubernetes RBAC</strong> so that only trusted
+service-accounts / users can create <code>ApisixRoute</code> /
+<code>ApisixConsumer</code> / <code>ApisixPluginConfig</code> CRDs. Documented
+duty: creators of <code>ApisixRoute</code> must be the namespace
+owner or equivalent trust tier. <em>(maintainer — confirmed
+by Ming Wen 2026-05-15)</em></li>
+<li><strong>Choose TLS configuration consciously</strong>: at minimum the
+defaults (TLS 1.2 / 1.3); enable mTLS for client-cert auth
+where required. <em>(documented)</em></li>
+<li><strong>Synchronize the host clock (NTP).</strong> Clock-drift behaviour
+of JWT replay windows and rate-limit window roll-over is
+not an APISIX security violation — operator must keep host
+time in sync. <em>(maintainer — confirmed by Ming Wen 2026-05-15;
+§4.14 q-8)</em></li>
+<li><strong>Wire Admin-API audit logging externally.</strong> APISIX does not
+emit a structured admin-mutation audit log; operators
+combine access-log on the Admin API listener with
+<code>kafka-logger</code> / <code>http-logger</code> to a SIEM. <em>(maintainer —
+confirmed by Ming Wen 2026-05-15; §4.14 q-22)</em></li>
+<li><strong>Front the Admin API with firewall / WAF / fail2ban.</strong>
+Data-plane rate-limit plugins do not protect the Admin API
+— operator must add a rate-limit / brute-force defence
+layer in front of it. <em>(maintainer — confirmed by Ming Wen
+2026-05-15; §4.14 q-23)</em></li>
+<li><strong>Strip the <code>Server: APISIX/x.y.z</code> banner if banner-grabbing
+is a concern.</strong> Use the <code>response-rewrite</code> plugin or a
+custom <code>error_page</code> directive. (Version disclosure via
+default error page is itself a <code>KNOWN-NON-FINDING</code> — see
+§4.11a — but operators who want to harden against it have
+a documented path.) <em>(maintainer — confirmed by Ming Wen
+2026-05-15; §4.14 q-27)</em></li>
+</ol>
+<hr>
+<h2 id="411-known-misuse-patterns">§4.11 Known misuse patterns</h2>
+<p>Each is a pattern the PMC has seen often enough to warrant a
+heads-up. <em>(maintainer — confirmed by Ming Wen 2026-05-15: all
+7 below match PMC experience.)</em></p>
+<ol>
+<li>Running with the documented-as-weak Admin API key in
+production. (The doc literally warns against it; reports here
+are not findings.)</li>
+<li>Putting the Admin API on <code>0.0.0.0</code> with the default
+<code>allow_admin</code> widened to <code>0.0.0.0/0</code>.</li>
+<li>Running etcd unauthenticated and reachable from anything
+other than the worker host.</li>
+<li>Loading operator-supplied Lua via <code>extra_lua_path</code> or
+<code>serverless-pre-function</code> without an internal review.</li>
+<li>Treating <code>X-Forwarded-For</code> / <code>X-Real-IP</code> as authenticated
+identity without the <code>real-ip</code> plugin or the equivalent
+upstream-PROXY-protocol handling.</li>
+<li>Storing SSL private keys in etcd without etcd encryption-at-rest
+or TLS (and without enabling <code>apisix.data_encryption</code>).</li>
+<li>Single shared admin key across multiple operators (no
+per-operator key, no audit trail).</li>
+</ol>
+<hr>
+<h2 id="411a-known-non-findings-recurring-false-positives">§4.11a Known non-findings (recurring false positives)</h2>
+<p><em>(maintainer — confirmed by Ming Wen 2026-05-15: all 8 below are
+consistent with the PMC’s historical security-report archive.)</em></p>
+<ol>
+<li><strong>Hardcoded default Admin API key in <code>conf/config.yaml</code></strong> —
+intentional dev-convenience; flagged in the same file’s
+comment. Reports: <code>OUT-OF-MODEL: operator-misconfig</code>.</li>
+<li><strong><code>X-API-KEY</code>-style header auth on the Admin API</strong> — the
+project’s auth scheme by design. Reports asking “why not
+OAuth?” are <code>OUT-OF-MODEL: by-design</code>.</li>
+<li><strong>Operator-supplied Lua executes in the worker</strong> — by design,
+see §4.3 point 4.</li>
+<li><strong>etcd plaintext-by-default</strong> — operator-responsibility per
+§4.10 point 3.</li>
+<li><strong>Plugin runs in same process as gateway core</strong> — by design
+per §4.9 point 4.</li>
+<li><strong>No CSRF tokens on Admin API</strong> — the Admin API uses header
+auth, not cookie auth; not CSRF-applicable in the usual sense.
+(See §4.9 point 3 for nuance.)</li>
+<li><strong>Version disclosure</strong> in default error pages / responses
+— common ASF stance; operators harden via custom error
+pages or <code>response-rewrite</code> (see §4.10 point 12).
+<em>(maintainer — confirmed by Ming Wen 2026-05-15: confirmed
+<code>KNOWN-NON-FINDING</code>.)</em></li>
+<li><strong>OUT-OF-SCOPE: <code>apache/apisix-dashboard</code>.</strong> The dashboard
+is excluded from the current scan run per the PMC’s
+2026-05-26 message. Findings against the dashboard repo
+are not part of this model. The previously-tracked
+localStorage admin-key persistence finding (q-21) is being
+addressed in a separate PR against <code>apache/apisix-dashboard</code>
+(<code>atomWithStorage</code> → <code>atom</code> change). When the dashboard
+re-enters scan scope, §4.8 will regain its “dashboard does
+not persist the admin key” property.</li>
+</ol>
+<hr>
+<h2 id="412-conditions-that-would-change-this-model">§4.12 Conditions that would change this model</h2>
+<ul>
+<li>New deployment role (e.g., a future <code>gateway_dashboard_unified</code>
+mode where the dashboard is served by APISIX itself).</li>
+<li>New auth plugin that grants partial Admin API access (would
+require revisiting §4.9 point 5).</li>
+<li>Dropping or strengthening the Anti-ReDoS policy on route
+regexes.</li>
+<li>A new external-plugin protocol that drops the same-uid
+assumption.</li>
+<li>Re-inclusion of <code>apache/apisix-dashboard</code> in scan scope (would
+restore the dashboard-related §4.8 property and the
+dashboard-specific §4.2 / §4.6 rows).</li>
+</ul>
+<hr>
+<h2 id="413-triage-dispositions">§4.13 Triage dispositions</h2>
+<p>A report against any of the in-scope repos is closed under one
+of these labels. <em>(maintainer — confirmed by Ming Wen 2026-05-15:
+the 9 dispositions below are sufficient; no additions or removals.)</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Disposition</th><th>When</th><th>Body of reply</th></tr></thead><tbody><tr><td><code>VALID</code></td><td>violates a §4.8 property; reachable per §4.4.</td><td>Acknowledged; coordinated disclosure timeline; fix planned for release.</td></tr><tr><td><code>VALID-HARDENING</code></td><td>not a §4.8 violation but tightens a §4.9 property in a way the PMC accepts (includes exploitable <code>docs/</code> example snippets).</td><td>Acknowledged; lower priority; may merge as hardening PR.</td></tr><tr><td><code>OUT-OF-MODEL: operator-misconfig</code></td><td>the issue is an instance of §4.3 point 1 or §4.11 (operator widened a default, did not rotate the admin key, ran etcd unauth, etc.).</td><td>Cite the relevant §4.5a / §4.10 row.</td></tr><tr><td><code>OUT-OF-MODEL: trusted-input</code></td><td>report supplies attacker-controlled bytes through a parameter the §4.6 table marks “not attacker-controllable” (e.g., a <code>format</code> literal, a plugin’s <code>script</code> field — note that the <code>script</code> example is valid until the next-release removal lands, per §4.14 q-15).</td><td>Cite the §4.6 row.</td></tr><tr><td><code>OUT-OF-MODEL: adversary-not-in-scope</code></td><td>the threat requires capabilities the §4.7 adversary doesn’t have (operator credentials, etcd compromise, host compromise, side-channel, compromised log sink).</td><td>Cite the §4.7 adversary list.</td></tr><tr><td><code>OUT-OF-MODEL: out-of-tree-code</code></td><td>finding is in operator-supplied Lua / external-plugin code / a vendored library that is itself out of model.</td><td>Cite §4.3 point 4 or §4.2 component-family table.</td></tr><tr><td><code>OUT-OF-MODEL: unsupported-platform</code></td><td>report is against a non-Linux deployment (macOS dev/test, Windows, BSD, etc.).</td><td>Cite §4.5 OS row.</td></tr><tr><td><code>BY-DESIGN: property-disclaimed</code></td><td>finding hits an explicit §4.9 non-property (no plugin sandbox, no RBAC, etc.).</td><td>Cite the §4.9 line.</td></tr><tr><td><code>KNOWN-NON-FINDING</code></td><td>exact match to a §4.11a entry.</td><td>Cite §4.11a line; one-paragraph reply.</td></tr><tr><td><code>MODEL-GAP</code></td><td>the report describes a real bug, but this document does not have a §4.8 property covering it.</td><td>The PMC will decide whether to add a §4.8 line (turning into <code>VALID</code>) or a §4.9 line (turning into <code>BY-DESIGN</code>).</td></tr></tbody></table>
+<!-- The unsupported-platform row was promoted to a first-class disposition
+during the §4.14 q-7 confirmation pass (2026-05-15). -->
+<hr>
+<h2 id="414-open-questions-for-the-maintainers--resolved">§4.14 Open Questions for the Maintainers — RESOLVED</h2>
+<p>All 28 open questions raised in the 2026-05-15 draft were answered
+by the PMC (Ming Wen, 2026-05-15). The corresponding <em>(inferred)</em>
+tags in the body have been promoted to <em>(maintainer — confirmed
+by Ming Wen 2026-05-15)</em>. The answer summaries are kept below for
+traceability.</p>
+<ol>
+<li><strong>(§4.2 vendored libs)</strong> <code>deps/</code> and <code>lua_modules/</code> are
+in-model — APISIX runtime dependencies per
+<code>apisix-master-0.rockspec</code>. <code>t/lib/</code> is out-of-model (test
+fixtures).</li>
+<li><strong>(§4.3 point 4 / <code>docs/</code>)</strong> Operator-supplied Lua is out-of-
+model. Exception: <code>docs/</code> example snippets are PMC
+responsibility — an exploitable documented example is a
+documentation bug triaged as <code>VALID-HARDENING</code>.</li>
+<li><strong>(§4.5a plugins list)</strong> All plugins are disabled by default.
+No plugin processes traffic without explicit operator
+configuration on a route. The “default-enabled subset”
+framing has been removed everywhere.</li>
+<li><strong>(K8s RBAC)</strong> Controller’s own RBAC requirements are
+documented in
+<code>apisix-ingress-controller/config/rbac/role.yaml</code>. Cluster
+operator’s duty: creators of <code>ApisixRoute</code> must be the
+namespace owner or equivalent trust tier.</li>
+<li><strong>(Side channels)</strong> TLS-layer side channels are out-of-model
+(delegated to OpenSSL / Go <code>crypto/tls</code>). APISIX’s own
+credential comparisons must be constant-time — added as
+§4.8 point 9.</li>
+<li><strong>(<code>bin/</code>, <code>t/</code>, etc.)</strong> <code>ci/</code> and <code>.github/</code> added to the
+out-of-model directory list (§4.3 point 10).</li>
+<li><strong>(OS)</strong> Linux is the only supported production target.
+macOS is dev/test only. A report against a non-Linux
+deployment is closed as <code>OUT-OF-MODEL: unsupported-platform</code>
+(§4.13).</li>
+<li><strong>(Clock drift)</strong> Out-of-model. NTP sync is an operator
+responsibility (§4.10 point 9). JWT replay-window edge
+cases and rate-limit window roll-over are not APISIX
+security violations.</li>
+<li><strong>(Negative claims)</strong> All 5 negative claims hold as written.</li>
+<li><strong>(<code>allow_admin</code> widening)</strong> <code>OUT-OF-MODEL: operator-misconfig</code>. Same rationale as the default admin
+key.</li>
+<li><strong>(Deployment modes)</strong> Both modes supported. Decoupled
+mode recommended for internet-facing deployments;
+traditional mode appropriate for internal-network
+deployments.</li>
+<li><strong>(etcd TLS)</strong> Required when etcd is networked
+(<code>deployment.etcd.tls.{cert,key,verify}</code>). Optional for
+single-host loopback. Added to §4.10 point 3.</li>
+<li><strong>(Admin-key default)</strong> Reading <strong>(b)</strong> confirmed:
+<code>OUT-OF-MODEL: operator-misconfig</code>. See §4.5a.</li>
+<li><strong>(Consumer credentials)</strong> Stored in etcd under
+<code>/apisix/consumers/&#x3C;username></code>, per-plugin. Optional
+<code>apisix.data_encryption</code> for field-level encryption in 3.x
+(not enabled by default). Added as §4.8 point 11.</li>
+<li><strong>(<code>script</code> field)</strong> Currently present on
+<code>apisix/admin/routes</code>; planned for removal in the next
+release. Semantically equivalent to <code>extra_lua_path</code> (out-
+of-model per §4.3 point 4). The §4.13 <code>OUT-OF-MODEL: trusted-input</code> example using <code>script</code> stays until the
+next-release removal lands.</li>
+<li><strong>(Plugin author trust)</strong> All Apache-maintained plugin
+bugs are CVE-equivalent. No “default-loaded” vs “opt-in”
+distinction — since all plugins are opt-in (q-3), the
+distinction does not apply.</li>
+<li><strong>(Log sinks)</strong> Operator-trusted; “compromised log-sink
+endpoint” removed from §4.7 adversary list. Sink-failure-
+availability resilience added as §4.8 point 10.</li>
+<li><strong>(Parser bugs)</strong> Layered: HTTP/1.1 + HTTP/2 wire-level
+bugs → upstream nginx; APISIX’s own Lua-phase parsing →
+APISIX-owned. Folded into §4.8 point 1.</li>
+<li><strong>(<code>serverless-*</code> interactions)</strong> By-design.
+<code>serverless-pre-function</code> can rewrite / short-circuit /
+bypass later auth plugins; concrete instance of §4.3
+point 4. Folded into §4.8 point 6.</li>
+<li><strong>(Controller fidelity)</strong> §4.8 commitment. Every CRD spec
+field maps to a defined Admin API target; silent drop /
+injection / rename is a controller bug. E2e contract test
+recommended. Folded into §4.8 point 8.</li>
+<li><strong>(Dashboard key storage)</strong>
+<code>KNOWN-NON-FINDING-for-current-scope</code>: dashboard is OUT
+OF SCAN SCOPE per PMC decision 2026-05-26; the
+localStorage admin-key persistence finding is tracked in
+a separate PR against <code>apache/apisix-dashboard</code>
+(<code>atomWithStorage</code> → <code>atom</code> change). Re-add the
+in-memory-only property to §4.8 only when dashboard
+re-enters scope. See §4.11a point 8.</li>
+<li><strong>(Audit log)</strong> Out-of-model; operator-wired (§4.10 point
+10). Folded into §4.9 point 6.</li>
+<li><strong>(Admin-API rate-limit)</strong> Out-of-model; operator-fronted
+(§4.10 point 11). Folded into §4.9 point 7.</li>
+<li><strong>(Dashboard multi-tenant)</strong> Out-of-scope. The dashboard
+is a single-admin-key, fully-privileged tool; multi-
+operator / audited use requires external SSO + Admin API
+RBAC (RBAC not provided — §4.9 point 5). With the
+dashboard out of current scan scope (§4.11a point 8),
+this question is dormant for the current scan run.</li>
+<li><strong>(Misuse patterns)</strong> All 7 listed misuse patterns match
+PMC experience. No additions.</li>
+<li><strong>(Known non-findings)</strong> All originally-listed non-
+findings are consistent with PMC’s historical archive.
+Entry 8 (dashboard out-of-scope) added in this revision.</li>
+<li><strong>(Version disclosure)</strong> Confirmed <code>KNOWN-NON-FINDING</code>.
+Operator hardening via <code>response-rewrite</code> / <code>error_page</code>
+added to §4.10 point 12.</li>
+<li><strong>(Triage dispositions)</strong> The 9 dispositions are
+sufficient. The <code>unsupported-platform</code> row was promoted
+to a first-class entry on the same pass (per q-7).</li>
+</ol>
+<hr>
+<p><em>Revision 2026-05-30 — all originally-inferred claims resolved;
+scope reduced to <code>apache/apisix</code> + <code>apache/apisix-ingress-controller</code>
+per PMC 2026-05-26 decision (apisix-dashboard tracked separately).</em></p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/security-threat-model.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

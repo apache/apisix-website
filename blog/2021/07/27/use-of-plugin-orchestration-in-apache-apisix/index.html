@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Plugin Orchestration: Low-Code Guide | Apache APISIX</title><meta name="description" content="Build API processing pipelines with drag-and-drop plugin orchestration in APISIX Dashboard. Low-code configuration tutorial."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX Plugin Orchestration: Low-Code Guide | Apache APISIX"><meta property="og:description" content="Build API processing pipelines with drag-and-drop plugin orchestration in APISIX Dashboard. Low-code configuration tutorial."><meta property="og:url" content="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Plugin Orchestration: Low-Code Guide","description":"Build API processing pipelines with drag-and-drop plugin orchestration in APISIX Dashboard. Low-code configuration tutorial.","datePublished":"2021-07-27","author":{"@type":"Person","name":"Zhiyuan Ju"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX Plugin Orchestration: Low-Code Guide</h1> <p class="article-meta"> 2021-07-27 · Zhiyuan Ju  </p> <blockquote>
+<p>Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates “drag and drop” plugin orchestration capabilities in a low-code trend.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="what-is-apache-apisix">What is Apache APISIX?</h2>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway. Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It has more than 50 built-in plugins covering authentication, security, traffic control, Serverless, observability, and other aspects to meet the common usage scenarios of enterprise customers.</p>
+<p>As shown in the architecture diagram below, Apache APISIX is divided into two parts: the data plane (left side) and the control plane (right side): the control plane sends down the configuration to ETCD, and the data plane handles internal and external traffic with the help of rich plug-ins.</p>
+<p><img src="https://static.apiseven.com/202108/1639466553989-ecae1a31-8121-4390-a830-f386b9b12322.png" alt="Apache APISIX architecture"></p>
+<p>Apache APISIX exposes a set of interfaces that allow us to bind plugins to the API. If we want to add speed-limiting capabilities to the API, we can simply bind the <code>limit-req</code> plugin to the API.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">   "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">   "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">   },</span></span>
+<span class="line"><span style="color:#A5D6FF">   "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "limit-req": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "rate": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">       "burst": 2,</span></span>
+<span class="line"><span style="color:#A5D6FF">       "rejected_code": 503,</span></span>
+<span class="line"><span style="color:#A5D6FF">       "key": "remote_addr"</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">   }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>After a successful call, the request will be speed-limited when it reaches the API.</p>
+<p>This example uses limit-req to implement API speed limit (which is a specific function of Apache APISIX), but how to do it for the scenario of “decide the subsequent request processing logic based on the processing result of a plugin”? Currently, the existing plugin mechanism can not meet this demand, which then leads to the ability of plugin orchestration to solve this problem.</p>
+<h2 id="what-is-plugin-orchestration">What is Plugin Orchestration?</h2>
+<p>Plugin orchestration is a form of low-code that can help enterprises reduce usage costs and increase operation and maintenance efficiency, and is an indispensable capability in the process of digital transformation. With the plugin orchestration capability in the low-code API gateway Apache APISIX, we can easily orchestrate 50+ plugins in a “drag-and-drop” way, and the orchestrated plugins can share contextual information to realize scenario-based requirements.</p>
+<p>Extending the above API speed limit scenario: the request is authenticated using the key-auth plugin, and if the authentication passes, the kafka-logger plugin takes over and logs; if the authentication fails (the plugin returns a 401 status code), the limit-req plugin is used to limit the speed.</p>
+<p>See the following video on how to do it.</p>
+<iframe height="350" width="100%" src="https://api7-website-1301662268.file.myqcloud.com/202107/%E6%8F%92%E4%BB%B6%E7%BC%96%E6%8E%92.mp4" frameborder="0">
+</iframe>
+<p>In this video, the Web interface lists the currently available plugins and drawing boards, and we can drag and drop the plugins onto the drawing boards to arrange them and fill in the data bound to the plugins, and then the whole process is completed. In the whole process.</p>
+<p>The Web interface lists the currently available plugins and drawing boards, and we can drag and drop the plugins onto the drawing boards to arrange them and fill in the data bound to the plugins, and then the whole process is completed. In the whole process.</p>
+<ol>
+<li>
+<p>operation visualization: we can use the interface visualization in addition to the creation of API, but also through the ability to orchestrate intuitive and clear scenario design.</p>
+</li>
+<li>
+<p>process reusable: by importing and exporting the JSON data of the drawing board, you can easily reuse the project data generated by orchestration.</p>
+</li>
+<li>
+<p>Combine to create new “plugins”: treat each scene as a plugin, and combine different plugins by using conditional components to create “plugins”.</p>
+</li>
+</ol>
+<h2 id="how-plugin-orchestration-works">How Plugin Orchestration Works?</h2>
+<p>So how does Apache APISIX combine with low-code capabilities? This requires the data side Apache APISIX and the control side Apache APISIX Dashboard to work together. The overall process is as follows.</p>
+<p><img src="https://static.apiseven.com/202108/1639466624894-039f4e63-fd21-403a-94c5-6efc8425eb0f.png" alt="Apache APISIX plugin orchestration flow"></p>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p>In Apache APISIX, we have added <code>script</code> execution logic to the Route entity, which can be used to receive and execute Lua functions generated by Dashboard, and it supports calling existing plugins to reuse the code. In addition, it also works on various stages of the HTTP request lifecycle, such as <code>access</code>, <code>header_filer</code>, <code>body_filter</code>, etc. The system will automatically execute the script function corresponding to the stage code at the corresponding stage, see the following <code>script</code> example.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">  "script"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "local _M = {} \n function _M.access(api_ctx) \n ngx.log(ngx.INFO,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">hit access phase</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">) \n end \nreturn _M"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="apache-apisix-dashboard">Apache APISIX Dashboard</h3>
+<p>Dashboard contains two sub-components, Web and ManagerAPI: Web provides a visual interface to configure the API gateway; ManagerAPI provides a RESTful API for the Web or other clients to call in order to operate the configuration center (ETCD by default) and thus indirectly control Apache APISIX.</p>
+<p>In order to generate legal and efficient script functions, ManagerAPI chose the DAG directed acyclic graph data structure for the underlying design and developed the <code>dag-to-lua</code> <a href="https://github.com/api7/dag-to-lua">project</a>: it takes the root node as the start node and decides the next flow plugin based on the judgment It uses the root node as the start node and decides the next flow plugin based on the judgment condition, which will effectively avoid logical dead loops. The following is a diagram of the DAG data structure.</p>
+<p><img src="https://static.apiseven.com/202108/1639466682723-dcfd5c1b-9ae7-42b4-b3c2-c00aaf7a5996.png" alt="Apache APISIX plugin orchestration DAG data structure"></p>
+<p>Corresponding to the script parameters received by ManagerAPI, the example is as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">  "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">    "1-2-3"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">      "name"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "plugin-a",</span></span>
+<span class="line"><span style="color:#FFA657">      "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">    "4-5-6"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">      "name"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "plugin-b",</span></span>
+<span class="line"><span style="color:#FFA657">      "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#FFA657">    "7-8-9"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">      "name"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "plugin-c",</span></span>
+<span class="line"><span style="color:#FFA657">      "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">  "rule"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">    "root"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "1-2-3",</span><span style="color:#8B949E"> # initial node ID</span></span>
+<span class="line"><span style="color:#FFA657">    "1-2-3"</span><span style="color:#79C0FF">:</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#E6EDF3">      [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "code == 200"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "4-5-6"</span></span>
+<span class="line"><span style="color:#E6EDF3">      ]</span><span style="color:#FFA657">,</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FFA657">        ""</span><span style="color:#FFA657">,</span></span>
+<span class="line"><span style="color:#FFA657">        "7-8-9"</span></span>
+<span class="line"><span style="color:#E6EDF3">      ]</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>After the client converts the final orchestrated data into the above format, ManagerAPI generates Lua functions with the help of the dag-to-lua project and hands them over to Apache APISIX for execution.</p>
+<p>On the Web side, after selection, comparison and project validation, we chose Ant Group’s open source X6 graph editing engine as the underlying framework for the Web part of the plugin orchestration. In addition to perfect and clear documentation, a series of out-of-the-box interactive components and node customizability are the reasons we chose it.</p>
+<p><img src="https://static.apiseven.com/202108/1639466742487-269ebd5a-4f6c-47c3-a941-1275a4b3d178.png" alt="X6 introduction"></p>
+<p>In the process of orchestration implementation, we abstract the concept of generic components and plug-in components: generic components are start nodes, end nodes and conditional judgment nodes, while plug-in components are every available Apache APISIX plug-in, and the process of plug-in orchestration is completed by dragging and dropping these components into the drawing board. As shown in the figure.</p>
+<p><img src="https://static.apiseven.com/202108/1639466805116-0e1c9a83-e5d0-40c1-8a76-8cb1402a491c.png" alt="Apache APISIX dashboard plugin orchestration demo1"></p>
+<p>During the drag and drop process, we need to restrict a series of boundary conditions, here are a few examples.</p>
+<p>When the plugin is not configured, the system will show the error message “There are unconfigured components”, which allows you to visually see which plugin does not have configuration data.</p>
+<p><img src="https://static.apiseven.com/202108/1639466853301-a67de136-633d-4b5d-9062-ac17bf625063.png" alt="Apache APISIX dashboard plugin orchestration demo2"></p>
+<p>When an API is edited, if the API is already bound with plugin data, when using the plugin orchestration mode, a warning message will appear after detection, and the system can only proceed if the user explicitly confirms that he/she wants to use the orchestration mode. This can effectively prevent the API data from being manipulated by mistake.</p>
+<p><img src="https://static.apiseven.com/202108/1639466907551-07ec82f9-8988-4a66-a5f2-d3944d4f239c.png" alt="Apache APISIX dashboard plugin orchestration demo3"></p>
+<p>In addition, there are cases such as the start element can only have one output and the conditional judgment element can only have one input. Imagine: if the system allows users to operate without restrictions, unreasonable plugin combinations will be meaningless and generate unpredictable errors, so the continuous enrichment of boundary conditions is also an important consideration when designing the plugin arrangement.</p>
+<p>When we finish the orchestration, we will use the API exposed by X6 to generate the JSON data of the flowchart, then convert it into the DAG data needed by the system, and finally generate Lua functions.</p>
+<h2 id="future-plans">Future Plans</h2>
+<p>The drag-and-drop approach makes it easier for users to combine plugins to meet different scenarios to enhance the scalability and operation and maintenance experience of API gateways. In the process of actual use, there are the following issues that can continue to be optimized.</p>
+<ol>
+<li>
+<p>The current boundary judgment conditions of the components are not rich enough, by continuing to improve these conditions to reduce unreasonable combinations of orchestration.</p>
+</li>
+<li>
+<p>There are not many orchestration examples at present, and providing more reference examples can facilitate developers to learn and users to use.</p>
+</li>
+<li>
+<p>The current Apache APISIX uses the code defined by the plugin for status return (exceptions return the status code, the request is terminated), can support more HTTP Response field or even modify the plugin definition to extend the plugin orchestration capabilities, such as the following plugin definition.</p>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M = {</span></span>
+<span class="line"><span style="color:#FFA657">  version</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 0.1,</span></span>
+<span class="line"><span style="color:#FFA657">  priority</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 2500,</span></span>
+<span class="line"><span style="color:#79C0FF">  type</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 'auth',</span></span>
+<span class="line"><span style="color:#FFA657">  name</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> plugin_name,</span></span>
+<span class="line"><span style="color:#FFA657">  schema</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> schema,</span></span>
+<span class="line"><span style="color:#8B949E">  # A new result field has been added to store the results of plugin runs and pass them on to the next plugin</span></span>
+<span class="line"><span style="color:#FFA657">  result</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">    code</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">      type</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> "int"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Why Apache APISIX chose Nginx and Lua to build API Gateway | Apache APISIX</title><meta name="description" content="Learn why Apache APISIX uses NGINX and Lua, and how this architecture supports high-performance dynamic routing, plugins, and hot configuration updates."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Why Apache APISIX chose Nginx and Lua to build API Gateway | Apache APISIX"><meta property="og:description" content="Learn why Apache APISIX uses NGINX and Lua, and how this architecture supports high-performance dynamic routing, plugins, and hot configuration updates."><meta property="og:url" content="https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Why Apache APISIX chose Nginx and Lua to build API Gateway","description":"Learn why Apache APISIX uses NGINX and Lua, and how this architecture supports high-performance dynamic routing, plugins, and hot configuration updates.","datePublished":"2021-08-25","author":{"@type":"Person","name":"Zexuan Luo"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Why Apache APISIX chose Nginx and Lua to build API Gateway</h1> <p class="article-meta"> 2021-08-25 · Zexuan Luo  </p> <blockquote>
+<p>This article was written by Zexuan Luo, engineer of <a href="https://api7.ai/">API7.ai</a>, and introduced the historical background of Apache APISIX’s selection of Nginx + Lua technology stack and the advantages this technology stack brings to Apache APISIX. Zexuan Luo is an OpenResty developer and Apache APISIX PMC.</p>
+</blockquote>
+<!--truncate-->
+<p>When I was at this year’s COSCUP conference, some visitors asked me why did Apache APISIX, Kong, and 3scale API Gateways all choose Lua to build the program?</p>
+<p>Yes, Lua is not a well-known language, and it is probably a long way from the most popular programming language.</p>
+<p>So why do Apache APISIX and other well-known gateways choose Lua?</p>
+<p>The technology stack used by Apache APISIX is not only Lua. To be precise, it should be Nginx with Lua. Apache APISIX is based on Nginx and uses Lua to build plugins or other features.</p>
+<h2 id="luajit-vs-go">LuaJIT VS Go</h2>
+<p>Serious readers may point out that Apache APISIX is not based on the Nginx + Lua stack, but Nginx + LuaJIT (also known as OpenResty). LuaJIT is a Just-In-Time Compiler (JIT) for the Lua programming language, its performance is much better than Lua. LuaJIT adds FFI functions to make it easy and efficient to call C code.</p>
+<p>Since the current popular API gateways are either based on OpenResty or Go, developers are having hot debates about the performances of Lua and Go.</p>
+<p><strong>From my point of view, it is meaningless to compare the performance of languages without scenes.</strong></p>
+<p>First of all, to be clear, Apache APISIX is based on Nginx and Lua, and only the outer layer codes use Lua. So if you want to know which gateway performs better, the correct comparison object is to compare C with LuaJIT and Go. The bulk of the performance of the gateway lies in proxy HTTP requests and responses, and Nginx mainly does this piece of work.</p>
+<p><strong>The best way to test gateways’ performances is to compare the HTTP implementation of the Nginx and Go standard libraries.</strong></p>
+<p>As we all know, Nginx is a high-performance server, which is very strict with memory usage. Here are two examples:</p>
+<p>The request header in Nginx is usually just a pointer to the original HTTP request data, and a copy is created only when it is modified.</p>
+<p>When Nginx proxy upstream server’s response, It is very complicated to reuse Buffer.</p>
+<p>With those strict rules, Nginx is one of the most popular and high-performance servers.</p>
+<p>In contrast, the HTTP implementation in Go standard library is typical of memory abuse. Fasthttp, a project that re-implements HTTP packages in the Go standard library, gives us two examples:</p>
+<p>We cannot reuse the standard library’s HTTP Request structure;
+Headers are always parsed in advance and stored as a <code>map [string][]string</code>, even if they are not used (see: <a href="https://github.com/valyala/fasthttp#faq">Fasthttp FAQ</a>).</p>
+<p>The Fasthttp document also mentions some optimization skills for bytes matter, I would suggest that you take a look.</p>
+<p>Actually, codes written in LuaJIT are not necessarily much worse than those written in Go. Here are two reasons:</p>
+<p><strong>First, most of Lua’s library cores are written in C.</strong></p>
+<p>For example, lua-cjson and lua-resty-core are implemented with C, but the Go libraries, of course, are mainly implemented with Go. Although there is such a thing called CGO, it is limited by Go’s coroutine scheduling and toolchain, and it can only be in a subordinate position in the Go ecosystem.</p>
+<p>For the comparison of LuaJIT and Go’s affinity with C, here has one post from Hacker News: <a href="https://news.ycombinator.com/item?id=17161168">Comparing the C FFI overhead in various programming languages</a>.</p>
+<p>So when we compare some of Lua’s features, we are actually comparing C and Go.
+Second, LuaJIT’s JIT optimization is unparalleled.</p>
+<p><strong>Secondly, LuaJIT has one of the best JIT Opitimizations.</strong></p>
+<p>We could divide dynamic languages into two cases, with or without JIT. JIT optimization can compile dynamic language code into machine code at runtime, thus improving the performance of the original code by order of magnitude.</p>
+<p>Languages with JIT can also be divided into two cases, those that fully support JIT (e.g LuaJIT) and those that only support part of JIT.</p>
+<p>The debate about who is faster, LuaJIT or V8, has been a hot topic for a long time. In short, the performance of LuaJIT is not much different from that of the pre-compiled Go program.</p>
+<p>As for which one is slower and slower by how much, that is a matter of opinion. Here is an example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>local text = {"The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog", "at", "a", "restaurant", "near", "the", "lake", "of", "a", "new", "era"}</span></span>
+<span class="line"><span>local map = {}</span></span>
+<span class="line"><span>local times = 1e8</span></span>
+<span class="line"><span>local n = #text</span></span>
+<span class="line"><span>for i = 1, n do</span></span>
+<span class="line"><span>    map[text[i]] = 0</span></span>
+<span class="line"><span>    for _ = 1, times do</span></span>
+<span class="line"><span>        map[text[i]] = map[text[i]] + 1</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>for i = 1, n do</span></span>
+<span class="line"><span>    io.write(text[i], " ", map[text[i]], "\n")</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>package main</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>func main() {</span></span>
+<span class="line"><span>    text := []string{"The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog", "at", "a", "restaurant", "near", "the", "lake", "of", "a", "new", "era"}</span></span>
+<span class="line"><span>    m := map[string]int{}</span></span>
+<span class="line"><span>    times := int(1e8)</span></span>
+<span class="line"><span>    for _, t := range text {</span></span>
+<span class="line"><span>        m[t] = 0</span></span>
+<span class="line"><span>        for i := 0; i &#x3C; times; i++ {</span></span>
+<span class="line"><span>            m[t]++</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    for _, t := range text {</span></span>
+<span class="line"><span>        fmt.Println(t, " ", m[t])</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>The above two code snippets are equivalent. Can you guess whether the first Lua version is faster or the second Go version is shorter?</p>
+<p>The first took less than 1 second on my machine, and the second took more than 23 seconds.</p>
+<p>This example is not to prove that LuaJIT is 20 times faster than Go. I want to show that using a microbenchmark to prove that one language is shorter than another does not make much sense because many factors affect performance. A simple microbenchmark is likely to overemphasize one factor and lead to unexpected results.</p>
+<h2 id="nginx-with-lua-high-performance--flexibility">Nginx with Lua: High Performance + Flexibility</h2>
+<p>Let’s go back to Apache APISIX’s Nginx and Lua stack. The Nginx + Lua stack brings us more than just high performance.</p>
+<p>People often ask us, since Apache APISIX is based on the open-sourced Nginx, and Nginx does not support dynamic configuration, why Apache APISIX claims that it supports dynamic configuration? Has it changed anything?</p>
+<p>Yes, we do maintain our own Nginx distribution, but most features of Apache APISIX are available on the official Nginx. The reason why we can do dynamic configuration is to put the configuration into Lua code.</p>
+<p>Take the Route system as an example. Nginx’s routes need to be configured in the configuration file, and every time the route is changed, it needs to be reloaded before it can take effect. Nginx’s route distribution only supports static configuration and cannot dynamically increase or decrease routes.</p>
+<p><strong>To support dynamic routing configuration, Apache APISIX does two things:</strong></p>
+<ol>
+<li>
+<p>Configure a single server in the Nginx configuration file. There is only one location on this server. We use this location as the main entrance so that all requests will come to this place.</p>
+</li>
+<li>
+<p>We use Lua to complete the route distribution work. Apache APISIX’s route distribution module supports increasing or decreasing routes at run time to configure routes dynamically.</p>
+</li>
+</ol>
+<p>You may want to ask, is routing distribution in Lua slower than Nginx implementation?</p>
+<p>As mentioned earlier, we rewrite the core code in C for those with high-performance requirements. We did the same thing our route distribution module does. The module uses a radix-tree to match a route. We use C to implement the radix-tree. Please feel free to take a look at the code in <a href="https://github.com/api7/lua-resty-radixtree/">lua-resty-radixtree</a>.</p>
+<p>After completing the radix-tree matching, it is time for Lua to show its flexibility. We support matching at the next level in many other ways for each the same prefix route, including checking through a specific expression. Although it is tough to access an expression engine using C, a pure C implementation cannot flexibly customize the variables inside the expression.</p>
+<p>For example, here is the route configuration that Apache APISIX uses to match GraphQL requests:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">        "methods"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">        "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">                "127.0.0.1:1980"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#7EE787">            "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/hello"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "vars"</span><span style="color:#E6EDF3">: [[</span><span style="color:#A5D6FF">"graphql_name"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"repo"</span><span style="color:#E6EDF3">]]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>It matches a GraphQL request like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>query repo {</span></span>
+<span class="line"><span>    owner {</span></span>
+<span class="line"><span>        name</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>The graphql_name here is not an Nginx built-in variable, but is defined through Lua code. Apache APISIX defines three GraphQL-related variables, and there are only 62 lines of Lua codes (including parsing the GraphQL body). If you want to define variables through the Nginx C module, 62 lines may just be building up the boilerplate code of related methods, and there is no real logic to parse GraphQL yet.</p>
+<p><strong>Using Lua for routing has another advantage: it reduces the threshold of development.</strong></p>
+<p>Suppose we need particular logic in the routing process, users can implement custom variables and operators, such as determining which route to use by matching the geographic location of the IP library. Users only need to write some Lua code, which is much less complicated than modifying the Nginx C module.</p>
+<p>In Apache APISIX, the routing system is dynamic. Our TLS server-side certificates and upstream node configurations are dynamic. There is no need to modify Nginx — the above functions can run on the official Nginx and Lua stack. Of course, by modifying Nginx, we have also implemented more advanced features, such as dynamic gzip configuration and dynamic client request size limit. We will implement our own Nginx distribution later so that open source users can easily use these advanced functions.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

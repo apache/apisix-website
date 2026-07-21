@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Gateway Practices in Tencent Games | Apache APISIX</title><meta name="description" content="Tencent Timi Studio Group developed TAPISIX based on APISIX, exploring gateway extension, deployment, and operations."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX Gateway Practices in Tencent Games | Apache APISIX"><meta property="og:description" content="Tencent Timi Studio Group developed TAPISIX based on APISIX, exploring gateway extension, deployment, and operations."><meta property="og:url" content="https://apisix.apache.org/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apisix.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Gateway Practices in Tencent Games","description":"Tencent Timi Studio Group developed TAPISIX based on APISIX, exploring gateway extension, deployment, and operations.","datePublished":"2025-05-07","image":"https://static.api7.ai/uploads/2025/05/07/Em3otYyD_tencent-timi-uses-apisix.webp","author":{"@type":"Person","name":"Zemiao Yang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/05/07/apisix-gateway-practice-in-tencent-timi/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX Gateway Practices in Tencent Games</h1> <p class="article-meta"> 2025-05-07 · Zemiao Yang  </p> <blockquote>
+<p>Authors: Zemiao Yang, Backend Development Engineer at Tencent Timi Studio Group. This article is based on his presentation at the APISIX Shenzhen Meetup on April 12, 2025.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="about-timi-studio-group">About Timi Studio Group</h2>
+<p>TiMi is a subsidiary of Tencent Games and the developer of several popular mobile games, including <em>Call of Duty: Mobile</em>, <em>Pokémon Unite</em>, <em>Arena of Valor</em>, and <em>Honor of Kings</em>.</p>
+<p><em>Honor of Kings</em> is one of the world’s most popular MOBA mobile games. As of December 2023, it has recorded up to 160 million daily active users, 3 million concurrent online users, over 3.8 billion downloads, and over 300 million registered users. In May 2017, it topped the global mobile game revenue chart. (Source: Wikipedia)</p>
+<h2 id="tapisix-api-gateway">TAPISIX API Gateway</h2>
+<p>Our team primarily uses the Golang language for development and also takes on some operational responsibilities. Given our limited experience in operations and our desire to control costs, we aim to unify the handling of multiple tasks such as authentication and traffic recording through an API gateway. Additionally, due to the frequent infrastructure migration required for our overseas business, we cannot rely on cloud-based solutions and require all data and components to be migratable.</p>
+<h3 id="introduction-to-tapisix">Introduction to TAPISIX</h3>
+<p>Although Apache APISIX is fully open-source with a rich plugin ecosystem, we need to balance the integration with existing infrastructure, such as internal service discovery, log standards, and trace reporting. These functions are company-specific and cannot be directly merged into the open-source upstream. Therefore, we have developed a customized version, TAPISIX, based on APISIX, adding a series of plugins designed for our internal environment.</p>
+<p>Our services run on Kubernetes (k8s) clusters, with APISIX serving as the traffic entry point and connecting to internal business services. Service discovery utilizes the company’s internal Polaris system, metric monitoring is achieved through the Prometheus provided by APISIX, and log and trace collection are performed via OpenTelemetry and ClickHouse. For CI tools, we use OCI (similar to GitHub Actions), which supports pipeline definition through YAML; for CD tools, we select Argo CD, which implements continuous deployment based on open-source solutions.</p>
+<p>Due to the stringent compliance requirements of our overseas business, many internal company components cannot be directly implemented.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/jnAmJchc_timi-1.webp" alt="TAPISIX Gateway Architecture"></p>
+<p>This presentation will cover the following four aspects:</p>
+<ol>
+<li>Gateway Feature Extension: How to extend gateway features based on business needs.</li>
+<li>Deployment and Operations: Practices for gateway deployment and daily operations.</li>
+<li>Runtime Operations: Maintenance and optimization of the runtime environment.</li>
+<li>Other Experiences: Practical experience accumulated by the team in gateway operations.</li>
+</ol>
+<h2 id="gateway-feature-extension">Gateway Feature Extension</h2>
+<h3 id="goals-and-challenges">Goals and Challenges</h3>
+<p>Our goal is to build a business-targeted gateway that leverages APISIX’s plugins to meet customized requirements. As a business-oriented team, we face the following challenges:</p>
+<ol>
+<li>
+<p>High Development Threshold: Frontline developers are familiar with Golang but lack familiarity with the Lua language and APISIX plugin development, leading to a high learning curve.</p>
+</li>
+<li>
+<p>Plugin Reliability: Ensuring that developed plugins can be safely and stably deployed.</p>
+</li>
+</ol>
+<h4 id="core-issues">Core Issues</h4>
+<ol>
+<li>How to reduce the development threshold?</li>
+<li>How to quickly verify plugin functionality?</li>
+<li>How to ensure plugin reliability?</li>
+</ol>
+<h4 id="solutions">Solutions</h4>
+<p>To address the above issues, we have taken the following four approaches:</p>
+<ol>
+<li>Development Standards (Maintainability)</li>
+<li>Local Quick Running and Testing</li>
+<li>Pipeline Construction (Build Process)</li>
+<li>Reliability Assurance</li>
+</ol>
+<h3 id="1-development-standards">1. Development Standards</h3>
+<p>Development standards are easy to understand. We need to define a library, specify the storage path for plugins, and require plugins to adopt a single-file format, consistent with APISIX’s single-file plugin mechanism, to facilitate management and maintenance.</p>
+<p>To lower the development threshold, we support local quick running and testing. By utilizing APISIX’s Docker image, local plugins can be mounted into containers via volume mapping for convenient deployment. Additionally, by leveraging the downstream echo-service (a service developed based on open-source Node.js), upstream behavior can be simulated. This service can return all content of a request, such as request headers. By adding specific parameters in the request (e.g., HTTP status code <code>500</code>), upstream exceptional behavior can be simulated, thereby comprehensively verifying plugin functionality.</p>
+<p align="center">
+  <img width="550" alt="Honor Plugin Ecosystem" src="https://static.api7.ai/uploads/2025/05/15/1r4TMUK9_timi-2.webp">
+</p>
+<h3 id="2-local-quick-running-and-testing">2. Local Quick Running and Testing</h3>
+<p>To reduce the development threshold and accelerate verification, we provide convenient local development environment support:</p>
+<ol>
+<li>
+<p><strong>File Mapping</strong>: By mounting local plugin files into Docker containers, developers can test plugin changes in real-time.</p>
+</li>
+<li>
+<p><strong>Makefile Build</strong>: Construct a Makefile to support quick startup of the plugin testing environment via the <code>make run-dev</code> command, ensuring seamless connection between local files and containers.</p>
+</li>
+<li>
+<p><strong>Direct Browser Access</strong>: Developers can directly verify plugin functionality by accessing relevant interfaces in a browser, without additional deployment or configuration.</p>
+</li>
+</ol>
+<p align="center">
+  <img width="550" alt="Honor Plugin Ecosystem" src="https://static.api7.ai/uploads/2025/05/15/bdMFTb0b_timi-3.webp">
+</p>
+<p>By defining development standards and providing local quick development support, we have effectively lowered the development threshold and accelerated the plugin verification process. Developers can focus on feature implementation without worrying about complex deployment and testing procedures, thereby improving overall development efficiency.</p>
+<h3 id="3-pipeline-construction-build-process">3. Pipeline Construction (Build Process)</h3>
+<p>During pipeline construction, it is essential to ensure reliability and stability in plugin development. The development process is as follows:</p>
+<ol>
+<li>
+<p>Branch Management and Pull Request (PR) Process:</p>
+<p>a. Developers create a new branch from the master branch for development.</p>
+<p>b. After completing development, they submit a PR to the master branch.</p>
+</li>
+<li>
+<p>Webhook Triggering: After submitting a PR, the system automatically triggers a Webhook to start the pipeline.</p>
+</li>
+<li>
+<p>Pipeline Inspection:</p>
+<p>a. Lint Check: Primarily checks code formatting standards.</p>
+<p>b. Unit Testing: Runs unit tests to verify whether plugin functionality meets expectations.</p>
+<p>c. Try Build: Constructs an image using the source code to verify its buildability.</p>
+</li>
+</ol>
+<p align="center">
+  <img width="550" alt="Pipeline Building" src="https://static.api7.ai/uploads/2025/05/15/VAFUteFJ_timi-4.webp">
+</p>
+<h3 id="4-reliability-assurance-cr-lint-unit-testing-black-box-testing">4. Reliability Assurance (CR, lint, unit testing, black-box testing)</h3>
+<p>We utilize the k6 testing framework from Grafana to validate core test cases. The k6 framework supports writing test case declaratively and covers various scenarios. We regularly replay these test cases to check interface functionality. For instance, even if only a plugin is modified, we conduct comprehensive replay testing, including parsing and service discovery.</p>
+<h4 id="core-test-cases-and-the-k6-testing-framework">Core Test Cases and the k6 Testing Framework</h4>
+<p>k6 Test Cases: Comprising hundreds of test cases covering core processes to ensure plugin reliability.</p>
+<p align="center">
+  <img width="550" alt="K6 Test" src="https://static.api7.ai/uploads/2025/05/15/80NTJpcY_timi-5.webp">
+</p>
+<p>Through the complete process of local development, quick validation, MR submission, pipeline inspection, reliability assurance, and packaging deployment, we ensure that every stage of plugin development and deployment undergoes strict quality control.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/0sIEPiql_timi-6.webp" alt="Gateway Development Workflow"></p>
+<h2 id="deployment-and-operations">Deployment and Operations</h2>
+<p>Next, we briefly introduce the deployment modes of APISIX, which are divided into the data plane and control plane. The data plane is responsible for proxy, while the control plane manages configurations, including the management interface and other functionalities, writing configurations to etcd. The data plane reads configurations from etcd and loads them into memory to complete routing functions.</p>
+<p>APISIX offers three deployment methods to accommodate the needs of different production environments:</p>
+<ol>
+<li>
+<p><strong>Traditional Mode</strong>: The data plane and control plane are deployed within a single instance.</p>
+</li>
+<li>
+<p><strong>Separated Mode</strong>: The data plane and control plane are deployed independently. Even if the data plane fails, the control plane can still operate and make modifications.</p>
+</li>
+<li>
+<p><strong>Standalone Mode</strong>: Only the data plane is deployed, with configurations loaded from local YAML files, eliminating dependence on etcd.</p>
+</li>
+</ol>
+<p>We utilize the standalone mode that retains only the data plane. All configurations are stored locally, avoiding reliance on etcd. This mode is more suitable for overseas scenarios. Since etcd is a database, some cloud providers do not offer etcd services. Given the stringent overseas data compliance requirements and our k8s-based deployment environment, we have also implemented a configuration management approach that is k8s-friendly.</p>
+<p align="center">
+  <img width="650" alt="APISIX Deployment" src="https://static.api7.ai/uploads/2025/05/07/99nRuGCG_7-dp-and-cp.webp">
+</p>
+<ul>
+<li>YAML Configuration: All configurations are directly stored in YAML files for easy management and automated deployment.</li>
+<li>ConfigMap Storage: YAML files are directly placed in k8s ConfigMaps to ensure configuration versioning and traceability.</li>
+</ul>
+<p>We define the gateway as immutable infrastructure, with infrequent changes during daily operations. Even route changes are considered as change operations.</p>
+<h3 id="kubernetes-configuration-management-and-deployment-practices">Kubernetes Configuration Management and Deployment Practices</h3>
+<p><strong>Backgrounds and Challenges</strong></p>
+<p>When managing config.yaml, we found that Kubernetes deployments actually rely on a series of complex configuration files, such as Service.yaml, ConfigMap.yaml, and Workload. These numerous and detailed configuration files can lead to complex management and potential errors.</p>
+<p><strong>Solution</strong></p>
+<p>The Kubernetes community proposes Helm Charts as a solution. Helm Charts template Kubernetes configuration files, significantly simplifying configuration management. The official APISIX Helm Chart enables us to efficiently manage core configurations (e.g., node counts) without manually filling out numerous YAML files. Currently, Helm Charts have effectively addressed the issue of configuration complexity.</p>
+<p><strong>Follow-up Problem</strong></p>
+<p>However, a key follow-up issue arises: how to deploy Helm Charts or YAML files to a Kubernetes cluster.</p>
+<p><strong>Solution</strong></p>
+<p>To address this, we adopted the GitOps model, deploying YAML files to a Kubernetes cluster via pipelines. Under the GitOps model, all configurations are stored in Git as code. By triggering CI/CD processes via Git, we achieve automated deployment. Both <code>config.yaml</code> and other configuration files are stored in Git, ensuring versioned management and traceability of configurations. This approach not only simplifies configuration management but also automates and standardizes the deployment process, enhancing overall efficiency and reliability.</p>
+<h3 id="deployment-process-example">Deployment Process Example</h3>
+<p align="center">
+  <img width="550" alt="Deployment Workflow" src="https://static.api7.ai/uploads/2025/05/15/S2R27TnZ_timi-8.webp">
+</p>
+<p>In the deployment process illustrated above, SREs (Site Reliability Engineers) manage configurations on behalf of users. Any modifications, such as route changes or image updates, must be implemented by altering the Helm Chart repository. After the change, Argo CD automatically detects it and triggers the pipeline to pull the latest configuration for deployment. Additionally, a strong synchronization is established between Git and Kubernetes, ensuring configuration consistency and reliability.</p>
+<p>For instance, after deployment, if I have full access to the k8s cluster and modify the <code>service.yaml</code> file, Argo CD continuously monitors the cluster status. If it detects discrepancies between actual resources and the configurations in the Git repository, it automatically triggers synchronization, overriding the cluster configuration with the content from the Git repository.</p>
+<h3 id="advantages-of-gitops">Advantages of GitOps</h3>
+<p>This management model offers numerous benefits:</p>
+<ul>
+<li><strong>Configuration Consistency</strong>: All configuration changes are made through Git, ensuring system configuration consistency.</li>
+<li><strong>Security</strong>: Reduces the risk of manual modifications, with all changes traceable.</li>
+<li><strong>Automated Deployment</strong>: Achieves automated deployment and canary releases based on version changes in Argo CD or Git.</li>
+</ul>
+<p>In deployment, we only need to maintain two repositories: the code repository (for application code) and the deployment repository (for all deployment-related configuration files). This simplified model renders many traditional management platforms unnecessary, making the entire process more efficient and streamlined. When deploying applications to other clusters, simply pull the corresponding branch from the deployment repository and apply it to the target cluster. The entire process is simple and efficient.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/20UakpGY_timi-9.webp" alt="GitOps Advantages"></p>
+<p>In our deployment practices, key APISIX configuration files (e.g., routing configurations and <code>config.yaml</code> startup configurations) are integrated into a single Helm Chart repository for unified management and deployment. However, this deployment approach may also present an issue: it essentially treats APISIX as a regular service for deployment.</p>
+<h2 id="why-not-use-the-apisix-ingress-controller">Why Not Use the APISIX Ingress Controller?</h2>
+<p><img src="https://static.api7.ai/uploads/2025/05/07/7WnT5rWl_10-ingress-controller.webp" alt="APISIX Ingress Controller Wrkflow"></p>
+<p>The APISIX Ingress Controller, as the official community solution for k8s, follows this core process: By defining custom resources such as APISIXRoute, routing and other configurations are described in YAML files within k8s.</p>
+<p>After deploying these CRDs to the k8s cluster, the Ingress Controller continuously monitors the relevant CRD resources. It parses the configuration information from the CRDs and synchronizes the configurations to APISIX by invoking APISIX’s Admin API. The Ingress Controller primarily facilitates deployment between CRDs and APISIX, ultimately writing data to etcd.</p>
+<p align="center">
+  <img width="550" alt="APISIX Ingress Controller" src="https://static.api7.ai/uploads/2025/05/07/XbjN7Bky_11-ingress-controller.webp">
+</p>
+<p>After careful evaluation, we found that the deployment and operational model of the APISIX Ingress Controller does not fully align with our team’s requirements for the following reasons:</p>
+<ol>
+<li>
+<p><strong>Business-Oriented Gateway Positioning</strong>: As a business-oriented gateway, we focus on reducing development and operational thresholds to enhance usability and development efficiency.</p>
+</li>
+<li>
+<p><strong>Operational Cost</strong>: Introducing the Ingress Controller adds an extra layer of operational complexity. It requires deep integration with k8s, involving additional Golang code and k8s API calls, which increases operational difficulty and cost.</p>
+</li>
+<li>
+<p><strong>Environment Consistency</strong>: Due to reliance on the k8s environment, discrepancies between local development and online deployment environments may lead to inconsistencies such as “works locally but fails online,” complicating fault diagnosis and resolution.</p>
+</li>
+<li>
+<p><strong>Version Coupling</strong>: There is a strong coupling between APISIX and Ingress Controller versions. Since our APISIX is a customized version, we only maintain compatibility with specific versions. This may result in unsupported APIs or compatibility issues, affecting system stability and reliability.</p>
+</li>
+<li>
+<p><strong>Configuration Opacity</strong>: With the Ingress Controller approach, the final configurations still need to be written to etcd, which may cause inconsistent configuration states. For example, Ingress Controller monitoring failures or poor etcd status may trigger issues like excessive connections, making the entire architecture chain more opaque and complex. In contrast, Helm Charts offers a comprehensive and auditable YAML file containing all routing configurations, making routing states clear and visible.</p>
+</li>
+</ol>
+<p>For these reasons, we opted not to use the APISIX Ingress Controller.</p>
+<h3 id="how-to-achieve-hot-reloading-of-configurations">How to Achieve Hot Reloading of Configurations?</h3>
+<p>When deploying APISIX in a k8s environment, hot configuration updates are crucial for ensuring system stability and availability. APISIX configurations are primarily divided into two categories:</p>
+<ol>
+<li>
+<p><strong>APISIX Routing Configuration</strong> (<code>apisix.yaml</code>): Uses traditional loading methods to define routing configurations, including upstream routing and corresponding forwarding rules.</p>
+</li>
+<li>
+<p><strong>Startup Configuration</strong> (<code>config.yaml</code>): Serves as the startup configuration file, specifying key parameters such as the APISIX runtime port. Changes to certain configuration items require a service restart to take effect.</p>
+</li>
+</ol>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/HBe8lFgq_timi-12.webp" alt="Hot Reloading"></p>
+<h3 id="k8s-resource-deployment-process">k8s Resource Deployment Process</h3>
+<ol>
+<li><strong>Modify Git configuration</strong>: Make changes to the aforementioned Git configurations.</li>
+<li><strong>Deliver to Argo CD</strong>: Submit the modified configurations to Argo CD.</li>
+<li><strong>Generate resource files</strong>: Based on the modified configurations, Argo CD generates corresponding resource files such as ConfigMap and Service YAML via the Helm Chart.</li>
+</ol>
+<p>In the k8s environment, resources like <code>apisix.yaml</code> and <code>config.yaml</code> exist in the form of ConfigMaps.</p>
+<h3 id="apisix-configuration-change-handling-mechanism">APISIX Configuration Change Handling Mechanism</h3>
+<p><strong>Backgrounds and Challenges</strong></p>
+<p>When APISIX-related configurations change, the corresponding ConfigMap is updated. However, the Deployment (i.e., the APISIX deployment instance) itself remains unchanged.</p>
+<p><strong>Solution</strong></p>
+<p>To address this issue, the k8s community proposes a solution that involves splitting configurations and utilizing hash and annotation methods. The content of the ConfigMap that needs to be changed is injected into the Deployment as annotations, thereby achieving dynamic configuration updates.</p>
+<ul>
+<li>
+<p><code>apisix-configmap.yaml</code>: Primarily stores APISIX’s core configurations, such as routing rules. When this type of ConfigMap is modified, due to the built-in timer mechanism in APISIX, it periodically reads and updates the in-memory configuration information from the local file. Therefore, the APISIX service does not need to be restarted for the configuration to take effect.</p>
+</li>
+<li>
+<p><code>config-configmap.yaml</code>: Mainly includes basic configurations such as the APISIX runtime environment. When this type of ConfigMap is modified, as it involves the basic runtime environment settings of the APISIX service, a restart of the APISIX deployment instance is required to ensure the new configurations are correctly loaded and applied.</p>
+</li>
+</ul>
+<p><strong>Update Trigger Mechanism</strong></p>
+<p>To automatically detect configuration changes and trigger the update process, we annotate the ConfigMap content with a hash and write the hash value into the <code>deployment.yaml</code> file. When configuration changes cause the hash value to update, the <code>deployment.yaml</code> file also changes. The k8s system detects this change and automatically triggers the update process, ensuring that the APISIX deployment instance promptly applies the new configurations.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/TQVZcDbl_timi-13.webp" alt="Hot Reloading"></p>
+<h2 id="runtime-operations">Runtime Operations</h2>
+<p>Runtime operations are primarily divided into three parts: metrics collection, trace reporting, and log collection.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/bYcxhAf1_timi-14.webp" alt="Runtime Operation"></p>
+<h3 id="1-metrics-collection">1. Metrics Collection</h3>
+<p>k8s clusters offer an official metrics collection solution called the Kubernetes Prometheus Operator. By periodically scraping metrics ports and information exposed by services, data is regularly reported to external systems such as Prometheus. Since this part has not been deeply customized, it will not be detailed here. Related k8s configurations are fully described in APISIX’s Helm Chart.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/HWY7oK1j_timi-15.webp" alt="Metrics"></p>
+<h3 id="2-trace-reporting">2. Trace Reporting</h3>
+<p>Trace reporting is implemented based on the OpenTelemetry plugin provided by APISIX. This plugin sends data to the OpenTelemetry Collector via the OpenTelemetry protocol, which ultimately writes the data to ClickHouse for trace data collection and storage.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/aHPC3JJa_timi-16.webp" alt="Trace"></p>
+<h3 id="3-log-collection">3. Log Collection</h3>
+<p>Log collection also utilizes the OpenTelemetry protocol. However, the OpenTelemetry plugin in the APISIX community edition only supports trace reporting and does not include log reporting. Therefore, we recommend using local log storage. By employing a sidecar mode, APISIX logs are written to a shared folder. In the Deployment, another Pod is mounted, which shares the same log folder as the APISIX Pod, thereby achieving log collection and reporting via the OpenTelemetry protocol.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/fKomicyg_timi-17.webp" alt="Log"></p>
+<p>Additionally, the monitoring dashboard provided by APISIX are relatively general-purpose and lack specificity. Therefore, we have custom-developed dedicated monitoring panels based on the collected metric data to meet specific monitoring requirements. The alerting system is built using Grafana’s open-source solution, leveraging its powerful visualization and alerting capabilities to achieve real-time monitoring and alerting of APISIX’s operational status.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/nMkIzdmq_timi-18.webp" alt="Monitoring and Alerting"></p>
+<h2 id="other-experiences">Other Experiences</h2>
+<h3 id="standalone-route-management">Standalone Route Management</h3>
+<p>In our initial approach to route management, we consolidated all route configurations into a single YAML file. However, as our business expanded and the number of routes increased, this monolithic configuration became unwieldy and challenging to maintain. This scenario is humorously encapsulated in the industry jest that Kubernetes operations engineers are essentially “YAML engineers,” highlighting the overwhelming nature of managing extensive YAML configurations.</p>
+<p>To address these challenges, we implemented a two-pronged strategy to optimize our route management:</p>
+<ul>
+<li>
+<p>Modular Decomposition: Following APISIX’s routing specifications, we segmented the configurations into collector and consumer configuration modules, achieving functional decoupling and categorized management.</p>
+</li>
+<li>
+<p>Domain-Based Segmentation: We further refined our route files by organizing them based on domain names, making route configurations more refined and organized for easier maintenance and expansion.</p>
+</li>
+</ul>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/eQ80I0SA_timi-19.webp" alt="Standalone Route Management"></p>
+<h3 id="reuse-of-route-configurations">Reuse of Route Configurations</h3>
+<p>In k8s upstream configurations, there are various types, differed solely by the service name. After introducing a new version and updating the Lua package, we effectively addressed the issue of duplicated configurations by fully utilizing leveraged YAML’s anchor (&#x26;) and alias (*) features. Through the anchor mechanism, we abstracted and reused common configuration parts, reducing duplicated configurations by approximately 70% in practical applications. This significantly improved the efficiency and simplicity of configuration management and reduced the risk of errors introduced by duplicated configurations.</p>
+<p align="center">
+  <img width="550" alt="Duplicated Route Configuration" src="https://static.api7.ai/uploads/2025/05/07/hbEPdHAf_20-duplicated-route-configuration.webp">
+</p>
+<h2 id="migration-practices-of-apisix-replacing-ingress">Migration Practices of APISIX Replacing Ingress</h2>
+<h3 id="initial-architecture-and-background">Initial Architecture and Background</h3>
+<p>Our original traffic architecture was structured as follows:</p>
+<ol>
+<li>EdgeOne served as the Content Delivery Network (CDN), handling initial traffic ingress.</li>
+<li>Traffic was then forwarded by Cloud Load Balancer (CLB) to the Ingress layer, which utilized Istio.</li>
+<li>Finally, requests reached the internal APISIX gateway for processing.</li>
+</ol>
+<p>The inclusion of the Ingress layer, specifically Istio, was primarily due to historical decisions. At the time, Istio was selected as the service mesh solution in our cloud environment.</p>
+<p>However, as our business evolved and technology advanced, we recognized the need for a more efficient and flexible traffic management system. Consequently, we plan to replace the existing Ingress layer with APISIX, leveraging it as the Kubernetes Ingress Controller.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/68MNH7c5_timi-21.webp" alt="APISIX Replaces Ingress"></p>
+<h3 id="migration-solution-evaluation">Migration Solution Evaluation</h3>
+<p>During the migration process, we evaluated two primary migration solutions:</p>
+<ul>
+<li>
+<p><strong>Solution One: CDN Canary and Dual Domains</strong> – Deploy a new APISIX instance alongside the existing architecture to direct new traffic to this instance. However, this solution’s drawback is the need to modify the front-end domain, which may impact user access and business continuity. After careful consideration, we temporarily set aside this solution.</p>
+</li>
+<li>
+<p><strong>Solution Two: CDN Traffic Steering</strong> – This approach allows configuring multiple CLB routes and achieving traffic push based on percentages. Its advantage lies in the ability to gradually switch traffic to the new APISIX instance without changing the user access entry point. Additionally, the traffic ratio can be flexibly adjusted based on actual conditions, facilitating observation and evaluation of the migration effects.</p>
+</li>
+</ul>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/Ae6ayVyJ_timi-22.webp" alt="Migration Solutions"></p>
+<h3 id="implementation-and-advantages-of-the-final-solution">Implementation and Advantages of the Final Solution</h3>
+<p>We ultimately chose Solution Two, successfully establishing a new traffic path: new traffic reaches APISIX directly through canary deployment. This new architecture offers the following significant advantages:</p>
+<ul>
+<li>
+<p><strong>No Front-end Changes</strong>: The domain names and entry points accessed by front-end users remain unchanged, ensuring uninterrupted user experience and avoiding potential user confusion or access interruptions caused by domain changes.</p>
+</li>
+<li>
+<p><strong>Full Backend Autonomy</strong>: The backend gains autonomous control and management over traffic switching, enabling flexible adjustment of traffic distribution based on business needs and system status without reliance on external coordination.</p>
+</li>
+<li>
+<p><strong>Rapid Rollback Capability</strong>: With canary release feature, any issues discovered during migration can be quickly rolled back to the original path, minimizing migration risks and ensuring stable business operations.</p>
+</li>
+<li>
+<p><strong>User-Transparent Migration</strong>: The entire migration process is transparent to users, who remain unaware of backend architectural changes during business access, ensuring a smooth and seamless migration.</p>
+</li>
+</ul>
+<p>Below is the overall migration process.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/15/y1FiOjxR_timi-23.webp" alt="Migration Practices"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Our team has developed the business-oriented API gateway TAPISIX based on APISIX. As the core component of our gateway architecture, APISIX has been instrumental in meeting stringent international compliance requirements, reducing development and operational overhead, and enhancing system flexibility and reliability.</p>
+<p>APISIX’s robust features—such as high-performance routing, dynamic configuration capabilities, and a rich plugin ecosystem—have enabled us to build a highly efficient, stable, and adaptable gateway platform. Looking ahead, we are excited to continue our collaboration with the APISIX community, exploring innovative application scenarios and unlocking greater value for our business.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

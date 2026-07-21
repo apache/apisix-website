@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.15.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.15.0 版本于 2026 年 2 月 5 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2026/02/05/release-apache-apisix-3.15.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2026/02/05/release-apache-apisix-3.15.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2026/02/05/release-apache-apisix-3.15.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2026/02/05/release-apache-apisix-3.15.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 3.15.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.15.0 版本于 2026 年 2 月 5 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2026/02/05/release-apache-apisix-3.15.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.15.0 正式发布","description":"Apache APISIX 3.15.0 版本于 2026 年 2 月 5 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。","datePublished":"2026-02-05","author":{"@type":"Person","name":"Abhishek Choudhary"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2026/02/05/release-apache-apisix-3.15.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2026/02/05/release-apache-apisix-3.15.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2026/02/05/release-apache-apisix-3.15.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 3.15.0 正式发布</h1> <p class="article-meta"> 2026-02-05 · Abhishek Choudhary  </p> <p>我们很高兴地宣布 Apache APISIX 3.15.0 版本已经发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p>
+<!--truncate-->
+<p>本次版本新增了对多种 AI 提供商的支持，增强了日志记录能力，并在服务发现、安全性和插件功能等方面进行了多项改进。</p>
+<p>此外，该版本还包含了一项重大变更。如果您发现这项变更会对您的使用产生影响，请进行相应的计划升级。</p>
+<h2 id="重大变更">重大变更</h2>
+<h3 id="禁止在-global-rules-中创建重复插件">禁止在 global rules 中创建重复插件</h3>
+<p>此版本禁止在多个 global rules 中配置同一个插件。此前，这可能导致执行顺序未定义和不可预测的行为。</p>
+<p>依赖于同一插件出现在多个 global rules 中的配置需要进行重构。现在，该插件只会从它出现的第一个全局规则开始执行，后续出现的插件将被记录为错误。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12800">PR #12800</a>。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="ai-插件新增提供商">AI 插件新增提供商</h3>
+<p>本次更新扩展了 <code>ai-proxy</code>、<code>ai-proxy-multi</code> 和 <code>ai-request-rewrite</code> 的提供商支持。这些插件现在支持 Google Cloud Vertex AI、Google Gemini、Anthropic 和 OpenRouter。</p>
+<p>更多信息，请参阅以下 PRs：</p>
+<ul>
+<li><a href="https://github.com/apache/apisix/pull/12933">PR #12933 (Google Cloud Vertex AI)</a></li>
+<li><a href="https://github.com/apache/apisix/pull/12883">PR #12883 (Google Gemini)</a></li>
+<li><a href="https://github.com/apache/apisix/pull/12881">PR #12881 (Anthropic)</a></li>
+<li><a href="https://github.com/apache/apisix/pull/12878">PR #12878 (OpenRouter)</a></li>
+</ul>
+<h3 id="kubernetes-服务发现就绪状态检查">Kubernetes 服务发现就绪状态检查</h3>
+<p>Kubernetes 服务发现现在通过 <code>/status/ready</code> 接口提供就绪状态查询，从而实现更完善的健康状况监控并与其他服务发现类型更好地集成。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12852">PR #12852</a>。</p>
+<h3 id="身份验证插件自定义带有-realm-的-www-authenticate-标头">身份验证插件自定义带有 realm 的 <code>www-authenticate</code> 标头</h3>
+<p>身份验证插件 <code>basic-auth</code>、<code>key-auth</code>、<code>hmac-auth</code>、<code>jwt-auth</code> 和 <code>ldap-auth</code> 现在支持在 401 响应中自定义 <code>WWW-Authenticate</code> 标头中的 realm 值，从而实现 HTTP 身份验证的 RFC 7235 标准。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12864">PR #12864</a>。</p>
+<h3 id="添加用于请求标识的-apisix_request_id-变量">添加用于请求标识的 <code>apisix_request_id</code> 变量</h3>
+<p>此版本新增了 <code>apisix_request_id</code> 变量，用于在访问日志和错误日志中记录请求 ID。该变量由内置的 <code>$request_id</code> 自动赋值，启用后可通过 <code>request-id</code> 插件进行更新。这增强了调试和日志关联能力。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12931">PR #12931</a>。</p>
+<h3 id="速率限制插件支持配置-redis-keepalive">速率限制插件支持配置 Redis keepalive</h3>
+<p><code>limit-count</code>、<code>limit-conn</code> 和 <code>limit-req</code> 插件现在支持 Redis 连接 keepalive 参数 <code>redis_keepalive_timeout</code> 和 <code>redis_keepalive_pool</code>，从而提升连接稳定性并降低系统开销。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12861">PR #12861</a> 和 <a href="https://github.com/apache/apisix/pull/12955">PR #12955</a>。</p>
+<h3 id="访问日志插件支持-max_pending_entries">访问日志插件支持 <code>max_pending_entries</code></h3>
+<p>所有访问日志相关插件现在都在 plugin metadata 中支持配置 <code>max_pending_entries</code> 参数。该参数用于设置批处理处理器中允许的最大未处理条目数。当达到此限制时，新条目将被丢弃，直到积压的条目减少为止。这有助于防止日志记录器运行缓慢或不可用时出现内存峰值。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12709">PR #12709</a>。</p>
+<h3 id="日志插件支持嵌套日志格式">日志插件支持嵌套日志格式</h3>
+<p>日志插件现在支持最大深度为 5 层的分层/嵌套日志结构，从而实现更清晰易读的日志格式，便于分析。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12697">PR #12697</a>。</p>
+<h3 id="file-logger-插件元数据支持路径属性"><code>file-logger</code> 插件元数据支持路径属性</h3>
+<p><code>file-logger</code> 插件现在支持全局配置默认日志文件路径，无需在每个插件配置中单独指定路径。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12825">PR #12825</a>。</p>
+<h3 id="kafka-logger-插件支持-scram-身份验证"><code>kafka-logger</code> 插件支持 SCRAM 身份验证</h3>
+<p><code>kafka-logger</code> 插件现在支持 SCRAM（加盐质询响应身份验证机制），用于与 Kafka 集群进行安全身份验证，从而扩展了安全性兼容性。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12693">PR #12693</a>。</p>
+<h3 id="ssl-证书-sni-匹配支持通配符">SSL 证书 SNI 匹配支持通配符</h3>
+<p>SSL 证书匹配现在除了支持精确域名和部分通配符外，还支持完整的通配符 <code>*</code> 值。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12668">PR #12668</a>。</p>
+<h3 id="grpc-web-插件支持精确匹配路由-uri"><code>grpc-web</code> 插件支持精确匹配路由 URI</h3>
+<p><code>grpc-web</code> 插件现在可以处理不使用前缀匹配的路由，从而增强了 gRPC-Web 部署的灵活性。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12830">PR #12830</a>。</p>
+<h3 id="为-api-驱动的独立模式添加验证-api">为 API 驱动的独立模式添加验证 API</h3>
+<p>API 驱动的独立模式（主要用于 Ingress 控制器）现在支持新的验证端点 <code>/validate</code>，允许在不持久化配置的情况下测试配置。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12718">PR #12718</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<ul>
+<li>支持 file-driven standalone 模式下的状态 API (PR <a href="https://github.com/apache/apisix/pull/12810">#12810</a>)</li>
+<li>正确处理 Kubernetes 服务发现中的 EndpointSlices (PR <a href="https://github.com/apache/apisix/pull/12634">#12634</a>)</li>
+<li>将资源名称长度从 100 个字符放宽至 256 个字符，以更好地支持入口控制器名称生成模式 (PR <a href="https://github.com/apache/apisix/pull/11822">#11822</a>)</li>
+<li>为流路由添加验证和删除保护 (PR <a href="https://github.com/apache/apisix/pull/12794">#12794</a>)</li>
+<li>通过在 <code>limit-conn</code> 插件中配置 Redis 密钥过期时间来防止永久配额阻塞 (PR <a href="https://github.com/apache/apisix/pull/12872">#12872</a>)</li>
+<li>通过在 SkyWalking 集成中路由命中时启动计时器来提高计时精度 (PR <a href="https://github.com/apache/apisix/pull/12855">#12855</a>)</li>
+<li>通过在销毁 Prometheus 时移除不必要的深拷贝来提高性能 (PR <a href="https://github.com/apache/apisix/pull/12905">#12905</a>)</li>
+<li>通过在 <code>limit-req</code> 插件中确保安全的 Redis 键驱逐来防止数据损坏 (PR <a href="https://github.com/apache/apisix/pull/12911">#12911</a>)</li>
+<li>通过在 <code>limit-count</code> 插件中使用元父级来识别插件源来改进调试 (PR <a href="https://github.com/apache/apisix/pull/12900">#12900</a>)</li>
+<li>在 MQTT 插件中，将 <code>protocol_name</code> 设置为可选，并将其默认值设为 <code>MQTT</code> (PR <a href="https://github.com/apache/apisix/pull/12831">#12831</a>)</li>
+<li>在 <code>batch-requests</code> 插件中，确保子响应的数量与子请求的数量匹配 (PR <a href="https://github.com/apache/apisix/pull/12779">#12779</a>)</li>
+<li>修正 <code>ai-proxy-multi</code> 插件中的日志模式键 (PR <a href="https://github.com/apache/apisix/pull/12795">#12795</a>)</li>
+<li>修复插件元数据中 <code>enable_data_encryption</code> 的初始化和查询问题 (PR <a href="https://github.com/apache/apisix/pull/12624">#12624</a>)</li>
+<li>当传入请求包含空值时，添加 <code>X-Request-Id</code> 标头 (PR <a href="https://github.com/apache/apisix/pull/12837">#12837</a>)</li>
+<li>调整目录权限，允许 APISIX 在 OpenShift 上运行而无需使用 <code>anyuid</code> 命令 (PR <a href="https://github.com/apache/apisix/pull/12824">#12824</a>)</li>
+<li>修复 Kubernetes 服务发现中的前置和后置钩子拼写错误，并提高清理安全性 (PR <a href="https://github.com/apache/apisix/pull/12288">#12288</a>)</li>
+<li>通过将 IPv6 检查移至模式验证来提高性能 (PR <a href="https://github.com/apache/apisix/pull/12714">#12714</a>)</li>
+<li>重构缓存逻辑，使用密钥 URI 作为缓存键，并改进 LRU 缓存实现 (PR <a href="https://github.com/apache/apisix/pull/12682">#12682</a>)</li>
+<li>确保独立上游的 <code>node_version</code> 得到维护 (PR <a href="https://github.com/apache/apisix/pull/12856">#12856</a>)</li>
+<li>修复当任何 Eureka 节点不可用时，重新加载期间的请求失败问题 (PR <a href="https://github.com/apache/apisix/pull/12906">#12906</a>)</li>
+<li>为 Nacos 服务发现请求失败后添加重试逻辑 (PR <a href="https://github.com/apache/apisix/pull/12734">#12734</a>)</li>
+<li>从核心依赖项中移除 <code>lua-resty-worker-events</code>（PR <a href="https://github.com/apache/apisix/pull/12930">#12930</a>）</li>
+<li>升级 <code>lua-resty-logger-socket</code> 依赖项（PR <a href="https://github.com/apache/apisix/pull/12898">#12898</a>）</li>
+<li>升级 <code>lua-resty-dns-client</code> 依赖项（PR <a href="https://github.com/apache/apisix/pull/12851">#12851</a>）</li>
+</ul>
+<h2 id="更新日志">更新日志</h2>
+<p>此版本的完整更新列表，请参阅 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#3150">CHANGELOG</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

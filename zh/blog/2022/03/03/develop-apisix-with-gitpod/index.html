@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>使用 Gitpod 开发 API 网关 Apache APISIX | Apache APISIX</title><meta name="description" content="本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/03/03/develop-apisix-with-gitpod/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/03/develop-apisix-with-gitpod/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/03/develop-apisix-with-gitpod/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/03/develop-apisix-with-gitpod/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="使用 Gitpod 开发 API 网关 Apache APISIX | Apache APISIX"><meta property="og:description" content="本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/03/03/develop-apisix-with-gitpod/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/%E6%96%87%E6%A1%88%2BGitpod.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"使用 Gitpod 开发 API 网关 Apache APISIX","description":"本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。","datePublished":"2022-03-03","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/%E6%96%87%E6%A1%88%2BGitpod.png","author":{"@type":"Person","name":"钱勇"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/03/03/develop-apisix-with-gitpod/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/03/03/develop-apisix-with-gitpod/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/03/03/develop-apisix-with-gitpod/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>使用 Gitpod 开发 API 网关 Apache APISIX</h1> <p class="article-meta"> 2022-03-03 · 钱勇  </p> <blockquote>
+<p>本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示了如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。</p>
+</blockquote>
+<!--truncate-->
+<p>随着云原生浪潮的来临，软件开发流程中的各个环节都在发生变革，其中有一个非常热门的方向就是“云 IDE”。所谓“云 IDE”就是使用云端的计算资源作为开发环境，进行软件项目的开发。</p>
+<p>这种开发模式对于开发者来说有很多好处，例如：</p>
+<ul>
+<li>计算资源予取予求，不会因为硬件限制影响开发效率；</li>
+<li>开发环境标准化，每个项目的开发环境可能有很多软件依赖，这些依赖可以通过 Docker 镜像的形式进行标准化；</li>
+<li>快速为每个项目启动或摧毁一个开发环境，避免多个项目并行开发时存在依赖冲突等问题；</li>
+<li>纯粹的 Linux 环境。对于服务端开发同学来说，MacOS 和 Windows 的依赖问题往往比开发项目代码还要困难；</li>
+</ul>
+<p>目前最流行的两种 IDE，非 JetBrains 系和 VSCode 莫属，而这两种广受欢迎的开发工具都有相关的云产品面世，可见很多开发者看好“云 IDE”这个方向。</p>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。</p>
+<p>Apache APISIX 作为开源的云原生 API 网关，如何快速的部署 APISIX 的开发环境对于开发者是比较重要的。本文将为大家介绍如何使用 <a href="https://gitpod.io/">Gitpod</a> 对 Apache APISIX 进行相关开发。</p>
+<h2 id="安装-gitpod-chrome-插件">安装 Gitpod Chrome 插件</h2>
+<p>Gitpod 为三个主流代码托管服务 GitLab、GitHub 和 Bitbucket 提供了一键启动功能，您只需要安装 <a href="https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki">Chrome 插件</a>即可进行后续使用。</p>
+<p>安装完成后，这个插件会在代码仓库页面注入一个启动按钮，以 GitHub 为例。安装插件后打开 APISIX 项目地址，可以看到相关按钮：</p>
+<p><img src="https://static.apiseven.com/202108/1646233179407-391328ba-68cd-41df-8454-3c7d280bbc6e.png" alt="error/github example.png"></p>
+<p>单击 Gitpod 按钮会跳转到 Gitpod 的页面，完成 GitHub 应用授权后，进入以下界面：</p>
+<p><img src="https://static.apiseven.com/202108/1646233426671-547eb71c-9294-43af-b144-ea3298343341.png" alt="erro/gitpod UI.png"></p>
+<p>是不是非常熟悉? 对，这就是时下最流行的代码编辑器 VSCode。</p>
+<p>为了实现 VSCode 客户端与服务端分离的架构，Gitpod 维护一个 VSCode 的<a href="https://github.com/gitpod-io/openvscode-server">分支</a>。作为一个云上的 VSCode ，它与桌面版的功能一致。我们在本地开发时常用的插件一样可以在云上使用，与本地不同的是，云上的 VSCode 有着服务器级别的计算资源和网络环境。</p>
+<h2 id="使用-gitpod-搭建-apisix-开发环境">使用 Gitpod 搭建 APISIX 开发环境</h2>
+<h3 id="步骤一执行测试用例">步骤一：执行测试用例</h3>
+<p>相信很多刚接触开源的同学，都为如何搭建开源项目的开发环境感到过困扰，因为开源项目往往都会存在大量自动化执行的测试用例来保证整个项目的质量，所以如何在开发者在本地运行这些测试用例，可能是我们遇到的第一个问题，这一点和企业内的开发可能有比较大的差异。</p>
+<p>下面我们尝试在 Gitpod 中运行 APISIX 的测试用例，这里可以参考 APISIX 仓库中的 <a href="https://github.com/apache/apisix/blob/master/.github/workflows/build.yml">github workflow</a> 配置依赖。在 Gitpod 的终端中执行如下步骤：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># 启动CI依赖的组件</span></span>
+<span class="line"><span>make ci-env-up project_compose_ci=ci/pod/docker-compose.common.yml</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 安装编译依赖</span></span>
+<span class="line"><span>sudo apt install -y cpanminus build-essential libncurses5-dev libreadline-dev libssl-dev perl libpcre3 libpcre3-dev libldap2-dev</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 进行编译和执行测试用例</span></span>
+<span class="line"><span>sudo OPENRESTY_VERSION=default ./ci/linux_openresty_1_17_runner.sh do_install</span></span>
+<span class="line"><span>sudo ./ci/linux_openresty_1_17_runner.sh script</span></span></code></pre>
+<div class="admonition admonition-tip"><p class="admonition-title">提示</p><p>如果出现以下错误：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>OPENRESTY_VERSION=default ./ci/linux_openresty_1_19_runner.sh do_install</span></span>
+<span class="line"><span>bash: ./ci/linux_openresty_1_19_runner.sh: No such file or directory</span></span></code></pre><p>请查看 <code>ci</code> 目录下 APISIX 最新版本所对应的 <code>linux_openresty_1_19_runner.sh</code> 脚本。</p></div>
+<p>整个过程会非常流畅，因为这里有一个隐藏的优势：Gitpod 运行环境是在国外的，所以下载各种依赖的速度会非常的快，不会遇到网络问题。</p>
+<h3 id="步骤二访问-http-服务">步骤二：访问 HTTP 服务</h3>
+<p>那么对于项目中启动的 HTTP 服务（例如 APISIX）我们要如何访问呢？</p>
+<p>通过终端访问自然是可以的，但如果你想要通过页面访问，也可以通过 Remote Explorer 将打开的端口暴露到公网上， 如下图所示：</p>
+<p><img src="https://static.apiseven.com/202108/1646234288822-b7e30fce-604f-451a-b87f-3b72309b246a.png" alt="error/access page example.png"></p>
+<p>然后再通过单击端口右侧的浏览器图标，Gitpod 会自动打开一个链接，就可以访问到这个端口对应的服务了。</p>
+<h2 id="常见问题汇总">常见问题汇总</h2>
+<h3 id="浏览器端体验">浏览器端体验</h3>
+<p>在浏览器中使用 Gitpod 有一个很大的问题是，很多 VSCode 的快捷键会被浏览器捕获，导致无法执行对应的操作，这时我们就可以使用 VSCode 的 Gitpod 插件来实现更加原生的编码体验。</p>
+<p>具体方法如下：</p>
+<ol>
+<li>在 VSCode 的插件市场，安装 Gitpod 插件。</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1646234524665-0e860b0b-ec80-4ba9-a893-cfa79d3f48c3.png" alt="error/install gitpod plugin.png"></p>
+<ol start="2">
+<li>在浏览器的 Gitpod 页面单击 <code>Gitpod: Open in VS Code</code> 就可以实现拉起本地的 VSCode 作为客户端连接到云端的 Gitpod ，达到与桌面版相同效果的编码体验。</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1646234630208-bc8912a8-9542-4888-9cde-8889631d2ea8.png" alt="error/open in vs code.png"></p>
+<h3 id="私有化部署">私有化部署</h3>
+<p>前面我们提到 Gitpod 是一款开源产品，所以是完全可以在组织内部进行私有化部署服务的，这样就可以在私有代码仓库中使用上这款优秀的开发工具。具体部署方式可以参考 Gitpod 的<a href="https://github.com/gitpod-io/gitpod">官方文档和仓库</a>。</p>
+<h2 id="总结">总结</h2>
+<p>Gitpod 的优点是可以让开发者快速上手一个项目，这一点非常符合开源社区的需求。因为开源项目往往会给刚刚接触开源的开发者一种神秘莫测的感觉，让人望而却步，但真正接触后你会发现并不如此。</p>
+<p>希望通过本文的介绍和描述，可以让每一个对开源项目感兴趣的开发者借助开源工具加持下，都能更加轻松得加入到开源社区中去，让开源的生态持续繁荣。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

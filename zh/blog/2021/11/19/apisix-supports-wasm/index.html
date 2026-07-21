@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>重磅功能！Apache APISIX 拥抱 WASM 生态 | Apache APISIX</title><meta name="description" content="本文介绍了云原生 API 网关 Apache APISIX 为什么选择 Proxy Wasm 来实现功能以及如何在 Apache APISIX 中使用 Wasm 并且通过实际示例演示如何测试插件。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="重磅功能！Apache APISIX 拥抱 WASM 生态 | Apache APISIX"><meta property="og:description" content="本文介绍了云原生 API 网关 Apache APISIX 为什么选择 Proxy Wasm 来实现功能以及如何在 Apache APISIX 中使用 Wasm 并且通过实际示例演示如何测试插件。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"重磅功能！Apache APISIX 拥抱 WASM 生态","description":"本文介绍了云原生 API 网关 Apache APISIX 为什么选择 Proxy Wasm 来实现功能以及如何在 Apache APISIX 中使用 Wasm 并且通过实际示例演示如何测试插件。","datePublished":"2021-11-19","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/11/19/apisix-supports-wasm/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/11/19/apisix-supports-wasm/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/11/19/apisix-supports-wasm/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>重磅功能！Apache APISIX 拥抱 WASM 生态</h1> <p class="article-meta"> 2021-11-19 · 罗泽轩  </p> <blockquote>
+<p>在即将发布的 Apache APISIX 版本（2.11.0）中将会新增对于 WASM 的支持！通过阅读本文你将了解到 Apache APISIX 如何从 0 到 1 部署这项功能的支持与开发。</p>
+</blockquote>
+<!--truncate-->
+<p>在即将发布的 Apache APISIX 版本（2.11.0）中，我们新增了对于 WASM 的支持！现在开发者除了可以使用 Lua、Java、Go、Python、JavaScript 等多种编程语言开发 APISIX 的插件之外，也可以用 WASM 来开发插件。</p>
+<p><img src="https://static.apiseven.com/202108/1637289637179-ab74d38f-acd4-4401-908f-e1d310a33583.png" alt="拥抱 WASM 生态"></p>
+<p>WASM 全称 <a href="https://webassembly.org/">WebAssembly</a>，与上述具体编程语言运行时的不同之处在于，它是一套字节码标准，专门设计成可以在宿主环境中嵌套使用。</p>
+<p>如果某种编程语言提供编译成 WASM 字节码的功能，就可以把该语言的应用编译成 WASM 字节码，运行在某个支持 WASM 的宿主环境中。</p>
+<p>听起来，是不是只要某个宿主环境支持 WASM，就能像操作系统一样运行任意应用呢？</p>
+<p>但其实这里有个限制，就像操作系统需要实现特定标准的 syscall 一样，要想运行特定的应用，也需要实现该应用所需的 API。</p>
+<p>以 JavaScript 为例，虽然同样是 JavaScript 代码，但是针对浏览器写的 JS 模块不能直接用在 npm 包里面，因为两个的 API 不一样。</p>
+<p>所以仅仅把 WASM 放到 Apache APISIX 里面并行不通，要想让开发者在 Apache APISIX 上运行 WASM，我们还需要提供一套专门的 API。</p>
+<h2 id="为什么选择-proxy-wasm">为什么选择 Proxy WASM</h2>
+<p>对于如何提供这套 API，我们曾经权衡过两套方案：</p>
+<ol>
+<li>参考 lua-nginx-module 的接口，实现对应的 WASM 版 API</li>
+<li>实现 Proxy WASM 这一套标准</li>
+</ol>
+<p><a href="https://github.com/proxy-wasm/spec">Proxy WASM</a> 是 Envoy 的 WASM API 标准。所以上述问题其实等价于，我们是自己搞一套 API 标准还是复用 Envoy 已有标准呢？</p>
+<blockquote>
+<p>WASM API 标准可以拆成两个方面来看：
+1. Host，负责提供 API 的实现
+2. SDK，要想在不同的编程语言里面调用提供的 API，需要使用该语言来实现一套胶水层</p>
+</blockquote>
+<p>如果我们遵循 Envoy 的标准，优势在于可以复用 Envoy 现有的 WASM SDK（Proxy WASM SDK），而不足之处在于这套标准是 Envoy 结合自己情况制定的，如果我们跟着实现，没有自己量身定制那么轻松。</p>
+<p>经过社区的讨论后，我们最终决定采用 Proxy WASM 标准。「做难且正确的事」，实现 Proxy WASM 自然是难的事，但我们相信这是正确的事，通过社区的合作和共建，可以构建更加繁荣的生态。</p>
+<h2 id="如何在-apache-apisix-中使用-wasm">如何在 Apache APISIX 中使用 WASM</h2>
+<p>Apache APISIX 目前已初步支持 WASM，可以使用 WASM 来编写 fault-injection 插件的部分功能。感兴趣的读者可以在本月底的 Apache APISIX 2.11.0 版本中尝尝鲜，敬请期待！</p>
+<p>下面我们将结合 <a href="https://github.com/tetratelabs/proxy-wasm-go-sdk/">proxy-wasm-go-sdk</a> 来讲讲怎么用 WASM 实现注入自定义响应的功能。</p>
+<h3 id="步骤一基于-proxy-wasm-go-sdk-编写代码">步骤一：基于 proxy-wasm-go-sdk 编写代码</h3>
+<p>实现代码（包含 <code>go.mod</code> 和其他）具体细节可<a href="https://github.com/apache/apisix/tree/master/t/wasm">点击此处</a>查阅。</p>
+<p>这里需要解释下，虽然 proxy-wasm-go-sdk 这个项目带了 Go 的名字，但它其实用的是 tinygo 而不是原生的 Go。因为原生的 Go 在支持 WASI（你可以认为它是非浏览器的 WASM 运行时接口）时会有一些问题，详情可<a href="https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/main/doc/OVERVIEW.md#tinygo-vs-the-official-go-compiler">点击此处</a>查阅。</p>
+<h3 id="步骤二构建对应的-wasm-文件">步骤二：构建对应的 WASM 文件</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">tinygo</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> ./fault-injection/main.go.wasm</span><span style="color:#79C0FF"> -scheduler=none</span><span style="color:#79C0FF"> -target=wasi</span><span style="color:#A5D6FF"> ./fault-injection/main.go</span></span></code></pre>
+<h3 id="步骤三在-apache-apisix-的-configyaml-引用该文件">步骤三：在 Apache APISIX 的 config.yaml 引用该文件</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#7EE787">wasm</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">wasm_fault_injection</span></span>
+<span class="line"><span style="color:#7EE787">          priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">7997</span></span>
+<span class="line"><span style="color:#7EE787">          file</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">t/wasm/fault-injection/main.go.wasm</span></span></code></pre>
+<p>通过以上操作，你可以像用 Lua 插件一样用这个 WASM 插件，比如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/wasm"</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  wasm_fault_injection</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    conf</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'{"body":"hello world", "http_status":200}'</span></span>
+<span class="line"><span style="color:#7EE787">upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">  nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    127.0.0.1:1980</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span></code></pre>
+<p>注意 WASM 插件的配置都是 conf 字段下面的一条字符串，由对应的插件自己去做解析。</p>
+<h2 id="横向测评条条大道通罗马">横向测评——条条大道通罗马</h2>
+<p>Apache APISIX 发展到现在，已经有三种编写插件的方式：</p>
+<ol>
+<li>原生的 Lua way，跑在 APISIX 里面</li>
+<li>多种语言的外部插件 runner，插件逻辑跑在 APISIX 外面</li>
+<li>把多种语言编译成 WASM，依然跑在 APISIX 里面</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1637289637159-f2fd1f09-4be6-4cd4-88a0-9c3a23c4f405.png" alt="APISIX 生态支持"></p>
+<p>这三种方式在诸如生态、成熟度等各个方面都差异很大。正巧我们都可以用它们来实现 fault-injection，所以可以比比看。</p>
+<h3 id="步骤一配置路由">步骤一：配置路由</h3>
+<p>Lua way 的 fault-injection，自然是使用内置的 fault-injection 插件。Runner way 的 fault-injection 实现具体可<a href="https://github.com/apache/apisix-go-plugin-runner/blob/master/cmd/go-runner/plugins/fault_injection.go">点击此处</a>查阅。</p>
+<p>接下来让我们分别给它们配置不同的路由：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/wasm"</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  wasm_fault_injection</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    conf</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'{"body":"hello world", "http_status":200}'</span></span>
+<span class="line"><span style="color:#7EE787">upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">  nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    127.0.0.1:1980</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ext-plugin-pre-req</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    conf</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">fault-injection</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'{"body":"hello world", "http_status":200}'</span></span>
+<span class="line"><span style="color:#7EE787">upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    127.0.0.1:1980</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/ext-plugin</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  fault-injection</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    abort</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      body</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">hello world</span></span>
+<span class="line"><span style="color:#7EE787">      http_status</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">200</span></span>
+<span class="line"><span style="color:#7EE787">upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    127.0.0.1:1980</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/fault-injection</span></span></code></pre>
+<h3 id="步骤二实际压测">步骤二：实际压测</h3>
+<p>接下来试着用 wrk 进行压测，具体数据对比如下：</p>
+<table>
+    <tbody><tr>
+        <td colspan="3">￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/wasm | Running 30s test @ http://127.0.0.1:9080/wasm | 5 threads and 50 connections</td>
+    </tr>
+    <tr>
+        <td><b>Thread Stats</b></td>
+        <td><b>Latency</b></td>
+        <td><b>Req/Sec</b></td>
+    </tr>
+    <tr>
+        <td><b>Avg</b></td>
+        <td>66.17ms</td>
+        <td>7.01k</td>
+    </tr>
+    <tr>
+        <td><b>Sdev</b></td>
+        <td>226.42ms</td>
+        <td>3.09k</td>
+    </tr>
+    <tr>
+        <td><b>Max</b></td>
+        <td>1.99s</td>
+        <td>33.97k</td>
+    </tr>
+    <tr>
+        <td><b>+/- Stdev</b></td>
+        <td>91.89%</td>
+        <td>82.28%</td>
+    </tr>
+    <tr>
+        <td><b>Request details</b></td>
+        <td colspan="2">650497 requests in 36.33s, 119.70MB read</td>
+    </tr>
+    <tr>
+        <td><b>Socket errors</b></td>
+        <td colspan="2">connect 0, read 0, write 0, timeout 63</td>
+    </tr>
+    <tr>
+        <td><b>Request/sec</b></td>
+        <td colspan="2">17903.17</td>
+    </tr>
+    <tr>
+        <td><b>Transfer/sec</b></td>
+        <td colspan="2">3.29MB</td>
+    </tr>
+</tbody></table>
+<table>
+    <tbody><tr>
+        <td colspan="3">￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/ext-plugin | Running 30s test @ http://127.0.0.1:9080/ext-plugin | 5 threads and 50 connections</td>
+    </tr>
+    <tr>
+        <td><b>Thread Stats</b></td>
+        <td><b>Latency</b></td>
+        <td><b>Req/Sec</b></td>
+    </tr>
+    <tr>
+        <td><b>Avg</b></td>
+        <td>95.69ms</td>
+        <td>3.23k</td>
+    </tr>
+    <tr>
+        <td><b>Sdev</b></td>
+        <td>229.09ms</td>
+        <td>1.47k</td>
+    </tr>
+    <tr>
+        <td><b>Max</b></td>
+        <td>1.70s</td>
+        <td>15.18k</td>
+    </tr>
+    <tr>
+        <td><b>+/- Stdev</b></td>
+        <td>87.37%</td>
+        <td>83.89%</td>
+    </tr>
+    <tr>
+        <td><b>Request details</b></td>
+        <td colspan="2">362151 requests in 30.50s, 66.64MB read</td>
+    </tr>
+    <tr>
+        <td><b>Socket errors</b></td>
+        <td colspan="2">connect 0, read 0, write 0, timeout 17</td>
+    </tr>
+    <tr>
+        <td><b>Request/sec</b></td>
+        <td colspan="2">11873.12</td>
+    </tr>
+    <tr>
+        <td><b>Transfer/sec</b></td>
+        <td colspan="2">2.18MB</td>
+    </tr>
+</tbody></table>
+<table>
+    <tbody><tr>
+        <td colspan="3">￥ wrk -d 30 -t 5 -c 50 http://127.0.0.1:9080/fault-injection | Running 30s test @ http://127.0.0.1:9080/fault-injection | 5 threads and 50 connections</td>
+    </tr>
+    <tr>
+        <td><b>Thread Stats</b></td>
+        <td><b>Latency</b></td>
+        <td><b>Req/Sec</b></td>
+    </tr>
+    <tr>
+        <td><b>Avg</b></td>
+        <td>86.91ms</td>
+        <td>7.90k</td>
+    </tr>
+    <tr>
+        <td><b>Sdev</b></td>
+        <td>263.14ms</td>
+        <td>2.04k</td>
+    </tr>
+    <tr>
+        <td><b>Max</b></td>
+        <td>1.91s</td>
+        <td>15.60k</td>
+    </tr>
+    <tr>
+        <td><b>+/- Stdev</b></td>
+        <td>90.73%</td>
+        <td>81.97%</td>
+    </tr>
+    <tr>
+        <td><b>Request details</b></td>
+        <td colspan="2">974326 requests in 30.07s, 179.29MB read</td>
+    </tr>
+    <tr>
+        <td><b>Socket errors</b></td>
+        <td colspan="2">connect 0, read 0, write 0, timeout 8</td>
+    </tr>
+    <tr>
+        <td><b>Request/sec</b></td>
+        <td colspan="2">32405.28</td>
+    </tr>
+    <tr>
+        <td><b>Transfer/sec</b></td>
+        <td colspan="2">5.96MB</td>
+    </tr>
+</tbody></table>
+<p>从上述结果可以看到，WASM 版本的性能介于外部插件和原生 Lua 之间。</p>
+<p>WASM 版本的性能之所以比外部插件好那么多，是因为 fault-injection 功能简单，所以外部插件 RPC 带来的性能损耗过于明显。考虑到我们还没有对 WASM 实现做任何优化，这种情况已经让我们感到满意了。</p>
+<p>而 WASM 的另一个好处，就是让我们一下子拥有多语言的支持（这也托了 Proxy WASM SDK 的福）。具体细节可参考下方文档：</p>
+<ul>
+<li><a href="https://gist.github.com/spacewander/0357198ea21e022003c407fd23155f79">Rust 版本 fault-injection</a></li>
+<li><a href="https://gist.github.com/spacewander/64773a706f1dc758aecc7f28aff7555d">AssemblyScript 版本 fault-injection</a></li>
+</ul>
+<h2 id="道路曲折但前途光明">道路曲折，但前途光明</h2>
+<p>说了这么多 WASM 的好处，是不是有点心动呢？但它目前并非是一个完美的解决方案， WASM/Proxy WASM 还是有一些不够成熟的地方。比如：</p>
+<ul>
+<li><strong>编程语言支持待完善</strong>：原生 Go 的 WASM 支持，主要是基于浏览器环境的，所以我们不得不用 tinygo 来实现。但是 tinygo 作为一个年轻的项目，还是有不少局限性。</li>
+<li><strong>Proxy WASM 生态有待成熟</strong>：AssemblyScript 版本的 fault injection 实现，并没有 JSON decode 的部分。这是因为 AssemblyScript SDK 是基于 AssemblyScript 0.14.x 版本实现的，而几个开源的 AssemblyScript JSON 库都是针对高版本 AssemblyScript 实现的，没办法用在较为陈旧的 AssemblyScript 0.14 上。</li>
+<li><strong>WASM 没有内置协程</strong>：WASM 目前尚未内置协程，所以没办法很好地被宿主的调度系统给调度起来。</li>
+</ul>
+<p>虽然上面列举了几点不足之处，但是我们相信这个技术栈的前景是光明的：</p>
+<ol>
+<li>包括 Apache APISIX 和 Envoy 等开源项目对于 WASM 都很看重，有许多初创公司和大企业为 WASM 生态添砖加瓦，这意味着诸如 AssemblyScript SDK 停滞不前这样的困难，只会是暂时。长久看，Proxy WASM 的生态会枝繁叶茂。</li>
+<li>WASM 作为 serverless 和 edge computing 的宠儿，有着光明的未来。在众多实际场景的落地和优化，会更快的解决技术上的不足。</li>
+</ol>
+<h2 id="写在最后">写在最后</h2>
+<p>Apache APISIX 是个紧跟技术潮流的项目，“好风凭借力，送我上青天”，Apache APISIX 支持 WASM 是个长期的过程。</p>
+<p>“千里之行，始于足下”，Apache APISIX 为了支持 WASM，已经发起了 <a href="https://github.com/api7/wasm-nginx-module">wasm-nginx-module</a> 这个开源项目。感兴趣的读者可以关注该项目的进展，“独行者速，众行者远”，期待你的加入，一起创造世界顶级项目。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

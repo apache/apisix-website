@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Ingress 项目从 0 到 1 的发展历程 | Apache APISIX</title><meta name="description" content="本文详细描述了 Apache APISIX Ingress Controller 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/10/26/apisix-ingress/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/10/26/apisix-ingress/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/10/26/apisix-ingress/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/10/26/apisix-ingress/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX Ingress 项目从 0 到 1 的发展历程 | Apache APISIX"><meta property="og:description" content="本文详细描述了 Apache APISIX Ingress Controller 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/10/26/apisix-ingress/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Ingress 项目从 0 到 1 的发展历程","description":"本文详细描述了 Apache APISIX Ingress Controller 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。","datePublished":"2021-10-26","author":{"@type":"Person","name":"金卫"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/10/26/apisix-ingress/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/10/26/apisix-ingress/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/10/26/apisix-ingress/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX Ingress 项目从 0 到 1 的发展历程</h1> <p class="article-meta"> 2021-10-26 · 金卫  </p> <blockquote>
+<p>本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="概念篇">概念篇</h2>
+<h3 id="apisix-ingress-概述">APISIX Ingress 概述</h3>
+<p>在 K8s 生态中，Ingress 作为表示 K8s 流量入口的一种资源，想要让其生效，就需要有一个 Ingress Controller 去监听 K8s 中的 Ingress 资源，并对这些资源进行相应规则的解析和实际承载流量。</p>
+<p>APISIX Ingress 则是基于 Apache APISIX 的 Ingress Controller 实现，实现了对 Kubernetes 的扩展，同时也支持 Ingress resource 的原生资源定义。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156040-50b7a2ae-ed0c-42ac-8517-edd0715e0082.png" alt="APISIX Ingress 架构"></p>
+<p>通过上图可以看到，APISIX Ingress 是在 Kubernetes 集群中部署，并代理 Kubernetes 外部集群的请求。然后将这些请求反向代理到 Kubernetes 集群 Service，同时也支持直接将服务推送到 Service Pod。</p>
+<h3 id="什么是-apache-apisix">什么是 Apache APISIX</h3>
+<p>前边我们提到了 APISIX Ingress 是采用 Apache APISIX 作为实际承载业务流量的数据面，那么 Apache APISIX 项目又是做什么的呢？</p>
+<p>Apache APISIX 是 Apache 基金会旗下的顶级开源项目，也是当前最活跃的开源网关项目，目前也通过中国信通院的可信开源项目认证。作为一个动态、实时、高性能的开源 API 网关，Apache APISIX 提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156053-68751f2e-40e7-4932-99a4-5b9cc8f60628.png" alt="Apache APISIX 架构"></p>
+<p>从上图框架可以看到，Apache APISIX 分为两部分，左侧数据面用来处理流量的反向代理，右侧控制面负责配置的分发。</p>
+<p>Apache APISIX Ingress Controller 采用声明式的配置，经过内部处理后，最终会通过控制面的 Admin API 将数据同步到 etcd 中并传输给 Apache APISIX，实现 Apache APISIX 集群的配置同步。</p>
+<p>更多关于 Apache APISIX Ingress Controller 特性讲解<a href="https://github.com/apache/apisix-ingress-controller">点此查阅</a>。</p>
+<h2 id="成长篇">成长篇</h2>
+<p>关于 Apache APISIX Ingress 的使用场景或者产品对比优势等，在往期的分享中大都提及了很多。这次我们换个角度，从 Apache APISIX Ingress 的诞生及发展角度进行解析。</p>
+<h3 id="加入-apache-社区">加入 Apache 社区</h3>
+<p><img src="https://static.apiseven.com/202108/1635304156115-9d5e41d0-a8e9-4a6e-8a1a-757f3107a49a.png" alt="发展历程"></p>
+<p>2019 年我给 APISIX Ingress Controller 项目提供了第一行代码，2020 年 12 月份该项目被正式加入到 Apache 社区。在产品更新上，今年 6 月份我们发布了第一个 GA 版本，同时在刚刚过去的 10 月份中也发布了 1.3 版本，预计在今年 11 月份将会发布 1.4 版本，保证项目的正常更新迭代。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156111-d0b82a61-b304-42ce-8d3a-2b959d3cb271.png" alt="贡献者增长曲线图"></p>
+<p>上图是 Apache APISIX Ingress Controller 的贡献者增长曲线图。结合时间轴可以看到，从 2020 年 12 月加入 Apache 社区后，贡献者的人数增加速度呈现出高速稳定增长的态势。侧面反映出 Apache APISIX Ingress 得到了越来越多小伙伴的关注，并开始逐步应用到企业生产环境中。</p>
+<h3 id="在社区中成长">在社区中成长</h3>
+<p>从个人项目或企业内部孵化出的项目开始到加入社区，前后环境的转换必然会导致项目工作方式的变化。加入社区后，Apache APISIX Ingress 在功能和项目整体度上得到了更多的支持与帮助。</p>
+<h4 id="开启异步化讨论">开启异步化讨论</h4>
+<p>成为 Apache 软件基金会项目后，Apache APISIX Ingress Controller 项目变得更加开放。比如关于产品每一个特性的新增或者修改都必须经过一些公开的讨论，讨论的方式一般分为邮件列表讨论和 GitHub Issue 讨论。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156102-8877f3da-a43d-4b94-9a84-a95743546112.png" alt="邮件列表">
+<img src="https://static.apiseven.com/202108/1635304156096-c0eeb189-54f8-4ebe-b019-f41001869186.png" alt="GitHub Issue"></p>
+<p>目前是上述两种讨论同时发起，尽可能多地让大家站在各自的使用场景以及使用角度去评判特性的合理性。因为这已不再是一个个人项目，而是一个社区项目，是多人参与的合作产出。</p>
+<p>同时，通过邮件列表和 GitHub Issue 的异步式讨论，可以更全面地收集到社区的反馈（不管是提问还是回答），在公开化的基础上为后续问题的搜索和整理提供了便利。</p>
+<h4 id="增设社区例会">增设社区例会</h4>
+<p>在互动方面，Apache APISIX Ingress 吸取了一些其他社区的经验，开放了一个每两周进行的社区例会活动。</p>
+<p>这是一个新的渠道，我们希望让项目透明化的同时，也可以为社区小伙伴提供一个更生活化的渠道来一起讨论问题。</p>
+<p>通过这个双周例会，我们会给大家详细介绍最近两周项目发生了哪些变化，有哪些新的 issue 被提出以及哪些 PR 正在等待合并。当然也会跟大家一起讨论当前项目的一些问题或建议。</p>
+<p>我们希望这不仅是一个即时讨论的过程，更是一个分享和交流多角度事物观察的互动。</p>
+<p>具体关于双周例会的会议内容<a href="https://github.com/apache/apisix-ingress-controller/issues/614">点此查阅</a>，也可以点此查看<a href="https://space.bilibili.com/551921247">往期例会回放</a>。</p>
+<h4 id="项目细节更合规">项目细节更合规</h4>
+<p>进入 Apache 社区后，另一个比较大的变化是项目规划上变得更加规范，不管是代码、测试还是版本发布。</p>
+<p>在代码层面，目前社区采用的是 <a href="https://github.com/uber-go/guide">Golang 代码规范</a>，通过 Action CI 进行一些自动化检查。</p>
+<p>为了保证项目特性能够快速合并，并且不会引入新的 bug，在测试规范上我们也进行了相关要求。比如在特性开发过程中，一定要包含单元测试或者 e2e 测试，其中 e2e 测试集成了 gruntwork-io/terratest 以及 kubernetes-sigs/kind，用来构建 Kubernetes 测试环境。</p>
+<p>同时测试框架采用的是社区中广为接纳的 Ginkgo，测试用例的完善极大地保证了项目稳定性，同时也降低了项目的维护成本。</p>
+<p>在版本发布方面，目前也是严格遵循了 Apache 社区的发版规范。同时由于 APISIX Ingress Controller 也是属于 Kubernetes 的一个扩展，所以在涉及 CRD 的迭代部分也是按照 Kubernetes 的发版规则进行。</p>
+<h2 id="收获篇">收获篇</h2>
+<p>除了上述提到的关于项目制度上的一些规范，走向社区的过程中，我们也收获了很多小伙伴们的「技术回馈」。</p>
+<h3 id="完善了更多细节功能">完善了更多细节功能</h3>
+<p>这些贡献大都来源于社区小伙伴们平时在使用 APISIX Ingress 当中遇到的一些问题，或者场景上的一些完善，比如：</p>
+<ul>
+<li>Admission Hook</li>
+<li>Ingress 本身的 Prometheus Metrics</li>
+<li>mTLs</li>
+<li>灰度功能的完善</li>
+<li>产品使用文档的补充</li>
+</ul>
+<p>更多特性<a href="https://github.com/apache/apisix-ingress-controller/#readme">点此查看</a>。</p>
+<p>同时借助社区的反馈，我们也顺应大家的需求支持了<a href="https://github.com/apache/apisix-ingress-controller/blob/master/install.md#installation">多平台集成功能</a>。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156088-035cb0b0-8138-4e93-af5c-8e6ee8371f81.png" alt="多平台集成"></p>
+<h3 id="丰富了使用场景库">丰富了使用场景库</h3>
+<p>在社区里得到功能加持的同时，也收获了关于 Apache APISIX Ingress 的使用场景上的丰富。</p>
+<h4 id="场景一kubernetes-集群内部">场景一：Kubernetes 集群内部</h4>
+<p>最典型的一种方式是在 Kubernetes 集群内部进行部署，如下图就是一个典型的使用场景示意图。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156077-ced688eb-9dbf-4895-b7a2-acb2f4a288b2.png" alt="使用场景1"></p>
+<p>客户端经过外部 LB 后，经过 Apache APISIX 进行承接处理。Apache APISIX 作为网关也是一个反向代理，同时还可以部署在 Kubernetes 集群内外。</p>
+<p>上图的部署场景就是在 Kubernetes 内部集成 APISIX Ingress Controller，通过 APISIX Ingress Controller 将 Kubernetes 的声明式配置同步到 Apache APISIX。这样外部的请求就可以通过 Apache APISIX 集群数据面去直接代理后续 Upstream 的业务服务。</p>
+<h4 id="场景二跨集群部署">场景二：跨集群部署</h4>
+<p>苏州思必驰公司的用户为我们提供了关于跨集群使用场景，大体流程如下所示。</p>
+<p><img src="https://static.apiseven.com/202108/1635304156072-ae9a3943-e686-4629-a5b7-0b5c38301139.png" alt="跨集群部署"></p>
+<p>在上图架构中有两个集群，即云主机正式集群和物理机集群。Apache APISIX Ingress Controller 在每一个集群内都有部署，在与 Kubernetes API server 交互的同时，通过 Apache APISIX Admin API 将配置同步到 Apache APISIX 集群。</p>
+<p>在跨集群场景时，主要是通过 Apache APISIX 来打通集群之间的互相访问。通常集群之间的访问分为专线和公网，借助 Apache APISIX 的健康检查功能，可以做到当专线或公网传输失败时自动将流量切换到其他正常通道上，保证了业务的稳定与高可用。</p>
+<h4 id="场景三一个-apache-apisix-集群管理多个-kubernetes-集群">场景三：一个 Apache APISIX 集群管理多个 Kubernetes 集群</h4>
+<p><img src="https://static.apiseven.com/202108/1635304156063-c7d879c6-8dfb-4ead-a88d-b5bdc9e453d6.png" alt="多 Kubernetes 集群"></p>
+<p>该使用场景是将 APISIX Ingress Controller 部署在 Kubernetes 集群内部，与场景一不同的是这里有多个 Kubernetes 集群。但相应的 Apache APISIX 实际上是部署在所有 Kubernetes 集群外部，然后通过 Apache APISIX Ingress Controller 将各自集群的配置同步到总的 Apache APISIX 集群中。</p>
+<p>这样做的优势是可以通过一套 SLB Cluster 去完全控制各个 Kubernetes 集群，满足一些企业架构为多集群或跨机房的使用场景，减少业务流量上的转发次数。</p>
+<h3 id="总结">总结</h3>
+<p>得益于以上收获成果，Apache APISIX Ingress 也得到了越来越多的关注，越来越多的企业也开始将 APISIX Ingress Controller 应用到自家产品中，比如中国移动、又拍云、有赞、观为智慧等多家企业。未来期待更多企业选择 Apache APISIX Ingress。</p>
+<h2 id="未来规划">未来规划</h2>
+<p>Apache APISIX Ingress 在不断迭代的过程中，也收到了很多社区小伙伴的一些建议，比如对未来产品的一些功能规划：</p>
+<h3 id="后续支持-kubernetes-gateway-api">后续支持 Kubernetes gateway API</h3>
+<p>目前 Kubernetes 社区里也有很多企业在做自己的 Ingress 项目支持，Kubernetes 社区为了能统一 Ingress 的设计，给出了 gateway API 的实现标准。一旦实现了这种标准，后续用户再使用 APISIX Ingress 时，就可以做到同一份配置在不同的 Ingress 里去使用，完美适配多方部署。</p>
+<h3 id="后续支持-ingress-controller-单体架构">后续支持 Ingress Controller 单体架构</h3>
+<p>目前社区里有一些声音会认为 Apache APISIX 所依赖的 etcd 实际上是一个有状态的服务，一旦涉及到有状态的服务，就需要额外去关注存储和迁移相关的工作。</p>
+<p>大家希望在容器化的云原生场景下，让 Apache APISIX 可以无缝扩容，所以后续也会去进行 Ingress Controller 单体架构的部署规划。在这种场景下，Apache APISIX 可以脱离 etcd 单独部署，声明式配置可以被 Apache APISIX Ingress Controller 监听并同步到 Apache APISIX。</p>
+<p>更多未来规划以及特性相关内容<a href="https://github.com/apache/apisix-ingress-controller/milestones">点此查阅</a>。</p>
+<p>社区的发展是永无止境的，很感谢一路以来各位用户对 Apache APISIX Ingress Controller 的支持。希望大家在后续使用过程中，可以积极地参与和反馈关于 Apache APISIX Ingress Controller 项目的任何问题，让产品变得更优秀。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

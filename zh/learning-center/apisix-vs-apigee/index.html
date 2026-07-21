@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX vs Apigee: Gateway vs API Management Platform | Apache APISIX</title><meta name="description" content="Compare Apache APISIX and Google Cloud Apigee: an open-source API gateway vs a full enterprise API management platform — scope, cost, and portability."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/learning-center/apisix-vs-apigee/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/learning-center/apisix-vs-apigee/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/learning-center/apisix-vs-apigee/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/learning-center/apisix-vs-apigee/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX vs Apigee: Gateway vs API Management Platform | Apache APISIX"><meta property="og:description" content="Compare Apache APISIX and Google Cloud Apigee: an open-source API gateway vs a full enterprise API management platform — scope, cost, and portability."><meta property="og:url" content="https://apisix.apache.org/zh/learning-center/apisix-vs-apigee/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Apache APISIX vs Apigee: Gateway vs API Management Platform","description":"Compare Apache APISIX and Google Cloud Apigee: an open-source API gateway vs a full enterprise API management platform — scope, cost, and portability.","datePublished":"2026-06-24","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/apisix-vs-apigee/"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Apache APISIX a full API management platform like Apigee?","acceptedAnswer":{"@type":"Answer","text":"Not on its own. APISIX is a high-performance API gateway focused on the runtime: routing, authentication, rate limiting, traffic management, observability, and AI gateway features. Apigee is a broader API management platform that also includes a developer portal, deep API analytics, monetization, and lifecycle governance. To build a full API management program around APISIX, you pair it with complementary tooling for those higher-level functions."}},{"@type":"Question","name":"How do the costs of Apache APISIX and Apigee compare?","acceptedAnswer":{"@type":"Answer","text":"APISIX is free and open source under the Apache 2.0 license; your cost is the infrastructure you run it on. Apigee is a commercial enterprise platform with pricing based on API calls and capabilities, which can be substantial at scale. Organizations focused primarily on gateway functionality often find APISIX far more cost-effective, while those needing Apigee's full management suite weigh that against its platform cost."}},{"@type":"Question","name":"Does Apache APISIX offer a developer portal and analytics like Apigee?","acceptedAnswer":{"@type":"Answer","text":"APISIX provides strong runtime observability through integrations with Prometheus, OpenTelemetry, Datadog, SkyWalking, and others, but the open-source project does not bundle a polished developer portal, business-level API analytics, or monetization the way Apigee does. Teams that need those capabilities integrate additional tools alongside APISIX, whereas Apigee delivers them as part of one platform."}},{"@type":"Question","name":"How do I migrate from Apigee to Apache APISIX?","acceptedAnswer":{"@type":"Answer","text":"Migration usually starts with the gateway runtime: map Apigee API proxies to APISIX routes and upstreams, and translate Apigee policies (for authentication, quotas, spike arrest, and transformation) to the equivalent APISIX plugins. Higher-level Apigee features such as the developer portal and monetization are addressed separately with complementary tooling. Running both in parallel and shifting traffic incrementally allows a controlled, low-risk migration."}}]}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/learning-center/apisix-vs-apigee/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/learning-center/apisix-vs-apigee/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX vs Apigee: Gateway vs API Management Platform</h1> <p class="article-meta">2026-06-24</p> <p>Apache APISIX and Apigee are often compared, but they sit at different layers. APISIX is a high-performance, open-source API gateway focused on moving and governing traffic. Apigee is a comprehensive, commercial API management platform that includes a gateway plus the surrounding business and lifecycle tooling. For the gateway layer itself — performance, cost, and portability — APISIX is the stronger and far more economical choice; Apigee earns its place only when you genuinely need the full enterprise management suite wrapped around the gateway.</p>
+<h2 id="overview">Overview</h2>
+<p>Apigee is Google Cloud’s enterprise API management platform. Beyond the gateway runtime, it provides a developer portal, detailed API analytics, monetization, and full API lifecycle management, with policies configured through a console and an XML-based policy model. It is offered as Apigee X (fully managed on Google Cloud) and Apigee hybrid (runtime in your own Kubernetes, management plane in Google Cloud). It targets large organizations running formal API programs.</p>
+<p>Apache APISIX is an Apache Software Foundation top-level project: a gateway built on NGINX and LuaJIT, with etcd-backed dynamic configuration and 100+ plugins. It is free, self-hosted, and focused on the data plane, prioritizing performance, flexibility, and low cost.</p>
+<h2 id="scope-gateway-vs-platform">Scope: Gateway vs Platform</h2>
+<p>The most important distinction is scope.</p>
+<p>APISIX is a <strong>gateway</strong>. It excels at routing, authentication, rate limiting, traffic shaping, protocol support, observability, and AI proxying. It is the runtime layer that sits in front of your services.</p>
+<p>Apigee is a <strong>platform</strong>. It includes a gateway, but its value proposition extends to the full API business: onboarding external developers through a portal, analyzing API usage for product decisions, monetizing APIs, and governing them across their lifecycle.</p>
+<p>This means the comparison is rarely feature-for-feature. The real question is whether you need a focused, high-performance gateway you can run anywhere, or an end-to-end managed API management suite, and whether you are willing to trade cost and portability for that breadth.</p>
+<h2 id="architecture-and-deployment">Architecture and Deployment</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p>APISIX is self-hosted on any cloud, on-premises, or in Kubernetes. The data plane and control plane (Admin API plus etcd) deploy together, configuration changes propagate in real time, and you retain full control over where traffic flows and what it costs. There is no dependency on a specific cloud provider.</p>
+<h3 id="apigee">Apigee</h3>
+<p>Apigee X is fully managed within Google Cloud, removing operational burden but coupling you to that environment. Apigee hybrid lets you run the runtime in your own Kubernetes clusters while the management plane remains in Google Cloud, offering more deployment flexibility while retaining the platform’s management capabilities and its commercial model.</p>
+<h2 id="cost">Cost</h2>
+<p>Cost is frequently decisive. APISIX has no license fee; you pay only for the compute it runs on, and a single node sustains very high throughput, so cost per request stays low as traffic grows. Apigee is priced as an enterprise platform, typically based on API call volume and the capabilities you enable, which can become a major line item at scale. For teams whose primary need is a capable gateway, APISIX delivers that at a fraction of the platform cost.</p>
+<h2 id="feature-comparison">Feature Comparison</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Apache APISIX</th><th>Apigee</th></tr></thead><tbody><tr><td>Category</td><td>Open-source API gateway</td><td>Enterprise API management platform</td></tr><tr><td>Deployment</td><td>Self-hosted anywhere</td><td>Apigee X (managed) or hybrid on Google Cloud</td></tr><tr><td>Cost</td><td>Free + infrastructure</td><td>Commercial, volume-based</td></tr><tr><td>Gateway runtime</td><td>NGINX + LuaJIT, 100+ plugins</td><td>Managed runtime, XML policies</td></tr><tr><td>Developer portal</td><td>Via complementary tooling</td><td>Built in</td></tr><tr><td>API analytics</td><td>Runtime observability (Prometheus, OTel, etc.)</td><td>Built-in business analytics</td></tr><tr><td>Monetization</td><td>Not built in</td><td>Built in</td></tr><tr><td>AI gateway capabilities</td><td>ai-proxy plugin, multi-LLM routing</td><td>Via platform features</td></tr><tr><td>Portability</td><td>Runs anywhere, no lock-in</td><td>Coupled to Google Cloud</td></tr><tr><td>Governance / lifecycle</td><td>Gateway-level</td><td>Full lifecycle management</td></tr></tbody></table>
+<h2 id="when-to-choose-apache-apisix">When to Choose Apache APISIX</h2>
+<ul>
+<li><strong>You need a high-performance gateway</strong>, not a full management platform.</li>
+<li><strong>Cost efficiency</strong> matters and per-call platform pricing is unattractive.</li>
+<li><strong>Multi-cloud, hybrid, or on-premises</strong> deployment and no vendor lock-in.</li>
+<li><strong>Flexibility</strong> to assemble your own management tooling around a focused, open-source core.</li>
+</ul>
+<h2 id="when-to-choose-apigee">When to Choose Apigee</h2>
+<ul>
+<li><strong>You need a complete API management program</strong>: developer portal, analytics, monetization, and lifecycle governance in one product.</li>
+<li><strong>A fully managed platform</strong> is preferred and Google Cloud is your environment.</li>
+<li><strong>Enterprise governance</strong> and a polished external developer experience are priorities.</li>
+<li><strong>Budget exists</strong> for an enterprise platform in exchange for that breadth.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="is-apache-apisix-a-full-api-management-platform-like-apigee">Is Apache APISIX a full API management platform like Apigee?</h3>
+<p>Not on its own. APISIX is a high-performance API gateway focused on the runtime: routing, authentication, rate limiting, traffic management, observability, and AI gateway features. Apigee is a broader API management platform that also includes a developer portal, deep API analytics, monetization, and lifecycle governance. To build a full API management program around APISIX, you pair it with complementary tooling for those higher-level functions.</p>
+<h3 id="how-do-the-costs-of-apache-apisix-and-apigee-compare">How do the costs of Apache APISIX and Apigee compare?</h3>
+<p>APISIX is free and open source under the Apache 2.0 license; your cost is the infrastructure you run it on. Apigee is a commercial enterprise platform with pricing based on API calls and capabilities, which can be substantial at scale. Organizations focused primarily on gateway functionality often find APISIX far more cost-effective, while those needing Apigee’s full management suite weigh that against its platform cost.</p>
+<h3 id="does-apache-apisix-offer-a-developer-portal-and-analytics-like-apigee">Does Apache APISIX offer a developer portal and analytics like Apigee?</h3>
+<p>APISIX provides strong runtime observability through integrations with Prometheus, OpenTelemetry, Datadog, SkyWalking, and others, but the open-source project does not bundle a polished developer portal, business-level API analytics, or monetization the way Apigee does. Teams that need those capabilities integrate additional tools alongside APISIX, whereas Apigee delivers them as part of one platform.</p>
+<h3 id="how-do-i-migrate-from-apigee-to-apache-apisix">How do I migrate from Apigee to Apache APISIX?</h3>
+<p>Migration usually starts with the gateway runtime: map Apigee API proxies to APISIX routes and upstreams, and translate Apigee policies (for authentication, quotas, spike arrest, and transformation) to the equivalent APISIX plugins. Higher-level Apigee features such as the developer portal and monetization are addressed separately with complementary tooling. Running both in parallel and shifting traffic incrementally allows a controlled, low-risk migration.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="/comparisons/">All API gateway comparisons</a></li>
+<li><a href="/learning-center/what-is-an-api-gateway/">What is an API gateway?</a></li>
+<li><a href="/learning-center/apisix-vs-aws-api-gateway/">Apache APISIX vs AWS API Gateway</a></li>
+<li><a href="/learning-center/apisix-vs-kong/">Apache APISIX vs Kong</a></li>
+<li><a href="/docs/apisix/getting-started/">Get started with Apache APISIX</a></li>
+</ul> <section> <h2>Frequently asked questions</h2> <details> <summary style="font-weight:600;cursor:pointer;margin:.5rem 0">Is Apache APISIX a full API management platform like Apigee?</summary> <p>Not on its own. APISIX is a high-performance API gateway focused on the runtime: routing, authentication, rate limiting, traffic management, observability, and AI gateway features. Apigee is a broader API management platform that also includes a developer portal, deep API analytics, monetization, and lifecycle governance. To build a full API management program around APISIX, you pair it with complementary tooling for those higher-level functions.</p> </details><details> <summary style="font-weight:600;cursor:pointer;margin:.5rem 0">How do the costs of Apache APISIX and Apigee compare?</summary> <p>APISIX is free and open source under the Apache 2.0 license; your cost is the infrastructure you run it on. Apigee is a commercial enterprise platform with pricing based on API calls and capabilities, which can be substantial at scale. Organizations focused primarily on gateway functionality often find APISIX far more cost-effective, while those needing Apigee&#39;s full management suite weigh that against its platform cost.</p> </details><details> <summary style="font-weight:600;cursor:pointer;margin:.5rem 0">Does Apache APISIX offer a developer portal and analytics like Apigee?</summary> <p>APISIX provides strong runtime observability through integrations with Prometheus, OpenTelemetry, Datadog, SkyWalking, and others, but the open-source project does not bundle a polished developer portal, business-level API analytics, or monetization the way Apigee does. Teams that need those capabilities integrate additional tools alongside APISIX, whereas Apigee delivers them as part of one platform.</p> </details><details> <summary style="font-weight:600;cursor:pointer;margin:.5rem 0">How do I migrate from Apigee to Apache APISIX?</summary> <p>Migration usually starts with the gateway runtime: map Apigee API proxies to APISIX routes and upstreams, and translate Apigee policies (for authentication, quotas, spike arrest, and transformation) to the equivalent APISIX plugins. Higher-level Apigee features such as the developer portal and monetization are addressed separately with complementary tooling. Running both in parallel and shifting traffic incrementally allows a controlled, low-risk migration.</p> </details> </section> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

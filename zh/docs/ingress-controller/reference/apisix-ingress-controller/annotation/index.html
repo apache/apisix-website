@@ -1,0 +1,780 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Annotations | Apache APISIX</title><meta name="description" content="Learn how annotations extend the functionality of Kubernetes Ingress and IngressClass resource in APISIX Ingress Controller to configure routing, security, and gateway behaviors."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Annotations | Apache APISIX"><meta property="og:description" content="Learn how annotations extend the functionality of Kubernetes Ingress and IngressClass resource in APISIX Ingress Controller to configure routing, security, and gateway behaviors."><meta property="og:url" content="https://apisix.apache.org/zh/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Annotations","description":"Learn how annotations extend the functionality of Kubernetes Ingress and IngressClass resource in APISIX Ingress Controller to configure routing, security, and gateway behaviors.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/annotation/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/ingress-controller/reference/apisix-ingress-controller/annotation/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/zh/docs/ingress-controller/overview/" class>Overview</a>  </li><li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/ingress-controller/getting-started/get-apisix-ingress-controller/" class>Get APISIX and APISIX Ingress Controller</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/zh/docs/ingress-controller/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class="cat"> <span>Concepts</span> <ul> <li> <a href="/zh/docs/ingress-controller/concepts/resources/" class>APISIX Ingress Controller Resources</a>  </li><li> <a href="/zh/docs/ingress-controller/concepts/gateway-api/" class>Gateway API</a>  </li><li> <a href="/zh/docs/ingress-controller/concepts/deployment-architecture/" class>Deployment Architecture</a>  </li> </ul> </li><li class> <a href="/zh/docs/ingress-controller/install/" class>Install with Helm</a>  </li><li class> <a href="/zh/docs/ingress-controller/developer-guide/" class>Developer Guide</a>  </li><li class="cat"> <span>Reference</span> <ul> <li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/" class>Custom Resource Definitions API Reference</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/examples/" class>Configuration Examples</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/configuration-troubleshoot/" class>Configuration Troubleshooting</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/configuration-file/" class>Configuration File</a>  </li><li> <a href="/zh/docs/ingress-controller/reference/apisix-ingress-controller/annotation/" class="active">Annotations</a>  </li> </ul> </li><li class> <a href="/zh/docs/ingress-controller/upgrade-guide/" class>Upgrade Guide</a>  </li><li class> <a href="/zh/docs/ingress-controller/FAQ/" class>FAQ</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Annotations</h1> <p>Annotations are key-value pairs that allow controllers to configure functionalities that are not available through standard Kubernetes resource fields. In APISIX Ingress Controller, annotations are commonly used to configure gateway behaviors, routing rules, upstream settings, plugins, and other features. Alternatively, you can use APISIX CRDs to configure these features for a better experience.</p>
+<p>This document describes all available annotations and their uses.</p>
+<h2 id="ingress-annotations">Ingress Annotations</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th></tr></thead><tbody><tr><td><code>kubernetes.io/ingress.class</code></td></tr><tr><td><code>k8s.apisix.apache.org/use-regex</code></td></tr><tr><td><code>k8s.apisix.apache.org/enable-websocket</code></td></tr><tr><td><code>k8s.apisix.apache.org/plugin-config-name</code></td></tr><tr><td><code>k8s.apisix.apache.org/upstream-scheme</code></td></tr><tr><td><code>k8s.apisix.apache.org/upstream-retries</code></td></tr><tr><td><code>k8s.apisix.apache.org/upstream-connect-timeout</code></td></tr><tr><td><code>k8s.apisix.apache.org/upstream-read-timeout</code></td></tr><tr><td><code>k8s.apisix.apache.org/upstream-send-timeout</code></td></tr><tr><td><code>k8s.apisix.apache.org/enable-cors</code></td></tr><tr><td><code>k8s.apisix.apache.org/cors-allow-origin</code></td></tr><tr><td><code>k8s.apisix.apache.org/cors-allow-headers</code></td></tr><tr><td><code>k8s.apisix.apache.org/cors-allow-methods</code></td></tr><tr><td><code>k8s.apisix.apache.org/enable-csrf</code></td></tr><tr><td><code>k8s.apisix.apache.org/csrf-key</code></td></tr><tr><td><code>k8s.apisix.apache.org/http-to-https</code></td></tr><tr><td><code>k8s.apisix.apache.org/http-redirect</code></td></tr><tr><td><code>k8s.apisix.apache.org/http-redirect-code</code></td></tr><tr><td><code>k8s.apisix.apache.org/rewrite-target</code></td></tr><tr><td><code>k8s.apisix.apache.org/rewrite-target-regex</code></td></tr><tr><td><code>k8s.apisix.apache.org/rewrite-target-regex-template</code></td></tr><tr><td><code>k8s.apisix.apache.org/enable-response-rewrite</code></td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-status-code</code></td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-body</code></td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-body-base64</code></td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-add-header</code></td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-set-header</code></td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-remove-header</code></td></tr><tr><td><code>k8s.apisix.apache.org/auth-uri</code></td></tr><tr><td><code>k8s.apisix.apache.org/auth-ssl-verify</code></td></tr><tr><td><code>k8s.apisix.apache.org/auth-request-headers</code></td></tr><tr><td><code>k8s.apisix.apache.org/auth-upstream-headers</code></td></tr><tr><td><code>k8s.apisix.apache.org/auth-client-headers</code></td></tr><tr><td><code>k8s.apisix.apache.org/allowlist-source-range</code></td></tr><tr><td><code>k8s.apisix.apache.org/blocklist-source-range</code></td></tr><tr><td><code>k8s.apisix.apache.org/http-allow-methods</code></td></tr><tr><td><code>k8s.apisix.apache.org/http-block-methods</code></td></tr><tr><td><code>k8s.apisix.apache.org/auth-type</code></td></tr><tr><td><code>k8s.apisix.apache.org/svc-namespace</code></td></tr></tbody></table>
+<h2 id="ingressclass-annotations">IngressClass Annotations</h2>
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th></tr></thead><tbody><tr><td><code>apisix.apache.org/parameters-namespace</code></td></tr></tbody></table>
+<h2 id="annotation-details">Annotation Details</h2>
+<p>Note that annotation keys and values can only be strings.</p>
+<h3 id="ingress-class">Ingress Class</h3>
+<p>The <code>kubernetes.io/ingress.class</code> annotation specifies which ingress controller should process a given Ingress resource. This is useful when multiple ingress controllers are deployed in the same cluster.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    kubernetes.io/ingress.class</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="response-rewrite">Response Rewrite</h3>
+<p>These annotations enable you to modify the response returned from the upstream service before it is sent to the client. They correspond to the functionality of the <code>response-rewrite</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/enable-response-rewrite</code></td><td>Enables the response rewrite feature. Set to <code>true</code> to enable response rewriting for this resource.</td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-status-code</code></td><td>Specifies a new HTTP status code for the response.</td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-body</code></td><td>Replaces the response body with the specified plain text content.</td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-body-base64</code></td><td>Replaces the response body with Base64-encoded content.</td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-add-header</code></td><td>Adds new headers to the response. You can specify multiple headers as a comma-separated list.</td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-set-header</code></td><td>Sets or overrides existing headers in the response. You can specify multiple headers as a comma-separated list.</td></tr><tr><td><code>k8s.apisix.apache.org/response-rewrite-remove-header</code></td><td>Removes specified headers from the response. You can specify multiple headers as a comma-separated list.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-response-rewrite</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#8B949E">    # highlight-start</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/enable-response-rewrite</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/response-rewrite-status-code</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"403"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/response-rewrite-body</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Access denied"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/response-rewrite-add-header</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"X-Reason:Forbidden,X-Env:Test"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/response-rewrite-remove-header</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"header1,header2"</span></span>
+<span class="line"><span style="color:#8B949E">    # highlight-end</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="ip-restriction">IP Restriction</h3>
+<p>These annotations control client access based on IP address ranges. They correspond to the functionality of the <code>ip-restriction</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/allowlist-source-range</code></td><td>Comma-separated list of CIDR ranges that are allowed to access the resource. All other IPs are denied.</td></tr><tr><td><code>k8s.apisix.apache.org/blocklist-source-range</code></td><td>Comma-separated list of CIDR ranges that are blocked from accessing the resource.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-ip-restriction</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/allowlist-source-range</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"10.0.0.0/24,192.168.1.0/24"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="forward-auth">Forward Auth</h3>
+<p>These annotations configure an external authentication endpoint that validates incoming requests before they reach the backend service. They correspond to the functionality of the <code>forward-auth</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/auth-uri</code></td><td>The URI of the external authentication server. Requests are forwarded to this URI for verification.</td></tr><tr><td><code>k8s.apisix.apache.org/auth-ssl-verify</code></td><td>Enables or disables SSL certificate verification when communicating with the authentication server. Set to <code>true</code> or <code>false</code>.</td></tr><tr><td><code>k8s.apisix.apache.org/auth-request-headers</code></td><td>Comma-separated list of request headers to forward to the authentication server.</td></tr><tr><td><code>k8s.apisix.apache.org/auth-upstream-headers</code></td><td>Comma-separated list of headers from the auth response to forward to the upstream service.</td></tr><tr><td><code>k8s.apisix.apache.org/auth-client-headers</code></td><td>Comma-separated list of headers from the auth response to return to the client.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-forward-auth</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/auth-uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://auth.example.com/verify"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/auth-ssl-verify</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/auth-request-headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Authorization"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/auth-upstream-headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"X-User-ID,X-User-Role"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/auth-client-headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"X-Auth-Status"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="regex-route-matching">RegEx Route Matching</h3>
+<p>The <code>k8s.apisix.apache.org/use-regex</code> annotation allows an Ingress to define routes using regular expressions for advanced path matching. Set to <code>true</code> to interpret the <code>path</code> field as a RegEx pattern.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-regex</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/use-regex</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/users/[0-9]+"</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ImplementationSpecific</span><span style="color:#8B949E">  # should use ImplementationSpecific with use-regex</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">user-service</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="authentication">Authentication</h3>
+<p>The <code>k8s.apisix.apache.org/auth-type</code> annotation specifies the type of authentication to apply to an Ingress resource. Support <code>keyAuth</code> and <code>basicAuth</code>.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-key-auth</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/auth-type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"keyAuth"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixConsumer</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  authParameter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    keyAuth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      value</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john-key</span></span></code></pre>
+<h3 id="cross-namespace-service-access">Cross Namespace Service Access</h3>
+<p>The <code>k8s.apisix.apache.org/svc-namespace</code> annotation allows an Ingress to route traffic to a service located in a different namespace from the Ingress resource. By default, Ingresses can only reference Services within the same namespace.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cross-namespace-ingress</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span><span style="color:#8B949E"> # Ingress is in aic namespace</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/svc-namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"other-namespace"</span><span style="color:#8B949E">  # Service is in other-namespace</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">backend-service</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="proxy-rewrite">Proxy Rewrite</h3>
+<p>These annotations allow you to rewrite request paths before forwarding them to the upstream service. They correspond to the functionality of the <code>proxy-rewrite</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/rewrite-target</code></td><td>Rewrites the request path to the specified target path.</td></tr><tr><td><code>k8s.apisix.apache.org/rewrite-target-regex</code></td><td>Specifies a regular expression pattern to match in the original request path.</td></tr><tr><td><code>k8s.apisix.apache.org/rewrite-target-regex-template</code></td><td>Template for rewriting the request path when using <code>rewrite-target-regex</code>. Supports capturing groups from the RegEx pattern.</td></tr></tbody></table>
+<p>For example, the following configuration rewrites requests so that requests to <code>/api</code> are forwarded to <code>/new-path</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-rewrite</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/rewrite-target</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/new-path"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/api</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>For example, the following configuration rewrites requests so that requests to <code>/api/test</code> are forwarded to <code>/backend/test</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-regex-rewrite</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/rewrite-target-regex</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"^/api/(.*)"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/rewrite-target-regex-template</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/backend/$1"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/api</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="plugin-config">Plugin Config</h3>
+<p>The <code>k8s.apisix.apache.org/plugin-config-name</code> annotation allows you to attach a predefined APISIX plugin configuration to an Ingress resource. It corresponds to a PluginConfig resource in APISIX, enabling reusable plugin settings across multiple routes or services.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/plugin-config-name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"rate-limit-config"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixPluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">rate-limit-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">limit-count</span></span>
+<span class="line"><span style="color:#7EE787">    enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">      time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">      rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span></code></pre>
+<h3 id="csrf">CSRF</h3>
+<p>These annotations enable CSRF (Cross-Site Request Forgery) protection for an Ingress. They correspond to the <code>csrf</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/enable-csrf</code></td><td>Enables or disables CSRF protection. Set to <code>true</code> to enable the plugin.</td></tr><tr><td><code>k8s.apisix.apache.org/csrf-key</code></td><td>Specifies the secret key used to sign and validate CSRF tokens.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-csrf</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/enable-csrf</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/csrf-key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"my-secret-csrf-key"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="allowblock-http-methods">Allow/Block HTTP Methods</h3>
+<p>These annotations control which HTTP methods are allowed or blocked for an Ingress. If both allow and block methods are specified, only the allow list is effective.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/http-allow-methods</code></td><td>Comma-separated list of HTTP methods that are explicitly allowed. Requests using other methods will be denied.</td></tr><tr><td><code>k8s.apisix.apache.org/http-block-methods</code></td><td>Comma-separated list of HTTP methods that are explicitly blocked. Requests using these methods will be denied.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-http-methods</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/http-allow-methods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET,POST"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="enable-websocket">Enable Websocket</h3>
+<p>The <code>k8s.apisix.apache.org/enable-websocket</code> annotation enables WebSocket support for an Ingress when set to <code>true</code>.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-websocket</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/enable-websocket</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/ws</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">websocket-service</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8080</span></span></code></pre>
+<h3 id="redirect">Redirect</h3>
+<p>These annotations configure HTTP-to-HTTPS redirection or custom HTTP redirects for an Ingress. They correspond to the <code>redirect</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/http-to-https</code></td><td>Set to <code>true</code> to automatically redirect HTTP requests to HTTPS.</td></tr><tr><td><code>k8s.apisix.apache.org/http-redirect</code></td><td>Specifies a custom URL to redirect requests to.</td></tr><tr><td><code>k8s.apisix.apache.org/http-redirect-code</code></td><td>HTTP status code to use for the redirect.</td></tr></tbody></table>
+<p>For example, the following configuration redirects HTTP requests to HTTPS with a 301 status code:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-https-redirect</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/http-to-https</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>For example, the following configuration redirects HTTP requests to a new URI with a custom HTTP redirect status code:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-custom-redirect</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/http-redirect</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://example.com/new-path"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/http-redirect-code</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"302"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="cors">CORS</h3>
+<p>These annotations configure Cross-Origin Resource Sharing (CORS) for an Ingress. They correspond to the <code>cors</code> plugin in APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/enable-cors</code></td><td>Set to <code>true</code> to enable CORS.</td></tr><tr><td><code>k8s.apisix.apache.org/cors-allow-origin</code></td><td>Specifies the allowed origin(s), such as <code>*</code> or <code>https://example.com</code>.</td></tr><tr><td><code>k8s.apisix.apache.org/cors-allow-headers</code></td><td>Comma-separated list of allowed headers in cross-origin requests.</td></tr><tr><td><code>k8s.apisix.apache.org/cors-allow-methods</code></td><td>Comma-separated list of allowed HTTP methods.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-cors</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/enable-cors</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/cors-allow-origin</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://example.com"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/cors-allow-headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Content-Type,Authorization"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/cors-allow-methods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET,POST,PUT"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="upstream">Upstream</h3>
+<p>These annotations allow you to configure upstream behavior for an Ingress in APISIX, including scheme, retries, and timeouts. They correspond to the upstream settings in Apache APISIX.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Annotation</th><th>Description</th></tr></thead><tbody><tr><td><code>k8s.apisix.apache.org/upstream-scheme</code></td><td>Specifies the protocol used to communicate with the upstream service. Default is <code>http</code>. Support <code>http</code>, <code>https</code>, <code>grpc</code>, and <code>grpcs</code>.</td></tr><tr><td><code>k8s.apisix.apache.org/upstream-retries</code></td><td>Number of retries for upstream requests in case of failure.</td></tr><tr><td><code>k8s.apisix.apache.org/upstream-connect-timeout</code></td><td>Timeout for establishing a connection to the upstream service. Default is <code>60s</code>.</td></tr><tr><td><code>k8s.apisix.apache.org/upstream-read-timeout</code></td><td>Timeout for reading a response from the upstream service. Default is <code>60s</code>.</td></tr><tr><td><code>k8s.apisix.apache.org/upstream-send-timeout</code></td><td>Timeout for sending a request to the upstream service. Default is <code>60s</code>.</td></tr></tbody></table>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example-upstream</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/upstream-scheme</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/upstream-retries</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/upstream-connect-timeout</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"5s"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/upstream-read-timeout</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"5s"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/upstream-send-timeout</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"5s"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Prefix</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<h3 id="gatewayproxy-namespace-specification">GatewayProxy Namespace Specification</h3>
+<p>The <code>apisix.apache.org/parameters-namespace</code> annotation enables the specification of a custom namespace for GatewayProxy resources referenced by an IngressClass. This is used when a GatewayProxy resource resides in a specific namespace, as IngressClass is cluster-scoped and requires the namespace to locate the resource.</p>
+<p>The annotation takes precedence over the <code>parameters.namespace</code> field in the IngressClass spec. If neither is specified, it defaults to the <code>default</code> namespace.</p>
+<p>For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">IngressClass</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apisix.apache.org/parameters-namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix-system"</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  controller</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/ingress-controller</span></span>
+<span class="line"><span style="color:#7EE787">  parameters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apiGroup</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">GatewayProxy</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-config</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix-ingress-controller/edit/master/docs/zh/latest/reference/apisix-ingress-controller/annotation.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

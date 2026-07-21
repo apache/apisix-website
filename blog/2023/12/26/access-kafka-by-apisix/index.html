@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Access the Kafka Cluster by APISIX Gateway | Apache APISIX</title><meta name="description" content="Use APISIX as a proxy to a Kafka cluster with custom Go authorization plugins for authentication and access control."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/12/26/access-kafka-by-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/12/26/access-kafka-by-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/12/26/access-kafka-by-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/12/26/access-kafka-by-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Access the Kafka Cluster by APISIX Gateway | Apache APISIX"><meta property="og:description" content="Use APISIX as a proxy to a Kafka cluster with custom Go authorization plugins for authentication and access control."><meta property="og:url" content="https://apisix.apache.org/blog/2023/12/26/access-kafka-by-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/12/29/oJyQz1c4_A&#38;K_Cover.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Access the Kafka Cluster by APISIX Gateway","description":"Use APISIX as a proxy to a Kafka cluster with custom Go authorization plugins for authentication and access control.","datePublished":"2023-12-26","image":"https://static.apiseven.com/uploads/2023/12/29/oJyQz1c4_A&K_Cover.png","author":{"@type":"Person","name":"Meng Yan"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/12/26/access-kafka-by-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/12/26/access-kafka-by-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/12/26/access-kafka-by-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Access the Kafka Cluster by APISIX Gateway</h1> <p class="article-meta"> 2023-12-26 · Meng Yan  </p> <blockquote>
+<p>This blog shows how to use Apache APISIX to develop a customize authorization plugin for the kafka cluster.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Have a running OpenShift cluster</li>
+<li>Run a Kafka cluster with <a href="https://github.com/strimzi/strimzi-kafka-operator">strimzi kafka operator</a></li>
+<li>Install <a href="https://kubernetes.io/docs/reference/kubectl">kubectl</a>, <a href="https://docs.openshift.com/container-platform/4.11/cli_reference/openshift_cli/getting-started-cli.html">OpenShift CLI</a> and curl on host</li>
+</ul>
+<h2 id="expose-the-kafka-cluster-by-kafkabridge">Expose the Kafka Cluster by KafkaBridge</h2>
+<p>To simplify the configuration setting for the kafka. I provision the kafka by <a href="https://github.com/strimzi/strimzi-kafka-operator">strimzi-kafka-operator</a>. In order to make Kafka expose interfaces externally like other services, I use <code>KafkaBridge</code> to transform it into an HTTP service.</p>
+<ul>
+<li>Create the <code>KafkaBridge</code></li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># namespace</span></span>
+<span class="line"><span style="color:#E6EDF3">KAFKA_NAMESPACE</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">kafka</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># create kafka bridge instance</span></span>
+<span class="line"><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> oc</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> -</span></span>
+<span class="line"><span style="color:#A5D6FF">apiVersion: kafka.strimzi.io/v1beta2</span></span>
+<span class="line"><span style="color:#A5D6FF">kind: KafkaBridge</span></span>
+<span class="line"><span style="color:#A5D6FF">metadata:</span></span>
+<span class="line"><span style="color:#A5D6FF">  name: strimzi-kafka-bridge</span></span>
+<span class="line"><span style="color:#A5D6FF">  namespace: ${</span><span style="color:#E6EDF3">KAFKA_NAMESPACE</span><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">spec:</span></span>
+<span class="line"><span style="color:#A5D6FF">  bootstrapServers: kafka-kafka-bootstrap.${</span><span style="color:#E6EDF3">KAFKA_NAMESPACE</span><span style="color:#A5D6FF">}.svc:9092</span></span>
+<span class="line"><span style="color:#A5D6FF">  http:</span></span>
+<span class="line"><span style="color:#A5D6FF">    port: 8080</span></span>
+<span class="line"><span style="color:#A5D6FF">  replicas: 1</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span></code></pre>
+<ul>
+<li>Verification</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">KAFKA_NAMESPACE</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">kafka</span></span>
+<span class="line"><span style="color:#8B949E"># forward 8080 by bridge pod</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#E6EDF3"> ${KAFKA_NAMESPACE} </span><span style="color:#A5D6FF">port-forward</span><span style="color:#E6EDF3"> $(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -l</span><span style="color:#A5D6FF"> strimzi.io/cluster=strimzi-kafka-bridge</span><span style="color:#79C0FF"> -n</span><span style="color:#E6EDF3"> ${KAFKA_NAMESPACE} </span><span style="color:#79C0FF">-o</span><span style="color:#A5D6FF"> jsonpath="{.items[0].metadata.name}"</span><span style="color:#E6EDF3">) </span><span style="color:#A5D6FF">8080:8080</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># or forward 8080 by svc</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#E6EDF3"> ${KAFKA_NAMESPACE} </span><span style="color:#A5D6FF">port-forward</span><span style="color:#A5D6FF"> svc/</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> svc</span><span style="color:#79C0FF"> -l</span><span style="color:#A5D6FF"> strimzi.io/cluster=strimzi-kafka-bridge</span><span style="color:#79C0FF"> -n</span><span style="color:#E6EDF3"> ${KAFKA_NAMESPACE} </span><span style="color:#79C0FF">-o</span><span style="color:#A5D6FF"> jsonpath="{.items[0].metadata.name}"</span><span style="color:#E6EDF3">) </span><span style="color:#A5D6FF">8080:8080</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># list topic</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://localhost:8080/topics</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># consume message with the consumer</span></span>
+<span class="line"><span style="color:#FF7B72">while</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">; </span><span style="color:#FF7B72">do</span><span style="color:#FFA657"> curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> http://localhost:8080/consumers/strimzi-kafka-consumer-group/instances/strimzi-kafka-consumer/records</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'accept: application/vnd.kafka.json.v2+json'</span><span style="color:#E6EDF3">; </span><span style="color:#FFA657">sleep</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">; </span><span style="color:#FF7B72">done</span></span></code></pre>
+<h2 id="running-apisix-on-openshift">Running APISIX on Openshift</h2>
+<ul>
+<li>Install APISIX on ROSA</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">oc</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> sa</span><span style="color:#A5D6FF"> apisix-sa</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span></span>
+<span class="line"><span style="color:#FFA657">oc</span><span style="color:#A5D6FF"> adm</span><span style="color:#A5D6FF"> policy</span><span style="color:#A5D6FF"> add-scc-to-user</span><span style="color:#A5D6FF"> anyuid</span><span style="color:#79C0FF"> -z</span><span style="color:#A5D6FF"> apisix-sa</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> apisix/apisix</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --set</span><span style="color:#A5D6FF"> gateway.type=NodePort</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --set</span><span style="color:#A5D6FF"> etcd.podSecurityContext.enabled=</span><span style="color:#79C0FF">false</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --set</span><span style="color:#A5D6FF"> etcd.containerSecurityContext.enabled=</span><span style="color:#79C0FF">false</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --set</span><span style="color:#A5D6FF"> serviceAccount.name=apisix-sa</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --namespace</span><span style="color:#A5D6FF"> apisix</span></span></code></pre>
+<ul>
+<li>Configure the Kafka Route with Admin API</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># forward 9180 port to local host</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> port-forward</span><span style="color:#E6EDF3"> $(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -l</span><span style="color:#A5D6FF"> app.kubernetes.io/name=apisix</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath="{.items[0].metadata.name}"</span><span style="color:#E6EDF3">) </span><span style="color:#A5D6FF">9180:9180</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># the bridge service name can be accessed by</span></span>
+<span class="line"><span style="color:#8B949E"># kubectl get svc -l strimzi.io/cluster=strimzi-kafka-bridge -n $KAFKA_NAMESPACE -o jsonpath="{.items[0].metadata.name}"</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/1"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">"X-API-KEY: edd1c9f034335f136f87ad84b625c8f1"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "methods": ["GET", "POST", "DELETE", "PUT"],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "host": "example.com",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "ext-plugin-post-resp": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "conf": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {"name":"my-response-rewrite", "value":"{\"tag\":\"\"}"}</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "strimzi-kafka-bridge-bridge-service.kafka.svc:8080": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ul>
+<li>Request the Kafka Service with Client API</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># forward the http api of apisix to local host</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> port-forward</span><span style="color:#E6EDF3"> $(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -l</span><span style="color:#A5D6FF"> app.kubernetes.io/name=apisix</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> apisix</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath="{.items[0].metadata.name}"</span><span style="color:#E6EDF3">) </span><span style="color:#A5D6FF">9080:9080</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># list topic</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --verbose</span><span style="color:#79C0FF"> --header</span><span style="color:#A5D6FF"> "Host: example.com"</span><span style="color:#A5D6FF"> http://localhost:9080/topics</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># send message to the topic</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --header</span><span style="color:#A5D6FF"> "Host: example.com"</span><span style="color:#79C0FF"> --location</span><span style="color:#A5D6FF"> 'http://localhost:9080/topics/event'</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'Content-Type: application/vnd.kafka.json.v2+json'</span><span style="color:#79C0FF"> --data</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "records":[</span></span>
+<span class="line"><span style="color:#A5D6FF">      {</span></span>
+<span class="line"><span style="color:#A5D6FF">         "key":"event5",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "value": "hello5"</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      {</span></span>
+<span class="line"><span style="color:#A5D6FF">         "key":"event6",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "value": "world6"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">   ]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># create a kafka consumer in a new consumer group</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --header</span><span style="color:#A5D6FF"> "Host: example.com"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#A5D6FF"> http://localhost:9080/consumers/strimzi-kafka-consumer-group</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'content-type: application/vnd.kafka.v2+json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "name": "strimzi-kafka-consumer",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "auto.offset.reset": "earliest",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "enable.auto.commit": true,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "fetch.min.bytes": 512,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "consumer.request.timeout.ms": 30000</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># subscribe to the topic</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --header</span><span style="color:#A5D6FF"> "Host: example.com"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#A5D6FF"> http://localhost:9080/consumers/strimzi-kafka-consumer-group/instances/strimzi-kafka-consumer/subscription</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'content-type: application/vnd.kafka.v2+json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "topics": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "event"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># consume message with the consumer</span></span>
+<span class="line"><span style="color:#FF7B72">while</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">; </span><span style="color:#FF7B72">do</span><span style="color:#FFA657"> curl</span><span style="color:#79C0FF"> --header</span><span style="color:#A5D6FF"> "Host: example.com"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> http://localhost:9080/consumers/strimzi-kafka-consumer-group/instances/strimzi-kafka-consumer/records</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'accept: application/vnd.kafka.json.v2+json'</span><span style="color:#E6EDF3">; </span><span style="color:#FFA657">sleep</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">; </span><span style="color:#FF7B72">done</span></span></code></pre>
+<h2 id="develop-an-authentication-plugin-with-golang">Develop an Authentication Plugin with Golang</h2>
+<ul>
+<li>
+<p>Develop a validation plugin for the certificates</p>
+<p>I develop the plugin leverage the <a href="https://github.com/apache/apisix-go-plugin-runner">Go plugin runner</a>. The plugin is just read the certificate from the header and then validate it. You can visit <a href="https://github.com/yanmxa/apisix-go-plugin-runner/commit/84adcb2447287d48419c312f8aba8039c4b1f32d">this</a> for more detail.</p>
+</li>
+<li>
+<p>Build the APISIX Image with the above Plugin</p>
+</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> git@github.com:apache/apisix-go-plugin-runner.git</span></span>
+<span class="line"><span style="color:#8B949E"># develop the plugin</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#8B949E"># build binary</span></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> build</span></span>
+<span class="line"><span style="color:#8B949E"># create Dockerfile to add the build binary</span></span>
+<span class="line"><span style="color:#A5D6FF">`</span><span style="color:#FFA657">Dockerfile</span></span>
+<span class="line"><span style="color:#FFA657">FROM</span><span style="color:#A5D6FF"> apache/apisix:3.6.0-debian</span></span>
+<span class="line"><span style="color:#FFA657">COPY</span><span style="color:#A5D6FF"> ./go-runner /usr/local/apisix/apisix-go-plugin-runner/go-runner</span></span>
+<span class="line"><span style="color:#A5D6FF">`</span></span>
+<span class="line"><span style="color:#8B949E"># build and push image</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> ./Dockerfile</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> quay.io/myan/apisix-360-go:0.1</span><span style="color:#A5D6FF"> .</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> push</span><span style="color:#A5D6FF"> quay.io/myan/apisix-360-go:0.1</span></span></code></pre>
+<ul>
+<li>
+<p>Startup the Plugin When Running the Server</p>
+<p>Modify the <code>config.yaml</code> by <code>apisix</code> ConfigMap.</p>
+</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">  etcd:</span></span>
+<span class="line"><span style="color:#FFA657">    host:</span><span style="color:#8B949E">                # it's possible to define multiple etcd hosts addresses of the same etcd cluster.</span></span>
+<span class="line"><span style="color:#FFA657">      -</span><span style="color:#A5D6FF"> "http://apisix-etcd.apisix.svc.cluster.local:2379"</span></span>
+<span class="line"><span style="color:#FFA657">    prefix:</span><span style="color:#A5D6FF"> "/apisix"</span><span style="color:#8B949E">    # configuration prefix in etcd</span></span>
+<span class="line"><span style="color:#FFA657">    timeout:</span><span style="color:#79C0FF"> 30</span><span style="color:#8B949E">          # 30 seconds</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#8B949E"># Nginx will hide all environment variables by default. So you need to declare your variable first in the conf/config.yaml</span></span>
+<span class="line"><span style="color:#8B949E"># https://github.com/apache/apisix/blob/master/docs/en/latest/external-plugin.md</span></span>
+<span class="line"><span style="color:#FFA657">nginx_config:</span></span>
+<span class="line"><span style="color:#FFA657">  envs:</span></span>
+<span class="line"><span style="color:#FFA657">    -</span><span style="color:#A5D6FF"> APISIX_LISTEN_ADDRESS</span></span>
+<span class="line"><span style="color:#FFA657">    -</span><span style="color:#A5D6FF"> APISIX_CONF_EXPIRE_TIME</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">ext-plugin:</span></span>
+<span class="line"><span style="color:#8B949E">  # path_for_test: "/tmp/runner.sock"</span></span>
+<span class="line"><span style="color:#FFA657">  cmd:</span><span style="color:#E6EDF3"> [</span><span style="color:#A5D6FF">"/usr/local/apisix/apisix-go-plugin-runner/go-runner"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"run",</span><span style="color:#A5D6FF"> "-m",</span><span style="color:#A5D6FF"> "prod"]</span></span></code></pre>
+<ul>
+<li>Replace the APISIX Deployment Image</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># image: quay.io/myan/apisix-360-go:0.1</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> set</span><span style="color:#A5D6FF"> image</span><span style="color:#A5D6FF"> deployment/apisix</span><span style="color:#A5D6FF"> apisix=quay.io/myan/apisix-360-go:0.1</span></span></code></pre>
+<ul>
+<li>Verification</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># set the certificate</span></span>
+<span class="line"><span style="color:#E6EDF3">CERT_CONTENT_BASE64</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">base64</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF"> rest/client.crt</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># list the topics</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> 'http://127.0.0.1:9080/topics'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'Host: example.com'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'Content-Type: application/vnd.kafka.json.v2+json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'Source: client'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">"Client-Certificate: </span><span style="color:#E6EDF3">$CERT_CONTENT_BASE64</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># create consumer</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#A5D6FF"> 'http://localhost:9080/consumers/strimzi-kafka-consumer-group'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Host: example.com'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Content-Type: application/vnd.kafka.json.v2+json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Source: client'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Client-Certificate: </span><span style="color:#E6EDF3">$CERT_CONTENT_BASE64</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "name": "strimzi-kafka-consumer",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "auto.offset.reset": "earliest",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "enable.auto.commit": true,</span></span>
+<span class="line"><span style="color:#A5D6FF">   "fetch.min.bytes": 512,</span></span>
+<span class="line"><span style="color:#A5D6FF">   "consumer.request.timeout.ms": 30000</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># subscribe topic event with the consumer group 'strimzi-kafka-consumer'</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#A5D6FF"> 'http://localhost:9080/consumers/strimzi-kafka-consumer-group/instances/strimzi-kafka-consumer/subscription'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Host: example.com'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Content-Type: application/vnd.kafka.json.v2+json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Source: client'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Client-Certificate: </span><span style="color:#E6EDF3">$CERT_CONTENT_BASE64</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "topics": ["event"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># consume message</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> 'http://localhost:9080/consumers/strimzi-kafka-consumer-group/instances/strimzi-kafka-consumer/records'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Host: example.com'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Accept: application/vnd.kafka.json.v2+json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'Source: client'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Client-Certificate: </span><span style="color:#E6EDF3">$CERT_CONTENT_BASE64</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> \</span></span></code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://apisix.apache.org/zh/docs/ingress-controller/tutorials/how-to-use-go-plugin-runner-in-apisix-ingress/">How to use go-plugin-runner with APISIX Ingress</a></li>
+<li><a href="https://apisix.apache.org/blog/2021/08/19/go-makes-apache-apisix-better/">How to use Go to develop Apache APISIX plugin</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/613540331">APISIX之Go插件开发</a></li>
+<li><a href="https://www.fdevops.com/2022/10/09/casbin-apisix-31182">结合 casbin 为 APISIX 开发一个接口权限校验插件</a></li>
+<li><a href="https://blog.csdn.net/weixin_42873928/article/details/123279381">Docker部署 apisix 并使用golang插件(自定义鉴权方式)</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

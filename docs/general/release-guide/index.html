@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Guide | Apache APISIX</title><meta name="description" content="This article explains Apache APISIX's release flow and GPG Settings."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/general/release-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/general/release-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/general/release-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/general/release-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Release Guide | Apache APISIX"><meta property="og:description" content="This article explains Apache APISIX's release flow and GPG Settings."><meta property="og:url" content="https://apisix.apache.org/docs/general/release-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Release Guide","description":"This article explains Apache APISIX's release flow and GPG Settings.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/general/release-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/general/release-guide/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/general/release-guide/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/general/blog/" class>Contribute a blog post</a>  </li><li class> <a href="/docs/general/committer-guide/" class>Project management structure</a>  </li><li class> <a href="/docs/general/contributor-guide/" class>Contributing flow</a>  </li><li class> <a href="/docs/general/documentation-style-guide/" class>Documentation style guide</a>  </li><li class> <a href="/docs/general/how-to-contribute/" class>How to Contribute</a>  </li><li class> <a href="/docs/general/join/" class>Join the conversation</a>  </li><li class> <a href="/docs/general/release-guide/" class="active">Release Guide</a>  </li><li class> <a href="/docs/general/security/" class>Report a security vulnerability</a>  </li><li class> <a href="/docs/general/submit-issue/" class>Submitting an issue</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Release Guide</h1> <h2 id="release-flow">Release flow</h2>
+<p>The release flow of Apache APISIX follows <a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">GitLab flow</a>, instead of Git flow or Github flow. Furthermore, <a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html#release-branches-with-gitlab-flow">Release branches with GitLab flow</a> is the preferred way. The chart below will take the release <code>v2.3</code> of <a href="https://github.com/apache/apisix-dashboard">apache/apisix-dashboard</a> as an example to illustrate the details.</p>
+<p><img src="/img/release_flow.png" alt="Release Flow"></p>
+<p>The entire flow is comprised of the following four phases.</p>
+<h3 id="planning-phase">Planning phase</h3>
+<p>This phase will decide if a feature is ready to be released as well as the release time.</p>
+<ul>
+<li>A new target milestone will be created in Github. (e.g. <a href="https://github.com/apache/apisix-dashboard/milestone/6"><code>2.3</code></a>).</li>
+<li>A discussion will be started on dev mailing list <a href="mailto:dev@apisix.apache.org">dev@apisix.apache.org</a> for gathering ideas for the next release.</li>
+<li>Maintainer team will then mark the issues and pull requests with the target milestone.</li>
+</ul>
+<h3 id="development-phase">Development phase</h3>
+<p>This phase is for developing new features and fixing bugs.</p>
+<ul>
+<li>Maintainer team and contributors will work on the issues targeted to release milestone.</li>
+<li>Every single new issue is required to be recognized if it should be included in the next release. If yes, the milestone needs to be set for the issue.</li>
+</ul>
+<h3 id="release-phase">Release phase</h3>
+<p>This phase will be throughout the entire Release Time Window.</p>
+<ul>
+<li>A new branch (e.g. <a href="https://github.com/apache/apisix-dashboard/tree/v2.3"><code>v2.3</code></a>) for release is created from the <code>master</code> branch, which is also considered as the start of the Release Time Window.</li>
+<li>Set corresponding configurations for the new release branch, please see the chart above for details.</li>
+<li>As complying with <strong>Upstream first</strong>, each commit needs to be merged into the <code>master</code> branch first. Afterward, it will be backported to the new release branch if the relevant pull request is with the <code>need backport</code> label attached.</li>
+<li>At the end of the Release Time Window, the <code>CHANGELOG</code> for the new release will be added.</li>
+<li>Tag the last commit and release the assets via the following section <a href="#gpg-settings">GPG Settings</a>.</li>
+</ul>
+<h3 id="maintenance-phase">Maintenance phase</h3>
+<p>Once a version is released, it will enter the maintenance mode and will only accept the security and critical bug patches backported from the <code>master</code> branch. A new version will be released soon after significant bugs got fixed, with patch version increment (e.g. <code>2.3.1</code>). In this case, all users are recommended to upgrade to the latest release to avoid potential risk to the stability.</p>
+<h2 id="gpg-settings">GPG settings</h2>
+<h3 id="install-gpg">Install GPG</h3>
+<p>Download GnuPG from <a href="https://gnupg.org/download/index.html">https://gnupg.org/download/index.html</a>. There are differences between the 1.x and 2.x versions of the GnuPG commands, and the following descriptions are based on the GnuPG 2.x versions.</p>
+<p>After the installation is complete, execute the following command to check the version.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> gpg</span><span style="color:#79C0FF"> --version</span></span></code></pre>
+<h3 id="create-key">Create key</h3>
+<p>Execute the following command to create the key:</p>
+<h4 id="gnupg-2x">GnuPG-2.x：</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> gpg</span><span style="color:#79C0FF"> --full-gen-key</span></span></code></pre>
+<h4 id="gnupg-1x">GnuPG-1.x：</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">gpg</span><span style="color:#79C0FF"> --gen-key</span></span></code></pre>
+<p>Follow the instructions to generate key：</p>
+<p>Note: Please use the Apache email address to generate the GPG Key.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">gpg</span><span style="color:#E6EDF3"> (GnuPG) 2.0.12; </span><span style="color:#FFA657">Copyright</span><span style="color:#E6EDF3"> (C) 2009 Free Software Foundation, Inc.</span></span>
+<span class="line"><span style="color:#FFA657">This</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> free</span><span style="color:#A5D6FF"> software:</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> are</span><span style="color:#A5D6FF"> free</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> change</span><span style="color:#A5D6FF"> and</span><span style="color:#A5D6FF"> redistribute</span><span style="color:#A5D6FF"> it.</span></span>
+<span class="line"><span style="color:#FFA657">There</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> NO</span><span style="color:#A5D6FF"> WARRANTY,</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> extent</span><span style="color:#A5D6FF"> permitted</span><span style="color:#A5D6FF"> by</span><span style="color:#A5D6FF"> law.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Please</span><span style="color:#A5D6FF"> select</span><span style="color:#A5D6FF"> what</span><span style="color:#A5D6FF"> kind</span><span style="color:#A5D6FF"> of</span><span style="color:#A5D6FF"> key</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> want:</span></span>
+<span class="line"><span style="color:#E6EDF3">(</span><span style="color:#FFA657">1</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">RSA</span><span style="color:#A5D6FF"> and</span><span style="color:#A5D6FF"> RSA</span><span style="color:#E6EDF3"> (default)</span></span>
+<span class="line"><span style="color:#E6EDF3">(</span><span style="color:#FFA657">2</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">DSA</span><span style="color:#A5D6FF"> and</span><span style="color:#A5D6FF"> Elgamal</span></span>
+<span class="line"><span style="color:#E6EDF3">(</span><span style="color:#FFA657">3</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">DSA</span><span style="color:#E6EDF3"> (sign </span><span style="color:#A5D6FF">only</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">(</span><span style="color:#FFA657">4</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">RSA</span><span style="color:#E6EDF3"> (sign </span><span style="color:#A5D6FF">only</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FFA657">Your</span><span style="color:#A5D6FF"> selection?</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#FFA657">RSA</span><span style="color:#A5D6FF"> keys</span><span style="color:#A5D6FF"> may</span><span style="color:#A5D6FF"> be</span><span style="color:#A5D6FF"> between</span><span style="color:#79C0FF"> 1024</span><span style="color:#A5D6FF"> and</span><span style="color:#79C0FF"> 4096</span><span style="color:#A5D6FF"> bits</span><span style="color:#A5D6FF"> long.</span></span>
+<span class="line"><span style="color:#FFA657">What</span><span style="color:#A5D6FF"> keysize</span><span style="color:#A5D6FF"> do</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> want?</span><span style="color:#E6EDF3"> (2048) 4096</span></span>
+<span class="line"><span style="color:#FFA657">Requested</span><span style="color:#A5D6FF"> keysize</span><span style="color:#A5D6FF"> is</span><span style="color:#79C0FF"> 4096</span><span style="color:#A5D6FF"> bits</span></span>
+<span class="line"><span style="color:#FFA657">Please</span><span style="color:#A5D6FF"> specify</span><span style="color:#A5D6FF"> how</span><span style="color:#A5D6FF"> long</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> key</span><span style="color:#A5D6FF"> should</span><span style="color:#A5D6FF"> be</span><span style="color:#A5D6FF"> valid.</span></span>
+<span class="line"><span style="color:#FFA657">0</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> key</span><span style="color:#A5D6FF"> does</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> expire</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">n</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> = key expires in n days</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">n</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3">w = key expires in n weeks</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">n</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3">m = key expires in n months</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3">n</span><span style="color:#FF7B72">></span><span style="color:#E6EDF3">y = key expires in n years</span></span>
+<span class="line"><span style="color:#FFA657">Key</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> valid</span><span style="color:#A5D6FF"> for?</span><span style="color:#E6EDF3"> (0)</span></span>
+<span class="line"><span style="color:#FFA657">Key</span><span style="color:#A5D6FF"> does</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> expire</span><span style="color:#A5D6FF"> at</span><span style="color:#A5D6FF"> all</span></span>
+<span class="line"><span style="color:#FFA657">Is</span><span style="color:#A5D6FF"> this</span><span style="color:#A5D6FF"> correct?</span><span style="color:#E6EDF3"> (y/N) y</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">GnuPG</span><span style="color:#A5D6FF"> needs</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> construct</span><span style="color:#A5D6FF"> a</span><span style="color:#A5D6FF"> user</span><span style="color:#A5D6FF"> ID</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> identify</span><span style="color:#A5D6FF"> your</span><span style="color:#A5D6FF"> key.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Real</span><span style="color:#A5D6FF"> name:</span><span style="color:#E6EDF3"> ${Enter your username}</span></span>
+<span class="line"><span style="color:#FFA657">Email</span><span style="color:#A5D6FF"> address:</span><span style="color:#E6EDF3"> ${Enter your email address}</span></span>
+<span class="line"><span style="color:#FFA657">Comment:</span><span style="color:#E6EDF3"> ${Enter comments}</span></span>
+<span class="line"><span style="color:#FFA657">You</span><span style="color:#A5D6FF"> selected</span><span style="color:#A5D6FF"> this</span><span style="color:#A5D6FF"> USER-ID:</span></span>
+<span class="line"><span style="color:#FFA657">  "${</span><span style="color:#E6EDF3">Entered</span><span style="color:#E6EDF3"> username</span><span style="color:#FFA657">} (${</span><span style="color:#E6EDF3">Entered</span><span style="color:#E6EDF3"> comments</span><span style="color:#FFA657">}) &#x26;lt;${</span><span style="color:#E6EDF3">Entered</span><span style="color:#E6EDF3"> email</span><span style="color:#E6EDF3"> address</span><span style="color:#FFA657">}>"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Change</span><span style="color:#E6EDF3"> (N)ame, (</span><span style="color:#FFA657">C</span><span style="color:#E6EDF3">)omment, (</span><span style="color:#FFA657">E</span><span style="color:#E6EDF3">)mail or (</span><span style="color:#FFA657">O</span><span style="color:#E6EDF3">)kay/(</span><span style="color:#FFA657">Q</span><span style="color:#E6EDF3">)uit</span><span style="color:#FF7B72">?</span><span style="color:#E6EDF3"> O</span></span>
+<span class="line"><span style="color:#FFA657">You</span><span style="color:#A5D6FF"> need</span><span style="color:#A5D6FF"> a</span><span style="color:#A5D6FF"> Passphrase</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> protect</span><span style="color:#A5D6FF"> your</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> key.</span><span style="color:#8B949E"> # Enter passphrase</span></span></code></pre>
+<h3 id="view-the-generated-key">View the generated key:</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">gpg</span><span style="color:#79C0FF"> --list-keys</span></span></code></pre>
+<p>The example result：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> gpg</span><span style="color:#79C0FF"> --list-keys</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">/home/resty/.gnupg/pubring.gpg</span></span>
+<span class="line"><span style="color:#FFA657">------------------------------</span></span>
+<span class="line"><span style="color:#FFA657">pub</span><span style="color:#A5D6FF"> 4096R/30B5FD72</span><span style="color:#A5D6FF"> 2020-01-02</span></span>
+<span class="line"><span style="color:#FFA657">uid</span><span style="color:#A5D6FF"> Yuansheng</span><span style="color:#A5D6FF"> Wang</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF">membphis@apache.or</span><span style="color:#E6EDF3">g</span><span style="color:#FF7B72">></span></span>
+<span class="line"><span style="color:#FFA657">sub</span><span style="color:#A5D6FF"> 4096R/3D2F913D</span><span style="color:#A5D6FF"> 2020-01-02</span></span></code></pre>
+<p>And <code>30B5FD72</code> is the ID of pub key</p>
+<h3 id="synchronizing-the-public-key-to-the-server">Synchronizing the public key to the server</h3>
+<p>The steps are as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#8B949E"># The last parameter is the public key ID generated above</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> gpg</span><span style="color:#79C0FF"> --keyserver</span><span style="color:#A5D6FF"> hkp://pool.sks-keyservers.net</span><span style="color:#79C0FF"> --send-key</span><span style="color:#A5D6FF"> 30B5FD72</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">gpg:</span><span style="color:#A5D6FF"> sending</span><span style="color:#A5D6FF"> key</span><span style="color:#A5D6FF"> 30B5FD72</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> hkp</span><span style="color:#A5D6FF"> server</span><span style="color:#A5D6FF"> pool.sks-keyservers.net</span></span></code></pre>
+<p><code>pool.sks-keyservers.net</code> is one of the pub key servers, the pub key will be automatically synchronized between each server, just choose anyone.</p>
+<h3 id="add-key-fingerprint-to-idapacheorg">Add <code>Key Fingerprint</code> to id.apache.org</h3>
+<p>get Key Fingerprint</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#8B949E"># Note the `Key fingerprint` section below.</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> gpg</span><span style="color:#79C0FF"> --list-keys</span><span style="color:#79C0FF"> --fingerprint</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">/home/resty/.gnupg/pubring.gpg</span></span>
+<span class="line"><span style="color:#FFA657">------------------------------</span></span>
+<span class="line"><span style="color:#FFA657">pub</span><span style="color:#A5D6FF"> 4096R/30B5FD72</span><span style="color:#A5D6FF"> 2020-01-02</span></span>
+<span class="line"><span style="color:#FFA657">Key</span><span style="color:#A5D6FF"> fingerprint</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 0F91</span><span style="color:#A5D6FF"> BE0A</span><span style="color:#A5D6FF"> 55A7</span><span style="color:#A5D6FF"> B22F</span><span style="color:#A5D6FF"> DE1A</span><span style="color:#A5D6FF"> CEEC</span><span style="color:#79C0FF"> 3352</span><span style="color:#A5D6FF"> 48FD</span><span style="color:#A5D6FF"> 30B5</span><span style="color:#A5D6FF"> FD72</span></span>
+<span class="line"><span style="color:#FFA657">uid</span><span style="color:#A5D6FF"> Yuansheng</span><span style="color:#A5D6FF"> Wang</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF">membphis@apache.or</span><span style="color:#E6EDF3">g</span><span style="color:#FF7B72">></span></span>
+<span class="line"><span style="color:#FFA657">sub</span><span style="color:#A5D6FF"> 4096R/3D2F913D</span><span style="color:#A5D6FF"> 2020-01-02</span></span></code></pre>
+<h3 id="login-idapacheorg-and-submit-key-fingerprint">Login id.apache.org and submit key fingerprint</h3>
+<h3 id="add-your-gpg-key-to-apache-svn">Add your GPG key to Apache svn</h3>
+<p>download APISIX svn</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> svn</span><span style="color:#79C0FF"> --username=${</span><span style="color:#E6EDF3">Apache</span><span style="color:#E6EDF3"> username</span><span style="color:#79C0FF">}</span><span style="color:#A5D6FF"> co</span><span style="color:#A5D6FF"> https://dist.apache.org/repos/dist/dev/apisix</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> apisix</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> ls</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">KEYS</span></span></code></pre>
+<p>Export the public key and append it to the KEYS file.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> gpg</span><span style="color:#79C0FF"> -a</span><span style="color:#79C0FF"> --export</span><span style="color:#E6EDF3"> ${GPG username} </span><span style="color:#FF7B72">>></span><span style="color:#A5D6FF"> KEYS</span></span></code></pre>
+<p>Commit the modified KEYS file, saving the public key to the svn server.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> svn</span><span style="color:#79C0FF"> --username=${</span><span style="color:#E6EDF3">Apache</span><span style="color:#E6EDF3"> username</span><span style="color:#79C0FF">}</span><span style="color:#A5D6FF"> commit</span><span style="color:#79C0FF"> -m</span><span style="color:#A5D6FF"> "added </span><span style="color:#FF7B72">\$</span><span style="color:#A5D6FF">{Apache email} gpg pub key"</span></span>
+<span class="line"><span style="color:#FFA657">Authentication</span><span style="color:#A5D6FF"> realm:</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF">https://dist.apache.org:44</span><span style="color:#FF7B72">3></span><span style="color:#A5D6FF"> ASF</span><span style="color:#A5D6FF"> Committers</span></span>
+<span class="line"><span style="color:#FFA657">Password</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> 'membphis':</span><span style="color:#8B949E"> # input password</span></span>
+<span class="line"><span style="color:#FFA657">Store</span><span style="color:#A5D6FF"> password</span><span style="color:#A5D6FF"> unencrypted</span><span style="color:#E6EDF3"> (yes/no)</span><span style="color:#FF7B72">?</span><span style="color:#E6EDF3"> yes</span></span>
+<span class="line"><span style="color:#FFA657">Sending</span><span style="color:#A5D6FF"> KEYS</span></span>
+<span class="line"><span style="color:#FFA657">Transmitting</span><span style="color:#A5D6FF"> file</span><span style="color:#A5D6FF"> data.</span></span>
+<span class="line"><span style="color:#FFA657">Committed</span><span style="color:#A5D6FF"> revision</span><span style="color:#A5D6FF"> 37434.</span></span></code></pre>
+<h3 id="make-source-code-package-and-upload-to-apache-svn">Make source code package and upload to Apache SVN</h3>
+<p>Here’s an example of preparing a 1.0 version. Before you make the package, make sure you have branch v1.0 ready on GitHub.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#8B949E"># Create a new version number directory and enter, for example: 1.0</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> export</span><span style="color:#A5D6FF"> APISIX_VERSION=</span><span style="color:#79C0FF">1.0</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> mkdir</span><span style="color:#E6EDF3"> $APISIX_VERSION &#x26;&#x26; </span><span style="color:#79C0FF">cd</span><span style="color:#E6EDF3"> $APISIX_VERSION</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># download repo</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#79C0FF"> -b</span><span style="color:#A5D6FF"> v</span><span style="color:#E6EDF3">$APISIX_VERSION </span><span style="color:#A5D6FF">git@github.com:apache/apisix.git</span><span style="color:#A5D6FF"> apache-apisix-</span><span style="color:#E6EDF3">$APISIX_VERSION</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># check version</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> apache-apisix-</span><span style="color:#E6EDF3">$APISIX_VERSION &#x26;&#x26; </span><span style="color:#FFA657">./utils/check-version.sh</span><span style="color:#E6EDF3"> $APISIX_VERSION &#x26;&#x26; </span><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> ..</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># make tar package / asc / sha512</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> apache-apisix-</span><span style="color:#E6EDF3">$APISIX_VERSION &#x26;&#x26; </span><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> release-src</span><span style="color:#A5D6FF"> VERSION=</span><span style="color:#E6EDF3">$APISIX_VERSION</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> mv</span><span style="color:#A5D6FF"> ./release/</span><span style="color:#79C0FF">*</span><span style="color:#A5D6FF"> ../</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> ..</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># remove apache-apisix-1.0</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> rm</span><span style="color:#79C0FF"> -rf</span><span style="color:#A5D6FF"> apache-apisix-</span><span style="color:#E6EDF3">$APISIX_VERSION</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># check files</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> ..</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FFA657">tree</span></span>
+<span class="line"><span style="color:#79C0FF">.</span></span>
+<span class="line"><span style="color:#FFA657">├──</span><span style="color:#79C0FF"> 1.0</span></span>
+<span class="line"><span style="color:#FFA657">│</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> apache-apisix-1.0-src.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657">│</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> apache-apisix-1.0-src.tar.gz.asc</span></span>
+<span class="line"><span style="color:#FFA657">│</span><span style="color:#A5D6FF">   └──</span><span style="color:#A5D6FF"> apache-apisix-1.0-src.tar.gz.sha512</span></span>
+<span class="line"><span style="color:#FFA657">└──</span><span style="color:#A5D6FF"> KEYS</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">1</span><span style="color:#A5D6FF"> directory,</span><span style="color:#79C0FF"> 4</span><span style="color:#A5D6FF"> files</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># add files to SVN</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> svn</span><span style="color:#A5D6FF"> add</span><span style="color:#79C0FF"> *</span></span>
+<span class="line"><span style="color:#FFA657">A</span><span style="color:#79C0FF">         1.0</span></span>
+<span class="line"><span style="color:#FFA657">A</span><span style="color:#E6EDF3">  (bin)  1.0/apache-apisix-1.0-src.tar.gz.asc</span></span>
+<span class="line"><span style="color:#FFA657">A</span><span style="color:#E6EDF3">  (bin)  1.0/apache-apisix-1.0-src.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657">A</span><span style="color:#A5D6FF">         1.0/apache-apisix-1.0-src.tar.gz.sha512</span></span>
+<span class="line"><span style="color:#FFA657">svn:</span><span style="color:#A5D6FF"> warning:</span><span style="color:#A5D6FF"> W150002:</span><span style="color:#A5D6FF"> '/home/resty/git/apache_svn/apisix/KEYS'</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> already</span><span style="color:#A5D6FF"> under</span><span style="color:#A5D6FF"> version</span><span style="color:#A5D6FF"> control</span></span>
+<span class="line"><span style="color:#FFA657">svn:</span><span style="color:#A5D6FF"> E200009:</span><span style="color:#A5D6FF"> Could</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> all</span><span style="color:#A5D6FF"> targets</span><span style="color:#A5D6FF"> because</span><span style="color:#A5D6FF"> some</span><span style="color:#A5D6FF"> targets</span><span style="color:#A5D6FF"> are</span><span style="color:#A5D6FF"> already</span><span style="color:#A5D6FF"> versioned</span></span>
+<span class="line"><span style="color:#FFA657">svn:</span><span style="color:#A5D6FF"> E200009:</span><span style="color:#A5D6FF"> Illegal</span><span style="color:#A5D6FF"> target</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> requested</span><span style="color:#A5D6FF"> operation</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># commit to Apache SVN</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> svn</span><span style="color:#79C0FF"> --username=${</span><span style="color:#E6EDF3">Apache</span><span style="color:#E6EDF3"> username</span><span style="color:#79C0FF">}</span><span style="color:#A5D6FF"> commit</span><span style="color:#79C0FF"> -m</span><span style="color:#A5D6FF"> "release 1.0"</span></span>
+<span class="line"><span style="color:#FFA657">Adding</span><span style="color:#79C0FF">         1.0</span></span>
+<span class="line"><span style="color:#FFA657">Adding</span><span style="color:#E6EDF3">  (bin)  1.0/apache-apisix-1.0-src.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657">Adding</span><span style="color:#E6EDF3">  (bin)  1.0/apache-apisix-1.0-src.tar.gz.asc</span></span>
+<span class="line"><span style="color:#FFA657">Adding</span><span style="color:#A5D6FF">         1.0/apache-apisix-1.0-src.tar.gz.sha512</span></span>
+<span class="line"><span style="color:#FFA657">Transmitting</span><span style="color:#A5D6FF"> file</span><span style="color:#A5D6FF"> data</span><span style="color:#A5D6FF"> ...</span></span>
+<span class="line"><span style="color:#FFA657">Committed</span><span style="color:#A5D6FF"> revision</span><span style="color:#A5D6FF"> 37435.</span></span></code></pre>
+<h3 id="send-vote-thread-to-the-dev-mailing-list">Send VOTE thread to the dev mailing list</h3>
+<p>There is a minimum wait of 72 hours before statistical voting results. If you get -1 vote, you need to solve the problem before you can continue. An email example is as shown below.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Hello, Community,</span></span>
+<span class="line"><span>This is a call for the vote to release Apache APISIX version 2.0.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Release notes:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://github.com/apache/apisix/blob/2.4/CHANGELOG.md#240</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>The release candidates:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://dist.apache.org/repos/dist/dev/apisix/2.4/</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Git tag for the release:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://github.com/apache/apisix/tree/2.4</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Release Commit ID:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://github.com/apache/apisix/commit/b94d3fc3b298df593ba6fe5c7b285768b567991e</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Keys to verify the Release Candidate:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://dist.apache.org/repos/dist/dev/apisix/KEYS</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Steps to validating the release:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. Download the release</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>wget https://dist.apache.org/repos/dist/dev/apisix/2.4/apache-apisix-2.4-src.tgz</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>2. Checksums and signatures</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>wget https://dist.apache.org/repos/dist/dev/apisix/KEYS</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>wget https://dist.apache.org/repos/dist/dev/apisix/2.4/apache-apisix-2.4-src.tgz.asc</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>wget https://dist.apache.org/repos/dist/dev/apisix/2.4/apache-apisix-2.4-src.tgz.sha512</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>gpg --import KEYS</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>shasum -c apache-apisix-2.4-src.tgz.sha512</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>gpg --verify apache-apisix-2.4-src.tgz.asc apache-apisix-2.4-src.tgz</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>3. Unzip and Check files</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>tar zxvf apache-apisix-2.4-src.tgz</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>4. Build Apache APISIX:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://github.com/apache/apisix/blob/release/2.4/docs/en/latest/how-to-build.md#installation-via-source-release</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>The vote will be open for at least 72 hours or until necessary number of</span></span>
+<span class="line"><span>votes are reached.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Please vote accordingly:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>[ ] +1 approve</span></span>
+<span class="line"><span>[ ] +0 no opinion</span></span>
+<span class="line"><span>[ ] -1 disapprove with the reason</span></span>
+<span class="line"><span></span></span></code></pre>
+<h3 id="send-vote-result-thread-to-the-dev-mailing-list">Send VOTE RESULT thread to the dev mailing list</h3>
+<p>Click <a href="https://lists.apache.org/thread.html/r9153da737a4590dbbba7272acc004cf4bc7abefa488069810d790643%40%3Cdev.apisix.apache.org%3E">here</a> to view the reference email at least 3 <code>+1</code> <a href="https://www.apache.org/foundation/voting.html#binding-votes">binding votes</a> is required, then send the vote result to <a href="mailto:dev@apisix.apache.org">dev@apisix.apache.org</a>.</p>
+<h3 id="move-package-from-dev-to-dist">Move package from dev to dist</h3>
+<p>Invite <a href="https://apisix.apache.org/team/">PMCs</a> to move KEYS and package under the <a href="https://dist.apache.org/repos/dist/release/apisix/"><code>release</code></a> directory.</p>
+<h3 id="update-download-page">Update Download page</h3>
+<p>The <a href="https://apisix.apache.org/downloads">Download</a> page contains links for Apache APISIX, Apache APISIX Dashboard, and other sources, and we need to update its contents <a href="https://github.com/apache/apisix-website/blob/master/website/docusaurus.config.js">here</a>.</p>
+<h3 id="send-announcement-email">Send announcement email</h3>
+<p>Click <a href="https://lists.apache.org/thread.html/r6e90ffb7964314605c082ac3ae204303ad94f0f71087542c33fcd7bf%40%3Cdev.apisix.apache.org%3E">here</a> to view the reference email send the announcement email to <a href="mailto:dev@apisix.apache.org">dev@apisix.apache.org</a> and <a href="mailto:announce@apache.org">announce@apache.org</a></p> <div class="docs-meta"> <a href="https://github.com/apache/apisix-website/edit/master/website/docs/general/release-guide.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Deploy Apache APISIX with Docker | Apache APISIX</title><meta name="description" content="You need etcd docker to work with Apache APISIX. You can refer to the docker-compose example."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/docs/docker/manual/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/docker/manual/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/docker/manual/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/docker/manual/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Deploy Apache APISIX with Docker | Apache APISIX"><meta property="og:description" content="You need etcd docker to work with Apache APISIX. You can refer to the docker-compose example."><meta property="og:url" content="https://apisix.apache.org/zh/docs/docker/manual/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Deploy Apache APISIX with Docker","description":"You need etcd docker to work with Apache APISIX. You can refer to the docker-compose example.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/docker/manual/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/docker/manual/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/docker/manual/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class="cat"> <span>Installation</span> <ul> <li> <a href="/zh/docs/docker/build/" class>Build an image from the source codes</a>  </li><li> <a href="/zh/docs/docker/manual/" class="active">Deploy Apache APISIX with Docker</a>  </li><li> <a href="/zh/docs/docker/example/" class>Example</a>  </li> </ul> </li> </ul> </nav> <article class="docs-content prose"> <h1>Deploy Apache APISIX with Docker</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="manual-deploy-apisix-via-docker">Manual deploy apisix via docker</h2>
+<h3 id="create-a-network-apisix">Create a network <code>apisix</code></h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>docker network create \</span></span>
+<span class="line"><span>  --driver=bridge \</span></span>
+<span class="line"><span>  --subnet=172.18.0.0/16 \</span></span>
+<span class="line"><span>  --ip-range=172.18.5.0/24 \</span></span>
+<span class="line"><span>  --gateway=172.18.5.254 \</span></span>
+<span class="line"><span>  apisix</span></span></code></pre>
+<h3 id="run-etcd-server-with-apisix-network">Run etcd server with <code>apisix</code> network</h3>
+<p>Specify ip <code>172.18.5.10</code></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>docker run -it --name etcd-server \</span></span>
+<span class="line"><span>-v `pwd`/example/etcd_conf/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml \</span></span>
+<span class="line"><span>-p 2379:2379 \</span></span>
+<span class="line"><span>-p 2380:2380  \</span></span>
+<span class="line"><span>--network apisix \</span></span>
+<span class="line"><span>--ip 172.18.5.10 \</span></span>
+<span class="line"><span>--env ALLOW_NONE_AUTHENTICATION=yes bitnami/etcd:3.4.9</span></span></code></pre>
+<blockquote>
+<p>Note:</p>
+<ol>
+<li>Windows OS use absolute paths to hang in the configuration file.</li>
+<li>e.g：Windows dir path <code>E:\GitHub\docker-apisix</code>，configuration file hang path is <code>-v /e/github/docker-apisix/example/etcd_conf/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml</code></li>
+</ol>
+</blockquote>
+<h3 id="run-apache-apisix-server">Run Apache APISIX server</h3>
+<p>You need etcd docker to work with Apache APISIX. You can refer to <a href="/docs/docker/example/">the docker-compose example</a>.</p>
+<p>Or you can run APISIX with Docker directly（Docker name is test-api-gateway）:</p>
+<p>Check or Modify etcd address to <code>http: //172.18.5.10:2379</code> in <code>pwd</code> / example / apisix_conf / config.yaml: /usr/local/apisix/conf/config.yaml</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>docker run --name test-api-gateway \</span></span>
+<span class="line"><span> -v `pwd`/example/apisix_conf/config.yaml:/usr/local/apisix/conf/config.yaml \</span></span>
+<span class="line"><span> -v `pwd`/example/apisix_log:/usr/local/apisix/logs  \</span></span>
+<span class="line"><span> -p 9080:9080 \</span></span>
+<span class="line"><span> -p 9091:9091  \</span></span>
+<span class="line"><span> -p 9443:9443 \</span></span>
+<span class="line"><span> --network apisix \</span></span>
+<span class="line"><span> --ip 172.18.5.11 \</span></span>
+<span class="line"><span> -d apache/apisix</span></span></code></pre>
+<blockquote>
+<p>Note:</p>
+<ol>
+<li>Windows OS use absolute paths to hang in the configuration file and log dir.</li>
+</ol>
+</blockquote>
+<h3 id="have-a-test">Have a test</h3>
+<p>Test with admin api</p>
+<p>e.g. Get route list, should be return</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>{"node":{"createdIndex":4,"modifiedIndex":4,"key":"\/apisix\/routes","dir":true},"action":"get"}</span></span></code></pre>
+<h3 id="clean">Clean</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>docker rm test-api-gateway</span></span>
+<span class="line"><span>docker rm etcd-server</span></span>
+<span class="line"><span>docker network rm apisix</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix-docker/edit/master/docs/zh/latest/manual.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

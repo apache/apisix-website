@@ -1,0 +1,453 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>How to Configure mTLS in APISIX | Apache APISIX</title><meta name="description" content="Configure mutual TLS (mTLS) for APISIX to secure client-to-gateway and gateway-to-upstream connections with certificate-based authentication."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/03/23/mtls-everywhere/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/03/23/mtls-everywhere/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/03/23/mtls-everywhere/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/03/23/mtls-everywhere/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="How to Configure mTLS in APISIX | Apache APISIX"><meta property="og:description" content="Configure mutual TLS (mTLS) for APISIX to secure client-to-gateway and gateway-to-upstream connections with certificate-based authentication."><meta property="og:url" content="https://apisix.apache.org/blog/2023/03/23/mtls-everywhere/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/06/08/JXRmK9nZ_keys.jpeg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Configure mTLS in APISIX","description":"Configure mutual TLS (mTLS) for APISIX to secure client-to-gateway and gateway-to-upstream connections with certificate-based authentication.\n","datePublished":"2023-03-23","image":"https://static.apiseven.com/uploads/2023/06/08/JXRmK9nZ_keys.jpeg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/03/23/mtls-everywhere/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/03/23/mtls-everywhere/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/03/23/mtls-everywhere/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>How to Configure mTLS in APISIX</h1> <p class="article-meta"> 2023-03-23 · Nicolas Fränkel  </p> <blockquote>
+<p>Security in one’s information system has always been among the most critical Non-Functional Requirements. Transport Secure Layer, <em>aka</em> TLS, formerly SSL, is among its many pillars. In this post, I’ll show how to configure TLS for <a href="https://apisix.apache.org/">Apache APISIX</a>.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="tls-in-a-few-words">TLS in a few words</h2>
+<p><a href="https://wikipedia.org/wiki/Transport_Layer_Security">TLS</a> offers several capabilities:</p>
+<ul>
+<li>Server authentication: the client is confident that the server it exchanges data with is the right one. It avoids sending data, which might be confidential, to the wrong actor</li>
+<li>Optional client authentication: the other way around, the server only allows clients whose identity can be verified</li>
+<li>Confidentiality: no third party can read the data exchanged between the client and the server</li>
+<li>Integrity: no third party can tamper with the data</li>
+</ul>
+<p>TLS works through certificates. A certificate is similar to an ID, proving the certificate’s holder identity. Just like an ID, you need to trust who delivered it. Trust is established through a chain: if I trust Alice, who trusts Bob, who in turn trusts Charlie, who delivered the certificate, then I trust the latter. In this scenario, Alice is known as the <strong>root certificate authority</strong>.</p>
+<p>TLS authentication is based on public key cryptography. Alice generates a public key/private key pair and publishes the public key. If one encrypts data with the public key, only the private key that generated the public key can decrypt them. The other usage is for one to encrypt data with the private key and everybody with the public key to decrypt it, thus proving their identity.</p>
+<p>Finally, mutual TLS, <em>aka</em> mTLS, is the configuration of two-way TLS: server authentication to the client, as usual, but also the other way around, client authentication to the server.</p>
+<p>We now have enough understanding of the concepts to get our hands dirty.</p>
+<h2 id="generating-certificates-with-cert-manager">Generating certificates with cert-manager</h2>
+<p>A couple of root <abbr title="Certificate Authority">CA</abbr> are installed in browsers by default. That’s how we can browse HTTPS websites safely, trusting that <a href="https://apache.org">https://apache.org</a> is the site they pretend to be. The infrastructure has no pre-installed certificates, so we must start from scratch.</p>
+<p>We need at least one root certificate. In turn, it will generate all other certificates. While it’s possible to do every manually, I’ll rely on <a href="https://cert-manager.io/">cert-manager</a> in Kubernetes. As its name implies, cert-manager is a solution to manage certificates.</p>
+<p>Installing it with Helm is straightforward:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> repo</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> jetstack</span><span style="color:#A5D6FF"> https://charts.jetstack.io</span><span style="color:#8B949E">  #1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> install</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  cert-manager</span><span style="color:#A5D6FF"> jetstack/cert-manager</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --namespace</span><span style="color:#A5D6FF"> cert-manager</span><span style="color:#FF7B72"> \ </span><span style="color:#8B949E">                      #2</span></span>
+<span class="line"><span style="color:#FFA657">  --create-namespace</span><span style="color:#FF7B72"> \ </span><span style="color:#8B949E">                            #2</span></span>
+<span class="line"><span style="color:#FFA657">  --version</span><span style="color:#A5D6FF"> v1.11.0</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --set</span><span style="color:#A5D6FF"> installCRDs=</span><span style="color:#79C0FF">true</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --set</span><span style="color:#A5D6FF"> prometheus.enabled=</span><span style="color:#79C0FF">false</span><span style="color:#8B949E">                   #3</span></span></code></pre>
+<ol>
+<li>Add the charts’ repository</li>
+<li>Install the objects in a dedicated namespace</li>
+<li>Don’t monitor, in the scope of this post</li>
+</ol>
+<p>We can make sure that everything works as expected by looking at the pods:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> pods</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> cert-manager</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cert-manager-cainjector-7f694c4c58-fc9bk  1/1  Running  2  (2d1h ago)  7d</span></span>
+<span class="line"><span>cert-manager-cc4b776cf-8p2t8              1/1  Running  1  (2d1h ago)  7d</span></span>
+<span class="line"><span>cert-manager-webhook-7cd8c769bb-494tl     1/1  Running  1  (2d1h ago)  7d</span></span></code></pre>
+<p>cert-manager can sign certificates from multiple sources: HashiCorp Vault, Let’s Encrypt, etc. To keep things simple:</p>
+<ul>
+<li>We will generate our dedicated root certificate, <em>i.e.</em>, <code>Self-Signed</code></li>
+<li>We won’t handle certificates rotation</li>
+</ul>
+<p>Let’s start with the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ClusterIssuer</span><span style="color:#8B949E">                           #1</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">selfsigned-issuer</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  selfSigned</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Namespace</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span><span style="color:#8B949E">                                   #2</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Certificate</span><span style="color:#8B949E">                             #3</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">selfsigned-ca</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  isCA</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  commonName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">selfsigned-ca</span></span>
+<span class="line"><span style="color:#7EE787">  secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">root-secret</span></span>
+<span class="line"><span style="color:#7EE787">  issuerRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">selfsigned-issuer</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ClusterIssuer</span></span>
+<span class="line"><span style="color:#7EE787">    group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Issuer</span><span style="color:#8B949E">                                  #4</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ca-issuer</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ca</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">root-secret</span></span></code></pre>
+<ol>
+<li>Certificate authority that generates certificates <strong>cluster-wide</strong></li>
+<li>Create a namespace for our demo</li>
+<li>Namespaced root certificate using the cluster-wide issuer. Only used to create a namespaced issuer</li>
+<li>Namespaced issuer. Used to create all other certificates in the post</li>
+</ol>
+<p>After applying the previous manifest, we should be able to see the single certificate that we created:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> certificate</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>NAME            READY   SECRET        AGE</span></span>
+<span class="line"><span>selfsigned-ca   True    root-secret   7s</span></span></code></pre>
+<p>The certificate infrastructure is ready; let’s look at Apache APISIX.</p>
+<h2 id="quick-overview-of-a-sample-apache-apisix-architecture">Quick overview of a sample Apache APISIX architecture</h2>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> is an API Gateway. By default, it stores its configuration in <a href="https://etcd.io/">etcd</a>, a distributed key-value store - the same one used by Kubernetes. Note that in real-world scenarios, we should set up etcd clustering to improve the resiliency of the solution. For this post, we will limit ourselves to a single etcd instance. Apache APISIX offers an admin API via HTTP endpoints. Finally, the gateway forwards calls from the client to an upstream. Here’s an overview of the architecture and the required certificates:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/08/dplOhFAt_apisix-architecture.svg" alt="Apache APISIX architecture"></p>
+<p>Let’s start with the foundational bricks: etcd and Apache APISIX. We need two certificates: one for etcd, in the server role, and one for Apache APISIX, as the etcd client.</p>
+<p>Let’s set up certificates from our namespaced issuer:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Certificate</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd-server</span><span style="color:#8B949E">                         #1</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd-secret</span><span style="color:#8B949E">                   #2</span></span>
+<span class="line"><span style="color:#7EE787">  isCA</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">  usages</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">client auth</span><span style="color:#8B949E">                           #3</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">server auth</span><span style="color:#8B949E">                           #3</span></span>
+<span class="line"><span style="color:#7EE787">  dnsNames</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">etcd</span><span style="color:#8B949E">                                  #4</span></span>
+<span class="line"><span style="color:#7EE787">  issuerRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ca-issuer</span><span style="color:#8B949E">                         #5</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Issuer</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Certificate</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-client</span><span style="color:#8B949E">                       #6</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-client-secret</span></span>
+<span class="line"><span style="color:#7EE787">  isCA</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">  usages</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">client auth</span></span>
+<span class="line"><span style="color:#7EE787">  emailAddresses</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">apisix@apache.org</span><span style="color:#8B949E">                     #7</span></span>
+<span class="line"><span style="color:#7EE787">  issuerRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ca-issuer</span><span style="color:#8B949E">                         #5</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Issuer</span></span></code></pre>
+<ol>
+<li>Certificate for etcd</li>
+<li>Kubernetes <code>Secret</code> name, see below</li>
+<li>Usages for this certificate</li>
+<li>Kubernetes <code>Service</code> name, see below</li>
+<li>Reference the previously namespaced issuer created earlier</li>
+<li>Certificate for Apache APISIX as a client of etcd</li>
+<li>Mandatory attribute for clients</li>
+</ol>
+<p>After applying the above manifest, we can list the certificates in the <code>tls</code> namespace:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> certificates</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>NAME              READY   SECRET                 AGE</span></span>
+<span class="line"><span>selfsigned-ca     True    root-secret            8m59s    //1</span></span>
+<span class="line"><span>apisix-client     True    apisix-client-secret   8m22s    //2</span></span>
+<span class="line"><span>etcd-server       True    etcd-secret            8m54s    //2</span></span></code></pre>
+<ol>
+<li>Previously created certificate</li>
+<li>Newly-created certificates signed by <code>selfsigned-ca</code></li>
+</ol>
+<h2 id="cert-managers-certificates">cert-manager’s Certificates</h2>
+<p>So far, we have created <code>Certificate</code> objects, but we didn’t explain what they are. Indeed, they are simple Kubernetes <abbr title="Custom Resource Definition">CRD</abbr>s provided by cert-manager. Under the cover, cert-manager creates a Kubernetes <code>Secret</code> from a <code>Certificate</code>. It manages the whole lifecycle, so deleting a <code>Certificate</code> deletes the bounded <code>Secret</code>. The <code>secretName</code> attribute in the above manifest sets the <code>Secret</code> name.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secrets</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>NAME                   TYPE                DATA   AGE</span></span>
+<span class="line"><span>apisix-client-secret   kubernetes.io/tls   3      35m</span></span>
+<span class="line"><span>etcd-secret            kubernetes.io/tls   3      35m</span></span>
+<span class="line"><span>root-secret            kubernetes.io/tls   3      35m</span></span></code></pre>
+<p>Let’s look at a <code>Secret</code>, <em>e.g.</em>, <code>apisix-client-secret</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> describe</span><span style="color:#A5D6FF"> apisix-client-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Name:         apisix-client-secret</span></span>
+<span class="line"><span>Namespace:    tls</span></span>
+<span class="line"><span>Labels:       controller.cert-manager.io/fao=true</span></span>
+<span class="line"><span>Annotations:  cert-manager.io/alt-names:</span></span>
+<span class="line"><span>              cert-manager.io/certificate-name: apisix-client</span></span>
+<span class="line"><span>              cert-manager.io/common-name:</span></span>
+<span class="line"><span>              cert-manager.io/ip-sans:</span></span>
+<span class="line"><span>              cert-manager.io/issuer-group:</span></span>
+<span class="line"><span>              cert-manager.io/issuer-kind: Issuer</span></span>
+<span class="line"><span>              cert-manager.io/issuer-name: ca-issuer</span></span>
+<span class="line"><span>              cert-manager.io/uri-sans:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Type:  kubernetes.io/tls</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Data</span></span>
+<span class="line"><span>====</span></span>
+<span class="line"><span>ca.crt:   1099 bytes</span></span>
+<span class="line"><span>tls.crt:  1115 bytes</span></span>
+<span class="line"><span>tls.key:  1679 bytes</span></span></code></pre>
+<p>A <code>Secret</code> created by a <code>Certificate</code> provides three attributes:</p>
+<ul>
+<li><code>tls.crt</code>: The certificate itself</li>
+<li><code>tls.key</code>: The private key</li>
+<li><code>ca.crt</code>: The signing certificate in the certificate chain, <em>i.e.</em>, <code>root-secret/tls.crt</code></li>
+</ul>
+<p>Kubernetes encodes <code>Secret</code> content in base 64. To get any of the above in plain text, one should decode it, <em>e.g.</em>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> etcd-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>-----BEGIN CERTIFICATE-----</span></span>
+<span class="line"><span>MIIDBjCCAe6gAwIBAgIQM3JUR8+R0vuUndjGK/aOgzANBgkqhkiG9w0BAQsFADAY</span></span>
+<span class="line"><span>MRYwFAYDVQQDEw1zZWxmc2lnbmVkLWNhMB4XDTIzMDMxNjEwMTYyN1oXDTIzMDYx</span></span>
+<span class="line"><span>NDEwMTYyN1owADCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMQpMj/0</span></span>
+<span class="line"><span>giDVOjOosSRRKUwTzl1Wo2R9YYAeteOW3fuMiAd+XaBGmRO/+GWZQN1tyRQ3pITM</span></span>
+<span class="line"><span>ezBgogYAUUNcuqN/UAsgH/JM58niMjZdjRKn4+it94Nj1e24jFL4ts2snCn7FfKJ</span></span>
+<span class="line"><span>3zRtY9tyS7Agw3tCwtXV68Xpmf3CsfhPmn3rGdWHXyYctzAZhqYfEswN3hxpJZxR</span></span>
+<span class="line"><span>YVeb55WgDoPo5npZo3+yYiMtoOimIprcmZ2Ye8Wai9S4QKDafUWlvU5GQ65VVLzH</span></span>
+<span class="line"><span>PEdOMwbWcwiLqwUv889TiKiC5cyAD6wJOuPRF0KKxxFnG+lHlg9J2S1i5sC3pqoc</span></span>
+<span class="line"><span>i0pEQ+atOOyLMMECAwEAAaNkMGIwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUF</span></span>
+<span class="line"><span>BwMBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAU2ZaAdEficKUWPFRjdsKSEX/l</span></span>
+<span class="line"><span>gbMwEgYDVR0RAQH/BAgwBoIEZXRjZDANBgkqhkiG9w0BAQsFAAOCAQEABcNvYTm8</span></span>
+<span class="line"><span>ZJe3jUq6f872dpNVulb2UvloTpWxQ8jwXgcrhekSKU6pZ4p9IPwfauHLjceMFJLp</span></span>
+<span class="line"><span>t2eDi5fSQ1upeqXOofeyKSYjjyA/aVf1zMI8ReCCQtQuAVYyJWBlNLc3XMMecbcp</span></span>
+<span class="line"><span>JLGtd/OAZnKDeYYkUX7cJ2wN6Wl/wGLM2lxsqDhEHEZwvGL0DmsdHw7hzSjdVmxs</span></span>
+<span class="line"><span>0Qgkh4jVbNUKdBok5U9Ivr3P1xDPaD/FqGFyM0ssVOCHxtPxhOUA/m3DSr6klfEF</span></span>
+<span class="line"><span>McOfudZE958bChOrJgVrUnY3inR0J335bGQ1luEp5tYwPgyD9dG4MQEDD3oLwp+l</span></span>
+<span class="line"><span>+NtTUqz8WVlMxQ==</span></span>
+<span class="line"><span>-----END CERTIFICATE-----</span></span></code></pre>
+<h2 id="configuring-mtls-between-etcd-and-apisix">Configuring mTLS between etcd and APISIX</h2>
+<p>With the certificates available, we can now configure mutual TLS between etcd and APISIX. Let’s start with etcd:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Pod</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#7EE787">      image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">bitnami/etcd:3.5.7</span></span>
+<span class="line"><span style="color:#7EE787">      ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2379</span></span>
+<span class="line"><span style="color:#7EE787">      env</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ETCD_TRUSTED_CA_FILE</span><span style="color:#8B949E">        #1</span></span>
+<span class="line"><span style="color:#7EE787">          value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/private/ca.crt</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ETCD_CERT_FILE</span><span style="color:#8B949E">              #2</span></span>
+<span class="line"><span style="color:#7EE787">          value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/private/tls.crt</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ETCD_KEY_FILE</span><span style="color:#8B949E">               #3</span></span>
+<span class="line"><span style="color:#7EE787">          value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/private/tls.key</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ETCD_ROOT_PASSWORD</span></span>
+<span class="line"><span style="color:#7EE787">          value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">whatever</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ETCD_CLIENT_CERT_AUTH</span><span style="color:#8B949E">       #4</span></span>
+<span class="line"><span style="color:#7EE787">          value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ETCD_LISTEN_CLIENT_URLS</span></span>
+<span class="line"><span style="color:#7EE787">          value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://0.0.0.0:2379</span></span>
+<span class="line"><span style="color:#7EE787">      volumeMounts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ssl</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/private</span><span style="color:#8B949E">       #5</span></span>
+<span class="line"><span style="color:#7EE787">  volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ssl</span></span>
+<span class="line"><span style="color:#7EE787">      secret</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd-secret</span><span style="color:#8B949E">             #5</span></span></code></pre>
+<ol>
+<li>Set the trusted CA</li>
+<li>Set the certificate</li>
+<li>Set the private key</li>
+<li>Require clients to pass their certificate, hence ensuring mutual authentication</li>
+<li>Mount the previously generated secret in the container for access</li>
+</ol>
+<p>Now, it’s Apache APISIX’s turn:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ConfigMap</span><span style="color:#8B949E">                                            #1</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-config</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">data</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  config.yaml</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">>-</span></span>
+<span class="line"><span style="color:#A5D6FF">    apisix:</span></span>
+<span class="line"><span style="color:#A5D6FF">      ssl:</span></span>
+<span class="line"><span style="color:#A5D6FF">        ssl_trusted_certificate: /etc/ssl/certs/ca.crt     #2</span></span>
+<span class="line"><span style="color:#A5D6FF">    deployment:</span></span>
+<span class="line"><span style="color:#A5D6FF">      etcd:</span></span>
+<span class="line"><span style="color:#A5D6FF">        host:</span></span>
+<span class="line"><span style="color:#A5D6FF">          - https://etcd:2379</span></span>
+<span class="line"><span style="color:#A5D6FF">        tls:</span></span>
+<span class="line"><span style="color:#A5D6FF">          cert: /etc/ssl/certs/tls.crt                     #2</span></span>
+<span class="line"><span style="color:#A5D6FF">          key: /etc/ssl/certs/tls.key                      #2</span></span>
+<span class="line"><span style="color:#A5D6FF">      admin:</span></span>
+<span class="line"><span style="color:#A5D6FF">        allow_admin:</span></span>
+<span class="line"><span style="color:#A5D6FF">          - 0.0.0.0/0</span></span>
+<span class="line"><span style="color:#A5D6FF">        https_admin: true                                  #3</span></span>
+<span class="line"><span style="color:#A5D6FF">        admin_api_mtls:</span></span>
+<span class="line"><span style="color:#A5D6FF">          admin_ssl_cert: /etc/ssl/private/tls.crt         #3</span></span>
+<span class="line"><span style="color:#A5D6FF">          admin_ssl_cert_key: /etc/ssl/private/tls.key     #3</span></span>
+<span class="line"><span style="color:#A5D6FF">          admin_ssl_ca_cert: /etc/ssl/private/ca.crt       #3</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Pod</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">      image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:3.2.0-debian</span></span>
+<span class="line"><span style="color:#7EE787">      ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9443</span><span style="color:#8B949E">                              #4</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9180</span><span style="color:#8B949E">                              #5</span></span>
+<span class="line"><span style="color:#7EE787">      volumeMounts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span><span style="color:#8B949E">                                      #1</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/usr/local/apisix/conf/config.yaml</span></span>
+<span class="line"><span style="color:#7EE787">          subPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config.yaml</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ssl</span><span style="color:#8B949E">                                        #6</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/private</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd-client</span><span style="color:#8B949E">                                #7</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/certs</span></span>
+<span class="line"><span style="color:#7EE787">  volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span></span>
+<span class="line"><span style="color:#7EE787">      configMap</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-config</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ssl</span><span style="color:#8B949E">                                            #6,8</span></span>
+<span class="line"><span style="color:#7EE787">      secret</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-server-secret</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd-client</span><span style="color:#8B949E">                                    #7,8</span></span>
+<span class="line"><span style="color:#7EE787">      secret</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-client-secret</span></span></code></pre>
+<ol>
+<li>Apache APISIX doesn’t offer configuration via environment variables. We need to use a <code>ConfigMap</code> that mirrors the regular <code>config.yaml</code> file</li>
+<li>Configure <em>client</em> authentication for etcd</li>
+<li>Configure <em>server</em> authentication for the Admin API</li>
+<li>Regular HTTPS port</li>
+<li>Admin HTTPS port</li>
+<li>Certificates for server authentication</li>
+<li>Certificates for client authentication</li>
+<li>Two sets of certificates are used, one for server authentication for the Admin API and regular HTTPS, and one for client authentication for etcd.</li>
+</ol>
+<p>At this point, we can apply the above manifests and see the two pods communicating. When connecting, Apache APISIX sends its <code>apisix-client</code> certificate via HTTPS. Because an authority signs the certificate that etcd trusts, it allows the connection.</p>
+<p>I’ve omitted the <code>Service</code> definition for brevity’s sake, but you can check them in the associated <a href="https://github.com/ajavageek/tls-apisix">GitHub repo</a>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>NAME     READY   STATUS    RESTARTS   AGE</span></span>
+<span class="line"><span>apisix   1/1     Running   0          179m</span></span>
+<span class="line"><span>etcd     1/1     Running   0          179m</span></span></code></pre>
+<h2 id="client-access">Client access</h2>
+<p>Now that we’ve set up the basic infrastructure, we should test accessing it with a client. We will use our faithful <code>curl</code>, but any client that allows configuring certificates should work, <em>e.g</em>, httpie.</p>
+<p>The first step is to create a dedicated certificate-key pair for the client:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cert-manager.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Certificate</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">curl-client</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">curl-secret</span></span>
+<span class="line"><span style="color:#7EE787">  isCA</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">  usages</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">client auth</span></span>
+<span class="line"><span style="color:#7EE787">  emailAddresses</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">curl@localhost.dev</span></span>
+<span class="line"><span style="color:#7EE787">  issuerRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ca-issuer</span></span>
+<span class="line"><span style="color:#7EE787">    kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Issuer</span></span></code></pre>
+<p><code>curl</code> requires a path to the certificate file instead of the content. We can go around this limitation through the magic of zsh: the <code>=( ... )</code> syntax allows the creation of a temporary file. If you’re using another shell, you’ll need to find the equivalent syntax or download the files manually.</p>
+<p>Let’s query the Admin API for all existing routes. This simple command allows checking that Apache APISIX is connected to etcd, and it can read its configuration from there.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --resolve</span><span style="color:#A5D6FF"> 'admin:32180:127.0.0.1'</span><span style="color:#A5D6FF"> https://admin:32180/apisix/admin/routes</span><span style="color:#FF7B72"> \ </span><span style="color:#8B949E">                    #1</span></span>
+<span class="line"><span style="color:#FFA657">     --cert</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\ </span><span style="color:#8B949E"> #2</span></span>
+<span class="line"><span style="color:#FFA657">     --key</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.key }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\ </span><span style="color:#8B949E">  #2</span></span>
+<span class="line"><span style="color:#FFA657">     --cacert</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.ca\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\ </span><span style="color:#A5D6FF">#2</span></span>
+<span class="line"><span style="color:#FFA657">     -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span></span></code></pre>
+<ol>
+<li><code>--resolve</code> avoids polluting one’s <code>/etc/hosts</code> file. <code>curl</code> will translate <code>admin</code> to <code>localhost</code>, but the query is sent to <code>admin</code> inside the Kubernetes cluster, thus using the correct <code>Service</code></li>
+<li>Get the required data inside the <code>Secret</code>, decode it, and use it as a temporary file</li>
+</ol>
+<p>If everything works, and it should, the result should be the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"total"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"list"</span><span style="color:#E6EDF3">:[]}</span></span></code></pre>
+<p>No routes are available so far because we have yet to create any.</p>
+<h2 id="tls-with-upstreams">TLS with upstreams</h2>
+<p>Last but not least, we should configure TLS for upstreams. In the following, I’ll use a simple <a href="https://nginx.org/">nginx</a> instance that responds with static content. Use it as an illustration for more complex upstreams.</p>
+<p>The first step, as always, is to generate a dedicated <code>Certificate</code> for the upstream. I’ll skip how to do it as we already created a few. I call it <code>upstream-server</code> and its <code>Secret</code>, unimaginatively, <code>upstream-secret</code>. We can now use the latter to secure nginx:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ConfigMap</span><span style="color:#8B949E">                                           #1</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx-config</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">data</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  nginx.conf</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">>-</span></span>
+<span class="line"><span style="color:#A5D6FF">    events {</span></span>
+<span class="line"><span style="color:#A5D6FF">      worker_connections 1024;</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">    http {</span></span>
+<span class="line"><span style="color:#A5D6FF">      server {</span></span>
+<span class="line"><span style="color:#A5D6FF">        listen              443 ssl;</span></span>
+<span class="line"><span style="color:#A5D6FF">        server_name         upstream;</span></span>
+<span class="line"><span style="color:#A5D6FF">        ssl_certificate     /etc/ssl/private/tls.crt;     #2</span></span>
+<span class="line"><span style="color:#A5D6FF">        ssl_certificate_key /etc/ssl/private/tls.key;     #2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">        root /www/data;</span></span>
+<span class="line"><span style="color:#A5D6FF">        location / {</span></span>
+<span class="line"><span style="color:#A5D6FF">            index index.json;</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Pod</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">upstream</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tls</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">upstream</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  containers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">upstream</span></span>
+<span class="line"><span style="color:#7EE787">      image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx:1.23-alpine</span></span>
+<span class="line"><span style="color:#7EE787">      ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">443</span></span>
+<span class="line"><span style="color:#7EE787">      volumeMounts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/nginx/nginx.conf</span><span style="color:#8B949E">                #1</span></span>
+<span class="line"><span style="color:#7EE787">          subPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx.conf</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">content</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/www/data/index.json</span><span style="color:#8B949E">                 #3</span></span>
+<span class="line"><span style="color:#7EE787">          subPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">index.json</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ssl</span><span style="color:#8B949E">                                       #2</span></span>
+<span class="line"><span style="color:#7EE787">          mountPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/ssl/private</span></span>
+<span class="line"><span style="color:#7EE787">  volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">config</span></span>
+<span class="line"><span style="color:#7EE787">      configMap</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx-config</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ssl</span><span style="color:#8B949E">                                           #2</span></span>
+<span class="line"><span style="color:#7EE787">      secret</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        secretName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">upstream-secret</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">content</span><span style="color:#8B949E">                                       #3</span></span>
+<span class="line"><span style="color:#7EE787">      configMap</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx-content</span></span></code></pre>
+<ol>
+<li>nginx doesn’t allow configuration via environment variables; we need to use the <code>ConfigMap</code> approach</li>
+<li>Use the key-certificate pair created via the <code>Certificate</code></li>
+<li>Some static content unimportant in the scope of this post</li>
+</ol>
+<p>The next step is to create the route with the help of the Admin API. We prepared everything in the previous step; now we can use the API:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --resolve</span><span style="color:#A5D6FF"> 'admin:32180:127.0.0.1'</span><span style="color:#A5D6FF"> https://admin:32180/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">     --cert</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\ </span><span style="color:#8B949E">    #1</span></span>
+<span class="line"><span style="color:#FFA657">     --key</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.key }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\ </span><span style="color:#8B949E">     #1</span></span>
+<span class="line"><span style="color:#FFA657">     --cacert</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.ca\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\ </span><span style="color:#8B949E">   #1</span></span>
+<span class="line"><span style="color:#FFA657">     -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> "{</span></span>
+<span class="line"><span style="color:#FF7B72">        \"</span><span style="color:#A5D6FF">uri</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">/</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span></span>
+<span class="line"><span style="color:#FF7B72">        \"</span><span style="color:#A5D6FF">upstream</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: {</span></span>
+<span class="line"><span style="color:#FF7B72">          \"</span><span style="color:#A5D6FF">scheme</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">https</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,                                                                        #2</span></span>
+<span class="line"><span style="color:#FF7B72">          \"</span><span style="color:#A5D6FF">nodes</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: {</span></span>
+<span class="line"><span style="color:#FF7B72">            \"</span><span style="color:#A5D6FF">upstream:443</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: 1</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#FF7B72">          \"</span><span style="color:#A5D6FF">tls</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: {</span></span>
+<span class="line"><span style="color:#FF7B72">            \"</span><span style="color:#A5D6FF">client_cert</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">$(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get secret curl-secret </span><span style="color:#79C0FF">-n</span><span style="color:#A5D6FF"> tls </span><span style="color:#79C0FF">-o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.crt }' </span><span style="color:#FF7B72">|</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF">)</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">, #3</span></span>
+<span class="line"><span style="color:#FF7B72">            \"</span><span style="color:#A5D6FF">client_key</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">$(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get secret curl-secret </span><span style="color:#79C0FF">-n</span><span style="color:#A5D6FF"> tls </span><span style="color:#79C0FF">-o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.key }' </span><span style="color:#FF7B72">|</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF">)</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">   #3</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }"</span></span></code></pre>
+<ol>
+<li>Client auth for Admin API, as above</li>
+<li>Use HTTPS for the upstream</li>
+<li>Configure key-certificate pair for the route. Apache APISIX stores the data in etcd and will use them when you call the route. Alternatively, you can keep the pair as a dedicated object and use the newly-created reference (just like for upstreams). It depends on how many routes the certificate needs. For more information, check the <a href="https://apisix.apache.org/docs/apisix/admin-api/#ssl">SSL endpoint</a></li>
+</ol>
+<p>Finally, we can check it works as expected:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --resolve</span><span style="color:#A5D6FF"> 'upstream:32443:127.0.0.1'</span><span style="color:#A5D6FF"> https://upstream:32443/</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">     --cert</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">     --key</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.tls\.key }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">     --cacert</span><span style="color:#A5D6FF"> =</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> get</span><span style="color:#A5D6FF"> secret</span><span style="color:#A5D6FF"> curl-secret</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> tls</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> jsonpath='{ .data.ca\.crt }'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> base64</span><span style="color:#79C0FF"> -d</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>And it does:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{ </span><span style="color:#7EE787">"hello"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"world"</span><span style="color:#E6EDF3"> }</span></span></code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, I’ve described a working Apache APISIX architecture and implemented mutual TLS between all the components: etcd and APISIX, client and APISIX, and finally, client and upstream. I hope it will help you to achieve the same.</p>
+<p>The complete source code for this post can be found on <a href="https//github.com/ajavageek/tls-apisix">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://apisix.apache.org/blog/2021/12/15/deploy-apisix-in-kubernetes/">How to Easily Deploy Apache APISIX in Kubernetes</a></li>
+<li><a href="https://cert-manager.io/">cert-manager</a></li>
+<li><a href="https://medium.com/geekculture/a-simple-ca-setup-with-kubernetes-cert-manager-bc8ccbd9c2">A Simple CA Setup with Kubernetes Cert Manager</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/mtls/">Mutual TLS Authentication</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

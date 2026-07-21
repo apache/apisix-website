@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Get E2E Test Coverage with Cypress | Apache APISIX</title><meta name="description" content="Collect front-end E2E test coverage with Cypress and Istanbul. Measure code coverage for APISIX Dashboard UI testing."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Get E2E Test Coverage with Cypress | Apache APISIX"><meta property="og:description" content="Collect front-end E2E test coverage with Cypress and Istanbul. Measure code coverage for APISIX Dashboard UI testing."><meta property="og:url" content="https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Get E2E Test Coverage with Cypress","description":"Collect front-end E2E test coverage with Cypress and Istanbul. Measure code coverage for APISIX Dashboard UI testing.","datePublished":"2021-03-02","author":{"@type":"Person","name":"Yi Sun"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/03/02/get-front-end-test-coverage-with-cypress/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/03/02/get-front-end-test-coverage-with-cypress/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Get E2E Test Coverage with Cypress</h1> <p class="article-meta"> 2021-03-02 · Yi Sun  </p> <blockquote>
+<p>In the article <a href="/blog/2021/02/08/stable-product-delivery-with-cypress">“Stable Product Delivery with Cypress”</a>, we discussed why we chose Cypress as our E2E testing framework. After spending nearly two months refining the test cases, we needed test coverage to quantify whether the test coverage was sufficient.This article will describe how to get APISIX Dashboard front-end E2E coverage using Cypress.</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>Source:</p>
+<ul>
+<li><a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></li>
+<li><a href="https://github.com/apache/apisix-dashboard">https://github.com/apache/apisix-dashboard</a></li>
+</ul>
+</blockquote>
+<h2 id="what-is-code-coverage">What is code coverage</h2>
+<p>Code coverage is a metric in software testing that describes the proportion and extent to which the source code in a program is tested, and the resulting proportion is called code coverage. Test code coverage reflects the health of the code to a certain extent.</p>
+<h2 id="installation-dependencies--configuration">Installation Dependencies &#x26; Configuration</h2>
+<p>To collect test coverage data, we need to put some probes in the original business code for Cypress to collect the data.</p>
+<p>Cypress officially recommends two approaches, the first is to generate a temporary directory via <code>nyc</code> and run the code that has been written to the probe to collect test coverage data. The second way is to do the code conversion in real time through the code conversion pipeline, which eliminates the hassle of temporary folders and makes collecting test coverage data relatively refreshing. We choose the second way to collect front-end E2E coverage.</p>
+<ol>
+<li>Installing Dependencies</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">yarn</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF">  babel-plugin-istanbul</span><span style="color:#79C0FF"> --dev</span></span></code></pre>
+<ol start="2">
+<li>Install the cypress plug-in</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">yarn</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF">  @cypress/code-coverage</span><span style="color:#79C0FF"> --dev</span></span></code></pre>
+<ol start="3">
+<li>Configuring babel</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#8B949E">// web/config/config.ts</span></span>
+<span class="line"><span style="color:#FFA657">extraBabelPlugins</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    [</span><span style="color:#A5D6FF">'babel-plugin-istanbul'</span><span style="color:#E6EDF3">,  {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "exclude"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"**/.umi"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"**/locales"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">    }],</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span></code></pre>
+<ol start="4">
+<li>Configuring Cypress code coverage plugin</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>// web/cypress/plugins/index.js</span></span>
+<span class="line"><span>module.exports = (on, config) => {</span></span>
+<span class="line"><span>  require('@cypress/code-coverage/task')(on, config);</span></span>
+<span class="line"><span>  return config;</span></span>
+<span class="line"><span>};</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>// web/cypress/support/index.js</span></span>
+<span class="line"><span></span></span></code></pre>
+<ol start="5">
+<li>Get Test Coverage</li>
+</ol>
+<p>After the configuration is done, we need to run the test case. After the test case is run, Cypress will generate <code>coverage</code> and <code>.nyc_output</code> folders, which contain the test coverage reports.</p>
+<p><img src="https://lh4.googleusercontent.com/o-tyQagmCjprpNkuTjMFLaALZKtW4pyC9nj-GcPx4MM3xK0zrMED9Nndk5ZmZkZsQ5SIJPEovcrHyjWP2YXtEcYYDpLL49aV_97N83doTkOuMXlFsVjGu53A9FdlxOCr6i3aIDTA" alt="1.png"></p>
+<p>The test coverage information will appear in the console after executing the following command.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">npx</span><span style="color:#A5D6FF"> nyc</span><span style="color:#A5D6FF"> report</span><span style="color:#79C0FF"> --reporter=text-summary</span></span></code></pre>
+<p><img src="https://lh4.googleusercontent.com/n0CON1WF64wEnh3IYEc3wwwOJ2Ft_WmMLfkhOPKIKxoW0NP6Eq8VplJ87EepL5zIWOeyfJhlDmhc3ImE0ivgRlXWe1RuW2x7vL_JEri7Mz6b3tOY0it8bVvUe83CAHNgeoyXZnsy" alt="2.png"></p>
+<p>Under the coverage directory, a more detailed report page will be available, as shown here.</p>
+<p><img src="https://lh4.googleusercontent.com/skjR9YUcbmeytfoYnR0it7Vfc7mheCJDt7PSUsp549IbOdfqskTrIOqUXw01e0fnuNwpGoo3GtqAER3eQjNoTIdmU7HY6hc_sZ5NYc3h-MyxqmVz_NaC3AM-J4rWJFy-9IoTWjpn" alt="3.png"></p>
+<ul>
+<li>
+<p>Statements indicates whether each statement was executed</p>
+</li>
+<li>
+<p>Branches indicates whether each if block was executed</p>
+</li>
+<li>
+<p>Functions indicates whether each function is called</p>
+</li>
+<li>
+<p>Lines indicates whether each line was executed</p>
+</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>The test coverage rate reflects the quality of the project to a certain extent. At present, APISIX Dashboard front-end E2E coverage rate has reached 71.57%. We will continue to work with the community to enhance the test coverage rate and provide more reliable and stable products for users.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

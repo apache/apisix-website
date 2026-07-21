@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contributing flow | Apache APISIX</title><meta name="description" content="Guidelines for Apache APISIX contributors."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/docs/general/contributor-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/general/contributor-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/general/contributor-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/general/contributor-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Contributing flow | Apache APISIX"><meta property="og:description" content="Guidelines for Apache APISIX contributors."><meta property="og:url" content="https://apisix.apache.org/zh/docs/general/contributor-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Contributing flow","description":"Guidelines for Apache APISIX contributors.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/general/contributor-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/general/contributor-guide/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/general/contributor-guide/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/zh/docs/general/blog/" class>Contribute a blog post</a>  </li><li class> <a href="/zh/docs/general/committer-guide/" class>Project management structure</a>  </li><li class> <a href="/zh/docs/general/contributor-guide/" class="active">Contributing flow</a>  </li><li class> <a href="/zh/docs/general/documentation-style-guide/" class>Documentation style guide</a>  </li><li class> <a href="/zh/docs/general/how-to-contribute/" class>How to Contribute</a>  </li><li class> <a href="/zh/docs/general/join/" class>Join the conversation</a>  </li><li class> <a href="/zh/docs/general/release-guide/" class>Release Guide</a>  </li><li class> <a href="/zh/docs/general/security/" class>Report a security vulnerability</a>  </li><li class> <a href="/zh/docs/general/submit-issue/" class>Submitting an issue</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Contributing flow</h1> <p>This document describes the general flow for contributing to APISIX repos.</p>
+<h2 id="what-can-i-contribute">What can I contribute?</h2>
+<p>Any and all forms of contributions are welcome! For example you can,</p>
+<ul>
+<li>
+<p>Fix issues tagged with “<a href="/docs/general/contributor-guide/#good-first-issues">good first issue</a>” or “<a href="https://github.com/apache/apisix/issues?q=is%3Aopen+label%3A%22help+wanted%22+sort%3Aupdated-desc">help wanted</a>” labels.</p>
+</li>
+<li>
+<p>Join the discussions on the <a href="/docs/general/join/">mailing list</a>.</p>
+</li>
+<li>
+<p>Answer questions in <a href="https://github.com/apache/apisix/issues">issues</a> and <a href="https://github.com/apache/apisix/discussions">discussions</a>.</p>
+</li>
+<li>
+<p>Review open <a href="https://github.com/apache/apisix/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc">pull requests</a>.</p>
+</li>
+<li>
+<p>Improve the website.</p>
+</li>
+<li>
+<p>Improve documentation or write a blog post.</p>
+</li>
+<li>
+<p>Any other form of code or non-code contribution.</p>
+</li>
+</ul>
+<p>If you would like to contribute, let us know by sending an email to <a href="mailto:dev@apisix.apache.org">dev@apisix.apache.org</a>!</p>
+<h2 id="choosing-an-issue-to-work-on">Choosing an issue to work on</h2>
+<p>You can also contribute by fixing one of the <a href="https://github.com/apache/apisix/issues">open issues</a>.</p>
+<ol>
+<li>
+<p>Once you have chosen an issue to work on or <a href="/docs/general/submit-issue">opened a new issue</a>, please comment on the issue and ask a <a href="/team">Committer or PMC</a> to assign it to you.</p>
+</li>
+<li>
+<p>Please check to see if the issue is already being worked on and indicate when you will be able to complete it.</p>
+</li>
+<li>
+<p>Connect with a <a href="/team">Committer or PMC</a> for providing feedback on your issue and reviewing your PR.</p>
+</li>
+</ol>
+<h3 id="good-first-issues">Good first issues</h3>
+<p>Issues labelled “good first issues” are low hanging fruits that are easy to fix. These issues can help you make your first contributions to APISIX.</p>
+<p>To start, you can go through this <a href="/contribute">curated list of “good first issues”</a>.</p>
+<h2 id="git-flow">Git flow</h2>
+<p>To contribute code or documentation, setup your local machine for development.</p>
+<h3 id="fork-the-repo-and-clone-your-fork">Fork the repo and clone your fork</h3>
+<p>Fork the <a href="https://github.com/apache/apisix/">APISIX repo</a> and clone your fork to your local machine.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/your-username/apisix.git</span></span></code></pre>
+<h3 id="add-upstream-repo-to-list-of-remotes">Add ‘upstream’ repo to list of remotes</h3>
+<p>Check to see if the upstream repo has been configured by listing the remotes.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> remote</span><span style="color:#79C0FF"> -v</span></span></code></pre>
+<p>If not, you can add the upstream remote.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> remote</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> upstream</span><span style="color:#A5D6FF"> https://github.com/apache/apisix.git</span></span></code></pre>
+<p>Learn more about Git and GitHub flow by following the <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo">GitHub Docs</a>.</p>
+<p><strong>Note</strong>: Setup your name and email address to make sure that your ID shows up in the contributor list.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> config</span><span style="color:#79C0FF"> --global</span><span style="color:#A5D6FF"> user.name</span><span style="color:#A5D6FF"> "full name"</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> config</span><span style="color:#79C0FF"> --global</span><span style="color:#A5D6FF"> user.email</span><span style="color:#A5D6FF"> "mail address"</span></span></code></pre>
+<h3 id="create-your-branch">Create your branch</h3>
+<p>To keep your local fork up to date, fetch and rebase with the upstream remote.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> fetch</span><span style="color:#A5D6FF"> upstream</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> checkout</span><span style="color:#A5D6FF"> master</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> rebase</span><span style="color:#A5D6FF"> upstream/master</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> push</span><span style="color:#A5D6FF"> origin</span><span style="color:#A5D6FF"> master</span></span></code></pre>
+<p>Then, to make changes, create a new branch in your local fork.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> checkout</span><span style="color:#79C0FF"> -b</span><span style="color:#A5D6FF"> issue-no</span></span></code></pre>
+<p><strong>Note</strong>: The commits in a PR are squashed before merging. This could result in commit logs different from upstream if you are using an older branch.</p>
+<h3 id="committing-your-changes">Committing your changes</h3>
+<p>Contributors are expected to adhere to the <a href="https://www.apache.org/foundation/policies/conduct.html">Code of Conduct</a> throughout the process.</p>
+<p>Once you make the changes, commit the files and push the changes to your fork.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> git</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> modified-file-names</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> git</span><span style="color:#A5D6FF"> commit</span><span style="color:#79C0FF"> -m</span><span style="color:#A5D6FF"> 'commit message'</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> git</span><span style="color:#A5D6FF"> push</span><span style="color:#A5D6FF"> origin</span><span style="color:#A5D6FF"> issue-no</span></span></code></pre>
+<h3 id="open-a-pull-request">Open a pull request</h3>
+<p>Once you have your changes pushed to your fork, it is time to start the process of merging it to upstream by opening a pull request.</p>
+<p>See <a href="https://docs.github.com/en/get-started/quickstart/github-flow#create-a-pull-request">GitHub flow</a> for detailed instructions on making a pull request.</p>
+<ol>
+<li>
+<p>Open a pull request to the master branch.</p>
+</li>
+<li>
+<p>Make sure that the pull request title has a semantic prefix like <code>fix:</code> or <code>feat:</code> or any other <a href="https://github.com/commitizen/conventional-commit-types/blob/master/index.json">conventional commit types</a>.</p>
+</li>
+<li>
+<p>Reach out to your mentor for starting the review process.</p>
+</li>
+<li>
+<p>Engage in discussions and provide clarifications to reviewers’ questions.</p>
+</li>
+<li>
+<p>Wait for your PR to be approved and merged.</p>
+</li>
+<li>
+<p>Congratulate yourself for being an official contributor of Apache APISIX!</p>
+</li>
+</ol>
+<h2 id="two-factor-authentication-2fa">Two-Factor Authentication (2FA)</h2>
+<p>Two-Factor Authentication (2FA) refers to the authentication method that combines both a password and an object (credit card, SMS, tokens, or biomarkers as fingerprint) to identify a user.</p>
+<p>To ensure the security of the committer’s account, we need you to <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">configure 2FA</a> while signing in to contribute code on GitHub. For more details, please refer to <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa">Securing your account with two-factor authentication (2FA)</a>.</p>
+<p><strong>Note</strong>: If 2FA is not enabled, you are liable to be removed from the project and would not be able to access Apache APISIX’s repositories.</p>
+<h3 id="configuring-2fa-on-github">Configuring 2FA on GitHub</h3>
+<p>You can configure 2FA using a <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app">mobile app</a> or via <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages">text message</a>.</p>
+<p>GitHub recommends using a time-based-one-time password (TOTP) mobile application to configure 2FA. Read <a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">Configuring two-factor authentication</a> for detailed information.</p>
+<h3 id="submitting-code">Submitting code</h3>
+<p>After enabling 2FA, <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">create a personal access token</a> to perform Git operations.</p>
+<p>You can then use the username + personal access token combination in place of the username + password combination while pushing your code.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix-website/edit/master/website/docs/general/contributor-guide.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API 网关 Datadog 插件发布，助力提高系统可观测性 | Apache APISIX</title><meta name="description" content="本文介绍了云原生 API 网关 Apache APISIX 如何使用 datadog 插件与 Datadog 监控平台的进行集成，并且也介绍了 datadog 插件的实现原理、功能以及具体参数。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="API 网关 Datadog 插件发布，助力提高系统可观测性 | Apache APISIX"><meta property="og:description" content="本文介绍了云原生 API 网关 Apache APISIX 如何使用 datadog 插件与 Datadog 监控平台的进行集成，并且也介绍了 datadog 插件的实现原理、功能以及具体参数。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API 网关 Datadog 插件发布，助力提高系统可观测性","description":"本文介绍了云原生 API 网关 Apache APISIX 如何使用 datadog 插件与 Datadog 监控平台的进行集成，并且也介绍了 datadog 插件的实现原理、功能以及具体参数。","datePublished":"2021-11-12","image":"https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png","author":{"@type":"Person","name":"Bisakh Mondal"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/11/12/apisix-datadog/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/11/12/apisix-datadog/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>API 网关 Datadog 插件发布，助力提高系统可观测性</h1> <p class="article-meta"> 2021-11-12 · Bisakh Mondal  </p> <blockquote>
+<p>Apache APISIX 最近发布了一个新的插件：<a href="http://apisix.apache.org/docs/apisix/next/plugins/datadog">APISIX-Datadog</a>，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1636955062917-28911d71-0d56-48ec-85e5-a7908195da2f.png" alt="APISIX-Datadog 插件封面图"></p>
+<p>随着应用开发的复杂度增加，监控成为了应用的一个重要组成部分。及时、准确的监控既能满足快速迭代的周期性需求，又能够确保应用的稳定性和流畅性。如何选择一个适合的监控，以提升应用的可观测性，成为了每个开发者都必须面临的一道难题。</p>
+<p><a href="http://apisix.apache.org/">Apache APISIX</a> 将监控和可观测性从应用中解耦了出来，给开发人员带来了一个优势：在构建应用的时候，只需要关注业务逻辑，而 Apache APISIX 可以和开发人员选定的监控平台对接，处理可观测性的问题。</p>
+<p>Apache APISIX 最近发布了一个新的插件：APISIX-Datadog，以提供与 Datadog 监控平台的集成。这篇文章介绍了 APISIX-Datadog 插件的实现原理及功能。</p>
+<h2 id="apisix-datadog-plugin-工作原理">APISIX-Datadog plugin 工作原理</h2>
+<p><img src="https://static.apiseven.com/202108/1636685752757-d02d8305-2a68-4b3e-b2cc-9e5410c8bf11.png" alt="APISIX-Datadog 插件架构图"></p>
+<p>APISIX-Datadog 插件将其自定义指标推送到 DogStatsD server。而 DogStatsD server 通过 UDP 连接与 Datadog agent 捆绑在一起。DogStatsD 是 StatsD 协议的一个实现。它为 Apache APISIX agent 收集自定义指标，将其聚合成一个数据点，并将其发送到配置的 Datadog server。要了解更多关于 DogStatsD 的信息，请访问 DogStatsD 文档。</p>
+<p>当你启用 APISIX-Datadog 插件时，Apache APISIX agent 会在每个请求响应周期向 DogStatsD server 输出以下指标：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数名称</th><th>StatsD 类型</th><th>描述</th></tr></thead><tbody><tr><td>Request Counter</td><td>Counter</td><td>收到的请求数量。</td></tr><tr><td>Request Latency</td><td>Histogram</td><td>处理该请求所需的时间，以毫秒为单位。</td></tr><tr><td>Upstream latency</td><td>Histogram</td><td>上游 server agent 请求到收到响应所需的时间，以毫秒为单位。</td></tr><tr><td>APISIX Latency</td><td>Histogram</td><td>APISIX agent 处理该请求的时间，以毫秒为单位。</td></tr><tr><td>Ingress Size</td><td>Timer</td><td>请求体大小，以字节为单位。</td></tr><tr><td>Egress Size</td><td>Timer</td><td>响应体大小，以字节为单位。</td></tr></tbody></table>
+<p>这些指标将被发送到 DogStatsD agent，并带有以下标签。如果任何特定的标签没有合适的值，该标签将被直接省略。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数名称</th><th>描述</th></tr></thead><tbody><tr><td>route_name</td><td>路由的名称，如果不存在，将显示路由 ID。</td></tr><tr><td>service_id</td><td>如果一个路由是用服务的抽象概念创建的，那么特定的服务 ID 将被使用。</td></tr><tr><td>consumer</td><td>如果路由有一个链接的消费者，消费者的用户名将被添加为一个标签。</td></tr><tr><td>balancer_ip</td><td>处理了当前请求的上游复制均衡器的的 IP。</td></tr><tr><td>response_status</td><td>HTTP 响应状态代码。</td></tr><tr><td>scheme</td><td>已用于提出请求的协议，如 HTTP、gRPC、gRPCs 等。</td></tr></tbody></table>
+<p>APISIX-Datadog 插件维护了一个带有 timer 的 buffer。当 timer 失效时，APISIX-Datadog 插件会将 buffer 的指标作为一个批量处理程序传送给本地运行的 DogStatsD server。这种方法通过重复使用相同的 UDP 套接字，对资源的占用较少，而且由于可以配置 timer，所以不会一直让网络过载。</p>
+<h2 id="启动-datadog-agent">启动 Datadog Agent</h2>
+<ol>
+<li>如果你已经在使用 Datadog，你必须在系统中安装一个 Datadog agent。它可以是一个 docker 容器，一个 pod 或二进制的包管理器。你只需要确保Apache APISIX agent 可以到达 Datadog agent 的 8125 端口。</li>
+</ol>
+<blockquote>
+<p>如果需要了解更多关于如何安装一个完整的 Datadog agent，请访问<a href="https://docs.datadoghq.com/agent/">这里</a>。</p>
+</blockquote>
+<ol start="2">
+<li>
+<p>如果你从没使用过 Datadog</p>
+<ol>
+<li>首先访问 <a href="http://www.datadoghq.com">www.datadoghq.com</a> ，创建一个账户。</li>
+<li>然后按照下图标注的步骤生成 API 密钥。
+<img src="https://static.apiseven.com/202108/1636685007445-05f134fd-e80a-4173-b1d7-f0a118087998.png" alt="Generate an API Key"></li>
+</ol>
+</li>
+<li>
+<p>APISIX-Datadog 插件只需要依赖 <code>datadog/agent</code> 的 dogstatsd 组件即可实现，因为该插件按照 statsd 协议通过标准的 UDP 套接字向 DogStatsD server 异步发送参数。我们推荐使用独立的 <code>datadog/dogstatsd</code> 镜像，而不是使用完整的<code>datadog/agent</code> ，因为 <code>datadog/dogstatsd</code> 的组件大小只有大约 11 MB，更加轻量化。而完整的 <code>datadog/agent</code> 镜像的大小为 2.8 GB。</p>
+</li>
+</ol>
+<p>运行以下命令，将它作为一个容器来运行：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># pull the latest image</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> pull</span><span style="color:#A5D6FF"> datadog/dogstatsd:latest</span></span>
+<span class="line"><span style="color:#8B949E"># run a detached container</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> dogstatsd-agent</span><span style="color:#79C0FF"> -e</span><span style="color:#A5D6FF"> DD_API_KEY=</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#A5D6FF">Your</span><span style="color:#A5D6FF"> API</span><span style="color:#A5D6FF"> Key</span><span style="color:#A5D6FF"> from</span><span style="color:#A5D6FF"> step</span><span style="color:#FF7B72"> 2></span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8125:8125/udp</span><span style="color:#A5D6FF"> datadog/dogstatsd</span></span></code></pre>
+<p>如果你在生产环境中使用 Kubernetes，你可以将 <code>dogstatsd</code> 作为一个 <code>Daemonset</code> 或 <code>Multi-Container Pod</code> 与 Apache APISIX agent 一起部署。</p>
+<h2 id="如何在-apache-apisix-中使用-datadog">如何在 Apache APISIX 中使用 Datadog</h2>
+<h3 id="启用-apisix-datadog-插件">启用 APISIX-Datadog 插件</h3>
+<p>如果你已经启动了 <code>dogstatsd</code> agent，只需执行一条命令，就可以为指定路由启用 APISIX-Datadog 插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># enable plugin for a specific route</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "datadog": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>启用 APISIX-Datadog 插件后，任何对端点 URI <code>/hello</code> 的请求都会产生上述指标，并推送到 Datadog agent的本地 DogStatsD server。</p>
+<h3 id="自定义配置">自定义配置</h3>
+<p>如果启用 APISIX-Datadog 插件时，使用的是默认配置，dogstatsd 服务在 <code>127.0.0.1:8125</code> 可用。如果你想更新配置，请更新插件的元数据。</p>
+<h4 id="元数据参数解释">元数据参数解释</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>参数名称</th><th>类型</th><th>是否必须修改</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>hosts</td><td>string</td><td>否</td><td>”127.0.0.1”</td><td>DogStatsD server 的主机地址</td></tr><tr><td>port</td><td>integer</td><td>否</td><td>8125</td><td>DogStatsD server的主机端口</td></tr><tr><td>namespace</td><td>string</td><td>否</td><td>”apisix”</td><td>由 APISIX agent发送的所有自定义参数的前缀。对寻找指标图的实体很有帮助，例如：(apisix.request.counter)。</td></tr><tr><td>constant_tags</td><td>array</td><td>否</td><td>[“source<div></div>”]</td><td>静态标签嵌入到生成的指标中。对某些信号的 metrics 进行分组很有用。</td></tr></tbody></table>
+<p>要了解更多关于如何有效地编写标签，请访问<a href="https://docs.datadoghq.com/getting_started/tagging/#defining-tags">这里</a>。</p>
+<p>向 /apisix/admin/plugin_metadata 端点发出请求，更新元数据，如下所示。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "port": 8125,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "constant_tags": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "source:apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "service:custom"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "namespace": "apisix"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h4 id="插件参数解释">插件参数解释</h4>
+<p>与元数据类似，在启用 APISIX-Datadog 插件时，你也可以调整其他参数。</p>
+<p>|参数名称|类型|是否必须修改|默认值|取值范围||描述|
+|----|----|--------|-------|-----|-----------|
+|batch_max_size|integer|否|5000|[1,…]|每个批次的 buffer 最大值|
+|inactive_timeout|integer|否|5|[1,…]|如果不活跃，buffer 将被刷新的最长时间（秒）。|
+|buffer_duration|integer|否|60|[1,…]|在必须处理一个批次之前，该批次中最老的条目的最长存活时间（秒）。|
+|max_retry_count|integer|否|1|[1,…]|如果一个条目未能到达 dogstatsd server，重试的次数。|</p>
+<p>由于所有的字段都是可选的，如果你没有手动设置任何参数，APISIX-Datadog 插件将使用默认值设置这些参数。如果你需要更新任何参数，只需用更新的参数值更新所需的路由、服务或消费者。例如，下面的代码将 <code>batch_max_size</code> 修改为 10。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">'{</span></span>
+<span class="line"><span style="color:#FFA657">...</span></span>
+<span class="line"><span style="color:#FFA657">"plugins": {</span></span>
+<span class="line"><span style="color:#FFA657">    "datadog": {</span></span>
+<span class="line"><span style="color:#FFA657">        "batch_max_size": 10</span></span>
+<span class="line"><span style="color:#FFA657">    }</span></span>
+<span class="line"><span style="color:#FFA657">}</span></span>
+<span class="line"><span style="color:#FFA657">... }'</span></span></code></pre>
+<h3 id="停用-apisix-datadog-插件">停用 APISIX-Datadog 插件</h3>
+<p>你只需在插件配置中删除相应的 json 配置即可停用 APISIX-Datadog 插件。得益于 Apache APISIX 插件的热加载机制，删除 json 配置后，会立即停用APISIX-Datadog 插件，不需要重新加载。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># disable plugin for a route</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>aws-lambda | Apache APISIX</title><meta name="description" content="The aws-lambda Plugin integrates APISIX with AWS Lambda and Amazon API Gateway, supporting authentication via IAM access keys and API keys."><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/aws-lambda"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/aws-lambda/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/aws-lambda/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/aws-lambda/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="aws-lambda | Apache APISIX"><meta property="og:description" content="The aws-lambda Plugin integrates APISIX with AWS Lambda and Amazon API Gateway, supporting authentication via IAM access keys and API keys."><meta property="og:url" content="https://docs.api7.ai/hub/aws-lambda"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"aws-lambda","description":"The aws-lambda Plugin integrates APISIX with AWS Lambda and Amazon API Gateway, supporting authentication via IAM access keys and API keys.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/plugins/aws-lambda/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/plugins/aws-lambda/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/plugins/aws-lambda/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class="active">aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class>Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>aws-lambda</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="description">Description</h2>
+<p>The <code>aws-lambda</code> Plugin eases the integration of APISIX with <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> and <a href="https://aws.amazon.com/api-gateway/">Amazon API Gateway</a> to proxy for other AWS services.</p>
+<p>The Plugin supports authentication and authorization with AWS via IAM user credentials and API Gateway’s API key.</p>
+<h2 id="attributes">Attributes</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Valid values</th><th>Description</th></tr></thead><tbody><tr><td>function_uri</td><td>string</td><td>True</td><td></td><td></td><td>AWS Lambda function URL or Amazon API Gateway endpoint that triggers the Lambda function.</td></tr><tr><td>authorization</td><td>object</td><td>False</td><td></td><td></td><td>Credentials used in authentication and authorization on AWS to invoke Lambda function.</td></tr><tr><td>authorization.apikey</td><td>string</td><td>False</td><td></td><td></td><td>API key for the REST API Gateway when API key is selected as the security mechanism.</td></tr><tr><td>authorization.iam</td><td>object</td><td>False</td><td></td><td></td><td>IAM credentials to be authenticated using <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html">AWS Signature Version 4</a> and authorized.</td></tr><tr><td>authorization.iam.accesskey</td><td>string</td><td>False</td><td></td><td></td><td>IAM user access key. Required when <code>authorization.iam</code> is configured.</td></tr><tr><td>authorization.iam.secretkey</td><td>string</td><td>False</td><td></td><td></td><td>IAM user secret access key. Required when <code>authorization.iam</code> is configured.</td></tr><tr><td>authorization.iam.aws_region</td><td>string</td><td>False</td><td>”us-east-1”</td><td></td><td>AWS region where the request is being sent.</td></tr><tr><td>authorization.iam.service</td><td>string</td><td>False</td><td>”execute-api”</td><td></td><td>Service receiving the request. To integrate with AWS API Gateway, set to <code>execute-api</code>. To integrate with Lambda function directly, set to <code>lambda</code>.</td></tr><tr><td>timeout</td><td>integer</td><td>False</td><td>3000</td><td>[100,…]</td><td>Proxy request timeout in milliseconds.</td></tr><tr><td>ssl_verify</td><td>boolean</td><td>False</td><td>true</td><td></td><td>If true, perform SSL verification.</td></tr><tr><td>keepalive</td><td>boolean</td><td>False</td><td>true</td><td></td><td>If true, keep the connection alive for reuse.</td></tr><tr><td>keepalive_pool</td><td>integer</td><td>False</td><td>5</td><td>[1,…]</td><td>Maximum number of connections in the keepalive pool.</td></tr><tr><td>keepalive_timeout</td><td>integer</td><td>False</td><td>60000</td><td>[1000,…]</td><td>Time for connection to remain idle without closing in milliseconds.</td></tr></tbody></table>
+<h2 id="examples">Examples</h2>
+<p>The examples below demonstrate how you can configure <code>aws-lambda</code> for different scenarios.</p>
+<p>To follow along the examples, please first log into your AWS console and create a Lambda function with any runtime. You do not need to customize the function and by default, the function should return <code>Hello from Lambda!</code> when called.</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>You can fetch the <code>admin_key</code> from <code>config.yaml</code> and save to an environment variable with the following command:</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="invoke-lambda-function-securely-using-iam-access-keys">Invoke Lambda Function Securely using IAM Access Keys</h3>
+<p>The following example demonstrates how you can integrate APISIX with the Lambda function and configure IAM access keys for authorization. The <code>aws-lambda</code> Plugin implements <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html">AWS Signature Version 4</a> for IAM access keys. You will be first creating IAM access keys and the Lambda function URL on AWS console.</p>
+<p>For IAM access keys, go to <strong>AWS Identity and Access Management (IAM)</strong> and click into the user you would like to use for integration.</p>
+<p>Next, in the <strong>Security credentials</strong> tab, select <strong>Create access key</strong>:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/23/1K9FiWb4_create-access-key.png" alt="create access keys"></p>
+<p>Select <strong>Application running outside AWS</strong> as the use case:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/23/Fa4jdK5H_iam-user-use-case.png" alt="select use case"></p>
+<p>Continue the credential creation and note down the access key and secret access key:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/23/zGCyqp20_save-access-key.png" alt="save access keys"></p>
+<p>To create the Lambda function URL, go to the <strong>Configuration</strong> tab of the Lambda function and under <strong>Function URL</strong>, create a function URL:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/23/3fF90ws2_function-url.png" alt="create function URL"></p>
+<p>Finally, create a Route in APISIX with your function URL and IAM access keys:</p>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "aws-lambda-iam-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/aws-lambda",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "aws-lambda": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "function_uri": "https://your-lambda-function-url.lambda-url.us-west-2.on.aws/",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "authorization": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "iam": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "accesskey": "YOUR_IAM_ACCESS_KEY",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "secretkey": "YOUR_IAM_SECRET_KEY",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "aws_region": "us-west-2",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "service": "lambda"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "ssl_verify": false</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          aws-lambda</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-lambda-function-url.lambda-url.us-west-2.on.aws/</span></span>
+<span class="line"><span style="color:#7EE787">            authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              iam</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                accesskey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_IAM_ACCESS_KEY</span></span>
+<span class="line"><span style="color:#7EE787">                secretkey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_IAM_SECRET_KEY</span></span>
+<span class="line"><span style="color:#7EE787">                aws_region</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">us-west-2</span></span>
+<span class="line"><span style="color:#7EE787">                service</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">lambda</span></span></code></pre>
+<p>Synchronize the configuration to the gateway:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">aws-lambda-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-lambda-function-url.lambda-url.us-west-2.on.aws/</span></span>
+<span class="line"><span style="color:#7EE787">        authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          iam</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            accesskey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_IAM_ACCESS_KEY</span></span>
+<span class="line"><span style="color:#7EE787">            secretkey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_IAM_SECRET_KEY</span></span>
+<span class="line"><span style="color:#7EE787">            aws_region</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">us-west-2</span></span>
+<span class="line"><span style="color:#7EE787">            service</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">lambda</span></span>
+<span class="line"><span style="color:#7EE787">        ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-plugin-config</span></span></code></pre>
+<p><strong>apisix-crd</strong></p>
+<div class="code-title">aws-lambda-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-lambda-function-url.lambda-url.us-west-2.on.aws/</span></span>
+<span class="line"><span style="color:#7EE787">            authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              iam</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                accesskey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_IAM_ACCESS_KEY</span></span>
+<span class="line"><span style="color:#7EE787">                secretkey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_IAM_SECRET_KEY</span></span>
+<span class="line"><span style="color:#7EE787">                aws_region</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">us-west-2</span></span>
+<span class="line"><span style="color:#7EE787">                service</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">lambda</span></span>
+<span class="line"><span style="color:#7EE787">            ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>Apply the configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> aws-lambda-ic.yaml</span></span></code></pre>
+<p>Send a request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/aws-lambda"</span></span></code></pre>
+<p>You should receive an <code>HTTP/1.1 200 OK</code> response with the following message:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>"Hello from Lambda!"</span></span></code></pre>
+<h3 id="integrate-with-amazon-api-gateway-securely-with-api-key">Integrate with Amazon API Gateway Securely with API Key</h3>
+<p>The following example demonstrates how you can integrate APISIX with Amazon API Gateway and configure the gateway to trigger the execution of Lambda function.</p>
+<p>To configure an API Gateway as a Lambda trigger, go to your Lambda function and select <strong>Add trigger</strong>:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/25/UjI9bLDQ_add-trigger.png" alt="add trigger for lambda function"></p>
+<p>Next, select <strong>API Gateway</strong> as the trigger and <strong>REST API</strong> as the API type, and finish adding the trigger:</p>
+<div style="{{textAlign:" &#x27;center&#x27;}}="">
+<img src="https://static.api7.ai/uploads/2024/04/25/4Bp9r3UP_rest-api-key.png" alt="select REST to be the API type and secure the API with API key" width="70%">
+</div>
+<br>
+<div class="admonition admonition-info"><p class="admonition-title">INFO</p><p>Amazon API Gateway supports HTTP APIs and REST APIs. API key support is available only for REST APIs, which is why this example uses a REST API trigger.</p></div>
+<p>You should now be redirected back to the Lambda interface. To find the API key and gateway API endpoint, go to the <strong>Configuration</strong> tab of the Lambda function and under <strong>Triggers</strong>, you can find the details of the API Gateway:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/25/6bjpeNIb_api-gateway-info.png" alt="API gateway endpoint and API key"></p>
+<p>Finally, create a Route in APISIX with your gateway endpoint and API key:</p>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "aws-lambda-apikey-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/aws-lambda",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "aws-lambda": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "function_uri": "https://your-api-id.execute-api.us-west-2.amazonaws.com/default/your-resource",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "authorization": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "apikey": "YOUR_API_GATEWAY_API_KEY"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "ssl_verify": false</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          aws-lambda</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-api-id.execute-api.us-west-2.amazonaws.com/default/your-resource</span></span>
+<span class="line"><span style="color:#7EE787">            authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              apikey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_API_GATEWAY_API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">            ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>Synchronize the configuration to the gateway:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">aws-lambda-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-api-id.execute-api.us-west-2.amazonaws.com/default/your-resource</span></span>
+<span class="line"><span style="color:#7EE787">        authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          apikey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_API_GATEWAY_API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">        ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-plugin-config</span></span></code></pre>
+<p><strong>apisix-crd</strong></p>
+<div class="code-title">aws-lambda-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-apikey-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-apikey-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-api-id.execute-api.us-west-2.amazonaws.com/default/your-resource</span></span>
+<span class="line"><span style="color:#7EE787">            authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              apikey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_API_GATEWAY_API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">            ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>Apply the configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> aws-lambda-ic.yaml</span></span></code></pre>
+<p>Send a request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/aws-lambda"</span></span></code></pre>
+<p>You should receive an <code>HTTP/1.1 200 OK</code> response with the following message:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>"Hello from Lambda!"</span></span></code></pre>
+<p>If your API key is invalid, you should receive an <code>HTTP/1.1 403 Forbidden</code> response.</p>
+<h3 id="forward-requests-to-amazon-api-gateway-sub-paths">Forward Requests to Amazon API Gateway Sub-Paths</h3>
+<p>The following example demonstrates how you can forward requests to a sub-path of the Amazon API Gateway API and configure the API to trigger the execution of Lambda function.</p>
+<p>Please follow the <a href="#integrate-with-amazon-api-gateway-securely-with-api-key">previous example</a> to set up an API Gateway first.</p>
+<p>To create a sub-path, go to the <strong>Configuration</strong> tab of the Lambda function and under <strong>Triggers</strong>, click into the API Gateway:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/26/5Twffgyr_click-into-adjusted.png" alt="click into the API gateway"></p>
+<p>Next, select <strong>Create resource</strong> to create a sub-path:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/26/hXlnuVwk_create-resource.png" alt="create resource"></p>
+<p>Enter the sub-path information and complete creation:</p>
+<div style="{{textAlign:" &#x27;center&#x27;}}="">
+<img src="https://static.api7.ai/uploads/2024/04/26/7t1yiWjl_create-resource-2.png" alt="complete resource creation" width="70%">
+</div>
+<p>Once redirected back to the main gateway console, you should see the newly created path. Select <strong>Create method</strong> to configure HTTP methods for the path and the associated action:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/26/3rZZJy3e_create-method.png" alt="click on create method"></p>
+<p>Select the allowed HTTP method in the dropdown. For the purpose of demonstration, this example continues to use the same Lambda function as the triggered action when the path is requested:</p>
+<div style="{{textAlign:" &#x27;center&#x27;}}="">
+<img src="https://static.api7.ai/uploads/2024/04/26/vni7yS2q_create%20method%202.png" alt="create method and lambda function" width="70%">
+</div>
+<p>Finish the method creation. Once redirected back to the main gateway console, click on <strong>Deploy API</strong> to deploy the path and method changes:</p>
+<p><img src="https://static.api7.ai/uploads/2024/04/26/2vrqnVPB_deploy-api.png" alt="deploy changes to API gateway"></p>
+<p>Finally, create a Route in APISIX with your gateway endpoint and API key:</p>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "aws-lambda-subpath-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/aws-lambda/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "aws-lambda": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "function_uri": "https://your-api-id.execute-api.us-west-2.amazonaws.com/default",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "authorization": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "apikey": "YOUR_API_GATEWAY_API_KEY"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "ssl_verify": false</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-subpath-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/aws-lambda/*</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          aws-lambda</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-api-id.execute-api.us-west-2.amazonaws.com/default</span></span>
+<span class="line"><span style="color:#7EE787">            authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              apikey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_API_GATEWAY_API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">            ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>Synchronize the configuration to the gateway:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">aws-lambda-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-api-id.execute-api.us-west-2.amazonaws.com/default</span></span>
+<span class="line"><span style="color:#7EE787">        authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          apikey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_API_GATEWAY_API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">        ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-subpath-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PathPrefix</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/aws-lambda/</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-plugin-config</span></span></code></pre>
+<p><strong>apisix-crd</strong></p>
+<div class="code-title">aws-lambda-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-subpath-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda-subpath-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/aws-lambda/*</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aws-lambda</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            function_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://your-api-id.execute-api.us-west-2.amazonaws.com/default</span></span>
+<span class="line"><span style="color:#7EE787">            authorization</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              apikey</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">YOUR_API_GATEWAY_API_KEY</span></span>
+<span class="line"><span style="color:#7EE787">            ssl_verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span></code></pre>
+<p>Apply the configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> aws-lambda-ic.yaml</span></span></code></pre>
+<p>Send a request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/aws-lambda/api7-docs"</span></span></code></pre>
+<p>APISIX will forward the request to <code>https://your-api-id.execute-api.us-west-2.amazonaws.com/default/api7-docs</code> and you should receive an <code>HTTP/1.1 200 OK</code> response with the following message:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>"Hello from Lambda!"</span></span></code></pre>
+<p>If your API key is invalid or if the requested path is not associated with any method, you should receive an <code>HTTP/1.1 403 Forbidden</code> response.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/plugins/aws-lambda.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

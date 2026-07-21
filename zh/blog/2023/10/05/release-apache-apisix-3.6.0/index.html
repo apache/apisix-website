@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.6.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.6.0 版本于 2023 年 10 月 5 日发布。该版本带来了一系列新功能，修复，和用户体验优化。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/10/05/release-apache-apisix-3.6.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/10/05/release-apache-apisix-3.6.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/10/05/release-apache-apisix-3.6.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/10/05/release-apache-apisix-3.6.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 3.6.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.6.0 版本于 2023 年 10 月 5 日发布。该版本带来了一系列新功能，修复，和用户体验优化。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/10/05/release-apache-apisix-3.6.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.6.0 正式发布","description":"Apache APISIX 3.6.0 版本于 2023 年 10 月 5 日发布。该版本带来了一系列新功能，修复，和用户体验优化。","datePublished":"2023-10-05","author":{"@type":"Person","name":"Xin Rong"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/10/05/release-apache-apisix-3.6.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/10/05/release-apache-apisix-3.6.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/10/05/release-apache-apisix-3.6.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 3.6.0 正式发布</h1> <p class="article-meta"> 2023-10-05 · Xin Rong  </p> <p>我们很高兴地宣布 Apache APISIX 3.6.0 版本已经发布，带来一系列新功能，修复，和用户体验优化。</p>
+<!--truncate-->
+<p>该版本增加了一系列新功能，包括支持在服务发现中使用本地 DNS 解析器、转发 Dubbo 流量、在 <code>opentelemetry</code> 插件中使用 NGINX 变量等等。</p>
+<p>此外，该版本还包含了一些重要的变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。</p>
+<h2 id="重大变更">重大变更</h2>
+<h3 id="移除-apisix-和-etcd-之间的-grpc-通信支持">移除 APISIX 和 etcd 之间的 gRPC 通信支持</h3>
+<p>该版本移除了 APISIX 和 etcd 之间的 gRPC 通信，在配置文件中移除了 <code>etcd.use_grpc</code> 配置项。该变更修复了一些bugs。</p>
+<p>如果您目前正在使用 gRPC 作为 APISIX 和 etcd 之间的通信，请计划变更至 HTTP。</p>
+<p>详情请参考<a href="https://lists.apache.org/thread/b69vjkbdszdtk9y30k45c2tvg4f3hqwt">变更提案</a>和 <a href="https://github.com/apache/apisix/pull/10015">PR #10015</a>。</p>
+<h3 id="移除-conf-server">移除 Conf Server</h3>
+<p>在移除了 APISIX 和 etcd 之间的 gRPC 支持的同时，一并移除 Conf server。该变更修复了一些bugs。</p>
+<p>如果您目前正在以解耦模式部署APISIX，请注意在这个版本中，数据平面（DP）APISIX实例不再直接与控制平面（CP）APISIX实例通信。现在，两个实例都与etcd进行通信。请根据解耦模式文档计划相应的配置变更。</p>
+<p>详情请参考<a href="https://lists.apache.org/thread/b69vjkbdszdtk9y30k45c2tvg4f3hqwt">变更提案</a>和 <a href="https://github.com/apache/apisix/pull/10012">PR #10012</a>。</p>
+<h3 id="对-apisix-核心资源进行严格验证">对 APISIX 核心资源进行严格验证</h3>
+<p>对核心资源进行严格验证。这意味着在配置 upstream 时，您添加的任何自定义字段必须符合定义的模式。</p>
+<p>如果您配置一个这样的上游：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/upstreams/1</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "127.0.0.1:8080": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "custom_field": "this_is_not_allowed"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>您会收到 <code>400</code> 响应和以下内容：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>{"error_msg":"invalid configuration: additional properties forbidden found .*"\}</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10233">PR #10233</a>。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="支持使用本地-dns-解析器进行服务发现">支持使用本地 DNS 解析器进行服务发现</h3>
+<p>配置文件提供了一个新的选项 <code>resolv_conf</code>，您可以在其中指定包含本地DNS解析器列表的文件路径。</p>
+<p>您应该只配置 <code>servers</code> 或者 <code>resolv_conf</code> 其中一个选项，例如：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">discovery</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  dns</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#8B949E">    # servers:</span></span>
+<span class="line"><span style="color:#8B949E">    #  - "127.0.0.1:8600"          # Address of DNS server.</span></span>
+<span class="line"><span style="color:#7EE787">    resolv_conf</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/etc/resolv.conf</span><span style="color:#8B949E">  # Path to the local DNS resolver config.</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/9770">PR #9770</a>。</p>
+<h3 id="支持直接转发-dubbo-流量">支持直接转发 Dubbo 流量</h3>
+<p>APISIX 提供了对 Dubbo 流量的直接转发支持。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/9660">PR #9660</a>。</p>
+<h3 id="在-opentelemetry-插件中支持-nginx-变量">在 <code>opentelemetry</code> 插件中支持 NGINX 变量</h3>
+<p>在 <code>opentelemetry</code> 插件中支持使用 NGINX 变量。例如您可以配置如下：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enable_access_log</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  access_log</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/dev/stdout"</span></span>
+<span class="line"><span style="color:#7EE787">  access_log_format</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'{"time": "$time_iso8601","opentelemetry_context_traceparent": "$opentelemetry_context_traceparent","opentelemetry_trace_id": "$opentelemetry_trace_id","opentelemetry_span_id": "$opentelemetry_span_id","remote_addr": "$remote_addr","uri": "$uri"}'</span></span>
+<span class="line"><span style="color:#7EE787">  access_log_format_escape</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">json</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">opentelemetry</span></span>
+<span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  opentelemetry</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    set_ngx_var</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/8871">PR #8871</a>。</p>
+<h3 id="在外部插件中支持对请求体进行重写">在外部插件中支持对请求体进行重写</h3>
+<p>在外部插件（即非 Lua 插件）中支持对请求体进行重写。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/9990">PR #9990</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<ul>
+<li>支持配置访问日志的缓冲区大小 (<a href="https://github.com/apache/apisix/pull/10225">PR #10225</a>)</li>
+<li>移除安装过程 Rust 依赖 (<a href="https://github.com/apache/apisix/pull/10121">PR #10121</a>)</li>
+<li>在 <code>traffic-split</code> 插件中支持 HTTPS (<a href="https://github.com/apache/apisix/pull/9115">PR #9115</a>)</li>
+<li>在 <code>chaitin-waf</code> 插件中支持使用 UNIX sock 主机模式 (<a href="https://github.com/apache/apisix/pull/10161">PR #10161</a>)</li>
+<li>修复 GraphQL POST 请求路由匹配异常 (<a href="https://github.com/apache/apisix/pull/10198">PR #10198</a>)</li>
+<li>修复 <code>proxy-cache</code> 插件中配置无效 <code>cache_zone</code> 时的报错 (<a href="https://github.com/apache/apisix/pull/10138">PR #10138</a>)</li>
+</ul>
+<h2 id="变更日志">变更日志</h2>
+<p>有关此版本中更改的完整列表，请参阅 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#360">变更日志</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

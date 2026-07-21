@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.12.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.12.0 版本于 2025 年 4 月 1 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2025/04/01/release-apache-apisix-3.12.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/04/01/release-apache-apisix-3.12.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/04/01/release-apache-apisix-3.12.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/04/01/release-apache-apisix-3.12.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 3.12.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.12.0 版本于 2025 年 4 月 1 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2025/04/01/release-apache-apisix-3.12.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.12.0 正式发布","description":"Apache APISIX 3.12.0 版本于 2025 年 4 月 1 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。","datePublished":"2025-04-01","author":{"@type":"Person","name":"Ashish Tiwari"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2025/04/01/release-apache-apisix-3.12.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2025/04/01/release-apache-apisix-3.12.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2025/04/01/release-apache-apisix-3.12.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 3.12.0 正式发布</h1> <p class="article-meta"> 2025-04-01 · Ashish Tiwari  </p> <p>我们很高兴地宣布 Apache APISIX 3.12.0 版本已经发布，带来了一系列新功能、修复、以及相关用户体验优化。</p>
+<!--truncate-->
+<p>本次新版本增加了许多新功能，包括几个 AI 插件、<code>openid-connect</code> 插件中对有效发行者的支持、速率限制响应头名称自定义的支持等等。</p>
+<p>此外，该版本还包含了一些重要的变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。</p>
+<h2 id="重大变更">重大变更</h2>
+<h3 id="重构-ai-proxy-插件">重构 <code>ai-proxy</code> 插件</h3>
+<p><code>ai-proxy</code> 插件已重构，以提高可维护性和性能。更改包括不需要上游配置、删除架构中的最大超时以及支持各种提供商，包括 <code>openai</code>、<code>deepseek</code> 和 <code>openai-compatible</code>。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/12030">#12030</a>、<a href="https://github.com/apache/apisix/pull/12055">#12055</a> 和 <a href="https://github.com/apache/apisix/pull/12004">#12004</a>。</p>
+<h3 id="用-plugin-metadata-替换-opentelemetry-插件属性">用 plugin metadata 替换 <code>opentelemetry</code> 插件属性</h3>
+<p>插件属性 <code>batch_span_processor</code>、<code>collector</code>、<code>trace_id_source</code>、<code>resource</code> 和 <code>set_ngx_var</code> 配置现已从配置文件迁移到 plugin metadata。</p>
+<p>有关详细信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11940">#11940</a>。</p>
+<h3 id="为-prometheus-指标添加过期时间">为 Prometheus 指标添加过期时间</h3>
+<p>在之前的版本中，Prometheus 指标不会过期。APISIX 现在确保所有 Prometheus 指标都有过期时间，以防止陈旧数据累积。您可以在配置文件中自定义指标过期时间。依赖 Prometheus 的用户应该会看到更高效的存储使用率。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11838">#11838</a>。</p>
+<h3 id="删除-workflow-插件中-case-的要求">删除 <code>workflow</code> 插件中 <code>case</code> 的要求</h3>
+<p><code>workflow</code> 插件现在不强制将 <code>case</code> 作为必需属性。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11787">#11787</a>。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="在-ai-proxy-插件中支持代理到嵌入模型">在 <code>ai-proxy</code> 插件中支持代理到嵌入模型</h3>
+<p>APISIX 现在除了代理到 LLM 模型外，还支持代理到嵌入模型。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/12062">#12062</a>。</p>
+<h3 id="添加-ai-proxy-multi-插件">添加 <code>ai-proxy-multi</code> 插件</h3>
+<p>引入了 <code>ai-proxy-multi</code> 插件，以支持多个 LLM 实例之间的负载平衡，增强容错能力。该插件可与 <code>ai-rate-limiting</code> 一起使用，以实现特定实例的速率限制。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11986">#11986</a>。</p>
+<h3 id="添加-ai-rate-limiting-插件">添加 <code>ai-rate-limiting</code> 插件</h3>
+<p><code>ai-rate-limiting</code> 插件引入了 LLM 实例特定的速率限制策略，允许根据工作负载需求对 API 使用进行细粒度控制。这有助于防止过度资源消耗，同时保持最佳模型性能。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/12037">#12037</a> 和 <a href="https://github.com/apache/apisix/pull/12047">#12047</a>。</p>
+<h3 id="添加-ai-prompt-guard-插件">添加 <code>ai-prompt-guard</code> 插件</h3>
+<p>新的 <code>ai-prompt-guard</code> 插件通过过滤有害或不需要的提示，为 LLM 生成的响应提供安全性和内容审核。此功能在需要输入清理以防止滥用 LLM 的应用程序中很有用。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/12008">#12008</a>。</p>
+<h3 id="添加-ai-rag-插件">添加 <code>ai-rag</code> 插件</h3>
+<p><code>ai-rag</code> 插件通过将外部知识检索与 LLM 响应集成，支持检索增强生成 (RAG) 工作流。这通过合并相关事实数据来增强 LLM 生成的内容。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11568">#11568</a>。</p>
+<h3 id="添加-ai-content-moderation-插件">添加 <code>ai-content-moderation</code> 插件</h3>
+<p><code>ai-content-moderation</code> 插件与 AWS Comprehend 集成，通过过滤有害或不适当的 LLM 生成内容来帮助实施内容策略。这对于合规性和内容安全应用程序非常有用。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11541">#11541</a>。</p>
+<h3 id="支持在-ssl_trusted_certificate-中使用系统提供的证书">支持在 <code>ssl_trusted_certificate</code> 中使用系统提供的证书</h3>
+<p>APISIX 现在允许通过在配置文件中将 <code>ssl_trusted_certificate</code> 设置为系统来使用系统提供的 SSL 证书。这简化了使用系统提供的 CA 包的环境的证书管理。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11809">#11809</a>。</p>
+<h3 id="支持在插件中执行自定义逻辑">支持在插件中执行自定义逻辑</h3>
+<p>插件中引入了新的 <code>_meta.pre_function</code> 属性，允许在每个请求处理阶段之前执行自定义逻辑。此功能提供了对请求处理的更大控制，支持变量注册等预处理任务。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11793">#11793</a>。</p>
+<h3 id="支持匿名消费者">支持匿名消费者</h3>
+<p>APISIX 现在支持“匿名”消费者，可以在身份验证期间将其分配给与任何现有消费者都不匹配的请求。这对于某些端点需要允许未经身份验证的访问同时仍应用基于消费者的策略的场景特别有用。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11917">#11917</a>。</p>
+<h3 id="在-openid-connect-插件中添加-valid_issuers-属性">在 <code>openid-connect</code> 插件中添加 <code>valid_issuers</code> 属性</h3>
+<p><code>openid-connect</code> 插件现在支持 <code>valid_issuers</code> 属性，用于将受信任的 JWT 发行者列入白名单。如果未配置，插件将使用发现文档中返回的发行者进行验证。如果两者都缺失，则不会验证发行者。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/12002">#12002</a>。</p>
+<h3 id="在-jwt-auth-插件中将-jwt-存储在请求上下文中">在 <code>jwt-auth</code> 插件中将 JWT 存储在请求上下文中</h3>
+<p>APISIX 现在支持在请求上下文中存储 JWT 令牌，允许其他插件访问令牌详细信息而无需重新解析它们。这提高了使用身份验证和授权插件时的效率。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11675">#11675</a>。</p>
+<h3 id="支持在-jwt-auth-插件中配置-key_claim_name">支持在 <code>jwt-auth</code> 插件中配置 <code>key_claim_name</code></h3>
+<p>JWT 身份验证插件现在允许自定义 <code>key_claim_name</code>，从而可以灵活地从 JWT 声明中提取用户标识符。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11772">#11772</a>。</p>
+<h3 id="自定义速率限制响应标头名称">自定义速率限制响应标头名称</h3>
+<p>用户现在可以自定义速率限制响应标头名称，从而可以灵活地向客户端公开速率限制信息。此更改有助于定制响应以满足特定的应用程序需求。</p>
+<p>有关更多信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11831">#11831</a>。</p>
+<h3 id="在-body-transformer-插件中支持多部分内容类型">在 <code>body-transformer</code> 插件中支持多部分内容类型</h3>
+<p><code>body-transformer</code> 插件现在支持多部分请求，从而可以转换文件上传和其他多部分有效负载。</p>
+<p>有关详细信息，请参阅 PR <a href="https://github.com/apache/apisix/pull/11767">#11767</a>。</p>
+<h2 id="其他变更">其他变更</h2>
+<ul>
+<li>在 <code>multi-auth</code> 插件中，身份验证失败时返回错误而不是登录 (PR <a href="https://github.com/apache/apisix/pull/11775">#11775</a>)</li>
+<li>将每秒总请求数 (TPS) 面板添加到 Grafana 仪表板 (PR <a href="https://github.com/apache/apisix/pull/11692">#11692</a>)</li>
+<li>当检测到较低版本时重新同步 etcd 以确保数据一致性 (PR <a href="https://github.com/apache/apisix/pull/12015">#12015</a>)</li>
+<li>删除 <code>ai-proxy</code> 中的 <code>stream</code> 默认值以防止意外行为 (PR <a href="https://github.com/apache/apisix/pull/12013">#12013</a>)</li>
+<li>修复 <code>gRPC-web</code> 响应的两个尾部块，确保响应格式正确 (PR <a href="https://github.com/apache/apisix/pull/11988">#11988</a>)</li>
+<li>解决 <code>chaitin-waf</code> 插件中 <code>event_id</code> 为 nil 的问题，提高日志记录准确性 (PR <a href="https://github.com/apache/apisix/pull/11651">#11651</a>)</li>
+<li>修复更新 <code>upstream.nodes</code> 时的竞争条件，以防止出现意外行为 (PR <a href="https://github.com/apache/apisix/pull/11916">#11916</a>)</li>
+<li>确保 <code>upstream_obj.upstream</code> 不是字符串，以保持数据完整性 (PR <a href="https://github.com/apache/apisix/pull/11932">#11932</a>)</li>
+</ul>
+<h2 id="变更日志">变更日志</h2>
+<p>有关此版本的完整变更列表，请参阅 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#3120">CHANGELOG</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

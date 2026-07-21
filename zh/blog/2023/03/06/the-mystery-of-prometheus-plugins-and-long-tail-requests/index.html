@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>从 1 秒到 10 毫秒！在 APISIX 中减少 Prometheus 请求阻塞 | Apache APISIX</title><meta name="description" content="本文介绍了 Prometheus 插件造成长尾请求现象的原因，以及如何解决这个问题。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="从 1 秒到 10 毫秒！在 APISIX 中减少 Prometheus 请求阻塞 | Apache APISIX"><meta property="og:description" content="本文介绍了 Prometheus 插件造成长尾请求现象的原因，以及如何解决这个问题。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"从 1 秒到 10 毫秒！在 APISIX 中减少 Prometheus 请求阻塞","description":"本文介绍了 Prometheus 插件造成长尾请求现象的原因，以及如何解决这个问题。","datePublished":"2023-03-06","author":{"@type":"Person","name":"屠正松"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>从 1 秒到 10 毫秒！在 APISIX 中减少 Prometheus 请求阻塞</h1> <p class="article-meta"> 2023-03-06 · 屠正松  </p> <blockquote>
+<p>本文介绍了 Prometheus 插件造成长尾请求现象的原因，以及如何解决这个问题。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>作者<a href="https://github.com/tzssangglass">屠正松</a>，Apache APISIX PMC Member。</p>
+</blockquote>
+<h2 id="现象">现象</h2>
+<p>在 APISIX 社区中，曾有部分用户陆续反馈一种神秘现象：部分请求延迟较长。具体表现为：当流量请求进入一个正常部署的 APISIX 集群时，偶尔会出现部分请求有 1 ~ 2 秒的延迟。用户的 QPS 规模大概在 1 万，但是这种异常请求非常少见，每隔几分钟就会出现 1 ~ 3 次。一些用户在 issue 中也提供了捕获到的延迟较长的请求。从这些截图中可以看出，确实有请求延迟较高，甚至可以达到秒级别。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/01/31/uDLOpLOB_rGTqZMPdD2.jpeg" alt="High Latency Requests 1.png"></p>
+<p><img src="https://static.apiseven.com/2022/12/29/63ad4ff190201.png" alt="High Latency Requests 2.png"></p>
+<p>这种现象伴随着另一种现象：某个 worker 进程的 CPU 占用率达到了 100%。</p>
+<p><img src="https://static.apiseven.com/2022/12/29/63ad4ff52986d.png" alt="100% CPU.png"></p>
+<p>开发团队通过不同渠道与这些反馈的用户沟通得知，这个现象发生的条件是：</p>
+<ol>
+<li>开启 prometheus 插件，并且有 Prometheus Exporter 访问 APISIX 的 endpoint <code>/apisix/prometheus/metrics</code> 来采集指标；</li>
+<li>prometheus 插件统计的 metrics 的数量达到一定规模，通常是上万级别；</li>
+</ol>
+<p>这个现象是在业界称为 “长尾请求”，是指在一个请求群体中，大部分请求响应时间较短，但有少部分请求响应时间较长的情况。它可能是由于后端系统的性能瓶颈、资源不足或其他原因导致的。它不是一个致命的 bug，但是它严重影响了终端用户的体验。</p>
+<h2 id="抽丝剥茧">抽丝剥茧</h2>
+<p>APISIX 基于一个开源的 Lua 库 <a href="https://github.com/knyar/nginx-lua-prometheus">nginx-lua-prometheus</a> 开发了 Prometheus 插件，提供跟踪和收集 metrics 的功能。当 Prometheus Exporter 访问 APISIX 暴露的 Prometheus 指标的 endpoint 时，APISIX 会调用 nginx-lua-prometheus 提供的函数来暴露 metrics 的计算结果。</p>
+<p>开发团队从社区用户，企业用户等渠道收集汇总了长尾请求发生的条件，基本定位了问题所在：nginx-lua-prometheus 中用于暴露 metrics 指标的函数 <code>prometheus:metric_data()</code>。</p>
+<p>不过这只是初步推断，还需要直接的证据来证明长尾请求与此有关，并且需要搞清楚以下问题：</p>
+<ol>
+<li>这个函数具体做了什么？</li>
+<li>这个函数为什么会造成长尾请求现象？</li>
+</ol>
+<p>开发团队构造了本地复现环境，这个复现环境主要模拟以下场景：</p>
+<ol>
+<li>模拟客户端发送正常请求，被 APISIX 代理到上游</li>
+<li>模拟 Prometheus Exporter 每隔 5 秒访问 <code>/apisix/prometheus/metrics</code>，触发 APISIX 运行 <code>prometheus:metric_data()</code> 函数</li>
+</ol>
+<p>复现环境示意图：</p>
+<p><img src="https://static.apiseven.com/2022/12/29/63ad4ff72f99a.png" alt="Reproduced Environment.png"></p>
+<p>在执行复现测试时，我们会观察 wrk2 的测试结果中的 P100 等指标来确认是否发生了长尾请求现象，并且会对运行中的 APISIX 生成火焰图，来观测发生长尾请求时，CPU 资源消耗在哪里。</p>
+<p>wrk2 的测试结果如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>  Latency Distribution (HdrHistogram - Uncorrected Latency (measured without taking delayed starts into account))</span></span>
+<span class="line"><span>   50.000%    1.13ms</span></span>
+<span class="line"><span>   75.000%    2.56ms</span></span>
+<span class="line"><span>   90.000%    4.82ms</span></span>
+<span class="line"><span>   99.000%   14.70ms</span></span>
+<span class="line"><span>   99.900%   27.95ms</span></span>
+<span class="line"><span>   99.990%   74.75ms</span></span>
+<span class="line"><span>   99.999%  102.78ms</span></span>
+<span class="line"><span>  100.000%  102.78ms</span></span></code></pre>
+<p>根据这个测试结果可以得到结论：在测试期间，99% 的请求在 14.70 毫秒内完成了，但是还有很少一部分请求消耗了 100 多毫秒。并且我们用 metrics 数量作为变量，进行了多次测试，发现 metrics 数量与 P100 的延迟呈线性增长。如果 metrics 达到 10 万级别，P100 将达到秒级别。</p>
+<p>生成的火焰图如下：</p>
+<p><img src="https://static.apiseven.com/2022/12/29/63ad4ff9130d0.png" alt="Flame Graph1"></p>
+<p>从火焰图的函数堆栈可以看到，<code>prometheus:metric_data()</code> 占据了最长的横轴宽度，这证明了大量 CPU 消耗在这里。这也直接证明了 <code>prometheus:metric_data()</code> 造成长尾请求现象。</p>
+<p>下面我们来简单分析一下 <code>prometheus:metric_data()</code> 函数做了什么。<code>prometheus:metric_data()</code> 将会从共享内存中获取指标，对指标进行分类，并加工成 Prometheus 兼容的文本格式。在这个过程中，会对所有 metrics 按照字典序进行排序，会用正则处理 metrics 的前缀。根据经验，这些都是非常昂贵的操作。</p>
+<h2 id="不够完美的优化">不够完美的优化</h2>
+<p>当定位到有问题的代码后，下一步就是结合火焰图，详细分析代码，寻找优化空间。</p>
+<p>从火焰图可以定位到 <code>fix_histogram_bucket_labels</code> 函数。通过 review 这个函数，我们发现了两个比较敏感的函数：<code>string:match</code> 和 <code>string:gsub</code>。这两个函数都不能被 LuaJIT 所 JIT 编译，只能解释执行。</p>
+<p>LuaJIT 是一个针对 Lua 编程语言的 JIT 编译器，可以将 Lua 代码编译成机器码并运行。这相比于使用解释器来运行 Lua 代码，可以提供更高的性能。
+使用 LuaJIT 运行 Lua 代码的一个优势是，它可以大幅提升代码的执行速度。这使得 APISIX 在处理大量请求时可以保持较低的延迟，并且可以在高并发环境下表现出较好的性能。
+关于 LuaJIT 的更多介绍可以参考：<a href="https://moonbingbing.gitbooks.io/openresty-best-practices/content/lua/what_jit.html">什么是 JIT</a>？</p>
+<p>因此不能被 LuaJIT 编译的代码必然会成为潜在的性能瓶颈。</p>
+<p>我们整理以上信息并提交了 <a href="https://github.com/knyar/nginx-lua-prometheus/issues/130">issue: optimize the long-tail request phenomenon</a> 到 nginx-lua-prometheus，与这个项目的作者 knyar 一起探讨可以优化的空间。knyar 响应很及时，我们沟通后明确了可以优化的点。于是提交了 PR：<a href="https://github.com/knyar/nginx-lua-prometheus/pull/131">chore: use ngx.re.match instead of string match to improve performance</a> 进行优化。
+在这个 PR 中，主要完成了：</p>
+<ul>
+<li>用 <code>ngx.re.match</code> 替代 <code>string:match</code></li>
+<li>用 <code>ngx.re.gsub</code> 替代 <code>string:gsub</code></li>
+</ul>
+<p>在完成这个优化后，我们其实非常理性地知道，这个优化只能提升一些性能，但不能根本解决问题。根本问题是：</p>
+<p>Nginx 是一种多进程单线程的架构。所有的 worker 进程都会监听 TCP 连接，但一旦连接进入了某个 worker 进程，就不能再被迁移到其他 worker 进程去处理了。
+这意味着，如果某个 worker 进程非常忙碌，那么该 worker 进程内的其他连接就可能无法及时获得处理。另一方面，进程内的单线程模型意味着，所有 CPU 密集型和 IO 密集型的任务都必须按顺序执行。如果某个任务执行时间较长，那么其他任务就可能被忽略，导致任务处理时间不均匀。</p>
+<p><code>prometheus:metric_data()</code> 占据了大量的 CPU 时间片进行计算，挤压了处理正常请求的 CPU 资源。这也是为什么会看到某个 worker 进程的 CPU 占用率达到 100%。</p>
+<p>基于这个问题，我们在完成上述优化后继续分析，抓取了火焰图：</p>
+<p><img src="https://static.apiseven.com/2022/12/29/63ad4ffa4e070.png" alt="Flame Graph2"></p>
+<p>上面火焰图 <code>builtin#100</code> 表示的是 luajit/lua 的库函数（比如 <code>string.find</code> 这种），可以通过 <a href="https://github.com/openresty/openresty-devel-utils/blob/master/ljff.lua">https://github.com/openresty/openresty-devel-utils/blob/master/ljff.lua</a> 这个项目里的脚本来得到对应的函数名称。</p>
+<p>使用方式：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> luajit</span><span style="color:#A5D6FF"> ljff.lua</span><span style="color:#79C0FF"> 100</span></span>
+<span class="line"><span style="color:#FFA657">FastFunc</span><span style="color:#A5D6FF"> table.sort</span></span></code></pre>
+<p>由于计算 metrics 时占用了过量的 CPU，所以我们考虑在计算 metrics 时适当让出 CPU 时间片。</p>
+<p>对于 APISIX 来说，处理正常请求的优先级是最高的，CPU 资源应当向此倾斜，而 <code>prometheus:metric_data()</code> 只会影响 Prometheus Exporter 获取指标时的效率。</p>
+<p>在 OpenResty 世界，有一个隐秘的让出 CPU 时间片的方式：<code>ngx.sleep(0)</code> 。我们在 <code>prometheus:metric_data()</code> 中引入这种方式，当处理所有的 metrics 时，每处理固定数目（比如 200 个）的 metrics 后让出 CPU 时间片，这样新进来的请求将有机会得到处理。</p>
+<p>我们提交了引入这个优化的 PR：<a href="https://github.com/knyar/nginx-lua-prometheus/pull/139">feat: performance optimization</a>。</p>
+<p>在我们的测试场景中，当 metrics 的总数量达到 10 万级别时，引入这个优化之前用 wrk2 测试得到的结果：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>  Latency Distribution (HdrHistogram - Uncorrected Latency (measured without taking delayed starts into account))</span></span>
+<span class="line"><span> 50.000%   10.21ms</span></span>
+<span class="line"><span> 75.000%   12.03ms</span></span>
+<span class="line"><span> 90.000%   13.25ms</span></span>
+<span class="line"><span> 99.000%   92.80ms</span></span>
+<span class="line"><span> 99.900%  926.72ms</span></span>
+<span class="line"><span> 99.990%  932.86ms</span></span>
+<span class="line"><span> 99.999%  934.40ms</span></span>
+<span class="line"><span>100.000%  934.91ms</span></span></code></pre>
+<p>引入这个优化后，用 wrk2 测试得到的结果：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>  Latency Distribution (HdrHistogram - Uncorrected Latency (measured without taking delayed starts into account))</span></span>
+<span class="line"><span> 50.000%    4.34ms</span></span>
+<span class="line"><span> 75.000%   12.81ms</span></span>
+<span class="line"><span> 90.000%   16.12ms</span></span>
+<span class="line"><span> 99.000%   82.75ms</span></span>
+<span class="line"><span> 99.900%  246.91ms</span></span>
+<span class="line"><span> 99.990%  349.44ms</span></span>
+<span class="line"><span> 99.999%  390.40ms</span></span>
+<span class="line"><span>100.000%  397.31ms</span></span></code></pre>
+<p>可以看到 P100 的指标大约是优化前的 1/3 ～ 1/2。</p>
+<p>不过这并没有完美解决这个问题，通过分析优化后的火焰图：</p>
+<p><img src="https://static.apiseven.com/2022/12/29/63ad4ffa4e070.png" alt="Flame Graph After Optimization"></p>
+<p>可以直接看到 <code>builtin#100</code>（即 <code>table.sort</code>） 和 <code>builtin#92</code>（即 <code>string.format</code>）等，仍然占据了相当宽度的横轴，这是因为：</p>
+<ol>
+<li><code>prometheus:metric_data()</code> 中首先会对所有的 metrics 调用 <code>table.sort</code> 进行排序，当 metrics 到 10 万级别时，相当于对 10 万个字符串进行排序，并且 <code>table.sort</code> 不可以被 <code>ngx.sleep(0)</code> 中断。</li>
+<li>使用 <code>string.format</code> 的地方，以及 <code>fix_histogram_bucket_labels</code> 无法优化，经过与 knyar 交流后得知，这些步骤必须存在以保证 <code>prometheus:metric_data()</code> 可以产出格式正确的 metrics。</li>
+</ol>
+<p>至此，代码层面的优化手段已经用完了，但遗憾的是，还是没有完美解决问题。P100 的指标仍然有明显的延迟。</p>
+<h2 id="怎么办">怎么办？</h2>
+<p>让我们再回到核心问题：<code>prometheus:metric_data()</code> 占据了大量的 CPU 时间片进行计算，挤压了处理正常请求的 CPU 资源。</p>
+<p>在 Linux 系统中，CPU 分配时间片的单位是线程还是进程？准确来说是线程，线程才是实际的工作单元。不过 Nginx 是多进程单线程的架构，实际在每个进程中只有一个线程。</p>
+<p>此时我们会想到一个优化方向：将 <code>prometheus:metric_data()</code> 转移到其他线程，或者说进程。于是我们调研了两个方向：</p>
+<ol>
+<li>用 <code>ngx.run_worker_thread</code> 来运行 <code>prometheus:metric_data()</code> 的计算任务，相当于将 CPU 密集型任务交给线程池；</li>
+<li>用单独的进程来处理 <code>prometheus:metric_data()</code> 的计算任务，这个进程不会处理正常请求。</li>
+</ol>
+<p>经过 PoC 后，我们否定了方案 1，采用了方案 2。否定方案 1 是因为 <code>ngx.run_worker_thread</code> 只适合运行与请求无关的计算任务，而 <code>prometheus:metric_data()</code> 明显是与请求有关的。</p>
+<p>方案 2 的实现：让 <code>privileged agent</code>（特权进程）来处理 <code>prometheus:metric_data()</code>。但是特权进程本身不监听任何端口，也不会处理任何请求。因此，我们需要对特权进程进行一些改造，让它监听端口。</p>
+<p>最终，我们通过 <a href="https://github.com/api7/apisix-nginx-module/pull/71">feat: allow privileged agent to listen port</a> 和 <a href="https://github.com/apache/apisix/pull/8434">feat(prometheus): support collect metrics works in the priviledged agent</a> 实现了方案 2。</p>
+<p>我们使用带上了这个优化的 APISIX 来测试，发现 P100 的指标延迟已经降低到合理的范围内，长尾请求现象也不存在了。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>  Latency Distribution (HdrHistogram - Uncorrected Latency (measured without taking delayed starts into account))</span></span>
+<span class="line"><span> 50.000%    3.74ms</span></span>
+<span class="line"><span> 75.000%    4.66ms</span></span>
+<span class="line"><span> 90.000%    5.77ms</span></span>
+<span class="line"><span> 99.000%    9.99ms</span></span>
+<span class="line"><span> 99.900%   13.41ms</span></span>
+<span class="line"><span> 99.990%   16.77ms</span></span>
+<span class="line"><span> 99.999%   18.38ms</span></span>
+<span class="line"><span>100.000%   18.40ms</span></span></code></pre>
+<p>这个方案有些巧妙，也解决了最核心的问题。我们在生产环境中观察并验证了这个方案，它消除了长尾请求现象，也没有造成其他额外的异常。
+与此同时，我们发现社区中也有类似的修复方案，有兴趣的话可以延伸阅读：<a href="https://heapdump.cn/article/4822247">如何修改 Nginx 源码实现 worker 进程隔离</a>。</p>
+<h2 id="展望">展望</h2>
+<p>在我们修复这个问题的时候，产生了一个新的思考：nginx-lua-prometheus 这个开源库适合 APISIX 吗？</p>
+<p>我们在 APISIX 侧解决了 <code>prometheus:metric_data()</code> 的问题，同时，我们也发现了 nginx-lua-prometheus 存在的其他问题，并且修复了。比如<a href="https://github.com/knyar/nginx-lua-prometheus/pull/151">修复内存泄漏</a>，以及修复 <a href="https://github.com/knyar/nginx-lua-prometheus/pull/147">LRU 缓存淘汰</a>。</p>
+<p>nginx-lua-prometheus 刚开始是被设计为 Nginx 使用，并不是为了 OpenResty 以及基于 OpenResty 的应用所设计的。OpenResty 生态内没有比 nginx-lua-prometheus 更成熟的对接 Prometheus 生态的开源项目，因此 nginx-lua-prometheus 不断被开源社区的力量推动成为适合 OpenResty 生态的方向。</p>
+<p>也许我们应该将视野放得更开阔一些，寻找不用修改 APISIX 底层的方式来对接 Prometheus 生态。比如设计一个更适合 APISIX 的依赖库，或者用某种方式对接 Prometheus 生态中成熟的项目，将收集和计算 metrics 的过程转移到那些成熟的项目中。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

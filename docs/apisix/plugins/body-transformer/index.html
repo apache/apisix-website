@@ -1,0 +1,754 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>body-transformer | Apache APISIX</title><meta name="description" content="The body-transformer Plugin performs template-based transformations to transform the request and/or response bodies from one format to another, for example, from JSON to JSON, JSON to HTML, or XML to YAML."><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/body-transformer"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/body-transformer/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/body-transformer/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/body-transformer/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="body-transformer | Apache APISIX"><meta property="og:description" content="The body-transformer Plugin performs template-based transformations to transform the request and/or response bodies from one format to another, for example, from JSON to JSON, JSON to HTML, or XML to YAML."><meta property="og:url" content="https://docs.api7.ai/hub/body-transformer"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"body-transformer","description":"The body-transformer Plugin performs template-based transformations to transform the request and/or response bodies from one format to another, for example, from JSON to JSON, JSON to HTML, or XML to YAML.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/plugins/body-transformer/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/plugins/body-transformer/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/plugins/body-transformer/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class="active">body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class>Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>body-transformer</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="description">Description</h2>
+<p>The <code>body-transformer</code> Plugin performs template-based transformations to transform the request and/or response bodies from one format to another, for example, from JSON to JSON, JSON to HTML, or XML to YAML.</p>
+<h2 id="attributes">Attributes</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Valid values</th><th>Description</th></tr></thead><tbody><tr><td><code>request</code></td><td>object</td><td>False</td><td></td><td></td><td>Request body transformation configuration.</td></tr><tr><td><code>request.input_format</code></td><td>string</td><td>False</td><td></td><td>[<code>xml</code>,<code>json</code>,<code>encoded</code>,<code>args</code>,<code>plain</code>,<code>multipart</code>]</td><td>Request body original media type. If unspecified, the value would be determined by the <code>Content-Type</code> header to apply the corresponding decoder. The <code>xml</code> option corresponds to <code>text/xml</code> media type. The <code>json</code> option corresponds to <code>application/json</code> media type. The <code>encoded</code> option corresponds to <code>application/x-www-form-urlencoded</code> media type. The <code>args</code> option corresponds to GET requests. The <code>plain</code> option corresponds to <code>text/plain</code> media type. The <code>multipart</code> option corresponds to <code>multipart/related</code> media type. If the media type is neither type, the value would be left unset and the transformation template will be directly applied.</td></tr><tr><td><code>request.template</code></td><td>string</td><td>True</td><td></td><td></td><td>Request body transformation template. The template uses <a href="https://github.com/bungle/lua-resty-template">lua-resty-template</a> syntax. See the <a href="https://github.com/bungle/lua-resty-template#template-syntax">template syntax</a> for more details. You can also use auxiliary functions <code>_escape_json()</code> and <code>_escape_xml()</code> to escape special characters such as double quotes, <code>_body</code> to access request body, and <code>_ctx</code> to access context variables.</td></tr><tr><td><code>request.template_is_base64</code></td><td>boolean</td><td>False</td><td>false</td><td></td><td>Set to true if the template is base64 encoded.</td></tr><tr><td><code>response</code></td><td>object</td><td>False</td><td></td><td></td><td>Response body transformation configuration.</td></tr><tr><td><code>response.input_format</code></td><td>string</td><td>False</td><td></td><td>[<code>xml</code>,<code>json</code>,<code>encoded</code>,<code>args</code>,<code>plain</code>,<code>multipart</code>]</td><td>Response body original media type. If unspecified, the decoder is determined by the <code>Content-Type</code> header where applicable: <code>xml</code> for <code>text/xml</code>, <code>json</code> for <code>application/json</code>, <code>encoded</code> for <code>application/x-www-form-urlencoded</code>, and <code>multipart</code> for any <code>multipart/*</code> content type. The <code>args</code> option reads URI query args from the request rather than decoding the response body. The <code>plain</code> option must be set explicitly and is not auto-detected from <code>Content-Type: text/plain</code>. If the media type is none of the supported types above, the value will be left unset and the transformation template will be directly applied.</td></tr><tr><td><code>response.template</code></td><td>string</td><td>True</td><td></td><td></td><td>Response body transformation template.</td></tr><tr><td><code>response.template_is_base64</code></td><td>boolean</td><td>False</td><td>false</td><td></td><td>Set to true if the template is base64 encoded.</td></tr></tbody></table>
+<h2 id="examples">Examples</h2>
+<p>The examples below demonstrate how you can configure <code>body-transformer</code> for different scenarios.</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>You can fetch the <code>admin_key</code> from <code>config.yaml</code> and save to an environment variable with the following command:</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<p>The transformation template uses <a href="https://github.com/bungle/lua-resty-template">lua-resty-template</a> syntax. See the <a href="https://github.com/bungle/lua-resty-template#template-syntax">template syntax</a> to learn more.</p>
+<p>You can also use auxiliary functions <code>_escape_json()</code> and <code>_escape_xml()</code> to escape special characters such as double quotes, <code>_body</code> to access request body, and <code>_ctx</code> to access context variables.</p>
+<p>In all cases, you should ensure that the transformation template is a valid JSON string.</p>
+<h3 id="transform-between-json-and-xml-soap">Transform between JSON and XML SOAP</h3>
+<p>The following example demonstrates how to transform the request body from JSON to XML and the response body from XML to JSON when working with a SOAP Upstream service.</p>
+<p>Start the sample SOAP service:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> /tmp</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/spring-guides/gs-soap-service.git</span></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> gs-soap-service/complete</span></span>
+<span class="line"><span style="color:#FFA657">./mvnw</span><span style="color:#A5D6FF"> spring-boot:run</span></span></code></pre>
+<p>Create the request and response transformation templates:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">req_template</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{gsub(/"/,"\\\"");};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{$1=$1};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> tr</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '\r\n'</span></span>
+<span class="line"><span style="color:#A5D6FF">&#x3C;?xml version="1.0"?></span></span>
+<span class="line"><span style="color:#A5D6FF">&#x3C;soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/"></span></span>
+<span class="line"><span style="color:#A5D6FF"> &#x3C;soap-env:Body></span></span>
+<span class="line"><span style="color:#A5D6FF">  &#x3C;ns0:getCountryRequest xmlns:ns0="http://spring.io/guides/gs-producing-web-service"></span></span>
+<span class="line"><span style="color:#A5D6FF">   &#x3C;ns0:name>{{_escape_xml(name)}}&#x3C;/ns0:name></span></span>
+<span class="line"><span style="color:#A5D6FF">  &#x3C;/ns0:getCountryRequest></span></span>
+<span class="line"><span style="color:#A5D6FF"> &#x3C;/soap-env:Body></span></span>
+<span class="line"><span style="color:#A5D6FF">&#x3C;/soap-env:Envelope></span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">rsp_template</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{gsub(/"/,"\\\"");};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{$1=$1};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> tr</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '\r\n'</span></span>
+<span class="line"><span style="color:#A5D6FF">{% if Envelope.Body.Fault == nil then %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "status":"{{_ctx.var.status}}",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "currency":"{{Envelope.Body.getCountryResponse.country.currency}}",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "population":{{Envelope.Body.getCountryResponse.country.population}},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "capital":"{{Envelope.Body.getCountryResponse.country.capital}}",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "name":"{{Envelope.Body.getCountryResponse.country.name}}"</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% else %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "message":{*_escape_json(Envelope.Body.Fault.faultstring[1])*},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "code":"{{Envelope.Body.Fault.faultcode}}"</span></span>
+<span class="line"><span style="color:#A5D6FF">  {% if Envelope.Body.Fault.faultactor ~= nil then %}</span></span>
+<span class="line"><span style="color:#A5D6FF">  , "actor":"{{Envelope.Body.Fault.faultactor}}"</span></span>
+<span class="line"><span style="color:#A5D6FF">  {% end %}</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% end %}</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span></code></pre>
+<p><code>awk</code> and <code>tr</code> are used above to manipulate the template such that the template would be a valid JSON string.</p>
+<p>Create a Route with <code>body-transformer</code> using the templates created previously. In the Plugin, set the request input format as JSON, the response input format as XML, and the <code>Content-Type</code> header to <code>text/xml</code> for the Upstream service to respond properly:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/ws",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "'"</span><span style="color:#E6EDF3">$req_template</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "json"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "response": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "'"</span><span style="color:#E6EDF3">$rsp_template</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "xml"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "proxy-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "set": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Content-Type": "text/xml"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "localhost:8080": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<div class="admonition admonition-tip"><p class="admonition-title">TIP</p><p>If it is cumbersome to adjust complex text files to be valid transformation templates, you can use the base64 utility to encode the files, such as the following:</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#A5D6FF">"body-transformer"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">  "request"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "template"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"'"</span><span style="color:#FFA198;font-style:italic">$(base</span><span style="color:#79C0FF">64</span><span style="color:#FFA198;font-style:italic"> -w</span><span style="color:#79C0FF">0</span><span style="color:#FFA198;font-style:italic"> /path/to/request_template_file)</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "response"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "template"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"'"</span><span style="color:#FFA198;font-style:italic">$(base</span><span style="color:#79C0FF">64</span><span style="color:#FFA198;font-style:italic"> -w</span><span style="color:#79C0FF">0</span><span style="color:#FFA198;font-style:italic"> /path/to/response_template_file)</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre></div>
+<p>Send a request with a valid JSON body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/ws"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{"name": "Spain"}'</span></span></code></pre>
+<p>The JSON body sent in the request will be transformed into XML before being forwarded to the Upstream SOAP service, and the response body will be transformed back from XML to JSON.</p>
+<p>You should see a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"200"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "currency"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"EUR"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "population"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">46704314</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "capital"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Madrid"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Spain"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="modify-request-body">Modify Request Body</h3>
+<p>The following example demonstrates how to dynamically modify the request body.</p>
+<p>Create a Route with <code>body-transformer</code>, in which the template appends the word <code>world</code> to the <code>name</code> and adds <code>10</code> to the <code>age</code> to set them as values to <code>foo</code> and <code>bar</code> respectively:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "{\"foo\":\"{{name .. \" world\"}}\",\"bar\":{{age+10}}}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{"name":"hello","age":20}'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -i</span></span></code></pre>
+<p>You should see a response of the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">foo</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">hello world</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">bar</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:30}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "bar"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "foo"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"hello world"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="generate-request-body-using-variables">Generate Request Body Using Variables</h3>
+<p>The following example demonstrates how to generate request body dynamically using the <code>ctx</code> context variables.</p>
+<p>Create a Route with <code>body-transformer</code>, in which the template accesses the request argument using the <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html">Nginx variable</a> <code>arg_name</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "{\"foo\":\"{{_ctx.var.arg_name .. \" world\"}}\"}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to the Route with <code>name</code> argument:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything?name=hello"</span></span></code></pre>
+<p>You should see a response like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...,</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "foo"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"hello world"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-body-from-yaml-to-json">Transform Body from YAML to JSON</h3>
+<p>The following example demonstrates how to transform request body from YAML to JSON.</p>
+<p>Create the request transformation template:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">req_template</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{gsub(/"/,"\\\"");};1'</span></span>
+<span class="line"><span style="color:#A5D6FF">{%</span></span>
+<span class="line"><span style="color:#A5D6FF">    local yaml = require("tinyyaml")</span></span>
+<span class="line"><span style="color:#A5D6FF">    local body = yaml.parse(_body)</span></span>
+<span class="line"><span style="color:#A5D6FF">%}</span></span>
+<span class="line"><span style="color:#A5D6FF">{"foobar":"{{body.foobar.foo .. " " .. body.foobar.bar}}"}</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>Create a Route with <code>body-transformer</code> that uses the template:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "'"</span><span style="color:#E6EDF3">$req_template</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request to the Route with a YAML body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">body</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">'</span></span>
+<span class="line"><span style="color:#A5D6FF">foobar:</span></span>
+<span class="line"><span style="color:#A5D6FF">  foo: hello</span></span>
+<span class="line"><span style="color:#A5D6FF">  bar: world'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> "</span><span style="color:#E6EDF3">$body</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: text/yaml"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -i</span></span></code></pre>
+<p>You should see a response similar to the following, which verifies that the YAML body was appropriately transformed to JSON:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">foobar</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">hello world</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "foobar"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"hello world"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-form-url-encoded-body-to-json">Transform Form URL Encoded Body to JSON</h3>
+<p>The following example demonstrates how to transform <code>form-urlencoded</code> body to JSON.</p>
+<p>Create a Route with <code>body-transformer</code> which sets the <code>input_format</code> to <code>encoded</code> and configures a template that appends string <code>world</code> to the <code>name</code> input, add <code>10</code> to the <code>age</code> input:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "encoded",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "{\"foo\":\"{{name .. \" world\"}}\",\"bar\":{{age+10}}}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a POST request to the Route with an encoded body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/x-www-form-urlencoded"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> 'name=hello&#x26;age=20'</span></span></code></pre>
+<p>You should see a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "{</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">foo</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">:</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">hello world</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">,</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">bar</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">:30}"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-get-request-query-parameter-to-body">Transform GET Request Query Parameter to Body</h3>
+<p>The following example demonstrates how to transform a GET request query parameter to request body. Note that this does not transform the HTTP method. To transform the method, see <a href="/docs/apisix/proxy-rewrite/"><code>proxy-rewrite</code></a>.</p>
+<p>Create a Route with <code>body-transformer</code>, which sets the <code>input_format</code> to <code>args</code> and configures a template that adds a message to the request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "args",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "{\"message\": \"hello {{name}}\"}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a GET request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything?name=john"</span></span></code></pre>
+<p>You should see a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">message</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">hello john</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "message"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"hello john"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-plain-media-type">Transform Plain Media Type</h3>
+<p>The following example demonstrates how to transform requests with <code>plain</code> media type.</p>
+<p>Create a Route with <code>body-transformer</code>, which sets the <code>input_format</code> to <code>plain</code> and configures a template to remove <code>not</code> and a subsequent space from the body string:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "plain",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "{\"message\": \"{* string.gsub(_body, \"not \", \"\") *}\"}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a POST request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> 'not actually json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -i</span></span></code></pre>
+<p>You should see a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "{</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">message</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">: </span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">actually json</span><span style="color:#FF7B72">\"</span><span style="color:#7EE787">}"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-multipart-media-type">Transform Multipart Media Type</h3>
+<p>The following example demonstrates how to transform requests with <code>multipart</code> media type.</p>
+<p>Create a request transformation template which adds a <code>status</code> to the body based on the <code>age</code> provided in the request body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">req_template</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{gsub(/"/,"\\\"");};1'</span></span>
+<span class="line"><span style="color:#A5D6FF">{%</span></span>
+<span class="line"><span style="color:#A5D6FF">  local core = require 'apisix.core'</span></span>
+<span class="line"><span style="color:#A5D6FF">  local cjson = require 'cjson'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">  if tonumber(context.age) > 18 then</span></span>
+<span class="line"><span style="color:#A5D6FF">      context._multipart:set_simple("status", "adult")</span></span>
+<span class="line"><span style="color:#A5D6FF">  else</span></span>
+<span class="line"><span style="color:#A5D6FF">      context._multipart:set_simple("status", "minor")</span></span>
+<span class="line"><span style="color:#A5D6FF">  end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">  local body = context._multipart:tostring()</span></span>
+<span class="line"><span style="color:#A5D6FF">%}{* body *}</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>Create a Route with <code>body-transformer</code>, which sets the <code>input_format</code> to <code>multipart</code> and uses the previously created request template for transformation:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "multipart",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "'"</span><span style="color:#E6EDF3">$req_template</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a multipart POST request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -F</span><span style="color:#A5D6FF"> "name=john"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -F</span><span style="color:#A5D6FF"> "age=10"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  "http://127.0.0.1:9080/anything"</span></span></code></pre>
+<p>You should see a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "files"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "form"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "age"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"10"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"minor"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "headers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "Accept"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"*/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Content-Length"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"361"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Content-Type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"multipart/form-data; boundary=------------------------qtPjk4c8ZjmGOXNKzhqnOP"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-response-body-based-on-consumer-identity">Transform Response Body Based on Consumer Identity</h3>
+<p>The following example demonstrates how to customize response body transformations based on different Consumer identities. The example shows how to return different response formats to different Consumers while filtering sensitive fields and renaming properties.</p>
+<p>Create the response transformation template that applies different transformations based on the Consumer identity:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">rsp_template</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{gsub(/"/,"\\\"");};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{$1=$1};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> tr</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '\r\n'</span></span>
+<span class="line"><span style="color:#A5D6FF">{% local consumer_name = _ctx.consumer and _ctx.consumer.username or "" %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% if consumer_name == "consumer-a" then %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "user_id": {* user_id *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "display_name": {* _escape_json(username) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "email": {* _escape_json(email) *}</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% elseif consumer_name == "consumer-b" then %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "user_id": {* user_id *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "email": {* _escape_json(email) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "balance": {* balance *}</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% else %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{* _body *}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% end %}</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>Create three Consumers with <code>key-auth</code> configured:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer-a",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer-a"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer-b",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer-b"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer-c",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer-c"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Create a Route with <code>body-transformer</code>, <code>key-auth</code>, and <code>mocking</code> Plugins:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/mock",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">      "mocking": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "response_example": "{\"user_id\":1001,\"username\":\"john_doe\",\"email\":\"john@example.com\",\"phone\":\"+1-555-0123\",\"balance\":1250.50}"</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "response": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "'"</span><span style="color:#E6EDF3">$rsp_template</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send requests with different <code>apikey</code> headers to verify the response transformations.</p>
+<p>Send a request as <code>consumer-a</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/mock"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: consumer-a"</span></span></code></pre>
+<p>You should see a response similar to the following, which demonstrates these transformations:</p>
+<ul>
+<li>The <code>username</code> field has been renamed to <code>display_name</code></li>
+<li>The sensitive <code>phone</code> and <code>balance</code> fields have been filtered out</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "user_id"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1001</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "display_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john_doe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "email"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john@example.com"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Send a request as <code>consumer-b</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/mock"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: consumer-b"</span></span></code></pre>
+<p>You should see a response similar to the following, which demonstrates these transformations:</p>
+<ul>
+<li>The <code>username</code> and <code>phone</code> fields have been filtered out</li>
+<li>The <code>balance</code> field has been preserved</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "user_id"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1001</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "email"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john@example.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "balance"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1250.50</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Send a request as <code>consumer-c</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/mock"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: consumer-c"</span></span></code></pre>
+<p>You should see a response similar to the following, which shows that the original response is returned unchanged:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "user_id"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1001</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john_doe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "email"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john@example.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "phone"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"+1-555-0123"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "balance"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1250.50</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="transform-nested-response-body-based-on-consumer-identity">Transform Nested Response Body Based on Consumer Identity</h3>
+<p>The following example demonstrates how to customize response body transformations based on different Consumer identities. The example shows how to extract nested fields, reorganize data structures, and flatten nested objects while providing different response formats to different Consumers based on their identity.</p>
+<p>Create the response transformation template that extracts and reorganizes nested JSON fields based on the Consumer identity:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">rsp_template</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">cat</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#E6EDF3">EOF</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{gsub(/"/,"\\\"");};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> awk</span><span style="color:#A5D6FF"> '{$1=$1};1'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> tr</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '\r\n'</span></span>
+<span class="line"><span style="color:#A5D6FF">{% local consumer_name = _ctx.consumer and _ctx.consumer.username or "" %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% if consumer_name == "consumer-a" then %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "user_id": {* id *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "user_name": {* _escape_json(name) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "email": {* _escape_json(profile.email) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "location": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "city": {* _escape_json(profile.address.city) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">    "country": {* _escape_json(profile.address.country) *}</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "created_at": {* _escape_json(metadata.created_at) *}</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% elseif consumer_name == "consumer-b" then %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "id": {* id *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "name": {* _escape_json(name) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "status": {* _escape_json(status) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">  "profile": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "email": {* _escape_json(profile.email) *},</span></span>
+<span class="line"><span style="color:#A5D6FF">    "address": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "city": {* _escape_json(profile.address.city) *}</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% else %}</span></span>
+<span class="line"><span style="color:#A5D6FF">{* _body *}</span></span>
+<span class="line"><span style="color:#A5D6FF">{% end %}</span></span>
+<span class="line"><span style="color:#E6EDF3">EOF</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>Create Consumers with <code>key-auth</code> configured:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer-a",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer-a"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer-b",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer-b"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "consumer-c",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "consumer-c"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Create a Route with <code>body-transformer</code>, <code>key-auth</code>, and <code>mocking</code> Plugins using the nested structure template:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "body-transformer-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/mock",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">      "mocking": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "response_example": "{\"id\":123,\"name\":\"John Doe\",\"status\":\"active\",\"profile\":{\"email\":\"john@example.com\",\"address\":{\"city\":\"New York\",\"country\":\"USA\"}},\"metadata\":{\"created_at\":\"2024-01-01\",\"tags\":[\"vip\",\"premium\"]}}"</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "body-transformer": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "response": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "input_format": "json",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "template": "'"</span><span style="color:#E6EDF3">$rsp_template</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request as <code>consumer-a</code> to verify the nested structure transformation:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/mock"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: consumer-a"</span></span></code></pre>
+<p>You should see a response similar to the following, which demonstrates these nested field transformations:</p>
+<ul>
+<li><code>profile.email</code> has been extracted to top-level <code>email</code></li>
+<li><code>profile.address.city</code> and <code>profile.address.country</code> have been combined into a new <code>location</code> object</li>
+<li><code>metadata.created_at</code> has been extracted to top-level <code>created_at</code></li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "user_id"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">123</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "user_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"John Doe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "email"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john@example.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "location"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "city"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"New York"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "country"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"USA"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "created_at"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2024-01-01"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Send a request as <code>consumer-b</code> to verify the nested structure transformation:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/mock"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: consumer-b"</span></span></code></pre>
+<p>You should see a response similar to the following, which demonstrates these transformations:</p>
+<ul>
+<li>The original <code>profile</code> object structure has been preserved</li>
+<li><code>profile.address.country</code> and <code>metadata</code> fields have been filtered out</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "id"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">123</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"John Doe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"active"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "profile"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "email"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john@example.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "address"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "city"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"New York"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Send a request as <code>consumer-c</code> to verify the nested structure transformation:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/mock"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: consumer-c"</span></span></code></pre>
+<p>You should see a response similar to the following, which shows that the original nested response is returned unchanged:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "id"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">123</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"John Doe"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"active"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "profile"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "email"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"john@example.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "address"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "city"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"New York"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "country"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"USA"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "metadata"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "created_at"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2024-01-01"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "tags"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"vip"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"premium"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/plugins/body-transformer.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

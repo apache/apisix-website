@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 的 AI Gateway 功能一览：LLM 代理、Token 限流、安全防护 | Apache APISIX</title><meta name="description" content="探索 APISIX AI Gateway 的强大功能，包括 LLM 代理、智能流量调度、Token 限流、安全防护等。通过开源插件实现多 LLM 负载均衡、API 速率控制、内容审核，优化 AI 应用的性能、安全性和成本控制。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2025/02/24/apisix-ai-gateway-features/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/02/24/apisix-ai-gateway-features/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX 的 AI Gateway 功能一览：LLM 代理、Token 限流、安全防护 | Apache APISIX"><meta property="og:description" content="探索 APISIX AI Gateway 的强大功能，包括 LLM 代理、智能流量调度、Token 限流、安全防护等。通过开源插件实现多 LLM 负载均衡、API 速率控制、内容审核，优化 AI 应用的性能、安全性和成本控制。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2025/02/24/apisix-ai-gateway-features/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 的 AI Gateway 功能一览：LLM 代理、Token 限流、安全防护","description":"探索 APISIX AI Gateway 的强大功能，包括 LLM 代理、智能流量调度、Token 限流、安全防护等。通过开源插件实现多 LLM 负载均衡、API 速率控制、内容审核，优化 AI 应用的性能、安全性和成本控制。","datePublished":"2025-02-24","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2025/02/24/apisix-ai-gateway-features/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2025/02/24/apisix-ai-gateway-features/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2025/02/24/apisix-ai-gateway-features/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX 的 AI Gateway 功能一览：LLM 代理、Token 限流、安全防护</h1> <p class="article-meta"> 2025-02-24  </p> <blockquote>
+<p>本文将详细介绍当前及未来几个版本 APISIX 的 AI 网关功能。作为一个多功能的 API 和 AI 网关，Apache APISIX 将为 AI 应用提供了高效且安全的 LLM API 调用。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="引言ai-代理的崛起与-ai-gateway-的演进">引言：AI 代理的崛起与 AI Gateway 的演进</h2>
+<p>近年来，AI 代理发展迅猛，如 AutoGPT、Chatbots、AI Assistants 等应用不断涌现。它们依赖于大语言模型（LLM）的 API 调用，而高并发、成本控制、安全等挑战也随之而来。</p>
+<p>传统的 API 网关主要服务于 Web API 和微服务，并未针对 AI 应用的特殊需求进行优化，因此催生了 AI Gateway 的概念。AI Gateway 需要在以下几个方面提供增强能力：</p>
+<ul>
+<li><strong>多 LLM 代理</strong>：支持多个 LLM 供应商，避免供应商锁定</li>
+<li><strong>Token 速率限制</strong>：防止 API 滥用，优化成本管理</li>
+<li><strong>安全防护</strong>：包括提示词过滤、内容审核等，确保 AI 应用的合规性</li>
+<li><strong>智能流量管理</strong>：根据成本、延迟、稳定性，动态调整 LLM 权重</li>
+</ul>
+<p>Apache APISIX 不仅是 API 网关，也通过插件成为了 AI 网关，帮助 AI 应用更高效、安全地调用 LLM API。</p>
+<h2 id="llm-proxy高效管理多个-llm-后端">LLM Proxy：高效管理多个 LLM 后端</h2>
+<p>AI 应用通常不会只依赖一个 LLM 供应商，而是需要根据需求动态选择最佳模型。例如：</p>
+<ul>
+<li>使用 OpenAI GPT-4 进行通用文本生成，使用 Claude 进行法律文档处理</li>
+<li>在 Mistral 和 Gemini 之间切换，以优化成本和吞吐量</li>
+</ul>
+<p><strong>Apache APISIX 的 LLM Proxy 提供以下能力：</strong></p>
+<p>✅ 支持多个 LLM 供应商（OpenAI, DeepSeek, Claude, Mistral, Gemini, etc.），避免供应商锁定</p>
+<p>✅ LLM 权重和优先级管理，基于业务需求调整流量分配</p>
+<p>✅ 智能负载均衡，依据延迟、成本、稳定性 动态调整 LLM 权重</p>
+<p>✅ 重试与备用机制，确保某个 LLM API 发生故障时业务不中断</p>
+<p>✅ 支持同一 LLM 不同供应商之间的负载均衡，例如：</p>
+<ul>
+<li>私有部署的 DeepSeek</li>
+<li>官方 DeepSeek API</li>
+<li>火山引擎的 DeepSeek API</li>
+</ul>
+<p>用户可以根据延迟、稳定性、价格等因素，灵活分配不同 DeepSeek 供应商的流量权重，实现最佳调用策略。</p>
+<p>这些能力让 AI 应用能够灵活适配不同的 LLM，提高可靠性，降低 API 调用成本。</p>
+<h2 id="ai-安全防护确保-ai-使用安全与合规">AI 安全防护：确保 AI 使用安全与合规</h2>
+<p>AI API 可能会涉及敏感数据和误导性信息，甚至可能被滥用。因此，AI 网关需要在多个层面提供安全保障。</p>
+<p><strong>Apache APISIX 提供的 AI 安全能力包括：</strong></p>
+<p>✅ AI RAG（Retrieval-Augmented Generation），支持企业自有知识库，降低 LLM 幻觉，提高输出可靠性</p>
+<p>✅ 提示词防护，自动拦截敏感、违法、不适当的提示词，防止用户恶意使用</p>
+<p>✅ 提示词装饰器，自动在用户的输入前后添加内容，增强 LLM 生成质量</p>
+<p>✅ 提示词模版，让用户更方便地复用标准化提示词，提升交互体验</p>
+<p>✅ 返回内容审核，拦截敏感或违规 的 AI 生成内容</p>
+<p>✅ 日志与审计，提供完整 API 请求日志，便于合规审计</p>
+<p>这些安全措施确保 AI 应用符合企业级安全要求，避免因 AI 误导性内容导致合规风险。</p>
+<h2 id="token-可观测性与管理防止-api-滥用导致高额账单">Token 可观测性与管理：防止 API 滥用导致高额账单</h2>
+<p>调用 LLM API 需要消耗 Token，滥用 API 可能导致巨额成本。Apache APISIX 提供精细化的 Token 监控和管理机制。</p>
+<p><strong>Apache APISIX 的 Token 管理能力：</strong></p>
+<p>✅ 按 Route/Service/Consumer/Consumer Group/自定义维度进行 Token 限流限速</p>
+<p>✅ 支持多种限流模式：</p>
+<ul>
+<li>单机 vs. 集群限流，适应不同规模的 AI API 服务</li>
+<li>固定时间窗口 vs. 滑动时间窗口，灵活控制 API 速率</li>
+</ul>
+<p>✅ 对不同 LLM 设置不同的限流策略，避免成本失控</p>
+<p>通过 Apache APISIX，企业可以实现 Token 资源的精细化管理，防止 API 滥用带来的高额账单。</p>
+<h2 id="智能路由ai-api-的动态流量管理">智能路由：AI API 的动态流量管理</h2>
+<p>在 AI API 调用过程中，不同的任务可能需要不同的 LLM。例如：</p>
+<ul>
+<li>代码生成请求 → 发送至 GPT-4 或 DeepSeek</li>
+<li>长篇摘要任务 → 发送至 Claude</li>
+<li>普通对话 → 发送至 GPT-3.5 或 Gemini</li>
+</ul>
+<p><strong>Apache APISIX 的智能路由能力：</strong></p>
+<p>✅ 基于请求内容的智能路由（Context-Aware Routing）</p>
+<ul>
+<li>根据提示词（Prompt）类型 选择最优 LLM</li>
+<li>按用户级别（付费用户 vs. 免费用户） 分配不同的模型（GPT-4 Turbo vs. GPT-3.5）</li>
+</ul>
+<p>✅ 缓存优化（Response Caching），减少重复 API 调用，提升响应速度</p>
+<p>这些能力帮助 AI API 运行更加高效，降低 API 延迟，提高吞吐量。</p>
+<h2 id="结语">结语</h2>
+<p>随着 AI 技术的快速发展，API Gateway 也需要不断进化，适应 AI 应用的特殊需求。Apache APISIX 通过 LLM Proxy、Token 速率限制、安全防护和智能路由等功能，成为 AI Gateway 的最佳选择。</p>
+<p><strong>Apache APISIX 相较于传统 API Gateway 的核心优势</strong></p>
+<p>🚀 支持多 LLM 供应商，避免供应商锁定</p>
+<p>⚡️ 智能流量调度，动态负载均衡，提高 API 可靠性</p>
+<p>🔒 内置安全能力，包括提示词防护、内容审核，确保 AI API 安全合规</p>
+<p>💰 Token 限流限速，避免 API 滥用导致高额账单</p>
+<p>📊 高性能架构，满足 AI 应用的高并发需求</p>
+<p>如果你正在构建 AI 相关应用，并希望同时拥有强大的 API Gateway 和 AI Gateway，不妨试试 Apache APISIX！🎯</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

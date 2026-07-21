@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>让你在 Apache APISIX 中代理 Dubbo 服务更便捷 | Apache APISIX</title><meta name="description" content="本文为介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 dubbo-proxy 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="让你在 Apache APISIX 中代理 Dubbo 服务更便捷 | Apache APISIX"><meta property="og:description" content="本文为介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 dubbo-proxy 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/Dubbo.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"让你在 Apache APISIX 中代理 Dubbo 服务更便捷","description":"本文为介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 dubbo-proxy 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。","datePublished":"2022-01-13","image":"https://static.apiseven.com/2022/blog/0818/plugins/Dubbo.png","author":{"@type":"Person","name":"钱勇"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>让你在 Apache APISIX 中代理 Dubbo 服务更便捷</h1> <p class="article-meta"> 2022-01-13 · 钱勇  </p> <blockquote>
+<p>本文介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 dubbo-proxy 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景">背景</h2>
+<p><a href="https://dubbo.apache.org/zh/">Apache Dubbo</a> 是由阿里巴巴开源并捐赠给 Apache 的微服务开发框架，它提供了 RPC 通信与微服务治理两大关键能力。不仅经过了阿里电商场景中海量流量的验证，也在国内的技术公司中被广泛落地。</p>
+<p>在实际应用场景中，Apache Dubbo 一般会作为后端系统间 RPC 调用的实现框架，当需要提供 HTTP 接口给到前端时，会通过一个「胶水层」将 Dubbo Service 包装成 HTTP 接口，再交付到前端系统。</p>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> 是 Apache 软件基金会的顶级开源项目，也是当前最活跃的开源网关项目。作为一个动态、实时、高性能的开源 API 网关，Apache APISIX 提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。</p>
+<p>得益于 Apache Dubbo 的应用场景优势，Apache APISIX 基于开源项目 tengine/mod_dubbo 模块为 Apache Dubbo 服务配备了HTTP 网关能力。通过 dubbo-proxy 插件，可以轻松地将 Dubbo Service 发布为 HTTP 服务。</p>
+<p><img src="https://static.apiseven.com/202108/1641873664933-65d02cb3-ec3e-4b95-945d-91cfb8106751.png" alt="架构图"></p>
+<h2 id="如何使用">如何使用</h2>
+<h3 id="入门篇安装使用">入门篇：安装使用</h3>
+<blockquote>
+<p>这里我们建议使用 Apache APISIX 2.11 版本镜像进行安装。该版本的 APISIX-Base 中已默认编译了 Dubbo 模块，可直接使用 <code>dubbo-proxy</code> 插件。</p>
+</blockquote>
+<p>在接下来的操作中，我们将使用 <a href="https://github.com/apache/dubbo-samples"><code>dubbo-samples</code></a> 项目进行部分展示。该项目是一些使用 Apache Dubbo 实现的 Demo 应用，本文中我们采用其中的一个子模块作为 Dubbo Provider。</p>
+<p>在进入正式操作前，我们先简单看下 Dubbo 接口的定义、配置以及相关实现。</p>
+<h4 id="接口实现一览">接口实现一览</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> DemoService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">    /**</span></span>
+<span class="line"><span style="color:#8B949E">     * standard samples dubbo infterace demo</span></span>
+<span class="line"><span style="color:#8B949E">     * </span><span style="color:#FF7B72">@param</span><span style="color:#FFA657"> context</span><span style="color:#8B949E"> pass http infos</span></span>
+<span class="line"><span style="color:#8B949E">     * </span><span style="color:#FF7B72">@return</span><span style="color:#8B949E"> Map&#x3C;String, Object>&#x3C;/> pass to response http</span></span>
+<span class="line"><span style="color:#8B949E">     **/</span></span>
+<span class="line"><span style="color:#E6EDF3">    Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#D2A8FF">apisixDubbo</span><span style="color:#E6EDF3">(Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#FFA657">httpRequestContext</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>如上所示，Dubbo 接口的定义是固定的。即方法参数中 <code>Map</code> 表示 APISIX 传递给 Dubbo Provider 关于 HTTP request 的一些信息（如：header、body…)。而方法返回值的 <code>Map</code> 表示 Dubbo Provider 传递给 APISIX 要如何返回 HTTP response 的一些信息。</p>
+<p>接口信息之后可通过 XML 配置方式发布 DemoService。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#8B949E">&#x3C;!-- service implementation, as same as regular local bean --></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">bean</span><span style="color:#79C0FF"> id</span><span style="color:#E6EDF3">=</span><span style="color:#A5D6FF">"demoService"</span><span style="color:#79C0FF"> class</span><span style="color:#E6EDF3">=</span><span style="color:#A5D6FF">"org.apache.dubbo.samples.provider.DemoServiceImpl"</span><span style="color:#E6EDF3">/></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">&#x3C;!-- declare the service interface to be exported --></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">dubbo:service</span><span style="color:#79C0FF"> interface</span><span style="color:#E6EDF3">=</span><span style="color:#A5D6FF">"org.apache.dubbo.samples.apisix.DemoService"</span><span style="color:#79C0FF"> ref</span><span style="color:#E6EDF3">=</span><span style="color:#A5D6FF">"demoService"</span><span style="color:#E6EDF3">/></span></span></code></pre>
+<p>通过上述配置后，Consumer 可通过 <code>org.apache.dubbo.samples.apisix.DemoService</code> 访问其中的<code>apisixDubbo</code> 方法。具体接口实现如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> DemoServiceImpl</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> DemoService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#D2A8FF">apisixDubbo</span><span style="color:#E6EDF3">(Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#FFA657">httpRequestContext</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">        for</span><span style="color:#E6EDF3"> (Map</span><span style="color:#FFA657">.</span><span style="color:#E6EDF3">Entry</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">, </span><span style="color:#FF7B72">Object</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">entry</span><span style="color:#FF7B72"> :</span><span style="color:#E6EDF3"> httpRequestContext.</span><span style="color:#D2A8FF">entrySet</span><span style="color:#E6EDF3">()) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            System.out.</span><span style="color:#D2A8FF">println</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Key = "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> entry.</span><span style="color:#D2A8FF">getKey</span><span style="color:#E6EDF3">() </span><span style="color:#FF7B72">+</span><span style="color:#A5D6FF"> ", Value = "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> entry.</span><span style="color:#D2A8FF">getValue</span><span style="color:#E6EDF3">());</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        Map</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">, </span><span style="color:#FF7B72">Object</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">ret</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#E6EDF3"> HashMap&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">>();</span></span>
+<span class="line"><span style="color:#E6EDF3">        ret.</span><span style="color:#D2A8FF">put</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"body"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"dubbo success</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">); </span><span style="color:#8B949E">// http response body</span></span>
+<span class="line"><span style="color:#E6EDF3">        ret.</span><span style="color:#D2A8FF">put</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"status"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"200"</span><span style="color:#E6EDF3">); </span><span style="color:#8B949E">// http response status</span></span>
+<span class="line"><span style="color:#E6EDF3">        ret.</span><span style="color:#D2A8FF">put</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"test"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"123"</span><span style="color:#E6EDF3">); </span><span style="color:#8B949E">// http response header</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> ret;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>上述代码中，<code>DemoServiceImpl</code> 会打印接收到的 <code>httpRequestContext</code>，并通过返回包含有指定 Key 的 Map 对象去描述该 Dubbo 请求的 HTTP 响应。</p>
+<h4 id="操作步骤">操作步骤</h4>
+<ol>
+<li>启动 <a href="https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-tengine#install-dubbo"><code>dubbo-samples</code></a>。</li>
+<li>在 <code>config.yaml</code> 文件中进行 <code>dubbo-proxy</code> 插件启用。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># Add this in config.yaml</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#79C0FF">...</span><span style="color:#8B949E"> # plugin you need</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">dubbo-proxy</span></span></code></pre>
+<ol start="3">
+<li>创建指向 Dubbo Provider 的 Upstream。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/upstreams/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "127.0.0.1:20880": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol start="4">
+<li>为 DemoService 暴露一个 HTTP 路由。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "host": "example.org"</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uris": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "/demo"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "dubbo-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "service_name": "org.apache.dubbo.samples.apisix.DemoService",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "service_version": "0.0.0",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "method": "apisixDubbo"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream_id": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol start="5">
+<li>使用 curl 命令请求 Apache APISIX，并查看返回结果。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/demo</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Host: example.org"</span><span style="color:#79C0FF">  -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> --data</span><span style="color:#A5D6FF"> '{"name": "hello"}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> HTTP/1.1 200 OK</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Date: Sun, 26 Dec 2021 11:33:27 GMT</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Content-Type: text/plain; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Content-Length: 14</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Connection: keep-alive</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> test: 123</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Server: APISIX/2.11.0</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span></span>
+<span class="line"><span style="color:#FFA657">dubbo</span><span style="color:#A5D6FF"> success</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">说明</p><p>上述代码返回中包含了 <code>test: 123</code> Header，以及 <code>dubbo success</code> 字符串作为 Body 体。这与我们在 <code>DemoServiceImpl</code> 编码的预期效果一致。</p></div>
+<ol start="6">
+<li>查看 Dubbo Provider 的日志。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Key = content-length, Value = 17</span></span>
+<span class="line"><span>Key = host, Value = example.org</span></span>
+<span class="line"><span>Key = content-type, Value = application/x-www-form-urlencoded</span></span>
+<span class="line"><span>Key = body, Value = [B@70754265</span></span>
+<span class="line"><span>Key = accept, Value = */*</span></span>
+<span class="line"><span>Key = user-agent, Value = curl/7.80.0</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">说明</p><p>通过 <code>httpRequestContext</code> 可以拿到 HTTP 请求的 Header 和 Body。其中 Header 会作为 Map 元素，而 Body 中 Key 值是固定的字符串”body”，Value 则代表 Byte 数组。</p></div>
+<h3 id="进阶篇复杂场景示例">进阶篇：复杂场景示例</h3>
+<p>在上述的简单用例中可以看出，我们确实通过 Apache APISIX 将 Dubbo Service 发布为一个 HTTP 服务，但是在使用过程中的限制也非常明显。比如：接口的参数和返回值都必须要是 <code>Map&#x3C;String, Object></code>。</p>
+<p>那么，如果项目中出现已经定义好、但又不符合上述限制的接口，该如何通过 Apache APISIX 来暴露 HTTP 服务呢？</p>
+<h4 id="操作步骤-1">操作步骤</h4>
+<p>针对上述场景，我们可以通过 HTTP Request Body 描述要调用的 Service 和 Method 以及对应参数，再利用 Java 的反射机制实现目标方法的调用。最后将返回值序列化为 JSON，并写入到 HTTP Response Body 中。</p>
+<p>这样就可以将 Apache APISIX 的 「HTTP to Dubbo」 能力进一步加强，并应用到所有已存在的 Dubbo Service 中。具体操作可参考下方：</p>
+<ol>
+<li>为已有项目增加一个 Dubbo Service 用来统一处理 HTTP to Dubbo 的转化。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> DubboInvocationParameter</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> type;</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> value;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> DubboInvocation</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> service;</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> String</span><span style="color:#E6EDF3"> method;</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#FF7B72"> DubboInvocationParameter</span><span style="color:#FFA657">[] </span><span style="color:#E6EDF3">parameters;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> interface</span><span style="color:#FFA657"> HTTP2DubboService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#D2A8FF">invoke</span><span style="color:#E6EDF3">(Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#FFA657">context</span><span style="color:#E6EDF3">)  </span><span style="color:#FF7B72">throws</span><span style="color:#E6EDF3"> Exception;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Component</span></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> HTTP2DubboServiceImpl</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> HTTP2DubboService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Autowired</span></span>
+<span class="line"><span style="color:#FF7B72">    private</span><span style="color:#E6EDF3"> ApplicationContext</span><span style="color:#E6EDF3"> appContext;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#D2A8FF">invoke</span><span style="color:#E6EDF3">(Map&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">Object</span><span style="color:#E6EDF3">> </span><span style="color:#FFA657">context</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">throws</span><span style="color:#E6EDF3"> Exception {</span></span>
+<span class="line"><span style="color:#E6EDF3">        DubboInvocation</span><span style="color:#E6EDF3"> invocation</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> JSONObject.</span><span style="color:#D2A8FF">parseObject</span><span style="color:#E6EDF3">((</span><span style="color:#FF7B72">byte</span><span style="color:#E6EDF3">[]) context.</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"body"</span><span style="color:#E6EDF3">), DubboInvocation.class);</span></span>
+<span class="line"><span style="color:#FF7B72">        Object</span><span style="color:#FFA657">[] </span><span style="color:#E6EDF3">args</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#FF7B72"> Object</span><span style="color:#E6EDF3">[invocation.</span><span style="color:#D2A8FF">getParameters</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">size</span><span style="color:#E6EDF3">()];</span></span>
+<span class="line"><span style="color:#FF7B72">        for</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">int</span><span style="color:#E6EDF3"> i</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">; i </span><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> args.length; i</span><span style="color:#FF7B72">++</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            DubboInvocationParameter</span><span style="color:#E6EDF3"> parameter</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> invocation.</span><span style="color:#D2A8FF">getParameters</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">get</span><span style="color:#E6EDF3">(i);</span></span>
+<span class="line"><span style="color:#E6EDF3">            args[i] </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> JSONObject.</span><span style="color:#D2A8FF">parseObject</span><span style="color:#E6EDF3">(parameter.</span><span style="color:#D2A8FF">getValue</span><span style="color:#E6EDF3">(), Class.</span><span style="color:#D2A8FF">forName</span><span style="color:#E6EDF3">(parameter.</span><span style="color:#D2A8FF">getType</span><span style="color:#E6EDF3">()));</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        Object</span><span style="color:#E6EDF3"> svc</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> appContext.</span><span style="color:#D2A8FF">getBean</span><span style="color:#E6EDF3">(Class.</span><span style="color:#D2A8FF">forName</span><span style="color:#E6EDF3">(invocation.</span><span style="color:#D2A8FF">getService</span><span style="color:#E6EDF3">()));</span></span>
+<span class="line"><span style="color:#E6EDF3">        Object</span><span style="color:#E6EDF3"> result</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> svc.</span><span style="color:#D2A8FF">getClass</span><span style="color:#E6EDF3">().</span><span style="color:#D2A8FF">getMethod</span><span style="color:#E6EDF3">(invocation.</span><span style="color:#D2A8FF">getMethod</span><span style="color:#E6EDF3">()).</span><span style="color:#D2A8FF">invoke</span><span style="color:#E6EDF3">(args);</span></span>
+<span class="line"><span style="color:#E6EDF3">        Map</span><span style="color:#FFA657">&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#FFA657">, </span><span style="color:#FF7B72">Object</span><span style="color:#FFA657">> </span><span style="color:#E6EDF3">httpResponse</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> new</span><span style="color:#E6EDF3"> HashMap&#x3C;>();</span></span>
+<span class="line"><span style="color:#E6EDF3">        httpResponse.</span><span style="color:#D2A8FF">put</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"status"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">        httpResponse.</span><span style="color:#D2A8FF">put</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"body"</span><span style="color:#E6EDF3">, JSONObject.</span><span style="color:#D2A8FF">toJSONString</span><span style="color:#E6EDF3">(result));</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> httpResponse;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol start="2">
+<li>通过如下命令请求来发起相关调用。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/demo</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Host: example.org"</span><span style="color:#79C0FF">  -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> --data</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "service": "org.apache.dubbo.samples.apisix.DemoService",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "method": "createUser",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "parameters": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "type": "org.apache.dubbo.samples.apisix.User",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "value": "{'name': 'hello'}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文为大家介绍了如何借助 Apache APISIX 实现 Dubbo Service 的代理，通过引入 <code>dubbo-proxy</code> 插件便可为 Dubbo 框架的后端系统构建更简单更高效的流量链路。</p>
+<p>希望通过上述操作步骤和用例场景分享，能为大家在相关场景的使用提供借鉴思路。更多关于 <code>dubbo-proxy</code> 插件的介绍与使用可参考<a href="https://apisix.apache.org/docs/apisix/plugins/dubbo-proxy/">官方文档</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

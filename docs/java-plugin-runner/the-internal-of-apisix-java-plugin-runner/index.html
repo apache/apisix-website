@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>The internal of apisix java plugin runner | Apache APISIX</title><meta name="description" content="This article explains the internal design of apisix-java-plugin-runner."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="The internal of apisix java plugin runner | Apache APISIX"><meta property="og:description" content="This article explains the internal design of apisix-java-plugin-runner."><meta property="og:url" content="https://apisix.apache.org/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"The internal of apisix java plugin runner","description":"This article explains the internal design of apisix-java-plugin-runner.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/java-plugin-runner/development/" class>Development</a>  </li><li class> <a href="/docs/java-plugin-runner/how-it-works/" class>How it works</a>  </li><li class> <a href="/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/" class="active">The internal of apisix java plugin runner</a>  </li><li class> <a href="/docs/java-plugin-runner/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/java-plugin-runner/deployment-guide/" class>Deployment Guide</a>  </li><li class> <a href="/docs/java-plugin-runner/hot-reloading/" class>Hot-Reload</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>The internal of apisix java plugin runner</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p>This article explains the internal design of apisix-java-plugin-runner.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#communication">Communication</a></li>
+<li><a href="#serialization">Serialization</a></li>
+<li><a href="#codec">Codec</a></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>The apisix-java-plugin-runner designed as a TCP server built using <a href="https://github.com/netty/netty">netty</a>,
+it provides a <code>PluginFilter</code> interface for users to implement.</p>
+<p>Users only need to focus on their business logic, not on the details of how the apisix java plugin runner communicates with APISIX.</p>
+<p>The inter-process communication between them is depicted by the following diagram.</p>
+<p><img src="https://raw.githubusercontent.com/apache/apisix-java-plugin-runner/master/docs/assets/images/the-internal-of-apisix-java-plugin-runner.png" alt="the-internal-of-apisix-java-plugin-runner"></p>
+<h2 id="communication">Communication</h2>
+<p>apisix-java-plugin-runner and APISIX use the Unix Domain Socket for inter-process communication,
+so they need to be deployed in the same instance.</p>
+<p>apisix-java-plugin-runner is managed by APISIX. APISIX starts the apisix-java-plugin-runner when it starts and ends it when it
+ends. if the apisix-java-plugin-runner quits in the middle, APISIX will restart it automatically.</p>
+<h2 id="serialization">Serialization</h2>
+<p>Refer to <a href="https://github.com/google/flatbuffers">flatbuffers</a></p>
+<p>FlatBuffers is a cross platform serialization library architected for maximum memory efficiency.
+It allows you to directly access serialized data without parsing/unpacking it first, while still having great forward/backward compatibility.</p>
+<p>You can refer to the <a href="https://github.com/api7/ext-plugin-proto/blob/main/ext-plugin.fbs">ext-plugin.fbs</a>
+schema file to see how Lua and Java layout the serialized objects.</p>
+<h2 id="codec">Codec</h2>
+<p>apisix-java-plugin-runner and APISIX use a private binary protocol for coding and decoding.
+The protocol format is</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1 byte of type + 3 bytes of length + data</span></span></code></pre>
+<p>The type can be 0 ~ 7, and the length can be [0, 8M). The length of data is determined by length.</p>
+<p>The current type takes the following values</p>
+<ul>
+<li>0 means error</li>
+<li>1 means prepare_conf</li>
+<li>2 means http_req_call</li>
+</ul>
+<p>The binary data generated by the flatbuffer serialization is placed in the data segment.</p>
+<h2 id="threading-model">Threading model</h2>
+<p>Apisix plugin runner will run your plugins directly onto the event loop.</p>
+<p>While this empower the best performance possible, as a plugin developer you will have the responsibility
+never to block threads on the event loop. Doing so would result in catastrophic performance drop.</p>
+<p>Hopefully one can write asynchronous plugins easily: just call the <code>PluginFilterChain</code> as a callback once you
+are done.</p>
+<p>For instance:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">Component</span></span>
+<span class="line"><span style="color:#FF7B72">public</span><span style="color:#FF7B72"> class</span><span style="color:#FFA657"> AsyncResponseFilter</span><span style="color:#FF7B72"> implements</span><span style="color:#79C0FF"> PluginFilter</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#E6EDF3"> String </span><span style="color:#D2A8FF">name</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "AyncResponseFilter"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    @</span><span style="color:#FF7B72">Override</span></span>
+<span class="line"><span style="color:#FF7B72">    public</span><span style="color:#FF7B72"> void</span><span style="color:#D2A8FF"> postFilter</span><span style="color:#E6EDF3">(PostRequest </span><span style="color:#FFA657">request</span><span style="color:#E6EDF3">, PostResponse </span><span style="color:#FFA657">response</span><span style="color:#E6EDF3">, PluginFilterChain </span><span style="color:#FFA657">chain</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#D2A8FF">        callExternalService</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">            .</span><span style="color:#D2A8FF">thenAccept</span><span style="color:#E6EDF3">(body </span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                response.</span><span style="color:#D2A8FF">setBody</span><span style="color:#E6EDF3">(body);</span></span>
+<span class="line"><span style="color:#E6EDF3">                chain.</span><span style="color:#D2A8FF">postFilter</span><span style="color:#E6EDF3">(request, response);</span></span>
+<span class="line"><span style="color:#E6EDF3">            });</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">    // This simulates calls to an external service</span></span>
+<span class="line"><span style="color:#E6EDF3">    CompletableFuture&#x3C;</span><span style="color:#FF7B72">String</span><span style="color:#E6EDF3">> </span><span style="color:#D2A8FF">callExternalService</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> CompletableFuture.</span><span style="color:#D2A8FF">completedFuture</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"response_body"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix-java-plugin-runner/edit/master/docs/en/latest/the-internal-of-apisix-java-plugin-runner.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>如何与 Dapr 集成打造 Apache APISIX 网关控制器 | Apache APISIX</title><meta name="description" content="本文为大家介绍了 Dapr 和 Apache APISIX Ingress Controller 的相关概念，并展示了集成 Dapr 创建一个 Apache APISIX 控制器的具体步骤及测试示例项目。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/11/17/dapr-with-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/17/dapr-with-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/17/dapr-with-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/17/dapr-with-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="如何与 Dapr 集成打造 Apache APISIX 网关控制器 | Apache APISIX"><meta property="og:description" content="本文为大家介绍了 Dapr 和 Apache APISIX Ingress Controller 的相关概念，并展示了集成 Dapr 创建一个 Apache APISIX 控制器的具体步骤及测试示例项目。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/11/17/dapr-with-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/dapr.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"如何与 Dapr 集成打造 Apache APISIX 网关控制器","description":"本文为大家介绍了 Dapr 和 Apache APISIX Ingress Controller 的相关概念，并展示了集成 Dapr 创建一个 Apache APISIX 控制器的具体步骤及测试示例项目。","datePublished":"2021-11-17","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/dapr.png","author":{"@type":"Person","name":"张善友"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/11/17/dapr-with-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/11/17/dapr-with-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/11/17/dapr-with-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>如何与 Dapr 集成打造 Apache APISIX 网关控制器</h1> <p class="article-meta"> 2021-11-17 · 张善友  </p> <blockquote>
+<p>本文将为大家展示如何通过集成 Dapr 创建一个 Apache APISIX 控制器。包括项目概念以及具体操作步骤。</p>
+</blockquote>
+<!--truncate-->
+<p>本质上，Apache APISIX 控制器将配置相同标准 Dapr annotations 以注入 daprd sidecar。通过公开这个 sidecar，将允许外部应用程序与集群中启用 Dapr 的应用程序进行通信。</p>
+<p>下图为实际项目中的架构流程：</p>
+<p><img src="https://static.apiseven.com/202108/1637119221118-75dab9f1-4092-4684-ad23-34932d8a7eac.png" alt="总体架构流程"></p>
+<h2 id="基本项目概览">基本项目概览</h2>
+<h3 id="apache-apisix-ingress">Apache APISIX Ingress</h3>
+<p>在 K8s 生态中，Ingress 作为表示 K8s 流量入口的一种资源，想要让其生效，就需要有一个 Ingress Controller 去监听 K8s 中的 Ingress 资源，并对这些资源进行相应规则的解析和实际承载流量。在当下趋势中，像 Kubernetes Ingress Nginx 就是使用最广泛的 Ingress Controller 实现。</p>
+<p>而 APISIX Ingress 则是另一种 Ingress Controller 的实现。跟 Kubernetes Ingress Nginx 的区别主要在于 APISIX Ingress 是以 Apache APISIX 作为实际承载业务流量的数据面。如下图所示，当用户请求到具体的某一个服务/API/网页时，通过外部代理将整个业务流量/用户请求传输到 K8s 集群，然后经过 APISIX Ingress 进行后续处理。</p>
+<p><img src="https://static.apiseven.com/2022/09/30/6336a25db849f.png" alt="APISIX Ingress"></p>
+<p>从上图可以看到，APISIX Ingress 分成了两部分。一部分是 APISIX Ingress Controller，作为控制面它将完成配置管理与分发。另一部分 APISIX Proxy Pod 负责承载业务流量，它是通过 CRD(Custom Resource Definitions) 的方式实现的。Apache APISIX Ingress 除了支持自定义资源外，还支持原生的 K8s Ingress 资源。</p>
+<p>点击查看<a href="https://www.apiseven.com/zh/blog/apisix-ingress-details">更多详情</a>。</p>
+<h3 id="dapr">Dapr</h3>
+<p>Dapr 是一个可移植、事件驱动的运行时。它使开发人员简单地去构建运行在云和 edge 上弹性、无状态和有状态的应用，并且包含多种语言和开发人员框架。</p>
+<p><img src="https://static.apiseven.com/202108/1637119221120-15a5be20-17a2-4c18-a82e-91e1ff3709f0.png" alt="Dapr 生态图"></p>
+<p>今天，我们正经历一波云应用浪潮。开发人员熟悉 web+ 数据库应用程序架构(例如经典的3层设计)，但不熟悉本质上是分布式的微服务应用程序架构。开发人员希望专注于业务逻辑，同时依靠平台为他们的应用程序注入伸缩性、弹性、可维护性、弹性和其他本地云架构的属性。</p>
+<p>这就是 Dapr 的用武之地。</p>
+<p>Dapr 可以将构建微服务应用程序的最佳实践编入开放、独立的构建块中，使用户能够使用自己选择的语言和框架构建可移植的应用程序。每个构建块都是完全独立，并可在应用程序中使用其中的一个或多个。</p>
+<p>此外，Dapr 与平台无关，这意味着用户可以在任何 Kubernetes 集群和其他与 Dapr 集成的托管环境本地运行应用程序。</p>
+<p>点击查看<a href="https://docs.dapr.io/zh-hans/concepts/overview/">更多详情</a>。</p>
+<h2 id="实践开始">实践开始</h2>
+<h3 id="环境准备">环境准备</h3>
+<ul>
+<li>Kubernetes 1.19+ 集群，集群上已经配置了 Dapr</li>
+<li>安装了 Helm CLI 3x</li>
+<li>Kubectl CLI 已安装并配置为访问集群</li>
+<li>可选：用于创建自签名证书的 OpenSSL</li>
+<li>Apache APISIX 的 Helm Chart 版本为 0.7.2+</li>
+</ul>
+<h3 id="步骤一apache-apisix-helm-配置">步骤一：Apache APISIX Helm 配置</h3>
+<p>通过运行以下命令为 Apache APISIX 控制器添加最新的 helm chart repo：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> repo</span><span style="color:#A5D6FF"> add</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> https://charts.apiseven.com</span></span>
+<span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> repo</span><span style="color:#A5D6FF"> update</span></span></code></pre>
+<h3 id="步骤二创建-apache-apisix-ingerss-命名空间">步骤二：创建 Apache APISIX Ingerss 命名空间</h3>
+<p>确保当前 kubectl 上下文指向正确的 Kubernetes 集群，然后运行以下命令：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> namespace</span><span style="color:#A5D6FF"> ingress-apisix</span></span></code></pre>
+<h3 id="步骤三安装支持-dapr-的-apisix-控制器">步骤三：安装支持 Dapr 的 APISIX 控制器</h3>
+<p>使用以下内容创建一个名为 dapr-annotations.yaml 的文件，以在 Apache APISIX Proxy Pod 上设置注释。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  podAnnotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/enabled</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/app-id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">" apisix-gateway"</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/app-port</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"9080"</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/enable-metrics</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/metrics-port</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"9099"</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/sidecar-listen-addresses</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.0.0.0</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/config</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix-config</span></span></code></pre>
+<blockquote>
+<p>注意：上面的 app-port 是告诉 daprd sidecar Proxy 在监听哪个端口。有关受支持的注释完整列表，可参考 <a href="https://docs.dapr.io/operations/hosting/kubernetes/kubernetes-annotations/">Dapr Kubernetes pod 注释规范</a>。</p>
+</blockquote>
+<p>下面以我个人在 AKS 上安装的示例 dapr-annotations.yaml 进行展示。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787"> apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  podAnnotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/app-id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-gateway</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/app-port</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'9080'</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/enable-metrics</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'true'</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/enabled</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'true'</span></span>
+<span class="line"><span style="color:#7EE787">    dapr.io/metrics-port</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'9099'</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/sidecar-listen-addresses</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.0.0.0</span></span>
+<span class="line"><span style="color:#7EE787">dapr.io/config</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ingress-apisix-config</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">gateway</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">LoadBalancer</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">ingress-controller</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">dashboard</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>接下来运行以下命令（引用上述文件）：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> apisix</span><span style="color:#A5D6FF"> apisix/apisix</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> dapr-annotations.yaml</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> ingress-apisix</span></span></code></pre>
+<p>将启动的 APISIX Dashboard Pod 向外暴露，便于后续使用：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 可以通过 kubectl get pods -n ingress-apisix 获取 dashboard-pod-name</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> port-forward</span><span style="color:#E6EDF3"> ${dashboard-pod-name} </span><span style="color:#A5D6FF">9000:9000</span></span></code></pre>
+<h3 id="步骤四创建-apache-apisix-的-dapr-sidecar-资源">步骤四：创建 Apache APISIX 的 Dapr Sidecar 资源</h3>
+<p>首先，通过 <code>http://localhost:9000</code> 访问 APISIX Dashboard 配置 Apache APISIX upstream-apisix-dapr。</p>
+<p><img src="https://static.apiseven.com/202108/1637119221106-e57ae8b8-38ed-46ea-b219-401619fadbe3.png" alt="配置上游业务"></p>
+<p>在这里主机名填写：apisix-gateway-dapr，端口号填写 3500。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix-gateway-dapr"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3500</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "retries"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "timeout"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "connect"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "read"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "send"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "pass_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix-dapr"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>然后配置 Apache APISIX 服务 apisix-gateway-dapr，上游服务选择 apisix-dapr。</p>
+<p><img src="https://static.apiseven.com/202108/1637119221115-ae7c847a-99a3-4ee6-b36f-4269fd067198.png" alt="配置服务"></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix-gateway-dapr"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"376187148778341098"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="步骤五部署测试示例项目">步骤五：部署测试示例项目</h3>
+<p><a href="https://httpbin.org/">HTTPBin</a> 是以 Python+Flask 写的一款工具，这款工具涵盖了各类 HTTP 场景，且每个接口都有返回。接下来，我们使用 kennethreitz/httpbin 作为示例项目进行演示。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> 01.namespace.yaml</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> 02.deployment.yaml</span></span>
+<span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> 03.svc.yaml</span></span></code></pre>
+<p><img src="https://static.apiseven.com/202108/1637119221110-9b901451-6ca6-4d15-b591-69f7c5d57ce1.png" alt="项目配置"></p>
+<p>上图为假设有一个使用 Dapr app-id kennethreitz-httpbin 运行的微服务。</p>
+<h4 id="路径匹配改写">路径匹配改写</h4>
+<p>这里补充一下关于路径匹配的相关设置。比如请求网关是 /httpbin/<em>，后端接收路径应该是 /</em>，中间的 httpbin 只充当服务名的标识。</p>
+<p><img src="https://static.apiseven.com/202108/1637119221114-90c1ef58-6743-419c-be87-9cdc8503aa30.png" alt="填写释义"></p>
+<p>在支持命名空间的托管平台上，Dapr 应用 ID 是符合有效的 FQDN 格式，其中包括目标名称空间。例如，以下字符串包含应用 ID（svc-kennethreitz-httpbin）以及应用运行在命名空间（kind-test）。</p>
+<p>最后可以通过访问：<a href="http://20.195.90.43/httpbin/get">http://20.195.90.43/httpbin/get</a> 来查看代理是否成功。</p>
+<p><img src="https://static.apiseven.com/202108/1637119221100-13997340-dfb6-45fb-abba-4215e0318238.png" alt="检查是否代理成功"></p>
+<h2 id="额外补充说明">额外补充说明</h2>
+<p>当然，在进行部署的过程中，也可以在 Kubernetes 中使用 Apache APISIX 官方 Helm 仓库直接部署 Apache APISIX 和 APISIX Ingress Controller。这样可以直接将 Apache APISIX 作为网关，进行 APISIX Ingress Controller 的数据面来承载业务流量。</p>
+<p>最后将 Dapr 通过 Sidecar annotations 注入到 Apache APISIX Proxy Pod，通过服务调用模块来调用集群中的微服务，实现完整流程部署。</p>
+<h3 id="删除-apache-apisix-控制器">删除 Apache APISIX 控制器</h3>
+<p>如项目结束，想要删除 Apache APISIX 控制器，可按下方命令操作（记得不要忘记删除之前创建的命名空间 ingress-apisix）。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">helm</span><span style="color:#A5D6FF"> delete</span><span style="color:#A5D6FF"> apisix</span><span style="color:#79C0FF"> -n</span><span style="color:#A5D6FF"> ingress-apisix</span></span></code></pre> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

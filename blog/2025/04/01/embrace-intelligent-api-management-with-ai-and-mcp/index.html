@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX-MCP: Manage APIs with Natural Language | Apache APISIX</title><meta name="description" content="Use APISIX-MCP to manage API routes and upstreams through natural language. Create, update, and delete resources via AI integration."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX-MCP: Manage APIs with Natural Language | Apache APISIX"><meta property="og:description" content="Use APISIX-MCP to manage API routes and upstreams through natural language. Create, update, and delete resources via AI integration."><meta property="og:url" content="https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX-MCP: Manage APIs with Natural Language","description":"Use APISIX-MCP to manage API routes and upstreams through natural language. Create, update, and delete resources via AI integration.","datePublished":"2025-04-01","image":"https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp","author":{"@type":"Person","name":"Zhihuang Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX-MCP: Manage APIs with Natural Language</h1> <p class="article-meta"> 2025-04-01 · Zhihuang Lin  </p> <blockquote>
+<p>This article introduces the MCP protocol and its application in APISIX-MCP. APISIX-MCP simplifies API management through natural language interaction, supporting the creation, updating, and deletion of resources.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="preface">Preface</h2>
+<p>With the explosive growth of large-scale AI model applications, many traditional systems are eager to integrate AI capabilities quickly. However, the current landscape of AI tools lacks unified standards, resulting in severe fragmentation. Different models vary in capability and integration methods, creating significant challenges for traditional applications during adoption.</p>
+<p>Against this backdrop, in late 2024, Anthropic—the company behind the renowned Claude model—introduced the <strong>Model Context Protocol (MCP)</strong>. MCP positions itself as the <strong>“USB-C interface” for AI applications</strong>. Just as USB-C standardizes connections for peripherals and accessories, MCP provides a standardized approach for AI models to connect with diverse data sources and tools.</p>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/u6Q4dGDZ_apisix-mcp-architecture-new.webp" alt="MCP Architecture"></p>
+<p>Numerous services and applications have already adopted MCP. For example:</p>
+<ul>
+<li><strong>GitHub-MCP</strong> enables natural language code submissions and PR creation.</li>
+<li><strong>Figma MCP</strong> allows AI to generate UI designs directly.</li>
+<li>With <strong>Browser-tools-MCP</strong>, tools like Cursor can debug code by interacting with DOM elements and console logs.</li>
+</ul>
+<p>The official MCP repository includes implementations for Google Drive, Slack, Git, and various databases. As an open standard, MCP has gained widespread recognition in the AI community, attracting third-party developers who contribute hundreds of new MCP services daily. Anthropic, as the founder, actively drives MCP’s evolution by refining the protocol and educating developers.</p>
+<h2 id="about-apisix-mcp">About APISIX-MCP</h2>
+<p>The rise of MCP offers traditional applications a new technical pathway. Leveraging MCP’s standardized integration capabilities, we developed <a href="https://github.com/api7/apisix-mcp"><strong>APISIX-MCP</strong></a>, which bridges large language models with Apache APISIX’s Admin API through natural language interaction. The current implementation supports the following operations:</p>
+<h3 id="general-operations">General Operations</h3>
+<ul>
+<li><code>get_resource</code>: Retrieve resources by type (routes, services, upstreams, etc.).</li>
+<li><code>delete_resource</code>: Delete resources by ID.</li>
+</ul>
+<h3 id="api-resource-management">API Resource Management</h3>
+<ul>
+<li><code>create_route</code>/<code>update_route</code>/<code>delete_route</code>: Manage routes.</li>
+<li><code>create_service</code>/<code>update_service</code>/<code>delete_service</code>: Manage services.</li>
+<li><code>create_upstream</code>/<code>update_upstream</code>/<code>delete_upstream</code>: Manage upstreams.</li>
+<li><code>create_ssl</code>/<code>update_ssl</code>/<code>delete_ssl</code>: Manage SSL certificates.</li>
+<li><code>create_or_update_proto</code>: Manage Protobuf definitions.</li>
+<li><code>create_or_update_stream_route</code>: Manage stream routes.</li>
+</ul>
+<h3 id="plugin-operations">Plugin Operations</h3>
+<ul>
+<li><code>get_all_plugin_names</code>: List all available plugins.</li>
+<li><code>get_plugin_info</code>/<code>get_plugins_by_type</code>/<code>get_plugin_schema</code>: Fetch plugin configurations.</li>
+<li><code>create_plugin_config</code>/<code>update_plugin_config</code>: Manage plugin configurations.</li>
+<li><code>create_global_rule</code>/<code>update_global_rule</code>: Manage global plugin rules.</li>
+<li><code>get_plugin_metadata</code>/<code>create_or_update_plugin_metadata</code>/<code>delete_plugin_metadata</code>: Manage plugin metadata.</li>
+</ul>
+<h3 id="security-configuration">Security Configuration</h3>
+<ul>
+<li><code>get_secret_by_id</code>/<code>create_secret</code>/<code>update_secret</code>: Manage secrets.</li>
+<li><code>create_or_update_consumer</code>/<code>delete_consumer</code>: Manage consumers.</li>
+<li><code>get_credential</code>/<code>create_or_update_credential</code>/<code>delete_credential</code>: Manage consumer credentials.</li>
+<li><code>create_consumer_group</code>/<code>delete_consumer_group</code>: Manage consumer groups.</li>
+</ul>
+<h2 id="how-to-use-apisix-mcp">How to Use APISIX-MCP</h2>
+<p>APISIX-MCP is now open-sourced and available on <a href="https://www.npmjs.com/package/apisix-mcp">npm</a> and <a href="https://github.com/api7/apisix-mcp">GitHub</a>. It can be configured via any MCP-compatible AI client, such as Claude Desktop, Cursor, or the Cline plugin for VSCode.</p>
+<p>Below is a step-by-step guide using <strong>Cursor</strong>:</p>
+<ol>
+<li>
+<p>Open Cursor, click the settings icon, and navigate to the settings page.</p>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/OCQcecuQ_apisix-mcp-2.webp" alt="Configure cursor for APISIX-MCP"></p>
+</li>
+<li>
+<p>Click <strong>“Add new global MCP server”</strong> to edit the <code>mcp.json</code> configuration file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "mcpServers"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "apisix-mcp"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "command"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"npx"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "args"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"-y"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"apisix-mcp"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">      "env"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "APISIX_SERVER_HOST"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"your-apisix-server-host"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "APISIX_ADMIN_API_PORT"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"your-apisix-admin-api-port"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "APISIX_ADMIN_API_PREFIX"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"your-apisix-admin-api-prefix"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "APISIX_ADMIN_KEY"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"your-apisix-api-key"</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+</li>
+</ol>
+<p>In the <code>mcpServers</code> field of the configuration file, add a service <code>apisix-mcp</code>, which can be changed. Then configure the commands for running the MCP service.</p>
+<ul>
+<li><strong><code>command</code></strong>: <code>npx</code> (Node.js package executor).</li>
+<li><strong><code>args</code></strong>: <code>-y</code> (auto-install dependencies) and <code>apisix-mcp</code> (package name).</li>
+<li><strong><code>env</code></strong>: Customize APISIX connection settings (defaults below):</li>
+</ul>
+<p>In the <code>env</code> field, you can specify the APISIX service access address, Admin API port, prefix, and authentication key. These environment variables have default values, so if you start APISIX without any custom configuration, you can omit the <code>env</code> field entirely. The default values for each variable are as follows:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default Value</th></tr></thead><tbody><tr><td><code>APISIX_SERVER_HOST</code></td><td>APISIX server host</td><td><code>http://127.0.0.1</code></td></tr><tr><td><code>APISIX_ADMIN_API_PORT</code></td><td>Admin API port</td><td><code>9180</code></td></tr><tr><td><code>APISIX_ADMIN_API_PREFIX</code></td><td>Admin API prefix</td><td><code>/apisix/admin</code></td></tr><tr><td><code>APISIX_ADMIN_KEY</code></td><td>Admin API authentication key</td><td><code>edd1c9f034335f136f87ad84b625c8f1</code></td></tr></tbody></table>
+<ol start="3">
+<li>
+<p>Upon successful configuration, the MCP Servers list will show a green indicator for <code>apisix-mcp</code>, along with available tools.</p>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/toaXLc3n_apisix-mcp-3.webp" alt="Successful Configuration"></p>
+<blockquote>
+<p>Note: If setup fails, refer to the <a href="https://github.com/api7/apisix-mcp">APISIX-MCP GitHub</a> documentation for manual builds.</p>
+</blockquote>
+</li>
+<li>
+<p>In the chat panel, select <strong>Agent</strong> mode and choose a model (e.g., Claude Sonnet 3.5/3.7 or GPT-4o).</p>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/g9v91DIf_apisix-mcp-4.webp" alt="Select Agent Models"></p>
+</li>
+<li>
+<p>Next, we can enter relevant operational commands to verify if the MCP service is functioning correctly. Following the workflow in APISIX’s Getting Started documentation, we input the following into the dialog box and send the message:</p>
+<blockquote>
+<p><em>“Help me create a route with path <code>/api</code> for accessing <code>https://httpbin.org</code> upstream, with CORS and rate-limiting plugins. Print the route details after configuration.”</em></p>
+</blockquote>
+</li>
+<li>
+<p>Next, in Cursor, you will see a process similar to the MCP tool invocation demonstrated in the video below. Due to the inherent randomness of large AI model responses, the exact operations performed may vary from the example shown.</p>
+<video width="100%" controls>  
+  <source src="https://static.api7.ai/uploads/2025/04/01/V7CmO59u_mcp-demo.mp4" type="video/mp4">  
+</video>  
+</li>
+</ol>
+<p>Here, the auto-execution mode (YOLO Mode) is enabled, allowing Cursor to automatically invoke all tools in the MCP server. From the video, we can observe the AI performing the following operations based on our requirements:</p>
+<ul>
+<li>Analyzing the plugins we need to configure, then calling <code>get_plugins_list</code> to retrieve all plugin names</li>
+<li>Invoking <code>get_plugin_schema</code> to examine detailed configuration information for different plugins</li>
+<li>Calling <code>create_route</code> to create the route</li>
+<li>Using <code>update_route</code> to add the previously queried plugin configurations to the route</li>
+<li>Executing <code>get_route</code> to verify whether the route was successfully configured and if the configuration is correct</li>
+</ul>
+<ol start="7">
+<li>
+<p>The resulting route configuration includes:</p>
+<ul>
+<li><strong>Route ID</strong>: <code>httpbin</code></li>
+<li><strong>Path</strong>: <code>/api/*</code></li>
+<li><strong>Methods</strong>: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, <code>OPTIONS</code></li>
+<li><strong>CORS Plugin</strong>:</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>allow_origins: *</span></span>
+<span class="line"><span>allow_methods: *</span></span>
+<span class="line"><span>allow_headers: *</span></span>
+<span class="line"><span>expose_headers: X-Custom-Header</span></span>
+<span class="line"><span>max_age: 3600</span></span>
+<span class="line"><span>allow_credential: false</span></span></code></pre>
+<ul>
+<li><strong>limit-count Plugin</strong>:</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>count: 100</span></span>
+<span class="line"><span>time_window: 60</span></span>
+<span class="line"><span>key: remote_addr</span></span>
+<span class="line"><span>rejected_code: 429</span></span>
+<span class="line"><span>policy: local</span></span></code></pre>
+<ul>
+<li><strong>Upstream</strong>:</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>type: roundrobin (load balancing strategy using round-robin)  </span></span>
+<span class="line"><span>upstream node: httpbin.org:443 (backend service address)  </span></span></code></pre>
+</li>
+</ol>
+<h2 id="advantages-of-ai-driven-operations">Advantages of AI-Driven Operations</h2>
+<p>In the above process, we accomplished the creation of a route configured with CORS and rate-limiting through just one round of natural language interaction with AI. Compared to manual route configuration, leveraging AI offers several distinct advantages:</p>
+<ul>
+<li><strong>Reduced Cognitive Load</strong>: Eliminates manual documentation lookup and parameter memorization.</li>
+<li><strong>Automated Workflows</strong>: AI decomposes tasks (e.g., plugin setup → route creation) without human intervention.</li>
+<li><strong>Closed-Loop Validation</strong>: Auto-verification ensures correctness.</li>
+<li><strong>Iterative Optimization</strong>: Continuous dialogue refines configurations.</li>
+</ul>
+<p>This interaction model transforms complex configuration processes into natural conversational experiences while maintaining accuracy and verifiability. These capabilities are achieved through the MCP protocol’s semantic parsing of requirements, intelligent tool invocation, and final execution via Admin API.</p>
+<p>It’s important to note that APISIX-MCP isn’t designed to completely replace manual configuration, but rather to optimize efficiency for high-frequency operations. Its value shines particularly in configuration debugging and rapid validation scenarios, creating effective complementarity with traditional management approaches. As the MCP ecosystem continues to evolve, we can anticipate deeper integration of such tools in API management, promising more sophisticated capabilities.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>MCP enables intelligent operations for complex API systems. APISIX-MCP lowers the barrier to Apache APISIX adoption, with future plans for AI-traffic-specific plugins. The fusion of AI and API management promises smarter, more efficient infrastructure governance.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

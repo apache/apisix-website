@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Implementation of canary release solution based on Apache APISIX | Apache APISIX</title><meta name="description" content="This article describes how Alibaba Cloud's MSE based on APISIX's flexible route capabilities, with MSE to release new value from APISIX."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Implementation of canary release solution based on Apache APISIX | Apache APISIX"><meta property="og:description" content="This article describes how Alibaba Cloud's MSE based on APISIX's flexible route capabilities, with MSE to release new value from APISIX."><meta property="og:url" content="https://apisix.apache.org/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/12/12/63969c5eb411d.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Implementation of canary release solution based on Apache APISIX","description":"This article describes how Alibaba Cloud's MSE based on APISIX's flexible route capabilities, with MSE to release new value from APISIX.","datePublished":"2022-06-14","image":"https://static.apiseven.com/2022/12/12/63969c5eb411d.png","author":{"@type":"Person","name":"Shengwei Pan"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/06/14/how-mse-supports-canary-release-with-apache-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Implementation of canary release solution based on Apache APISIX</h1> <p class="article-meta"> 2022-06-14 · Shengwei Pan  </p> <blockquote>
+<p>This article describes how Alibaba Cloud’s microservice engine MSE is based on the flexible routing capabilities of Apache APISIX, cooperates with MSE’s full-link grayscale capabilities, and achieves full-link grayscale through minimal configuration and code-free intrusion.</p>
+</blockquote>
+<!--truncate-->
+<p>Apache APISIX is an open-source cloud native API gateway. As an API gateway, it has the characteristics of dynamic, real-time, and high performance. It provides rich traffic management functions such as load balancing, dynamic upstream, gray-scale publishing, service fusing, identity authentication and observability. You can use Apache APISIX to handle the traditional north-south traffic and the east-west traffic between services. It can also be used as a K8s ingress controller. Thanks to the full dynamic design of APISIX, configuration changes can be made at any time without restarting the service.</p>
+<p>Alibaba cloud microservice engine MSE provides a very easy-to-use traffic swimlane capability. It is implemented based on Java agent bytecode enhanced technology. It seamlessly supports all Spring Cloud and Dubbo versions on the market for nearly five years. Through minimal configuration and code intrusion-free methods, it realizes a canary release solution along the whole life cycle and releases the new value of the APISIX based microservice architecture.</p>
+<h2 id="introduction-of-canary-release-solution-along-the-whole-life-cycle">Introduction of canary release solution along the whole life cycle</h2>
+<h3 id="relevant-concepts">Relevant concepts</h3>
+<ul>
+<li>
+<p>Swimlane: a set of isolated environments defined for the same version application. Only the request traffic that meets the flow control routing rules will be routed to the marking application in the corresponding lane. An application can belong to multiple swimlanes. A swimlane can contain multiple applications. The relationship between applications and swimlanes is many to many.</p>
+</li>
+<li>
+<p>Baseline environment: an application that is not marked is an application of a stable version of the baseline, that is, a stable online environment.</p>
+</li>
+<li>
+<p>Traffic fallback: the number of services deployed in the swimlane is not required to be completely consistent with the baseline environment. When there are no other services that the call chain depends on in the swimlane, the traffic needs to be fallback to the baseline environment and further routed back to the swimlane of the corresponding label when necessary.</p>
+</li>
+<li>
+<p>Lane Group: a collection of lanes. The swimlane group is mainly used to distinguish different teams or different scenes.</p>
+</li>
+</ul>
+<h3 id="business-scenario">Business scenario</h3>
+<p>The capability of canary release solution along the whole life cycle based on traffic lanes is applicable to the following business scenarios:</p>
+<ul>
+<li>Daily development / project / test environment isolation;</li>
+<li>Canary release solution along the whole life cycle;</li>
+<li>High availability same machine room priority routing;</li>
+<li>Full link pressure test.</li>
+</ul>
+<h3 id="technical-principles">Technical principles</h3>
+<p>How to quickly implement canary release solution along the whole life cycle in the actual business scenario? At present, there are two main solutions, physical environment based isolation and logical environment based isolation.</p>
+<h4 id="physical-environment-isolation">Physical environment isolation</h4>
+<p>Physical environment isolation, in fact, is to build real traffic isolation by adding machines.</p>
+<p><img src="https://static.apiseven.com/2022/blog/0614/mse-en1.png" alt="Physical environment isolation"></p>
+<p>This scheme needs to build a set of network isolated and resource-independent environments for canary services, and deploy the canary version of the services in it. Because it is isolated from the formal environment, other services in the formal environment cannot access the services that need canary release. Therefore, these online services need to be deployed redundantly in the canary deployment so that the entire call link can forward traffic normally. In addition, some other dependent middleware components such as the registry also need to be redundantly deployed in the canary deployment to ensure the visibility between microservices and ensure that the obtained node IP address only belongs to the current network environment.</p>
+<p>This scheme is generally used to build enterprise testing and pre development environment, but it is not flexible enough for the scenarios of online canary release and drainage. Moreover, the existence of multiple versions of microservices is very common in a microservice architecture. It is necessary to maintain multiple sets of canary deployments by using heap machines for these business scenarios. If the number of applications is very small, this method can be accepted; If you have too many applications, the operation and maintenance costs and machine costs will be too large, and the costs and costs will far exceed the benefits.</p>
+<h4 id="logical-environment-isolation">Logical environment isolation</h4>
+<p>The other scheme is to build a logical environment isolation. We only need to deploy the canary version of the service. When the traffic flows on the call link, the gateway, each middleware and each micro service passing through will identify the canary traffic and dynamically forward it to the canary version of the corresponding service. As shown below:</p>
+<p><img src="https://static.apiseven.com/2022/blog/0614/mse-en2.png" alt="Logical environment isolation"></p>
+<p>The above figure can well show the effect of this scheme. We use different colors to represent the canary traffic of different versions. It can be seen that both the microservice gateway and the microservice itself need to identify the traffic and make dynamic decisions according to the governance rules. When the service version changes, the forwarding of this call link will also change in real time. Compared with the canary deployment built by machines, this scheme can not only save a lot of machine costs and operation and maintenance manpower, but also help developers to control the online traffic in real time and quickly.</p>
+<h2 id="canary-release-solution-along-the-whole-life-cycle-based-on-apache-apisix">Canary release solution along the whole life cycle based on Apache APISIX</h2>
+<p>Canary release along the whole life cycle is one of the core functions of microservices, and it is also a function that cloud users must have in the process of microservicing. Due to the large number of technologies and scenarios involved in the canary release along the whole life cycle, if the enterprise implements self realization one by one, it will need to spend a lot of labor costs to expand and operate it.</p>
+<p>MSE service governance provides a complete product based canary release solution along the whole life cycle, covering most scenarios such as RPC, MQ, and observability. As long as the architecture is based on the spring cloud or Dubbo framework, the application can realize the enterprise level canary release along the whole life cycle function without upgrading or code changes.</p>
+<h3 id="prerequisites-for-use">Prerequisites for use</h3>
+<h4 id="step-1-install-apisix-related-components">Step 1: Install APISIX related components</h4>
+<ol>
+<li>Install APISIX, apisix-ingress-controller, etc. components.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>helm repo add apisix https://charts.apiseven.com</span></span>
+<span class="line"><span>helm repo add bitnami https://charts.bitnami.com/bitnami</span></span>
+<span class="line"><span>helm repo update</span></span>
+<span class="line"><span>kubectl create ns ingress-apisix</span></span>
+<span class="line"><span>helm install apisix apisix/apisix \</span></span>
+<span class="line"><span>  --set gateway.type=LoadBalancer \</span></span>
+<span class="line"><span>  --set ingress-controller.enabled=true \</span></span>
+<span class="line"><span>  --set etcd.persistence.storageClass="alicloud-disk-ssd" \</span></span>
+<span class="line"><span>  --set etcd.persistence.size="20Gi" \</span></span>
+<span class="line"><span>  --namespace ingress-apisix \</span></span>
+<span class="line"><span>  --set ingress-controller.config.apisix.serviceNamespace=ingress-apisix</span></span>
+<span class="line"><span>kubectl get service --namespace ingress-apisix</span></span></code></pre>
+<p>Under the <code>ingress-apisix</code> namespace you can see the stateless APISIX and <code>apisix-ingress-controller</code> applications, as well as the stateful etcd application.</p>
+<ol start="2">
+<li>Use Helm to install APISIX Dashboard.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>helm repo add apisix https://charts.apiseven.com</span></span>
+<span class="line"><span>helm repo update</span></span>
+<span class="line"><span>helm install apisix-dashboard apisix/apisix-dashboard --namespace</span></span>
+<span class="line"><span>ingress-apisix</span></span></code></pre>
+<ol start="3">
+<li>
+<p>After installation, you can bind an SLB. 4.</p>
+</li>
+<li>
+<p>Access APISIX Dashboard via <code>{slb-ip}:9000</code>.</p>
+</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/06/blog/2/173316825-e590decb-4c35-4602-9590-41ddde8b93cf.png" alt="Dashboard"></p>
+<h4 id="step-2-enable-microservice-governance">Step 2: Enable microservice governance</h4>
+<p>In this step, you need to enable MSE microservice governance, install the MSE service governance component (ack-onepilot) and enable microservice governance for applications. For specific operation information, please refer to the official Alibaba cloud tutorial.</p>
+<h4 id="step-3-deploy-the-demo-application">Step 3: Deploy the demo application</h4>
+<p>Deploy three applications A, B, and C in Alibaba cloud container service. Each application deploys a <code>base</code> version and a <code>gray</code> version respectively, and deploy a Nacos server applications to realize service discovery. For details, please refer to this tutorial to complete application deployment: deploy demo application. After the deployment is completed, you can configure the service for the application through the apisik dashboard for upstream configuration.</p>
+<h3 id="scenario-1-routing-by-domain-name">Scenario 1: Routing by domain name</h3>
+<p>In some scenarios, the baseline environment and gray environment on the line can be distinguished by different domain names. Gray environment has a separate domain name that can be configured. Suppose we visit <a href="http://www.gray.com">www.gray.com</a> to request gray environment, visit <a href="http://www.base.com">www.base.com</a> is the baseline environment.</p>
+<p><img src="https://static.apiseven.com/2022/06/blog/2/173319294-d27fc48a-4d42-4578-9457-4ab9072528a4.png" alt="Scenario 1"></p>
+<p>Call the link <code>Ingress-nginx - > A - > B - > C</code>, where a can be a <code>spring-boot</code> application.</p>
+<h4 id="configure-apisix-routing-rules">Configure APISIX routing rules</h4>
+<p>Select a route in the APISIX Dashboard and click to create. In the matching criteria, select the domain name and request path <code>/*</code>, and select the corresponding upstream. Configure the following routes respectively:</p>
+<ul>
+<li>
+<p>When the <code>host</code> is <code>www.base.com</code>, it is routed to the upstream corresponding to ID <code>4011524535454748</code>, that is, spring-cloud-a-svc;</p>
+</li>
+<li>
+<p>When the host is <code>www.gray.com</code>, it is routed to the upstream corresponding to ID <code>401163331936715388</code>, that is, <code>spring-cloud-a-gray-svc</code>.</p>
+</li>
+</ul>
+<p>Then configure the route corresponding to the base:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"spring-cloud-a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "methods"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">    "GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PUT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "DELETE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PATCH"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "HEAD"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "OPTIONS"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "CONNECT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "TRACE"</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"www.base.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"401152455435354748"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "labels"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">  "API_VERSION"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Configure the route corresponding to <code>gray</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"spring-cloud-a-gray"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "methods"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">    "GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PUT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "DELETE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PATCH"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "HEAD"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "OPTIONS"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "CONNECT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "TRACE"</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"www.gray.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"401163331936715388"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "labels"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "API_VERSION"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h4 id="configure-canary-release-along-the-whole-life-cycle-of-mse">Configure canary release along the whole life cycle of MSE</h4>
+<p>You need to configure the full link publishing of MSE. For details, please refer to this tutorial: <a href="https://help.aliyun.com/document_detail/404845.html">Configuring full link grayscale</a>.</p>
+<h4 id="validation-of-results">Validation of results</h4>
+<p>Visit <code>www.base.com</code> route to the <code>base</code> version of A application:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -H"Host:www.base.com" http://47.97.253.177/a</span></span>
+<span class="line"><span>A[172.18.144.15] -> B[172.18.144.125] -> C[172.18.144.90]%</span></span></code></pre>
+<p>Visit <code>www.gray.com</code> route to the <code>gray</code> version of A application:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -H"Host:www.gray.com" http://47.97.253.177/a</span></span>
+<span class="line"><span>Agray[172.18.144.16] -> Bgray[172.18.144.57] -> Cgray[172.18.144.157]%</span></span></code></pre>
+<h3 id="scenario-2-routing-by-specified-request-parameters">Scenario 2: Routing by specified request parameters</h3>
+<p>Some clients can’t rewrite the domain name. Users hope to visit <code>www.demo.com</code> routes to the gray environment by passing in different parameters. For example, in the following figure, the gray environment is accessed through the request parameter <code>env=gray</code>.</p>
+<p><img src="https://static.apiseven.com/2022/06/blog/2/173321500-ee604a73-f41b-4fc1-8861-c591bbb9d257.png" alt="Scenario 2"></p>
+<p>Call the link ingress apisik - > A - > b - > C, where a can be a spring boot application.</p>
+<h4 id="configure-apisix-routing-rules-1">Configure APISIX routing rules</h4>
+<p>Select a route in the apisixdashboard and click create. In the matching criteria, create a new advanced matching rule, request path selection / *, and select the corresponding upstream. Configure the following routes respectively:</p>
+<ul>
+<li>
+<p>When the host is <code>www.demo.com</code>, when the request parameter <code>env=gray</code>, the route priority matches the upstream corresponding to the ID <code>401163331936715388</code>, that is, <code>spring-cloud-a-gray-svc</code>;</p>
+</li>
+<li>
+<p>When the host is <code>www.demo.com</code>, the route will match the upstream corresponding to ID <code>4011524535454748</code>, that is, <code>spring-cloud-a-svc</code>.</p>
+</li>
+</ul>
+<p>Then configure the route corresponding to the <code>base</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"spring-cloud-a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "methods"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">    "GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PUT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "DELETE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PATCH"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "HEAD"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "OPTIONS"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "CONNECT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "TRACE"</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"www.demo.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"401152455435354748"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "labels"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "API_VERSION"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Configure the route corresponding to <code>gray</code>, as shown in the following figure:</p>
+<p><img src="https://static.apiseven.com/2022/blog/0614/mse-en3.png" alt="Configure diagram"></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"spring-cloud-a-gray"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "methods"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">    "GET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PUT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "DELETE"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "PATCH"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "HEAD"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "OPTIONS"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "CONNECT"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "TRACE"</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"www.demo.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "vars"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    [</span></span>
+<span class="line"><span style="color:#A5D6FF">      "arg_env"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "=="</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "gray"</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "upstream_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"401163331936715388"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "labels"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">  "API_VERSION"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h4 id="configure-canary-release-along-the-whole-life-cycle-of-mse-1">Configure canary release along the whole life cycle of MSE</h4>
+<p>The configuration steps are consistent with those in scenario 1.</p>
+<h4 id="validation-of-results-1">Validation of results</h4>
+<p>At this point, visit <code>www.demo.com</code> route to baseline environment:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -H"Host:www.demo.com" http://47.97.253.177/a</span></span>
+<span class="line"><span>A[172.18.144.15] -> B[172.18.144.125] -> C[172.18.144.90]%</span></span></code></pre>
+<p>At this point, visit <code>www.demo.com</code> while <code>env=gray</code> routing to gray environment:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -H"Host:www.demo.com" http://47.97.253.177/a?env=gray</span></span>
+<span class="line"><span>Agray[172.18.144.16] -> Bgray[172.18.144.57] -> Cgray[172.18.144.157]%</span></span></code></pre>
+<blockquote>
+<p>Note: among them, <code>47.97.253.177</code> is the public IP of APISIX.</p>
+</blockquote>
+<h2 id="summary">Summary</h2>
+<p>Based on the flexible routing capability of Apache APISIX and the canary release along the whole life cycle capability of MSE, the enterprise level canary release along the whole life cycle capability can be quickly realized.</p>
+<p>APISIX supports routing by header, cookie, params, domain name and other methods. It only needs to route the traffic to different “swimlane” environments on the gateway side according to the needs, and the traffic will be closed automatically in the “swimlane” of the corresponding tag. When there are no other services in the swimlane that the call chain depends on, the traffic needs to be returned to the baseline environment, and further routed back to the swimlane of the corresponding tag when necessary</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

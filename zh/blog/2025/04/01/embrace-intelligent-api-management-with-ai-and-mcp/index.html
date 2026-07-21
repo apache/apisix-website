@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX-MCP：利用 AI + MCP 拥抱 API 智能化管理 | Apache APISIX</title><meta name="description" content="了解 AI 与 MCP 场景下的 API 管理需求，以及 Apache APISIX 如何用于 LLM 流量路由、安全、审计和成本控制。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX-MCP：利用 AI + MCP 拥抱 API 智能化管理 | Apache APISIX"><meta property="og:description" content="了解 AI 与 MCP 场景下的 API 管理需求，以及 Apache APISIX 如何用于 LLM 流量路由、安全、审计和成本控制。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX-MCP：利用 AI + MCP 拥抱 API 智能化管理","description":"了解 AI 与 MCP 场景下的 API 管理需求，以及 Apache APISIX 如何用于 LLM 流量路由、安全、审计和成本控制。","datePublished":"2025-04-01","image":"https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp","author":{"@type":"Person","name":"Zhihuang Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX-MCP：利用 AI + MCP 拥抱 API 智能化管理</h1> <p class="article-meta"> 2025-04-01 · Zhihuang Lin  </p> <blockquote>
+<p>本文介绍了 MCP 协议及其在 APISIX-MCP 中的应用。MCP 协议为 AI 模型提供标准化连接，解决碎片化问题。APISIX-MCP 通过自然语言交互简化 API 管理，支持创建、更新、删除资源，实现自动化工作流和闭环验证，显著降低认知成本，提升运维效率。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="前言">前言</h2>
+<p>随着 AI 大模型应用呈爆发式增长，许多传统应用都希望自己快速接入 AI 大模型。然而，当前各类 AI 工具缺乏统一标准，碎片化现象极为严重。不同大模型的能力高低不一，对接方式也大相径庭，这让传统应用在接入时困难重重。</p>
+<p>在这样的背景下，2024 年底，知名大模型 Claude 背后的公司 Anthropic 推出了一项名为模型上下文协议 <strong>（Model Context Protocol，简称 MCP）</strong> 的协议。MCP 将自身定义为 AI 应用的 “USB - C 接口”。我们知道，USB - C 为设备连接各类周边设备及配件提供了标准化方式，与之类似，MCP 则为 AI 模型连接不同数据源与工具提供了标准化途径。</p>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/yUpL18fz_apisix-mcp-architecture.webp" alt="MCP Architecture"></p>
+<p>目前已经有大量服务和应用基于 MCP 实现，例如我们可以使用 GitHub-MCP，用自然语言提交代码、创建 PR；利用 Figma MCP，让 AI 直接生成 UI 图，接入 Browser-tools-MCP 后，甚至还能让 cursor 根据浏览器控制台中的元素节点和打印的日志进行代码调试。</p>
+<p>在 MCP 官方仓库里，提供了诸如 Google Drive、Slack、Git 以及多种数据库的 MCP 服务。而且它作为一项开放标准，MCP 获得了 AI 社区的广泛认可，众多第三方开发者纷纷投身其中，开发了各类 MCP 服务，每天都有数百个新的 MCP 服务问世。Anthropic 作为发布者，也一直在积极推动 MCP 的发展，持续优化协议的实现，同时大力开展对开发者的相关教育工作。</p>
+<h2 id="关于-apisix-mcp">关于 APISIX-MCP</h2>
+<p>MCP 协议的兴起为传统应用提供了新的技术路径。基于 MCP 的标准化接入能力，我们开发了 APISIX-MCP 服务，并在开源版本 Apache APISIX 上实现了大语言模型与 APISIX Admin-API 的对接，支持通过自然语言交互完成 APISIX 网关资源的查询与管理，目前 APISIX-MCP 已经实现下列操作：</p>
+<h3 id="通用操作">通用操作</h3>
+<ul>
+<li><code>get_resource</code>: 按类型检索资源（路由、服务、上游等）</li>
+<li><code>delete_resource</code>: 按 ID 删除资源</li>
+</ul>
+<h3 id="api-资源操作">API 资源操作</h3>
+<ul>
+<li><code>create_route</code>/<code>update_route</code>/<code>delete_route</code>: 管理路由</li>
+<li><code>create_service</code>/<code>update_service</code>/<code>delete_service</code>: 管理服务</li>
+<li><code>create_upstream</code>/<code>update_upstream</code>/<code>delete_upstream</code>: 管理上游</li>
+<li><code>create_ssl</code>/<code>update_ssl</code>/<code>delete_ssl</code>: 管理SSL证书</li>
+<li><code>create_or_update_proto</code>: 管理 protobuf 定义</li>
+<li><code>create_or_update_stream_route</code>: 管理流式路由</li>
+</ul>
+<h3 id="插件操作">插件操作</h3>
+<ul>
+<li><code>get_all_plugin_names</code>: 获取所有可用插件名称</li>
+<li><code>get_plugin_info</code>/<code>get_plugins_by_type</code>/<code>get_plugin_schema</code>: 获取插件配置</li>
+<li><code>create_plugin_config</code>/<code>update_plugin_config</code>: 管理插件配置</li>
+<li><code>create_global_rule</code>/<code>update_global_rule</code>: 管理插件全局规则</li>
+<li><code>get_plugin_metadata</code>/<code>create_or_update_plugin_metadata</code>/<code>delete_plugin_metadata</code>: 管理插件元数据</li>
+</ul>
+<h3 id="安全配置">安全配置</h3>
+<ul>
+<li><code>get_secret_by_id</code>/<code>create_secret</code>/<code>update_secret</code>: 管理密钥</li>
+<li><code>create_or_update_consumer</code>/<code>delete_consumer</code>: 管理消费者</li>
+<li><code>get_credential</code>/<code>create_or_update_credential</code>/<code>delete_credential</code>: 管理消费者凭证</li>
+<li><code>create_consumer_group</code>/<code>delete_consumer_group</code>: 管理消费者组</li>
+</ul>
+<h2 id="如何使用-apisix-mcp">如何使用 APISIX-MCP</h2>
+<p>APISIX-MCP 目前已经开源并发布到了 npm（<a href="https://www.npmjs.com/package/apisix-mcp">apisix-mcp npm</a>） 及 Github (<a href="https://github.com/api7/apisix-mcp">apisix-mcp GitHub</a>)，你可以通过任一支持 MCP 服务的 AI 客户端进行配置，例如 claude desktop， cursor 或者通过 Vscode 中的 cline 插件。</p>
+<p>这里以 cursor 为例为大家演示如何配置。</p>
+<ol>
+<li>首先打开 curosr，点击右上角设置图标，进入设置页面。</li>
+</ol>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/OCQcecuQ_apisix-mcp-2.webp" alt="Configure cursor for APISIX-MCP"></p>
+<ol start="2">
+<li>点击添加 “Add new global MCP server” 按钮，我们会进入一个 <code>mcp.json</code> 配置文件。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>// mcp.json</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "mcpServers": {</span></span>
+<span class="line"><span>    "apisix-mcp": {</span></span>
+<span class="line"><span>      "command": "npx",</span></span>
+<span class="line"><span>      "args": ["-y", "apisix-mcp"],</span></span>
+<span class="line"><span>      "env": {</span></span>
+<span class="line"><span>        "APISIX_SERVER_HOST": "your-apisix-server-host",</span></span>
+<span class="line"><span>        "APISIX_ADMIN_API_PORT": "your-apisix-admin-api-port",</span></span>
+<span class="line"><span>        "APISIX_ADMIN_API_PREFIX": "your-apisix-admin-api-prefix",</span></span>
+<span class="line"><span>        "APISIX_ADMIN_KEY": "your-apisix-api-key"</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>在配置文件中的 <code>mcpServers</code> 字段中，新增名为 <code>apisix-mcp</code> 的服务，这个名称也可以自行更改，然后配置运行 MCP 服务的命令。<code>command</code> 为 <code>npx</code> 意为使用 node.js 自带的命令执行工具运行脚本，<code>args</code> 为 <code>-y</code> 和 <code>apisix-mcp</code>，<code>-y</code> 代表在执行命令的时候需要先安装依赖，<a href="https://www.npmjs.com/package/apisix-mcp"><code>apisix-mcp</code></a> 则为 npm 中的包名。</p>
+<p>在 <code>env</code> 字段中，我们可以填于 APISIX 服务访问地址，Admin API 的端口、前缀和以及用于认证 key，这些环境变量都有默认值，如果你直接启动 APISIX 后没有做任何自定义配置就无需传入 <code>env</code> 字段，各个环境变量对应的默认值如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>变量</th><th>描述</th><th>默认值</th></tr></thead><tbody><tr><td>APISIX_SERVER_HOST</td><td>Host that has access to your APISIX server</td><td><a href="http://127.0.0.1">http://127.0.0.1</a></td></tr><tr><td>APISIX_ADMIN_API_PORT</td><td>Admin API port</td><td>9180</td></tr><tr><td>APISIX_ADMIN_API_PREFIX</td><td>Admin API prefix</td><td>/apisix/admin</td></tr><tr><td>APISIX_ADMIN_KEY</td><td>Admin API authentication key</td><td>edd1c9f034335f136f87ad84b625c8f1</td></tr></tbody></table>
+<ol start="3">
+<li>配置添加完成后，我们回到 cursor 的 MCP 配置页面中，如果配置成功，MCP Servers 中会展示 apisix-mcp 服务已经启用的绿色小灯，且可以顺利读取到 MCP 服务中提供的所有工具（Tools）。</li>
+</ol>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/toaXLc3n_apisix-mcp-3.webp" alt="Successful Configuration of apisix-mcp Service"></p>
+<blockquote>
+<p>由于目前不同的 MCP 客户端的实现有所不同，如果发现配置失败，我们也可以参考 APISIX-MCP GitHub 仓库中的文档，利用源码构建项目后再重新修改配置文件。</p>
+</blockquote>
+<ol start="4">
+<li>此时我们打开右侧对话栏，选择 agent 类型，模型选择 claude-sonnet-3.5/3.7 或 gpt 4o ：</li>
+</ol>
+<p><img src="https://static.api7.ai/uploads/2025/04/01/g9v91DIf_apisix-mcp-4.webp" alt="Select Agent Models"></p>
+<ol start="5">
+<li>然后我们可以输入相关的操作指令看看 MCP 服务是否能正常工作，这里我们根据 APISIX 文档中的 Getting Started 中的流程进行操作，在对话框中输入以下内容，并发送对话。</li>
+</ol>
+<blockquote>
+<p>“Help me create a route with path <code>/api</code> for accessing <a href="https://httpbin.org">https://httpbin.org</a> upstream, need to configure cors and rate limit plugin appropriately. Print the route information to me after configuring.”
+中文翻译：“帮我创建一条路径为 <code>/api</code> 的路由，用于访问上游 <code>https://httpbin.org</code>，需要配置 CORS 和限流限速插件。配置完成后把路由信息打印给我。”</p>
+</blockquote>
+<ol start="6">
+<li>接下来我们会在 cursor 中看到类似下面视频中 MCP 工具调用过程流程，由于 AI 大模型本身响应具有随机性，所以每次执行的操作不一定与示例中相同。</li>
+</ol>
+<video width="100%" height="auto" controls>
+  <source src="https://static.api7.ai/uploads/2025/04/01/V7CmO59u_mcp-demo.mp4" type="video/mp4">
+</video>
+<p>这里开启了自动执行模式（YOLO Mode）允许 cursor 自动调用 mcp 服务器中的所有工具，从视频中我们可以看到 AI 根据我们的需求：</p>
+<ul>
+<li>分析我们需要配置的插件，然后调用了 <code>get_plugins_list</code> 获取所有插件的名称- 调用 <code>get_plugin_schema</code> 去查看不同插件的详细配置信息</li>
+<li>调用 <code>create_rotue</code> 创建路由</li>
+<li>调用 <code>update_route</code> 为路由添加前面查询到的插件配置</li>
+<li>调用 <code>get_route</code> 查看路由是否配置成功，路由配置是否正确</li>
+</ul>
+<ol start="7">
+<li>最终我们通过一句话创建出了如下配置的路由：</li>
+</ol>
+<ul>
+<li>
+<p>路由 ID：<code>httpbin</code></p>
+</li>
+<li>
+<p>路径：<code>/api/*</code></p>
+</li>
+<li>
+<p>支持的请求方式：<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>PATCH</code>, <code>HEAD</code>, <code>OPTIONS</code></p>
+</li>
+<li>
+<p>CORS 插件配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>allow_origins: *</span></span>
+<span class="line"><span>allow_methods: *</span></span>
+<span class="line"><span>allow_headers: *</span></span>
+<span class="line"><span>expose_headers: X-Custom-Header</span></span>
+<span class="line"><span>max_age: 3600</span></span>
+<span class="line"><span>allow_credential: false</span></span></code></pre>
+</li>
+<li>
+<p>limit-count 插件配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>count: 100</span></span>
+<span class="line"><span>time_window: 60</span></span>
+<span class="line"><span>key: remote_addr</span></span>
+<span class="line"><span>rejected_code: 429</span></span>
+<span class="line"><span>policy: local</span></span></code></pre>
+</li>
+<li>
+<p>上游服务配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>type: roundrobin （负载均衡策略采用轮询）</span></span>
+<span class="line"><span>upstream node: httpbin.org:443 （指向的后端服务地址）</span></span></code></pre>
+</li>
+</ul>
+<h2 id="通过-ai-进行操作的优势">通过 AI 进行操作的优势</h2>
+<p>上述过程中，我们仅通过一轮对话，就通过自然语言的方式让 AI 帮我创建一个配置了跨域和限流限速的路由，相较于自己创建路由，借助 AI 来操作具有诸多优势：</p>
+<ul>
+<li><strong>降低认知成本</strong>：降低认知成本。以往自行创建路由时，需频繁查阅文档、记忆各种参数格式，如今借助 AI，这些繁琐操作均可以大大省略。</li>
+<li><strong>自动化工作流</strong>：AI 能够智能解析用户需求，自主完成需求分析，将创建路由的复杂任务拆解为多个步骤，并按序逐步执行，整个过程无需人工过多介入。</li>
+<li><strong>闭环验证</strong>：路由配置完成后，AI 会自动对配置结果进行检查，并及时向用户反馈验证信息，确保配置准确。</li>
+<li><strong>迭代优化</strong>：若后续需要调整或优化配置，用户只需与 AI 持续对话，AI 便能依据新需求灵活调整配置。</li>
+</ul>
+<p>这种交互模式将复杂的配置过程转化为自然的对话体验，同时保持了配置的准确性和可验证性。而这些实现都得益于 MCP 协议将我们的需求进行语意解析，再根据我们的需求调用不同的工具，最终通过 Admin API 完成操作。</p>
+<p>需要注意的是，目前 APISIX-MCP 并非追求完全替代人工配置，而是着眼于优化高频操作场景的效率。其价值在配置调试和快速验证环节尤为突出，这种定位使其能够与传统管理方式形成有效互补。随着 MCP 生态的持续发展，此类工具在 API 管理领域的深度集成值得期待。</p>
+<h2 id="总结">总结</h2>
+<p>MCP 的出现为复杂 API 系统的智能化操作开辟了新的可能性，我们希望 APISIX-MCP 能够帮助你快速上手 Apache APISIX。后续 APISIX 不仅会推出更多处理 AI 流量相关的插件，同时也会在 API 管理方面探索更多与 AI 结合的可能性。我们相信，AI 与 API 管理的融合将持续推动运维效率的革新，为开发者带来更智能、更高效的基础设施管理体验。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

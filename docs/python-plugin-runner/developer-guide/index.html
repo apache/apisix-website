@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Developer Guide | Apache APISIX</title><meta name="description" content="This documentation explains how to develop this project."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/python-plugin-runner/developer-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/python-plugin-runner/developer-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/python-plugin-runner/developer-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/python-plugin-runner/developer-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Developer Guide | Apache APISIX"><meta property="og:description" content="This documentation explains how to develop this project."><meta property="og:url" content="https://apisix.apache.org/docs/python-plugin-runner/developer-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Developer Guide","description":"This documentation explains how to develop this project.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/python-plugin-runner/developer-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/python-plugin-runner/developer-guide/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/python-plugin-runner/developer-guide/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/python-plugin-runner/getting-started/" class>Getting started</a>  </li><li class> <a href="/docs/python-plugin-runner/developer-guide/" class="active">Developer Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Developer Guide</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="overview">Overview</h2>
+<p>This documentation explains how to develop this project.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Python 3.7+</li>
+<li>APISIX 2.7.0+</li>
+</ul>
+<h2 id="debug">Debug</h2>
+<ul>
+<li>Run <code>make setup</code> installation dependencies</li>
+<li>Run <code>make install</code> installation runner to system</li>
+<li>Run <code>make dev</code> to start it</li>
+</ul>
+<h2 id="plugin">Plugin</h2>
+<h4 id="plugin-directory">Plugin directory</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/path/to/apisix-python-plugin-runner/apisix/plugin</span></span></code></pre>
+<p>the <code>.py</code> files in this directory autoload</p>
+<h4 id="plugin-example">Plugin example</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/path/to/apisix-python-plugin-runner/apisix/plugin/stop.py</span></span>
+<span class="line"><span>/path/to/apisix-python-plugin-runner/apisix/plugin/rewrite.py</span></span></code></pre>
+<h4 id="plugin-format">Plugin Format</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> typing </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Any</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.http.request </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Request</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.http.response </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Response</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.plugin.core </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> PluginBase</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> Test</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">PluginBase</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#D2A8FF"> name</span><span style="color:#E6EDF3">(self) -> </span><span style="color:#79C0FF">str</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        The name of the plugin registered in the runner</span></span>
+<span class="line"><span style="color:#A5D6FF">        :return:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#A5D6FF"> "test"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#D2A8FF"> config</span><span style="color:#E6EDF3">(self, conf: Any) -> Any:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        Parse plugin configuration</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param conf:</span></span>
+<span class="line"><span style="color:#A5D6FF">        :return:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> conf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#79C0FF"> filter</span><span style="color:#E6EDF3">(self, conf: Any, request: Request, response: Response):</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        The plugin executes the main function</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param conf:</span></span>
+<span class="line"><span style="color:#A5D6FF">            plugin configuration after parsing</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param request:</span></span>
+<span class="line"><span style="color:#A5D6FF">            request parameters and information</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param response:</span></span>
+<span class="line"><span style="color:#A5D6FF">            response parameters and information</span></span>
+<span class="line"><span style="color:#A5D6FF">        :return:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # print plugin configuration</span></span>
+<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(conf)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Fetch request nginx variable `host`</span></span>
+<span class="line"><span style="color:#E6EDF3">        host </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> request.get_var(</span><span style="color:#A5D6FF">"host"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(host)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Fetch request body</span></span>
+<span class="line"><span style="color:#E6EDF3">        body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> request.get_body()</span></span>
+<span class="line"><span style="color:#79C0FF">        print</span><span style="color:#E6EDF3">(body)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Set response headers</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.set_header(</span><span style="color:#A5D6FF">"X-Resp-A6-Runner"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"Python"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Set response body</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.set_body(</span><span style="color:#A5D6FF">"Hello, Python Runner of APISIX"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # Set response status code</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.set_status_code(</span><span style="color:#79C0FF">201</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<ul>
+<li>Plugins must inherit the <code>PluginBase</code> class and implement all functions.
+<ul>
+<li><code>name</code> function: used to set the registered plugin name.</li>
+<li><code>config</code> function: used to parse plugin configuration.</li>
+<li><code>filter</code> function: used to filter requests.
+<ul>
+<li><code>conf</code> parameter: plugin configuration after parsing.</li>
+<li><code>request</code> parameter: Request object, which can be used to get and set request information.</li>
+<li><code>response</code> parameter: Response object, which can be used to set response information.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="test">Test</h2>
+<p>Run <code>make test</code>.</p>
+<h2 id="data-format">Data Format</h2>
+<p><a href="https://github.com/google/flatbuffers">FlatBuffers</a></p>
+<h2 id="data-protocol">Data Protocol</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1 byte of type + 3 bytes of length + data</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix-python-plugin-runner/edit/master/docs/en/latest/developer-guide.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>在 KubeSphere 中使用 APISIX Ingress 接入自定义监控 | Apache APISIX</title><meta name="description" content="本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="在 KubeSphere 中使用 APISIX Ingress 接入自定义监控 | Apache APISIX"><meta property="og:description" content="本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"在 KubeSphere 中使用 APISIX Ingress 接入自定义监控","description":"本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。","datePublished":"2021-11-30","author":{"@type":"Person","name":"张海立"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/11/30/use-apisix-ingress-in-kubesphere/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/11/30/use-apisix-ingress-in-kubesphere/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>在 KubeSphere 中使用 APISIX Ingress 接入自定义监控</h1> <p class="article-meta"> 2021-11-30 · 张海立  </p> <blockquote>
+<p>本文将通过 Apache APISIX Ingress Controller 为范例，详细为大家介绍如何通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。</p>
+</blockquote>
+<!--truncate-->
+<p>11月初，KubeSphere 发布了 3.2.0 版本，新版本为项目网关增配了整套监控及管理页面，同时引入了集群网关来提供集群层面全局的 Ingress 网关能力。</p>
+<p>为了让用户更了解如何在新版 KubeSphere 中部署使用第三方 Ingress Controller，本文将以 <a href="https://apisix.apache.org/docs/ingress-controller/getting-started/">Apache APISIX Ingress Controller</a> 为例，为大家展示通过 KubeSphere 快速为 Kubernetes 集群使用不同类型的网关并进行状态监控。</p>
+<h2 id="准备工作">准备工作</h2>
+<h3 id="安装-kubesphere">安装 KubeSphere</h3>
+<p>安装 KubeSphere 有两种方法：</p>
+<ol>
+<li><a href="https://kubesphere.com.cn/docs/quick-start/all-in-one-on-linux/">在 Linux 上直接安装</a></li>
+<li><a href="https://kubesphere.com.cn/docs/quick-start/minimal-kubesphere-on-k8s/">在已有 Kubernetes 中安装</a></li>
+</ol>
+<p>KubeSphere 最小化安装版本已经包含了监控模块，因此不需要额外启用，可以通过「系统组件」页面中的「监控」标签页确认安装状态。</p>
+<p><img src="https://static.apiseven.com/202108/1638255471644-e1327ffc-dbed-4890-a15c-819f28731fc9.png" alt="确认安装状态"></p>
+<h3 id="部署-httpbin-演示应用">部署 httpbin 演示应用</h3>
+<p>由于需要演示网关的访问控制能力，我们必须要先有一个可以访问的应用作为网关的后台服务。这里我们使用 <a href="httpbin.org">httpbin.org</a> 提供的 <a href="https://hub.docker.com/r/kennethreitz/httpbin/">kennethreitz/httpbin</a> 容器应用作为演示应用。</p>
+<p>在 KubeSphere 中，我们可以先创建新的项目或使用已有的项目，进入项目页面后，选择「应用负载」下的「服务」直接创建无状态工作负载并生成配套服务。</p>
+<p><img src="https://static.apiseven.com/202108/1638255616585-b0f5a674-f06a-4b18-baf9-8d6006abeead.png" alt="创建服务"></p>
+<p>使用 <a href="https://hub.docker.com/r/kennethreitz/httpbin/">kennethreitz/httpbin</a> 容器默认的 <code>80</code> 端口作为服务端口，创建完成后确保在「工作负载」和「服务」页面下都可以看到 <code>httpbin</code> 的对应条目，如下图所示。</p>
+<p><img src="https://static.apiseven.com/202108/1638255786442-924bf704-9b9d-413f-9fc0-be6650a6ff4a.png" alt="服务"></p>
+<p><img src="https://static.apiseven.com/202108/1638255792974-7f354950-e34a-427a-9ff7-aa3af0a56dd6.png" alt="工作负载"></p>
+<h3 id="项目网关细节补充">项目网关细节补充</h3>
+<p><strong>项目网关</strong>是 KubeSphere 3.0 之后上线的功能。KubeSphere 项目中的网关是一个 NGINX Ingress 控制器。KubeSphere 内置用于 HTTP 负载均衡的机制称为<strong>应用路由</strong>，它定义了从外部到集群服务的连接规则。如需允许从外部访问服务，用户可创建路由资源来定义 URI 路径、后端服务名称等信息。</p>
+<p>承接上文中已部署的 <code>httpbin</code> 服务项目，在「项目设置」中打开「网关设置」页面，然后执行「开启网关」操作。方便起见，直接选择 <code>NodePort</code> 作为「访问方式」即可。</p>
+<p><img src="https://static.apiseven.com/202108/1638256005754-d1e8bf9a-0ecc-4c6e-8ceb-0c25b04fef20.png" alt="项目设置"></p>
+<p>确定后回到网关页面，稍等片刻后刷新页面，可以得到如下图显示的部署完成状态，在这里可以看到 NodePort 默认被赋予了两个节点端口。接招我们通过右上角的「管理」按钮「查看详情」。</p>
+<p><img src="https://static.apiseven.com/202108/1638256011357-960f6852-31b3-4702-8911-17d07ec19d7b.png" alt="部署完成"></p>
+<p>此时我们看到的便是 3.2.0 版本关于项目/集群网关的新监控页面。下面我们就需要为 httpbin 服务创建应用路由。</p>
+<p>从「应用负载」进入「应用路由」页面，开始「创建」路由。为路由取名为 <code>httpbin</code> 后，我们指定一个方便测试的域名，并设置「路径」为 <code>/</code>, 选择「服务」<code>httpbin</code> 和「端口」<code>80</code>。</p>
+<p><img src="https://static.apiseven.com/202108/1638241684770-ce94fe24-58a6-4b9b-9507-d802713b4c38.png" alt="应用路由"></p>
+<p><img src="https://static.apiseven.com/202108/1638241689985-149fc2f7-456b-423c-8cfc-00800dc24917.png" alt="创建路由"></p>
+<p>直接下一步跳过高级设置后完成路由创建，可以得到如下图所示的 httpbin 应用路由项。</p>
+<p><img src="https://static.apiseven.com/202108/1638256382273-109728eb-4d19-4c2b-ab92-9a2909c3eff8.png" alt="应用路由项细节"></p>
+<p>接下来我们就可以通过项目网关的 NodePort 地址及指定域名（如这里是 <a href="http://httpbin.ui:32516%EF%BC%89%E6%9D%A5%E8%AE%BF%E9%97%AE">http://httpbin.ui:32516）来访问</a> httpbin 应用服务，随意刷新或操作一下页面的请求生成功能，再进入网关的详情页面，便可以看到在「监控」面板上已经出现了网关的一些内置的监控指标展示。</p>
+<p><img src="https://static.apiseven.com/202108/1638256419345-48476f01-b293-401b-9e4f-8bf64a9fab90.png" alt="监控指标展示"></p>
+<h4 id="指定-nodeport-节点端口">指定 NodePort 节点端口</h4>
+<p>对于公有云环境，如果使用 NodePort 方式向外暴露访问能力，开放端口通常是有限且受控的，因此对于网关所使用的 NodePort 我们需要对它进行修改。</p>
+<p>由于网关是被 KubeSphere 统一管理的，要修改网关服务的 NodePort 需要具备访问 <code>kubesphere-controls-system</code> 的项目权限。进入该项目后，通过「应用负载」的「服务」页面即可找到命名为 <code>kubesphere-router-&#x3C;project-namespace></code> 形式且外部访问已开放 NodePort 的网关服务。NodePort 服务端口需要通过「编辑 YAML」来直接修改。</p>
+<p><img src="https://static.apiseven.com/202108/1638256523468-408ee36f-aac7-4bb4-9cd3-2473a95a52f4.png" alt="指定 NodePort 端口"></p>
+<h2 id="开始使用集群网关">开始使用集群网关</h2>
+<blockquote>
+<p>KubeSphere 3.2.0 开始支持集群级别的全局网关，所有项目可共用同一个网关，之前已创建的项目网关也不会受到集群网关的影响。也可以统一纳管所有项目的网关，对其进行集中管理和配置，管理员用户再也不需要切换到不同的企业空间中去配置网关了。</p>
+</blockquote>
+<p>如果您使用的是是 KubeSphere 3.2.0 版本，我们更推荐大家使用集群网关的功能来统一整个集群的应用路由。要启用集群网关也非常简单：使用具备集群管理权限的账号，进入其可管理的某个集群（如我们这里以 <code>default</code> 集群为例），在「集群设置」的「网关设置」中即可「开启网关」，同时查看「项目网关」。</p>
+<p><img src="https://static.apiseven.com/202108/1638256574546-920473f3-e8ac-4cf9-932b-4202888e7a54.png" alt="开启网关设置"></p>
+<p>集群网关开启的方式以及对齐 NodePort 访问端口的修改和之前项目网关的操作基本完全一致，这里就不多赘述了。</p>
+<p>但有一点需要特别注意：集群网关开启后，已经开启的项目网关还会保留；但尚未创建网关的项目是无法再创建单独的网关的，会直接使用集群网关。</p>
+<p>下图展示了已创建网关的项目，在同时拥有项目及集群网关后，在「网关设置」页面所呈现的所有网关概览。</p>
+<p><img src="https://static.apiseven.com/202108/1638256658706-ac5107fe-2fd7-4521-b830-9ae1fdf762e1.png" alt="网关设置页面一览"></p>
+<h2 id="快速使用-apache-apisix-ingress-controller">快速使用 Apache APISIX Ingress Controller</h2>
+<p>Apache APISIX 是一款开源的高性能、动态云原生网关，由深圳<a href="https://api7.ai/">支流科技</a>有限公司于 2019 年捐赠给 Apache 基金会，目前已成为 Apache 基金会的顶级开源项目，也是 GitHub 上最活跃的网关项目。Apache APISIX 目前已覆盖 API 网关、LB、Kubernetes Ingress、Service Mesh 等多种场景。</p>
+<h3 id="如何部署">如何部署</h3>
+<p>首先添加 Apache APISIX Helm Chart 仓库。之后选定一个企业空间，通过「应用管理」下的「应用仓库」来添加如下一个 <a href="https://charts.apiseven.com">Apache APISIX 的仓库</a>。</p>
+<p><img src="https://static.apiseven.com/202108/1638256788584-dca2d21b-3ffc-4bb4-bd73-56dedb6d005a.png" alt="添加仓库"></p>
+<p>接下来创建一个名为 <code>apisix-system</code> 的项目。进入项目页面后，选择在「应用负载」中创建「应用」的方式来部署 Apache APISIX，并选择 <code>apisix</code> 应用模版开始进行部署。</p>
+<p><img src="https://static.apiseven.com/202108/1638241691528-80090ab6-85de-401f-96d7-58118b3cbd88.png" alt="部署应用负载"></p>
+<blockquote>
+<p>为何是直接部署 Apache APISIX 应用的 Helm Chart，而不是直接部署 Apache APISIX Ingress Controller?</p>
+</blockquote>
+<p>这是因为 Apache APISIX Ingress Controller 目前和 Apache APISIX 网关是强关联的（如下图所示），且目前通过 Apache APISIX Helm Charts 同时部署 Apache APISIX Gateway + Dashboard + Ingress Controller 是最方便的，因此本文推荐直接使用 Apache APISIX 的 Helm Chart 进行整套组件的部署。</p>
+<p><img src="https://static.apiseven.com/202108/1638241693072-9b3146f5-bcc6-4441-b002-f1a07603a8c4.png" alt="为什么直接部署 APISIX"></p>
+<p>将应用命名为 <code>apisix</code> 以避免多个组件（Gateway, Dashboard, Ingress Controller）的工作负载及服务名称产生不匹配的情况；在安装步骤中编辑的「应用设置」的部分，请参照以下配置进行填写（请特别注意带有【注意】标记的注释部分的说明，其余可以按需自行编辑修改）。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">global</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  imagePullSecrets</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  customLuaSharedDicts</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#7EE787">  image</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    repository</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix</span></span>
+<span class="line"><span style="color:#7EE787">    pullPolicy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">IfNotPresent</span></span>
+<span class="line"><span style="color:#7EE787">    tag</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">2.10.1-alpine</span></span>
+<span class="line"><span style="color:#7EE787">  replicaCount</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">  podAnnotations</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  podSecurityContext</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  securityContext</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  resources</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  nodeSelector</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  tolerations</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#7EE787">  affinity</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">  podAntiAffinity</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">nameOverride</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">fullnameOverride</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">gateway</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">NodePort</span></span>
+<span class="line"><span style="color:#7EE787">  externalTrafficPolicy</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Cluster</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">    containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9080</span></span>
+<span class="line"><span style="color:#7EE787">  tls</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">    servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">443</span></span>
+<span class="line"><span style="color:#7EE787">    containerPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9443</span></span>
+<span class="line"><span style="color:#7EE787">    existingCASecret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">    certCAFilename</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">    http2</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  stream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">    only</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">    tcp</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#7EE787">    udp</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#7EE787">  ingress</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">    annotations</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#7EE787">    hosts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.local</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#7EE787">    tls</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ClusterIP</span></span>
+<span class="line"><span style="color:#7EE787">  externalIPs</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#7EE787">  port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9180</span></span>
+<span class="line"><span style="color:#7EE787">  servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9180</span></span>
+<span class="line"><span style="color:#7EE787">  cors</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  credentials</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    admin</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">edd1c9f034335f136f87ad84b625c8f1</span></span>
+<span class="line"><span style="color:#7EE787">    viewer</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">4054f7cf07e344346cd3f287985e76a2</span></span>
+<span class="line"><span style="color:#7EE787">  allow</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    ipList</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">0.0.0.0/0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">api-breaker</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">authz-keycloak</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">basic-auth</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">batch-requests</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">consumer-restriction</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">cors</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">echo</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">fault-injection</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">grpc-transcode</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">hmac-auth</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">http-logger</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">ip-restriction</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">ua-restriction</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">jwt-auth</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">kafka-logger</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">key-auth</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-conn</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-count</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-req</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">node-status</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">openid-connect</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">authz-casbin</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">prometheus</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-cache</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-mirror</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-rewrite</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">redirect</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">referer-restriction</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">request-id</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">request-validation</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">response-rewrite</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">serverless-post-function</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">serverless-pre-function</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">sls-logger</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">syslog</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">tcp-logger</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">udp-logger</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">uri-blocker</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">wolf-rbac</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">zipkin</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">traffic-split</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">gzip</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">real-ip</span></span>
+<span class="line"><span style="color:#8B949E">  #【注意】添加此插件以配合 Dashboard 展示服务信息</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">server-info</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">stream_plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">mqtt-proxy</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">ip-restriction</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-conn</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">customPlugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  luaPath</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/opts/custom_plugins/?.lua</span></span>
+<span class="line"><span style="color:#8B949E">  #【注意】如下配置保障 Prometheus 插件可对外暴露指标</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">   - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prometheus</span></span>
+<span class="line"><span style="color:#7EE787">     attrs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">       export_addr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">         ip</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.0.0.0</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9091</span></span>
+<span class="line"><span style="color:#7EE787">      configMap</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">       name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prometheus</span></span>
+<span class="line"><span style="color:#7EE787">        mounts</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">dns</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  resolvers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#79C0FF">172.20.0.10</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#79C0FF">114.114.114.114</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#79C0FF">223.5.5.5</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#79C0FF">1.1.1.1</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#79C0FF">8.8.8.8</span></span>
+<span class="line"><span style="color:#7EE787">  validity</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">  timeout</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">autoscaling</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">  minReplicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">  maxReplicas</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">100</span></span>
+<span class="line"><span style="color:#7EE787">  targetCPUUtilizationPercentage</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">  targetMemoryUtilizationPercentage</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">configurationSnippet</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  main</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">  httpStart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">  httpEnd</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">  httpSrv</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">  httpAdmin</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">  stream</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  host</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">'http://etcd.host:2379'</span></span>
+<span class="line"><span style="color:#7EE787">  prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix</span></span>
+<span class="line"><span style="color:#7EE787">  timeout</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">30</span></span>
+<span class="line"><span style="color:#7EE787">  auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    rbac</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">      user</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">      password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">    tls</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#7EE787">      existingSecret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">      certFilename</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">      certKeyFilename</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">''</span></span>
+<span class="line"><span style="color:#7EE787">      verify</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2379</span></span>
+<span class="line"><span style="color:#7EE787">  replicaCount</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">dashboard</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#8B949E">  #【注意】为 Dashboard 开启 NodePort 方便后续使用</span></span>
+<span class="line"><span style="color:#7EE787">  service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">   type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">NodePort</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">ingress-controller</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#8B949E">     #【注意】一定要设置 gateway 所在的 namespace</span></span>
+<span class="line"><span style="color:#7EE787">      serviceNamespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-system</span></span>
+<span class="line"><span style="color:#7EE787">  serviceMonitor</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    enabled</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'apisix-system'</span></span>
+<span class="line"><span style="color:#7EE787">    interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">15s</span></span></code></pre>
+<p>部署成功后，点击应用名称进入详情页面，可以在「资源状态」标签页下看到如下的服务部署和工作状态运行状态展示。</p>
+<p><img src="https://static.apiseven.com/202108/1638241694605-7d88f095-fef5-43f4-9752-8dc5a2f9abc4.png" alt="工作状态运行展示"></p>
+<div class="admonition admonition-note"><p class="admonition-title">额外补充</p><p>Apache APISIX 项目另有的两个 Helm Chart 对应的默认配置参数可以分别参考：<a href="https://github.com/apache/apisix-helm-chart/blob/master/charts/apisix-dashboard/values.yaml">Dashboard</a> 和 Ingress Controller 的 values.yaml。</p></div>
+<h3 id="dashboard-妙用">Dashboard 妙用</h3>
+<p>Apache APISIX 应用部署完成后，可通过 Apache APISIX Dashboard 来检验一下 Apache APISIX 网关的当前状态。</p>
+<p>从应用负载-服务页面可以找到 <code>apisix-dashboard</code> 服务，由于我们在应用配置中已为 Dashboard 开启了 NodePort，所以这里可以直接通过 NodePort 端口来访问 Dashboard。</p>
+<p><img src="https://static.apiseven.com/202108/1638241699353-8d54dfe9-8439-4085-8e7d-02583a1d0d9e.png" alt="Dashboard 页面设置"></p>
+<p>使用默认用户名及密码 <code>admin</code> 登录 Apache APISIX Dashboard，可以进入「系统信息」页面查看到当前连接管理的「Apache APISIX 节点」信息。</p>
+<p><img src="https://static.apiseven.com/202108/1638241703083-0915a427-9aab-41e6-8c76-be60d70fc135.png" alt="登陆 Dashboard"></p>
+<h3 id="如何使用">如何使用</h3>
+<p>接下来让我们回到「应用路由」页面，再新建一个路由（如 <code>apisix-httpbin</code>），设置路径为 <code>/*</code> <code>httpbin</code> <code>80</code> 并为其添加 <code>kubernetes.io/ingress.class</code>: <code>apisix</code> 的键值。</p>
+<p><img src="https://static.apiseven.com/202108/1638241705123-6fe3ba11-bc08-4fb2-a8b1-73066ce73679.png" alt="新建路由"></p>
+<p><img src="https://static.apiseven.com/202108/1638241706790-3989c06d-c803-4c16-869a-6fa000b5744b.png" alt="详细数据设置"></p>
+<h4 id="验证应用路由生效">验证应用路由生效</h4>
+<p>回到 Apache APISIX Dashboard 进入「路由」页面，可以看到新建的应用路由已被 Apache APISIX Ingress Controller 识别后自动添加到了 Apache APISIX 网关中，在「上游」页面也可以看到自动创建的一个上游条目。</p>
+<p><img src="https://static.apiseven.com/202108/1638241712811-db1f93dd-2963-4034-b461-26733d173bae.png" alt="验证生效"></p>
+<p>接下来回到 <code>apisix-system</code> 项目「服务」页面，找到 <code>apisix-gateway</code> 服务对应的端口，由此访问 <code>&#x3C;apisix-httpbin 应用路由指定的域名>:&#x3C;apisix-gateway 外部访问端口></code>（例如此处为 <code>httpbin.ui:30408</code>）即可访问到 <code>apisix-httpbin</code> 应用路由所关联的后台服务。</p>
+<p><img src="https://static.apiseven.com/202108/1638241716159-134e6bd8-9e08-46de-8d46-39142c439b8f.png" alt="生效成功"></p>
+<h2 id="自定义监控-apache-apisix-网关">自定义监控 Apache APISIX 网关</h2>
+<p>使用 Apache APISIX 网关时可通过 Prometheus 插件以及 KubeSphere 自带的自定义监控能力来进行监控能力的加持。</p>
+<h3 id="暴露相关-prometheus-监控指标">暴露相关 Prometheus 监控指标</h3>
+<p>由于我们在前边部署 Apache APISIX 应用时已经开启了 <a href="https://apisix.apache.org/docs/apisix/plugins/prometheus">Prometheus 插件</a>，所以接下来只需要把 Prometheus 监控指标的接口暴露出来即可。</p>
+<p>进入 <code>apisix-system</code> 项目，在「工作负载」页面找到 apisix 并进入部署详情页面，随后在左侧操作面板的「更多操作」中选择「编辑设置」。</p>
+<p><img src="https://static.apiseven.com/202108/1638241718162-86d110b6-2c40-461c-9cf4-a13b73cf5768.png" alt="部署工作负载"></p>
+<p>在弹出的面板中，进入到 <code>apisix</code> 容器编辑界面，找到「端口设置」，添加一个新的名为 <code>prom</code> 的端口映射到容器的 <code>9091</code> 端口，保存后 <code>apisix</code> 工作负载会重启。</p>
+<p><img src="https://static.apiseven.com/202108/1638241721050-c3e9409c-4ec8-4ff1-bcf8-045ea57ec179.png" alt="新建映射端口"></p>
+<h3 id="为监控指标创建-servicemonitor">为监控指标创建 ServiceMonitor</h3>
+<p>接下来我们需要将已暴露的指标接口接入到 KubeSphere 自带的 Prometheus 中使之可被访问（被抓取指标数据）。</p>
+<p>由于 KubeSphere 是通过 <a href="https://github.com/prometheus-operator/prometheus-operator">Prometheus Operator</a> 来维护内部 Prometheus 系统，所以最快捷的方式自然是直接创建 ServiceMonitor 资源来实现指标接口的接入。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">monitoring.coreos.com/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ServiceMonitor</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-system</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  endpoints</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">scheme</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http</span></span>
+<span class="line"><span style="color:#8B949E">     #【注意】使用上一步中工作负载暴露的容器端口名称</span></span>
+<span class="line"><span style="color:#7EE787">     targetPort</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prom</span></span>
+<span class="line"><span style="color:#8B949E">     #【注意】需要正确绑定 apisix 对应的指标接口路径</span></span>
+<span class="line"><span style="color:#7EE787">     path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix/prometheus/metrics</span></span>
+<span class="line"><span style="color:#7EE787">      interval</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">15s</span></span>
+<span class="line"><span style="color:#7EE787">  namespaceSelector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchNames</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">apisix-system</span></span>
+<span class="line"><span style="color:#7EE787">  selector</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    matchLabels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      app.kubernetes.io/name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">      app.kubernetes.io/version</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2.10.0</span></span>
+<span class="line"><span style="color:#7EE787">      helm.sh/chart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-0.7.2</span></span></code></pre>
+<p>使用 <code>kubectl apply -f your_service_monitor.yaml</code> 创建 ServiceMonitor 资源。创建成功后，如果有集群管理权限，也可以在集群的 CRD 管理页面中搜索查看 ServiceMonitor 资源并找到名为 <code>apisix</code> 的自定义资源，也可以在这里做后续的 YAML 修改。</p>
+<p><img src="https://static.apiseven.com/202108/1638241723331-64cb363e-b6af-4af4-93f3-29a79c9a5e77.png" alt="创建 ServiceMonitor 资源"></p>
+<h3 id="指标接入自定义监控面板">指标接入自定义监控面板</h3>
+<p>在项目左侧菜单列表中找到「监控告警」中的「自定义监控」，开始「创建」自定义监控面板。</p>
+<p><img src="https://static.apiseven.com/202108/1638241724906-d9531809-4682-49b3-b90b-d7f3a03e70e3.png" alt="创建自定义监控面板"></p>
+<p>在弹出窗口中填入「名称」，选择「自定义」监控模版，并进入「下一步」的监控面板创建。</p>
+<p><img src="https://static.apiseven.com/202108/1638241727938-cd3843f9-0e22-4316-91d2-84b56cd66f21.png" alt="设置细节"></p>
+<p>进入编辑页面后现在左侧点击 <code>+</code> 区域，在右侧的「数据」区域进行 Prometheus 监控指标的配置。例如这里我们可以用 <code>sum(apisix_nginx_http_current_connections)</code> 来统计 Apache APISIX 网关实时的连接总数。</p>
+<p><img src="https://static.apiseven.com/202108/1638241729416-3d2024f1-9586-44ac-ad6c-7472c8924fc8.png" alt="加入监控指标配置"></p>
+<p>保存后在页面右下角找到「+ 添加监控项」，并选择「折线图」创建 <code>Nginx connection state</code> 指标：使用 <code>sum(apisix_nginx_http_current_connections) by (state)</code> 作为指标、<code>{{state}}</code> 用作图例名称、「图例类型」为堆叠图，即可得到类似下图的结果。保存模版后即可得到第一个自定义监控面板！</p>
+<p><img src="https://static.apiseven.com/202108/1638241730747-298fe17e-fb34-4da6-ac9d-8b1efde4521c.png" alt="自定义监控面板生成"></p>
+<blockquote>
+<p>Apache APISIX 网关目前提供的 Prometheus 指标可以参见官方文档的<a href="https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/#%25E5%258F%25AF%25E6%259C%2589%25E7%259A%2584%25E6%258C%2587%25E6%25A0%2587">可有的指标</a>部分。</p>
+</blockquote>
+<p>由于指标配置过程比较麻烦，推荐在集群层面的「自定义监控」中直接导入 <a href="https://grafana.com/grafana/dashboards/11719">Apache APISIX Grafana 模版</a>（下载 JSON 并通过「本地上传」进行导入）。</p>
+<p><img src="https://static.apiseven.com/202108/1638241733535-168ce86b-6654-4278-941d-23fb44003c90.png" alt="导入 Grafana 模版"></p>
+<p>创建完成后可直接呈现出非常丰富的 Apache APISIX 网关监控面板。KubeSphere 也同时在<a href="https://github.com/kubesphere/kubesphere/issues/4433">积极推进</a>将 Grafana 模版导入的功能引入到项目的自定义监控能力中去，敬请期待！</p>
+<p><img src="https://static.apiseven.com/202108/1638241735167-4c6d3a9a-8190-41b5-9e89-7f09384c7113.png" alt="完美结束"></p>
+<h2 id="总结">总结</h2>
+<p>通过本文非常详细的步骤介绍，大家可充分了解并跟随上手体验到如何「将 Apache APISIX Ingress 网关介入 KubeSphere 并进行自定义监控」。希望通过阅读本文，可以加深各位对 Apache APISIX Ingress Controller 与 Apache APISIX 应用理解。</p>
+<p>作者张海立，驭势科技云平台研发总监。开源爱好者，云原生社区上海站 PMC 成员，KubeSphere Ambassador。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

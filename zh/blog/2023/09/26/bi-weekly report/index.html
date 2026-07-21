@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区双周报 (9.11 - 9.24) | Apache APISIX</title><meta name="description" content="“独行者速，众行者远”。Apache APISIX 社区周报旨在协助社区小伙伴们全面地了解 Apache APISIX 社区的发展，使每个人都能更容易地参与到社区建设中来。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/09/26/bi-weekly report/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/09/26/bi-weekly report/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/09/26/bi-weekly report/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/09/26/bi-weekly report/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="社区双周报 (9.11 - 9.24) | Apache APISIX"><meta property="og:description" content="“独行者速，众行者远”。Apache APISIX 社区周报旨在协助社区小伙伴们全面地了解 Apache APISIX 社区的发展，使每个人都能更容易地参与到社区建设中来。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/09/26/bi-weekly report/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区双周报 (9.11 - 9.24)","description":"“独行者速，众行者远”。Apache APISIX 社区周报旨在协助社区小伙伴们全面地了解 Apache APISIX 社区的发展，使每个人都能更容易地参与到社区建设中来。","datePublished":"2023-09-26","image":"https://static.apiseven.com/uploads/2023/09/25/FIgUq7x3_%E7%A4%BE%E5%8C%BA%E5%8F%8C%E5%91%A8%E6%8A%A5-%E5%85%AC%E4%BC%97%E5%8F%B7%E5%A4%B4%E5%9B%BE-%E4%B8%AD%E6%96%87.png","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/09/26/bi-weekly report/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/09/26/bi-weekly report/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/09/26/bi-weekly report/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>社区双周报 (9.11 - 9.24)</h1> <p class="article-meta"> 2023-09-26  </p> <blockquote>
+<p>最近，我们修复并改进了 Apache APISIX 的部分功能，如 dubbo 协议的 <code>xrpc</code> 支持、支持在 <code>access_log</code> 中记录 opentelemetry 变量，以及在外部插件中修改请求 body 的功能。您可以在本期双周报中详细了解这些新功能。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p>Apache APISIX 在开源的第一天就以社区的方式迅速成长，成为全球最活跃的开源 API 网关项目，这一切都离不开社区伙伴们的共同努力。</p>
+<p>从 2023.9.11 至 2023.9.24，有 23 名开发者提交了 43 个commit，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。</p>
+<p>最近，我们对一些功能进行了修复和改进，更新内容总结如下：</p>
+<ol>
+<li>
+<p>使用 <code>xrpc</code> 支持 dubbo 协议</p>
+</li>
+<li>
+<p>支持在 <code>access_log</code> 中记录 opentelemetry 变量</p>
+</li>
+<li>
+<p>支持在外部插件中修改请求 body</p>
+</li>
+</ol>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报旨在协助社区小伙伴们全面地了解 Apache APISIX 社区的发展，使每个人都能更容易地参与到社区建设中来。</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/uploads/2023/09/26/vv9C03oJ_Frame%204.png" alt="贡献者名单"></p>
+<p><img src="https://static.apiseven.com/uploads/2023/09/26/0xnTsOLT_9.24-newcon.png" alt="新晋贡献者"></p>
+<h2 id="近期亮点功能">近期亮点功能</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/9660">使用 <code>xrpc</code> 支持 dubbo 协议</a>（贡献者：<a href="https://github.com/wxbty">wxbty</a>))</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/8871">支持在 <code>access_log</code> 中记录 opentelemetry 变量</a>（贡献者：<a href="https://github.com/lework">lework</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/9990">支持在外部插件中修改请求 body</a>（贡献者：<a href="https://github.com/jiangfucheng">jiangfucheng</a>、<a href="https://github.com/rubikplanet">rubikplanet</a>)</p>
+</li>
+</ul>
+<h2 id="最新博客速览">最新博客速览</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/">APISIX 新特性之 WAF 解决方案：Coraza</a></p>
+<p>APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2023/09/01/release-apache-apisix-3.5.0/">Apache APISIX 3.5.0 正式发布</a></p>
+<p>我们很高兴地宣布 Apache APISIX 3.5.0 版本已经发布，带来了振奋人心的新功能和改进的用户体验。</p>
+</li>
+</ul>
+<p>Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

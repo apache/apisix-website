@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nacos 在 API 网关中的服务发现实践 | Apache APISIX</title><meta name="description" content="本文为你介绍了云原生 API 网关 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 APISIX 基于 Nacos 实现服务发现的具体操作。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/02/21/nacos-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/21/nacos-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Nacos 在 API 网关中的服务发现实践 | Apache APISIX"><meta property="og:description" content="本文为你介绍了云原生 API 网关 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 APISIX 基于 Nacos 实现服务发现的具体操作。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/02/21/nacos-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Nacos 在 API 网关中的服务发现实践","description":"本文为你介绍了云原生 API 网关 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 APISIX 基于 Nacos 实现服务发现的具体操作。","datePublished":"2022-02-21","author":{"@type":"Person","name":"林志煌"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/02/21/nacos-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/02/21/nacos-api-gateway/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/02/21/nacos-api-gateway/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Nacos 在 API 网关中的服务发现实践</h1> <p class="article-meta"> 2022-02-21 · 林志煌  </p> <blockquote>
+<p>本文为您介绍 Apache APISIX 基本概念以及注册中心的作用，并为您展示了 API 网关基于 Nacos 实现服务发现的具体操作。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。它不仅拥有众多实用的插件，而且支持插件动态变更和热插拔。同时在使用服务发现组件时，不仅可以利用 etcd，也可以将 Eureka、Consul 和 Nacos 作为服务发现组件。本文将详细为您介绍如何在 Apache APISIX 中配置 Nacos 作为 Apache APISIX API 网关中的服务发现组件。</p>
+<p><img src="https://static.apiseven.com/202108/1646038041730-3d9bfdd8-d2f0-41a2-84f5-cb1e1d567a86.png" alt="error/Apache APISIX API Getway.png"></p>
+<p>注册中心是服务要实现服务化管理的核心组件，类似于目录服务的作用，也是微服务架构中最基础的设施之一，主要用来存储服务信息，譬如服务提供者 URL 、路由信息等。注册中心的实现是通过一种映射的方式，将复杂的服务端信息映射为简单易懂的信息提供给客户端。</p>
+<p>注册中心的核心功能为以下三点：</p>
+<ul>
+<li>服务注册：<strong>服务提供方</strong>向<strong>注册中心</strong>进行注册。</li>
+<li>服务发现：<strong>服务消费方</strong>可以通过注册中心寻找到服务提供方的调用路由信息。</li>
+<li>健康检测：确保注册到注册中心的服务节点是可以被正常调用的，避免无效节点导致的调用资源浪费等问题。</li>
+</ul>
+<p>注册中心本质上是为了<strong>解耦服务提供者和服务消费者</strong>，在微服务体系中，各个业务服务之间会频繁互相调用，并且需要对各个服务的 IP、port 等路由信息进行统一的管理。但是要如何进行管理呢？我们可以通过注册中心的<strong>服务注册</strong>功能将已有服务的相关信息提供到统一的注册中心进行管理。</p>
+<p>通过上述描述，您可以了解到注册中心可以帮助用户通过映射快速找到服务和服务地址。随着业务更新迭代，服务会频繁发生变化，在服务端中注册了新的服务或者服务宕机后，客户端仍然可以通过注册中心的<strong>服务发现</strong>功能拉取服务列表，如果注册中心的服务节点发生变更，注册中心会发送请求通知客户端重新拉取。</p>
+<p>如果服务端的服务突然宕机，并且没有向注册中心反馈，客户端可以通过注册中心的<strong>健康检查</strong>功能，进行固定时间间隔的主动上报心跳方式向服务端表明自己的服务状态。如果服务状态异常，则会通知注册中心，注册中心可以及时把已经宕机的服务节点进行剔除，避免资源的浪费。</p>
+<p>Apache APISIX + Nacos 可以将各个微服务节点中与业务无关的各项控制，集中在 Apache APISIX 中进行统一管理，即<strong>通过 Apache APISIX 实现接口服务的代理和路由转发的能力</strong>。在 Nacos 上注册各个微服务后，Apache APISIX 可以通过 Nacos 的服务发现功能获取服务列表，查找对应的服务地址从而实现动态代理。</p>
+<p><img src="https://static.apiseven.com/202108/1645433492822-5218e923-97ae-4d04-863b-3b3f901de84f.png" alt="error/Principle Introduction.png"></p>
+<h2 id="api-网关基于-nacos-实现服务发现">API 网关基于 Nacos 实现服务发现</h2>
+<h3 id="前提条件">前提条件</h3>
+<p>本文操作基于以下环境进行。</p>
+<ul>
+<li>操作系统 Centos 7.9。</li>
+<li>已安装 Apache APISIX 2.12.1，详情请参考：<a href="https://apisix.apache.org/zh/docs/apisix/how-to-build">如何构建 Apache APISIX</a>。</li>
+<li>已安装 Nacos 2.0.4，详情请参考：<a href="https://nacos.io/zh-cn/docs/quick-start.html">Nacos 快速入门</a>。</li>
+<li>已安装 Node.js，详情请参考：<a href="https://github.com/nodejs/help/wiki/Installation">Node.js 安装指南</a>。</li>
+</ul>
+<h3 id="步骤一服务注册">步骤一：服务注册</h3>
+<ol>
+<li>使用 Node.js 的 Koa 框架在 <code>3005</code> 端口启动一个简单的测试服务作为<a href="https://apisix.apache.org/zh/docs/apisix/admin-api#upstream">上游（Upstream）</a>。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>const Koa = require('koa');</span></span>
+<span class="line"><span>const app = new Koa();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.use(async ctx => {</span></span>
+<span class="line"><span>  ctx.body = 'Hello World';</span></span>
+<span class="line"><span>});</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.listen(3005);</span></span></code></pre>
+<ol start="2">
+<li>在命令行中通过请求 Nacos Open API 的方式进行服务注册。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X POST 'http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=APISIX-NACOS&#x26;ip=127.0.0.1&#x26;port=3005&#x26;ephemeral=false'</span></span></code></pre>
+<ol start="3">
+<li>执行服务注册后使用以下命令查询当前服务情况。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X GET 'http://127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=APISIX-NACOS'</span></span></code></pre>
+<p>正确返回结果示例如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "name": "DEFAULT_GROUP@@APISIX-NACOS",</span></span>
+<span class="line"><span>  "groupName": "DEFAULT_GROUP",</span></span>
+<span class="line"><span>  "clusters": "",</span></span>
+<span class="line"><span>  "cacheMillis": 10000,</span></span>
+<span class="line"><span>  "hosts": [</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>      "instanceId": "127.0.0.1#3005#DEFAULT#DEFAULT_GROUP@@APISIX-NACOS",</span></span>
+<span class="line"><span>      "ip": "127.0.0.1",</span></span>
+<span class="line"><span>      "port": 3005,</span></span>
+<span class="line"><span>      "weight": 1.0,</span></span>
+<span class="line"><span>      "healthy": true,</span></span>
+<span class="line"><span>      "enabled": true,</span></span>
+<span class="line"><span>      "ephemeral": true,</span></span>
+<span class="line"><span>      "clusterName": "DEFAULT",</span></span>
+<span class="line"><span>      "serviceName": "DEFAULT_GROUP@@APISIX-NACOS",</span></span>
+<span class="line"><span>      "metadata": {},</span></span>
+<span class="line"><span>      "instanceHeartBeatInterval": 5000,</span></span>
+<span class="line"><span>      "instanceHeartBeatTimeOut": 15000,</span></span>
+<span class="line"><span>      "ipDeleteTimeout": 30000,</span></span>
+<span class="line"><span>      "instanceIdGenerator": "simple"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  ],</span></span>
+<span class="line"><span>  "lastRefTime": 1643191399694,</span></span>
+<span class="line"><span>  "checksum": "",</span></span>
+<span class="line"><span>  "allIPs": false,</span></span>
+<span class="line"><span>  "reachProtectionThreshold": false,</span></span>
+<span class="line"><span>  "valid": true</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="步骤二新增-nacos-路由">步骤二：新增 Nacos 路由</h3>
+<p>使用 Apache APISIX 提供的 Admin API 创建一个新的<a href="https://apisix.apache.org/zh/docs/apisix/admin-api#route">路由（Route）</a>，APISIX 通过 <code>upstream.discovery_type</code> 字段选择使用的服务发现类型，<code>upstream.service_name</code> 需要与注册中心的对应服务名进行关联，因此创建路由时指定服务发现类型为 <code>nacos</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "uri": "/nacos/*",</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "service_name": "APISIX-NACOS",</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "discovery_type": "nacos"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>在上述命令中，请求头 <code>X-API-KEY</code> 是 Admin API 的访问 token，可以在 <code>conf/config.yaml</code> 文件中的 <code>apisix.admin_key.key</code> 查看。</p>
+<p>添加成功后，正确返回结果示例如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "action": "set",</span></span>
+<span class="line"><span>  "node": {</span></span>
+<span class="line"><span>    "key": "\/apisix\/routes\/1",</span></span>
+<span class="line"><span>    "value": {</span></span>
+<span class="line"><span>      "update_time": 1643191044,</span></span>
+<span class="line"><span>      "create_time": 1643176603,</span></span>
+<span class="line"><span>      "priority": 0,</span></span>
+<span class="line"><span>      "uri": "\/nacos\/*",</span></span>
+<span class="line"><span>      "upstream": {</span></span>
+<span class="line"><span>        "hash_on": "vars",</span></span>
+<span class="line"><span>        "discovery_type": "nacos",</span></span>
+<span class="line"><span>        "scheme": "http",</span></span>
+<span class="line"><span>        "pass_host": "pass",</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "service_name": "APISIX-NACOS"</span></span>
+<span class="line"><span>      },</span></span>
+<span class="line"><span>      "id": "1",</span></span>
+<span class="line"><span>      "status": 1</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>除此之外，您还可以在 <code>upstream.discovery_args</code> 中传递其他服务相关参数用于指定服务所在的命名空间或组别，具体内容可参考<a href="https://apisix.apache.org/zh/docs/apisix/next/discovery/nacos/#%E5%8F%82%E6%95%B0">官方文档</a>。</p>
+<h3 id="步骤三验证配置结果">步骤三：验证配置结果</h3>
+<p>使用以下命令发送请求至需要配置的路由。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i http://127.0.0.1:9080/nacos/</span></span></code></pre>
+<p>正常返回结果示例如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>Content-Length: 11</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span>Date: Thu, 27 Jan 2022 00:48:26 GMT</span></span>
+<span class="line"><span>Server: APISIX/2.12.0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Hello World</span></span></code></pre>
+<p>通过示例看到，Apache APISIX 中新增的路由已经可以通过 Nacos 服务发现找到正确的服务地址，并正常响应。</p>
+<h2 id="总结">总结</h2>
+<p>本文为大家介绍了注册中心的概念以及 Apache APISIX 如何配合 Nacos 实现基于服务发现的路由代理。用户可以根据自身的业务需求和过往技术架构使用 Apache APISIX 与 Nacos，以实现接口服务的代理和路由转发的能力。</p>
+<p>关于 <code>nacos</code> 插件的更多说明和完整配置信息，可参考 <a href="https://apisix.apache.org/zh/docs/apisix/discovery/nacos">Apache APISIX 官方文档</a>。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

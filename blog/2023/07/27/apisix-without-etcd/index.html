@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX without etcd | Apache APISIX</title><meta name="description" content="While a great database, etcd is not devoid of issues. In this post, I'll show how you can use Apache APISIX with MySQL."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/07/27/apisix-without-etcd/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/07/27/apisix-without-etcd/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/07/27/apisix-without-etcd/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/07/27/apisix-without-etcd/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX without etcd | Apache APISIX"><meta property="og:description" content="While a great database, etcd is not devoid of issues. In this post, I'll show how you can use Apache APISIX with MySQL."><meta property="og:url" content="https://apisix.apache.org/blog/2023/07/27/apisix-without-etcd/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/07/26/T33IqLZ8_information-1641937.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX without etcd","description":"While a great database, etcd is not devoid of issues. In this post, I'll show how you can use Apache APISIX with MySQL.\n","datePublished":"2023-07-27","image":"https://static.apiseven.com/uploads/2023/07/26/T33IqLZ8_information-1641937.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/07/27/apisix-without-etcd/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/07/27/apisix-without-etcd/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/07/27/apisix-without-etcd/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX without etcd</h1> <p class="article-meta"> 2023-07-27 · Nicolas Fränkel  </p> <blockquote>
+<p>While a great database, etcd is not devoid of issues. In this post, I’ll show how you can use Apache APISIX with MySQL.</p>
+</blockquote>
+<!--truncate-->
+<p><a href="https://etcd.io/">etcd</a> is an excellent key-value distributed database used internally by Kubernetes and managed by the CNCF. It’s a great option, and that’s the reason why Apache APISIX uses it too. Yet, it’s not devoid of issues.</p>
+<p>First, some mention scalability, but one can expect this from a distributed data store that values consistency. Another issue may be the need for more familiarity with etcd. It’s relatively new, so your Ops team may need help operating it correctly while having decades of operating MySQL or Postgres. Finally, only a few etcd users are aware that it lacks maintainers:</p>
+<blockquote>
+<p>In the last few months, primary maintainers G.L. (Amazon, announcement) and S.B. (Red Hat) have stopped actively participating in the project. This leaves the project with only one active and two occasionally-reviewing maintainers, M.S. (Google),  P.T. (Google), both are relatively new to the project (1 month and 1 year of tenure) and S.P.Z. (IBM). Other maintainers are either dormant or have very minimal activity over the last six months. <strong>The project is effectively unmaintained</strong> <em>(emphasis mine)</em>.</p>
+<p>— <a href="https://groups.google.com/a/kubernetes.io/g/steering/c/e-O-tVSCJOk/m/N9IkiWLEAgAJ">Google Groups of Kubernetes Steering Committee, March 2022</a></p>
+</blockquote>
+<p>For all those reasons, you may prefer to use a standard SQL database with Apache APISIX. In this post, I’ll show how you can use MySQL.</p>
+<h2 id="the-kine-project">The kine project</h2>
+<p>It would be a lot of effort if each product had to introduce an abstraction layer and different adapters for both etcd and other databases. kine is a project that aims to offer a translation step between etcd calls and other implementations:</p>
+<blockquote>
+<p>Kine is an etcdshim that translates etcd API to:</p>
+<ul>
+<li>SQLite</li>
+<li>Postgres</li>
+<li>MySQL</li>
+<li>NATS Jetstream</li>
+</ul>
+<p><strong>Features</strong></p>
+<ul>
+<li>Can be ran standalone so any k8s (not just K3s) can use Kine</li>
+<li>Implements a subset of etcdAPI (not usable at all for general purpose etcd)</li>
+<li>Translates etcdTX calls into the desired API (Create, Update, Delete)</li>
+</ul>
+<p>— <a href="https://github.com/k3s-io/kine">Kine (Kine is not etcd)</a></p>
+</blockquote>
+<p>In essence, kine is a Go library that translates etcd calls to the datastore you want (among those implemented).</p>
+<p>Yet, using kine directly is a non-trivial effort. Fortunately, <a href="https://api7.ai/">api7</a>, the company that gave Apache APISIX to the Apache Software Foundation, provides a component already focused on APISIX usage.</p>
+<h2 id="etcd-adapter">ETCD adapter</h2>
+<p>ETCD adapter wraps kine to be APISIX-specific:</p>
+<blockquote>
+<p>ETCD Adapter mimics the ETCD V3 APIs best effort. It incorporates the kine as the Server side implementation, and it develops a totally in-memory watchable backend.</p>
+<p>Not all features in ETCD V3 APIs supported, this is designed for Apache APISIX, so it’s inherently not a generic solution.</p>
+<p>— <a href="https://github.com/api7/etcd-adapter/">ETCD adapter</a></p>
+</blockquote>
+<p>Two things of note:</p>
+<ul>
+<li>At the moment of this writing, the adapter supports either local in-memory storage or MySQL</li>
+<li>It’s available as an embeddable library but also as a standalone component</li>
+</ul>
+<p>Therefore, we can design our architecture as the following:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/07/26/aioB38NC_overall-architecture.svg" alt="Overall architecture"></p>
+<h2 id="demo">Demo</h2>
+<p>Let’s implement the above architecture with an additional admin UI over MySQL. I’ll use Docker Compose:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:3.4.0-debian</span><span style="color:#8B949E">                         #1</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./config.yaml:/usr/local/apisix/conf/config.yaml:ro</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080"</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9180:9180"</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">etcd-adapter</span></span>
+<span class="line"><span style="color:#7EE787">    restart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">always</span><span style="color:#8B949E">                                           #2</span></span>
+<span class="line"><span style="color:#7EE787">  etcd-adapter</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    build</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">./etcd-adapter</span><span style="color:#8B949E">                                     #3</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./adapter.yml:/etcd-adapter/conf/config.yaml:ro</span><span style="color:#8B949E">       #4</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">mysql</span></span>
+<span class="line"><span style="color:#7EE787">    restart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">always</span><span style="color:#8B949E">                                           #2</span></span>
+<span class="line"><span style="color:#7EE787">  mysql</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">bitnami/mysql:8.0</span><span style="color:#8B949E">                                  #5</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"3306:3306"</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      MYSQL_ROOT_PASSWORD</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">root</span></span>
+<span class="line"><span style="color:#7EE787">      MYSQL_USER</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#7EE787">      MYSQL_PASSWORD</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#7EE787">      MYSQL_DATABASE</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  adminer</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">adminer:standalone</span><span style="color:#8B949E">                                 #6</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"8080:8080"</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ADMINER_DEFAULT_SERVER</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mysql</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">mysql</span></span></code></pre>
+<ol>
+<li>Latest version of Apache APISIX, yeah!</li>
+<li>To avoid any failure with dependencies between containers, restart until it works. Kubernetes’s manifests would involve health checks</li>
+<li>api7.ai still needs to provide a container. We need to build from the source code</li>
+<li>Override the default configuration file with a context-specific one</li>
+<li>The regular MySQL image didn’t work for me. Let’s take the one from Bitnami</li>
+<li>Adminer, formerly known as PHP myAdmin, will help to visualize the database state</li>
+</ol>
+<p>ETCD-adapter’s configuration looks like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">server</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  host</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.0.0.0</span><span style="color:#8B949E">                 #1</span></span>
+<span class="line"><span style="color:#7EE787">  port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">12379</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">log</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  level</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">info</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">datasource</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mysql</span><span style="color:#8B949E">                   #2</span></span>
+<span class="line"><span style="color:#7EE787">  mysql</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mysql</span><span style="color:#8B949E">                 #3</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3306</span><span style="color:#8B949E">                  #3</span></span>
+<span class="line"><span style="color:#7EE787">    username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span><span style="color:#8B949E">              #3</span></span>
+<span class="line"><span style="color:#7EE787">    password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd</span><span style="color:#8B949E">              #3</span></span>
+<span class="line"><span style="color:#7EE787">    database</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span></code></pre>
+<ol>
+<li>Bind any IP since Docker will assign a random one</li>
+<li>Implementation type. The default is <code>btree</code>; we need to change it.</li>
+<li>As configured in the <code>docker-compose.yml</code> file</li>
+</ol>
+<p>Finally, here’s Apache APISIX configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    allow_admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">0.0.0.0/0</span></span>
+<span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://etcd-adapter:12379"</span><span style="color:#8B949E">   #1</span></span></code></pre>
+<ol>
+<li>Use this etcd instance, which is the adapter</li>
+</ol>
+<h2 id="testing">Testing</h2>
+<p>Now that we are set let’s test our system by creating a route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uris": ["/get"],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span><span style="color:#A5D6FF"> http://localhost:9180/apisix/admin/routes/1</span></span></code></pre>
+<p>We can now get it:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#A5D6FF"> http://localhost:9180/apisix/admin/routes/1</span></span></code></pre>
+<p>We can also check via the Adminer interface that it has been persisted via MySQL:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/07/26/PaAJJVIM_adminer.jpg" alt="Adminer screenshot displaying the new route"></p>
+<p>Unfortunately, we need to stop at this point. Getting all routes doesn’t work:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#A5D6FF"> http://localhost:9180/apisix/admin/routes</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"header"</span><span style="color:#E6EDF3">:{</span><span style="color:#7EE787">"revision"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"1689689596"</span><span style="color:#E6EDF3">},</span><span style="color:#7EE787">"message"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Key not found"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Worse, using the route fails:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/get</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"error_msg"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"404 Route Not Found"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>etcd is an excellent piece of infrastructure Kubernetes uses, but there might be better choices in some contexts. Worse, it might become a security threat in the future - or is already one, because of the lack of maintenance. Being able to move away from etcd is a considerable benefit.</p>
+<p>kine offers an etcd-compatible facade and multiple implementations. Using kine with Apache APISIX requires some adaptation effort, already done in ETCD-Adapter.</p>
+<p>Currently, ETCD-Adapter is not feature-complete (to say the least) and requires more love. That’s why it was not donated to the Apache Foundation yet. If you’re a Go developer and are interested in the project, feel free to subscribe to the <a href="https://apisix.apache.org/docs/general/join/">Apache APISIX mailing list and/or join our Slack</a> to offer your help.</p>
+<p>The complete source code for this post can be found on GitHub:</p>
+<p>{% embed <a href="https://github.com/ajavageek/apisix-mysql">https://github.com/ajavageek/apisix-mysql</a> %}</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://github.com/k3s-io/kine">Kine</a></li>
+<li><a href="https://github.com/api7/ETCD-adapter">ETCD Adapter</a></li>
+<li><a href="https://martinheinz.dev/blog/100">Goodbye etcd, Hello PostgreSQL: Running Kubernetes with an SQL Database</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

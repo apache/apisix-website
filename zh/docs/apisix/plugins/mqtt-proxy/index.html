@@ -1,0 +1,315 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>mqtt-proxy | Apache APISIX</title><meta name="description" content="mqtt-proxy 插件支持将 MQTT 请求代理和负载均衡到 MQTT 服务器，支持 MQTT 3.1.x 和 5.0 版本。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/mqtt-proxy"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/plugins/mqtt-proxy/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/plugins/mqtt-proxy/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/plugins/mqtt-proxy/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="mqtt-proxy | Apache APISIX"><meta property="og:description" content="mqtt-proxy 插件支持将 MQTT 请求代理和负载均衡到 MQTT 服务器，支持 MQTT 3.1.x 和 5.0 版本。"><meta property="og:url" content="https://docs.api7.ai/hub/mqtt-proxy"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"mqtt-proxy","description":"mqtt-proxy 插件支持将 MQTT 请求代理和负载均衡到 MQTT 服务器，支持 MQTT 3.1.x 和 5.0 版本。","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/zh/docs/apisix/plugins/mqtt-proxy/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/docs/apisix/plugins/mqtt-proxy/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/docs/apisix/plugins/mqtt-proxy/">English</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/zh/docs/apisix/getting-started/README/" class>入门指南</a>  </li><li> <a href="/zh/docs/apisix/getting-started/configure-routes/" class>配置路由</a>  </li><li> <a href="/zh/docs/apisix/getting-started/load-balancing/" class>负载均衡</a>  </li><li> <a href="/zh/docs/apisix/getting-started/key-authentication/" class>密钥验证</a>  </li><li> <a href="/zh/docs/apisix/getting-started/rate-limiting/" class>限速</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/installation-guide/" class>APISIX 安装指南</a>  </li><li class> <a href="/zh/docs/apisix/architecture-design/apisix/" class>软件架构</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/zh/docs/apisix/tutorials/expose-api/" class>发布 API</a>  </li><li> <a href="/zh/docs/apisix/tutorials/protect-api/" class>保护 API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/zh/docs/apisix/tutorials/observe-your-api/" class>监控 API</a></li><li><a href="/zh/docs/apisix/tutorials/health-check/" class>健康检查</a></li><li><a href="/zh/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/zh/docs/apisix/tutorials/manage-api-consumers/" class>管理 API 消费者</a>  </li><li> <a href="/zh/docs/apisix/tutorials/cache-api-responses/" class>API 响应缓存</a>  </li><li> <a href="/zh/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/zh/docs/apisix/tutorials/client-to-apisix-mtls/" class>配置客户端与 APISIX 之间的双向认证（mTLS）</a>  </li><li> <a href="/zh/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/zh/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/zh/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/zh/docs/apisix/terminology/consumer-group/" class>Consumer Groups</a>  </li><li> <a href="/zh/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/zh/docs/apisix/terminology/global-rule/" class>Global rules</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/zh/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/zh/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/zh/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/zh/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/zh/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/zh/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/zh/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/zh/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/zh/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/zh/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/zh/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/zh/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/zh/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/zh/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/zh/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/zh/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/zh/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/zh/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/zh/docs/apisix/plugins/gzip/" class>gzip</a></li><li><a href="/zh/docs/apisix/plugins/brotli/" class>brotli</a></li><li><a href="/zh/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/zh/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-pre-req/" class>ext-plugin-pre-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-req/" class>ext-plugin-post-req</a></li><li><a href="/zh/docs/apisix/plugins/ext-plugin-post-resp/" class>ext-plugin-post-resp</a></li><li><a href="/zh/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/zh/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/zh/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/zh/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/zh/docs/apisix/plugins/grpc-transcode/" class>grpc-transcode</a></li><li><a href="/zh/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/zh/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/zh/docs/apisix/plugins/mocking/" class>mocking</a></li><li><a href="/zh/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/zh/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/zh/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/zh/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/zh/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/zh/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/zh/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/zh/docs/apisix/plugins/authz-casdoor/" class>authz-casdoor</a></li><li><a href="/zh/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/zh/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/zh/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/zh/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/zh/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/zh/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/zh/docs/apisix/plugins/authz-casbin/" class>authz-casbin</a></li><li><a href="/zh/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/zh/docs/apisix/plugins/opa/" class>opa</a></li><li><a href="/zh/docs/apisix/plugins/forward-auth/" class>forward-auth</a></li><li><a href="/zh/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/zh/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/zh/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/zh/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/zh/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/zh/docs/apisix/plugins/ua-restriction/" class>ua-restriction</a></li><li><a href="/zh/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/zh/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/zh/docs/apisix/plugins/csrf/" class>csrf</a></li><li><a href="/zh/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/zh/docs/apisix/plugins/gm/" class>GM</a></li><li><a href="/zh/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/zh/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/zh/docs/apisix/plugins/limit-req/" class>limit-req</a></li><li><a href="/zh/docs/apisix/plugins/limit-conn/" class>limit-conn</a></li><li><a href="/zh/docs/apisix/plugins/limit-count/" class>limit-count</a></li><li><a href="/zh/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/zh/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/zh/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/zh/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/zh/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/zh/docs/apisix/plugins/api-breaker/" class>api-breaker</a></li><li><a href="/zh/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/zh/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/zh/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/zh/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/zh/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/zh/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/zh/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/zh/docs/apisix/plugins/serverless/" class>serverless</a></li><li><a href="/zh/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/zh/docs/apisix/plugins/openwhisk/" class>openwhisk</a></li><li><a href="/zh/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/zh/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/zh/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/zh/docs/apisix/plugins/mqtt-proxy/" class="active">mqtt-proxy</a></li><li><a href="/zh/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/zh/docs/apisix/plugins/http-dubbo/" class>http-dubbo</a></li><li><a href="/zh/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/zh/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/zh/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/zh/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/zh/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/zh/docs/apisix/building-apisix/" class>源码安装 APISIX</a>  </li><li> <a href="/zh/docs/apisix/build-apisix-dev-environment-on-mac/" class>在 Mac 上构建开发环境</a>  </li><li> <a href="/zh/docs/apisix/support-fips-in-apisix/" class>通过 OpenSSL 3.0 使 APISIX 支持 FIPS 模式</a>  </li><li> <a href="/zh/docs/apisix/external-plugin/" class>外部插件</a>  </li><li> <a href="/zh/docs/apisix/wasm/" class>wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/zh/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/zh/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/zh/docs/apisix/plugin-develop/" class>插件开发</a>  </li><li> <a href="/zh/docs/apisix/debug-mode/" class>调试模式</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/zh/docs/apisix/FAQ/" class>常见问题</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/zh/docs/apisix/discovery/" class>集成服务发现注册中心</a></li><li><a href="/zh/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/zh/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/zh/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/zh/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/zh/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/zh/docs/apisix/discovery/control-plane-service-discovery/" class>控制面服务发现</a></li><li><a href="/zh/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/zh/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/zh/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/zh/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/zh/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/zh/docs/apisix/router-radixtree/" class>路由 RadixTree</a>  </li><li> <a href="/zh/docs/apisix/stream-proxy/" class>TCP/UDP 动态代理</a>  </li><li> <a href="/zh/docs/apisix/grpc-proxy/" class>gRPC 代理</a>  </li><li> <a href="/zh/docs/apisix/customize-nginx-configuration/" class>自定义 Nginx 配置</a>  </li><li> <a href="/zh/docs/apisix/certificate/" class>证书</a>  </li><li> <a href="/zh/docs/apisix/batch-processor/" class>批处理器</a>  </li><li> <a href="/zh/docs/apisix/benchmark/" class>压力测试</a>  </li><li> <a href="/zh/docs/apisix/install-dependencies/" class>安装依赖</a>  </li><li> <a href="/zh/docs/apisix/apisix-variable/" class>APISIX 变量</a>  </li><li> <a href="/zh/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/zh/docs/apisix/mtls/" class>TLS 双向认证</a>  </li><li> <a href="/zh/docs/apisix/debug-function/" class>调试功能</a>  </li><li> <a href="/zh/docs/apisix/profile/" class>基于环境变量进行配置文件切换</a>  </li><li> <a href="/zh/docs/apisix/ssl-protocol/" class>SSL 协议</a>  </li><li> <a href="/zh/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/zh/docs/apisix/http3/" class>HTTP3 协议</a>  </li> </ul> </li><li class> <a href="/zh/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>升级指南</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>mqtt-proxy</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="描述">描述</h2>
+<p><code>mqtt-proxy</code> 插件是一个 L4 插件，支持将 MQTT 请求代理和负载均衡到 MQTT 服务器。它支持 MQTT <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">3.1.*</a> 和 <a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">5.0</a> 版本。该插件必须配置在流式路由上，且 APISIX 需要启用 L4 流量代理。</p>
+<h2 id="属性">属性</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>类型</th><th>必选项</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>protocol_name</td><td>string</td><td>否</td><td>”MQTT”</td><td>协议名称。</td></tr><tr><td>protocol_level</td><td>integer</td><td>是</td><td></td><td>协议级别。MQTT <code>3.1.*</code> 应设为 <code>4</code>，MQTT <code>5.0</code> 应设为 <code>5</code>。</td></tr></tbody></table>
+<h2 id="示例">示例</h2>
+<p>默认情况下，APISIX 仅代理 L7 流量。在操作前，请先确保在 APISIX 中启用了 L4 流量代理。</p>
+<p>按如下方式更新配置文件以启用 L4 流量代理：</p>
+<div class="code-title">conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  proxy_mode</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http&#x26;stream</span><span style="color:#8B949E">   # 同时启用 L4 和 L7 代理</span></span>
+<span class="line"><span style="color:#7EE787">  stream_proxy</span><span style="color:#E6EDF3">:             </span><span style="color:#8B949E"># 配置 L4 代理</span></span>
+<span class="line"><span style="color:#7EE787">    tcp</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#79C0FF">9100</span><span style="color:#8B949E">                # 设置 TCP 代理监听端口</span></span></code></pre>
+<p>重载 APISIX 使配置生效。APISIX 现在应开始在 <code>9100</code> 端口监听 L4 流量。</p>
+<p>以下示例使用来自 Mosquitto 项目的 MQTT 客户端发布和订阅消息。你可以在<a href="https://mosquitto.org/download/">这里</a>下载，或使用其他 MQTT 客户端。</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>您可以这样从 <code>config.yaml</code> 中获取 <code>admin_key</code> 并存入环境变量：</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<h3 id="代理到-mqtt-broker">代理到 MQTT Broker</h3>
+<p>以下示例演示如何配置流式路由，将流量代理到托管的 MQTT 服务器，并验证 APISIX 能够成功代理 MQTT 消息。</p>
+<p>创建流式路由并配置 <code>mqtt-proxy</code> 插件：</p>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/stream_routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "mqtt-route-proxy",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "mqtt-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "protocol_name": "MQTT",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "protocol_level": 4</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "host": "test.mosquitto.org",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "port": 1883,</span></span>
+<span class="line"><span style="color:#A5D6FF">          "weight": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-service</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">      scheme</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tcp</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">test.mosquitto.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    stream_routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-route</span></span>
+<span class="line"><span style="color:#7EE787">        server_port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9100</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          mqtt-proxy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">MQTT</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_level</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">4</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<div class="admonition admonition-info"><p class="admonition-title">INFO</p><p>Gateway API 目前不支持配置 L4 插件。此示例暂时无法通过 Gateway API 完成。</p></div>
+<p><strong>apisix-crd</strong></p>
+<p>使用 APISIX CRD 将 <code>mqtt-proxy</code> 插件配置到流式路由：</p>
+<div class="code-title">mqtt-proxy-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-broker</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExternalName</span></span>
+<span class="line"><span style="color:#7EE787">  externalName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">test.mosquitto.org</span></span>
+<span class="line"><span style="color:#7EE787">  ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">      targetPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  stream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-route</span></span>
+<span class="line"><span style="color:#7EE787">      protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        ingressPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9100</span></span>
+<span class="line"><span style="color:#7EE787">      backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-broker</span></span>
+<span class="line"><span style="color:#7EE787">        servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-proxy</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">MQTT</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_level</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">4</span></span></code></pre>
+<p>应用配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> mqtt-proxy-ic.yaml</span></span></code></pre>
+<p>打开两个终端会话。在第一个终端中，订阅测试主题：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mosquitto_sub</span><span style="color:#79C0FF"> -h</span><span style="color:#A5D6FF"> test.mosquitto.org</span><span style="color:#79C0FF"> -p</span><span style="color:#79C0FF"> 1883</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> "test/apisix"</span></span></code></pre>
+<p>在另一个终端中，向创建的路由发布示例消息：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mosquitto_pub</span><span style="color:#79C0FF"> -h</span><span style="color:#79C0FF"> 127.0.0.1</span><span style="color:#79C0FF"> -p</span><span style="color:#79C0FF"> 9100</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> "test/apisix"</span><span style="color:#79C0FF"> -m</span><span style="color:#A5D6FF"> "Hello APISIX"</span></span></code></pre>
+<p>你应该在第一个终端中看到消息 <code>Hello APISIX</code>。</p>
+<h3 id="对-mqtt-流量进行负载均衡">对 MQTT 流量进行负载均衡</h3>
+<p>以下示例演示如何配置流式路由，将 MQTT 流量负载均衡到不同的 MQTT 服务器。</p>
+<p>启用该插件后，它会注册一个变量 <code>mqtt_client_id</code>，可用于负载均衡。不同客户端 ID 的 MQTT 连接将根据一致性哈希算法转发到不同的上游节点。如果客户端 ID 缺失，则使用客户端 IP 代替。</p>
+<p>创建流式路由，并将 <code>mqtt-proxy</code> 插件配置为指向两个 MQTT 服务器：</p>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/stream_routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "mqtt-route-lb",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "mqtt-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "protocol_name": "MQTT",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "protocol_level": 4</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "chash",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "mqtt_client_id",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "host": "test.mosquitto.org",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "port": 1883,</span></span>
+<span class="line"><span style="color:#A5D6FF">          "weight": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "host": "broker.mqtt.cool",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "port": 1883,</span></span>
+<span class="line"><span style="color:#A5D6FF">          "weight": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-service</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">      scheme</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">tcp</span></span>
+<span class="line"><span style="color:#7EE787">      type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">chash</span></span>
+<span class="line"><span style="color:#7EE787">      key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt_client_id</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">test.mosquitto.org</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">broker.mqtt.cool</span></span>
+<span class="line"><span style="color:#7EE787">          port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">          weight</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    stream_routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-route</span></span>
+<span class="line"><span style="color:#7EE787">        server_port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9100</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          mqtt-proxy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">MQTT</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_level</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">4</span></span></code></pre>
+<p>将配置同步到网关：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<div class="admonition admonition-info"><p class="admonition-title">INFO</p><p>Gateway API 目前不支持配置 L4 插件。此示例暂时无法通过 Gateway API 完成。</p></div>
+<p><strong>apisix-crd</strong></p>
+<div class="code-title">mqtt-proxy-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Service</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-brokers</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">      protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">discovery.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">EndpointSlice</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-brokers-1</span></span>
+<span class="line"><span style="color:#7EE787">  labels</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    kubernetes.io/service-name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-brokers</span></span>
+<span class="line"><span style="color:#7EE787">addressType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">FQDN</span></span>
+<span class="line"><span style="color:#7EE787">ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt</span></span>
+<span class="line"><span style="color:#7EE787">    protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">endpoints</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">addresses</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">test.mosquitto.org</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">addresses</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">broker.mqtt.cool</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixUpstream</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-brokers</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  loadbalancer</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">chash</span></span>
+<span class="line"><span style="color:#7EE787">    key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt_client_id</span></span>
+<span class="line"><span style="color:#7EE787">    hashOn</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">vars</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  stream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-route</span></span>
+<span class="line"><span style="color:#7EE787">      protocol</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">TCP</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        ingressPort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9100</span></span>
+<span class="line"><span style="color:#7EE787">      backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-brokers</span></span>
+<span class="line"><span style="color:#7EE787">        servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1883</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mqtt-proxy</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">MQTT</span></span>
+<span class="line"><span style="color:#7EE787">            protocol_level</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">4</span></span></code></pre>
+<p>应用配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> mqtt-proxy-ic.yaml</span></span></code></pre>
+<p>打开三个终端会话。在第一个终端中，订阅第一个 MQTT broker 的测试主题：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mosquitto_sub</span><span style="color:#79C0FF"> -h</span><span style="color:#A5D6FF"> test.mosquitto.org</span><span style="color:#79C0FF"> -p</span><span style="color:#79C0FF"> 1883</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> "test/apisix"</span></span></code></pre>
+<p>在第二个终端中，订阅第二个 MQTT broker 的相同主题：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mosquitto_sub</span><span style="color:#79C0FF"> -h</span><span style="color:#A5D6FF"> broker.mqtt.cool</span><span style="color:#79C0FF"> -p</span><span style="color:#79C0FF"> 1883</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> "test/apisix"</span></span></code></pre>
+<p>在第三个终端中，使用两个不同的客户端 ID 发送示例消息以验证负载均衡：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mosquitto_pub</span><span style="color:#79C0FF"> -h</span><span style="color:#79C0FF"> 127.0.0.1</span><span style="color:#79C0FF"> -p</span><span style="color:#79C0FF"> 9100</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> "test/apisix"</span><span style="color:#79C0FF"> -m</span><span style="color:#A5D6FF"> "Hello APISIX"</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "client-1"</span></span>
+<span class="line"><span style="color:#FFA657">mosquitto_pub</span><span style="color:#79C0FF"> -h</span><span style="color:#79C0FF"> 127.0.0.1</span><span style="color:#79C0FF"> -p</span><span style="color:#79C0FF"> 9100</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> "test/apisix"</span><span style="color:#79C0FF"> -m</span><span style="color:#A5D6FF"> "Hello APISIX"</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "client-2"</span></span></code></pre>
+<p>由于负载均衡基于 MQTT 客户端 ID 的一致性哈希，每个客户端 ID 会被一致地路由到同一个 broker。你应该看到每条消息出现在两个订阅终端之一，从而验证流量已分发到两个 broker。</p>
+<h2 id="使用-mqtt-proxy-插件启用-mtls">使用 mqtt-proxy 插件启用 mTLS</h2>
+<p>流式代理使用 TCP 连接，可以支持 TLS。请参考<a href="../stream-proxy.md/#accept-tls-over-tcp-connection">如何通过 TCP 连接接受 TLS</a>，打开启用了 TLS 的流式代理。</p>
+<p><code>mqtt-proxy</code> 插件通过流式代理指定端口上的 TCP 通信启用。如果 <code>tls</code> 设置为 <code>true</code>，还要求客户端通过 TLS 进行身份验证。</p>
+<p>配置 <code>ssl</code> 以提供 CA 证书和服务器证书，以及 SNI 列表。使用 <code>ssl</code> 保护 <code>stream_routes</code> 的步骤等同于<a href="../mtls.md/#protect-route">保护路由</a>。</p>
+<h3 id="创建使用-mqtt-proxy-插件和-mtls-的-stream_route">创建使用 mqtt-proxy 插件和 mTLS 的 stream_route</h3>
+<p>以下示例创建了一个使用 <code>mqtt-proxy</code> 插件的 stream_route，并提供 CA 证书、客户端证书和客户端密钥（对于不受主机信任的自签名证书，请使用 <code>-k</code> 选项）：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/stream_routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "mqtt-route-mtls",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "mqtt-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "protocol_name": "MQTT",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "protocol_level": 4</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "sni": "${your_sni_name}",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "port": 1980,</span></span>
+<span class="line"><span style="color:#A5D6FF">          "weight": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><code>sni</code> 名称必须与使用 CA 和服务器证书创建的 SSL 对象的一个或多个 SNI 匹配。</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/zh/latest/plugins/mqtt-proxy.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

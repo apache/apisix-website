@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.9.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.9.0 版本于 2024 年 3 月 29 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 3.9.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.9.0 版本于 2024 年 3 月 29 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2024/03/29/release-apache-apisix-3.9.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.9.0 正式发布","description":"Apache APISIX 3.9.0 版本于 2024 年 3 月 29 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。","datePublished":"2024-03-29","author":{"@type":"Person","name":"Abhishek Choudhary"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2024/03/29/release-apache-apisix-3.9.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2024/03/29/release-apache-apisix-3.9.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2024/03/29/release-apache-apisix-3.9.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 3.9.0 正式发布</h1> <p class="article-meta"> 2024-03-29 · Abhishek Choudhary  </p> <p>我们很高兴地宣布 Apache APISIX 3.9.0 版本已经发布，带来了一系列新功能、修复、以及相关用户体验优化。</p>
+<!--truncate-->
+<p>这个新版本添加了许多新功能，包括客户端和 APISIX 之间对 HTTP/3 的支持、向 Control API 添加插件重新加载端点、Prometheus 指标过期的配置等。</p>
+<p>此外，该版本还包含了一些重要的变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。</p>
+<h2 id="重大变更">重大变更</h2>
+<h3 id="开启-http2">开启 HTTP/2</h3>
+<p>在早期版本中，可以通过在配置文件中将 <code>apisix.node_listen.enable_http2</code> 和 <code>apisix.ssl.listen.enable_http2</code> 设置为 <code>true</code> 来启用 HTTP/2。 这些选项在此版本中已被弃用。 从 3.9.0 开始，应当使用 <code>apisix.enable_http2</code> 启用 HTTP/2：</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enable_http2</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/11032">PR #11032</a>。</p>
+<h3 id="整合-keyring-和-key_encrypt_salt-配置项">整合 <code>keyring</code> 和 <code>key_encrypt_salt</code> 配置项</h3>
+<p>在早期版本中，<code>key_encrypt_salt</code> 和 <code>keyring</code> 是两个分开的配置选项，都以类似的方式用于数据加密和解密。 此版本删除了<code>key_encrypt_salt</code>，只需配置 <code>keyring</code>：</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  data_encryption</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    keyring</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">qeddd145sfvddff3</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10771">PR #10771</a>。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="支持客户端和-apisix-之间的-http3">支持客户端和 APISIX 之间的 HTTP/3</h3>
+<p>支持客户端和 APISIX 之间的 HTTP/3 作为实验性功能。尚不支持具有上游服务的 HTTP/3。</p>
+<p>HTTP/3 需要 TLS v1.3。要在 APISIX 中的给定端口上启用 HTTP/3，请更新配置文件，如下所示：</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ssl</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    listen</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9443</span></span>
+<span class="line"><span style="color:#7EE787">        enable_http3</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>接下来，在客户端和 APISIX 之间配置 TLS 证书：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/ssls"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "tls-client-ssl",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "sni": "example.com",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "cert": "'"${</span><span style="color:#E6EDF3">server_cert</span><span style="color:#A5D6FF">}"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key": "'"${</span><span style="color:#E6EDF3">server_key</span><span style="color:#A5D6FF">}"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10989">PR #10989</a>，<a href="https://github.com/apache/apisix/pull/11010">PR #11010</a>，和 <a href="https://github.com/apache/apisix/pull/11027">PR #11027</a>。</p>
+<h3 id="将插件重新加载端点添加到-control-api">将插件重新加载端点添加到 Control API</h3>
+<p>插件重新加载端点以前存在于 Admin API 中，用于热重新加载所有插件，现在已添加到 <a href="https://apisix.apache.org/docs/apisix/next/control-api/#put-v1pluginsreload">Control API</a>，这样可以从控制平面调用插件重新加载：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9090/v1/plugins/reload"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span></span></code></pre>
+<p>为了兼容，Admin API 中的插件重新加载端点被保留。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10905">PR #10905</a>。</p>
+<h3 id="支持在-openid-connect-插件中设置-session-cookie-生命周期">支持在 <code>openid-connect</code> 插件中设置 session cookie 生命周期</h3>
+<p>您现在可以在 <code>openid-connect</code> 插件中配置 session cookie 生命周期，如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "id": "auth-with-oidc",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri":"/anything/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "openid-connect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "client_id": "'"</span><span style="color:#E6EDF3">$OIDC_CLIENT_ID</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "client_secret": "'"</span><span style="color:#E6EDF3">$OIDC_CLIENT_SECRET</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "discovery": "'"</span><span style="color:#E6EDF3">$OIDC_DISCOVERY</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "session": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "secret": "6S8IO+Pydgb33LIor8T9ClER0T/sglFAjClFeAF3RsY=",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "cookie" : {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "lifetime": 86400</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redirect_uri": "http://localhost:9080/anything/callback"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>这是为了解决 access token 的生命周期长于 session cookie 生命周期的问题。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10919">PR #10919</a>。</p>
+<h3 id="支持设置-prometheus-指标的过期时间">支持设置 Prometheus 指标的过期时间</h3>
+<p>现在，您可以在 Prometheus 指标变为非活动状态后设置过期时间（以秒为单位），以减少资源消耗：</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    expire</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#8B949E">    # time in seconds. 0 means the metrics will not expire.</span></span></code></pre>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10869">PR #10869</a>。</p>
+<h3 id="在-limit-req-和-limit-conn-插件中支持-redis-和-redis-cluster">在 <code>limit-req</code> 和 <code>limit-conn</code> 插件中支持 <code>redis</code> 和 <code>redis-cluster</code></h3>
+<p>在 <code>limit-req</code> 和 <code>limit-conn</code> 插件中支持 <code>redis</code> 和 <code>redis-cluster</code> 策略，以便速率限制计数器可以在 APISIX 实例之间共享。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10874">PR #10874</a> 和 <a href="https://github.com/apache/apisix/pull/10866">PR #10866</a>。</p>
+<h3 id="支持-ocsp-stapling">支持 OCSP Stapling</h3>
+<p>新增 <code>ocsp-stapling</code> 插件，以支持 OCSP stapling。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/blob/master/docs/zh/latest/plugins/ocsp-stapling.md">插件文档</a> 和 <a href="https://github.com/apache/apisix/pull/10817">PR #10817</a>。</p>
+<h3 id="支持-http-与-dubbo-的转换">支持 HTTP 与 Dubbo 的转换</h3>
+<p>新增 <code>http-dubbo</code> 插件，以支持 HTTP 与 Dubbo 之间的转换。</p>
+<p>详情请参考 <a href="https://github.com/apache/apisix/pull/10703">PR #10703</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<ul>
+<li>在 Kubernetes 服务发现中支持 EndpointSlice (<a href="https://github.com/apache/apisix/pull/10916">PR #10916</a>)</li>
+<li>在 <code>grpc-web</code> 插件中支持 <code>cors_allow_headers</code> 属性，以允许跨域资源访问（<a href="https://github.com/apache/apisix/pull/10904">PR #10904</a>）</li>
+<li>允许在 <code>forward-auth</code> 插件中自定义错误响应代码（<a href="https://github.com/apache/apisix/pull/10898">PR #10898</a>）</li>
+<li>支持在日志插件中包含请求和响应主体（<a href="https://github.com/apache/apisix/pull/10888">PR #10888</a>）</li>
+<li>支持日志插件中的压缩响应（<a href="https://github.com/apache/apisix/pull/10884">PR #10884</a>）</li>
+<li>在 <code>mocking</code> 插件中 <code>response_headers</code> 支持内置变量（<a href="https://github.com/apache/apisix/pull/10872">PR #10872</a>）</li>
+<li>修复了不必要的 YAML 配置重新加载（<a href="https://github.com/apache/apisix/pull/9065">PR #9065</a>）</li>
+<li>修复 <code>jwt-auth</code> 插件中 payload 被恶意篡改的可能性（<a href="https://github.com/apache/apisix/pull/10982">PR #10982</a>）</li>
+</ul>
+<h2 id="变更日志">变更日志</h2>
+<p>有关此版本中更改的完整列表，请参阅 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#390">变更日志</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

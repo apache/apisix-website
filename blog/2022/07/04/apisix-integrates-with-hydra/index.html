@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX integrates with Ory Hydra | Apache APISIX</title><meta name="description" content="Set up centralized OAuth 2.0 authentication in APISIX using the OpenID Connect plugin with Ory Hydra as the identity provider."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX integrates with Ory Hydra | Apache APISIX"><meta property="og:description" content="Set up centralized OAuth 2.0 authentication in APISIX using the OpenID Connect plugin with Ory Hydra as the identity provider."><meta property="og:url" content="https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/ory.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX integrates with Ory Hydra","description":"Set up centralized OAuth 2.0 authentication in APISIX using the OpenID Connect plugin with Ory Hydra as the identity provider.","datePublished":"2022-07-04","image":"https://static.apiseven.com/2022/blog/0818/plugins/ory.png","author":{"@type":"Person","name":"Fei Han"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/07/04/apisix-integrates-with-hydra/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/07/04/apisix-integrates-with-hydra/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX integrates with Ory Hydra</h1> <p class="article-meta"> 2022-07-04 · Fei Han  </p> <blockquote>
+<p>This article describes how Apache APISIX integrates with Ory Hydra to implement centralized authentication.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="background-information">Background Information</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> is an open source cloud native API gateway. As an API gateway, it has the characteristics of dynamic, real-time, and high performance. It provides rich traffic management functions such as load balancing, dynamic upstream, gray-scale publishing, service fusing, identity authentication and observability. You can use APISIX to handle the traditional north-south traffic and the east-west traffic between services. It can also be used as a K8s ingress controller. Thanks to the full dynamic design of APISIX, configuration changes can be made at any time without restarting the service.</p>
+<p>The <code>openid-connect</code> plugin of APISIX supports the OpenID Connect protocol. Users can use this plugin to allow Apache APISIX to connect with many authentication service providers and deploy it in enterprises as a centralized authentication gateway.</p>
+<h3 id="ory-hydra">ORY Hydra</h3>
+<p><a href="https://github.com/ory/hydra">Ory Hydra</a> is one of the identity providers that supports the OAuth 2.0 and OpenID Connect protocols, based on the OAuth 2.0 authorization framework and the Open ID Connect Core 1.0 framework, with both open source and cloud native features. It can be integrated with any login system, and through OAuth 2.0 Access, Refresh, and ID Tokens, third parties can easily access your API, enabling users to interact with any application anytime, anywhere.</p>
+<p>Ory Hydra is written in Go language and provides SDKs for almost all languages, including Dart, .NET, Go, Java, PHP, Python, Ruby, Rust, and Typescript. It works with any login system, and the login experience can be easily customized.</p>
+<h2 id="introduction">Introduction</h2>
+<p>OpenID is a centralized authentication mode, and it is a decentralized identity authentication system. The advantage of using OpenID is that users only need to register and log in on one OpenID identity provider’s website and use one account and password information to access different applications.</p>
+<p>With the <code>openid-connect</code> plugin supported by APISIX, we can integrate with authenticators supporting the OpenID Connect protocol. For example: Ory Hydra. For more information, please refer to: <a href="https://apisix.apache.org/blog/2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/#what-is-authentication">Centralized Identity Authentication</a>.</p>
+<p>One of the biggest advantages of Ory Hydra is that it implements the OAuth and OpenID Connect standards instead of forcing you to use “Hydra user management” (login, logout, profile management, registration), a specific template engine, or a predefined front end.</p>
+<p>It allows to use the authentication mechanisms required by your program (token-based 2FA, SMS 2FA, etc.) and implement user management and login in your technology stack. Of course, you can also use existing solutions, such as <a href="https://github.com/go-authboss/authboss">authboss</a>. It gives you all the great features of OAuth 2.0 and OpenID Connect while being minimally intrusive to your business logic and technology stack.</p>
+<p>OAuth 2.0 can be used in many environments for various purposes. The following information may help you decide whether OAuth 2.0 and Hydra are suitable for a certain scenario:</p>
+<ol>
+<li>enable third-party solutions to access your APIs.</li>
+<li>be an Identity Provider like Google, Facebook, or Microsoft.</li>
+<li>enable your browser, mobile, or wearable applications to access your APIs: Running an OAuth2 Provider can work great for this. You don’t have to store passwords on the device and can revoke access tokens at any time.</li>
+<li>you want to limit what type of information your backend services can read from each other. For example, the comment service should only be allowed to fetch user profile updates but shouldn’t be able to read user passwords.</li>
+</ol>
+<h2 id="operation-steps">Operation steps</h2>
+<p>Next, I will show you how APISIX integrates with Hydra using a real example. In this example, Docker will be used to running the required environment. Please install <a href="https://docs.docker.com/engine/install/">Docker</a> before doing this.</p>
+<h3 id="step-1-create-and-deploy-the-database">Step 1: Create and deploy the database</h3>
+<p>For quick deployment of the test environment, we will use Docker to run PostgreSQL as Hydra’s database. It’s not recommended to use Docker to run the database in production.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> network</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> ory-hydra-example--postgres</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> POSTGRES_USER=hydra</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> POSTGRES_PASSWORD=secret</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> POSTGRES_DB=hydra</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> postgres:9.6</span></span></code></pre>
+<p>The above command will create a network named <code>hydraguide</code> and start a Postgres instance named <code>ory-hydra-example--postgres</code> which creates the database <code>hydra</code>, the user <code>hydra</code>, and the user password <code>secret</code>.</p>
+<h3 id="step-2-deploy-hydra">Step 2: Deploy Hydra</h3>
+<p>This step will map <code>4444</code> to <code>5444</code> and <code>4445</code> to <code>5445</code> ports, please make sure that these ports are not used.</p>
+<ol>
+<li>The system key can only be set for the new database, and does not support key rotation. This key is used to encrypt the database and needs to be set to the same value each time the process restarts. You can use <code>/dev/urandom</code> to generate keys. But make sure that the key must be the same when you define it. For example, you can store the value somewhere:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> SECRETS_SYSTEM</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(e</span><span style="color:#A5D6FF">xport</span><span style="color:#A5D6FF"> LC_CTYPE=C</span><span style="color:#E6EDF3">; </span><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> /dev/urandom</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> tr</span><span style="color:#79C0FF"> -dc</span><span style="color:#A5D6FF"> 'a-zA-Z0-9'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> fold</span><span style="color:#79C0FF"> -w</span><span style="color:#79C0FF"> 32</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> head</span><span style="color:#79C0FF"> -n</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>Set Hydra’s database URL to point to your Postgres instance by configuring an environment variable.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> DSN</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">postgres://hydra:secret@ory-hydra-example--postgres:5432/hydra</span><span style="color:#FF7B72">?</span><span style="color:#E6EDF3">sslmode</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">disable</span></span></code></pre>
+<ol start="2">
+<li>Ory Hydra does not migrate SQL automatically, so you need to manually perform the database migration.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> pull</span><span style="color:#A5D6FF"> oryd/hydra:v1.10.6</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -it</span><span style="color:#79C0FF"> --rm</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  migrate</span><span style="color:#A5D6FF"> sql</span><span style="color:#79C0FF"> --yes</span><span style="color:#E6EDF3"> $DSN</span></span></code></pre>
+<ol start="3">
+<li>Run the Hydra server with the following command. For more information, please refer to <a href="https://www.ory.sh/docs/hydra/configure-deploy#deploy-ory-hydra">deploy-ory-hydra</a>.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> ory-hydra-example--hydra</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 5444:4444</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 5445:4445</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> SECRETS_SYSTEM=</span><span style="color:#E6EDF3">$SECRETS_SYSTEM </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> DSN=</span><span style="color:#E6EDF3">$DSN </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> URLS_SELF_ISSUER=https://localhost:5444/</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> URLS_CONSENT=http://localhost:9020/consent</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> URLS_LOGIN=http://localhost:9020/login</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#A5D6FF"> serve</span><span style="color:#A5D6FF"> all</span></span></code></pre>
+<p>You can view Hydra logs using the following command:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> logs</span><span style="color:#A5D6FF"> ory-hydra-example--hydra</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>If the Hydra password is not specified, you can find the password information in the log. If you forget your password, you will not be able to restart Hydra.</p></div>
+<p>You can also use the following commands to view Hydra related introductions and operation commands.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -it</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> --entrypoint</span><span style="color:#A5D6FF"> hydra</span><span style="color:#A5D6FF"> oryd/hydra:v1.10.6</span><span style="color:#A5D6FF"> help</span><span style="color:#A5D6FF"> serve</span></span></code></pre>
+<h3 id="step-3-deploy-login-and-authentication-programs">Step 3: Deploy login and authentication programs</h3>
+<p>Login Provider and Consent Provider can be two separate web services. Hydra provides sample programs that combine both functions in one application. Next, we’ll deploy the application using Docker.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> pull</span><span style="color:#A5D6FF"> oryd/hydra-login-consent-node:v1.10.6</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> ory-hydra-example--consent</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 9020:3000</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> HYDRA_ADMIN_URL=https://ory-hydra-example--hydra:4445</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> NODE_TLS_REJECT_UNAUTHORIZED=</span><span style="color:#79C0FF">0</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra-login-consent-node:v1.10.6</span></span></code></pre>
+<p>You can use the following command to check whether the program runs normally:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> logs</span><span style="color:#A5D6FF"> ory-hydra-example--consent</span></span></code></pre>
+<p>Returns the result normally:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> hydra-login-consent-logout@0.0.0 serve /usr/src/app</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> node lib/app.js</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Listening</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> http://0.0.0.0:3000</span></span></code></pre>
+<h3 id="step-4-execute-the-oauth-20-authorization-code-flow">Step 4: Execute the OAuth 2.0 Authorization Code Flow</h3>
+<p>Hydra supports the ability to set an OAuth 2.0 consumer and OAuth 2.0 callback URL via the CLI, and is a third-party application that requests access to user resources on the server.</p>
+<p>This information is required when configuring the APISIX <code>openid-connect</code> plugin:</p>
+<ul>
+<li><code>id</code> corresponds to the <code>client_id</code> configure by the plugin in the following route.</li>
+<li><code>secret</code> corresponds to the <code>client_secret</code> configured by the plugin in the following route.</li>
+<li><code>scope</code> corresponds to the <code>scope</code> configured by the plugin in the following route.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> -it</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> HYDRA_ADMIN_URL=https://ory-hydra-example--hydra:4445</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --</span><span style="color:#A5D6FF"> network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  clients</span><span style="color:#A5D6FF"> create</span><span style="color:#79C0FF"> --skip-tls-verify</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --id</span><span style="color:#A5D6FF"> facebook-photo-backup</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --secret</span><span style="color:#A5D6FF"> some-secret</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --grant-types</span><span style="color:#A5D6FF"> authorization_code,refresh_token,client_credentials,implicit</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --response-types</span><span style="color:#A5D6FF"> token,code,id_token</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --scope</span><span style="color:#A5D6FF"> openid,offline,photos.read</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --callbacks</span><span style="color:#A5D6FF"> http://127.0.0.1:9010/callback</span></span></code></pre>
+<p>The following example will perform an OAuth 2.0 authorization flow. To simplify this, the Hydra CLI provides a helper command called <code>hydra token user</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657"> docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> -it</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 9010:9010</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  token</span><span style="color:#A5D6FF"> user</span><span style="color:#79C0FF"> --skip-tls-verify</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --port</span><span style="color:#79C0FF"> 9010</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --auth-url</span><span style="color:#A5D6FF"> https://localhost:5444/oauth2/auth</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --token-url</span><span style="color:#A5D6FF"> https://localhost:5444/oauth2/token</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --client-id</span><span style="color:#A5D6FF"> facebook-photo-backup</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --client-secret</span><span style="color:#A5D6FF"> some-secret</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --scope</span><span style="color:#A5D6FF"> openid,offline,photos.read</span></span></code></pre>
+<p>If the returned result is as follows, the configuration is normal:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">Setting</span><span style="color:#A5D6FF"> up</span><span style="color:#A5D6FF"> home</span><span style="color:#A5D6FF"> route</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> http://127.0.0.1:9010/</span></span>
+<span class="line"><span style="color:#FFA657">Setting</span><span style="color:#A5D6FF"> up</span><span style="color:#A5D6FF"> callback</span><span style="color:#A5D6FF"> listener</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> http://127.0.0.1:9010/callback</span></span>
+<span class="line"><span style="color:#FFA657">Press</span><span style="color:#A5D6FF"> ctrl</span><span style="color:#A5D6FF"> +</span><span style="color:#A5D6FF"> c</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> Linux</span><span style="color:#A5D6FF"> /</span><span style="color:#A5D6FF"> Windows</span><span style="color:#A5D6FF"> or</span><span style="color:#A5D6FF"> cmd</span><span style="color:#A5D6FF"> +</span><span style="color:#A5D6FF"> c</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> OSX</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> end</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> process.</span></span>
+<span class="line"><span style="color:#FFA657">If</span><span style="color:#A5D6FF"> your</span><span style="color:#A5D6FF"> browser</span><span style="color:#A5D6FF"> doesn't open automatically, navigate to:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">        http://127.0.0.1:9010/</span></span></code></pre>
+<p>This step will start a user login program, we will use this program in the next step.</p>
+<h3 id="step-5-start-apisix-and-configure-routing">Step 5: Start APISIX and configure routing</h3>
+<p>If you do not have APISIX installed, please refer to: <a href="https://apisix.apache.org/docs/apisix/next/installation-guide">Installation</a>.</p>
+<p>Once installed, just create routes and configure <code>openid-connect</code> plugin. In order to verify the effect more intuitively, we also need to start an NGINX service as upstream, you can also use existing upstream services.</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>APISIX in this example is installed on the host. If it is started with Docker, there may be network problems.</p></div>
+<ol>
+<li>First create an NGINX upstream using Docker.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> test-nginx</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8081:80</span><span style="color:#A5D6FF"> nginx</span></span></code></pre>
+<ol start="2">
+<li>Create a route and configure the <code>openid-connect</code> plugin with the following commands.</li>
+</ol>
+<p><code>client_id</code>, <code>client_secret</code> and <code>scope</code> are the IDs set in step four. You can refer to Preparing for <a href="https://www.ory.sh/docs/hydra/production#exposing-administrative-and-public-api-endpoints">Production for additional</a> information. From the above link, we can see that the address of <code>discovery</code> is <code>https://{IP:Port}/.well-known/openid-configuration</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "openid-connect":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_id":"facebook-photo-backup",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_secret":"some-secret",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "discovery":"https://127.0.0.1:5444/.well-known/openid-configuration",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "scope":"openid",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "token_endpoint_auth_method": "client_secret_basic",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "bearer_only": false,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "redirect_uri":"http://127.0.0.1:9080/callback"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:8081":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="step-6-visit-the-webpage">Step 6: Visit the webpage</h3>
+<ol>
+<li>Enter <code>http://127.0.0.1:9080/index.html</code> in the browser. Since the <code>openid-connect</code> plugin has been enabled, the page is redirected to the login page, enter the default account password into the user authentication program.</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0704/1.png" alt="network-error/Authentication page"></p>
+<ol start="2">
+<li>Select the authentication protocol and click <code>Allow Access</code>.</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0704/2.png" alt="network-error/select page"></p>
+<ol start="3">
+<li>After successful verification, you can access the upstream service page.</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0704/3.png" alt="network-error/upstream page"></p>
+<h2 id="summary">Summary</h2>
+<p>This article mainly introduces how Hydra integrates with APISIX and the application scenarios of Hydra. You only need to install Hydra related programs on the server, and you can use it directly as your authentication program.</p>
+<h2 id="related-reading">Related reading</h2>
+<ul>
+<li><a href="https://apisix.apache.org/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication">Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication</a></li>
+<li><a href="https://apisix.apache.org/blog/2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication">Centralized authentication using the OpenID Connect plug-in for Apache APISIX</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

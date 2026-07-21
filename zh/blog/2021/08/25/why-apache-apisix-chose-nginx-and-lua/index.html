@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>为什么 Apache APISIX 选择 NGINX+Lua 技术栈？ | Apache APISIX</title><meta name="description" content="本文介绍了云原生 API 网关 Apache APISIX 选用 Nginx + Lua 技术栈的历史背景和该技术栈为 APISIX 带来的优势，以及 LuaJIT 和 Go 的对比。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="为什么 Apache APISIX 选择 NGINX+Lua 技术栈？ | Apache APISIX"><meta property="og:description" content="本文介绍了云原生 API 网关 Apache APISIX 选用 Nginx + Lua 技术栈的历史背景和该技术栈为 APISIX 带来的优势，以及 LuaJIT 和 Go 的对比。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"为什么 Apache APISIX 选择 NGINX+Lua 技术栈？","description":"本文介绍了云原生 API 网关 Apache APISIX 选用 Nginx + Lua 技术栈的历史背景和该技术栈为 APISIX 带来的优势，以及 LuaJIT 和 Go 的对比。","datePublished":"2021-08-25","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/08/25/why-apache-apisix-chose-nginx-and-lua/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>为什么 Apache APISIX 选择 NGINX+Lua 技术栈？</h1> <p class="article-meta"> 2021-08-25 · 罗泽轩  </p> <blockquote>
+<p>本文由深圳<a href="https://api7.ai/">支流科技</a>工程师罗泽轩撰写，介绍了 Apache APISIX 选用 Nginx + Lua 这个技术栈的历史背景和这个技术栈为 Apache APISIX 带来的优势。罗泽轩是 OpenResty 开发者以及 Apache APISIX PMC。</p>
+</blockquote>
+<!--truncate-->
+<p>笔者在今年的 COSCUP 大会做分享时，曾有观众问这样的问题，为什么 Apache APISIX、Kong 和 3scale 这些网关都采用 Lua 来编写逻辑？</p>
+<p>是啊，Lua 并不是一门广为人知的语言，离“主流编程语言”的圈子大概还差个十万八千里吧。甚至有一次，我在跟别人交流的时候，对方在说到 Lua 之前，先停顿了片刻，随后终于打定主意，以”L U A”逐个字母发音的方式表达了对这一罕见之物的称呼。</p>
+<p>所以，为什么 Apache APISIX 和其他知名的网关会选择用 Lua 呢？</p>
+<p>事实上，Apache APISIX 采用的技术栈并不是纯粹的 Lua，准确来说，应该是 Nginx + Lua。Apache APISIX 以底下的 Nginx 为根基，以上层的 Lua 代码为枝叶。</p>
+<h2 id="luajit-vs-go">LuaJIT VS Go</h2>
+<p>严谨认真的读者必然会指出，Apache APISIX 并非基于 Nginx + Lua 的技术栈，而是 Nginx + LuaJIT（又称 OpenResty，以下为了避免混乱，会仅仅采用 Nginx + Lua 这样的称呼）。</p>
+<p>LuaJIT 是 Lua 的一个 JIT 实现，性能比 Lua 好很多，而且额外添加了 FFI 的功能，能方便高效地调用 C 代码。
+由于现行的主流 API 网关，如果不是基于 OpenResty 实现，就是使用 Go 编写，所以时不时会看到各种 Go 和 Lua 谁的性能更好的比较。</p>
+<p><strong>就我个人观点看，脱离场景比较语言的性能，是没有意义的。</strong></p>
+<p>首先明确一点，Apache APISIX 是基于 Nginx + Lua 的技术栈，只是外层代码用的是 Lua。所以如果要论证哪种网关性能更好，正确的比较对象是 C + LuaJIT 跟 Go 的比较。网关的性能的大头，在于代理 HTTP 请求和响应，这一块的工作主要是 Nginx 在做。</p>
+<p><strong>所以倘若要比试比试性能，不妨比较 Nginx 和 Go 标准库的 HTTP 实现。</strong></p>
+<p>众所周知，Nginx 是一个 bytes matter 的高性能服务器实现，对内存使用非常抠门。举两个例子：</p>
+<ol>
+<li>Nginx 里面的 request header 在大多数时候都只是指向原始的 HTTP 请求数据的一个指针，只有在修改的时候才会创建副本。</li>
+<li>Nginx 代理上游响应时对 buffer 的复用逻辑非常复杂，是我读过的最为烧脑的代码之一。</li>
+</ol>
+<p>凭借这种抠门，Nginx 得以屹立在高性能服务器之巅。</p>
+<p>相反的，Go 标准库的 HTTP 实现，是一个滥用内存的典型反例。</p>
+<p>这可不是我的一面之辞，Fasthttp，一个重新实现 Go 标准库里面的 HTTP 包的项目，就举了两个例子：</p>
+<ol>
+<li>标准库的 HTTP Request 结构体没法复用</li>
+<li>headers 总是被提前解析好，存储成 map[string][]string，即使没有用到（原文见：<a href="https://github.com/valyala/fasthttp#faq">https://github.com/valyala/fasthttp#faq</a> ）</li>
+</ol>
+<p>Fasthttp 文档里面还提到一些 bytes matter 的优化技巧，建议大家可以阅读下。</p>
+<p>事实上，即使不去比较作为网关核心的代理功能，用 LuaJIT 写的代码不一定比 Go 差多少。原因有二。</p>
+<p><strong>其一，拜 Lua 跟 C 良好的亲和力所赐，许多 Lua 的库核心其实是用 C 写的。</strong></p>
+<p>比如 lua-cjson 的 json 编解码，lua-resty-core 的 base64 编解码，实际上大头是用 C 实现的。
+而 Go 的库，当然是大部分用 Go 实现的。虽然有 CGO 这种东西，但是受限于 Go 的协程调度和工具链的限制，它在 Go 的生态圈里面只能处于从属的地位。</p>
+<p>关于 LuaJIT 和 Go 对于 C 的亲和力的比较，推荐 Hacker News 上的这篇文章：《Comparing the C FFI overhead in various programming languages》（链接 <a href="https://news.ycombinator.com/item?id=17161168">https://news.ycombinator.com/item?id=17161168</a> ）</p>
+<p>于是我们比较 Lua 的某些功能，其实还是会回到 C 和 Go 的比较中。</p>
+<p><strong>其二，LuaJIT 的 JIT 优化无出其右。</strong></p>
+<p>讨论动态语言的性能，可以把动态语言分成两类，带 JIT 和不带 JIT 的。JIT 优化能够把动态语言的代码在运行时编译成机器码，进而把原来的代码的性能提升一个数量级。</p>
+<p>带 JIT 的语言还可以分成两类，能充分 JIT 的和只支持部分 JIT 的。而 LuaJIT 属于前者。</p>
+<p><strong>人所皆知，Lua 是一门非常简单的语言。相对鲜为人知的是，LuaJIT 的作者 Mike Pall 是一个非常厉害的程序员。这两者的结合，诞生了 LuaJIT 这种能跟 V8 比肩的作品。</strong></p>
+<p>关于 LuaJIT 和 V8 到底谁更快，一直是长盛不衰的争论话题。展开讲 LuaJIT 的 JIT 已经超过了本文想要讨论的范畴。简单来说，JIT 加持的 LuaJIT 跟预先编译好的 Go 性能差别并不大。</p>
+<p>至于谁比谁慢，慢多少，那就是个见仁见智的问题了。这里我举个例子：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>local text = {"The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog", "at", "a", "restaurant", "near", "the", "lake", "of", "a", "new", "era"}</span></span>
+<span class="line"><span>local map = {}</span></span>
+<span class="line"><span>local times = 1e8</span></span>
+<span class="line"><span>local n = #text</span></span>
+<span class="line"><span>for i = 1, n do</span></span>
+<span class="line"><span>    map[text[i]] = 0</span></span>
+<span class="line"><span>    for _ = 1, times do</span></span>
+<span class="line"><span>        map[text[i]] = map[text[i]] + 1</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>for i = 1, n do</span></span>
+<span class="line"><span>    io.write(text[i], " ", map[text[i]], "\n")</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>package main</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>func main() {</span></span>
+<span class="line"><span>    text := []string{"The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog", "at", "a", "restaurant", "near", "the", "lake", "of", "a", "new", "era"}</span></span>
+<span class="line"><span>    m := map[string]int{}</span></span>
+<span class="line"><span>    times := int(1e8)</span></span>
+<span class="line"><span>    for _, t := range text {</span></span>
+<span class="line"><span>        m[t] = 0</span></span>
+<span class="line"><span>        for i := 0; i &#x3C; times; i++ {</span></span>
+<span class="line"><span>            m[t]++</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    for _, t := range text {</span></span>
+<span class="line"><span>        fmt.Println(t, " ", m[t])</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>上面两段代码是等价的。你猜是第一个 Lua 版本的快，还是第二个 Go 版本的快？</p>
+<p>在我的机器上，第一个用时不到 1 秒，第二个花了 23 秒多。</p>
+<p>举这个例子并不是想证明 LuaJIT 比 Go 快 20 倍。我只想说明用 micro benchmark 证明某个语言比另一个语言快的意义不大，因为影响性能的因素很多。一个简单的 micro benchmark 很有可能过分强调某一个因素，导致出乎意料的结果。</p>
+<h2 id="nginx--lua-高性能--灵活">Nginx + Lua ：高性能 + 灵活</h2>
+<p>让我们转回 Apache APISIX 的 Nginx + Lua 的技术栈。Nginx + Lua 的技术栈给我们带来的，不仅仅是高性能。</p>
+<p>经常有人问我们，既然你们是基于 Nginx 开源版本，而 Nginx 并不支持动态配置，为什么 Apache APISIX 声称自己可以实现动态配置？你们是不是改了点东西？</p>
+<p>是的，我们确实有在维护自己的 Nginx 发行版，不过 Apache APISIX 的大部分功能在官方的 Nginx 上就能使用。我们之所以能做到动态配置，全靠把配置放到 Lua 代码里面来实现。</p>
+<p>举路由系统作为一个例子，Nginx 的路由需要在配置文件里面进行配置，每次更改路由，都需要 reload 之后才能生效。这是因为 Nginx 的路由分发只支持静态配置，不能动态增减路由。</p>
+<p><strong>为了实现路由动态配置，Apache APISIX 做了两件事：</strong></p>
+<ol>
+<li>在 Nginx 配置文件里面配置单个 server，这个 server 里面只有一个 location。我们把这个 location 作为主入口，这样所有的请求都会走到这个地方上来。</li>
+<li>我们用 Lua 完成路由分发的工作。Apache APISIX 的路由分发模块，支持在运行时增减路由，这样就能动态配置路由了。</li>
+</ol>
+<p>你可能会问，在 Lua 里面做路由分发，会比 Nginx 的实现慢吗？</p>
+<p>就像前面提到过的一样，凡是对性能要求比较高的，我们会把核心代码用 C 改写。我们的路由分发模块就是这么干的。路由分发模块在匹配路由时，会采用一个前缀树来匹配。而这个前缀树是用 C 实现的。感兴趣的读者可以看下代码：<a href="https://github.com/api7/lua-resty-radixtree/">https://github.com/api7/lua-resty-radixtree/</a> 。</p>
+<p>完成了 C 层面上的前缀树匹配，接下来就该 Lua 发挥灵活性的时刻了。对于匹配同一前缀的各个路由，我们支持通过许多别的方式来进行下一级的匹配，其中就包含通过一个特定的表达式来匹配。尽管硬着头皮，也能在 C 层面上接入一个表达式引擎，但是纯 C 实现做不了非常灵活地自定义表达式里面的变量。</p>
+<p>举个例子，下面是 Apache APISIX 用来匹配 GraphQL 请求的 route 配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">        "methods"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">        "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">                "127.0.0.1:1980"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#7EE787">            "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/hello"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "vars"</span><span style="color:#E6EDF3">: [[</span><span style="color:#A5D6FF">"graphql_name"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"repo"</span><span style="color:#E6EDF3">]]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>它会匹配这样的 GraphQL 请求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>query repo {</span></span>
+<span class="line"><span>    owner {</span></span>
+<span class="line"><span>        name</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>这里的 graphql_name 并非 Nginx 内置变量，而是通过 Lua 代码定义的。Apache APISIX 一共定义了三个 GraphQL 相关的变量，连同解析 GraphQL body 在内不过 62 行 Lua 代码。如果要通过 Nginx C 模块来定义变量，62 行可能只不过是把相关方法的样板代码搭建起来，都还没有到真正的解析 GraphQL 的逻辑呢。</p>
+<p><strong>采用 Lua 代码来做路由还有一个好处：它减低了二次开发的门槛。</strong></p>
+<p>如果在路由过程中需要有特殊的逻辑，用户可以实现成自定义的变量和运算符，比如通过 IP 库匹配到的地理位置来决定采用哪条路由。用户只需要写一些 Lua 代码，这要比修改 Nginx C module 的难度小多了。</p>
+<p>在 Apache APISIX 里面，不仅仅路由是动态的，我们的 TLS 服务端证书和上游节点配置都是动态的，而且无需修改 Nginx —— 上述功能可以跑在官方的 Nginx + Lua 技术栈上。当然通过修改 Nginx，我们还实现了更多的高级功能，比如动态的 gzip 配置和动态的客户端请求大小限制。后续我们将推行自己的 Nginx 发行版，这样开源用户也能轻松用上这些高级功能。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 集成原生 Consul 的服务发现能力 | Apache APISIX</title><meta name="description" content="云原生 API 网关 Apache APISIX 支持原生 Consul 的服务发现能力。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/01/18/consul-with-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/01/18/consul-with-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/01/18/consul-with-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/01/18/consul-with-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 集成原生 Consul 的服务发现能力 | Apache APISIX"><meta property="og:description" content="云原生 API 网关 Apache APISIX 支持原生 Consul 的服务发现能力。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/01/18/consul-with-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 集成原生 Consul 的服务发现能力","description":"云原生 API 网关 Apache APISIX 支持原生 Consul 的服务发现能力。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。","datePublished":"2023-01-18","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png","author":{"@type":"Person","name":"李奕浩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/01/18/consul-with-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/01/18/consul-with-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/01/18/consul-with-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 集成原生 Consul 的服务发现能力</h1> <p class="article-meta"> 2023-01-18 · 李奕浩  </p> <blockquote>
+<p>Apache APISIX 支持原生 Consul 的服务发现能力。本文讲述了在 Apache APISIX 中实现服务发现和服务注册的全过程及 Consul 的相关原理。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景">背景</h2>
+<h3 id="关于-apache-apisix">关于 Apache APISIX</h3>
+<p>Apache APISIX 是 Apache 软件基金会下的云原生 API 网关，它兼具动态、实时、高性能等特点，提供了负载均衡、动态上游、灰度发布（金丝雀发布）、服务熔断、身份认证、可观测性等丰富的流量管理功能。我们可以使用 Apache APISIX 来处理传统的南北向流量，也可以处理服务间的东西向流量。</p>
+<h3 id="关于-consul">关于 Consul</h3>
+<p>Consul 是 HashiCorp 公司推出的开源工具，用于实现分布式系统的服务发现与配置，提供了服务注册与发现、健康检查、Key/Value 存储、多数据中心的能力。</p>
+<h2 id="准备阶段">准备阶段</h2>
+<p>本文中的测试环境使用 docker-compose 搭建</p>
+<ol>
+<li>
+<p>下载 Apache APISIX</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-docker.git</span></span></code></pre>
+</li>
+<li>
+<p>创建并运行 Consul</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> consul_1</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8500:8500</span><span style="color:#A5D6FF"> consul:1.8</span><span style="color:#A5D6FF"> consul</span><span style="color:#A5D6FF"> agent</span><span style="color:#79C0FF"> -server</span><span style="color:#79C0FF"> -bootstrap-expect=1</span><span style="color:#79C0FF"> -node=agent-one</span><span style="color:#79C0FF"> -client</span><span style="color:#79C0FF"> 0.0.0.0</span><span style="color:#79C0FF"> -log-level</span><span style="color:#A5D6FF"> info</span><span style="color:#79C0FF"> -data-dir=/consul/data</span><span style="color:#79C0FF"> -enable-script-checks</span></span></code></pre>
+</li>
+<li>
+<p>更新 Apache APISIX 中的配置文件 <code>apisix_conf/config.yaml</code></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># config.yml</span></span>
+<span class="line"><span style="color:#8B949E"># ... other config</span></span>
+<span class="line"><span style="color:#7EE787">discovery</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  consul</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    servers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://127.0.0.1:8500"</span></span></code></pre>
+</li>
+<li>
+<p>启动 Apache APISIX</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#8B949E"># 进 example 文件夹，启动 APISIX</span></span>
+<span class="line"><span style="color:#FFA657">docker-compose</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> docker-compose.yml</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> apisix-docker</span><span style="color:#A5D6FF">  up</span><span style="color:#79C0FF"> -d</span></span></code></pre>
+</li>
+<li>
+<p>测试服务已经包含了两个 Web 服务，确认 Web 服务的 IP 地址</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> sudo</span><span style="color:#A5D6FF"> docker</span><span style="color:#A5D6FF"> inspect</span><span style="color:#79C0FF"> -f=</span><span style="color:#A5D6FF">'{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'</span><span style="color:#E6EDF3"> $(</span><span style="color:#FFA657">sudo</span><span style="color:#A5D6FF"> docker</span><span style="color:#A5D6FF"> ps</span><span style="color:#79C0FF"> -aq</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">|</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> web</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">/apisix-docker-web1-1</span><span style="color:#A5D6FF"> -</span><span style="color:#79C0FF"> 172.21.0.5</span></span>
+<span class="line"><span style="color:#FFA657">/apisix-docker-web2-1</span><span style="color:#A5D6FF"> -</span><span style="color:#79C0FF"> 172.21.0.6</span></span></code></pre>
+</li>
+<li>
+<p>请求 Consul HTTP API 将 Web 服务注册到 Consul</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#8B949E"># 使用 Web 对应的 IP 和 port 进行注册</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#79C0FF"> --location</span><span style="color:#79C0FF"> --request</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> 'http://127.0.0.1:8500/v1/agent/service/register'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "ID": "service_a1",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Name": "service_a",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Tags": ["primary", "v1"],</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Address": "172.21.0.5",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Port": 9081,</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Weights": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "Passing": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "Warning": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">   }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#79C0FF"> --location</span><span style="color:#79C0FF"> --request</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> 'http://127.0.0.1:8500/v1/agent/service/register'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "ID": "service_a2",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Name": "service_a",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Tags": ["primary", "v1"],</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Address": "172.21.0.6",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Port": 9082,</span></span>
+<span class="line"><span style="color:#A5D6FF">   "Weights": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "Passing": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "Warning": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">   }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+</li>
+<li>
+<p>查看测试服务是否注册成功</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#79C0FF"> --location</span><span style="color:#79C0FF"> --request</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> 'http://127.0.0.1:8500/v1/catalog/service/service_a'</span></span></code></pre>
+<p>其中，<code>/v1/catalog/service/</code> 后的路径是服务名称，即服务注册时候的 <code>name</code> 。
+返回消息体如下则表示成功注册。</p>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3"> [{</span></span>
+<span class="line"><span style="color:#7EE787">    "ID"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"7a36c6f1-f701-9c67-8db8-7b8551d36b4a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Node"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"agent-one"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Address"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Datacenter"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"dc1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "TaggedAddresses"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "lan"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "lan_ipv4"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "wan"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "wan_ipv4"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "NodeMeta"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "consul-network-segment"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceKind"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceID"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"service_a1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceName"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"service_a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceTags"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"primary"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"v1"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceAddress"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.20.10.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceTaggedAddresses"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "lan_ipv4"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "Address"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.20.10.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "Port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9082</span></span>
+<span class="line"><span style="color:#E6EDF3">       },</span></span>
+<span class="line"><span style="color:#7EE787">       "wan_ipv4"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "Address"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.20.10.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "Port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9082</span></span>
+<span class="line"><span style="color:#E6EDF3">       }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceWeights"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "Passing"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "Warning"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceMeta"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "ServicePort"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9082</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceEnableTagOverride"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceProxy"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "MeshGateway"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">       "Expose"</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceConnect"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "CreateIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">46</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ModifyIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">124</span></span>
+<span class="line"><span style="color:#E6EDF3"> }, {</span></span>
+<span class="line"><span style="color:#7EE787">    "ID"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"7a36c6f1-f701-9c67-8db8-7b8551d36b4a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Node"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"agent-one"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Address"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "Datacenter"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"dc1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "TaggedAddresses"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "lan"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "lan_ipv4"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "wan"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "wan_ipv4"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.23.0.2"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "NodeMeta"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "consul-network-segment"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceKind"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceID"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"service_a2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceName"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"service_a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceTags"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"primary"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"v1"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceAddress"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.20.10.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceTaggedAddresses"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "lan_ipv4"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "Address"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.20.10.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "Port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9081</span></span>
+<span class="line"><span style="color:#E6EDF3">       },</span></span>
+<span class="line"><span style="color:#7EE787">       "wan_ipv4"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "Address"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.20.10.2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "Port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9081</span></span>
+<span class="line"><span style="color:#E6EDF3">       }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceWeights"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "Passing"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">       "Warning"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceMeta"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "ServicePort"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9081</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceEnableTagOverride"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceProxy"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "MeshGateway"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">       "Expose"</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "ServiceConnect"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "CreateIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">47</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ModifyIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">125</span></span>
+<span class="line"><span style="color:#E6EDF3"> }]</span></span></code></pre>
+<h2 id="创建路由">创建路由</h2>
+<h3 id="添加路由">添加路由</h3>
+<p>在添加之前需要确认 <code>X-API-KEY</code>，属于 APISIX Admin API 的访问 Token，在该示例中，使用默认的即可：<code>edd1c9f034335f136f87ad84b625c8f1</code>，这里将 URL 为 <code>/consul/web/*</code> 的请求路由分配到 Consul 的 service_a。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/consul/web/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "service_name": "service_a",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "discovery_type": "consul"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>返回如下结构体表示成功添加：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">   "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "update_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1674029322</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">         "hash_on"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"vars"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "discovery_type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"consul"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "pass_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "service_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"service_a"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "create_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1674029322</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">   },</span></span>
+<span class="line"><span style="color:#7EE787">   "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">apisix</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">routes</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">1"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="验证配置结果">验证配置结果</h2>
+<p>通过请求结果可以看到，Apache APISIX 中新增的路由通过 Consul 命中了正确的服务地址，并根据 <code>roundrobin</code> 负载均衡策略请求到两个节点上。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#8B949E"># 第一次请求</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/consul/web/</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">hello</span><span style="color:#A5D6FF"> web2%</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 第二次请求</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/consul/web/</span></span>
+<span class="line"><span style="color:#8B949E"># 输出</span></span>
+<span class="line"><span style="color:#FFA657">hello</span><span style="color:#A5D6FF"> web1%</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 注意：两次请求获取的都可能是 web1 或者 web2</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文的前半部分介绍了 Apache APISIX 如何配合 Consul 实现基于 Consul 的服务发现注册中心，解决服务信息管理维护的问题。而在后半部分则着重介绍了如何在 Docker 中搭配 Consul 使用 Apache APISIX 的操作流程。当然，在实际场景中的应用，还需要各位读者根据业务使用场景和已有的系统架构具体分析。关于在 Apache APISIX 中使用 Consul 注册中心的更多说明，可以在<a href="https://apisix.apache.org/zh/docs/apisix/discovery/consul/">官方文档</a>中找到。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

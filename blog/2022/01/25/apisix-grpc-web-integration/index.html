@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Integrate Apache APISIX with gRPC-Web | Apache APISIX</title><meta name="description" content="Configure APISIX to proxy gRPC-Web requests, enabling browser-based gRPC clients to communicate with backend gRPC services."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Integrate Apache APISIX with gRPC-Web | Apache APISIX"><meta property="og:description" content="Configure APISIX to proxy gRPC-Web requests, enabling browser-based gRPC clients to communicate with backend gRPC services."><meta property="og:url" content="https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Integrate Apache APISIX with gRPC-Web","description":"Configure APISIX to proxy gRPC-Web requests, enabling browser-based gRPC clients to communicate with backend gRPC services.","datePublished":"2022-01-25","author":{"@type":"Person","name":"Jinchao Shuai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/01/25/apisix-grpc-web-integration/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/01/25/apisix-grpc-web-integration/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Integrate Apache APISIX with gRPC-Web</h1> <p class="article-meta"> 2022-01-25 · Jinchao Shuai  </p> <blockquote>
+<p>Apache APISIX already supports gRPC protocol proxies, as well as HTTP(s) to gRPC Server proxies via the gRPC Transcode plugin. Through active community discussion and contributions, Apache APISIX has broadened the scope of support for the gRPC ecosystem: support for the gRPC Web Protocol Request Proxy.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="grpc-web-introduction">gRPC Web Introduction</h2>
+<p>Originally developed by Google, gRPC is a high-performance remote procedure call framework implemented on HTTP/2. However, because browsers do not directly expose HTTP/2, Web applications cannot use gRPC directly. gRPC Web is a standardized protocol that solves this problem.</p>
+<p>The first gRPC-web implementation was released in 2018 as a JavaScript library through which Web applications can communicate directly with the gRPC service. The principle is to create an end-to-end gRPC pipeline compatible with HTTP/1.1 and HTTP/2. The browser then sends a regular HTTP request, and a gRPC-Web proxy located between the browser and the server translates the request and response. Similar to gRPC, gRPC Web uses a predefined contract between the Web client and the back-end gRPC service. protocol Buffers are used to serialize and encode messages.</p>
+<p><img src="https://static.apiseven.com/202108/1643099754071-1f5c3c68-f2bc-4746-95f5-cc083ace554b.png" alt="how gRPC-web works"></p>
+<p>With gRPC Web, users can call back-end gRPC applications directly using a browser or Node client. However, there are some limitations to using gRPC-Web on the browser side to call gRPC services.</p>
+<ul>
+<li>Client-side streaming and bi-directional streaming calls are not supported.</li>
+<li>Calling gRPC services across domains requires CORS to be configured on the server side.</li>
+<li>The gRPC server side must be configured to support gRPC-Web, or a third-party service agent must be available to translate the call between the browser and the server.</li>
+</ul>
+<h2 id="apache-apisix-grpc-web-proxy">Apache APISIX gRPC Web Proxy</h2>
+<p>Apache APISIX supports the proxy of gRPC Web protocol by means of a plug-in, which completes the protocol conversion and data codec work when gRPC Web communicates with gRPC Server in the <code>grpc-web</code> plug-in, and its communication process is as follows.</p>
+<p>gRPC Web Client -> Apache APISIX (protocol conversion &#x26; data codec) -> gRPC server</p>
+<p>The following is a complete example showing how to build a gRPC Web Client and proxy gRPC Web requests through Apache APISIX. In the following example, we will use Go as the gRPC Server server handler and Node as the gRPC Web client requestor.</p>
+<h2 id="configure-protocol-buffer">Configure Protocol Buffer</h2>
+<p>The first step is to install the Protocol Buffer compiler and related plug-ins.</p>
+<ol>
+<li>
+<p>Install <code>protoc</code> and <code>proto-grpc-*</code>.</p>
+<p>The Protocol Buffer compiler <code>protoc</code> and the <code>protoc-gen-go</code> and <code>protoc-gen-grpc-web</code> plugins for generating Go, JavaScript, and gRPC web interface code for <code>.proto</code> need to be installed on your system before writing client and server-side applications.</p>
+<p>Please run the following script to install the above components.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E">#!/usr/bin/env bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF"> set</span><span style="color:#79C0FF"> -ex</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> PROTOBUF_VERSION</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"3.19.0"</span></span>
+<span class="line"><span style="color:#FFA657"> wget</span><span style="color:#A5D6FF"> https://github.com/protocolbuffers/protobuf/releases/download/v</span><span style="color:#E6EDF3">${PROTOBUF_VERSION}</span><span style="color:#A5D6FF">/protoc-</span><span style="color:#E6EDF3">${PROTOBUF_VERSION}</span><span style="color:#A5D6FF">-linux-x86_64.zip</span></span>
+<span class="line"><span style="color:#FFA657"> unzip</span><span style="color:#A5D6FF"> protoc-</span><span style="color:#E6EDF3">${PROTOBUF_VERSION}</span><span style="color:#A5D6FF">-linux-x86_64.zip</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> bin/protoc</span><span style="color:#A5D6FF"> /usr/local/bin/protoc</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> include/google</span><span style="color:#A5D6FF"> /usr/local/include/</span></span>
+<span class="line"><span style="color:#FFA657"> chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /usr/local/bin/protoc</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> PROTO_GO_PLUGIN_VER</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"1.2.0"</span></span>
+<span class="line"><span style="color:#FFA657"> wget</span><span style="color:#A5D6FF"> https://github.com/grpc/grpc-go/releases/download/cmd/protoc-gen-go-grpc/v</span><span style="color:#E6EDF3">${PROTO_GO_PLUGIN_VER}</span><span style="color:#A5D6FF">/protoc-gen-go-grpc.v</span><span style="color:#E6EDF3">${PROTO_GO_PLUGIN_VER}</span><span style="color:#A5D6FF">.linux.amd64.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657"> tar</span><span style="color:#79C0FF"> -zxvf</span><span style="color:#A5D6FF"> protoc-gen-go-grpc.v</span><span style="color:#E6EDF3">${PROTO_GO_PLUGIN_VER}</span><span style="color:#A5D6FF">.linux.amd64.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> protoc-gen-go-grpc</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-go</span></span>
+<span class="line"><span style="color:#FFA657"> chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-go</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> PROTO_JS_PLUGIN_VER</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"1.3.0"</span></span>
+<span class="line"><span style="color:#FFA657"> wget</span><span style="color:#A5D6FF"> https://github.com/grpc/grpc-web/releases/download/</span><span style="color:#E6EDF3">${PROTO_JS_PLUGIN_VER}</span><span style="color:#A5D6FF">/protoc-gen-grpc-web-</span><span style="color:#E6EDF3">${PROTO_JS_PLUGIN_VER}</span><span style="color:#A5D6FF">-linux-x86_64</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> protoc-gen-grpc-web-</span><span style="color:#E6EDF3">${PROTO_JS_PLUGIN_VER}</span><span style="color:#A5D6FF">-linux-x86_64</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-grpc-web</span></span>
+<span class="line"><span style="color:#FFA657"> chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-grpc-web</span></span></code></pre>
+</li>
+<li>
+<p>Create the <code>SayHello</code> example <code>proto</code> file.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E"> // a6/echo.proto</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> syntax </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "proto3"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> package</span><span style="color:#FFA657"> a6</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> option go_package </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "./;a6"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> message EchoRequest {</span></span>
+<span class="line"><span style="color:#FF7B72"> string</span><span style="color:#E6EDF3"> message </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> message EchoResponse {</span></span>
+<span class="line"><span style="color:#FF7B72"> string</span><span style="color:#E6EDF3"> message </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> service EchoService {</span></span>
+<span class="line"><span style="color:#E6EDF3"> rpc </span><span style="color:#D2A8FF">Echo</span><span style="color:#E6EDF3">(EchoRequest) returns (EchoResponse);</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span></code></pre>
+</li>
+</ol>
+<h2 id="configure-the-server-side-application">Configure the server-side application</h2>
+<ol>
+<li>
+<p>Generate server-side Go raw messages and service/client stubs.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">protoc</span><span style="color:#79C0FF"> -I./a6</span><span style="color:#A5D6FF"> echo.proto</span><span style="color:#79C0FF"> --go_out=plugins=grpc:./a6</span></span></code></pre>
+</li>
+<li>
+<p>Implement the server-side handler interface.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E">// a6/echo.impl.go</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> package</span><span style="color:#FFA657"> a6</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">errors</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">golang.org/x/net/context</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3"> )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> type</span><span style="color:#FFA657"> EchoServiceImpl</span><span style="color:#FF7B72"> struct</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> func</span><span style="color:#E6EDF3"> (esi </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">EchoServiceImpl) </span><span style="color:#D2A8FF">Echo</span><span style="color:#E6EDF3">(ctx context.Context, in </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">EchoRequest) (</span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">EchoResponse, </span><span style="color:#FF7B72">error</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72"> if</span><span style="color:#D2A8FF"> len</span><span style="color:#E6EDF3">(in.Message) </span><span style="color:#FF7B72">&#x3C;=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">     return</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3">, errors.</span><span style="color:#D2A8FF">New</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"message invalid"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#FF7B72"> return</span><span style="color:#FF7B72"> &#x26;</span><span style="color:#FFA657">EchoResponse</span><span style="color:#E6EDF3">{Message: </span><span style="color:#A5D6FF">"response: "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> in.Message}, </span><span style="color:#79C0FF">nil</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span></code></pre>
+</li>
+<li>
+<p>The server-side application runtime entry file.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E">// server.go</span></span>
+<span class="line"><span style="color:#FF7B72"> package</span><span style="color:#FFA657"> main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">fmt</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">log</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">net</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">apisix.apache.org/example/a6</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">google.golang.org/grpc</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3"> )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> func</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3"> lis, err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> net.</span><span style="color:#D2A8FF">Listen</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"tcp"</span><span style="color:#E6EDF3">, fmt.</span><span style="color:#D2A8FF">Sprintf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">":</span><span style="color:#FF7B72">%d</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">50001</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72"> if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">     log.</span><span style="color:#D2A8FF">Fatalf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to listen: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> grpcServer </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> grpc.</span><span style="color:#D2A8FF">NewServer</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3"> a6.</span><span style="color:#D2A8FF">RegisterEchoServiceServer</span><span style="color:#E6EDF3">(grpcServer, </span><span style="color:#FF7B72">&#x26;</span><span style="color:#FFA657">a6</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">EchoServiceImpl</span><span style="color:#E6EDF3">{})</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> grpcServer.</span><span style="color:#D2A8FF">Serve</span><span style="color:#E6EDF3">(lis); err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">     log.</span><span style="color:#D2A8FF">Fatalf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to serve: </span><span style="color:#FF7B72">%s</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span></code></pre>
+</li>
+<li>
+<p>Compile and start the server-side service.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> grpc-server</span><span style="color:#A5D6FF"> server.go</span></span>
+<span class="line"><span style="color:#FFA657">./grpc-server</span></span></code></pre>
+</li>
+</ol>
+<h2 id="configure-client-programs">Configure client programs</h2>
+<ol>
+<li>
+<p>Generate client-side <code>proto</code> code.</p>
+<p>Generate client-side JavaScript raw messages, service/client stubs and interface code for gRPC Web’s JavaScript.</p>
+<p>The <code>proto</code> plugin for gRPC Web provides two modes of code generation.</p>
+<ol>
+<li>mode=grpcwebtext: The default generated code sends the payload in grpc-web-text format.</li>
+</ol>
+<ul>
+<li>Content-type: application/grpc-web-text</li>
+<li>Payload uses base64 encoding</li>
+<li>Supports monadic and server streaming calls</li>
+</ul>
+<ol>
+<li>mode=grpcweb: send payload in binary protobuf format.</li>
+</ol>
+<ul>
+<li>Content-type: application/grpc-web+proto</li>
+<li>Payload is in binary protobuf format</li>
+<li>Currently only monadic calls are supported</li>
+</ul>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> protoc</span><span style="color:#79C0FF"> -I=./a6</span><span style="color:#A5D6FF"> echo.proto</span><span style="color:#79C0FF"> --js_out=import_style=commonjs:./a6</span><span style="color:#79C0FF"> --grpc-web_out=import_style=commonjs,mode=grpcweb:./a6</span></span></code></pre>
+<ol start="2">
+<li>
+<p>Installing client-side dependencies.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> npm</span><span style="color:#A5D6FF"> i</span><span style="color:#A5D6FF"> grpc-web</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> npm</span><span style="color:#A5D6FF"> i</span><span style="color:#A5D6FF"> google-protobuf</span></span></code></pre>
+</li>
+<li>
+<p>Execute entry file on client-side.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">//</span><span style="color:#A5D6FF"> client.js</span></span>
+<span class="line"><span style="color:#FFA657">const</span><span style="color:#A5D6FF"> {EchoRequest}</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">'./a6/echo_pb'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FFA657">const</span><span style="color:#A5D6FF"> {EchoServiceClient}</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">'./a6/echo_grpc_web_pb'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FFA657">//</span><span style="color:#A5D6FF"> connect</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF">  the</span><span style="color:#A5D6FF"> entrance</span><span style="color:#A5D6FF"> of</span><span style="color:#A5D6FF"> Apache</span><span style="color:#A5D6FF"> APISIX</span></span>
+<span class="line"><span style="color:#79C0FF">let</span><span style="color:#A5D6FF"> echoService</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> new</span><span style="color:#A5D6FF"> EchoServiceClient</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">'http://127.0.0.1:9080'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">let</span><span style="color:#A5D6FF"> request</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> new</span><span style="color:#A5D6FF"> EchoRequest</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#FFA657">request.setMessage(</span><span style="color:#FFA657">"hello"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">echoService.echo(request,</span><span style="color:#A5D6FF"> {},</span><span style="color:#A5D6FF"> function</span><span style="color:#E6EDF3"> (err, </span><span style="color:#A5D6FF">response</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">err</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FFA657">         console.log(err.code</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FFA657">         console.log(err.message</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">     } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">         console.log(response.getMessage(</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#E6EDF3">     }</span></span>
+<span class="line"><span style="color:#E6EDF3"> });</span></span></code></pre>
+</li>
+<li>
+<p>Final project structure</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> tree</span><span style="color:#A5D6FF"> .</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> a6</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo.impl.go</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo.pb.go</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo.proto</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo_grpc_web_pb.js</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   └──</span><span style="color:#A5D6FF"> echo_pb.js</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> client.js</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> server.go</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> go.mod</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> go.sum</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> package.json</span></span>
+<span class="line"><span style="color:#FFA657"> └──</span><span style="color:#A5D6FF"> package-lock.json</span></span></code></pre>
+</li>
+</ol>
+<p>After completing the above steps, you have configured the gRPC Server server application and the gRPC Web client application, and started the server application, which will receive requests on port <code>50001</code>.</p>
+<h2 id="configure-apache-apisix">Configure Apache APISIX</h2>
+<p>Next, simply enable the <code>grpc-web</code> plugin in the Apache APISIX routing plugin configuration to proxy gRPC web requests.</p>
+<ol>
+<li>
+<p>Enable the <code>grpc-web</code> proxy plugin.</p>
+<p>Routing must use <strong>prefix matching</strong> (e.g., <code>/* or /grpc/example/*</code>), because the gRPC web client passes the package name, service interface name, method name, etc. declared in <code>proto</code> in the URI (e.g., <code>/path/a6.EchoService/Echo</code>), <strong>using absolute match will prevent the plugin from extracting <code>proto</code> information from the URI</strong>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "uri":"/*", // prefix matching mode</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">         "grpc-web":{} // enable gRPC Web plugin</span></span>
+<span class="line"><span style="color:#A5D6FF">     },</span></span>
+<span class="line"><span style="color:#A5D6FF">     "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">         "scheme":"grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">             "127.0.0.1:50001":1 // gRPC Server Listen 地址和端口</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+</li>
+<li>
+<p>Validate gRPC Web Proxy Requests.</p>
+<p>The gRPC Web protocol request can be sent to Apache APISIX by executing <code>client.js</code> from Node.</p>
+<p>The above client-side and server-side processing logic are respectively: the client sends a message to the server with the content <code>hello</code>, the server receives the message and responds with <code>response: hello</code>, and the execution result is as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> node</span><span style="color:#A5D6FF"> client.js</span></span>
+<span class="line"><span style="color:#FFA657">response:</span><span style="color:#A5D6FF"> hello</span></span></code></pre>
+</li>
+<li>
+<p>Disable the <code>grpc-web</code> proxy plugin.</p>
+<p>Simply remove the grpc-web attribute from the routing plugin configuration.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">     },</span></span>
+<span class="line"><span style="color:#A5D6FF">     "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">         "scheme":"grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">             "127.0.0.1:50001":1</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>This article brings you hands-on experience about using <code>grpc-web</code> in Apache APISIX.</p>
+<p>Feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> or communicate via the <a href="https://apisix.apache.org/zh/docs/general/join">mailing list</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

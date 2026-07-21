@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Apache APISIX 3.9.0 | Apache APISIX</title><meta name="description" content="The Apache APISIX 3.9.0 version is released on March 29, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Release Apache APISIX 3.9.0 | Apache APISIX"><meta property="og:description" content="The Apache APISIX 3.9.0 version is released on March 29, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences."><meta property="og:url" content="https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Release Apache APISIX 3.9.0","description":"The Apache APISIX 3.9.0 version is released on March 29, 2024. This release includes a few new features, bug fixes, and other improvements to user experiences.","datePublished":"2024-03-29","author":{"@type":"Person","name":"Abhishek Choudhary"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/03/29/release-apache-apisix-3.9.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/03/29/release-apache-apisix-3.9.0/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/03/29/release-apache-apisix-3.9.0/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Release Apache APISIX 3.9.0</h1> <p class="article-meta"> 2024-03-29 · Abhishek Choudhary  </p> <p>We are glad to present Apache APISIX 3.9.0 with exciting new features, bug fixes, and other improvements to user experiences.</p>
+<!--truncate-->
+<p>This new release adds a number of new features, including the support for HTTP/3 between client and APISIX, the addition of plugin reload endpoint to Control API, the configuration of Prometheus metrics expiration, and more.</p>
+<p>There are a few important changes included in this release. Should you find these changes impacting your operations, please plan accordingly for a seamless upgrade.</p>
+<h2 id="breaking-changes">Breaking Changes</h2>
+<h3 id="enable-http2">Enable HTTP/2</h3>
+<p>In the earlier versions, HTTP/2 can be enabled by setting <code>apisix.node_listen.enable_http2</code> and <code>apisix.ssl.listen.enable_http2</code> to <code>true</code> in the configuration file. These options have been deprecated in this release. Starting from 3.9.0, HTTP/2 can be enabled with <code>apisix.enable_http2</code>:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  enable_http2</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/11032">PR #11032</a>.</p>
+<h3 id="consolidate-keyring-and-key_encrypt_salt-fields">Consolidate <code>keyring</code> and <code>key_encrypt_salt</code> fields</h3>
+<p>In the earlier versions, <code>key_encrypt_salt</code> and <code>keyring</code> are two configuration options both used for data encryption and decryption in a similar manner. This release removes <code>key_encrypt_salt</code> as it is redundant, and you should only configure <code>keyring</code>:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  data_encryption</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    keyring</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">qeddd145sfvddff3</span></span></code></pre>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10771">PR #10771</a>.</p>
+<h2 id="new-features">New Features</h2>
+<h3 id="support-http3-between-client-and-apisix">Support HTTP/3 between client and APISIX</h3>
+<p>Support HTTP/3 between clients and APISIX as an experimental feature. HTTP/3 with upstream services is not yet supported.</p>
+<p>HTTP/3 requires TLS v1.3. To enable HTTP/3 on a given port in APISIX, update the configuration file as such:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ssl</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    listen</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9443</span></span>
+<span class="line"><span style="color:#7EE787">        enable_http3</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>Next, configure TLS certificates between client and APISIX:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/ssls"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "tls-client-ssl",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "sni": "example.com",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "cert": "'"${</span><span style="color:#E6EDF3">server_cert</span><span style="color:#A5D6FF">}"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key": "'"${</span><span style="color:#E6EDF3">server_key</span><span style="color:#A5D6FF">}"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10989">PR #10989</a>, <a href="https://github.com/apache/apisix/pull/11010">PR #11010</a>, and <a href="https://github.com/apache/apisix/pull/11027">PR #11027</a>.</p>
+<h3 id="add-plugin-reload-endpoint-to-control-api">Add plugin reload endpoint to Control API</h3>
+<p>The plugin reload endpoint, which previously existed in Admin API to hot reload all plugins, is now added to <a href="https://apisix.apache.org/docs/apisix/next/control-api/#put-v1pluginsreload">Control API</a>, such that the plugin reload can be called from control plane:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9090/v1/plugins/reload"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span></span></code></pre>
+<p>For backward compatibility, the plugin reload endpoint in Admin API is retained.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10905">PR #10905</a>.</p>
+<h3 id="support-setting-session-cookie-lifetime-in-openid-connect-plugin">Support setting session cookie lifetime in <code>openid-connect</code> plugin</h3>
+<p>You can now configure the session cookie lifetime in the <code>openid-connect</code> plugin as such:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "id": "auth-with-oidc",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri":"/anything/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "openid-connect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "client_id": "'"</span><span style="color:#E6EDF3">$OIDC_CLIENT_ID</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "client_secret": "'"</span><span style="color:#E6EDF3">$OIDC_CLIENT_SECRET</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "discovery": "'"</span><span style="color:#E6EDF3">$OIDC_DISCOVERY</span><span style="color:#A5D6FF">"'",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "session": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "secret": "6S8IO+Pydgb33LIor8T9ClER0T/sglFAjClFeAF3RsY=",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "cookie" : {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "lifetime": 86400</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "redirect_uri": "http://localhost:9080/anything/callback"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">      "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>This is to address the issue where the lifetime of the access token is longer than the session lifetime.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10919">PR #10919</a>.</p>
+<h3 id="support-setting-expiration-time-for-prometheus-metrics">Support setting expiration time for Prometheus metrics</h3>
+<p>You can now set the expiration time in seconds after Prometheus metrics have become inactive to reduce resource consumption:</p>
+<div class="code-title">config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    expire</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#8B949E">    # time in seconds. 0 means the metrics will not expire.</span></span></code></pre>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10869">PR #10869</a>.</p>
+<h3 id="support-redis-and-redis-cluster-policies-in-limit-req-and-limit-conn-plugins">Support <code>redis</code> and <code>redis-cluster</code> policies in <code>limit-req</code> and <code>limit-conn</code> plugins</h3>
+<p>Support <code>redis</code> and <code>redis-cluster</code> policies in <code>limit-req</code> and <code>limit-conn</code> plugins, so that rate limiting counters can be shared among APISIX instances.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10874">PR #10874</a> and <a href="https://github.com/apache/apisix/pull/10866">PR #10866</a>.</p>
+<h3 id="support-ocsp-stapling">Support OCSP Stapling</h3>
+<p>Support OCSP stapling using the <code>ocsp-stapling</code> plugin.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ocsp-stapling.md">plugin doc</a> and <a href="https://github.com/apache/apisix/pull/10817">PR #10817</a>.</p>
+<h3 id="support-transforming-between-http-and-dubbo">Support transforming between HTTP and Dubbo</h3>
+<p>Support transforming between HTTP and Dubbo with the <code>http-dubbo</code> plugin.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/10703">PR #10703</a>.</p>
+<h2 id="other-updates">Other Updates</h2>
+<ul>
+<li>Support EndpointSlice in Kubernetes service discovery (<a href="https://github.com/apache/apisix/pull/10916">PR #10916</a>)</li>
+<li>Add <code>cors_allow_headers</code> attribute to the <code>grpc-web</code> plugin to allow cross-origin resources (<a href="https://github.com/apache/apisix/pull/10904">PR #10904</a>)</li>
+<li>Allow customization of the error response code in the <code>forward-auth</code> plugin (<a href="https://github.com/apache/apisix/pull/10898">PR #10898</a>)</li>
+<li>Support the inclusion of request and response bodies in loggers (<a href="https://github.com/apache/apisix/pull/10888">PR #10888</a>)</li>
+<li>Support compressed responses in loggers (<a href="https://github.com/apache/apisix/pull/10884">PR #10884</a>)</li>
+<li>Support built-in variables in <code>response_headers</code> in the <code>mocking</code> plugin (<a href="https://github.com/apache/apisix/pull/10872">PR #10872</a>)</li>
+<li>Fix for unnecessary YAML config reloads (<a href="https://github.com/apache/apisix/pull/9065">PR #9065</a>)</li>
+<li>Prevent real payload to be overridden by malicious payload in the <code>jwt-auth</code> plugin (<a href="https://github.com/apache/apisix/pull/10982">PR #10982</a>)</li>
+</ul>
+<h2 id="changelog">Changelog</h2>
+<p>For a complete list of changes in this release, please see <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#390">CHANGELOG</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

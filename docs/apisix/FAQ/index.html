@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FAQ | Apache APISIX</title><meta name="description" content="This article lists solutions to common problems when using Apache APISIX."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/apisix/FAQ/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/FAQ/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/FAQ/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/FAQ/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="FAQ | Apache APISIX"><meta property="og:description" content="This article lists solutions to common problems when using Apache APISIX."><meta property="og:url" content="https://apisix.apache.org/docs/apisix/FAQ/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"FAQ","description":"This article lists solutions to common problems when using Apache APISIX.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/FAQ/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/FAQ/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/FAQ/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class>Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class="active">FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class>Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>FAQ</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="why-do-i-need-a-new-api-gateway">Why do I need a new API gateway?</h2>
+<p>As organizations move towards cloud native microservices, there is a need for an API gateway that is performant, flexible, secure and scalable.</p>
+<p>APISIX outperforms other API gateways in these metrics while being platform agnostic and fully dynamic delivering features like supporting multiple protocols, fine-grained routing and multi-language support.</p>
+<h2 id="how-does-apache-apisix-differ-from-other-api-gateways">How does Apache APISIX differ from other API gateways?</h2>
+<p>Apache APISIX differs in the following ways:</p>
+<ul>
+<li>It uses etcd to save and synchronize configurations rather than relational databases like PostgreSQL or MySQL. The real-time event notification system in etcd is easier to scale than in these alternatives. This allows APISIX to synchronize the configuration in real-time, makes the code concise and avoids a single point of failure.</li>
+<li>Fully dynamic.</li>
+<li>Supports <a href="/docs/apisix/terminology/plugin/#hot-reload">hot loading of Plugins</a>.</li>
+</ul>
+<h2 id="what-is-the-performance-impact-of-using-apache-apisix">What is the performance impact of using Apache APISIX?</h2>
+<p>Apache APISIX delivers the best performance among other API gateways with a single-core QPS of 18,000 with an average delay of 0.2 ms.</p>
+<p>Specific results of the performance benchmarks can be found <a href="/docs/apisix/benchmark/">here</a>.</p>
+<h2 id="which-platforms-does-apache-apisix-support">Which platforms does Apache APISIX support?</h2>
+<p>Apache APISIX is platform agnostic and avoids vendor lock-in. It is built for cloud native environments and can run on bare-metal machines to Kubernetes. It even support Apple Silicon chips.</p>
+<h2 id="what-does-it-mean-by-apache-apisix-is-fully-dynamic">What does it mean by “Apache APISIX is fully dynamic”?</h2>
+<p>Apache APISIX is fully dynamic in the sense that it doesn’t require restarts to change its behavior.</p>
+<p>It does the following dynamically:</p>
+<ul>
+<li>Reloading Plugins</li>
+<li>Proxy rewrites</li>
+<li>Proxy mirror</li>
+<li>Response rewrites</li>
+<li>Health checks</li>
+<li>Traffic split</li>
+</ul>
+<h2 id="does-apache-apisix-have-a-user-interface">Does Apache APISIX have a user interface?</h2>
+<p>APISIX has a powerful built-in Dashboard <a href="https://github.com/apache/apisix-dashboard">APISIX Dashboard</a>. You can manage APISIX configurations through the <a href="https://github.com/apache/apisix-dashboard">APISIX Dashboard</a> user interface.</p>
+<h2 id="can-i-write-my-own-plugins-for-apache-apisix">Can I write my own Plugins for Apache APISIX?</h2>
+<p>Yes. Apache APISIX is flexible and extensible through the use of custom Plugins that can be specific to user needs.</p>
+<p>You can write your own Plugins by referring to <a href="/docs/apisix/plugin-develop/">How to write your own Plugins</a>.</p>
+<h2 id="why-does-apache-apisix-use-etcd-for-the-configuration-center">Why does Apache APISIX use etcd for the configuration center?</h2>
+<p>In addition to the basic functionality of storing the configurations, Apache APISIX also needs a storage system that supports these features:</p>
+<ol>
+<li>Distributed deployments in clusters.</li>
+<li>Guarded transactions by comparisons.</li>
+<li>Multi-version concurrency control.</li>
+<li>Notifications and watch streams.</li>
+<li>High performance with minimum read/write latency.</li>
+</ol>
+<p>etcd provides these features and more making it ideal over other databases like PostgreSQL and MySQL.</p>
+<p>To learn more on how etcd compares with other alternatives see this <a href="https://etcd.io/docs/latest/learning/why/#comparison-chart">comparison chart</a>.</p>
+<h2 id="when-installing-apache-apisix-dependencies-with-luarocks-why-does-it-cause-a-timeout-or-result-in-a-slow-or-unsuccessful-installation">When installing Apache APISIX dependencies with LuaRocks, why does it cause a timeout or result in a slow or unsuccessful installation?</h2>
+<p>This is likely because the LuaRocks server used is blocked.</p>
+<p>To solve this you can use https_proxy or use the <code>--server</code> flag to specify a faster LuaRocks server.</p>
+<p>You can run the command below to see the available servers (needs LuaRocks 3.0+):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">luarocks</span><span style="color:#A5D6FF"> config</span><span style="color:#A5D6FF"> rocks_servers</span></span></code></pre>
+<p>Mainland China users can use <code>luarocks.cn</code> as the LuaRocks server. You can use this wrapper with the Makefile to set this up:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> deps</span><span style="color:#A5D6FF"> ENV_LUAROCKS_SERVER=https://luarocks.cn</span></span></code></pre>
+<p>If this does not solve your problem, you can try getting a detailed log by using the <code>--verbose</code> or <code>-v</code> flag to diagnose the problem.</p>
+<h2 id="how-do-i-build-the-apisix-runtime-environment">How do I build the APISIX-Runtime environment?</h2>
+<p>Some functions need to introduce additional NGINX modules, which requires APISIX to run on APISIX-Runtime. If you need these functions, you can refer to the code in <a href="https://github.com/api7/apisix-build-tools">api7/apisix-build-tools</a> to build your own APISIX-Runtime environment.</p>
+<h2 id="how-can-i-make-a-gray-release-with-apache-apisix">How can I make a gray release with Apache APISIX?</h2>
+<p>Let’s take an example query <code>foo.com/product/index.html?id=204&#x26;page=2</code> and consider that you need to make a gray release based on the <code>id</code> in the query string with this condition:</p>
+<ol>
+<li>Group A: <code>id &#x3C;= 1000</code></li>
+<li>Group B: <code>id > 1000</code></li>
+</ol>
+<p>There are two different ways to achieve this in Apache APISIX:</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>You can fetch the <code>admin_key</code> from <code>config.yaml</code> and save to an environment variable with the following command:</p><pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E6EDF3">admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre></div>
+<ol>
+<li>Using the <code>vars</code> field in a <a href="/docs/apisix/terminology/route/">Route</a>:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/index.html",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        ["arg_id", "&#x3C;=", "1000"]</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redirect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "uri": "/test?group_id=1"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/2</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/index.html",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        ["arg_id", ">", "1000"]</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redirect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "uri": "/test?group_id=2"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>All the available operators of the current <code>lua-resty-radixtree</code> are listed <a href="https://github.com/api7/lua-resty-radixtree#operator-list">here</a>.</p>
+<ol start="2">
+<li>Using the <a href="/docs/apisix/plugins/traffic-split/">traffic-split</a> Plugin.</li>
+</ol>
+<h2 id="how-do-i-redirect-http-traffic-to-https-with-apache-apisix">How do I redirect HTTP traffic to HTTPS with Apache APISIX?</h2>
+<p>For example, you need to redirect traffic from <code>http://foo.com</code> to <code>https://foo.com</code>.</p>
+<p>Apache APISIX provides several different ways to achieve this:</p>
+<ol>
+<li>Setting <code>http_to_https</code> to <code>true</code> in the <a href="/docs/apisix/plugins/redirect/">redirect</a> Plugin:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "host": "foo.com",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redirect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "http_to_https": true</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol start="2">
+<li>Advanced routing with <code>vars</code> in the redirect Plugin:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "host": "foo.com",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        [</span></span>
+<span class="line"><span style="color:#A5D6FF">            "scheme",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "==",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "http"</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redirect": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "uri": "https://$host$request_uri",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "ret_code": 301</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol start="3">
+<li>Using the <code>serverless</code> Plugin:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "serverless-pre-function": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "phase": "rewrite",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "functions": ["return function() if ngx.var.scheme == \"http\" and ngx.var.host == \"foo.com\" then ngx.header[\"Location\"] = \"https://foo.com\" .. ngx.var.request_uri; ngx.exit(ngx.HTTP_MOVED_PERMANENTLY); end; end"]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>To test this serverless Plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'Host: foo.com'</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/hello</span></span></code></pre>
+<p>The response should be:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 301 Moved Permanently</span></span>
+<span class="line"><span>Date: Mon, 18 May 2020 02:56:04 GMT</span></span>
+<span class="line"><span>Content-Type: text/html</span></span>
+<span class="line"><span>Content-Length: 166</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span>Location: https://foo.com/hello</span></span>
+<span class="line"><span>Server: APISIX web server</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>&#x3C;html></span></span>
+<span class="line"><span>&#x3C;head>&#x3C;title>301 Moved Permanently&#x3C;/title>&#x3C;/head></span></span>
+<span class="line"><span>&#x3C;body></span></span>
+<span class="line"><span>&#x3C;center>&#x3C;h1>301 Moved Permanently&#x3C;/h1>&#x3C;/center></span></span>
+<span class="line"><span>&#x3C;hr>&#x3C;center>openresty&#x3C;/center></span></span>
+<span class="line"><span>&#x3C;/body></span></span>
+<span class="line"><span>&#x3C;/html></span></span></code></pre>
+<h2 id="how-do-i-change-apache-apisixs-log-level">How do I change Apache APISIX’s log level?</h2>
+<p>By default the log level of Apache APISIX is set to <code>warn</code>. You can set this to <code>info</code> to trace the messages printed by <code>core.log.info</code>.</p>
+<p>For this, you can set the <code>error_log_level</code> parameter in your configuration file (conf/config.yaml) as shown below and reload Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  error_log_level</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"info"</span></span></code></pre>
+<h2 id="how-do-i-reload-my-custom-plugins-for-apache-apisix">How do I reload my custom Plugins for Apache APISIX?</h2>
+<p>All Plugins in Apache APISIX are hot reloaded.</p>
+<p>You can learn more about hot reloading of Plugins <a href="/docs/apisix/terminology/plugin/#hot-reload">here</a>.</p>
+<h2 id="how-do-i-configure-apache-apisix-to-listen-on-multiple-ports-when-handling-http-or-https-requests">How do I configure Apache APISIX to listen on multiple ports when handling HTTP or HTTPS requests?</h2>
+<p>By default, Apache APISIX listens only on port 9080 when handling HTTP requests.</p>
+<p>To configure Apache APISIX to listen on multiple ports, you can:</p>
+<ol>
+<li>
+<p>Modify the parameter <code>node_listen</code> in <code>conf/config.yaml</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span> apisix:</span></span>
+<span class="line"><span>   node_listen:</span></span>
+<span class="line"><span>     - 9080</span></span>
+<span class="line"><span>     - 9081</span></span>
+<span class="line"><span>     - 9082</span></span></code></pre>
+<p>Similarly for HTTPS requests, modify the parameter <code>ssl.listen</code> in <code>conf/config.yaml</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>apisix:</span></span>
+<span class="line"><span>  ssl:</span></span>
+<span class="line"><span>    enable: true</span></span>
+<span class="line"><span>    listen:</span></span>
+<span class="line"><span>      - port: 9443</span></span>
+<span class="line"><span>      - port: 9444</span></span>
+<span class="line"><span>      - port: 9445</span></span></code></pre>
+</li>
+<li>
+<p>Reload or restart Apache APISIX.</p>
+</li>
+</ol>
+<h2 id="after-uploading-the-ssl-certificate-why-cant-the-corresponding-route-be-accessed-through-https--ip">After uploading the SSL certificate, why can’t the corresponding route be accessed through HTTPS + IP?</h2>
+<p>If you directly use HTTPS + IP address to access the server, the server will use the IP address to compare with the bound SNI. Since the SSL certificate is bound to the domain name, the corresponding resource cannot be found in the SNI, so that the certificate will be verified. The authentication fails, and the user cannot access the gateway via HTTPS + IP.</p>
+<p>You can implement this function by setting the <code>fallback_sni</code> parameter in the configuration file and configuring the domain name. When the user uses HTTPS + IP to access the gateway, when the SNI is empty, it will fall back to the default SNI to achieve HTTPS + IP access to the gateway.</p>
+<div class="code-title">./conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#A5D6FF">  ssl：</span></span>
+<span class="line"><span style="color:#7EE787">    fallback_sni</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"${your sni}"</span></span></code></pre>
+<h2 id="how-does-apache-apisix-achieve-millisecond-level-configuration-synchronization">How does Apache APISIX achieve millisecond-level configuration synchronization?</h2>
+<p>Apache APISIX uses etcd for its configuration center. etcd provides subscription functions like <a href="https://github.com/api7/lua-resty-etcd/blob/master/api_v3.md#watch">watch</a> and <a href="https://github.com/api7/lua-resty-etcd/blob/master/api_v3.md#watchdir">watchdir</a> that can monitor changes to specific keywords or directories.</p>
+<p>In Apache APISIX, we use <a href="https://github.com/api7/lua-resty-etcd/blob/master/api_v3.md#watchdir">etcd.watchdir</a> to monitor changes in a directory.</p>
+<p>If there is no change in the directory being monitored, the process will be blocked until it times out or run into any errors.</p>
+<p>If there are changes in the directory being monitored, etcd will return this new data within milliseconds and Apache APISIX will update the cache memory.</p>
+<h2 id="how-do-i-customize-the-apache-apisix-instance-id">How do I customize the Apache APISIX instance id?</h2>
+<p>By default, Apache APISIX reads the instance id from <code>conf/apisix.uid</code>. If this is not found and no id is configured, Apache APISIX will generate a <code>uuid</code> for the instance id.</p>
+<p>To specify a meaningful id to bind Apache APISIX to your internal system, set the <code>id</code> in your <code>conf/config.yaml</code> file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"your-id"</span></span></code></pre>
+<h2 id="why-are-there-errors-saying-failed-to-fetch-data-from-etcd-failed-to-read-etcd-dir-etcd-key-xxxxxx-in-the-errorlog">Why are there errors saying “failed to fetch data from etcd, failed to read etcd dir, etcd key: xxxxxx” in the error.log?</h2>
+<p>Please follow the troubleshooting steps described below:</p>
+<ol>
+<li>
+<p>Make sure that there aren’t any networking issues between Apache APISIX and your etcd deployment in your cluster.</p>
+</li>
+<li>
+<p>If your network is healthy, check whether you have enabled the <a href="https://etcd.io/docs/v3.4/dev-guide/api_grpc_gateway/">gRPC gateway</a> for etcd. The default state depends on whether you used command line options or a configuration file to start the etcd server.</p>
+<ul>
+<li>If you used command line options, gRPC gateway is enabled by default. You can enable it manually as shown below:</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">etcd</span><span style="color:#79C0FF"> --enable-grpc-gateway</span><span style="color:#79C0FF"> --data-dir=/path/to/data</span></span></code></pre>
+<p><strong>Note</strong>: This flag is not shown while running <code>etcd --help</code>.</p>
+<ul>
+<li>If you used a configuration file, gRPC gateway is disabled by default. You can manually enable it as shown below:</li>
+</ul>
+<p>In <code>etcd.json</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "enable-grpc-gateway"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "data-dir"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/path/to/data"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>In <code>etcd.conf.yml</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yml"><code><span class="line"><span style="color:#7EE787">enable-grpc-gateway</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+</li>
+</ol>
+<p><strong>Note</strong>: This distinction was eliminated by etcd in their latest master branch but wasn’t backported to previous versions.</p>
+<h2 id="how-do-i-setup-high-availability-apache-apisix-clusters">How do I setup high availability Apache APISIX clusters?</h2>
+<p>Apache APISIX can be made highly available by adding a load balancer in front of it as APISIX’s data plane is stateless and can be scaled when needed.</p>
+<p>The control plane of Apache APISIX is highly available as it relies only on an etcd cluster.</p>
+<h2 id="why-does-the-make-deps-command-fail-when-installing-apache-apisix-from-source">Why does the <code>make deps</code> command fail when installing Apache APISIX from source?</h2>
+<p>When executing <code>make deps</code> to install Apache APISIX from source, you can get an error as shown below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> make</span><span style="color:#A5D6FF"> deps</span></span>
+<span class="line"><span style="color:#79C0FF">......</span></span>
+<span class="line"><span style="color:#FFA657">Error:</span><span style="color:#A5D6FF"> Failed</span><span style="color:#A5D6FF"> installing</span><span style="color:#A5D6FF"> dependency:</span><span style="color:#A5D6FF"> https://luarocks.org/luasec-0.9-1.src.rock</span><span style="color:#A5D6FF"> -</span><span style="color:#A5D6FF"> Could</span><span style="color:#A5D6FF"> not</span><span style="color:#A5D6FF"> find</span><span style="color:#A5D6FF"> header</span><span style="color:#A5D6FF"> file</span><span style="color:#A5D6FF"> for</span><span style="color:#A5D6FF"> OPENSSL</span></span>
+<span class="line"><span style="color:#FFA657">  No</span><span style="color:#A5D6FF"> file</span><span style="color:#A5D6FF"> openssl/ssl.h</span><span style="color:#A5D6FF"> in</span><span style="color:#A5D6FF"> /usr/local/include</span></span>
+<span class="line"><span style="color:#FFA657">You</span><span style="color:#A5D6FF"> may</span><span style="color:#A5D6FF"> have</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> OPENSSL</span><span style="color:#A5D6FF"> in</span><span style="color:#A5D6FF"> your</span><span style="color:#A5D6FF"> system</span><span style="color:#A5D6FF"> and/or</span><span style="color:#A5D6FF"> pass</span><span style="color:#A5D6FF"> OPENSSL_DIR</span><span style="color:#A5D6FF"> or</span><span style="color:#A5D6FF"> OPENSSL_INCDIR</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> luarocks</span><span style="color:#A5D6FF"> command.</span></span>
+<span class="line"><span style="color:#FFA657">Example:</span><span style="color:#A5D6FF"> luarocks</span><span style="color:#A5D6FF"> install</span><span style="color:#A5D6FF"> luasec</span><span style="color:#A5D6FF"> OPENSSL_DIR=/usr/local</span></span>
+<span class="line"><span style="color:#FFA657">make:</span><span style="color:#79C0FF"> ***</span><span style="color:#E6EDF3"> [deps] Error 1</span></span></code></pre>
+<p>This is caused by the missing OpenResty openssl development kit. To install it, refer <a href="/docs/apisix/install-dependencies/">installing dependencies</a>.</p>
+<h2 id="how-do-i-use-regular-expressions-regex-for-matching-uri-in-a-route">How do I use regular expressions (regex) for matching <code>uri</code> in a Route?</h2>
+<p>You can use the <code>vars</code> field in a Route for matching regular expressions:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        ["uri", "~~", "^/[a-z]+$"]</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>And to test this request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># uri matched</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/hello</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># uri didn't match</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/12ab</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 404</span><span style="color:#A5D6FF"> Not</span><span style="color:#A5D6FF"> Found</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span></code></pre>
+<p>For more info on using <code>vars</code> refer to <a href="https://github.com/api7/lua-resty-expr">lua-resty-expr</a>.</p>
+<h2 id="does-the-upstream-node-support-configuring-a-fqdn-address">Does the Upstream node support configuring a <a href="https://en.wikipedia.org/wiki/Fully_qualified_domain_name">FQDN</a> address?</h2>
+<p>Yes. The example below shows configuring the FQDN <code>httpbin.default.svc.cluster.local</code> (a Kubernetes service):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/ip",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.default.svc.cluster.local": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>To test this Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/ip</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span></code></pre>
+<h2 id="what-is-the-x-api-key-of-the-admin-api-can-it-be-modified">What is the <code>X-API-KEY</code> of the Admin API? Can it be modified?</h2>
+<p><code>X-API-KEY</code> of the Admin API refers to <code>deployment.admin.admin_key[0].key</code> in your <code>conf/config.yaml</code> file. It is the access token for the Admin API.</p>
+<p>In the default configuration, this field is empty. APISIX generates a random Admin API key during initialization and writes it back to <code>conf/config.yaml</code>. You can also set the key explicitly by changing the parameter in your <code>conf/config.yaml</code> file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    admin_key</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"admin"</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">newkey</span></span>
+<span class="line"><span style="color:#7EE787">        role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">admin</span></span></code></pre>
+<p>Now, to access the Admin API:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: newkey'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uris":[ "/*" ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "name":"admin-token-test",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":[</span></span>
+<span class="line"><span style="color:#A5D6FF">            {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "host":"127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "port":1980,</span></span>
+<span class="line"><span style="color:#A5D6FF">                "weight":1</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ],</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">......</span></span></code></pre>
+<p><strong>Note</strong>: By using the default token, you could be exposed to security risks. It is required to update it when deploying to a production environment.</p>
+<h2 id="how-do-i-allow-all-ips-to-access-apache-apisixs-admin-api">How do I allow all IPs to access Apache APISIX’s Admin API?</h2>
+<p>By default, Apache APISIX only allows IPs in the range <code>127.0.0.0/24</code> to access the Admin API.</p>
+<p>To allow IPs in all ranges, you can update your configuration file as show below and restart or reload Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    allow_admin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">0.0.0.0/0</span></span></code></pre>
+<p><strong>Note</strong>: This should only be used in non-production environments to allow all clients to access Apache APISIX and is not safe for production environments. Always authorize specific IP addresses or address ranges for production environments.</p>
+<h2 id="how-do-i-auto-renew-ssl-certificates-with-acmesh">How do I auto renew SSL certificates with acme.sh?</h2>
+<p>You can run the commands below to achieve this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --output</span><span style="color:#A5D6FF"> /root/.acme.sh/renew-hook-update-apisix.sh</span><span style="color:#79C0FF"> --silent</span><span style="color:#A5D6FF"> https://gist.githubusercontent.com/anjia0532/9ebf8011322f43e3f5037bc2af3aeaa6/raw/65b359a4eed0ae990f9188c2afa22bacd8471652/renew-hook-update-apisix.sh</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /root/.acme.sh/renew-hook-update-apisix.sh</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">acme.sh</span><span style="color:#79C0FF">  --issue</span><span style="color:#79C0FF">  --staging</span><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> demo.domain</span><span style="color:#79C0FF"> --renew-hook</span><span style="color:#A5D6FF"> "/root/.acme.sh/renew-hook-update-apisix.sh  -h http://apisix-admin:port -p /root/.acme.sh/demo.domain/demo.domain.cer -k /root/.acme.sh/demo.domain/demo.domain.key -a xxxxxxxxxxxxx"</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">acme.sh</span><span style="color:#79C0FF"> --renew</span><span style="color:#79C0FF"> --domain</span><span style="color:#A5D6FF"> demo.domain</span></span></code></pre>
+<p>You can check <a href="https://juejin.cn/post/6965778290619449351">this post</a> for a more detailed instruction on setting this up.</p>
+<h2 id="how-do-i-strip-a-prefix-from-a-path-before-forwarding-to-upstream-in-apache-apisix">How do I strip a prefix from a path before forwarding to Upstream in Apache APISIX?</h2>
+<p>To strip a prefix from a path in your route, like to take <code>/foo/get</code> and strip it to <code>/get</code>, you can use the <a href="/docs/apisix/plugins/proxy-rewrite/">proxy-rewrite</a> Plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: </span><span style="color:#E6EDF3">$admin_key</span><span style="color:#A5D6FF">"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/foo/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "proxy-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "regex_uri": ["^/foo/(.*)","/$1"]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>And to test this configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/foo/get</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span>
+<span class="line"><span style="color:#FFA657">  "url"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "http://127.0.0.1/get"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="how-do-i-fix-the-error-unable-to-get-local-issuer-certificate-in-apache-apisix">How do I fix the error <code>unable to get local issuer certificate</code> in Apache APISIX?</h2>
+<p>You can manually set the path to your certificate by adding it to your <code>conf/config.yaml</code> file as shown below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ssl</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    ssl_trusted_certificate</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/to/certs/ca-certificates.crt</span></span></code></pre>
+<p><strong>Note</strong>: When you are trying to connect TLS services with cosocket and if APISIX does not trust the peer’s TLS certificate, you should set the parameter <code>apisix.ssl.ssl_trusted_certificate</code>.</p>
+<p>For example, if you are using Nacos for service discovery in APISIX, and Nacos has TLS enabled (configured host starts with <code>https://</code>), you should set <code>apisix.ssl.ssl_trusted_certificate</code> and use the same CA certificate as Nacos.</p>
+<h2 id="how-do-i-fix-the-error-module-restyworkerevents-not-found-in-apache-apisix">How do I fix the error <code>module 'resty.worker.events' not found</code> in Apache APISIX?</h2>
+<p>This error is caused by installing Apache APISIX in the <code>/root</code> directory. The worker process would by run by the user “nobody” and it would not have enough permissions to access the files in the <code>/root</code> directory.</p>
+<p>To fix this, you can change the APISIX installation directory to the recommended directory: <code>/usr/local</code>.</p>
+<h2 id="what-is-the-difference-between-plugin-metadata-and-plugin-configs-in-apache-apisix">What is the difference between <code>plugin-metadata</code> and <code>plugin-configs</code> in Apache APISIX?</h2>
+<p>The differences between the two are described in the table below:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><code>plugin-metadata</code></th><th><code>plugin-config</code></th></tr></thead><tbody><tr><td>Metadata of a Plugin shared by all configuration instances of the Plugin.</td><td>Collection of configuration instances of multiple different Plugins.</td></tr><tr><td>Used when there are property changes that needs to be propagated across all configuration instances of a Plugin.</td><td>Used when you need to reuse a common set of configuration instances so that it can be extracted to a <code>plugin-config</code> and bound to different Routes.</td></tr><tr><td>Takes effect on all the entities bound to the configuration instances of the Plugin.</td><td>Takes effect on Routes bound to the <code>plugin-config</code>.</td></tr></tbody></table>
+<h2 id="after-deploying-apache-apisix-how-to-detect-the-survival-of-the-apisix-data-plane">After deploying Apache APISIX, how to detect the survival of the APISIX data plane?</h2>
+<p>You can create a route named <code>health-info</code> and enable the <a href="https://apisix.apache.org/docs/apisix/plugins/fault-injection/">fault-injection</a> plugin (where YOUR-TOKEN is the user’s token; 127.0.0.1 is the IP address of the control plane, which can be modified by yourself):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/health-info</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: YOUR-TOKEN'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "fault-injection": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "abort": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "http_status": 200,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body": "fine"</span></span>
+<span class="line"><span style="color:#A5D6FF">       }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">   },</span></span>
+<span class="line"><span style="color:#A5D6FF">   "uri": "/status"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Verification:</p>
+<p>Access the <code>/status</code> of the Apache APISIX data plane to detect APISIX. If the response code is 200, it means APISIX is alive.</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>This method only detects whether the APISIX data plane is alive or not. It does not mean that the routing and other functions of APISIX are normal. These require more routing-level detection.</p></div>
+<h2 id="what-are-the-scenarios-with-high-apisix-latency-related-to-etcd-and-how-to-fix-them">What are the scenarios with high APISIX latency related to <a href="https://etcd.io/">etcd</a> and how to fix them?</h2>
+<p>etcd is the data storage component of apisix, and its stability is related to the stability of APISIX.</p>
+<p>In actual scenarios, if APISIX uses a certificate to connect to etcd through HTTPS, the following two problems of high latency for data query or writing may occur:</p>
+<ol>
+<li>Query or write data through APISIX Admin API.</li>
+<li>In the monitoring scenario, Prometheus crawls the APISIX data plane Metrics API timeout.</li>
+</ol>
+<p>These problems related to higher latency seriously affect the service stability of APISIX, and the reason why such problems occur is mainly because etcd provides two modes of operation: HTTP (HTTPS) and gRPC. And APISIX uses the HTTP (HTTPS) protocol to operate etcd by default.
+In this scenario, etcd has a bug about HTTP/2: if etcd is operated over HTTPS (HTTP is not affected), the upper limit of HTTP/2 connections is the default <code>250</code> in Golang. Therefore, when the number of APISIX data plane nodes is large, once the number of connections between all APISIX nodes and etcd exceeds this upper limit, the response of APISIX API interface will be very slow.</p>
+<p>In Golang, the default upper limit of HTTP/2 connections is <code>250</code>, the code is as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#FF7B72">package</span><span style="color:#FFA657"> http2</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#79C0FF">    prefaceTimeout</span><span style="color:#FF7B72">         =</span><span style="color:#79C0FF"> 10</span><span style="color:#FF7B72"> *</span><span style="color:#E6EDF3"> time.Second</span></span>
+<span class="line"><span style="color:#79C0FF">    firstSettingsTimeout</span><span style="color:#FF7B72">   =</span><span style="color:#79C0FF"> 2</span><span style="color:#FF7B72"> *</span><span style="color:#E6EDF3"> time.Second </span><span style="color:#8B949E">// should be in-flight with preface anyway</span></span>
+<span class="line"><span style="color:#79C0FF">    handlerChunkWriteSize</span><span style="color:#FF7B72">  =</span><span style="color:#79C0FF"> 4</span><span style="color:#FF7B72"> &#x3C;&#x3C;</span><span style="color:#79C0FF"> 10</span></span>
+<span class="line"><span style="color:#79C0FF">    defaultMaxStreams</span><span style="color:#FF7B72">      =</span><span style="color:#79C0FF"> 250</span><span style="color:#8B949E"> // TODO: make this 100 as the GFE seems to?</span></span>
+<span class="line"><span style="color:#79C0FF">    maxQueuedControlFrames</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 10000</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span></code></pre>
+<p>etcd officially maintains two main branches, <code>3.4</code> and <code>3.5</code>. In the <code>3.4</code> series, the recently released <code>3.4.20</code> version has fixed this issue. As for the <code>3.5</code> version, the official is preparing to release the <code>3.5.5</code> version a long time ago, but it has not been released as of now (2022.09.13). So, if you are using etcd version less than <code>3.5.5</code>, you can refer to the following ways to solve this problem:</p>
+<ol>
+<li>Change the communication method between APISIX and etcd from HTTPS to HTTP.</li>
+<li>Roll back the etcd to <code>3.4.20</code>.</li>
+<li>Clone the etcd source code and compile the <code>release-3.5</code> branch directly (this branch has fixed the problem of HTTP/2 connections, but the new version has not been released yet).</li>
+</ol>
+<p>The way to recompile etcd is as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> checkout</span><span style="color:#A5D6FF"> release-3.5</span></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> GOOS=linux</span><span style="color:#A5D6FF"> GOARCH=amd64</span></span></code></pre>
+<p>The compiled binary is in the bin directory, replace it with the etcd binary of your server environment, and then restart etcd:</p>
+<p>For more information, please refer to:</p>
+<ul>
+<li><a href="https://github.com/etcd-io/etcd/issues/14185">when etcd node have many http long polling connections, it may cause etcd to respond slowly to http requests.</a></li>
+<li><a href="https://github.com/apache/apisix/issues/7078">bug: when apisix starts for a while, its communication with etcd starts to time out</a></li>
+<li><a href="https://github.com/apache/apisix/issues/7353">the prometheus metrics API is tool slow</a></li>
+<li><a href="https://github.com/etcd-io/etcd/pull/14169">Support configuring <code>MaxConcurrentStreams</code> for http2</a></li>
+</ul>
+<p>Another solution is to switch to an experimental gRPC-based configuration synchronization. This requires setting <code>use_grpc: true</code> in the configuration file <code>conf/config.yaml</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    use_grpc</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://127.0.0.1:2379"</span></span>
+<span class="line"><span style="color:#7EE787">    prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix"</span></span></code></pre>
+<h2 id="why-is-the-file-logger-logging-garbled">Why is the file-logger logging garbled?</h2>
+<p>If you are using the <code>file-logger</code> plugin but getting garbled logs, one possible reason is your upstream response has returned a compressed response body. You can fix this by setting the accept-encoding in the request header to not receive compressed responses using the <a href="https://apisix.apache.org/docs/apisix/plugins/proxy-rewrite/">proxy-rewrite</a> plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: YOUR-TOKEN'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods":[</span></span>
+<span class="line"><span style="color:#A5D6FF">        "GET"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/test/index.html",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "proxy-rewrite":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "headers":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                "set":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "accept-encoding":"gzip;q=0,deflate,sdch"</span></span>
+<span class="line"><span style="color:#A5D6FF">                }</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="how-does-apisix-configure-etcd-with-authentication">How does APISIX configure ETCD with authentication?</h2>
+<p>Suppose you have an ETCD cluster that enables the auth. To access this cluster, you need to configure the correct username and password for Apache APISIX in <code>conf/config.yaml</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    host</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://127.0.0.1:2379"</span></span>
+<span class="line"><span style="color:#7EE787">    user</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd_user</span><span style="color:#8B949E">             # username for etcd</span></span>
+<span class="line"><span style="color:#7EE787">    password</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">etcd_password</span><span style="color:#8B949E">     # password for etcd</span></span></code></pre>
+<p>For other ETCD configurations, such as expiration times, retries, and so on, you can refer to the <code>etcd</code> section in the sample configuration <code>conf/config.yaml.example</code> file.</p>
+<h2 id="what-is-the-difference-between-ssls-tlsclient_cert-in-upstream-configurations-and-ssl_trusted_certificate-in-configyaml">What is the difference between SSLs, <code>tls.client_cert</code> in upstream configurations, and <code>ssl_trusted_certificate</code> in <code>config.yaml</code>?</h2>
+<p>The <code>ssls</code> is managed through the <code>/apisix/admin/ssls</code> API. It’s used for managing TLS certificates. These certificates may be used during TLS handshake (between Apache APISIX and its clients). Apache APISIX uses Server Name Indication (SNI) to differentiate between certificates of different domains.</p>
+<p>The <code>tls.client_cert</code>, <code>tls.client_key</code>, and <code>tls.client_cert_id</code> in upstream are used for mTLS communication with the upstream.</p>
+<p>The <code>ssl_trusted_certificate</code> in <code>config.yaml</code> configures a trusted CA certificate. It is used for verifying some certificates signed by private authorities within APISIX, to avoid APISIX rejects the certificate. Note that it is not used to trust the certificates of APISIX upstream, because APISIX does not verify the legality of the upstream certificates. Therefore, even if the upstream uses an invalid TLS certificate, it can still be accessed without configuring a root certificate.</p>
+<h2 id="where-can-i-find-more-answers">Where can I find more answers?</h2>
+<p>You can find more answers on:</p>
+<ul>
+<li><a href="/docs/general/join/#join-the-slack-channel">Apache APISIX Slack Channel</a></li>
+<li><a href="/docs/general/join/#subscribe-to-the-mailing-list">Ask questions on APISIX mailing list</a></li>
+<li><a href="https://github.com/apache/apisix/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">GitHub Issues</a> and <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a></li>
+</ul> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/FAQ.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

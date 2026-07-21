@@ -1,0 +1,447 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Control API | Apache APISIX</title><meta name="description" content="In Apache APISIX, the control API is used to:"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/apisix/control-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/apisix/control-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/apisix/control-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/apisix/control-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Control API | Apache APISIX"><meta property="og:description" content="In Apache APISIX, the control API is used to:"><meta property="og:url" content="https://apisix.apache.org/docs/apisix/control-api/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Control API","description":"In Apache APISIX, the control API is used to:","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/control-api/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/apisix/control-api/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/apisix/control-api/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <p style="font-weight:700;padding:.2rem .5rem;margin:0">APISIX 3.17.0</p> <ul> <li class="cat"> <span>Getting Started</span> <ul> <li> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a>  </li><li> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a>  </li><li> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a>  </li><li> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a>  </li><li> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a>  </li> </ul> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a>  </li><li class="cat"> <span>Tutorials</span> <ul> <li> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a>  </li><li> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a>  </li><li> <span>Observability</span> <ul> <li><a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a></li><li><a href="/docs/apisix/tutorials/health-check/" class>Health Check</a></li><li><a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a></li> </ul> </li><li> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a>  </li><li> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a>  </li><li> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a>  </li><li> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a>  </li><li> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a>  </li><li> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a>  </li> </ul> </li><li class="cat"> <span>Terminology</span> <ul> <li> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a>  </li><li> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a>  </li><li> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a>  </li><li> <a href="/docs/apisix/terminology/credential/" class>Credential</a>  </li><li> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a>  </li><li> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a>  </li><li> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a>  </li><li> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a>  </li><li> <a href="/docs/apisix/terminology/route/" class>Route</a>  </li><li> <a href="/docs/apisix/terminology/router/" class>Router</a>  </li><li> <a href="/docs/apisix/terminology/script/" class>Script</a>  </li><li> <a href="/docs/apisix/terminology/service/" class>Service</a>  </li><li> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a>  </li><li> <a href="/docs/apisix/terminology/secret/" class>Secret</a>  </li> </ul> </li><li class="cat"> <span>Plugins</span> <ul> <li> <span>AI</span> <ul> <li><a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a></li><li><a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a></li><li><a href="/docs/apisix/plugins/ai-cache/" class>ai-cache</a></li><li><a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a></li><li><a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a></li><li><a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a></li><li><a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a></li><li><a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a></li><li><a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a></li><li><a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a></li><li><a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a></li> </ul> </li><li> <span>General</span> <ul> <li><a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a></li><li><a href="/docs/apisix/plugins/redirect/" class>redirect</a></li><li><a href="/docs/apisix/plugins/echo/" class>echo</a></li><li><a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a></li><li><a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a></li><li><a href="/docs/apisix/plugins/real-ip/" class>real-ip</a></li><li><a href="/docs/apisix/plugins/server-info/" class>server-info</a></li><li><a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a></li><li><a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a></li><li><a href="/docs/apisix/plugins/inspect/" class>inspect</a></li><li><a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a></li> </ul> </li><li> <span>Transformation</span> <ul> <li><a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a></li><li><a href="/docs/apisix/plugins/error-page/" class>error-page</a></li><li><a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a></li><li><a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a></li><li><a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a></li><li><a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a></li><li><a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a></li><li><a href="/docs/apisix/plugins/degraphql/" class>degraphql</a></li><li><a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a></li><li><a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a></li><li><a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a></li> </ul> </li><li> <span>Authentication</span> <ul> <li><a href="/docs/apisix/plugins/key-auth/" class>key-auth</a></li><li><a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a></li><li><a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a></li><li><a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a></li><li><a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a></li><li><a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a></li><li><a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a></li><li><a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a></li><li><a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a></li><li><a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a></li><li><a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a></li><li><a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a></li><li><a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a></li><li><a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a></li><li><a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a></li><li><a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a></li><li><a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a></li><li><a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a></li> </ul> </li><li> <span>Security</span> <ul> <li><a href="/docs/apisix/plugins/cors/" class>cors</a></li><li><a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a></li><li><a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a></li><li><a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a></li><li><a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a></li><li><a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a></li><li><a href="/docs/apisix/plugins/acl/" class>acl</a></li><li><a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a></li><li><a href="/docs/apisix/plugins/public-api/" class>public-api</a></li><li><a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a></li><li><a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a></li><li><a href="/docs/apisix/plugins/data-mask/" class>data-mask</a></li> </ul> </li><li> <span>Traffic</span> <ul> <li><a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a></li><li><a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a></li><li><a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a></li><li><a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a></li><li><a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a></li><li><a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a></li><li><a href="/docs/apisix/plugins/request-validation/" class>request-validation</a></li><li><a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a></li><li><a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a></li><li><a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a></li><li><a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a></li><li><a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a></li><li><a href="/docs/apisix/plugins/request-id/" class>request-id</a></li><li><a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a></li><li><a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a></li><li><a href="/docs/apisix/plugins/client-control/" class>client-control</a></li><li><a href="/docs/apisix/plugins/workflow/" class>workflow</a></li> </ul> </li><li> <span>Observability</span> <ul>  </ul> </li><li> <span>Serverless</span> <ul> <li><a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a></li><li><a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a></li><li><a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a></li><li><a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a></li><li><a href="/docs/apisix/plugins/openfunction/" class>openfunction</a></li> </ul> </li><li> <span>Other protocols</span> <ul> <li><a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a></li><li><a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a></li><li><a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a></li><li><a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a></li><li><a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a></li> </ul> </li> </ul> </li><li class="cat"> <span>API</span> <ul> <li> <a href="/docs/apisix/admin-api/" class>Admin API</a>  </li><li> <a href="/docs/apisix/control-api/" class="active">Control API</a>  </li><li> <a href="/docs/apisix/status-api/" class>Status API</a>  </li> </ul> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a>  </li><li class="cat"> <span>Development</span> <ul> <li> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a>  </li><li> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a>  </li><li> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a>  </li><li> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a>  </li><li> <a href="/docs/apisix/external-plugin/" class>External Plugin</a>  </li><li> <a href="/docs/apisix/wasm/" class>Wasm</a>  </li><li> <span>internal</span> <ul> <li><a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a></li><li><a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a></li> </ul> </li><li> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a>  </li><li> <a href="/docs/apisix/debug-mode/" class>Debug mode</a>  </li> </ul> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a>  </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a>  </li><li class="cat"> <span>Others</span> <ul> <li> <span>Discovery</span> <ul> <li><a href="/docs/apisix/discovery/" class>Integration service discovery registry</a></li><li><a href="/docs/apisix/discovery/dns/" class>DNS</a></li><li><a href="/docs/apisix/discovery/consul/" class>consul</a></li><li><a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a></li><li><a href="/docs/apisix/discovery/nacos/" class>nacos</a></li><li><a href="/docs/apisix/discovery/eureka/" class>eureka</a></li><li><a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a></li><li><a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a></li> </ul> </li><li> <span>PubSub</span> <ul> <li><a href="/docs/apisix/pubsub/" class>PubSub</a></li><li><a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a></li> </ul> </li><li> <span>xRPC</span> <ul> <li><a href="/docs/apisix/xrpc/redis/" class>redis</a></li><li><a href="/docs/apisix/xrpc/" class>xRPC</a></li> </ul> </li><li> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a>  </li><li> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a>  </li><li> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a>  </li><li> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a>  </li><li> <a href="/docs/apisix/certificate/" class>Certificate</a>  </li><li> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a>  </li><li> <a href="/docs/apisix/benchmark/" class>Benchmark</a>  </li><li> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a>  </li><li> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a>  </li><li> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a>  </li><li> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a>  </li><li> <a href="/docs/apisix/debug-function/" class>Debug Function</a>  </li><li> <a href="/docs/apisix/profile/" class>Configuration based on environments</a>  </li><li> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a>  </li><li> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a>  </li><li> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a>  </li> </ul> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>Control API</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<p>In Apache APISIX, the control API is used to:</p>
+<ul>
+<li>Expose the internal state of APISIX.</li>
+<li>Control the behavior of a single, isolated APISIX data plane.</li>
+</ul>
+<p>To change the default endpoint (<code>127.0.0.1:9090</code>) of the Control API server, change the <code>ip</code> and <code>port</code> in the <code>control</code> section in your configuration file (<code>conf/config.yaml</code>):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span>
+<span class="line"><span style="color:#7EE787">  enable_control</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">  control</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    ip</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#7EE787">    port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9090</span></span></code></pre>
+<p>To enable parameter matching in plugin’s control API, add <code>router: 'radixtree_uri_with_parameter'</code> to the control section.</p>
+<p><strong>Note</strong>: Never configure the control API server to listen to public traffic.</p>
+<h2 id="control-api-added-via-plugins">Control API Added via Plugins</h2>
+<p><a href="/docs/apisix/terminology/plugin/">Plugins</a> can be enabled to add its control API.</p>
+<p>Some Plugins have their own control APIs. See the documentation of the specific Plugin to learn more.</p>
+<h2 id="plugin-independent-control-api">Plugin Independent Control API</h2>
+<p>The supported APIs are listed below.</p>
+<h3 id="get-v1schema">GET /v1/schema</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.2">v2.2</a>.</p>
+<p>Returns the JSON schema used by the APISIX instance:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "main"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "route"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "properties"</span><span style="color:#E6EDF3">: {</span><span style="color:#FFA198;font-style:italic">...</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "properties"</span><span style="color:#E6EDF3">: {</span><span style="color:#FFA198;font-style:italic">...</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "example-plugin"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "consumer_schema"</span><span style="color:#E6EDF3">: {</span><span style="color:#FFA198;font-style:italic">...</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">            "metadata_schema"</span><span style="color:#E6EDF3">: {</span><span style="color:#FFA198;font-style:italic">...</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">            "schema"</span><span style="color:#E6EDF3">: {</span><span style="color:#FFA198;font-style:italic">...</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">            "type"</span><span style="color:#E6EDF3">: </span><span style="color:#FFA198;font-style:italic">...</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "version"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.1</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "stream-plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "mqtt-proxy"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">            ...</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p><strong>Note</strong>: Only the enabled <code>plugins</code> are returned and they may lack fields like <code>consumer_schema</code> or <code>type</code> depending on how they were defined.</p>
+<h3 id="get-v1healthcheck">GET /v1/healthcheck</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.3">v2.3</a>.</p>
+<p>Returns a <a href="/docs/apisix/tutorials/health-check/">health check</a> of the APISIX instance.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"52.86.68.46"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "counter"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "http_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "success"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "timeout_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "tcp_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"healthy"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"100.24.156.8"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "counter"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "http_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "success"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "timeout_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "tcp_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"unhealthy"</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ],</span></span>
+<span class="line"><span style="color:#7EE787">    "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix/routes/1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">]</span></span>
+<span class="line"></span></code></pre>
+<p>Each of the returned objects contain the following fields:</p>
+<ul>
+<li>name: resource id, where the health checker is reporting from.</li>
+<li>type: health check type: <code>["http", "https", "tcp"]</code>.</li>
+<li>nodes: target nodes of the health checker.</li>
+<li>nodes[i].ip: ip address.</li>
+<li>nodes[i].port: port number.</li>
+<li>nodes[i].status: health check result: <code>["healthy", "unhealthy", "mostly_healthy", "mostly_unhealthy"]</code>.</li>
+<li>nodes[i].counter.success: success health check count.</li>
+<li>nodes[i].counter.http_failure: http failures count.</li>
+<li>nodes[i].counter.tcp_failure: tcp connect/read/write failures count.</li>
+<li>nodes[i].counter.timeout_failure: timeout count.</li>
+</ul>
+<p>You can also use <code>/v1/healthcheck/$src_type/$src_id</code> to get the health status of specific nodes.</p>
+<p>For example, <code>GET /v1/healthcheck/upstreams/1</code> returns:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"52.86.68.46"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "counter"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "http_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "success"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "timeout_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "tcp_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"healthy"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"100.24.156.8"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "counter"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "http_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "success"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "timeout_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "tcp_failure"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "status"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"unhealthy"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span></span>
+<span class="line"><span style="color:#A5D6FF">  "name"</span><span style="color:#FFA198;font-style:italic">:</span><span style="color:#A5D6FF"> "/apisix/routes/1"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>Only when one upstream is satisfied by the conditions below,
+its status is shown in the result list:</p><ul>
+<li>The upstream is configured with a health checker</li>
+<li>The upstream has served requests in any worker process</li>
+</ul></div>
+<p>If you use browser to access the control API URL, then you will get the HTML output:</p>
+<p><img src="https://raw.githubusercontent.com/apache/apisix/master/docs/assets/images/health_check_status_page.png" alt="Health Check Status Page"></p>
+<h3 id="post-v1gc">POST /v1/gc</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.8">v2.8</a>.</p>
+<p>Triggers a full garbage collection in the HTTP subsystem.</p>
+<p><strong>Note</strong>: When stream proxy is enabled, APISIX runs another Lua VM for the stream subsystem. Full garbage collection is not triggered in this VM.</p>
+<h3 id="get-v1routes">GET /v1/routes</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.10.0">v2.10.0</a>.</p>
+<p>Returns all configured <a href="/docs/apisix/terminology/route/">Routes</a>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "uris"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "/hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">      ],</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "pass_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">          {</span></span>
+<span class="line"><span style="color:#7EE787">            "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1980</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">          }</span></span>
+<span class="line"><span style="color:#E6EDF3">        ],</span></span>
+<span class="line"><span style="color:#7EE787">        "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "hash_on"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"vars"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "clean_handlers"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "has_domain"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "orig_modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1631193445</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1631193445</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/routes/1"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">]</span></span></code></pre>
+<h3 id="get-v1routeroute_id">GET /v1/route/{route_id}</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.10.0">v2.10.0</a>.</p>
+<p>Returns the Route with the specified <code>route_id</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "uris"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#A5D6FF">      "/hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">    ],</span></span>
+<span class="line"><span style="color:#7EE787">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "pass_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1980</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      ],</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "hash_on"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"vars"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "status"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "clean_handlers"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "has_domain"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "orig_modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1631193445</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1631193445</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/routes/1"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="get-v1services">GET /v1/services</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.11.0">v2.11.0</a>.</p>
+<p>Returns all the Services:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
+<span class="line"><span style="color:#E6EDF3">  {</span></span>
+<span class="line"><span style="color:#7EE787">    "has_domain"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "clean_handlers"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">    "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">671</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix/services/200"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "createdIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">671</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "hash_on"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"vars"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "pass_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">              "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1980</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">              "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">              "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">          ]</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "create_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1634552648</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"200"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "limit-count"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"remote_addr"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "time_window"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "redis_timeout"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1000</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "allow_degradation"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "show_limit_quota_header"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "policy"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"local"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "count"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "rejected_code"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">503</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "update_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1634552648</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">]</span></span></code></pre>
+<h3 id="get-v1serviceservice_id">GET /v1/service/{service_id}</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.11.0">v2.11.0</a>.</p>
+<p>Returns the Service with the specified <code>service_id</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "has_domain"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "clean_handlers"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#7EE787">  "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">728</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix/services/5"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "createdIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">728</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "create_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1634554563</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"5"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "hash_on"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"vars"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "pass_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "nodes"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1980</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      ]</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "update_time"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1634554563</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="get-v1upstreams">GET /v1/upstreams</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.11.0">v2.11.0</a>.</p>
+<p>Dumps all Upstreams:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
+<span class="line"><span style="color:#E6EDF3">   {</span></span>
+<span class="line"><span style="color:#7EE787">      "value"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">         "scheme"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "pass_host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "nodes"</span><span style="color:#E6EDF3">:[</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">               "host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">               "port"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">               "weight"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#E6EDF3">            {</span></span>
+<span class="line"><span style="color:#7EE787">               "host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"foo.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">               "port"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">               "weight"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">         ],</span></span>
+<span class="line"><span style="color:#7EE787">         "hash_on"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"vars"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "update_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1634543819</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "key"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"remote_addr"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "create_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1634539759</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "id"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">         "type"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"chash"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "has_domain"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "key"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">apisix</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">upstreams</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "clean_handlers"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "createdIndex"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">938</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "modifiedIndex"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1225</span></span>
+<span class="line"><span style="color:#E6EDF3">   }</span></span>
+<span class="line"><span style="color:#E6EDF3">]</span></span></code></pre>
+<h3 id="get-v1upstreamupstream_id">GET /v1/upstream/{upstream_id}</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/2.11.0">v2.11.0</a>.</p>
+<p>Dumps the Upstream with the specified <code>upstream_id</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">   "value"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">      "scheme"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"http"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "pass_host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"pass"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "nodes"</span><span style="color:#E6EDF3">:[</span></span>
+<span class="line"><span style="color:#E6EDF3">         {</span></span>
+<span class="line"><span style="color:#7EE787">            "host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "port"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "weight"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">         },</span></span>
+<span class="line"><span style="color:#E6EDF3">         {</span></span>
+<span class="line"><span style="color:#7EE787">            "host"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"foo.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "port"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">80</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "weight"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#E6EDF3">         }</span></span>
+<span class="line"><span style="color:#E6EDF3">      ],</span></span>
+<span class="line"><span style="color:#7EE787">      "hash_on"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"vars"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "update_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1634543819</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "key"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"remote_addr"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "create_time"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1634539759</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"chash"</span></span>
+<span class="line"><span style="color:#E6EDF3">   },</span></span>
+<span class="line"><span style="color:#7EE787">   "has_domain"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">   "key"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">apisix</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">upstreams</span><span style="color:#FF7B72">\/</span><span style="color:#A5D6FF">1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">   "clean_handlers"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#E6EDF3">   },</span></span>
+<span class="line"><span style="color:#7EE787">   "createdIndex"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">938</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">   "modifiedIndex"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1225</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="get-v1plugin_metadatas">GET /v1/plugin_metadatas</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/3.0.0">v3.0.0</a>.</p>
+<p>Dumps all plugin_metadatas:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">        "log_format"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "upstream_response_time"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$upstream_response_time"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"file-logger"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">        "ikey"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "skey"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"val"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"example-plugin"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">]</span></span></code></pre>
+<h3 id="get-v1plugin_metadataplugin_name">GET /v1/plugin_metadata/{plugin_name}</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/3.0.0">v3.0.0</a>.</p>
+<p>Dumps the metadata with the specified <code>plugin_name</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "log_format"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "upstream_response_time"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$upstream_response_time"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"file-logger"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="put-v1pluginsreload">PUT /v1/plugins/reload</h3>
+<p>Introduced in <a href="https://github.com/apache/apisix/releases/tag/3.9.0">v3.9.0</a></p>
+<p>Triggers a hot reload of the plugins.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9090/v1/plugins/reload"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span></span></code></pre>
+<h3 id="get-v1discoveryservicedump">GET /v1/discovery/{service}/dump</h3>
+<p>Get memory dump of discovered service endpoints and configuration details:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "endpoints"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "endpoints"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "value"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">https</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:[{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.18.164.170</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:6443,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50},{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.18.164.171</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:6443,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50},{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.18.164.172</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:6443,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50}]}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"default/kubernetes"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "value"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">metrics</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:[{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.18.164.170</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:2379,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50},{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.18.164.171</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:2379,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50},{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.18.164.172</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:2379,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50}]}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"kube-system/etcd"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">        {</span></span>
+<span class="line"><span style="color:#7EE787">          "value"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">http-85</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:[{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">host</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">172.64.89.2</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">port</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:85,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">weight</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:50}]}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"test-ws/testing"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      ],</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"first"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "config"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "default_weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">50</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"first"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "client"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "token"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"xxx"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "service"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.18.164.170"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "port"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"6443"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "schema"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "shared_size"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1m"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="get-v1discoveryserviceshow_dump_file">GET /v1/discovery/{service}/show_dump_file</h2>
+<p>Get configured services details.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "services"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "service_a"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.19.5.12"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8000</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">120</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"172.19.5.13"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">8000</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">120</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "expire"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "last_update"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1615877468</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/master/docs/en/latest/control-api.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

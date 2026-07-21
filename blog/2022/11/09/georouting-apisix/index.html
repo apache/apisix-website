@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Geo-routing with Apache APISIX | Apache APISIX</title><meta name="description" content="Route API traffic by user geolocation in APISIX without writing Lua code, using GeoIP and built-in plugins for geographic routing."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/11/09/georouting-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/11/09/georouting-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/11/09/georouting-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/11/09/georouting-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Geo-routing with Apache APISIX | Apache APISIX"><meta property="og:description" content="Route API traffic by user geolocation in APISIX without writing Lua code, using GeoIP and built-in plugins for geographic routing."><meta property="og:url" content="https://apisix.apache.org/blog/2022/11/09/georouting-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://repository-images.githubusercontent.com/560493734/4073382d-d3de-42b8-aa58-d0a139978768"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Geo-routing with Apache APISIX","description":"Route API traffic by user geolocation in APISIX without writing Lua code, using GeoIP and built-in plugins for geographic routing.","datePublished":"2022-11-09","image":"https://repository-images.githubusercontent.com/560493734/4073382d-d3de-42b8-aa58-d0a139978768","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/11/09/georouting-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/11/09/georouting-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/11/09/georouting-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Geo-routing with Apache APISIX</h1> <p class="article-meta"> 2022-11-09 · Nicolas Fränkel  </p> <blockquote>
+<p>Apache APISIX, the Apache-led API Gateway, comes out of the box with many plugins to implement your use case. Sometimes, however, the plugin you’re looking for is not available. While creating your own is always possible, it’s sometimes necessary. Today, I’ll show you how to route users according to their location without writing a single line of Lua code.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="why-geo-routing">Why geo-routing?</h2>
+<p>Geo-routing is to forward HTTP requests based on a user’s physical location, inferred from their IP. There are many reasons to do that, and here is a couple of them.</p>
+<p>Note that I’ll use the country as the location-dependent factor, but any smaller or bigger scale works. It’s the scale I’m most familiar with - and probably the most useful.</p>
+<p>First, most applications are not meant to be geo-dependent. The app your team has just developed probably only makes sense in a single country, if not a single region. In this case, geo-routing will never be a problem.</p>
+<p>However, some apps do grow along with the business. When it happens, the need for <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">internationalization and localization</a> appears. It’s the app’s responsibility to handle such geo-dependent factors. <abbr title="internationalization">i18n</abbr> should be handled natively by the tech stack, <em>e.g.</em>, in <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/index.html">Java</a>. <abbr title="localization">l10n</abbr> is more <em>ad hoc</em> but shouldn’t be a problem either.</p>
+<p>Issues arise when business rules diverge from country to country, chiefly because of laws. Other reasons include a partnership. Imagine an e-commerce shop that has branches in many countries. You may choose the delivery partner, but depending on the country, available partners are different. While keeping a single codebase is always a wise choice, even the best design can only slow down the chaos from many business rules. At one point, splitting the God app into multiple country-dependent apps is inevitable.</p>
+<p>Sometimes, you don’t even have a choice. A country decides you have to store your database on their territory, so you cannot share it anymore and have to split both storage and app. I witnessed it first-hand with Russia in 2015: we had to deploy a custom version of our e-commerce application just for Russia.</p>
+<p>Finally, you may also want to deploy a new app version for a single country only. In this case, you should monitor not (only) technical metrics but business ones over time. Then you’ll decide whether to expand the new version to other countries based on them or work more on the latest version before deploying further.</p>
+<h2 id="setting-up-apache-apisix-for-geo-routing">Setting up Apache APISIX for geo-routing</h2>
+<p>Though I’m a developer by trade (and passion!), I’m pragmatic. I’m convinced that every line of code I don’t write is a line I don’t need to maintain. Apache APISIX doesn’t offer geo-routing, but it’s built on top of Nginx. The latter provides a <a href="http://nginx.org/en/docs/http/ngx_http_geoip_module.html">geo-routing</a> feature, albeit not by default.</p>
+<p>The following instructions are based on Docker to allow everybody to follow them regardless of their platform.</p>
+<p>We need several steps to set up geo-routing on Apache APISIX:</p>
+<ol>
+<li>Create a custom Docker image
+<ul>
+<li>Add the required library module</li>
+<li>Add its dependencies</li>
+</ul>
+</li>
+<li>Configure Apache APISIX</li>
+<li>Enjoy!</li>
+</ol>
+<p>Nginx geo-routing requires the <code>ngx_http_geoip_module</code> module. But if we try to install it via a package manager, it also installs <code>nginx</code>, which conflicts with the <code>nginx</code> instance embedded in Apache APISIX. As we only need the library, we can get it from the relevant Docker image:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>FROM nginx:1.21.4 as geoiplib</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>FROM apache/apisix:2.15.0-debian</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>COPY --from=geoiplib /usr/lib/nginx/modules/ngx_http_geoip_module.so \      #1</span></span>
+<span class="line"><span>                     /usr/local/apisix/modules/ngx_http_geoip_module.so</span></span></code></pre>
+<p>Copy the library from the <code>nginx</code> image to the <code>apache/apisix</code> one</p>
+<p>The regular package install installs all the dependencies, even the ones we don’t want. Because we only copy the library, we need to install the dependencies manually. It’s straightforward:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>RUN apt-get update \</span></span>
+<span class="line"><span> &#x26;&#x26; apt-get install -y libgeoip1</span></span></code></pre>
+<p>Nginx offers two ways to activate a module: via the command line or dynamically in the <code>nginx.conf</code> configuration file. The former is impossible since we’re not in control, so the latter is our only option. To update the Nginx config file with the module at startup time, Apache APISIX offers a hook in its config file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  main_configuration_snippet</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">    load_module     "modules/ngx_http_geoip_module.so";</span></span></code></pre>
+<p>The above will generate the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Configuration File - Nginx Server Configs</span></span>
+<span class="line"><span># This is a read-only file, do not try to modify it.</span></span>
+<span class="line"><span>master_process on;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>worker_processes auto;</span></span>
+<span class="line"><span>worker_cpu_affinity auto;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># main configuration snippet starts</span></span>
+<span class="line"><span>load_module     "modules/ngx_http_geoip_module.so";</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>...</span></span></code></pre>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_geoip_module.html">GeoIP module</a> relies on the <a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data">Maxmind GeoIP database</a>. We installed it implicitly in the previous step; we have to configure the module to point to it:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http_configuration_snippet</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">    geoip_country   /usr/share/GeoIP/GeoIP.dat;</span></span></code></pre>
+<p>From this point on, every request going through Apache APISIX is geo-located. It translates as Nginx adding additional variables. As per the documentation:</p>
+<blockquote>
+<p>The following variables are available when using this database:</p>
+<p><code>$geoip_country_code</code>
+two-letter country code, for example, <code>"RU"</code>, <code>"US"</code>.
+<code>$geoip_country_code3</code>
+three-letter country code, for example, <code>"RUS"</code>, <code>"USA"</code>.
+<code>$geoip_country_name</code>
+country name, for example, <code>"Russian Federation"</code>, <code>"United States"</code>.</p>
+<p>— <a href="http://nginx.org/en/docs/http/ngx_http_geoip_module.html">Module ngx_http_geoip_module</a></p>
+</blockquote>
+<h2 id="testing-geo-routing">Testing geo-routing</h2>
+<p>You may believe that the above works - and it does, but I’d like to prove it.</p>
+<p>I’ve created a <a href="https://github.com/ajavageek/apisix-georouting">dedicated project</a> whose architecture is simple:</p>
+<ul>
+<li>Apache APISIX configured as above</li>
+<li>Two upstreams, one in English and one in French</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "english:8082"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "french:8081"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#8B949E">#END</span></span></code></pre>
+<p>With this snippet, every user accesses the English upstream. I intend to direct users located in France to the French upstream and the rest to the English one. For this, we need to configure the second route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#7EE787">    vars</span><span style="color:#E6EDF3">: [[</span><span style="color:#A5D6FF">"geoip_country_code"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"=="</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"FR"</span><span style="color:#E6EDF3">]]   </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#7EE787">    priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5</span><span style="color:#8B949E">                                  #2</span></span></code></pre>
+<ol>
+<li>The magic happens here; see below.</li>
+<li>By default, route matching rules are evaluated in arbitrary order. We need this rule to be evaluated first. So we increase the priority - the default is 10.</li>
+</ol>
+<p>Most Apache APISIX users are used to matching on routes, methods, and domains, but there’s <a href="https://apisix.apache.org/docs/apisix/admin-api/#uri-request-parameters">more to it</a>. One can match on Nginx variables, as shown above. In our case, the route matches if the <code>geoip_country_code</code> variable is equal to <code>"FR"</code>.</p>
+<p>Note that <code>vars</code> values readability over power. Use the <code>filter_func(vars)</code> attribute if you need more complex logic.</p>
+<p>We can still not test our feature at this point, as we would need to change our IP address. Fortunately, it’s possible to cheat (a bit), and the cheat is helpful in other scenarios. Imagine that Apache APISIX is not directly exposed to the Internet but sits behind a reverse proxy. There might be multiple reasons for this: “history”, a single RP pointing to multiple gateways under the responsibility of different teams, etc.</p>
+<p>In this case, the client IP would be the RP’s proxy. To propagate the original client IP, the agreed-upon method is to add an <code>X-Forwarded-For</code> request HTTP header:</p>
+<blockquote>
+<p>The X-Forwarded-For (XFF) request header is a de-facto standard header for identifying the originating IP address of a client connecting to a web server through a proxy server.</p>
+<p>When a client connects directly to a server, the client’s IP address is sent to the server (and is often written to server access logs). But if a client connection passes through any forward or reverse proxies, the server only sees the final proxy’s IP address, which is often of little use. That’s especially true if the final proxy is a load balancer which is part of the same installation as the server. So, to provide a more-useful client IP address to the server, the <code>X-Forwarded-For</code> request header is used.</p>
+<p>— <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For">X-Forwarded-For</a></p>
+</blockquote>
+<p>The Nginx module offers this configuration but restricts it to an IP range. For testing, we configure it to <em>any</em> IP; in production, we should set it to the RP IP.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">    geoip_proxy     0.0.0.0/0;</span></span></code></pre>
+<p>We can finally test the setup:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "lang": "en",</span></span>
+<span class="line"><span>  "message": "Welcome to Apache APISIX"</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-Forwarded-For: 212.27.48.10"</span><span style="color:#A5D6FF"> localhost:9080</span><span style="color:#8B949E">    #1</span></span></code></pre>
+<ol>
+<li><code>212.27.48.10</code> is a French IP address</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "lang": "fr",</span></span>
+<span class="line"><span>  "message": "Bienvenue à Apache APISIX"</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h2 id="bonus-logs-and-monitoring">Bonus: logs and monitoring</h2>
+<p>It’s straightforward to use the new variable in the Apisix logs. I’d advise it for two reasons:</p>
+<ul>
+<li>At the beginning to make sure everything is ok</li>
+<li>In the long run, to monitor traffic, <em>e.g.</em>, send it to Elasticsearch and display it on a Kibana dashboard</li>
+</ul>
+<p>Just configure it accordingly:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    access_log_format</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$remote_addr - $remote_user [$time_local][$geoip_country_code] $http_host </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">$request</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> $status $body_bytes_sent $request_time </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">$http_referer</span><span style="color:#FF7B72">\"</span><span style="color:#FF7B72"> \"</span><span style="color:#A5D6FF">$http_user_agent</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> $upstream_addr $upstream_status $upstream_response_time"</span></span></code></pre>
+<p>Keep the default log variables and add the country code</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Geo-routing is a requirement for successful apps and businesses. Apache APISIX doesn’t provide it out-of-the-box. In this post, I showed how it could still be straightforward to set it up using the power of Nginx.</p>
+<p>You can find the source code for this post on GitHub.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="http://nginx.org/en/docs/http/ngx_http_geoip_module.html">Module ngx_http_geoip_module</a></li>
+<li><a href="https://www.nginx.com/resources/wiki/extending/converting/">Converting Static Modules to Dynamic Modules</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/customize-nginx-configuration/">Customize Nginx configuration</a></li>
+<li><a href="https://github.com/maxmind/geoipupdate">GeoIP Update</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

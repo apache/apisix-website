@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>云原生 API 网关 APISIX 集成 Splunk HTTP Event Collector | Apache APISIX</title><meta name="description" content="本文介绍了如何通过云原生 API 网关 Apache APISIX 中的 splunk-hec-logging 插件与 Splunk HEC 服务实现对接，从而将 APISIX 的日志发送到 Splunk HEC 服务中。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/02/10/splunk-apisix-integration/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/10/splunk-apisix-integration/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/10/splunk-apisix-integration/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/10/splunk-apisix-integration/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="云原生 API 网关 APISIX 集成 Splunk HTTP Event Collector | Apache APISIX"><meta property="og:description" content="本文介绍了如何通过云原生 API 网关 Apache APISIX 中的 splunk-hec-logging 插件与 Splunk HEC 服务实现对接，从而将 APISIX 的日志发送到 Splunk HEC 服务中。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/02/10/splunk-apisix-integration/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/splunk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"云原生 API 网关 APISIX 集成 Splunk HTTP Event Collector","description":"本文介绍了如何通过云原生 API 网关 Apache APISIX 中的 splunk-hec-logging 插件与 Splunk HEC 服务实现对接，从而将 APISIX 的日志发送到 Splunk HEC 服务中。","datePublished":"2022-02-10","image":"https://static.apiseven.com/2022/blog/0818/plugins/splunk.png","author":{"@type":"Person","name":"帅进超"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/02/10/splunk-apisix-integration/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/02/10/splunk-apisix-integration/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/02/10/splunk-apisix-integration/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>云原生 API 网关 APISIX 集成 Splunk HTTP Event Collector</h1> <p class="article-meta"> 2022-02-10 · 帅进超  </p> <blockquote>
+<p>本文将为大家介绍如何在云原生 API 网关 Apache APISIX 中配置和使用 Splunk HEC 服务。</p>
+</blockquote>
+<!--truncate-->
+<p>随着技术的不断迭代和企业架构的不断演进，系统的复杂度越来越高。**日志作为分析和观测的“原材料”，能支持和兼容不同的分析引擎会为用户在选型和后期运维过程中降低很大成本。**基于日志的分析和观测作为保障系统稳定的基石，它的角色非常重要。</p>
+<p>Apache APISIX 作为一个高性能的 API 网关不仅在性能上有着良好的表现，并且在数据和日志的运维上通过和社区用户的交流共建也已经支持了大部分主流的开源及商业日志解决方案，包括：<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/http-logger.md">HTTP Logger</a> 、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/tcp-logger.md">TCP Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/kafka-logger.md">Kafka Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/udp-logger.md">UDP Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/rocketmq-logger.md">RocketMQ Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/skywalking-logger.md">SkyWalking Logger</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/sls-logger.md">Aliyun Cloud Logging（SLS）</a>、<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/google-cloud-logging.md">Google Cloud Logging</a> 等。</p>
+<p>最近通过社区的共建支持，Apache APISIX 的 Logger 全家桶中又多了一位新成员：<a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/google-cloud-logging.md">Splunk HEC Logging</a>。</p>
+<p>本文将为大家介绍如何在 Apache APISIX 中配置和使用 <a href="https://docs.splunk.com/Documentation/Splunk/8.2.3/Data/TroubleshootHTTPEventCollector">Splunk HEC</a> 服务。</p>
+<h2 id="关于-splunk-http-event-collector">关于 Splunk HTTP Event Collector</h2>
+<p><a href="https://www.splunk.com/">Splunk</a> 是一个机器数据的全文搜索引擎，可应用于采集、索引、搜索和分析各种应用数据，根据 <a href="https://db-engines.com/en/ranking/search+engine">DB Engines 的检索引擎排名</a>，目前 Splunk 位列第二，是一款应用广泛的全文检索软件。Splunk 和 ElasticSearch 一样，是准实时可以提供不间断搜索结果的数据流。</p>
+<p><a href="https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector">Splunk HTTP Event Collector（HEC）</a> 是 Splunk 提供的 HTTP 事件收集器，主要提供以 HTTP(S) 协议将数据和应用程序事件发送到 Splunk 的能力。</p>
+<h2 id="关于-splunk-hec-logging-插件">关于 Splunk HEC Logging 插件</h2>
+<p><a href="https://github.com/apache/apisix/blob/master/docs/zh/latest/plugins/splunk-hec-logging.md">splunk-hec-logging</a> 插件用于将 Apache APISIX 的请求日志转发到 Splunk 中进行分析和存储。启用该插件后，Apache APISIX 将在 Log 阶段获取请求上下文信息，并将其序列化为 <a href="https://docs.splunk.com/Documentation/Splunk/latest/Data/FormateventsforHTTPEventCollector#Event_metadata">Splunk Event Data 格式</a>后提交到批处理队列中。当触发批处理队列每批次最大处理容量，或刷新缓冲区的最大时间时，会将队列中的数据提交到 Splunk HEC 中。</p>
+<h2 id="如何使用-splunk-hec-logging-插件">如何使用 Splunk HEC Logging 插件</h2>
+<h3 id="splunk-配置步骤">Splunk 配置步骤</h3>
+<h4 id="部署-splunk-enterprise">部署 Splunk Enterprise</h4>
+<p>请参考 Splunk 的 <a href="https://docs.splunk.com/Documentation/Splunk/8.2.3/Installation/Chooseyourplatform">官方安装指南</a> 进行部署，本文将通过 Docker 进行部署演示。
+Docker 命令参数如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 18088:8088</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 18000:8000</span><span style="color:#FF7B72"> \ </span><span style="color:#8B949E">   # 8088为HEC端口，8000为管理后台端口</span></span>
+<span class="line"><span style="color:#FFA657">  -e</span><span style="color:#A5D6FF"> "SPLUNK_PASSWORD=your-password"</span><span style="color:#FF7B72"> \ </span><span style="color:#8B949E">     # 管理后台登录密码</span></span>
+<span class="line"><span style="color:#FFA657">  -e</span><span style="color:#A5D6FF"> "SPLUNK_START_ARGS=--accept-license"</span><span style="color:#FF7B72"> \ </span><span style="color:#A5D6FF">#</span><span style="color:#A5D6FF"> 接受许可证条款（Splunk默认将提供一张Enterprise</span><span style="color:#A5D6FF"> Trial</span><span style="color:#A5D6FF"> License）</span></span>
+<span class="line"><span style="color:#FFA657">  -e</span><span style="color:#A5D6FF"> "SPLUNK_HEC_TOKEN=your-hec-token"</span><span style="color:#FF7B72"> \ </span><span style="color:#8B949E">   # 设置默认HEC令牌，配置此项后将创建一个默认的HEC</span></span>
+<span class="line"><span style="color:#FFA657">  -itd</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> splunk-example</span><span style="color:#A5D6FF"> splunk/splunk:latest</span></span></code></pre>
+<p>命令参数具体释义可参考：<a href="https://splunk.github.io/docker-splunk/">Docker Splunk 文档</a>。</p>
+<h4 id="配置-splunk-hec">配置 Splunk HEC</h4>
+<p>Docker 中已经配置并创建了默认的 HEC，在这里不再过多赘述创建 HEC 的流程。具体手动创建的流程可参考文档：<a href="https://docs.splunk.com/Documentation/Splunk/8.2.3/Data/UsetheHTTPEventCollector">Set up and use HTTP Event Collector in Splunk Web</a>。</p>
+<h4 id="登录-splunk-enterprise-并检查-hec">登录 Splunk Enterprise 并检查 HEC</h4>
+<p>通过浏览器访问 Docker 的映射端口。因为需要把管理后台的 <code>8000</code> 端口映射到宿主机的 <code>18000</code> 端口，所以在操作时可以在宿主机上通过「回环地址加端口」的方式在浏览器访问即可。例如：<a href="http://127.0.0.1:18000%EF%BC%8C%E7%99%BB%E5%BD%95%E7%9A%84%E9%BB%98%E8%AE%A4%E7%94%A8%E6%88%B7%E5%90%8D%E6%98%AF">http://127.0.0.1:18000，登录的默认用户名是</a> admin，密码是在上例的环境变量中设置的 <code>SPLUNK_PASSWORD</code> 的值。</p>
+<p>如下图所示，表示登录成功。</p>
+<p><img src="https://static.apiseven.com/202108/1644488346684-867cb3a1-a6fd-4dc6-8cb7-f08c1843ac66.png" alt="Splunk 登录界面"></p>
+<p>单击界面右上方 “Settings > Data Inputs” 检查默认 HEC 是否设置成功：</p>
+<p><img src="https://static.apiseven.com/202108/1644488375914-ce04f987-eb8e-4708-93b7-f0685b145fff.png" alt="默认 HEC"></p>
+<p>在 HTTP Event Collector 的 Inputs 列中我们已经可以看到 HEC 的数量，表示设置成功。</p>
+<p><img src="https://static.apiseven.com/202108/1644488402376-09c44d02-c6aa-4948-8ca7-2b58a310d010.png" alt="HEC 的数量"></p>
+<p>此时可以点击 HTTP Event Collector 进入 HEC 详情列表查看 HECs 的 Token 信息。</p>
+<p><img src="https://static.apiseven.com/202108/1644488428695-db33a594-df06-4857-9421-60bd30cae91e.png" alt="HECs 的 Token 信息"></p>
+<p>Token Values 即在上文中 Docker 环境变量中配置的 <code>SPLUNK_HEC_TOKEN</code> 的值。</p>
+<h3 id="apache-apisix-配置步骤">Apache APISIX 配置步骤</h3>
+<h4 id="启用插件">启用插件</h4>
+<p>运行以下命令，启用 <code>splunk-hec-logging</code> 插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "splunk-hec-logging":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "endpoint":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                // HEC 端点地址</span></span>
+<span class="line"><span style="color:#A5D6FF">                "uri":"http://127.0.0.1:18088/services/collector",</span></span>
+<span class="line"><span style="color:#A5D6FF">                // HEC Token</span></span>
+<span class="line"><span style="color:#A5D6FF">                "token":"BD274822-96AA-4DA6-90EC-18940FB2414C"</span></span>
+<span class="line"><span style="color:#A5D6FF">            },</span></span>
+<span class="line"><span style="color:#A5D6FF">            // // 刷新批处理队列缓冲区的最大时间（以秒为单位）</span></span>
+<span class="line"><span style="color:#A5D6FF">            "inactive_timeout":2,</span></span>
+<span class="line"><span style="color:#A5D6FF">             // 每个批处理队列最大容纳日志条目数</span></span>
+<span class="line"><span style="color:#A5D6FF">            "batch_max_size":10</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/splunk.do"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>插件参数说明如下表所示。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>是否必填</th><th>默认值</th><th>描述</th></tr></thead><tbody><tr><td>endpoint</td><td>是</td><td>N/A</td><td>Splunk HEC 端点配置信息</td></tr><tr><td>endpoint.uri</td><td>是</td><td>N/A</td><td>Splunk HEC 事件收集API</td></tr><tr><td>endpoint.token</td><td>是</td><td>N/A</td><td>Splunk HEC 身份令牌</td></tr><tr><td>endpoint.channel</td><td>否</td><td>N/A</td><td>Splunk HEC 发送渠道标识，参考：<a href="https://docs.splunk.com/Documentation/Splunk/8.2.3/Data/AboutHECIDXAck">About HTTP Event Collector Indexer Acknowledgment</a></td></tr><tr><td>endpoint.timeout</td><td>否</td><td>10</td><td>Splunk HEC 数据提交超时时间（以秒为单位）</td></tr><tr><td>ssl_verify</td><td>否</td><td>TRUE</td><td>启用 SSL 验证， 参考：<a href="https://github.com/openresty/lua-nginx-module#tcpsocksslhandshake">OpenResty 文档</a></td></tr><tr><td>max_retry_count</td><td>否</td><td>0</td><td>从处理管道中移除之前的最大重试次数</td></tr><tr><td>retry_delay</td><td>否</td><td>1</td><td>如果执行失败，流程执行应延迟的秒数</td></tr><tr><td>buffer_duration</td><td>否</td><td>60</td><td>必须先处理批次中最旧条目的最大期限（以秒为单位）</td></tr><tr><td>inactive_timeout</td><td>否</td><td>5</td><td>刷新缓冲区的最大时间（以秒为单位）</td></tr><tr><td>batch_max_size</td><td>否</td><td>1000</td><td>每个批处理队列可容纳的最大条目数</td></tr></tbody></table>
+<h4 id="发送请求">发送请求</h4>
+<p>运行以下命令，向 Splunk 发送请求。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/splink.do</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/html</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Fri,</span><span style="color:#79C0FF"> 10</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:57:52</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Hello,</span><span style="color:#A5D6FF"> Splunk</span><span style="color:#A5D6FF"> HEC</span><span style="color:#A5D6FF"> Logging</span></span></code></pre>
+<h4 id="验证日志">验证日志</h4>
+<p>登录 Splunk 控制台，点击 “Search &#x26; Reporting”。</p>
+<p><img src="https://static.apiseven.com/202108/1644487376250-7c5d32b0-368a-4ee2-9285-38cb0ee571f0.png" alt="Splunk 控制台"></p>
+<p>在搜索输入框中输入：<code>source="apache-apisix-splunk-hec-logging"</code>，即可查询到发送的请求日志。</p>
+<p><img src="https://static.apiseven.com/202108/1644487401080-b3b18cf9-f576-4e05-be98-2d5fde34fe8e.png" alt="查询请求日志"></p>
+<h4 id="停用插件">停用插件</h4>
+<p>移除 <code>splunk-hec-logging</code> 相关配置即可。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/logging.do",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>目前，Apache APISIX 也在开发其他插件以支持集成更多服务，如果您对此感兴趣，欢迎随时在 <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a> 中发起讨论，也可通过<a href="https://apisix.apache.org/zh/docs/general/join">邮件列表</a>进行交流。</p>
+<h2 id="相关阅读">相关阅读</h2>
+<ul>
+<li><a href="https://apisix.apache.org/zh/blog/2022/01/17/apisix-kafka-integration">Apache APISIX 集成 Kafka 实现高效率实时日志监控</a></li>
+<li><a href="https://apisix.apache.org/zh/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin">Apache APISIX 携手 RocketMQ 为实时 API 日志监控功能再下一城</a></li>
+<li><a href="https://apisix.apache.org/zh/blog/2021/12/22/google-logging">捷报频传！Apache APISIX 现已支持对接 Google Cloud Logging</a></li>
+<li><a href="https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin">强强联合！APISIX 集成 SkyWalking 打造全方位日志处理</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

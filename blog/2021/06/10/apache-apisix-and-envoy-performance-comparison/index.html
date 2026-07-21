@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX vs Envoy: Performance Benchmark Comparison | Apache APISIX</title><meta name="description" content="Benchmark comparison of APISIX vs Envoy on response latency and QPS, showing APISIX advantages with multiple worker processes."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX vs Envoy: Performance Benchmark Comparison | Apache APISIX"><meta property="og:description" content="Benchmark comparison of APISIX vs Envoy on response latency and QPS, showing APISIX advantages with multiple worker processes."><meta property="og:url" content="https://apisix.apache.org/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX vs Envoy: Performance Benchmark Comparison","description":"Benchmark comparison of APISIX vs Envoy on response latency and QPS, showing APISIX advantages with multiple worker processes.","datePublished":"2021-06-10","author":{"@type":"Person","name":"Yuansheng Wang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/06/10/apache-apisix-and-envoy-performance-comparison/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX vs Envoy: Performance Benchmark Comparison</h1> <p class="article-meta"> 2021-06-10 · Yuansheng Wang  </p> <blockquote>
+<p>This article introduces the performance comparison between Apache APISIX and Envoy under certain conditions. In general, APISIX is slightly better than Envoy in terms of response latency and QPS, and APISIX has more advantages than Enovy when multiple worker processes are enabled due to the collaborative approach of NGINX in high concurrency scenarios. The performance and latency of APISIX makes it a massive throughput capability in handling north-south traffic.</p>
+</blockquote>
+<!--truncate-->
+<p>I learned about Envoy at the CNCF technology sharing session and did performance tests on Apache APISIX and Envoy after the session.</p>
+<p>At a technical sharing session organized by CNCF, I heard about Envoy for the first time, and the guest speaker talked a lot about it, but all I can recall is a particularly novel concept “communication bus”. This is how the official website describes it.</p>
+<p>“Envoy is an L7 proxy and communication bus designed for large modern SOA (Service Oriented Architecture) architectures”</p>
+<p>In other words, Envoy is to solve the Server Mesh field and the birth of L7 proxy software. I found a diagram online. My understanding of Envoy is probably the following deployment architecture (please correct me if I am wrong).</p>
+<p>Since it is a proxy software for L7, as an experienced user in the OpenResty community for many years, naturally I can’t help but use it to engage in comparison.</p>
+<p>The object we chose to test is Apache APISIX, which is an API gateway based on OpenResty implementation. (In fact, it is also an L7 proxy and then added routing, authentication, flow restriction, dynamic upstream, and other features)</p>
+<p>Why did I choose it? Because once I heard about the great routing implementation of this product during a community share. Since our business routing system is in a mess, I downloaded the source code of Apache APISIX and found that it is an awesome API gateway, beating all similar products I’ve seen, so I was impressed by it!</p>
+<p>Here is a diagram from the Apache APISIX official website, a diagram explains things better than words, you can see how Apache APISIX works.</p>
+<p><img src="https://static.apiseven.com/202108/20210617002.png" alt="APISIX architechture"></p>
+<p>Let’s get started, first we go to the official website to find the most versions of two products: Apache APISIX 1.5 and Envoy 1.14 (the latest version at the time of writing this article).</p>
+<h2 id="build-environment-preparation">Build Environment Preparation</h2>
+<ul>
+<li>Stress test client: wrk.</li>
+<li>Testing main metrics including: gateway latency, QPS and whether it scales linearly.</li>
+<li>Test environment: Microsoft Cloud Linux (ubuntu 18.04), Standard D13 v2 (8 vcpus, 56 GiB memory).</li>
+<li>Test method 1: single-core run for side-by-side comparison (since they are both based on epoll IO model, single-core crush test is used to verify their processing power).</li>
+<li>Test method 2: using multicore to run a side-by-side comparison, mainly to verify whether their overall processing power can grow linearly under the scenario of adding more (processes|threads).</li>
+</ul>
+<h2 id="test-scenarios">Test Scenarios</h2>
+<p>We built an upstream server with NGINX, configured it with 2 workers, and received a request to directly answer 4k content, with the following reference configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>server {</span></span>
+<span class="line"><span>  listen 1980;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  access_log off;</span></span>
+<span class="line"><span>  location = /hello {</span></span>
+<span class="line"><span>    echo_duplicate 400 "1234567890";</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<ul>
+<li>The network architecture schematic is as follows: (green normal load, not run full. Red is a high pressure load, to run the process resources full, mainly CPU)
+是 CPU）</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/20210617003.png" alt="test result"></p>
+<h2 id="route-configuration">Route Configuration</h2>
+<p>First we find the Apache APISIX Getting Started configuration guide and we add a route to /hello with the following configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 -X PUT -d '{、</span></span>
+<span class="line"><span>    "uri": "/hello",</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "nodes": {</span></span>
+<span class="line"><span>            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }}'</span></span></code></pre>
+<p>Note that the proxy_cache and proxy_mirror plugins are not started here, as Envoy does not have similar functionality.</p>
+<p>Then we add a route to Envoy by referring to the official Envoy pressure test guide:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>static_resources:</span></span>
+<span class="line"><span>  listeners:</span></span>
+<span class="line"><span>  - name: listener_0</span></span>
+<span class="line"><span>    address:</span></span>
+<span class="line"><span>      socket_address: { address: "0.0.0.0", port_value: 10000 }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    filter_chains:</span></span>
+<span class="line"><span>    - filters:</span></span>
+<span class="line"><span>      - name: envoy.http_connection_manager</span></span>
+<span class="line"><span>        config:</span></span>
+<span class="line"><span>          generate_request_id: false,</span></span>
+<span class="line"><span>          stat_prefix: ingress_http</span></span>
+<span class="line"><span>          route_config:</span></span>
+<span class="line"><span>            name: local_route</span></span>
+<span class="line"><span>            virtual_hosts:</span></span>
+<span class="line"><span>            - name: local_service</span></span>
+<span class="line"><span>              domains: ["*"]</span></span>
+<span class="line"><span>              routes:</span></span>
+<span class="line"><span>              - match: { prefix: "/hello" }</span></span>
+<span class="line"><span>                route: { cluster: service_test }</span></span>
+<span class="line"><span>          http_filters:</span></span>
+<span class="line"><span>          - name: envoy.router</span></span>
+<span class="line"><span>            config:</span></span>
+<span class="line"><span>              dynamic_stats: false</span></span>
+<span class="line"><span>  clusters:</span></span>
+<span class="line"><span>  - name: service_test</span></span>
+<span class="line"><span>    connect_timeout: 0.25s</span></span>
+<span class="line"><span>    type: LOGICAL_DNS</span></span>
+<span class="line"><span>    dns_lookup_family: V4_ONLY</span></span>
+<span class="line"><span>    lb_policy: ROUND_ROBIN</span></span>
+<span class="line"><span>    hosts: [{ socket_address: { address: "127.0.0.1", port_value: 1980 }}]</span></span>
+<span class="line"><span>    circuit_breakers:</span></span>
+<span class="line"><span>      thresholds:</span></span>
+<span class="line"><span>        - priority: DEFAULT</span></span>
+<span class="line"><span>          max_connections: 1000000000</span></span>
+<span class="line"><span>          max_pending_requests: 1000000000</span></span>
+<span class="line"><span>          max_requests: 1000000000</span></span>
+<span class="line"><span>          max_retries: 1000000000</span></span>
+<span class="line"><span>        - priority: HIGH</span></span>
+<span class="line"><span>        max_connections: 1000000000</span></span>
+<span class="line"><span>        max_pending_requests: 1000000000</span></span>
+<span class="line"><span>        max_requests: 1000000000</span></span>
+<span class="line"><span>        max_retries: 1000000000</span></span></code></pre>
+<p>The <code>generate_request_id</code>, <code>dynamic_stats</code> and <code>circuit_breakers</code> sections above are turned on by default inside Envoy, but they are not used in this compression test and need to be turned off explicitly or set to oversize thresholds to improve performance (Can someone explain to me why this is so complicated to configure…).</p>
+<h2 id="results">Results</h2>
+<p>Single route without any plugins turned on. Turn on different CPU counts for full load stress test.</p>
+<p>Note: For NGINX called worker number, Envoy is concurrent, in order to unify the number of workers called after.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left"><strong>Workers</strong></th><th align="left"><strong>APISIX QPS</strong></th><th align="left"><strong>APISIX Latency</strong></th><th align="left"><strong>Envoy QPS</strong></th><th align="left"><strong>Envoy Latency</strong></th></tr></thead><tbody><tr><td align="left"><strong>1 worker</strong></td><td align="left">18608.4</td><td align="left">0.96</td><td align="left">15625.56</td><td align="left">1.02</td></tr><tr><td align="left"><strong>2 workers</strong></td><td align="left">34975.8</td><td align="left">1.01</td><td align="left">29058.135</td><td align="left">1.09</td></tr><tr><td align="left"><strong>3 workers</strong></td><td align="left">52334.8</td><td align="left">1.02</td><td align="left">42561.125</td><td align="left">1.12</td></tr></tbody></table>
+<p>Note: The raw data is publicly available at <a href="https://gist.github.com/aifeiasdf/9fc4585f6404e3a0a70c568c2a14b9c9">gist</a> preview.</p>
+<p><img src="https://static.apiseven.com/202108/20210617004.png" alt="test result"></p>
+<p>QPS: The number of requests completed per second, the higher the number the better, the higher the value means the more requests can be completed per unit time. From the QPS results, Apache APISIX performance is about 120% of Envoy’s, and the higher the number of cores, the bigger the QPS difference.</p>
+<p>Latency: Latency per request, the smaller the value the better. It represents how long it takes to receive an answer per request from the time it is sent. For reverse proxy scenarios, the smaller the value, the smaller the impact on the request will be. From the results, Envoy’s per-request latency is 6–10% more than Apache APISIX, and the higher the number of cores the higher the latency.</p>
+<p>We can see that the difference between the two metrics in the single-worker thread|process mode, QPS and Latency is not large, but with the increase in the number of threads|processes their gap is gradually enlarged, here I analyze that there may be two reasons, NGINX in the high concurrency scenario with multiple workers and the system IO model for interaction is not more advantageous, on the other hand, also On the other hand, NGINX itself may be more “stingy” in terms of memory and CPU usage in its implementation, so that the cumulative performance advantage can be evaluated in detail later.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In general, Apache APISIX is slightly better than Envoy in terms of response latency and QPS, and due to NGINX’s multi-worker collaboration method, which is more advantageous in high concurrency scenarios, Apache APISIX’s performance improvement is more obvious than Envoy’s after opening multiple worker processes. The bus design of Envoy gives it a unique advantage in handling east-west traffic, while the performance and latency of Apache APISIX gives it a massive throughput capability in handling north-south traffic.
+Apache APISIX</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

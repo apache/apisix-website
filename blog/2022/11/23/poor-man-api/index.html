@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>A poor man&#39;s API | Apache APISIX</title><meta name="description" content="Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don't know whether it's worth it: you'd like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/11/23/poor-man-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/11/23/poor-man-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/11/23/poor-man-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/11/23/poor-man-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="A poor man's API | Apache APISIX"><meta property="og:description" content="Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don't know whether it's worth it: you'd like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code."><meta property="og:url" content="https://apisix.apache.org/blog/2022/11/23/poor-man-api/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/11/28/63841cb4ad10a.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"A poor man's API","description":"Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don't know whether it's worth it: you'd like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code.","datePublished":"2022-11-23","image":"https://static.apiseven.com/2022/11/28/63841cb4ad10a.png","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/11/23/poor-man-api/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/11/23/poor-man-api/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/11/23/poor-man-api/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>A poor man&#39;s API</h1> <p class="article-meta"> 2022-11-23 · Nicolas Fränkel  </p> <blockquote>
+<p>Creating a full-fledged API requires resources, both time and money. You need to think about the model, the design, the REST principles, etc., without writing a single line of code. Most of the time, you don’t know whether it’s worth it: you’d like to offer a Minimum Viable Product and iterate from there. I want to show how you can achieve it without writing a single line of code.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="the-solution">The solution</h2>
+<p>The main requirement of the solution is to use the <a href="https://www.postgresql.org/">PostgreSQL database</a>. It’s a well-established Open Source SQL database.</p>
+<p>Instead of writing our REST API, we use the PostgREST component:</p>
+<blockquote>
+<p>PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations.</p>
+<p>— <a href="https://postgrest.org/">PostgREST</a></p>
+</blockquote>
+<p>Let’s apply it to a simple use case. Here’s a <code>product</code> table that I want to expose via a CRUD API:</p>
+<p><img src="https://blog.frankel.ch/assets/generated/poor-man-api/table.svg" alt="Product table"></p>
+<p>Note that you can find the whole source code on <a href="https://github.com/ajavageek/poor-man-api">GitHub</a> to follow along.</p>
+<p>PostgREST’s <a href="https://postgrest.org/en/stable/tutorials/tut0.html">Getting Started guide</a> is pretty complete and works out of the box. Yet, I didn’t find any ready-made Docker image, so I created my own:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#FF7B72">FROM</span><span style="color:#E6EDF3"> debian:bookworm-slim                                                   #1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">ARG</span><span style="color:#E6EDF3"> POSTGREST_VERSION=v10.1.1                                               #2</span></span>
+<span class="line"><span style="color:#FF7B72">ARG</span><span style="color:#E6EDF3"> POSTGREST_FILE=postgrest-$POSTGREST_VERSION-linux-static-x64.tar.xz     #2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> mkdir postgrest</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">WORKDIR</span><span style="color:#E6EDF3"> postgrest</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">ADD</span><span style="color:#E6EDF3"> https://github.com/PostgREST/postgrest/releases/download/$POSTGREST_VERSION/$POSTGREST_FILE \</span></span>
+<span class="line"><span style="color:#E6EDF3">    .                                                                       #3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> apt-get update &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">    apt-get install -y libpq-dev xz-utils &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">    tar xvf $POSTGREST_FILE &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">    rm $POSTGREST_FILE                                                      #4</span></span></code></pre>
+<ol>
+<li>Start from the latest Debian</li>
+<li>Parameterize the build</li>
+<li>Get the archive</li>
+<li>Install dependencies and unarchive</li>
+</ol>
+<p>The Docker image contains a <code>postgrest</code> executable in the <code>/postgrest</code> folder. We can “deploy” the architecture via Docker Compose:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  postgrest</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    build</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">./postgrest</span><span style="color:#8B949E">                                   #1</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./postgrest/product.conf:/etc/product.conf:ro</span><span style="color:#8B949E">    #2</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"3000:3000"</span></span>
+<span class="line"><span style="color:#7EE787">    entrypoint</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/postgrest/postgrest"</span><span style="color:#E6EDF3">]                 </span><span style="color:#8B949E">#3</span></span>
+<span class="line"><span style="color:#7EE787">    command</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/etc/product.conf"</span><span style="color:#E6EDF3">]                       </span><span style="color:#8B949E">#4</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">postgres</span></span>
+<span class="line"><span style="color:#7EE787">  postgres</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">postgres:15-alpine</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      POSTGRES_PASSWORD</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"root"</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./postgres:/docker-entrypoint-initdb.d:ro</span><span style="color:#8B949E">       #5</span></span></code></pre>
+<ol>
+<li>Build the above <code>Dockerfile</code></li>
+<li>Share the configuration file</li>
+<li>Run the <code>postgrest</code> executable</li>
+<li>With the configuration file</li>
+<li>Initialize the schema, the permissions, and the data</li>
+</ol>
+<p>At this point, we can query the <code>product</code> table:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:3000/product</span></span></code></pre>
+<p>We immediately get the results:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">[{</span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"name"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Stickers pack"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"description"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"A pack of rad stickers to display on your laptop or wherever you feel like. Show your love for Apache APISIX"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"price"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">0.49</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"hero"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3"> {</span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"name"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Lapel pin"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"description"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"With this </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">Powered by Apache APISIX</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> lapel pin, support your favorite API Gateway and let everybody know about it."</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"price"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">1.49</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"hero"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3"> {</span><span style="color:#7EE787">"id"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">3</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"name"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Tee-Shirt"</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"description"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"The classic geek product! At a conference, at home, at work, this tee-shirt will be your best friend."</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"price"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">9.99</span><span style="color:#E6EDF3">,</span><span style="color:#7EE787">"hero"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">}]</span></span></code></pre>
+<p>That was a quick win!</p>
+<h2 id="improving-the-solution">Improving the solution</h2>
+<p>Though the solution works, it has a lot of room for improvement. For example, the database user cannot change the data, but everybody can actually access it. It might not be a big issue for product-related data, but what about medical data?</p>
+<p>The PostgREST documentation is aware of it and explicitly advises using a reverse proxy:</p>
+<blockquote>
+<p>PostgREST is a fast way to construct a RESTful API. Its default behavior is great for scaffolding in development. When it’s time to go to production it works great too, as long as you take precautions. PostgREST is a small sharp tool that focuses on performing the API-to-database mapping. We rely on a reverse proxy like Nginx for additional safeguards.</p>
+<p>— <a href="https://postgrest.org/en/stable/admin.html">Hardening PostgREST</a></p>
+</blockquote>
+<p>Instead of nginx, we would benefit from a full-fledged API Gateway: enters <a href="https://apisix.apache.org/">Apache APISIX</a>. We shall add it to our Docker Compose:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:2.15.0-alpine</span><span style="color:#8B949E">                              #1</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080"</span></span>
+<span class="line"><span style="color:#7EE787">    restart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">always</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">etcd</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">postgrest</span></span>
+<span class="line"><span style="color:#7EE787">  etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">bitnami/etcd:3.5.2</span><span style="color:#8B949E">                                       #2</span></span>
+<span class="line"><span style="color:#7EE787">    environment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ETCD_ENABLE_V2</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">      ALLOW_NONE_AUTHENTICATION</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"yes"</span></span>
+<span class="line"><span style="color:#7EE787">      ETCD_ADVERTISE_CLIENT_URLS</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://0.0.0.0:2397"</span></span>
+<span class="line"><span style="color:#7EE787">      ETCD_LISTEN_CLIENT_URLS</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://0.0.0.0:2397"</span></span></code></pre>
+<ol>
+<li>Use Apache APISIX</li>
+<li>APISIX stores its configuration in <a href="https://etcd.io/">etcd</a></li>
+</ol>
+<p>We shall first configure Apache APISIX to proxy calls to <code>postgrest</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/upstreams/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> ' #1-2</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "postgrest:3000": 1                                                             #1-3</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '    #4</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream_id": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol>
+<li>Should be run in one of the Docker nodes, so use the Docker image’s name. Alternatively, use <code>localhost</code> but be sure to expose the ports</li>
+<li>Create a reusable <em>upstream</em></li>
+<li>Point to the PostgREST node</li>
+<li>Create a <em>route</em> to the created <em>upstream</em></li>
+</ol>
+<p>We can now query the endpoint via APISIX:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/product</span></span></code></pre>
+<p>It returns the same result as above.</p>
+<h2 id="ddos-protection">DDoS protection</h2>
+<p>We haven’t added anything, but we’re ready to start the work. Let’s first protect our API from <abbr title="Distributed Denial of Service">DDoS</abbr> attacks. Apache APISIX is designed around a plugin architecture. To protect from DDoS, we shall use a plugin. We can set plugins on a specific <em>route</em> when it’s created or on every <em>route</em>; in the latter case, it’s a <em>global rule</em>. We want to protect every route by default, so we shall use one.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/global_rules/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "limit-count": {                 #1</span></span>
+<span class="line"><span style="color:#A5D6FF">      "count": 1,                    #2</span></span>
+<span class="line"><span style="color:#A5D6FF">      "time_window": 5,              #2</span></span>
+<span class="line"><span style="color:#A5D6FF">      "rejected_code": 429           #3</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol>
+<li><code>limit-count</code> limits the number of calls in a time window</li>
+<li>Limit to 1 call per 5 seconds; it’s for demo purposes</li>
+<li>Return <code>429 Too Many Requests</code>; the default is <code>503</code></li>
+</ol>
+<p>Now, if we execute too many requests, Apache APISIX protects the upstream:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/product</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="html"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">html</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">head</span><span style="color:#E6EDF3">>&#x3C;</span><span style="color:#7EE787">title</span><span style="color:#E6EDF3">>429 Too Many Requests&#x3C;/</span><span style="color:#7EE787">title</span><span style="color:#E6EDF3">>&#x3C;/</span><span style="color:#7EE787">head</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">body</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#FFA198;font-style:italic">center</span><span style="color:#E6EDF3">>&#x3C;</span><span style="color:#7EE787">h1</span><span style="color:#E6EDF3">>429 Too Many Requests&#x3C;/</span><span style="color:#7EE787">h1</span><span style="color:#E6EDF3">>&#x3C;/</span><span style="color:#FFA198;font-style:italic">center</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">hr</span><span style="color:#E6EDF3">>&#x3C;</span><span style="color:#FFA198;font-style:italic">center</span><span style="color:#E6EDF3">>openresty&#x3C;/</span><span style="color:#FFA198;font-style:italic">center</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">body</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">html</span><span style="color:#E6EDF3">></span></span></code></pre>
+<h2 id="per-route-authorization">Per-route authorization</h2>
+<p>PostgREST also offers an Open API endpoint at the root. We thus have two routes: <code>/</code> for the Open API spec and <code>/product</code> for the products. Suppose we want to disallow unauthorized people to access our data: Regular users can access products, while admin users can access both the Open API spec <strong>and</strong> products.</p>
+<p>APISIX offers several <a href="https://apisix.apache.org/plugins/#authentication">authentication methods</a>. We will use the simplest one possible, <a href="https://apisix.apache.org/docs/apisix/plugins/key-auth/">key-auth</a>. It relies on the <a href="https://apisix.apache.org/docs/apisix/terminology/consumer/">Consumer</a> abstraction. <code>key-auth</code> requires a specific header: the plugin does a reverse lookup on the value and finds the consumer whose key corresponds.</p>
+<p>Here’s how to create a consumer:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/consumers</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '    #1</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "username": "admin",                                                               #2</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key": "admin"                                                                 #3</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol>
+<li>Create a new consumer</li>
+<li>Consumer’s name</li>
+<li>Consumer’s key value</li>
+</ol>
+<p>We do the same with consumer <code>user</code> and key <code>user</code>. Now, we can create a dedicated route and configure it so that only requests from <code>admin</code> pass through:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/routes</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> ' #1</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream_id": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key-auth": {},                                                             #2</span></span>
+<span class="line"><span style="color:#A5D6FF">    "consumer-restriction": {                                                   #2</span></span>
+<span class="line"><span style="color:#A5D6FF">      "whitelist": [ "admin" ]                                                  #3</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol>
+<li>Create a new route</li>
+<li>Use the <code>key-auth</code> and <code>consumer-restriction</code> plugins</li>
+<li>Only <code>admin</code>-authenticated requests can call the route</li>
+</ol>
+<p>Let’s try the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080</span></span></code></pre>
+<p>It doesn’t work as we are not authenticated via an API key header.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"message"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Missing API key found in request"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: user"</span><span style="color:#A5D6FF"> localhost:9080</span></span></code></pre>
+<p>It doesn’t work as we are authenticated as <code>user</code>, but the route is not authorized for <code>user</code> but for <code>admin</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"message"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"The consumer_name is forbidden."</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: admin"</span><span style="color:#A5D6FF"> localhost:9080</span></span></code></pre>
+<p>This time, it returns the Open API spec as expected.</p>
+<h2 id="monitoring">Monitoring</h2>
+<p>A much-undervalued feature of any software system is monitoring. As soon as you deploy any component in production, you must monitor its health. Nowadays, many services are available to monitor. We will use <a href="https://prometheus.io/">Prometheus</a> as it’s Open Source, battle-proven, and widespread. To display the data, we will rely on <a href="https://grafana.com/">Grafana</a> for the same reasons. Let’s add the components to the Docker Compose file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">prom/prometheus:v2.40.1</span><span style="color:#8B949E">                                    #1</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml</span><span style="color:#8B949E">    #2</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  grafana</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">grafana/grafana:8.5.15</span><span style="color:#8B949E">                                     #3</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./grafana/provisioning:/etc/grafana/provisioning</span><span style="color:#8B949E">              #4</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./grafana/dashboards:/var/lib/grafana/dashboards</span><span style="color:#8B949E">              #4</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./grafana/config/grafana.ini:/etc/grafana/grafana.ini</span><span style="color:#8B949E">         #4-5</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"3001:3001"</span></span>
+<span class="line"><span style="color:#7EE787">    depends_on</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">prometheus</span></span></code></pre>
+<ol>
+<li>Prometheus image</li>
+<li>Prometheus configuration to scrape Apache APISIX. See the full file <a href="https://github.com/ajavageek/poor-man-api/blob/master/prometheus/prometheus.yml">here</a></li>
+<li>Grafana image</li>
+<li>Grafana configuration. Most of it comes from the configuration <a href="https://github.com/apache/apisix/blob/master/docs/assets/other/json/apisix-grafana-dashboard.json">provided</a> by APISIX.</li>
+<li>Change the default port from <code>3000</code> to <code>3001</code> to avoid conflict with the PostgREST service</li>
+</ol>
+<p>Once the monitoring infrastructure is in place, we only need to instruct APISIX to provide the data in a format that Prometheus expects. We can achieve it through configuration and a new global rule:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  prometheus</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    export_addr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ip</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.0.0"</span><span style="color:#8B949E">             #1</span></span>
+<span class="line"><span style="color:#7EE787">      port</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9091</span><span style="color:#8B949E">                #2</span></span></code></pre>
+<ol>
+<li>Bind to any address</li>
+<li>Bind to port <code>9091</code>. Prometheus metrics are available on <code>http://apisix:9091/apisix/prometheus/metrics</code> on the Docker network</li>
+</ol>
+<p>We can create the global rule:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://apisix:9080/apisix/admin/global_rules/2</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: 123xyz'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "prometheus": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Send a couple of queries and open the Grafana dashboard. It should look similar to this:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/08/VU9tQ69R_grafana.jpeg" alt="Grafana dashboard"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Creating a full-fledged REST(ful) API is a huge investment. One can quickly test a simple API by exposing one’s database in a CRUD API via PostgREST. However, such an architecture is not fit for production usage.</p>
+<p>To fix it, you need to set a façade in front of PostgREST, a reverse proxy, or even better, an API Gateway. Apache APISIX offers a wide range of features, from authorization to monitoring. With it, you can quickly validate your API requirements at a low cost.</p>
+<p>The icing on the cake: when you’ve validated the requirements, you can keep the existing façade and replace PostgREST with your custom-developed API.</p>
+<p>The source code is available on <a href="https://github.com/ajavageek/poor-man-api">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://postgrest.org/">PostgREST</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/getting-started/">Getting started with Apache APISIX</a></li>
+<li><a href="https://apisix.apache.org/plugins/">Apache APISIX plugins</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

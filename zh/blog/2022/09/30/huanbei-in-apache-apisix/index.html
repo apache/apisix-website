@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>放弃 Spring Cloud Gateway！APISIX 在「还呗」的技术实践 | Apache APISIX</title><meta name="description" content="本文将介绍作为金融企业的还呗，为何弃用 Spring Cloud Gateway 而选择 APISIX 作为他们的网关。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/09/30/huanbei-in-apache-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/09/30/huanbei-in-apache-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/09/30/huanbei-in-apache-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/09/30/huanbei-in-apache-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="放弃 Spring Cloud Gateway！APISIX 在「还呗」的技术实践 | Apache APISIX"><meta property="og:description" content="本文将介绍作为金融企业的还呗，为何弃用 Spring Cloud Gateway 而选择 APISIX 作为他们的网关。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/09/30/huanbei-in-apache-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/12/06/638ef1af90551.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"放弃 Spring Cloud Gateway！APISIX 在「还呗」的技术实践","description":"本文将介绍作为金融企业的还呗，为何弃用 Spring Cloud Gateway 而选择 APISIX 作为他们的网关。","datePublished":"2022-09-30","image":"https://static.apiseven.com/2022/12/06/638ef1af90551.png","author":{"@type":"Person","name":"王晔倞"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/09/30/huanbei-in-apache-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/09/30/huanbei-in-apache-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/09/30/huanbei-in-apache-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>放弃 Spring Cloud Gateway！APISIX 在「还呗」的技术实践</h1> <p class="article-meta"> 2022-09-30 · 王晔倞  </p> <blockquote>
+<p>本文将介绍作为金融企业的还呗，为何弃用 Spring Cloud Gateway 而选择 APISIX 作为他们的网关。</p>
+</blockquote>
+<!--truncate-->
+<p>不同行业之间，都会存在一些业务属性上的差距。对于金融领域的应用软件来说，因其涉及到钱等因素，所以在业务上会有以下独特属性：</p>
+<ul>
+<li>
+<p><strong>稳定性</strong>：金融领域跟钱强相关，这对于业务稳定性就有着非常严格的要求，稳定性一旦出现问题，它将影响整个交易系统的成败。</p>
+</li>
+<li>
+<p><strong>强监管</strong>：强监管一般是针对生物医药领域、医疗领域和金融领域，因为它们所呈现的内容都与人的生命相关。所以，更高层面的强监管要求势必会影响一些业务层面的选型和架构呈现。</p>
+</li>
+<li>
+<p><strong>准确性和有效性</strong>：由于跟钱强相关，所以在数字层面的呈现更是要求零偏差。就像股票价格一样，它的数字呈现都是精确到了每分每秒和固定数位的。</p>
+</li>
+</ul>
+<p>基于以上这些特点，金融行业软件系统在进行系统设计、机房拓扑以及中间件选型时，就会出现一些与其他通用行业不太一样的地方。</p>
+<h2 id="对-java-的那些爱与恨">对 Java 的那些爱与恨</h2>
+<h3 id="金融系统为何独爱-java">金融系统为何独爱 Java</h3>
+<p>Java 自诞生以来就深受开发者的喜爱。在中国有将近 50% 的开发者在使用 Java 作为开发语言。这不单单是因为其语言的优势，也因为 Java 相关的生态非常庞大，尤其是国内的金融系统很多都是基于 Java 的，这导致有段时间大家都误以为所有的系统都是用 Java 做的。</p>
+<p>近 15～20 年以来，大部分金融系统基本都选择了 Java 技术栈，深究其原因，我们认为主要是因为 Java 技术栈有以下几点优势。</p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d598b7c94.png" alt="Java 技术栈优势"></p>
+<p>正是如此，Java 逐渐得到了金融类软件系统的青睐。</p>
+<h3 id="云原生时代下的-java-现状">云原生时代下的 Java 现状</h3>
+<p>随着技术行业的快速发展，单体架构逐渐被淘汰，微服务和云原生时代正在风靡四海。然而在近几年的技术大环境下，作为面向对象的高级语言，Java 也在一些业务场景中开始略显疲惫：</p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d598b6124.png" alt="云原生时代下的 Java 不足"></p>
+<p>首先，Java 性能较低，这点对比一下 C 语言相关技术栈就会明白。Java 是基于虚拟机，它的内存管理是交给虚拟机来解决的，所以当面对一些高性能或动态变化的业务场景时，Java 语言在处理上没有那么强势。</p>
+<p>其次，Java 语言需要更多的资源。一个架构的打造如果不考虑成本，很多问题都很好解决，但在云原生时代下，所有的资源计算变得越来越细、越来越颗粒化。Java 在运作时需要消耗大量的资源，由于 Java 分量重和需要重启的基础特性，因此在高 QPS 或者业务连续性要求较高的场景下，该语言会更容易出现问题。</p>
+<p>最后就是指针变量的问题。习惯于写 C/C++ 语言的同学都知道，指针是一个非常好的资源。但 Java 是基于虚拟机，它把内存管理交给了 GC（Garbage Collection），而不是由手动程序进行管理，所以对于一些特定情况或者高并发、高访问量和高性能的场景下，Java 的实际性能可能就略显不足了。</p>
+<h2 id="还呗为何选择-apisix">还呗为何选择 APISIX？</h2>
+<p>数禾科技是一家提供智能化金融的服务平台，旗下主要产品有还呗、还享花等。还呗 APP 是一款基于消费多场景的分期服务平台，通过与持牌金融机构合作，为大众提供个人消费信贷服务，并为小微企业主提供贷款资金支持。在业务架构层面，还呗的产品实现一直是依赖 Java 技术栈的。</p>
+<p>Spring Cloud Gateway 是 Spring Cloud 生态下为更好管理微服务而诞生的网关项目，对于公司业务以 Java 为主要开发语言的情况下，Spring Cloud Gateway 通常是个不错的 API 网关选择。<strong>但在近期的 API 网关迭代过程中，还呗放弃了使用已久的 Spring Cloud Gateway，选择了 Apache APISIX</strong>。</p>
+<h3 id="架构的前后变化">架构的前后变化</h3>
+<p>在架构层面，还呗在使用 APISIX 前后呈现了如下图所示的变化。</p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d5999838a.png" alt="应用 APISIX 架构变化"></p>
+<p>在左侧的使用前架构中，还呗一共使用了三套网关系统，并把网关分为入口网关和出口网关两大类。其中在运营系统网关和出口系统网关中，都使用了 Spring Cloud Gateway 作为网关，而在业务系统网关中则使用了 OpenResty 作为业务系统网关。</p>
+<p>对于一开始使用 Spring Cloud Gateway 作为运营和出口系统网关，主要是看中了 Spring Cloud 庞大的生态系统，以及简单易部署和易维护的分布式系统开发框架，所以在早期进行业务架构部署时，为了更快搭建起业务而选择使用 Spring Cloud 全家桶。</p>
+<p>但随着业务慢慢发展，原先架构中的网关开始出现一些稳定性的问题，比如内存溢出、CPU 使用率过高等情况。为了升级网关性能及统一多个网关，还呗将架构中的网关全部统一替换为了 Apache APISIX。</p>
+<p>在新网关架构中，业务系统网关会优先把请求流量通过服务发现的方式直接转发到业务系统。如果后端应用在 Consul 中没有健康 Pod 或者后端应用不支持服务发现等，就会把流量转发到以前的内网 K8s Ingress，作为兜底的上游来使用。</p>
+<p>新架构同时也统一了出口网关的两个应用，新出口网关部署在 K8s 集群外的外联区。同时也在出口网关集群前新增一个 SLB，可以统一出口网关的入口 ，方便没有服务发现能力的应用或者其他 VPC 内的系统调用。</p>
+<h3 id="基于-apisix-的应用实践">基于 APISIX 的应用实践</h3>
+<p>实际业务情况下，由于内部已存在多种网关架构，没办法直接使用 Apache APISIX，于是还呗基于 APISIX 进行了一些改造和构建。</p>
+<h4 id="apisix-构建部署">APISIX 构建部署</h4>
+<p>在内部进行开发时，将 APISIX 网关的代码和定制代码存放在不同路径下，两者协同工作，各自可独立迭代。在部署时则采用 Docker 镜像方式部署，构建一个 APISIX 指定版本的基础镜像，然后再把自定义代码打包形成新镜像。</p>
+<p>自定义代码打包时没有使用 <code>lua_package_path</code> 来指定代码目录，而是直接覆盖基础镜像 <code>apisix</code> 源码目录，如果有同名文件则覆盖源码文件。Dockerfile 如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#FF7B72">FROM</span><span style="color:#E6EDF3"> registry.xxx.net:5001/apisix-shuhe:v1.5</span></span>
+<span class="line"><span style="color:#FF7B72">ENV</span><span style="color:#E6EDF3"> APP_NAME={{APP_NAME}}</span></span>
+<span class="line"><span style="color:#FF7B72">COPY</span><span style="color:#E6EDF3"> {{PRODUCT_FILE}} /tmp/deploy2/artifact.tar.gz</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> mkdir /tmp/deploy/ &#x26;&#x26; tar -xf /tmp/deploy2/artifact.tar.gz -C /tmp/deploy/ &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">cp -R /tmp/deploy/apisix/ /usr/local/apisix/ &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">cp /tmp/deploy/bin/apisix /usr/bin/apisix &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">cp /tmp/deploy/conf/apisix-$APP_NAME.yaml /usr/local/apisix/conf/apisix.yaml &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">cp /tmp/deploy/conf/config-$APP_NAME.yaml /usr/local/apisix/conf/config.yaml &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">set -x &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">bin=</span><span style="color:#A5D6FF">'#! /usr/local/openresty/luajit/bin/luajit</span><span style="color:#FF7B72">\n</span><span style="color:#A5D6FF">package.path = "/usr/local/apisix/?.lua;" .. package.path'</span><span style="color:#E6EDF3"> &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">sed -i </span><span style="color:#A5D6FF">"1s@.*@$bin@"</span><span style="color:#E6EDF3"> /usr/bin/apisix &#x26;&#x26; \</span></span>
+<span class="line"><span style="color:#E6EDF3">rm -rf /tmp/*</span></span></code></pre>
+<p>APISIX 的日志默认存储在本地（也可以通过 Syslog 等插件收集），通过调整 <code>nginx</code> 配置模板和判断启用的 Profile 来决定日志存储在本地还是通过 Syslog 存储到 FLUENTD 中。同时在构建镜像时替换模板中 <code>FLUENTD_HOST</code> 变量。如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="nginx"><code><span class="line"><span style="color:#E6EDF3">{% </span><span style="color:#FF7B72">if</span><span style="color:#E6EDF3"> gw_profile and string.find( gw_profile,</span><span style="color:#A5D6FF">'local'</span><span style="color:#E6EDF3">) then %}</span></span>
+<span class="line"><span style="color:#FF7B72">access_log </span><span style="color:#E6EDF3">logs/access.log </span><span style="color:#79C0FF">main</span><span style="color:#E6EDF3">;</span><span style="color:#FF7B72">error_log</span><span style="color:#E6EDF3">  logs/</span></span>
+<span class="line"><span style="color:#E6EDF3">error.</span><span style="color:#FF7B72">log</span><span style="color:#79C0FF"> warn</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">{%else%}</span></span>
+<span class="line"><span style="color:#FF7B72">access_log </span><span style="color:#E6EDF3">syslog:server=${FLUENTD_HOST}:5141 json_format;</span></span>
+<span class="line"><span style="color:#FF7B72">error_log </span><span style="color:#E6EDF3"> syslog:server=${FLUENTD_HOST}:5142 </span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">{%end%}</span></span></code></pre>
+<p>在 <code>nginx</code> 配置模板中，还呗不光修改了日志存储，还调整了循环添加 ENV 环境变量、循环添加 lua_shared_dicts 配置及写死一些 NGINX 其他调优参数。</p>
+<p>因为公司是按照业务流量划分为多种网关，这些网关的基本功能都差不多，因此还呗内部采取了「一套代码部署多个网关应用」方案。通过 Profile 功能配置各个网关的 config-xxx.yaml 文件，然后通过公司 DEVOPS 平台构建镜像时，根据应用名构建不同网关的 Docker 镜像即可。</p>
+<h4 id="公司级定制插件">公司级定制插件</h4>
+<p>在内部访问运营系统页面时，会调用很多后端的 API 获取数据，这些 API 都需要在 API 网关中配置对应的白名单。在页面中根据登录运营系统用户的角色不同，能够访问的 API 范围也不一样，因此权限系统也需要维护相关 API 列表。每当在页面上新增后端 API 调用时 ，都需要开发人员在网关页面及权限系统页面配置两次，工作冗余且重复。</p>
+<p>为此，还呗把网关配置与权限系统配置打通，只保留权限配置系统的配置入口，网关配置管理系统则定时拉取权限 API，之后转换成网关 API 白名单配置。这样做不仅能减少用户一次配置操作，同时也协助权限系统进行了权限管控。可以保证在运营页面调用的后端 API，一定是在权限系统配置了相关权限。</p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d724c78cb.png" alt="配置流程"></p>
+<p>在公司的实际业务中，经常会遇到原生插件不能满足实际需求的情况，就需要定制开发。好在 APISIX 提供了很多工具类，参照原生插件就可以轻松实现，开发过程也非常简单。以下列举了还呗内部基于 APISIX 进行的其他定制插件：</p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d59a4de5a.png" alt="内部插件示例"></p>
+<h4 id="网关流量灰度">网关流量灰度</h4>
+<p>之前还呗使用的 K8s 容器是 OpenShift（现已升级为 ACK 集群），其中 Ingress 是 Haproxy 搭建。由于公网 K8s Ingress 的 Haproxy 不能把一个域名的流量转发到两个 Namespace 的路由中，因此考虑把新网关部署在和老网关相同的 Namespace 下。即域名的路由下挂载多个服务，之后便可以通过路由调整流量比例，控制流量走新网关还是老网关。</p>
+<p>具体实施流程如下图所示，在老网关的 Namespace 下新增 c、d 组用于部署新网关，通过路由控制新老网关的流量比例。</p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d59a4bb73.png" alt="实施流程图"></p>
+<h2 id="java-层面网关的考虑因素">Java 层面网关的考虑因素</h2>
+<p>很多 Java 工程师在微服务架构中都会选择 Spring Cloud，主要是语言绑定，并用类库的方式放在代码里。但是在实践过程中可能会出现升级困难的情况，如果团队是多语言就需要维护多个类库，假设有 10 个版本与 10 种语言，就需要维护 100 个类库。</p>
+<p>此时就可以通过代理的方式（即 API 网关）把多版本和多语言的问题轻松解决。那 Java 技术栈公司选择 APISIX 作为 API 网关后都有哪些收益？我们根据还呗的实践经历，从以下两个角度进行了总结。</p>
+<h3 id="公司角度">公司角度</h3>
+<ol>
+<li>
+<p><strong>功能与性能兼具</strong></p>
+<p>还呗在内部使用 4 核虚拟机无插件空跑压测 APISIX 的 QPS 可以达到 80K，很好地解决了 Spring Cloud Gateway 在承接 C 端流量时出现的性能问题，<strong>而且在生产环境中发现 APISIX 相较于之前网关性能提升了 30% 以上。</strong></p>
+<p><img src="https://static.apiseven.com/2022/10/10/6343d59b244bc.png" alt="性能数据"></p>
+<p>其次，得益于云原生属性，APISIX 在实际的测试中完全可以满足公司的需求，比如认证鉴权、可观测性、服务发现、限流限速以及四层和七层流量转发。而在功能扩展方面，APISIX 也支持了 70 余款插件，大部分的业务可以使用其原生插件，很大程度上减少了开发工作。</p>
+</li>
+<li>
+<p><strong>业务支出成本下降</strong></p>
+<p>在使用 APISIX 之前，如果性能出现了瓶颈，公司只能通过不断的增加服务器来解决这个问题，因此相应的硬件成本也会非常的高。</p>
+<p>还呗在进行成本计算时发现，使用 APISIX 后，服务器的数量大概<strong>减少了 60% 左右</strong>。统一技术栈后，业务上也可以很轻松地基于 APISIX 原生框架实现功能的扩展，节省了开发成本，加快了项目上线时间速度。</p>
+</li>
+</ol>
+<h3 id="开发者角度">开发者角度</h3>
+<ol>
+<li>
+<p><strong>满足业务需求</strong></p>
+<p>业务中所使用的软件或技术都应该是为需求而服务。从实际测试结果及调研数据来看，APISIX 的稳定性、可观测性、可扩展性会更好。</p>
+<p>软件最终服务于业务。如果业务需要，可以为公司节约资源，那么无论公司的技术栈是什么，都会使用最符合公司业务的组件。</p>
+</li>
+<li>
+<p><strong>降低维护成本</strong></p>
+<p>相比之前使用的 OpenResty，APISIX 的学习成本相对较低，维护起来也比较省心。同时，APISIX 丰富的插件简化了一些通用功能的实现与部署，大大节约了项目上线的时间。</p>
+<p>同时利用 APISIX 强大的日志和动态调试功能，业务可以很轻松地排查出故障点，从而快速定位、节约时间。</p>
+</li>
+</ol>
+<h2 id="总结金融业务发展趋势">总结：金融业务发展趋势</h2>
+<p>在过去的十年里，互联网金融从「野蛮生长」开始逐渐向「精耕细作」模式转变，这个转变主要涉及到的就是系统的变革。</p>
+<p>在野蛮生长阶段，业务讲究的是效率。为了业务更快速地建设，在基础架构选择的时候，负责人更多是选择自己熟悉的语言架构进行搭建。不同的负责人便会选择使用不同的技术栈，因此留下了很多技术债务。从 2017 年开始，依旧活跃的金融企业或服务公司大多都会面临同样的技术现状，那就是存在多套技术组件。这时就需要进行基础设施的统一。</p>
+<p>来到精耕细作阶段，企业就需要对系统进行垂直拆分，由以前的烟囱式拆分成前台、中台及后台等模式。系统到达一个稳定阶段时，就需要把一些东西夯实下来。</p>
+<p>而系统建设的根本目的其实就是为了共用。重复性使用越强，系统的运维成本就越低。所以很多公司到了精耕细作阶段，要么是进行系统的垂直拆分，要么就是进行基础组件的下沉，进而控制运维成本。</p>
+<p>作为企业来说，成本优先依旧是需要考虑的原则。野蛮生长阶段可能只需要尽快实现业务，而在目前大环境下，预算范围之内肯定是成本优先。这样的话，效率和成本永远只能保住一项。因此在成本有限的情况下，企业就会少谈技术的先进性。技术人员在选型的过程中，就不会考虑当下选择的这个技术对团队有多大冲击、对现有的运维和架构带来多少收益等等，更多是从成本角度考虑。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

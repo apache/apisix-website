@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区双周报（9.13-9.30） | Apache APISIX</title><meta name="description" content="云原生 API 网关 Apache APISIX 最近两周新增了 stream_route 支持在 IP 匹配中使用 CIDR，debug 模式支持动态请求过滤，hmac-auth 支持校验请求体等新功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/09/30/weekly-report/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/09/30/weekly-report/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/09/30/weekly-report/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/09/30/weekly-report/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="社区双周报（9.13-9.30） | Apache APISIX"><meta property="og:description" content="云原生 API 网关 Apache APISIX 最近两周新增了 stream_route 支持在 IP 匹配中使用 CIDR，debug 模式支持动态请求过滤，hmac-auth 支持校验请求体等新功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/09/30/weekly-report/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区双周报（9.13-9.30）","description":"云原生 API 网关 Apache APISIX 最近两周新增了 stream_route 支持在 IP 匹配中使用 CIDR，debug 模式支持动态请求过滤，hmac-auth 支持校验请求体等新功能。","datePublished":"2021-09-30","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/09/30/weekly-report/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/09/30/weekly-report/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/09/30/weekly-report/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>社区双周报（9.13-9.30）</h1> <p class="article-meta"> 2021-09-30  </p> <blockquote>
+<p>从 9.13 到 9.30, 有 32 位开发者为 Apache APISIX 提交了 93 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p>Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。</p>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。</p>
+<p>我们还整理了一些适合新来社区的小伙伴们参加的 issue！感兴趣的同学们，走过路过不要错过！</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/202108/1632907894918-c455f40e-a175-4944-8fac-11c590d43786.jpg" alt="本周贡献者名单"></p>
+<p><img src="https://static.apiseven.com/202108/1632908362102-b0b665e2-f37f-4a82-b8a3-68914925b565.jpg" alt="本周新晋贡献者"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-5080">Issue #5080</h3>
+<p><strong>链接</strong>：<a href="https://github.com/apache/apisix/issues/5080">https://github.com/apache/apisix/issues/5080</a></p>
+<p><strong>问题描述</strong>：之前上游服务使用 IP 认证，实际的客户端 IP 是从 x-forwarded-for 请求头中获取的。现在需要改成网关 HMAC 认证，所以需要通过网关屏蔽上游 IP 认证。尝试通过代理重写插件修改 x-forwarded-for，但是没有生效：</p>
+<p><img src="https://static.apiseven.com/202108/1632799650125-14edb988-f2ad-434d-8d13-04ff3016eb5a.png" alt="问题描述截图"></p>
+<h3 id="issue-5108">Issue #5108</h3>
+<p><strong>链接</strong>：<a href="https://github.com/apache/apisix/issues/5108">https://github.com/apache/apisix/issues/5108</a></p>
+<p><strong>问题描述</strong>：如下，当在路由上启用请求验证插件:” delete ”</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/35</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: xxxxxxxxxxxxxxxxxxx'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/products/create",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "request-validation":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "body_schema":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                "type":"object",</span></span>
+<span class="line"><span style="color:#A5D6FF">                "required":[</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "productName",</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "price"</span></span>
+<span class="line"><span style="color:#A5D6FF">                ],</span></span>
+<span class="line"><span style="color:#A5D6FF">                "properties":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "productName":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "type":"string"</span></span>
+<span class="line"><span style="color:#A5D6FF">                    },</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "price":{</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "type":"number"</span></span>
+<span class="line"><span style="color:#A5D6FF">                    }</span></span>
+<span class="line"><span style="color:#A5D6FF">                }</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "service_name":"PRODUCTSSERVICE",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "discovery_type":"eureka"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>使用以下命令对其进行测试时，</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/products/create</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{"product-Name":"Laptop","pri-ce":12345.00}'</span></span></code></pre>
+<p>得到以下默认信息：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">property</span><span style="color:#A5D6FF"> "price"</span><span style="color:#A5D6FF"> is</span><span style="color:#A5D6FF"> required</span></span></code></pre>
+<h2 id="本周功能特性亮点">本周功能特性亮点</h2>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5012">debug-mode 支持动态请求过滤</a>（贡献者：<a href="https://github.com/tzssangglass">tzssangglass</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5068">支持注入逻辑到 APISIX 方法中</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/4980">stream_route 支持在 IP 匹配中使用 CIDR</a>（贡献者：<a href="https://github.com/Zheaoli">Zheaoli</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/5038">hmac-auth 支持校验请求体</a>（贡献者：<a href="https://github.com/arthur-zhang">arthur-zhang</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-ingress-controller/pull/685">APISIX Ingress controller 集成了 cert-manager ，用户可以更方便的管理 TLS 证书，并与 APISIX Ingress 配合使用</a>（贡献者：<a href="https://github.com/lingsamuel">lingsamuel</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/1946">- APISIX Dashboard 支持多种配置文件</a>（贡献者：<a href="https://github.com/bzp2010">bzp2010</a>）</p>
+</li>
+</ul>
+<h2 id="本周博文推荐">本周博文推荐</h2>
+<ul>
+<li>
+<p><a href="http://apisix.apache.org/blog/2021/09/16/tencent-cloud">Apache APISIX 在腾讯云智能钛平台中的落地实践</a>：</p>
+<p>本文主要介绍了腾讯云智能钛平台使用 Apache APISIX 的企业案例，以及使用 Apache APISIX 作为产品流量网关的具体例子。</p>
+</li>
+<li>
+<p><a href="http://apisix.apache.org/blog/2021/09/07/how-to-use-apisix-auth">使用 Apache APISIX 进行集中式身份认证及进阶玩法</a></p>
+<p>本文介绍了 Apache APISIX 的身份认证功能，从重要性和玩法使用上进行了详细介绍和细节使用。</p>
+</li>
+<li>
+<p><a href="http://apisix.apache.org/blog/2021/09/07/iQIYI-usercase">基于 Apache APISIX，爱奇艺 API 网关的更新与落地实践</a></p>
+<p>通过阅读本文，您可以了解到基于 Apache APISIX 网关，爱奇艺技术团队是如何进行公司架构的更新与融合，打造出全新的网关服务。</p>
+</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

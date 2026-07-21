@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 2.15 正式发布 | Apache APISIX</title><meta name="description" content="API 网关 Apache APISIX 2.15 版本正式发布！此版本新增插件相关的自定义优先级、执行策略、错误响应及支持监控四层流量的指标等功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/07/29/release-apache-apisix-2.15/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/07/29/release-apache-apisix-2.15/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/07/29/release-apache-apisix-2.15/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/07/29/release-apache-apisix-2.15/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 2.15 正式发布 | Apache APISIX"><meta property="og:description" content="API 网关 Apache APISIX 2.15 版本正式发布！此版本新增插件相关的自定义优先级、执行策略、错误响应及支持监控四层流量的指标等功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/07/29/release-apache-apisix-2.15/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 2.15 正式发布","description":"API 网关 Apache APISIX 2.15 版本正式发布！此版本新增插件相关的自定义优先级、执行策略、错误响应及支持监控四层流量的指标等功能。","datePublished":"2022-07-29","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/07/29/release-apache-apisix-2.15/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/07/29/release-apache-apisix-2.15/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/07/29/release-apache-apisix-2.15/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 2.15 正式发布</h1> <p class="article-meta"> 2022-07-29 · 罗泽轩  </p> <blockquote>
+<p>Apache APISIX 2.15 版本正式发布！用户可以自定义插件优先级和执行策略、自定义错误响应以及支持监控四层流量的指标等功能。</p>
+</blockquote>
+<!--truncate-->
+<p>从两年前发布第一个 2.0 版本开始，APISIX 已经发布了 15 个 minor 版本和许多个 patch 版本。作为 2.x 系列最后的一个 minor 版本，2.15 版本可以说是个承上启下的版本。</p>
+<p>「承上」是因为该版本继续引入了更多的功能，使得插件配置更加灵活；「启下」则是因为该版本将会是 2.x 版本的最后一个 LTS 版本，后续 APISIX 就要向 3.0 版本进发了。更多细节一起来看下文吧！</p>
+<p><img src="https://static.apiseven.com/2022/blog/0729/blog-1.png" alt="更新汇总"></p>
+<h2 id="自定义插件优先级">自定义插件优先级</h2>
+<p>新版本支持用户自定义插件的优先级，而非直接应用插件默认的优先级属性。</p>
+<p>有了这个功能，我们可以在某个特定的路由上调整某几个插件的执行顺序，从而打破之前插件优先级属性的束缚。</p>
+<p>例如，在默认情况下，<code>serverless-post-function</code> 插件是在 <code>serverless-pre-function</code> 插件之后执行的。但是通过此功能，可以让 <code>serverless-post-function</code> 插件优先执行。配置示例如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#7EE787">    "serverless-post-function"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "_meta"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10000</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "phase"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"rewrite"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "functions"</span><span style="color:#E6EDF3"> : [</span><span style="color:#A5D6FF">"return function(conf, ctx)</span></span>
+<span class="line"><span style="color:#A5D6FF">                    ngx.say(</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">serverless-post-function</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">);</span></span>
+<span class="line"><span style="color:#A5D6FF">                    end"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "serverless-pre-function"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "_meta"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "priority"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">-2000</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "phase"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"rewrite"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "functions"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"return function(conf, ctx)</span></span>
+<span class="line"><span style="color:#A5D6FF">                    ngx.say(</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">serverless-pre-function</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">);</span></span>
+<span class="line"><span style="color:#A5D6FF">                    end"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">注意</p><p>如果一个插件配置中没有注明优先级，则会根据插件代码中的优先级属性值进行排序。</p><p>如果你在 Service 或者 Plugin Config 的插件配置中指定了插件的优先级，那么在合并到路由后依然生效。</p></div>
+<h2 id="自定义插件是否执行">自定义插件是否执行</h2>
+<p>除了能够调整执行顺序外，还可以动态决定插件是否需要执行。2.15 版本中引入了插件配置级别的过滤器，由过滤器的执行结果控制插件执行与否。</p>
+<p>下方配置中，只有变量 <code>$status</code> 大于或等于 400 时，才会执行 <code>http-logger</code> 插件。这么一来，只有 4xx 和 5xx 的请求才会被报告到远端的 HTTP 日志服务器上。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "http-logger"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "_meta"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "filter"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">                {</span><span style="color:#7EE787">"status"</span><span style="color:#FFA198;font-style:italic">,</span><span style="color:#7EE787"> "!"</span><span style="color:#FFA198;font-style:italic">,</span><span style="color:#7EE787"> "&#x3C;"</span><span style="color:#FFA198;font-style:italic">,</span><span style="color:#7EE787"> "400"</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>同时，借助 APISIX 的另一个功能<a href="https://apisix.apache.org/zh/docs/apisix/next/plugin-develop/#%E6%B3%A8%E5%86%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F">自定义变量</a>，则可以玩出更多花样。比如客户端地址为内网地址，则跳过某个 Logger 之类的场景。</p>
+<h2 id="自定义错误响应">自定义错误响应</h2>
+<p>该功能也是在具体插件层面配置的新功能，属于插件配置级别上的错误信息。</p>
+<p>如果需求方对特定路由上的错误响应有所要求，那么这一功能就能派上用场了。无论是什么插件，通过该配置都能设置一个固定的响应结果，避免因为插件内置的错误响应信息而带来困扰。</p>
+<p>如下述配置所示，不管 <code>jwt-auth</code> 插件返回了什么错误信息，都会被改写成 “Missing credential in request” 返回给客户端。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "jwt-auth"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "_meta"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "error_response"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">                "message"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Missing credential in request"</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="允许采集-stream-route-上的指标">允许采集 Stream Route 上的指标</h2>
+<p>本版本中还进行了一个较大的改动，就是允许在 Stream Route 上采集 metrics 的指标，并通过 Prometheus 的接口暴露出来。</p>
+<p>该功能默认为关闭状态，如果需要启用，请在 <a href="https://apisix.apache.org/zh/docs/apisix/FAQ/#%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA-apisix-base-%E7%8E%AF%E5%A2%83">APISIX-Base</a> 版本上构建 APISIX，并在 <code>config.yaml</code> 中启用 <code>prometheus</code> 插件，示例如下：</p>
+<div class="code-title">./conf/config.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">stream_plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">prometheus</span></span></code></pre>
+<p>在启用该插件后，即使只用 APISIX 来代理四层上的 TCP 流量，也会专门监听 9091 的端口，响应 Prometheus 发来的 HTTP 请求。</p>
+<p>跟 HTTP 代理子系统部分的 <code>prometheus</code> 插件一样，下一步则是在需要采集指标的 Stream Route 上配置该插件：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/stream_routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "prometheus":{}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>在对该 Stream Route 发起连接之后，访问 <a href="http://127.0.0.1:9091/apisix/prometheus/metrics">http://127.0.0.1:9091/apisix/prometheus/metrics</a> 就会看到如下 TCP 代理统计数据：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#8B949E"># HELP apisix_node_info Info of APISIX node</span></span>
+<span class="line"><span style="color:#8B949E"># TYPE apisix_node_info gauge</span></span>
+<span class="line"><span style="color:#FFA657">apisix_node_info</span><span style="color:#A5D6FF">{hostname=</span><span style="color:#FFA657">"desktop-2022q8f-wsl"</span><span style="color:#FFA657">}</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#8B949E"># HELP apisix_stream_connection_total Total number of connections handled per stream route in APISIX</span></span>
+<span class="line"><span style="color:#8B949E"># TYPE apisix_stream_connection_total counter</span></span>
+<span class="line"><span style="color:#FFA657">apisix_stream_connection_total</span><span style="color:#A5D6FF">{route=</span><span style="color:#FFA657">"1"</span><span style="color:#FFA657">}</span><span style="color:#79C0FF"> 1</span></span></code></pre>
+<p>目前该功能只实现了统计连接数，后续还会按需加入更多的统计指标。</p>
+<p>除了普通的 Stream Route 外，该版本中还给 xRPC 下的 Redis 代理功能提供了统计指标。如按照路由和 Command 细分的命令计数指标 <code>apisix_redis_commands_total</code> 和延迟时间指标 <code>apisix_redis_commands_latency_seconds_bucket</code>。</p>
+<h2 id="更多功能">更多功能</h2>
+<p>在新增功能层面，除了上述提到的几个功能外，此版本也包含很多细节改动：</p>
+<ul>
+<li>支持 Upstream 对象从 SSL 对象中引用证书</li>
+<li><code>prometheus</code> 指标中提供 <code>ngx.shared.dict</code> 统计信息</li>
+<li><code>openid-connect</code> 插件支持 PKCE 拓展</li>
+</ul>
+<p>更多具体发版细节，请参考 <a href="https://github.com/apache/apisix/blob/release/2.15/docs/zh/latest/CHANGELOG.md#2150">2.15 Changelog</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

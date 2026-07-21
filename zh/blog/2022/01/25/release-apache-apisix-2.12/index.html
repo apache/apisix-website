@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 2.12.0 正式发布 | Apache APISIX</title><meta name="description" content="APISIX 在即将到来的新春佳节，带来 2022 年第一个带有新功能的版本。支持更多鉴权插件和 Serverless 集成，丰富日志功能及多语言插件等细节。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/01/25/release-apache-apisix-2.12/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/01/25/release-apache-apisix-2.12/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/01/25/release-apache-apisix-2.12/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/01/25/release-apache-apisix-2.12/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 2.12.0 正式发布 | Apache APISIX"><meta property="og:description" content="APISIX 在即将到来的新春佳节，带来 2022 年第一个带有新功能的版本。支持更多鉴权插件和 Serverless 集成，丰富日志功能及多语言插件等细节。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/01/25/release-apache-apisix-2.12/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 2.12.0 正式发布","description":"APISIX 在即将到来的新春佳节，带来 2022 年第一个带有新功能的版本。支持更多鉴权插件和 Serverless 集成，丰富日志功能及多语言插件等细节。","datePublished":"2022-01-25","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/01/25/release-apache-apisix-2.12/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/01/25/release-apache-apisix-2.12/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/01/25/release-apache-apisix-2.12/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 2.12.0 正式发布</h1> <p class="article-meta"> 2022-01-25 · 罗泽轩  </p> <blockquote>
+<p>继 2.11.0 版本发布之后，Apache APISIX 也在即将到来的新春佳节，为大家带来 2022 年第一个带有新功能的版本。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="新功能更多的-serverless-集成">新功能：更多的 Serverless 集成</h2>
+<p>还记得在上个版本里，Apache APISIX 增加了对 Azure Function 的支持。而这次新版本中也是用意满满，在功能上又加入了对更多 Serverless 厂商的支持。</p>
+<p>如今用户也可以在 Apache APISIX 中结合 AWS Lambda 和 Apache OpenWhisk，在网关上进行特定函数的暴露。</p>
+<h2 id="新功能更多的鉴权插件">新功能：更多的鉴权插件</h2>
+<p>此次的新版本，还将带来两个众人翘首以盼的新插件：<code>forward-auth</code> 和 <code>opa</code>。</p>
+<ul>
+<li>forward-auth 插件跟 Traefik 的同名插件功能类似，该插件可以允许把当前请求的信息发送给外部服务进行鉴权。</li>
+<li>opa 插件则整合了著名的 Open Policy Agent，该插件可以通过 OPA 来完成复杂的鉴权功能。</li>
+</ul>
+<p>通过上述两个插件，将为 Apache APISIX 的鉴权功能锦上添花，给用户带来更多丰富和上手简单的鉴权操作。</p>
+<h2 id="新功能更多的日志功能">新功能：更多的日志功能</h2>
+<p>除了上边提到的鉴权插件，本次新版本还将带来三个新的日志插件：<code>google-cloud-logging</code>、<code>splunk-hec-logging</code> 以及 <code>rocketmq-logger</code>。</p>
+<p>从插件名称上也很容易理解，通过上述三个插件可以把日志分别发送到 Google Cloud、Splunk 和 Apache RocketMQ。未来，Apache APISIX 将会对接越来越多的日志服务商和开源 Broker，让日志处理变得更加轻松。</p>
+<h3 id="支持记录响应体">支持记录响应体</h3>
+<p>同时，此次 2.12.0 版本还在日志层面支持记录响应体。与 Apache APISIX 其他功能一样，该功能也可以通过表达式进行动态开启。这样在使用中，就可以实现仅在上游返回特定的 Content-Type 和 Content-Length 时进行日志记录，不用再去顾虑全量采集响应体而带来的问题了。</p>
+<p>具体示例可参考下方：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "kafka-logger"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "broker_list"</span><span style="color:#E6EDF3"> : {</span></span>
+<span class="line"><span style="color:#7EE787">                "127.0.0.1"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">9092</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#7EE787">            "kafka_topic"</span><span style="color:#E6EDF3"> : </span><span style="color:#A5D6FF">"test2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "include_resp_body"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "include_resp_body_expr"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">                [</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "sent_http_content_length"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "&#x3C;"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "4096"</span></span>
+<span class="line"><span style="color:#E6EDF3">                ],</span></span>
+<span class="line"><span style="color:#E6EDF3">                [</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "sent_http_content_type"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "=="</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "application/json"</span></span>
+<span class="line"><span style="color:#E6EDF3">                ],</span></span>
+<span class="line"><span style="color:#E6EDF3">            ]</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "127.0.0.1:1980"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<blockquote>
+<p>上述配置会仅在 Content-Length &#x3C; 4096 且 Content-Type 为 “application/json” 才记录日志。</p>
+</blockquote>
+<h3 id="支持注册自定义变量">支持注册自定义变量</h3>
+<p>另一个跟日志紧密相关的功能，就是新版本的 Apache APISIX 已支持注册自定义变量。同时结合 APISIX 的自定义日志格式，就可以实现完全自定义上报的日志内容。即无需修改具体的日志插件，就能实现日志生成和上报的解耦合。这里我们通过一个示例进行简单演示一下。</p>
+<p>比如我们可以在自己的插件中注册一个 a6_route_labels 的变量：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#E6EDF3">local core </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> require </span><span style="color:#A5D6FF">"apisix.core"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">core.ctx.</span><span style="color:#D2A8FF">register_var</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"a6_route_labels"</span><span style="color:#E6EDF3">, </span><span style="color:#D2A8FF">function</span><span style="color:#E6EDF3">(ctx)</span></span>
+<span class="line"><span style="color:#E6EDF3">    local route </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ctx.matched_route and ctx.matched_route.value</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> route and route.labels then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> route.labels</span></span>
+<span class="line"><span style="color:#E6EDF3">    end</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> nil</span></span>
+<span class="line"><span style="color:#E6EDF3">end)</span></span></code></pre>
+<p>并在自定义日志格式中使用它：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "log_format"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$host"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "labels"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$a6_route_labels"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "client_ip"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$remote_addr"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>假设我们的 Route 长这样：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "http-logger"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1:1980/log"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "batch_max_size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "concat_method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"json"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "127.0.0.1:1982"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#7EE787">        "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "labels"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "k"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"v"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/hello"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>最终就会收到如下所示的日志：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{"client_ip":"127.0.0.1","host":"localhost","labels":{"k":"v"},"route_id":"1"}</span></span></code></pre>
+<h2 id="新功能l4-代理支持-tls-over-tcp-上游">新功能：L4 代理支持 TLS over TCP 上游</h2>
+<p>在 2.12.0 版本中还引入了新的 Upstream Scheme，现在 Apache APISIX 已支持代理到 TLS over TCP 上游了。</p>
+<p>具体做法可参考下方，只需在 Upstream 配置中指明 Scheme 为 TLS 即可。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">    "scheme"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"tls"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "127.0.0.1:1995"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>至此 Apache APISIX 的 TCP 代理功能得到了 TLS 全方位的支持。此外，我们还支持在静态文件中配置 L4 代理的 Access Log：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>stream:</span></span>
+<span class="line"><span>    enable_access_log: false         # enable access log or not, default false</span></span>
+<span class="line"><span>    access_log: logs/access_stream.log</span></span>
+<span class="line"><span>    access_log_format: "$remote_addr [$time_local] $protocol $status $bytes_sent $bytes_received $session_time"</span></span>
+<span class="line"><span>                                            # create your custom log format by visiting http://nginx.org/en/docs/varindex.html</span></span>
+<span class="line"><span>    access_log_format_escape: default       # allows setting json or default characters escaping in variables</span></span></code></pre>
+<h2 id="更新多语言插件持续完善">更新：多语言插件持续完善</h2>
+<h3 id="wasm-生态功能更加丰富">WASM 生态功能更加丰富</h3>
+<p>在之前版本中，Apache APISIX 已开放了对 WASM 生态的支持。而在 2.12.0 版本中，针对 WASM 生态又做了不少的更新细节。</p>
+<p>目前 Apache APISIX 已经支持在 header_filter 的阶段运行 WASM 代码，弥补了现有外部插件无法修改响应的不足。</p>
+<p>此外，我们还支持在 WASM 里面通过 Apache APISIX 这个宿主进行 HTTP 通讯。借助这一功能，我们用 WASM 也重新实现了 forward-auth 插件。该插件的功能几乎和 Lua 版本一模一样，甚至连测试用例也是在 Lua 版本上改了下名字就能通过了。</p>
+<h3 id="java-plugin-runner-最新版本发布">Java Plugin Runner 最新版本发布</h3>
+<p>当然，我们也没有忘记针对现有的外部插件进行更新，本次 2.12.0 版本中，Apache APISIX 已允许外部插件获取请求体。</p>
+<p>比如最近发布的 Java Plugin Runner 第二版就包含了这一功能。新版本的 Java Plugin Runner 还支持在运行时动态获取 APISIX 变量。</p>
+<h2 id="更多细节">更多细节</h2>
+<p>除了上述新功能和组件外，Apache APISIX 2.12.0 版本还更新了如下功能：</p>
+<ul>
+<li>gRPC-Web 的支持：继 gRPC 代理、HTTP 转 gRPC 之后，我们迎来了 gRPC 家族的第三个成员。现在 Apache APISIX 也支持代理 gRPC Web 协议了。</li>
+<li>limit-count 的增强：如今 limit-count 插件的计数器已经支持在请求间、路由间进行共享，可以说是相当灵活了。</li>
+</ul>
+<p>更多关于 Apache APISIX 2.12.0 的更新细节，可以查看本次发布对应的 <a href="https://github.com/apache/apisix/blob/release/2.12/CHANGELOG.md#2120">Change log</a>。</p>
+<h2 id="下载">下载</h2>
+<p>想要获取最新的 Apache APISIX 2.12.0 版本，可通过以下路径下载：</p>
+<ul>
+<li>源代码：请访问<a href="https://apisix.apache.org/downloads/">下载页面</a></li>
+<li>二进制安装包：请访问<a href="https://apisix.apache.org/zh/docs/apisix/how-to-build/">安装指南</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

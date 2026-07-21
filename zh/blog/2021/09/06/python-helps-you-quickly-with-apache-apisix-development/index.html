@@ -1,0 +1,190 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Python 助你快速上手 Apache APISIX 插件开发 | Apache APISIX</title><meta name="description" content="云原生 API 网关 Apache APISIX 目前已经支持了 Java、Go 以及 Python 等语言编写插件。本文将为你介绍如何使用 Python 在 APISIX 上开发自定义插件。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Python 助你快速上手 Apache APISIX 插件开发 | Apache APISIX"><meta property="og:description" content="云原生 API 网关 Apache APISIX 目前已经支持了 Java、Go 以及 Python 等语言编写插件。本文将为你介绍如何使用 Python 在 APISIX 上开发自定义插件。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Python 助你快速上手 Apache APISIX 插件开发","description":"云原生 API 网关 Apache APISIX 目前已经支持了 Java、Go 以及 Python 等语言编写插件。本文将为你介绍如何使用 Python 在 APISIX 上开发自定义插件。","datePublished":"2021-09-06","author":{"@type":"Person","name":"帅进超"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/09/06/python-helps-you-quickly-with-apache-apisix-development/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Python 助你快速上手 Apache APISIX 插件开发</h1> <p class="article-meta"> 2021-09-06 · 帅进超  </p> <blockquote>
+<p>在 Apache APISIX Python Runner 之前社区中已经支持了 <a href="https://github.com/apache/apisix-java-plugin-runner">Java</a> 和 <a href="https://github.com/apache/apisix-go-plugin-runner">Go</a> 语言的 Runner，今天 Python Runner 也来了，社区中的小伙伴们在开发 Apache APISIX 的插件时又多了一种新选择。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="简介">简介</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><code>Apache APISIX</code> 是一个高性能的云原生开源 API 网关，它可以对请求进行统一的拦截和治理（如：鉴权、认证、缓存、版本、熔断、审计 等等）帮助开发人员轻松的对外提供安全可靠的服务，而开发人员通过 <code>Apache APISIX</code>
+的加持只需要关注业务实现即可，省去了大量花费在通用能力上的开发与维护上的时间并且也降低了整体业务架构的复杂度。</p>
+<h3 id="python">Python</h3>
+<p><code>Python</code> 语言作为一个解释型的高级编程语言，它 <code>语法简洁易上手</code>、<code>代码可读性好</code> ，在 <code>跨平台</code> 、<code>可移植性</code> 、<code>开发效率</code>
+上都有很好的表现，同时作为一个高级编程语言它的封装抽象程度比较高屏蔽了很多底层细节（例如：<code>GC</code>
+）让我们在开发的过程中可以更专注应用逻辑的开发。<code>Python</code> 作为一个有 30 年历史的老牌开发语言，它的生态以及各种模块已经非常完善，我们大部分的开发和应用场景都可以从社区中找到很成熟的模块或解决方案。<code>Python</code>
+其他的优点就不再一一赘述。<code>Python</code> 的缺点也比较明显：<code>Python</code> 作为一门解释性语言，相较于 <code>C++</code> 和 <code>Go</code> 这样的编译型语言，在性能上的差距还是比较大的。</p>
+<h3 id="apache-apisix-python-runner">Apache APISIX Python Runner</h3>
+<p><a href="https://github.com/apache/apisix-python-plugin-runner">apache-apisix-python-runner</a> 这个项目可以理解为 <code>Apache APISIX</code> 和 <code>Python</code>之间的一道桥梁，通过 <code>Python Runner</code> 可以把 <code>Python</code> 直接应用到 <code>APISIX</code> 的插件开发中，最重要的还是希望让更多对 <code>Apache APISIX</code> 和 <code>API 网关</code> 感兴趣的 <code>Python 开发者</code>通过这个项目更多的了解使用 <code>Apache APISIX</code>，以下为 <code>Apache APISIX</code> 多语言支持的架构图。</p>
+<p><img src="https://static.apiseven.com/202108/1639468460315-bb51d913-be72-4329-a47b-7e987dff21ba.png" alt="Apache APISIX work flow"></p>
+<p>上图左边是 <code>Apache APISIX</code> 的工作流程，右边的 <code>Plugin Runner</code> 是各语言的插件运行器，本文介绍的 <code>apisix-python-plugin-runner</code> 就是支持 <code>Python</code>语言的 <code>Plugin Runner</code>。</p>
+<p>当你在 <code>Apache APISIX</code> 中配置一个 <code>Plugin Runner</code> 时，<code>Apache APISIX</code> 会启动一个子进程运行 <code>Plugin Runner</code>，该子进程与 <code>Apache APISIX</code>
+进程属于同一个用户，当我们重启或重新加载 <code>Apache APISIX</code> 时，<code>Plugin Runner</code> 也将被重启。</p>
+<p>如果你为一个给定的路由配置了 <code>ext-plugin-*</code> 插件，请求命中该路由时将触发 <code>Apache APISIX</code> 通过 <code>Unix Socket</code> 向 <code>Plugin Runner</code> 发起 <code>RPC</code> 调用。调用分为两个阶段：</p>
+<ul>
+<li><a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-pre-req.md">ext-plugin-pre-req</a>
+：在执行 <code>Apache APISIX</code> 内置插件（Lua 语言插件）之前</li>
+<li><a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/ext-plugin-post-req.md">ext-plugin-post-req</a>
+：在执行 <code>Apache APISIX</code> 内置插件（Lua 语言插件）之后</li>
+</ul>
+<p>大家可以根据需要选择并配置 <code>Plugin Runner</code> 的执行时机。</p>
+<p><code>Plugin Runner</code> 会处理 <code>RPC</code> 调用，在其内部创建一个模拟请求，然后运行多语言编写的插件，并将结果返回给 Apache APISIX。</p>
+<p>多语言插件的执行顺序是在 <code>ext-plugin-*</code> 插件配置项中定义的，像其他插件一样，它们可以被启用并在运行中重新定义。</p>
+<h2 id="部署测试">部署测试</h2>
+<h3 id="基础运行环境">基础运行环境</h3>
+<ul>
+<li>Apache APISIX 2.7</li>
+<li>Python 3.6+</li>
+</ul>
+<p><code>Apache APISIX</code> 的安装部署本文不在过多赘述，详情请参考 <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/how-to-build.md">Apache APISIX 官方文档：如何构建 Apache APISIX</a>
+进行部署。</p>
+<h3 id="下载安装-python-runner">下载安装 Python Runner</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-python-plugin-runner.git</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> apisix-python-plugin-runner</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> make</span><span style="color:#A5D6FF"> install</span></span></code></pre>
+<h3 id="配置-python-runner">配置 Python Runner</h3>
+<h4 id="开发模式">开发模式</h4>
+<h5 id="运行-python-runner">运行 Python Runner</h5>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> /path/to/apisix-python-plugin-runner</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock</span><span style="color:#A5D6FF"> python3</span><span style="color:#A5D6FF"> apisix/main.py</span><span style="color:#A5D6FF"> start</span></span></code></pre>
+<h5 id="修改-apisix-配置文件">修改 APISIX 配置文件</h5>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vim</span><span style="color:#A5D6FF"> /path/to/apisix/conf/config.yaml</span></span>
+<span class="line"><span style="color:#FFA657">apisix:</span></span>
+<span class="line"><span style="color:#FFA657">  admin_key:</span></span>
+<span class="line"><span style="color:#FFA657">    -</span><span style="color:#A5D6FF"> name:</span><span style="color:#A5D6FF"> "admin"</span></span>
+<span class="line"><span style="color:#FFA657">      key:</span><span style="color:#A5D6FF"> edd1c9f034335f136f87ad84b625c8f1</span></span>
+<span class="line"><span style="color:#FFA657">      role:</span><span style="color:#A5D6FF"> admin</span></span>
+<span class="line"><span style="color:#FFA657">ext-plugin:</span></span>
+<span class="line"><span style="color:#FFA657">  path_for_test:</span><span style="color:#A5D6FF"> /tmp/runner.sock</span></span></code></pre>
+<h4 id="生产模式">生产模式</h4>
+<h5 id="修改-apisix-配置文件-1">修改 APISIX 配置文件</h5>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vim</span><span style="color:#A5D6FF"> /path/to/apisix/conf/config.yaml</span></span>
+<span class="line"><span style="color:#FFA657">apisix:</span></span>
+<span class="line"><span style="color:#FFA657">  admin_key:</span></span>
+<span class="line"><span style="color:#FFA657">    -</span><span style="color:#A5D6FF"> name:</span><span style="color:#A5D6FF"> "admin"</span></span>
+<span class="line"><span style="color:#FFA657">      key:</span><span style="color:#A5D6FF"> edd1c9f034335f136f87ad84b625c8f1</span></span>
+<span class="line"><span style="color:#FFA657">      role:</span><span style="color:#A5D6FF"> admin</span></span>
+<span class="line"><span style="color:#FFA657">ext-plugin:</span></span>
+<span class="line"><span style="color:#FFA657">  cmd:</span><span style="color:#E6EDF3"> [ </span><span style="color:#A5D6FF">"python3",</span><span style="color:#A5D6FF"> "/path/to/apisix-python-plugin-runner/apisix/main.py",</span><span style="color:#A5D6FF"> "start"</span><span style="color:#A5D6FF"> ]</span></span></code></pre>
+<h4 id="python-runner-配置可选">Python Runner 配置（可选）</h4>
+<p>如果需要对 <code>Log Level</code> 或 <code>Unix Domain Socket</code> 环境变量调整可以修改 <code>Runner</code> 的配置文件</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> vim</span><span style="color:#A5D6FF"> /path/to/apisix-python-plugin-runner/apisix/config.yaml</span></span>
+<span class="line"><span style="color:#FFA657">socket:</span></span>
+<span class="line"><span style="color:#FFA657">  file:</span><span style="color:#E6EDF3"> $env</span><span style="color:#A5D6FF">.APISIX_LISTEN_ADDRESS</span><span style="color:#8B949E"> # Environment variable or absolute path</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">logging:</span></span>
+<span class="line"><span style="color:#FFA657">  level:</span><span style="color:#A5D6FF"> debug</span><span style="color:#8B949E"> # error warn info debug</span></span></code></pre>
+<h3 id="启动-python-runner">启动 Python Runner</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cd</span><span style="color:#A5D6FF"> /path/to/apisix</span></span>
+<span class="line"><span style="color:#8B949E"># Start or Restart</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> ./bin/apisix</span><span style="color:#E6EDF3"> [ </span><span style="color:#A5D6FF">start</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> restart</span><span style="color:#A5D6FF"> ]</span></span></code></pre>
+<p>启动或重启 <code>APISIX</code> 即可，此时 <code>APISIX</code> 和 <code>Python Runner</code> 已经完成配置并启动。</p>
+<h3 id="测试-python-runner">测试 Python Runner</h3>
+<h4 id="配置-apache-apisix-路由及插件信息">配置 Apache APISIX 路由及插件信息</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E"># 使用默认demo插件进行测试</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "ext-plugin-pre-req": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "conf": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        { "name": "stop", "value":"{\"body\":\"hello\"}"}</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ul>
+<li><code>plugins.ext-plugin-pre-req.conf</code> 为 <code>Runner</code> 插件配置，<code>conf</code> 为数组格式可以同时设置多个插件。</li>
+<li>插件配置对象中 <code>name</code> 为插件名称，该名称需要与插件代码文件和对象名称一直。</li>
+<li>插件配置对象中 <code>value</code> 为插件配置，可以为 <code>JSON</code> 字符串。</li>
+</ul>
+<h4 id="访问验证">访问验证</h4>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/get</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Fri,</span><span style="color:#79C0FF"> 13</span><span style="color:#A5D6FF"> Aug</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 13:39:18</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">host:</span><span style="color:#A5D6FF"> 127.0.0.1:9080</span></span>
+<span class="line"><span style="color:#FFA657">accept:</span><span style="color:#79C0FF"> *</span><span style="color:#A5D6FF">/</span><span style="color:#79C0FF">*</span></span>
+<span class="line"><span style="color:#FFA657">user-agent:</span><span style="color:#A5D6FF"> curl/7.64.1</span></span>
+<span class="line"><span style="color:#FFA657">X-Resp-A6-Runner:</span><span style="color:#A5D6FF"> Python</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.7</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Hello,</span><span style="color:#A5D6FF"> Python</span><span style="color:#A5D6FF"> Runner</span><span style="color:#A5D6FF"> of</span><span style="color:#A5D6FF"> APISIX</span></span></code></pre>
+<h2 id="插件开发">插件开发</h2>
+<h3 id="插件目录">插件目录</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">/path/to/apisix-python-plugin-runner/apisix/plugins</span></span></code></pre>
+<p>此目录中的 <code>.py</code> 文件将会被自动加载。</p>
+<h3 id="插件示例">插件示例</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">/path/to/apisix-python-plugin-runner/apisix/plugins/stop.py</span></span>
+<span class="line"><span style="color:#FFA657">/path/to/apisix-python-plugin-runner/apisix/plugins/rewrite.py</span></span></code></pre>
+<h3 id="插件格式">插件格式</h3>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.plugin.base </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Base</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.http.request </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Request</span></span>
+<span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> apisix.runner.http.response </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> Response</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> Stop</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">Base</span><span style="color:#E6EDF3">):</span></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#79C0FF"> __init__</span><span style="color:#E6EDF3">(self):</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        Example of `stop` type plugin, features:</span></span>
+<span class="line"><span style="color:#A5D6FF">            This type of plugin can customize response `body`, `header`, `http_code`</span></span>
+<span class="line"><span style="color:#A5D6FF">            This type of plugin will interrupt the request</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#79C0FF">        super</span><span style="color:#E6EDF3">(Stop, </span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">).</span><span style="color:#79C0FF">__init__</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">__class__</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">__name__</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    def</span><span style="color:#79C0FF"> filter</span><span style="color:#E6EDF3">(self, request: Request, response: Response):</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#A5D6FF">        The plugin executes the main function</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param request:</span></span>
+<span class="line"><span style="color:#A5D6FF">            request parameters and information</span></span>
+<span class="line"><span style="color:#A5D6FF">        :param response:</span></span>
+<span class="line"><span style="color:#A5D6FF">            response parameters and information</span></span>
+<span class="line"><span style="color:#A5D6FF">        :return:</span></span>
+<span class="line"><span style="color:#A5D6FF">        """</span></span>
+<span class="line"><span style="color:#8B949E">        # 在插件中可以通过 `self.config` 获取配置信息，如果插件配置为JSON将自动转换为字典结构</span></span>
+<span class="line"><span style="color:#8B949E">        # print(self.config)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # 设置响应头信息</span></span>
+<span class="line"><span style="color:#E6EDF3">        headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> request.headers</span></span>
+<span class="line"><span style="color:#E6EDF3">        headers[</span><span style="color:#A5D6FF">"X-Resp-A6-Runner"</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "Python"</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> headers</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # 设置响应体信息</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.body </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "Hello, Python Runner of APISIX"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # 设置响应状态码</span></span>
+<span class="line"><span style="color:#E6EDF3">        response.status_code </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 201</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        # 通过调用 `self.stop()` 中断请求流程，此时将立即响应请求给客户端</span></span>
+<span class="line"><span style="color:#8B949E">        # 如果未显示调用 `self.stop()` 或 显示调用 `self.rewrite()`将继续将请求</span></span>
+<span class="line"><span style="color:#8B949E">        # 默认为 `self.rewrite()`</span></span>
+<span class="line"><span style="color:#79C0FF">        self</span><span style="color:#E6EDF3">.stop()</span></span></code></pre>
+<h3 id="插件规范及注意事项">插件规范及注意事项</h3>
+<ul>
+<li>实现插件对象必须继承 <code>Base</code> 类</li>
+<li>插件必须实现 <code>filter</code> 函数</li>
+<li><code>filter</code> 函数参数只能包含 <code>Request</code> 和 <code>Response</code> 类对象作为参数</li>
+<li><code>Request</code> 对象参数可以获取请求信息</li>
+<li><code>Response</code> 对象参数可以设置响应信息</li>
+<li><code>self.config</code> 可以获取插件配置信息</li>
+<li><code>filter</code> 函数中调用 <code>self.stop()</code> 时将马上中断请求，响应数据。</li>
+<li><code>filter</code> 函数中调用 <code>self.rewrite()</code> 时，将会继续请求。</li>
+</ul>
+<h2 id="欢迎参与">欢迎参与</h2>
+<p>目前 <code>Apache APISIX</code> 各语言的 <code>Runner</code> 还处于早期开发阶段，我们会陆续完善其功能。成功的开源项目离不开大家的参与和贡献，欢迎各位参与 <code>Apache APISIX Runner</code>
+的开发，让我们一起共建 <code>Apache APISIX</code> 与各语言的桥梁。</p>
+<ul>
+<li><a href="https://github.com/apache/apisix-python-plugin-runner">apisix-python-plugin-runner</a></li>
+<li><a href="https://github.com/apache/apisix-go-plugin-runner">apisix-go-plugin-runner</a></li>
+<li><a href="https://github.com/apache/apisix-java-plugin-runner">apisix-java-plugin-runner</a></li>
+</ul>
+<h2 id="相关阅读">相关阅读</h2>
+<ul>
+<li><a href="http://apisix.apache.org/blog/2021/08/19/go-makes-Apache-APISIX-better">Go 让 Apache APISIX 如虎添翼</a></li>
+<li><a href="https://apisix.apache.org/blog/2021/06/21/use-Java-to-write-Apache-APISIX-plugins">如何用 Java 编写 Apache APISIX 插件</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

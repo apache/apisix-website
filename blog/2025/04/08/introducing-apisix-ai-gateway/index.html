@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Introducing APISIX AI Gateway | Apache APISIX</title><meta name="description" content="Explore Apache APISIX AI Gateway capabilities for LLM proxying, multi-model routing, token-based rate limiting, prompt handling, and AI traffic security."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/04/08/introducing-apisix-ai-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/04/08/introducing-apisix-ai-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/04/08/introducing-apisix-ai-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Introducing APISIX AI Gateway | Apache APISIX"><meta property="og:description" content="Explore Apache APISIX AI Gateway capabilities for LLM proxying, multi-model routing, token-based rate limiting, prompt handling, and AI traffic security."><meta property="og:url" content="https://apisix.apache.org/blog/2025/04/08/introducing-apisix-ai-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Introducing APISIX AI Gateway","description":"Explore Apache APISIX AI Gateway capabilities for LLM proxying, multi-model routing, token-based rate limiting, prompt handling, and AI traffic security.","datePublished":"2025-04-08","image":"https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp","author":{"@type":"Person","name":"Yilia Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/04/08/introducing-apisix-ai-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Introducing APISIX AI Gateway</h1> <p class="article-meta"> 2025-04-08 · Yilia Lin  </p> <blockquote>
+<p>In Apache APISIX version 3.12.0, we have further enhanced its AI support capabilities as a modern API gateway. Through a rich plugin ecosystem and flexible architectural design, we provide developers with a complete AI gateway product.</p>
+</blockquote>
+<!--truncate-->
+<p>This article delves into APISIX’s innovative practices in the AI gateway domain from the following perspectives.</p>
+<h2 id="core-functions-of-the-ai-gateway">Core Functions of the AI Gateway</h2>
+<p>APISIX’s plugin ecosystem offers out-of-the-box capabilities for AI scenarios. Below are the core plugins and their functions:</p>
+<h3 id="proxy-and-request-management">Proxy and Request Management</h3>
+<h4 id="1-ai-proxy">1. ai-proxy</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-proxy/"><code>ai-proxy</code></a> plugin simplifies access to large language models (LLMs) and embedding models by transforming plugin configurations into the designated request format. It supports integration with OpenAI, DeepSeek, and other OpenAI-compatible services.</p>
+<p>Additionally, the plugin supports logging LLM request information in the access log, such as token usage, model, time to first response, and more.</p>
+<h4 id="2-ai-proxy-multi">2. ai-proxy-multi</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-proxy-multi/"><code>ai-proxy-multi</code></a> plugin simplifies access to large language models (LLMs) and embedding models by transforming plugin configurations into the request format required by OpenAI, DeepSeek, and other OpenAI-compatible services. It extends the capabilities of <code>ai-proxy</code> with load balancing, retries, fallbacks, and health checks.</p>
+<p>Additionally, the plugin supports logging LLM request information in the access log, such as token usage, model, time to first response, and more.</p>
+<p><img src="https://static.api7.ai/uploads/2025/08/01/TmTsNypy_ai-proxy-multi-workflow.webp" alt="AI Proxy"></p>
+<p><strong>Example: Load Balancing</strong>:</p>
+<p>The following example demonstrates how to configure two models for load balancing, forwarding 80% of the traffic to one instance and 20% to another.</p>
+<p>For demonstration and easier differentiation, you will configure one OpenAI instance and one DeepSeek instance as the upstream LLM services. Create a route and update with your LLM providers, models, API keys, and endpoints if applicable, setting the weight of the <code>openai-instance</code> to <code>8</code> and the weight of the <code>deepseek-instance</code> to <code>2</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "ai-proxy-multi-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-proxy-multi": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "instances": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "name": "openai-instance",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "provider": "openai",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "weight": 8,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "header": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$OPENAI_API_KEY</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">              }</span></span>
+<span class="line"><span style="color:#A5D6FF">            },</span></span>
+<span class="line"><span style="color:#A5D6FF">            "options": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "model": "gpt-4"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "name": "deepseek-instance",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "provider": "deepseek",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "weight": 2,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "header": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$DEEPSEEK_API_KEY</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">              }</span></span>
+<span class="line"><span style="color:#A5D6FF">            },</span></span>
+<span class="line"><span style="color:#A5D6FF">            "options": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "model": "deepseek-chat"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<h4 id="3-ai-request-rewrite">3. ai-request-rewrite</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-request-rewrite"><code>ai-request-rewrite</code></a> plugin processes client requests by forwarding them to large language model (LLM) services for transformation before relaying them to upstream services. This enables AI-driven redaction, enrichment, and reformatting of requests. The plugin supports integration with OpenAI, DeepSeek, and other OpenAI-compatible APIs.</p>
+<p><strong>Example: Redacting Sensitive Information</strong>:</p>
+<p>The following example demonstrates how you can use the <code>ai-request-rewrite</code> plugin to redact sensitive information before the request reaches the upstream service.</p>
+<p>Create a route and configure the <code>ai-request-rewrite</code> plugin as follows, specifying the provider as <code>openai</code>, attaching the OpenAI API key in the <code>Authorization</code> header, specifying the model name, and indicating the information to redact before the request reaches the upstream service.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "ai-request-rewrite-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-request-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "provider": "openai",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "header": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$OPENAI_API_KEY</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "options":{</span></span>
+<span class="line"><span style="color:#A5D6FF">          "model": "gpt-4"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "prompt": "Given a JSON request body, identify and mask any sensitive information such as credit card numbers, social security numbers, and personal identification numbers (e.g., passport or driver's</span><span style="color:#A5D6FF"> license</span><span style="color:#A5D6FF"> numbers</span><span style="color:#E6EDF3">). Replace detected sensitive values with a masked format (</span><span style="color:#FFA657">e.g.,</span><span style="color:#FF7B72"> \"</span><span style="color:#79C0FF">***</span><span style="color:#79C0FF"> ****</span><span style="color:#79C0FF"> ****</span><span style="color:#79C0FF"> 1234</span><span style="color:#FF7B72">\"</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> credit card numbers. Ensure the JSON structure remains unchanged.</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "</span><span style="color:#E6EDF3">upstream</span><span style="color:#A5D6FF">": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "</span><span style="color:#E6EDF3">type</span><span style="color:#A5D6FF">": "</span><span style="color:#E6EDF3">roundrobin</span><span style="color:#A5D6FF">",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "</span><span style="color:#E6EDF3">nodes</span><span style="color:#A5D6FF">": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "</span><span style="color:#E6EDF3">httpbin.org:80</span><span style="color:#A5D6FF">": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a POST request to the route with some personally identifiable information:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "content": "John said his debit card number is 4111 1111 1111 1111 and SIN is 123-45-6789."</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Example response:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "args"</span><span style="color:#E6EDF3">: {},</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  #</span><span style="color:#FFA198;font-style:italic"> highlight-next-line</span></span>
+<span class="line"><span style="color:#7EE787">  "data"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\n</span><span style="color:#FF7B72">    \"</span><span style="color:#A5D6FF">content</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">John said his debit card number is **** **** **** 1111 and SIN is ***-**-****.</span><span style="color:#FF7B72">\"\n</span><span style="color:#A5D6FF">  }"</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "json"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "messages"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "content"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Client information from customer service calls"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "role"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"system"</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        #</span><span style="color:#FFA198;font-style:italic"> highlight-next-line</span></span>
+<span class="line"><span style="color:#7EE787">        "content"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"John said his debit card number is **** **** **** 1111 and SIN is ***-**-****."</span></span>
+<span class="line"><span style="color:#A5D6FF">        "role"</span><span style="color:#FFA198;font-style:italic">:</span><span style="color:#A5D6FF"> "user"</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ],</span></span>
+<span class="line"><span style="color:#7EE787">    "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"openai"</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#7EE787">  "method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "origin"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"192.168.97.1, 103.97.2.170"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1/anything"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="traffic-control">Traffic Control</h3>
+<h4 id="4-ai-rate-limiting">4. ai-rate-limiting</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/"><code>ai-rate-limiting</code></a> plugin enforces token-based rate limiting for requests sent to large language model (LLM) services. It helps manage API usage by controlling the number of tokens consumed within a specified time frame, ensuring fair resource allocation and preventing excessive load on the service. It is often used in conjunction with the ai-proxy-multi plugin.</p>
+<p><strong>Example: Rate Limiting a Single Instance</strong>:</p>
+<p>The following example demonstrates how to use ai-proxy-multi to configure two models for load balancing, forwarding 80% of the traffic to one instance and 20% to another. Additionally, use <code>ai-rate-limiting</code> to configure token-based rate limiting on the instance that receives 80% of the traffic, so that when the configured quota is fully consumed, the additional traffic will be forwarded to the other instance.</p>
+<p>Create a route and update with your LLM providers, models, API keys, and endpoints as needed:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "ai-rate-limiting-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-rate-limiting": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "instances": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "name": "deepseek-instance-1",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "provider": "deepseek",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "weight": 8,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "header": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$DEEPSEEK_API_KEY</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">              }</span></span>
+<span class="line"><span style="color:#A5D6FF">            },</span></span>
+<span class="line"><span style="color:#A5D6FF">            "options": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "model": "deepseek-chat"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "name": "deepseek-instance-2",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "provider": "deepseek",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "weight": 2,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "header": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$DEEPSEEK_API_KEY</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">              }</span></span>
+<span class="line"><span style="color:#A5D6FF">            },</span></span>
+<span class="line"><span style="color:#A5D6FF">            "options": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "model": "deepseek-chat"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-rate-limiting": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "instances": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "name": "deepseek-instance-1",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "limit_strategy": "total_tokens",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "limit": 100,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "time_window": 30</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        ]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a POST request to the route with a system prompt and a sample user question in the request body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "messages": [</span></span>
+<span class="line"><span style="color:#A5D6FF">      { "role": "system", "content": "You are a mathematician" },</span></span>
+<span class="line"><span style="color:#A5D6FF">      { "role": "user", "content": "What is 1+1?" }</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Example response:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#7EE787">  "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"deepseek-chat"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "choices"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "index"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "message"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "role"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"assistant"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "content"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1 + 1 equals 2. This is a fundamental arithmetic operation where adding one unit to another results in a total of two units."</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "logprobs"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "finish_reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"stop"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>If the <code>deepseek-instance-1</code> instance’s rate limiting quota of 100 tokens has been consumed within a 30-second window, additional requests will be forwarded to the <code>deepseek-instance-2</code> instance, which is not rate limited.</p>
+<h3 id="prompt-processing">Prompt Processing</h3>
+<h4 id="5-ai-prompt-decorator">5. ai-prompt-decorator</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-prompt-decorator/"><code>ai-prompt-decorator</code></a> plugin sets the context for content generation by adding pre-designed prompts before and after user input. This practice helps the model operate according to the intended guidelines during interactions.</p>
+<h4 id="6-ai-prompt-template">6. ai-prompt-template</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-prompt-template/"><code>ai-prompt-template</code></a> plugin supports pre-configured prompt templates that only accept user input in specified template variables, operating in a “fill-in-the-blank” manner.</p>
+<h4 id="7-ai-prompt-guard">7. ai-prompt-guard</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/"><code>ai-prompt-guard</code></a> plugin protects your large language model (LLM) endpoints by inspecting and validating incoming prompt messages. It checks the request content against user-defined allow and deny patterns, ensuring only approved input is forwarded to the upstream LLM. Depending on its configuration, the plugin can check either the latest message or the entire conversation history and can be set to inspect prompts from all roles or only from the end user.</p>
+<p><img src="https://static.api7.ai/uploads/2025/08/01/6Dl4AQGL_ai-prompt-guard-workflow.webp" alt="ai-prompt-guard"></p>
+<h3 id="content-moderation">Content Moderation</h3>
+<h4 id="8-ai-aws-content-moderation">8. ai-aws-content-moderation</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-aws-content-moderation/"><code>ai-aws-content-moderation</code></a> plugin integrates with AWS Comprehend to check for toxic content in the request body when proxying to large language models (LLMs), such as profanity, hate speech, insults, harassment, and violence, and rejects requests when the evaluation result exceeds the configured threshold.</p>
+<h3 id="data-enhancement">Data Enhancement</h3>
+<h4 id="9-ai-rag">9. ai-rag</h4>
+<p>The <a href="https://apisix.apache.org/docs/apisix/plugins/ai-rag/"><code>ai-rag</code></a> plugin provides retrieval-augmented generation (RAG) capabilities for large language models (LLMs). It efficiently retrieves relevant documents or information from external data sources to enhance LLM responses, improving the accuracy and context relevance of the generated output. The plugin supports using Azure OpenAI and Azure AI Search services to generate embeddings and perform vector searches.</p>
+<h2 id="observability">Observability</h2>
+<p>APISIX has enhanced observability for AI applications, enabling real-time monitoring of key metrics such as time to first generated token (TTFT), token usage, and error rates. These capabilities help teams optimize costs, promptly identify performance issues, and ensure transparency through detailed logs and auditing mechanisms. Additionally, APISIX tracks token usage through access logs and observability components, effectively preventing API abuse and avoiding overbilling issues.</p>
+<h2 id="summary">Summary</h2>
+<p>In the <a href="https://apisix.apache.org/blog/2025/04/01/release-apache-apisix-3.12.0/">Apache APISIX 3.12.0</a>, the APISIX AI Gateway has strengthened its AI support capabilities as a modern API gateway through a rich plugin ecosystem and flexible architectural design.</p>
+<p>It offers features such as proxy and request management, traffic control, prompt processing, content moderation, and data enhancement, with support for integration with services like OpenAI and DeepSeek. Performance and security are optimized through mechanisms like load balancing, rate limiting, and content filtering.</p>
+<p>Moreover, APISIX has enhanced observability, enabling real-time monitoring of key metrics to help teams optimize costs, identify performance issues, and ensure transparency. This release provides developers with a powerful, flexible, and secure platform for building and managing AI-driven applications.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

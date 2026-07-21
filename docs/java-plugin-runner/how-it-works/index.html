@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>How it works | Apache APISIX</title><meta name="description" content="This article explains how apisix-java-plugin-runner collaborate with Apache APISIX to run plugins written in java."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/docs/java-plugin-runner/how-it-works/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/docs/java-plugin-runner/how-it-works/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/docs/java-plugin-runner/how-it-works/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/docs/java-plugin-runner/how-it-works/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="How it works | Apache APISIX"><meta property="og:description" content="This article explains how apisix-java-plugin-runner collaborate with Apache APISIX to run plugins written in java."><meta property="og:url" content="https://apisix.apache.org/docs/java-plugin-runner/how-it-works/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"How it works","description":"This article explains how apisix-java-plugin-runner collaborate with Apache APISIX to run plugins written in java.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/java-plugin-runner/how-it-works/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/docs/java-plugin-runner/how-it-works/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/docs/java-plugin-runner/how-it-works/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar">  <ul> <li class> <a href="/docs/java-plugin-runner/development/" class>Development</a>  </li><li class> <a href="/docs/java-plugin-runner/how-it-works/" class="active">How it works</a>  </li><li class> <a href="/docs/java-plugin-runner/the-internal-of-apisix-java-plugin-runner/" class>The internal of apisix java plugin runner</a>  </li><li class> <a href="/docs/java-plugin-runner/installation-guide/" class>Installation</a>  </li><li class> <a href="/docs/java-plugin-runner/deployment-guide/" class>Deployment Guide</a>  </li><li class> <a href="/docs/java-plugin-runner/hot-reloading/" class>Hot-Reload</a>  </li> </ul> </nav> <article class="docs-content prose"> <h1>How it works</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="overview">Overview</h2>
+<p>This article explains how apisix-java-plugin-runner collaborate with <a href="https://apisix.apache.org">Apache APISIX</a> to run plugins written in java.</p>
+<h2 id="run-mode">Run Mode</h2>
+<p>apisix-java-plugin-runner can be run alone or bundled with Apache APISIX.
+It depends on whether you need to debug it or run it.</p>
+<h3 id="debug">Debug</h3>
+<p>If you are developing a new plugin and need to debug the code, then you can run the main class
+<a href="https://github.com/apache/apisix-java-plugin-runner/blob/main/runner-starter/src/main/java/org/apache/apisix/plugin/runner/PluginRunnerApplication.java">PluginRunnerApplication</a>,
+and before start, you need to set the following two environment variables:</p>
+<ul>
+<li>APISIX_LISTEN_ADDRESS: apisix-java-plugin-runner and APISIX for inter-process communication (Unix Domain Socket) socket type file address.
+And do not need to actively create this file, apisix-java-plugin-runner will automatically create this file when it starts.</li>
+<li>APISIX_CONF_EXPIRE_TIME: the time that APISIX’s configuration is cached in the apisix-java-plugin-runner process.</li>
+</ul>
+<p>For example, if you start apisix-java-plugin-runner as a jar package, pass the environment variables as below</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">java</span><span style="color:#79C0FF"> -jar</span><span style="color:#79C0FF"> -DAPISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock</span><span style="color:#79C0FF"> -DAPISIX_CONF_EXPIRE_TIME=3600</span><span style="color:#A5D6FF"> /path/to/apisix-java-plugin-runner.jar</span></span></code></pre>
+<p>Note: Refer to <a href="#run">apisix-java-plugin-runner.jar</a> to get it.</p>
+<p>and add the following configure in the <code>config.yaml</code> file of APISIX</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">ext-plugin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  path_for_test</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/tmp/runner.sock</span></span></code></pre>
+<p>The <code>/tmp/runner.sock</code> is the address of the file where apisix-java-plugin-runner
+and APISIX communicate between processes and must be consistent.</p>
+<p>Note: If you see some error logs like</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>phase_func(): failed to connect to the unix socket unix:/tmp/runner.sock: permission denied</span></span></code></pre>
+<p>in the <code>error.log</code> of APISIX, ensure the APISIX user is provided rights on the socket. This can be done
+for instance by using a common group. Example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">groupadd</span><span style="color:#A5D6FF"> apisix_group</span></span>
+<span class="line"><span style="color:#FFA657">usermod</span><span style="color:#79C0FF"> -aG</span><span style="color:#A5D6FF"> apisix_group</span><span style="color:#A5D6FF"> apisix</span></span>
+<span class="line"><span style="color:#FFA657">usermod</span><span style="color:#79C0FF"> -aG</span><span style="color:#A5D6FF"> apisix_group</span><span style="color:#A5D6FF"> java_plugin_runner</span></span>
+<span class="line"><span style="color:#FFA657">chown</span><span style="color:#A5D6FF"> java_plugin_runner:apisix_group</span><span style="color:#A5D6FF"> /tmp/runner.sock</span></span>
+<span class="line"><span style="color:#FFA657">chmod</span><span style="color:#79C0FF"> 760</span><span style="color:#A5D6FF"> /tmp/runner.sock</span></span></code></pre>
+<p>To get more detailed debugging information, you can modify the output level of the log.
+Configure the log level in <code>runner-starter/src/main/resources/application.yaml</code>, as below
+(any changes to the project files need to be re-executed <code>./mvnw package package</code>)</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">logging</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  level</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    root</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">debug</span></span></code></pre>
+<h3 id="run">Run</h3>
+<p>No environment variables need to be set in Run mode, execute</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> /path/to/apisix-java-plugin-runner</span></span>
+<span class="line"><span style="color:#FFA657"> ./mvnw</span><span style="color:#A5D6FF"> package</span></span></code></pre>
+<p>to built apisix-java-plugin-runner as a jar package, then you will see the <code>dist</code> directory, execute</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cd dist</span></span>
+<span class="line"><span>tar -zxvf apache-apisix-java-plugin-runner-0.1.0-bin.tar.gz</span></span></code></pre>
+<p>the layout of files in the <code>dist</code> directory is as below</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>dist</span></span>
+<span class="line"><span>├── apache-apisix-java-plugin-runner-0.1.0-bin.tar.gz</span></span>
+<span class="line"><span>└── apisix-runner-bin</span></span>
+<span class="line"><span>    ├── apisix-java-plugin-runner.jar</span></span>
+<span class="line"><span>    ├── bin</span></span>
+<span class="line"><span>    │   ├── shutdown.sh</span></span>
+<span class="line"><span>    │   └── startup.sh</span></span>
+<span class="line"><span>    ├── LICENSE</span></span>
+<span class="line"><span>    ├── NOTICE</span></span>
+<span class="line"><span>    └── README.md</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>then add the following configure in the <code>config.yaml</code> file of APISIX</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">ext-plugin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  cmd</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">'java'</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'-jar'</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'-Xmx4g'</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'-Xms4g'</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'/path/to/apisix-runner-bin/apisix-java-plugin-runner.jar'</span><span style="color:#E6EDF3">]</span></span></code></pre> <div class="docs-meta"> <a href="https://github.com/apache/apisix-java-plugin-runner/edit/master/docs/en/latest/how-it-works.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

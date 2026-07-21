@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Develop APISIX Ingress Controller with Nocalhost in K8s | Apache APISIX</title><meta name="description" content="This article introduces the use of Nocalhost to seamlessly connect a local development machine to a remote K8s and develop and debug APISIX Ingress Controller with IDE."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Develop APISIX Ingress Controller with Nocalhost in K8s | Apache APISIX"><meta property="og:description" content="This article introduces the use of Nocalhost to seamlessly connect a local development machine to a remote K8s and develop and debug APISIX Ingress Controller with IDE."><meta property="og:url" content="https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Develop APISIX Ingress Controller with Nocalhost in K8s","description":"This article introduces the use of Nocalhost to seamlessly connect a local development machine to a remote K8s and develop and debug APISIX Ingress Controller with IDE.","datePublished":"2021-11-22","author":{"@type":"Person","name":"Garry Chen"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/11/22/develop-apisix-ingress-with-nocalhost-in-kubernetes/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Develop APISIX Ingress Controller with Nocalhost in K8s</h1> <p class="article-meta"> 2021-11-22 · Garry Chen  </p> <blockquote>
+<p>This article walks you through using Nocalhost to seamlessly connect your local development machine to a remote Kubernetes cluster, allowing you to use IDE to develop and debug Apache APISIX Ingress Controller. Giving you the ability to comfortably develop and debug your remote apps with your existing skills.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Prepare an available Kubernetes cluster in your workstation. You can use any Kubernetes clusters that you have namespace admin privilege.</li>
+<li><a href="https://helm.sh">Helm v3.0+</a> installed</li>
+<li>GoLand IDE 2020.03+ (Use GoLand 2021.2 in this article)</li>
+<li><a href="https://nocalhost.dev/docs/installation#install-jetbrains-plugin">Install Nocalhost JetBrains plugin</a></li>
+<li>Install <a href="https://golang.org/dl/">Go 1.13</a> or later</li>
+</ul>
+<h2 id="deploy-apache-apisix-ingress-controller">Deploy Apache APISIX Ingress Controller</h2>
+<p>I’m going to deploy Apache APISIX Ingress Controller by Nocalhost within GoLand:</p>
+<ol>
+<li>
+<p>Open the Nocalhost plugin within GoLand</p>
+</li>
+<li>
+<p>Use the cluster inspector to select the namespace that you want to deploy.</p>
+</li>
+<li>
+<p>Right-click the selected namespace, choose <strong><code>Deploy Application</code></strong>, and select <strong><code>Helm Repo</code></strong> as installation method.</p>
+</li>
+<li>
+<p>In the following dialog box, input:</p>
+<ol>
+<li><code>apisix-ingress-controller</code> as <code>Name</code></li>
+<li><code>https://charts.apiseven.com</code> as <code>Chart URL</code></li>
+</ol>
+</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1637131316244-f1a58c88-8628-4918-a4c4-1ad287742fd0.gif" alt="Deploy APISIX ingress controller"></p>
+<p>Let’s test the <code>apisix-ingress-controller</code> after deployment by enable the port-forwarding within IDE:</p>
+<ol>
+<li>Find the <code>apisix-ingress-controller</code> workload in the cluster inspector, right-click and select the <strong><code>Port Forward</code></strong></li>
+<li>Add the port-forwarding <code>8080:8080</code></li>
+<li>Visiting the <a href="http://127.0.0.1:8080/healthz"><code>http://127.0.0.1:8080/healthz</code></a> in local and check the result</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1637131450462-842c3baf-b7a4-4598-be0b-27486bf1cf28.gif" alt="APISIX Ingress test"></p>
+<h2 id="developing">Developing</h2>
+<h3 id="step-1-start-devmode">Step 1: Start DevMode</h3>
+<ol>
+<li>Right-click the deployment <code>apisix-ingress-controller</code> in cluster inspector, select <strong><code>Start DevMode</code></strong></li>
+<li>Choose your source code directory if you have already cloned in local, or let Nocalhost clone the source code for you by entering the <strong>apache/apisix-ingress-controller</strong> <a href="https://github.com/apache/apisix-ingress-controller.git">repository URL</a></li>
+<li>Wait for the operations, Nocalhost will open the remote terminal within IDE after entering DevMode</li>
+</ol>
+<p>Now start the <code>apisix-ingress-controller</code> process by entering the following command in the remote terminal:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> run</span><span style="color:#A5D6FF"> main.go</span><span style="color:#A5D6FF"> ingress</span><span style="color:#79C0FF"> --config-path</span><span style="color:#A5D6FF"> conf/config-default.yaml</span></span></code></pre>
+<p>After the <code>apisix-ingress-controller</code> has started, access the service by visiting <a href="http://127.0.0.1:8080/healthz"><code>http://127.0.0.1:8080/healthz</code></a> on local and check the result.</p>
+<p><img src="https://static.apiseven.com/202108/1637131513751-b9184c10-4da3-4ab2-b403-56ae2360704a.gif" alt="Enter DevMode"></p>
+<h3 id="step-2-change-code-and-check-result">Step 2: Change code and check result</h3>
+<p>Now I will make some code changes and check the result.</p>
+<ol>
+<li>Stop the <code>apisix-ingress-controller</code> process</li>
+<li>Search <code>healthz</code> and find the <code>router.go</code> file. Change the <code>healthzResponse</code> status code from <code>ok</code> to <code>Hello Nocalhost</code></li>
+<li>Start the process again and check the change result in local</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1637131699629-a0766f66-0faa-4bf8-9013-284e5f2bdd57.gif" alt="Code change"></p>
+<h3 id="step-3-end-devmode">Step 3. End DevMode</h3>
+<p>Now close the development window and end DevMode.</p>
+<ol>
+<li>Right-click the <code>apisix-ingress-controller</code> in the cluster inspector</li>
+<li>Select <strong><code>End DevMode</code></strong></li>
+</ol>
+<p>Nocalhost will make <code>apisix-ingress-controller</code> end development mode, and reset the <code>apisix-ingress-controller</code> Pod to its original version. Enable the port-forwarding and check the result after ending DevMode.</p>
+<p><img src="https://static.apiseven.com/202108/1637131766524-dba7b756-ae0b-42d1-8ff0-6ac14059ce11.gif" alt="End DevMode"></p>
+<p><strong>Code Change</strong>: All code changes in development mode will <strong>only take effect</strong> in the development container.</p>
+<p>After exiting the development mode, Nocalhost will reset the remote container to its original state (before the code is modified). In this way, after exiting the development mode, the modification of the code will <strong>not</strong> cause any changes or impact on the original environment.</p>
+<h2 id="debugging">Debugging</h2>
+<p>Debugging an application is not easy, and debugging an application in the Kubernetes cluster is even more difficult. Nocalhost is here to help by providing the same debugging experience you’re used in the IDE when debugging in the remote Kubernetes cluster.</p>
+<h3 id="step-1-start-remote-debugging">Step 1: Start remote debugging</h3>
+<p>We can start remote debugging by:</p>
+<ol>
+<li>Right-click <code>apisix-ingress-controller</code> and choose <strong><code>Remote Debug</code></strong></li>
+<li>Nocalhost will put <code>apisix-ingress-controller</code> into DevMode and run debug command defined in <a href="https://nocalhost.dev/zh-CN/docs/config/config-develop"><code>dev config</code></a> automatically</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1637132327260-7bba1d81-cf70-4982-9a07-51cc379e6bea.gif" alt="Start remote debugging"></p>
+<h3 id="step-2-step-through-breakpoints">Step 2: Step through breakpoints</h3>
+<p>Now set a breakpoint on the <code>healthz</code> function. Hover over just to the left of the line number and click on the red dot. Once it’s set, visit <a href="http://127.0.0.1:8080/healthz"><code>http://127.0.0.1:8080/healthz</code></a> in your local browser, GoLand should pop to the foreground. Click the play button to close the request and the progress should continue loading.</p>
+<p>In addition, as I enable the <code>dev.hotReload</code>, so every time you make the code change, Nocalhost will automatically re-run the debug command. This is very useful when you make the code change and debug frequently.</p>
+<p><img src="https://static.apiseven.com/202108/1637132455552-86f44c0c-94d1-4ad9-a79d-0e2c6957d60b.gif" alt="Setting up breakpoints and run service"></p>
+<h2 id="remote-run">Remote Run</h2>
+<p>Not just remote debugging, Nocalhost also provides an easy way to run your Go service in the Kubernetes cluster, plus hot reload!</p>
+<p>You can using the remote run feature by:</p>
+<ol>
+<li>Right-click <code>apisix-ingress-controller</code> in cluster inspector, choose <strong><code>Remote Run</code></strong></li>
+<li>Nocalhost will put <code>apisix-ingress-controller</code> into development mode and and run start command defined in <a href="https://nocalhost.dev/zh-CN/docs/config/config-develop"><code>dev config</code></a> automatically</li>
+</ol>
+<p>Now every time you make code changes, Nocalhost will automatically trigger the run command. You can now enjoy the hot reload for Go without complex configuration.</p>
+<p><img src="https://static.apiseven.com/202108/1637133046432-84810667-c3ee-4d71-8a33-eb1833fd9ce2.gif" alt="Remote run"></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We’ve learned how to use Nocalhost to develop and debug the APISIX Ingress Controller in Kubernetes. Now, instead of waiting for slow local development processes, we can iterate quickly with an instant feedback loop and a productive cloud-native development environment.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

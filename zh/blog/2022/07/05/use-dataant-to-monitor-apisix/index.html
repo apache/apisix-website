@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>如何使用 DataAnt 监控 Apache APISIX | Apache APISIX</title><meta name="description" content="本文主要介绍了如何通过 DataAnt Agent 将云原生 API Gateway Apache APISIX 的指标数据上传到 DataAnt 监控系统，实现对 Apache APISIX 进行监控。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/07/05/use-dataant-to-monitor-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/07/05/use-dataant-to-monitor-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/07/05/use-dataant-to-monitor-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/07/05/use-dataant-to-monitor-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="如何使用 DataAnt 监控 Apache APISIX | Apache APISIX"><meta property="og:description" content="本文主要介绍了如何通过 DataAnt Agent 将云原生 API Gateway Apache APISIX 的指标数据上传到 DataAnt 监控系统，实现对 Apache APISIX 进行监控。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/07/05/use-dataant-to-monitor-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"如何使用 DataAnt 监控 Apache APISIX","description":"本文主要介绍了如何通过 DataAnt Agent 将云原生 API Gateway Apache APISIX 的指标数据上传到 DataAnt 监控系统，实现对 Apache APISIX 进行监控。","datePublished":"2022-07-05","author":{"@type":"Person","name":"韩飞"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/07/05/use-dataant-to-monitor-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/07/05/use-dataant-to-monitor-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/07/05/use-dataant-to-monitor-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>如何使用 DataAnt 监控 Apache APISIX</h1> <p class="article-meta"> 2022-07-05 · 韩飞  </p> <blockquote>
+<p>本文主要介绍如何通过 DataAnt Agent 将 API Gateway Apache APISIX 的指标数据上传到 DATAANT 监控系统。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>Apache APISIX 是一个开源的云原生 API 网关，作为 API 网关，它兼具动态、实时、高性能等特点，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。你可以使用 Apache APISIX 来处理传统的南北向流量，以及服务间的东西向流量，也可以当做 K8s Ingress controller 来使用。得益于 APISIX 全动态的设计，可以随时进行配置更改并且均不需要重启服务。</p>
+<p>DataAnt 全栈云监控系统通过大数据和机器学习能够汇总 IaaS、PaaS 和 SaaS 层所有运维数据，给用户提供统一可视化界面。DataAnt 允许用户在相关监控数据源之间无缝快速地移动，而无需切换工具，更精细地了解到自己 IT 系统的状态。其提供的 DataAnt Agent 可以实时监控 APISIX 并将其监控数据上传到 DataAnt PaSS 平台，实现云端一站式监控。</p>
+<h2 id="原理简介">原理简介</h2>
+<p><img src="https://static.apiseven.com/2022/blog/0705/1.svg" alt="principle"></p>
+<ol>
+<li>采集配置</li>
+</ol>
+<p>DataAnt Agent 首先会通过 <code>config.yaml</code> 的配置的 APISIX 项进行采集器初始化和注册。同一个 Agent 可以注册多个采集器。采集器收集 APISIX 暴露的指标后，对指标数据进行加密上传到 DataAnt Cloud。</p>
+<ol start="2">
+<li>数据可视化</li>
+</ol>
+<p>DataAnt Cloud 在接收到数据后，数据经过初步的监控信息补充和处理会存放到时序数据库中，之后可以通过 DataAnt 的 Dashboard 实时监控 APISIX。</p>
+<ol start="3">
+<li>告警通知</li>
+</ol>
+<p>数据还将通过消息分发到告警匹配处理，然后再进行通知聚合最终通过配置的通知方式将告警发送，即可以实时接收到 APISIX 的异常情况。</p>
+<h2 id="配置指南">配置指南</h2>
+<ol>
+<li>
+<p>首先请访问 <a href="http://139.224.11.158">DataAnt Cloud</a>，注册账户并登录平台。</p>
+</li>
+<li>
+<p>通过<a href="https://pan.baidu.com/s/1fabvSiDLDh8ZRTjpzINHLg?pwd=87d4">下载链接</a>获取 DataAnt 的 Agent，下载完成后上传到 APISIX 所在的机器上并给 Agent 添加执行权限。</p>
+</li>
+<li>
+<p>在当前目录下创建 DataAnt Agent 所需的配置文件 <code>./config.yaml</code>。详细配置如下：</p>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">tenantId</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">11</span><span style="color:#8B949E">       # 该 ID 是您的 DataAnt 平台的用户 ID</span></span>
+<span class="line"><span style="color:#7EE787">hostIp</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span><span style="color:#8B949E">  # 主机的标识 IP</span></span>
+<span class="line"><span style="color:#7EE787">hostName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">configs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://127.0.0.1:9091</span><span style="color:#8B949E">  # APISIX 监控指标所暴露的端口</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span><span style="color:#8B949E">                # 监控类型选择 APISIX</span></span>
+<span class="line"><span style="color:#7EE787">    asName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix_test</span><span style="color:#8B949E">         # 别名</span></span></code></pre>
+<ol start="4">
+<li>使用以下命令启动 Agent。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">./agent</span></span></code></pre>
+<p>启动成功后，则会返回以下数据：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">2022/06/21</span><span style="color:#A5D6FF"> 20:50:10</span><span style="color:#A5D6FF"> {"code":200,"msg":"请求成功","data":null}</span></span>
+<span class="line"><span style="color:#FFA657">2022/06/21</span><span style="color:#A5D6FF"> 20:50:30</span><span style="color:#A5D6FF"> {"code":200,"msg":"请求成功","data":null}</span></span>
+<span class="line"><span style="color:#FFA657">2022-06-21</span><span style="color:#A5D6FF"> 20:51:00:000</span><span style="color:#A5D6FF">        INFO</span><span style="color:#A5D6FF">        apisix/apisix.go:25</span><span style="color:#A5D6FF">        获取对应监控数据，数据长度1675</span></span>
+<span class="line"><span style="color:#FFA657">2022-06-21</span><span style="color:#A5D6FF"> 20:51:00:000</span><span style="color:#A5D6FF">        INFO</span><span style="color:#A5D6FF">        prometheus/prometheusCollector.go:43</span><span style="color:#A5D6FF">        获取对应监控数据开始解析1675</span></span>
+<span class="line"><span style="color:#FFA657">2022-06-21</span><span style="color:#A5D6FF"> 20:51:00:000</span><span style="color:#A5D6FF">        INFO</span><span style="color:#A5D6FF">        prometheus/prometheusCollector.go:43</span><span style="color:#A5D6FF">        获取对应监控数据完成解析</span><span style="color:#A5D6FF"> 解析指标数量21</span></span>
+<span class="line"><span style="color:#FFA657">2022-06-21</span><span style="color:#A5D6FF"> 20:51:00:000</span><span style="color:#A5D6FF">        INFO</span><span style="color:#A5D6FF">        collector/collector.go:82</span><span style="color:#A5D6FF">        apisix采集到数据数量21</span></span>
+<span class="line"><span style="color:#FFA657">2022-06-21</span><span style="color:#A5D6FF"> 20:51:00:000</span><span style="color:#A5D6FF">        INFO</span><span style="color:#A5D6FF">        runtime/asm_amd64.s:1581</span><span style="color:#A5D6FF">        apisix_test9091:指标数:21</span></span></code></pre>
+<ol start="5">
+<li>
+<p>在 DataAnt 平台首页单击<code>安装集成插件</code>><code>监控插件</code>，选择 APISIX，并单击<code>配置</code>下的<code>点击配置</code>。</p>
+</li>
+<li>
+<p>在 DataAnt 平台首页单击左侧导航栏的<code>仪表盘</code>并新建仪表盘。选择自己需要的指标，并拖拽到仪表盘上，配置完成的指标如下：</p>
+</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0705/2.PNG" alt="dashboard"></p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>DataAnt Agent 每隔 30 秒会上报一次数据，因此会存在一定的延迟。</p></div>
+<h2 id="总结">总结</h2>
+<p>本文主要介绍了如何通过 DataAnt Agent 上传 APISIX 的指标数据到 DATAANT 监控系统中，你可以在后续使用中配置相关报警规则及报警联系人，当服务出现故障时可以及时地通知到你。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

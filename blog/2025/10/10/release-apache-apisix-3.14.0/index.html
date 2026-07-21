@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Release Apache APISIX 3.14.0 | Apache APISIX</title><meta name="description" content="The Apache APISIX 3.14.0 version is released on Oct 10, 2025. This release includes a few changes, new features, bug fixes, and other improvements to user experiences."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Release Apache APISIX 3.14.0 | Apache APISIX"><meta property="og:description" content="The Apache APISIX 3.14.0 version is released on Oct 10, 2025. This release includes a few changes, new features, bug fixes, and other improvements to user experiences."><meta property="og:url" content="https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Release Apache APISIX 3.14.0","description":"The Apache APISIX 3.14.0 version is released on Oct 10, 2025. This release includes a few changes, new features, bug fixes, and other improvements to user experiences.","datePublished":"2025-10-10","author":{"@type":"Person","name":"Ashish Tiwari"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/10/10/release-apache-apisix-3.14.0/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/10/10/release-apache-apisix-3.14.0/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Release Apache APISIX 3.14.0</h1> <p class="article-meta"> 2025-10-10 · Ashish Tiwari  </p> <p>We are glad to present Apache APISIX 3.14.0 with exciting new features, bug fixes, and other improvements to user experiences.</p>
+<!--truncate-->
+<p>This release introduces several new features, including new AI proxy variables for logging, support for AI/ML API providers in AI plugins, route matching based on the request body, support for the KSUID algorithm in the <code>request-id</code> plugin, and more.</p>
+<p>There are also a few important changes included in this release. Should you find these changes impacting your operations, please plan your upgrade accordingly.</p>
+<h2 id="breaking-changes">Breaking Changes</h2>
+<h3 id="jwt-auth-plugin-requires-secret-for-non-rses-algorithms"><code>jwt-auth</code> plugin requires <code>secret</code> for non-RS/ES algorithms</h3>
+<p>The <code>jwt-auth</code> plugin will no longer automatically generate a secret value when none is provided for algorithms other than RS256 and ES256. Previously, when users configured the <code>jwt-auth</code> plugin without providing a secret for algorithms like HS256 or HS512, APISIX would automatically generate one.</p>
+<p>Now users must explicitly configure the secret field when using algorithms other than RS256 and ES256. If no secret is provided, the plugin will return an error message requiring users to set this value manually.</p>
+<p>This change improves configuration transparency and prevents potential confusion from auto-generated values. Users should review their <code>jwt-auth</code> plugin configurations and ensure they explicitly set the secret field where required.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12611">PR #12611</a>.</p>
+<h3 id="openid-connect-plugin-requires-explicit-session-secret-configuration"><code>openid-connect</code> plugin requires explicit session secret configuration</h3>
+<p>In this release, the <code>openid-connect</code> plugin no longer auto-generates a <code>session.secret</code> when <code>bearer_only</code> is set to <code>false</code> and no <code>session.secret</code> is provided. Instead, the user must explicitly specify <code>session.secret</code> when <code>bearer_only</code> is set to <code>false</code>.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12609">PR #12609</a>.</p>
+<h2 id="new-features">New Features</h2>
+<h3 id="support-route-matching-based-on-request-body">Support route matching based on request body</h3>
+<p>You can now use <code>post_arg.*</code> in a route’s <code>vars</code> to match requests based on the request body value. <code>post_arg</code> supports JSON, multipart, and URL-encoded request bodies, enabling flexible and dynamic routing logic based on message payloads.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12388">PR #12388</a>.</p>
+<h3 id="add-global-switch-to-disable-all-upstream-health-checks">Add global switch to disable all upstream health checks</h3>
+<p>This release introduces a new configuration option <code>apisix.disable_upstream_healthcheck</code> in the <code>config.yaml</code> that allows you to turn off all upstream health checks at once. This is useful in emergency where health checking may interfere with routing fallback.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12407">PR #12407</a>.</p>
+<h3 id="support-multiple-objects-in-a-single-log">Support multiple objects in a single log</h3>
+<p>This release increases flexibility of the <code>json.delay_encode</code> logging feature: up to 16 distinct <code>delay_encode</code> objects can now be included in a single log entry. This gives finer control over how and which parts of log payloads are delayed or encoded.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12395">PR #12395</a>.</p>
+<h3 id="add-custom-claim-validation-in-openid-connect-plugin">Add custom claim validation in <code>openid-connect</code> plugin</h3>
+<p>This release introduces the ability to configure custom claim validation in the <code>openid-connect</code> plugin. This enhancement allows users to define validation rules for specific claims, such as ensuring a claim matches one of a set of predefined values. If a claim fails validation, the request will be rejected.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/11824">PR #11824</a>.</p>
+<h3 id="support-environment-variables-in-openid-connect-plugin">Support environment variables in <code>openid-connect</code> plugin</h3>
+<p>This release adds support for environment variables in the configuration of the <code>openid-connect</code> plugin. Users can now store sensitive fields, such as <code>client_secret</code>, in environment variables, enhancing security and flexibility during deployment.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/11451">PR #11451</a>.</p>
+<h3 id="introduce-traffic-split-plugin-for-stream-routes">Introduce <code>traffic-split</code> plugin for stream routes</h3>
+<p>This release introduces the <code>traffic-split</code> plugin for stream routes (L4), enabling weighted traffic distribution across multiple upstreams. This enhancement allows more granular control over traffic routing in stream-based applications.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12630">PR #12630</a>.</p>
+<h3 id="add-ksuid-algorithm-in-request-id-plugin">Add KSUID algorithm in <code>request-id</code> plugin</h3>
+<p>This release supports KSUID (K-Sortable Globally Unique Identifier) algorithm in the <code>request-id</code> plugin for request ID generation.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12573">PR #12573</a>.</p>
+<h3 id="introduce-fallback-mechanism-in-ai-proxy-multi-plugin">Introduce fallback mechanism in <code>ai-proxy-multi</code> plugin</h3>
+<p>This release enhances the <code>ai-proxy-multi</code> plugin by adding a fallback mechanism for specific error codes. This improvement ensures more resilient AI proxying by allowing predefined fallback behaviors when certain error conditions are met.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12571">PR #12571</a>.</p>
+<h3 id="support-metadata-headers-and-head-method-in-standalone-api">Support metadata headers and HEAD method in Standalone API</h3>
+<p>The standalone API has two new response metadata headers: <code>X-Last-Modified</code> and <code>X-Digest</code>, which let clients detect which instance was last updated and inspect a configuration digest passed by the client.</p>
+<p>In addition, HEAD requests are now supported (returning only metadata, not full config), making lightweight polling or metadata checks possible.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12526">PR #12526</a>.</p>
+<h3 id="add-new-ai-proxy-variables-for-logging">Add new AI proxy variables for logging</h3>
+<p>This release adds the following variables to the <code>ai-proxy</code> and <code>ai-proxy-multi</code> plugins:</p>
+<ul>
+<li><code>apisix_upstream_response_time</code>: Time taken for APISIX to send the request to the upstream service and receive the full response.</li>
+<li><code>request_type</code>: Type of request, where the value could be <code>traditional_http</code>, <code>ai_chat</code>, or <code>ai_stream</code>.</li>
+<li><code>llm_time_to_first_token</code>: Duration from request sending to the first token received from the LLM service, in milliseconds.</li>
+<li><code>llm_model</code>: LLM model name forwarded to the upstream LLM service.</li>
+<li><code>request_llm_model</code>: LLM model name specified in the request.</li>
+<li><code>llm_prompt_tokens</code>: Number of tokens in the prompt.</li>
+<li><code>llm_completion_tokens</code>: Number of chat completion tokens in the prompt.</li>
+</ul>
+<p>These variables can be logged in the access log, utilized with logging plugins, or exported as Prometheus metrics. This enhancement improves monitoring and debugging by offering insights into upstream service response times during AI proxying.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12555">PR #12555</a>, <a href="https://github.com/apache/apisix/pull/12554">PR #12554</a>, <a href="https://github.com/apache/apisix/pull/12515">PR #12515</a>, and <a href="https://github.com/apache/apisix/pull/12518">PR #12518</a>.</p>
+<h3 id="introduce-ai-aliyun-content-moderation-plugin">Introduce <code>ai-aliyun-content-moderation</code> plugin</h3>
+<p>This release introduces the new <code>ai-aliyun-content-moderation</code> plugin, enabling integration with Aliyun’s Machine-Assisted Moderation Plus for content moderation. The plugin evaluates request bodies for profanity, hate speech, insults, harassment, violence, and more. Any request that exceeds the specified threshold will be rejected.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12530">PR #12530</a>.</p>
+<h3 id="add-azure-ai-and-aiml-api-providers-to-ai-plugins">Add Azure AI and AI/ML API providers to AI plugins</h3>
+<p>The <code>ai-proxy</code>, <code>ai-proxy-multi</code>, and <code>ai-request-rewrite</code> plugins now supports Azure AI and AI/ML API as providers.</p>
+<p>When <code>provider</code> is set to <code>azure-openai</code>, the plugin proxies requests to the custom endpoint configured in <code>override</code> and additionally removes the model parameter from user requests.</p>
+<p>AI/ML API provides a unified OpenAI-compatible API with access to 300+ LLMs such as GPT-4, Claude, Gemini, DeepSeek, and others. When <code>provider</code> is set to <code>aimlapi</code>, the plugin allows users to route AI requests to AIMLAPI-compatible endpoints, broadening the spectrum of AI providers that can be utilized within the APISIX ecosystem.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12565">PR #12565</a> and <a href="https://github.com/apache/apisix/pull/12379">PR #12379</a>.</p>
+<h3 id="support-healthcheck-in-ai-proxy-multi-plugin">Support healthcheck in <code>ai-proxy-multi</code> plugin</h3>
+<p>The <code>ai-proxy-multi</code> plugin now includes health check support for upstream AI services. Each backend endpoint can be monitored for availability, and requests can be routed dynamically to healthy endpoints. This ensures high availability and prevents requests from being sent to unresponsive AI servers, improving reliability in production environments.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12509">PR #12509</a>.</p>
+<h3 id="support-limit-conn-in-workflow-plugin-rules">Support <code>limit-conn</code> in <code>workflow</code> plugin rules</h3>
+<p>This release enhances the <code>workflow</code> plugin by allowing it to include the <code>limit-conn</code> plugin as part of workflow rules.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12465">PR #12465</a>.</p>
+<h3 id="improve-datadog-plugin-tagging">Improve <code>datadog</code> plugin tagging</h3>
+<p>The <code>datadog</code> plugin now provides enhanced metrics and tags to support a wider range of observability needs. This update introduces several new tags:</p>
+<ul>
+<li><code>response_status_class</code>: The class of the HTTP response status code (e.g., “2xx”, “4xx”, “5xx”).</li>
+<li><code>path</code>: The HTTP path pattern, available only if the <code>include_path</code> attribute is set to <code>true</code>.</li>
+<li><code>method</code>: The HTTP method, available only if the <code>include_method</code> attribute is set to <code>true</code>.</li>
+</ul>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/11943">PR #11943</a>.</p>
+<h3 id="add-support-for-extra_headers-in-forward-auth-plugin">Add support for <code>extra_headers</code> in <code>forward-auth</code> plugin</h3>
+<p>The <code>forward-auth</code> plugin can now extract fields from the request body and inject them as headers to the upstream service, using <code>extra_headers</code> and <code>$post_arg.*</code>. For example, if authentication returns a user role or token in the response body, you can now map part of that body into a header that downstream services can consume.</p>
+<p>For more information, see <a href="https://github.com/apache/apisix/pull/12405">PR #12405</a>.</p>
+<h2 id="other-updates">Other Updates</h2>
+<ul>
+<li>Admin API no longer populates default values (PR <a href="https://github.com/apache/apisix/pull/12603">#12603</a>)</li>
+<li>Add healthcheck manager to decouple upstream (PR <a href="https://github.com/apache/apisix/pull/12426">#12426</a>)</li>
+<li>Decouple Prometheus exporter calculation and output (PR <a href="https://github.com/apache/apisix/pull/12383">#12383</a>)</li>
+<li>Redact encrypted fields from error logs to prevent sensitive data leakage (PR <a href="https://github.com/apache/apisix/pull/12629">#12629</a>)</li>
+<li>Fix inconsistent resolved nodes for health checks in the <code>ai-proxy-multi</code> plugin (PR <a href="https://github.com/apache/apisix/pull/12594">#12594</a>)</li>
+<li>Only trust <code>X-Forwarded-*</code> headers from configured <code>trusted_addresses</code> (PR <a href="https://github.com/apache/apisix/pull/12551">#12551</a>)</li>
+<li>Ensure redirects work correctly when scheme is not HTTPS (PR <a href="https://github.com/apache/apisix/pull/12561">#12561</a>)</li>
+<li>Fix UI redirect errors when running behind a proxy (PR <a href="https://github.com/apache/apisix/pull/12566">#12566</a>)</li>
+<li>Refresh stale LRU cache items for secrets in the background (PR <a href="https://github.com/apache/apisix/pull/12614">#12614</a>)</li>
+<li>Restore missing runtime information in health check manager (PR <a href="https://github.com/apache/apisix/pull/12607">#12607</a>)</li>
+<li>Support stream route configuration in Standalone Admin API mode (PR <a href="https://github.com/apache/apisix/pull/12604">#12604</a>)</li>
+<li>Only log response body when <code>include_resp_body</code> is enabled (PR <a href="https://github.com/apache/apisix/pull/12599">#12599</a>)</li>
+<li>Correct spelling of <code>get_healthcheck_events_module</code> function name (PR <a href="https://github.com/apache/apisix/pull/12587">#12587</a>)</li>
+<li>Prevent panic when <code>ai-proxy-multi</code> instance lacks a custom endpoint (PR <a href="https://github.com/apache/apisix/pull/12584">#12584</a>)</li>
+<li>Prevent message accumulation across requests in AI Prompt Decorator plugin (PR <a href="https://github.com/apache/apisix/pull/12582">#12582</a>)</li>
+<li>Remove stale <code>stream_worker_events.sock</code> file in Docker entrypoint (PR <a href="https://github.com/apache/apisix/pull/12546">#12546</a>)</li>
+<li>Add expiration time (<code>exptime</code>) to EWMA shared dictionary items (PR <a href="https://github.com/apache/apisix/pull/12557">#12557</a>)</li>
+<li>Catch malformed override endpoints in <code>ai-proxy</code> schema validation (PR <a href="https://github.com/apache/apisix/pull/12563">#12563</a>)</li>
+<li>Fix missing <code>ctx.llm_raw_usage</code> value in non-stream mode (PR <a href="https://github.com/apache/apisix/pull/12564">#12564</a>)</li>
+<li>Check types of <code>choices</code>, <code>usage</code>, and <code>content</code> fields in <code>ai-proxy</code> before use (PR <a href="https://github.com/apache/apisix/pull/12548">#12548</a>)</li>
+<li>Adjust ID length for Kubernetes service discovery (PR <a href="https://github.com/apache/apisix/pull/12536">#12536</a>)</li>
+<li>Make <code>basic-auth</code> scheme case-insensitive (PR <a href="https://github.com/apache/apisix/pull/12539">#12539</a>)</li>
+<li>Skip client certificate verification when only <code>tls.verify</code> is configured (PR <a href="https://github.com/apache/apisix/pull/12527">#12527</a>)</li>
+<li>Load full data from etcd when worker restarts (PR <a href="https://github.com/apache/apisix/pull/12523">#12523</a>)</li>
+<li>Upgrade etcd revision on watch request timeout (PR <a href="https://github.com/apache/apisix/pull/12514">#12514</a>)</li>
+<li>Enable EndpointSlices support for Kubernetes discovery (PR <a href="https://github.com/apache/apisix/pull/11654">#11654</a>)</li>
+<li>Include gRPC trailers even when response body is empty in <code>grpc-web</code> (PR <a href="https://github.com/apache/apisix/pull/12490">#12490</a>)</li>
+<li>Fix hostname retrieval issue on Red Hat systems (PR <a href="https://github.com/apache/apisix/pull/12267">#12267</a>)</li>
+<li>Fix batch processor cache not working when plugin is configured on service level (PR <a href="https://github.com/apache/apisix/pull/12474">#12474</a>)</li>
+<li>Resolve variable references in <code>$post_arg</code> for Forward Auth plugin’s <code>extra_headers</code> (PR <a href="https://github.com/apache/apisix/pull/12435">#12435</a>)</li>
+<li>Fix inconsistent circuit breaking due to premature <code>breaker_time</code> increment in <code>api-breaker</code> plugin (PR <a href="https://github.com/apache/apisix/pull/12451">#12451</a>)</li>
+<li>Add missing configuration validation for Standalone Admin API mode (PR <a href="https://github.com/apache/apisix/pull/12424">#12424</a>)</li>
+<li>Skip writing access logs when <code>enable_access_log</code> is set to false (PR <a href="https://github.com/apache/apisix/pull/11310">#11310</a>)</li>
+<li>Remove unused <code>set_ngx_var</code> attribute from OpenTelemetry plugin (PR <a href="https://github.com/apache/apisix/pull/12411">#12411</a>)</li>
+<li>Support <code>Content-Type</code> headers with charset for URL-encoded data in Request Validation plugin (PR <a href="https://github.com/apache/apisix/pull/12406">#12406</a>)</li>
+<li>Fix Zipkin <code>trace_id</code> and <code>span_id</code> format in <code>ngx_var</code> (PR <a href="https://github.com/apache/apisix/pull/12403">#12403</a>)</li>
+<li>Fix missed consumer updates caused by incorrect cache versioning (PR <a href="https://github.com/apache/apisix/pull/12413">#12413</a>)</li>
+<li>Ensure <code>get_keys</code> returns all items from shared dictionary beyond default 1024 limit (PR <a href="https://github.com/apache/apisix/pull/12380">#12380</a>)</li>
+</ul>
+<h2 id="changelog">Changelog</h2>
+<p>For a complete list of changes in this release, please see <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#3140">CHANGELOG</a>.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

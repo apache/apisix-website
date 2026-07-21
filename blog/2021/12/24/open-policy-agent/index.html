@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX integrates with Open Policy Agent | Apache APISIX</title><meta name="description" content="This article takes HTTP API as an example to introduce the `opa` plugin, and explains in detail how to integrate the API gateway Apache APISIX with OPA."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/24/open-policy-agent/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX integrates with Open Policy Agent | Apache APISIX"><meta property="og:description" content="This article takes HTTP API as an example to introduce the `opa` plugin, and explains in detail how to integrate the API gateway Apache APISIX with OPA."><meta property="og:url" content="https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/opa.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX integrates with Open Policy Agent","description":"This article takes HTTP API as an example to introduce the `opa` plugin, and explains in detail how to integrate the API gateway Apache APISIX with OPA.","datePublished":"2021-12-24","image":"https://static.apiseven.com/2022/blog/0818/plugins/opa.png","author":{"@type":"Person","name":"Zeping Bai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/12/24/open-policy-agent/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/12/24/open-policy-agent/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX integrates with Open Policy Agent</h1> <p class="article-meta"> 2021-12-24 · Zeping Bai  </p> <blockquote>
+<p>This article introduces the <code>opa</code> plug-in as an example of HTTP API and details how to integrate Apache APISIX with OPA to decouple the authentication authorization of back-end services.</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1640333490845-38542a3e-5d3a-4960-b11f-69ce3a61f7fc.png" alt="APISIX-OPA cover"></p>
+<p>Open Policy Agent (OPA) is an open source lightweight general-purpose policy engine that can replace the built-in policy function module in software and help users decouple services from the policy engine. Thanks to <a href="https://www.openpolicyagent.org/docs/latest/ecosystem/">OPA’s well-established ecosystem</a>, users can easily integrate OPA with other services, such as program libraries, HTTP APIs, etc.</p>
+<p>As shown in the figure below, OPA first describes the policy through the policy language Rego; then stores the policy data through JSON, after which the user can send a query request. After receiving the query request, OPA will combine the policy, data and user input to generate a policy decision and send the decision to the service.</p>
+<p><img src="https://static.apiseven.com/202108/1640332208554-40f574e3-0582-48f3-8e07-eb49fbd37ac7.png" alt="OPA Workflow"></p>
+<h2 id="plugin-introduction">Plugin Introduction</h2>
+<p>Apache APISIX provides an <code>opa</code> plug-in that allows users to conveniently introduce the policy capabilities provided by OPA to Apache APISIX to enable flexible authentication and access control features.</p>
+<p>After configuring the <code>opa</code> plug-in on a route, Apache APISIX assembles request information, connection information, etc. into JSON data and sends it to the policy decision API address when processing response requests. As long as the policy deployed in OPA conforms to the data specification set by Apache APISIX, functions such as pass request, reject request, custom status code, custom response header, custom response header, etc. can be implemented.</p>
+<p>This article takes HTTP API as an example to introduce the <code>opa</code> plug-in and details how to integrate Apache APISIX with OPA to decouple authentication authorization for back-end services.</p>
+<h2 id="how-to-use">How to use</h2>
+<h3 id="build-test-environment">Build test environment</h3>
+<ol>
+<li>
+<p>Use Docker to build OPA services.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Running OPA with Docker</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> opa</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8181:8181</span><span style="color:#A5D6FF"> openpolicyagent/opa:0.35.0</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -s</span></span></code></pre>
+</li>
+<li>
+<p>Create an <code>example</code> policy.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Create policy</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XPUT</span><span style="color:#A5D6FF"> 'localhost:8181/v1/policies/example'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: text/plain'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data-raw </span><span style="color:#A5D6FF">'package example</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">import input.request</span></span>
+<span class="line"><span style="color:#A5D6FF">import data.users</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">default allow = false</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">allow {</span></span>
+<span class="line"><span style="color:#A5D6FF">    # has the name test-header with the value only-for-test request header</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.headers["test-header"] == "only-for-test"</span></span>
+<span class="line"><span style="color:#A5D6FF">    # The request method is GET</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.method == "GET"</span></span>
+<span class="line"><span style="color:#A5D6FF">    # The request path starts with /get</span></span>
+<span class="line"><span style="color:#A5D6FF">    startswith(request.path, "/get")</span></span>
+<span class="line"><span style="color:#A5D6FF">    # GET parameter test exists and is not equal to abcd</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["test"] != "abcd"</span></span>
+<span class="line"><span style="color:#A5D6FF">    # GET parameter user exists</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">reason = users[request.query["user"]].reason {</span></span>
+<span class="line"><span style="color:#A5D6FF">    not allow</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">headers = users[request.query["user"]].headers {</span></span>
+<span class="line"><span style="color:#A5D6FF">    not allow</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">status_code = users[request.query["user"]].status_code {</span></span>
+<span class="line"><span style="color:#A5D6FF">    not allow</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+</li>
+<li>
+<p>Create <code>users</code> data.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Create test user data</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XPUT</span><span style="color:#A5D6FF"> 'localhost:8181/v1/data/users'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data-raw </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "alice": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Location": "http://example.com/auth"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "status_code": 302</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "bob": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "test": "abcd",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "abce": "test"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "carla": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "reason": "Give you a string reason"</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "dylon": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Content-Type": "application/json"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "reason": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "code": 40001,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "desc": "Give you a object reason"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+</li>
+</ol>
+<h3 id="create-a-route-and-enable-the-plugin">Create a route and enable the plugin</h3>
+<p>Run the following command to create the route and enable the <code>opa</code> plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XPUT</span><span style="color:#A5D6FF"> 'http://127.0.0.1:9080/apisix/admin/routes/r1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'X-API-KEY: &#x3C;api-key>'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data-raw </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "GET",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "POST",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "PUT",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "DELETE"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "opa": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "host": "http://127.0.0.1:8181",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "policy": "example"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="test-requests">Test Requests</h3>
+<p>Next, run the following command to send a request to the <code>opa</code> plugin to test the plugin’s running status.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Allow requests</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=none&#x26;user=dylon'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">    "args"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">        "test"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "abcd1",</span></span>
+<span class="line"><span style="color:#FFA657">        "user"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "dylon"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#FFA657">    "headers"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">        "Test-Header"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "only-for-test",</span></span>
+<span class="line"><span style="color:#FFA657">        "with"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "more"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#FFA657">    "origin"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "127.0.0.1",</span></span>
+<span class="line"><span style="color:#FFA657">    "url"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "http://127.0.0.1/get?test=abcd1&#x26;user=dylon"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Reject the request and rewrite the status code and response headers</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=alice'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 302</span><span style="color:#A5D6FF"> Moved</span><span style="color:#A5D6FF"> Temporarily</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:37:35</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/html</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 142</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Location:</span><span style="color:#A5D6FF"> http://example.com/auth</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Rejects the request and returns a custom response header</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=bob'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> Forbidden</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:38:27</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/html</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 150</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">abce:</span><span style="color:#A5D6FF"> test</span></span>
+<span class="line"><span style="color:#79C0FF">test</span><span style="color:#A5D6FF">:</span><span style="color:#A5D6FF"> abcd</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Rejects the request and returns a custom response (string)</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=carla'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> Forbidden</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:38:58</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Give</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> a</span><span style="color:#A5D6FF"> string</span><span style="color:#A5D6FF"> reason</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Rejects the request and returns a custom response (JSON)</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=dylon'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> Forbidden</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:42:12</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"code"</span><span style="color:#FFA657">:40001,</span><span style="color:#FFA657">"desc"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"Give you a object reason"</span><span style="color:#FFA657">}</span></span></code></pre>
+<h3 id="disable-the-plugin">Disable the plugin</h3>
+<p>Thanks to the dynamic nature of Apache APISIX, the OPA plug-in on a route can be turned off by simply removing the <code>opa</code> plug-in related configuration from the route configuration and saving it.</p>
+<h2 id="summary">Summary</h2>
+<p>This article describes the detailed steps for interfacing Apache APISIX and Open Policy Agent. We hope this article will give you a clearer understanding of using Open Policy Agent in Apache APISIX and facilitate the subsequent hands-on operation.</p>
+<p>Apache APISIX is not only committed to maintaining its own high performance, but also has always attached great importance to the construction of open source ecology. At present, Apache APISIX has 10+ authentication authorization-related plug-ins that support interfacing with mainstream authentication authorization services in the industry.</p>
+<p>If you have the need to interface with other authentication authorities, visit Apache APISIX’s <a href="https://github.com/apache/apisix/issues">GitHub</a> and leave your suggestions via issue; or subscribe to Apache APISIX’s <a href="https://apisix.apache.org/zh/docs/general/join">mailing list</a> to express your ideas via email.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

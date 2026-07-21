@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Authenticate with OpenID Connect and Apache APISIX | Apache APISIX</title><meta name="description" content="Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/03/09/authenticate-openid-connect/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/03/09/authenticate-openid-connect/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/03/09/authenticate-openid-connect/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/03/09/authenticate-openid-connect/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Authenticate with OpenID Connect and Apache APISIX | Apache APISIX"><meta property="og:description" content="Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure."><meta property="og:url" content="https://apisix.apache.org/blog/2023/03/09/authenticate-openid-connect/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/06/13/OZebsxXL_eye-gd82fef23c.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Authenticate with OpenID Connect and Apache APISIX","description":"Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.\n","datePublished":"2023-03-09","image":"https://static.apiseven.com/uploads/2023/06/13/OZebsxXL_eye-gd82fef23c.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/03/09/authenticate-openid-connect/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/03/09/authenticate-openid-connect/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/03/09/authenticate-openid-connect/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Authenticate with OpenID Connect and Apache APISIX</h1> <p class="article-meta"> 2023-03-09 · Nicolas Fränkel  </p> <blockquote>
+<p>Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="openid-connect">OpenID Connect</h2>
+<p>The idea of an <em>authorization</em> open standard started with <a href="https://en.wikipedia.org/wiki/OAuth">OAuth</a> around 2006. Because of a security issue, OAuth 2.0 superseded the initial version. OAuth 2.0 became an <abbr title="Internet Engineering Task Force">IETF</abbr> <abbr title="Request For Comments">RFC</abbr> in 2012:</p>
+<blockquote>
+<p>The OAuth 2.0 authorization framework enables a third-party
+application to obtain limited access to an HTTP service, either on
+behalf of a resource owner by orchestrating an approval interaction
+between the resource owner and the HTTP service, or by allowing the
+third-party application to obtain access on its own behalf</p>
+<p>— <a href="https://www.rfc-editor.org/rfc/rfc6749">RFC 7469 - The OAuth 2.0 Authorization Framework</a></p>
+</blockquote>
+<p>OAuth focuses mostly on <em>authorization</em>;
+the <em>authentication</em> part is pretty light:
+it contains a section about Client Password authentication and one Other Authentication Methods.</p>
+<blockquote>
+<p>The authorization server MAY support any suitable HTTP authentication
+scheme matching its security requirements.  When using other
+authentication methods, the authorization server MUST define a
+mapping between the client identifier (registration record) and
+authentication scheme.</p>
+<p>— <a href="https://www.rfc-editor.org/rfc/rfc6749#section-2.3.2">2.3.2.  Other Authentication Methods</a></p>
+</blockquote>
+<p>OpenID Connect uses OAuth 2.0 and adds the <em>authentication</em> part:</p>
+<blockquote>
+<p>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0 protocol. It allows Clients to verify the identity of the End-User based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the End-User in an interoperable and REST-like manner.</p>
+<p>OpenID Connect allows clients of all types, including Web-based, mobile, and JavaScript clients, to request and receive information about authenticated sessions and end-users. The specification suite is extensible, allowing participants to use optional features such as encryption of identity data, discovery of OpenID Providers, and logout, when it makes sense for them.</p>
+<p>— <a href="https://openid.net/connect/">What is OpenID Connect?</a></p>
+</blockquote>
+<p>Here are a couple of identity providers that are compatible with OpenID Connect:</p>
+<ul>
+<li>GitHub</li>
+<li>Google</li>
+<li>Microsoft</li>
+<li>Apple</li>
+<li>Facebook</li>
+<li>Twitter</li>
+<li>Spotify</li>
+</ul>
+<p>In the following, we will start with Google and switch to Azure to validate our setup.</p>
+<h2 id="setting-up-openid-connect-with-apache-apisix">Setting up OpenID Connect with Apache APISIX</h2>
+<p>Imagine we have a web app behind Apache APISIX that we want to secure with OpenID Connect. Here’s the corresponding Docker Compose file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"3"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:3.1.0-debian</span><span style="color:#8B949E">                              #1</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080"</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro</span><span style="color:#8B949E">  #2</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro</span><span style="color:#8B949E">  #3</span></span>
+<span class="line"><span style="color:#7EE787">    env_file</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">.env</span></span>
+<span class="line"><span style="color:#7EE787">  httpbin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">kennethreitz/httpbin</span><span style="color:#8B949E">                                    #4</span></span></code></pre>
+<ol>
+<li>Apache APISIX API Gateway</li>
+<li>APISIX configuration - used to configure it statically in the following line</li>
+<li>Configure the single route</li>
+<li>Webapp to protect. Any will do</li>
+</ol>
+<p>Apache APISIX offers a plugin-based architecture. One such plugin is the <a href="https://apisix.apache.org/docs/apisix/plugins/openid-connect/">openid-connect</a> plugin, which allows using OpenID Connect.</p>
+<p>Let’s configure it:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span><span style="color:#8B949E">                                                                    #1</span></span>
+<span class="line"><span style="color:#7EE787">    upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin:80"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#8B949E">                                                        #1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      openid-connect</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        client_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">${{OIDC_CLIENTID}}</span><span style="color:#8B949E">                                          #2</span></span>
+<span class="line"><span style="color:#7EE787">        client_secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">${{OIDC_SECRET}}</span><span style="color:#8B949E">                                        #2</span></span>
+<span class="line"><span style="color:#7EE787">        discovery</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://${{OIDC_ISSUER}}/.well-known/openid-configuration</span><span style="color:#8B949E">   #2-3</span></span>
+<span class="line"><span style="color:#7EE787">        redirect_uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://localhost:9080/callback</span><span style="color:#8B949E">                           #4</span></span>
+<span class="line"><span style="color:#7EE787">        scope</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openid</span><span style="color:#8B949E">                                                          #5</span></span>
+<span class="line"><span style="color:#7EE787">        session</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          secret</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">${{SESSION_SECRET}}</span><span style="color:#8B949E">                                          #6</span></span>
+<span class="line"><span style="color:#8B949E">#END</span></span></code></pre>
+<ol>
+<li>Catch-all route to the underlying web app</li>
+<li>Plugin configuration parameters. Values depend on the exact provider (see below)</li>
+<li>OpenID Connect can use a Discovery endpoint to get all necessary OAuth endpoints. See <a href="https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig">OpenID Connect Discovery 1.0 spec</a> for more information</li>
+<li>Where to redirect when the authentication is successful. It mustn’t clash with any of the explicitly defined routes. The plugin creates a dedicated route there to work its magic.</li>
+<li>Default scope</li>
+<li>Key to encrypt session data. Put whatever you want.</li>
+</ol>
+<h2 id="configuring-google-for-oidc">Configuring Google for OIDC</h2>
+<p>Like all Cloud Providers, Google offers a full-fledged Identity Management solution, which may be daunting for newcomers. In this section, I’ll only detail the necessary steps required to configure it for <abbr title="OpenID Connect">OIDC</abbr>.</p>
+<p>On the <a href="https://console.cloud.google.com/">Cloud Console</a>, create a dedicated project (or use an existing one).</p>
+<p>If you didn’t do it already, customize the <a href="https://console.cloud.google.com/apis/credentials/consent">OAuth Consent Screen</a>.</p>
+<p>In the project context, navigate <em>APIs &#x26; Services | Credentials</em>.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/13/bYAZa9TL_google-cloud-credentials.jpg" alt="Google Cloud - Credentials menu"></p>
+<p>Then, press the <em>+ CREATE CREDENTIALS</em> button in the upper menu bar.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/13/k9I8i35H_google-cloud-create-credentials.jpg" alt="Google Cloud - Create Credentials button"></p>
+<p>Select <em>OAuth Client Id</em> in the scrolling menu.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/13/8J3eCFDY_google-cloud-choose-credentials.jpg" alt="Google Cloud - Choose credentials type"></p>
+<p>Fill in the fields:</p>
+<ul>
+<li>Application type: Web application</li>
+<li>Name: whatever you want</li>
+<li>Authorized redirect URIs: <code>&#x3C;URL>/callback</code>, <em>e.g.</em>, <code>http://localhost:9080/callback</code></li>
+</ul>
+<p><img src="https://static.apiseven.com/uploads/2023/06/13/FS4fntju_google-cloud-create-oauth-client-id.jpg" alt="Google Cloud - Create OAuth Client id"></p>
+<p><code>URL</code> should be the URL of the web application. Likewise, <code>/callback</code> should match the <code>openid-connect</code> plugin configuration above. Note that Google doesn’t allow relative URLs, so if you need to reuse the application in different environments, you need to add the URL of each environment. Click the <em>Create</em> button.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/13/0CRBKPtt_google-cloud-oauth-client-created.jpg" alt="Google Cloud - OAuth client created"></p>
+<p>In the Docker Compose configuration above, use the Client ID and Client Secret as <code>OIDC_CLIENTID</code> and <code>OIDC_SECRET</code>. I wrote them down as environment variables in a <code>.env</code> file.</p>
+<p>The last missing variable is <code>OIDC_ISSUER</code>: it’s <code>accounts.google.com</code>. If you navigate to <a href="https://accounts.google.com/.well-known/openid-configuration">https://accounts.google.com/.well-known/openid-configuration</a>, you’ll see all data required by OAuth 2.0 (and more).</p>
+<p>At this point, we can start our setup with <code>docker compose up</code>. When we navigate to <a href="http://localhost:9080/">http://localhost:9080/</a>, the browser redirects us to the Google authentication page. Since I’m already authenticated, I can choose my ID - and I need one bound to the organization of the project I created above.</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/13/yckQhlJf_google-auth-choose-account.jpg" alt="Choose the Google account you want to authenticate with"></p>
+<p>Then, I can freely access the resource.</p>
+<h2 id="configuring-azure-for-oidc">Configuring Azure for OIDC</h2>
+<p>My colleague Bobur has already <a href="https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3">described everything</a> you need to do to configure Azure for OIDC.</p>
+<p>We only need to change the OIDC parameters:</p>
+<ul>
+<li><code>OIDC_CLIENTID</code></li>
+<li><code>OIDC_SECRET</code></li>
+<li><code>OIDC_ISSUER</code>: on Azure, it should look something like <code>login.microsoftonline.com/&#x3C;TENANT_ID>/v2.0</code></li>
+</ul>
+<p>If you restart Docker Compose with the new parameters, the root page is now protected by Azure login.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Externalizing your authentication process to a third party may be sensible, but you want to avoid binding your infrastructure to its proprietary process. OpenID Connect is an industry standard that allows switching providers easily.</p>
+<p>Apache APISIX offers a plugin that integrates OIDC so that you can protect your applications with the latter. There’s no reason not to use it, as all dedicated identity providers, such as Okta and Keycloak, are OIDC-compatible.</p>
+<p>The complete source code for this post can be found on <a href="https://github.com/ajavageek/openid-authentication">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://openid.net/connect/">OpenID Connect</a></li>
+<li><a href="https://openid.net/specs/openid-connect-discovery-1_0.html">OpenID Connect Discovery 1.0 specification</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/openid-connect/">Apache APISIX OIDC plugin</a></li>
+<li><a href="https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3">API Security with OIDC by using Apache APISIX and Microsoft Azure AD</a></li>
+<li><a href="https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/">Use Keycloak with API Gateway to secure APIs</a></li>
+<li><a href="https://api7.ai/blog/how-to-use-apisix-auth-with-okta">How to Use Apache APISIX Auth With Okta</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

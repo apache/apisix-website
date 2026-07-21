@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Biweekly Report (Mar 1st - Mar 14th) | Apache APISIX</title><meta name="description" content="In the past two weeks, the Apache APISIX community has added many functions about plugins such as openid-connect, authz-keycloak, cors, csrf, and jwt-auth."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/24/weekly-report-0314/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Biweekly Report (Mar 1st - Mar 14th) | Apache APISIX"><meta property="og:description" content="In the past two weeks, the Apache APISIX community has added many functions about plugins such as openid-connect, authz-keycloak, cors, csrf, and jwt-auth."><meta property="og:url" content="https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Biweekly Report (Mar 1st - Mar 14th)","description":"In the past two weeks, the Apache APISIX community has added many functions about plugins such as openid-connect, authz-keycloak, cors, csrf, and jwt-auth.","datePublished":"2022-03-24","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/03/24/weekly-report-0314/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/03/24/weekly-report-0314/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Biweekly Report (Mar 1st - Mar 14th)</h1> <p class="article-meta"> 2022-03-24  </p> <blockquote>
+<p>From March 1st to  March 14th, 44 contributors submitted 131 commits for Apache APISIX. Thank you all for your contributions to Apache APISIX. It is your selfless contribution to make the Apache APISIX project better!</p>
+</blockquote>
+<!--truncate-->
+<h2 id="introduction">Introduction</h2>
+<p>Apache APISIX has grown as a community from the first day of open source and has quickly become the most active open source API gateway project in the world. These achievements cannot be achieved without the joint efforts of our community partners.</p>
+<p>“If you want to go fast, go alone.If you want to go far, go together.” The Apache APISIX Community Weekly Report hopes to help community members better understand the weekly progress of the Apache APISIX community and and facilitate everyone to participate in the Apache APISIX community.</p>
+<p>We have also compiled some issues suitable for newcomers to the community to participate in! If you are interested, don’t miss it!</p>
+<h2 id="contributor-statistics">Contributor Statistics</h2>
+<p><img src="https://static.apiseven.com/202108/1647397912415-95b2e4c4-02f1-4cd7-8cfa-c53346e8eb42.jpg" alt="Contributors List"></p>
+<p><img src="https://static.apiseven.com/202108/1647397912458-f3a7d62e-0b03-45ef-a492-7bc59ac8cf33.png" alt="New Contributors"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-6344">Issue #6344</h3>
+<p><strong>Link</strong>: <a href="https://github.com/apache/apisix/issues/6344">https://github.com/apache/apisix/issues/6344</a></p>
+<p><strong>Issue description</strong>:</p>
+<p>As a User, I want to use <code>forward-auth</code> plugin but the plugin cann’t support request body sent to authorization server to authentication form request body so that can you plan to do it?</p>
+<h3 id="issue-6197">Issue #6197</h3>
+<p><strong>Link</strong>: <a href="https://github.com/apache/apisix/issues/6197">https://github.com/apache/apisix/issues/6197</a></p>
+<p><strong>Issue description</strong>:</p>
+<p>How to current limit both in minutes and day by using plugin <code>limit-count</code>?</p>
+<p>Currently, the plugin <code>limit-count</code> only Set a traffic limiting mode, Second or minute,If I want to set seconds and minutes at the same time,plugin not support,Because what you set later overwrites what you set earlier,Is there a better solution to this problem?thank you</p>
+<h2 id="highlights-of-recent-features">Highlights of Recent Features</h2>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6455">Support post_logout_redirect_uri config in <code>openid-connect</code> plugin</a>(Contributor: <a href="https://github.com/starsz">starsz</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6426"><code>ext-plugin</code> supports rewriting response headers</a>(Contributor: <a href="https://github.com/rampagecong">rampagecong</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6506"><code>proxy-mirror</code> plugin supports custom paths</a>（Contributor: <a href="https://github.com/spacewander">spacewander</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6514">Wasm supports getting response body</a>(Contributor: <a href="https://github.com/spacewander">spacewander</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6502">Support to run the rewrite phase for newly added plugins in consumer</a>(Contributor: <a href="https://github.com/tzssangglass">tzssangglass</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6505">Support for reading environment variables from yaml configuration files</a>(Contributor: <a href="https://github.com/wilson-1024">wilson-1024</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6485"><code>authz-keycloak</code> plugin supports redirect not authorized user</a>（Contributor: <a href="https://github.com/oil-oil">oil-oil</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6546"><code>cors</code> plugin supports setting allow origins by plugin metadata</a>(Contributor: <a href="https://github.com/Gary-Airwallex">Gary-Airwallex</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6201"><code>CSRF</code> plugin supports checking whether the token has expired</a>(Contributor: <a href="https://github.com/Baoyuantop">Baoyuantop</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6561"><code>jwt-auth</code> plugin supports custom parameters</a>(Contributor: <a href="https://github.com/liangliang4ward">liangliang4ward</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6562"><code>proxy mirror</code> plugin supports setting the timeout</a>（Contributor: <a href="https://github.com/Gerrard-YNWA">Gerrard-YNWA</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2293">APISIX Dashboard supports loading specified configuration files through environment variables</a>(Contributor: <a href="https://github.com/bzp2010">bzp2010</a> and <a href="https://github.com/kevinw66">kevinw66</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2320">APISIX Dashboard supports UI configuration protocol buffers</a>(Contributor: <a href="https://github.com/oil-oil">oil-oil</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2364">APISIX Dashboard routing advanced matching support processing ”!” inverse operator</a>(Contributor: <a href="https://github.com/SkyeYoung">SkyeYoung</a>)</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2341">APISIX Dashboard supports detailed configuration of <code>cors</code></a>（Contributor: <a href="https://github.com/zaunist">zaunist</a>)</p>
+</li>
+</ul>
+<p>The Apache APISIX project website and the Github issue have accumulated a wealth of documentation and experience, so if you encounter problems, you can read the documentation, search the issue with keywords, or participate in the discussion on the issue to put forward your own ideas and practical experience.</p>
+<h2 id="recent-blog-recommendations">Recent Blog Recommendations</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery">How to Integrate API Gateway with Eureka?</a></p>
+<p>This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/blog/2022/03/04/apigateway-clickhouse-makes-logging-easier">Making It Simple, Apache APISIX Integrates ClickHouse to Improve Logging Efficiency</a></p>
+<p>This article describes how community contributor Zhendong Qi contributed clickhouse-logger to Apache APISIX and how he used the plugin to simplify the business architecture and improve the efficiency of logging.</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery">Apache APISIX and CoreDNS open new doors for service discovery</a></p>
+<p>As a cloud native API gateway, Apache APISIX also integrates multiple service discovery capabilities. This article will show you how to configure CoreDNS in Apache APISIX.</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/blog/2022/03/03/develop-apisix-with-gitpod">How to Use Gitpod to Develop API Gateway?</a></p>
+<p>This article introduces the open source cloud IDE product - Gitpod, and demonstrates how to use Gitpod to develop API gateway Apache APISIX and solutions of common problems.</p>
+</li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

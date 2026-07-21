@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX public-api Plugin: Protect Internal APIs | Apache APISIX</title><meta name="description" content="Protect internal plugin APIs from public access using the APISIX public-api plugin. Learn configuration and use cases."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/01/apisix-integration-public-api-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX public-api Plugin: Protect Internal APIs | Apache APISIX"><meta property="og:description" content="Protect internal plugin APIs from public access using the APISIX public-api plugin. Learn configuration and use cases."><meta property="og:url" content="https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX public-api Plugin: Protect Internal APIs","description":"Protect internal plugin APIs from public access using the APISIX public-api plugin. Learn configuration and use cases.","datePublished":"2022-03-01","author":{"@type":"Person","name":"Zeping Bai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/03/01/apisix-integration-public-api-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/03/01/apisix-integration-public-api-plugin/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/03/01/apisix-integration-public-api-plugin/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX public-api Plugin: Protect Internal APIs</h1> <p class="article-meta"> 2022-03-01 · Zeping Bai  </p> <blockquote>
+<p>This article introduces the principle and usage of API gateway Apache APISIX native plugin <code>public-api</code>.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="background-information">Background Information</h2>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an API gateway, Apache APISIX not only has many useful plug-ins, but also supports dynamic plug-in change and hot plug.</p>
+<p>When users develop custom plugins in Apache APISIX, they can define some APIs (hereinafter referred to as: public API) for the plugins. For example, the <code>jwt-auth</code> plugin, which implements and provides the <code>/apisix/plugin/jwt/sign</code> interface for signing JWT, because this interface is not added through the Admin API, it can’t be managed like a route.</p>
+<p>In practical application scenarios, the provided interface is for internal calls, rather than being open on the public network for anyone to call. In order to deal with this scenario, Apache APISIX designed a <code>public-api</code> plugin that replaces the limited functionality and complex use of <code>plugin-interceptors</code>. With this plugin, you can solve the pain points in using the public API. You can set a custom URI for the public API and configure any type of plugin. The following figure shows the changes before and after using <code>public-api</code>.</p>
+<h2 id="initial-knowledge-about-public-api">Initial Knowledge about <code>public-api</code></h2>
+<p>This section takes the <code>/apisix/plugin/jwt/sign</code> interface of the <code>jwt-auth</code> plugin as an example to introduce two usage methods and a scenario example of the <code>public-api</code> plugin.</p>
+<p>Before using the <code>public-api</code> plugin, if the public API is registered using <code>_M.api()</code> in plugin development, APISIX will expose it by default and you can call it directly on the HTTP port. Now you need to manually create a route and configure the <code>public-api</code> plugin before you can forward the API to the <code>public-api</code> plugin.</p>
+<h3 id="confirm-whether-the-api-is-open">Confirm Whether the API is Open</h3>
+<p>You can request the API path by following the command below and return the result to see that <code>/apisix/plugin/jwt/sign</code> is not exposed by default and is not available.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{"error_msg":"404 Route Not Found"}</span></span></code></pre>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>You need to create a Consumer and enable the <code>jwt-auth</code> plugin to perform the following steps.</p>
+<blockquote>
+<p>For <code>jwt-auth</code> parameter configuration information in the example, you can refer to the <a href="https://apisix.apache.org/zh/docs/apisix/plugins/jwt-auth">Apache APISIX official documentation</a>.</p>
+</blockquote>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \</span></span>
+<span class="line"><span>    -H 'X-API-KEY: &#x3C;api-key>' \</span></span>
+<span class="line"><span>    -H 'Content-Type: application/json' \</span></span>
+<span class="line"><span>    -d '{</span></span>
+<span class="line"><span>        "username": "APISIX",</span></span>
+<span class="line"><span>        "plugins": {</span></span>
+<span class="line"><span>            "jwt-auth": {</span></span>
+<span class="line"><span>                "key": "user-key",</span></span>
+<span class="line"><span>                "algorithm": "HS256"</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }'</span></span></code></pre>
+<h3 id="method-1-basic-use">Method 1: Basic Use</h3>
+<ol>
+<li>Create and configure a Route.</li>
+</ol>
+<p>Create a Route based on the Consumer in the <strong>Prerequisites</strong>, set the <code>uri</code> to the API address where the JWT is issued in the <code>jwt-auth</code> plugin, and open the <code>public-api</code> plugin in the Route.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XPUT 'http://127.0.0.1:9080/apisix/admin/routes/r1' \</span></span>
+<span class="line"><span>    -H 'X-API-KEY: &#x3C;api-key>' \</span></span>
+<span class="line"><span>    -H 'Content-Type: application/json' \</span></span>
+<span class="line"><span>    -d'{</span></span>
+<span class="line"><span>        "uri": "/apisix/plugin/jwt/sign",</span></span>
+<span class="line"><span>        "plugins": {</span></span>
+<span class="line"><span>            "public-api": {}</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }'</span></span></code></pre>
+<ol start="2">
+<li>Test the Example.</li>
+</ol>
+<p>You can test with the following command, and if you see that the result is a <code>JWT</code> string, this public API is ready to use.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    &#x3C;header>.&#x3C;payload>.&#x3C;signature></span></span></code></pre>
+<h3 id="method-2-customize-the-path">Method 2: Customize the Path</h3>
+<p>Before using the <code>public-api</code> plugin, it is difficult for users to modify a <code>uri</code> that is open to the public API. Users of the <code>prometheus</code> plugin can customize the <code>exporter uri</code> by modifying the configuration file, but for other Apache APISIX plugins, this can only be done by modifying the plugin file, which is difficult and risky in a production environment.</p>
+<p>Now you can use the <code>public-api</code> plugin to modify the <code>uri</code> that the public API is open to the outside world, with the following examples.</p>
+<ol>
+<li>Create and configure a Route.</li>
+</ol>
+<p>Use the following command to modify the Route created in <strong>Method 1</strong>, set <code>uri=/gen_token</code>, and configure the original <code>uri</code> to the <code>uri</code> field in the <code>public-api</code> plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XPUT 'http://127.0.0.1:9080/apisix/admin/routes/r1' \</span></span>
+<span class="line"><span>    -H 'X-API-KEY: &#x3C;api-key>' \</span></span>
+<span class="line"><span>    -H 'Content-Type: application/json' \</span></span>
+<span class="line"><span>    -d '{</span></span>
+<span class="line"><span>        "uri": "/gen_token",</span></span>
+<span class="line"><span>        "plugins": {</span></span>
+<span class="line"><span>            "public-api": {</span></span>
+<span class="line"><span>                "uri": "/apisix/plugin/jwt/sign"</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }'</span></span></code></pre>
+<ol start="2">
+<li>Test the Example.</li>
+</ol>
+<p>The public API is normally accessible with the new <code>uri</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    &#x3C;header>.&#x3C;payload>.&#x3C;signature></span></span></code></pre>
+<p>The public API can’t be accessed using the old <code>uri</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XGET 'http://127.0.0.1:9080/apisix/plugin/jwt/sign?key=user-key'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    {"error_msg":"404 Route Not Found"}</span></span></code></pre>
+<h3 id="scenario-example-protecting-router">Scenario Example: Protecting Router</h3>
+<p>This section describes how to use <code>public-api</code> plugin to address the business pain of <code>plugin-interceptors</code> plugin.</p>
+<p>The following steps take the <code>key-auth</code> plugin as an example to show you how to use the <code>public-api</code> plugin to protect the public API.</p>
+<blockquote>
+<p>For <code>jwt-auth</code> parameter configuration information in the example, you can refer to the <a href="https://apisix.apache.org/zh/docs/apisix/plugins/jwt-auth">Apache APISIX official documentation</a>.</p>
+</blockquote>
+<ol>
+<li>Create and configure a Consumer.</li>
+</ol>
+<p>Create Consumer and configure the <code>key-auth</code> key.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XPUT 'http://127.0.0.1:9080/apisix/admin/consumers' \</span></span>
+<span class="line"><span>    -H 'X-API-KEY: &#x3C;api-key>' \</span></span>
+<span class="line"><span>    -H 'Content-Type: application/json' \</span></span>
+<span class="line"><span>    -d '{</span></span>
+<span class="line"><span>        "username": "APISIX",</span></span>
+<span class="line"><span>        "plugins": {</span></span>
+<span class="line"><span>            "key-auth": {</span></span>
+<span class="line"><span>                "key": "test-apikey"</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }'</span></span></code></pre>
+<ol start="2">
+<li>Create and configure a Route.</li>
+</ol>
+<p>Modify the route created in <strong>Method 2</strong> and open the <code>key-auth</code> plugin and <code>public-api</code> plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    curl -XPUT 'http://127.0.0.1:9080/apisix/admin/routes/r1' \</span></span>
+<span class="line"><span>    -H 'X-API-KEY: &#x3C;api-key>' \</span></span>
+<span class="line"><span>    -H 'Content-Type: application/json' \</span></span>
+<span class="line"><span>    -d '{</span></span>
+<span class="line"><span>        "uri": "/gen_token",</span></span>
+<span class="line"><span>        "plugins": {</span></span>
+<span class="line"><span>            "public-api": {</span></span>
+<span class="line"><span>                "uri": "/apisix/plugin/jwt/sign"</span></span>
+<span class="line"><span>            },</span></span>
+<span class="line"><span>            "key-auth": {}</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }'</span></span></code></pre>
+<ol start="3">
+<li>Test the Example.</li>
+</ol>
+<p>After testing, when the request carries the correct <code>apikey</code>, the public API can respond normally. When the request does not carry the <code>apikey</code>, the <code>401</code> unauthenticated status code will be returned. If the returned results of your test are consistent with the sample status, it proves that the <code>key-auth</code> plugin you just configured has taken effect.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    # with corrent apikey</span></span>
+<span class="line"><span>    curl -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'</span></span>
+<span class="line"><span>        -H "apikey: test-apikey"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    &#x3C;header>.&#x3C;payload>.&#x3C;signature></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    # without apikey</span></span>
+<span class="line"><span>    curl -i -XGET 'http://127.0.0.1:9080/gen_token?key=user-key'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    HTTP/1.1 401 UNAUTHORIZED</span></span></code></pre>
+<h2 id="principle-explanation">Principle Explanation</h2>
+<p>From the above example, you can see that the <code>public-api</code> plugin can solve the defects of users when using the public API. This section introduces the implementation principle in detail.</p>
+<p>The principle of <code>public-api</code> can be described in one sentence: the <code>public-api</code> plugin transfers the previous separate public API route matching to the plugin, and only performs public API matching for the routes that open the plugin. The following will explain the principle in detail from two aspects.</p>
+<h3 id="before-using-public-api-plugin">Before Using <code>public-api</code> Plugin</h3>
+<p>First, you need to understand how Apache APISIX realizes the function of public API before integrating <code>public-api</code> plugin.</p>
+<ul>
+<li>When apisix starts, it will load the custom plugin and build a radiotree router using the route configuration obtained from etcd. It will be responsible for matching the route according to the request information and calling the correct <code>handler</code> to forward the request.</li>
+<li>APISIX will create different routers for the public API of the custom plugin and the Route created by users respectively (hereinafter referred to as public API router and Route router).</li>
+<li>When a request arrives, it will be matched first by the public API router and then by the Route router. They are two completely separate parts in the request processing flow.</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1646120195055-fff81b45-55bb-4100-8822-b14b173448d5.png" alt="error/flowchart.png"></p>
+<p>According to this process, if you want to apply the plugin for Route router to the public API router, you need to manually maintain a list of plugins and manually execute the plugin function after the public API router is matched. It can be seen that such an architecture is complex and difficult to maintain, and brings many problems, such as complex use (configuration based on <code>plugin_metadata</code>), coarse grained configuration (it is difficult to implement different policies for multiple public APIs provided in a plugin), etc.</p>
+<h3 id="after-adding-the-public-api-plugin">After adding the <code>public-api</code> Plugin</h3>
+<p>After Apache APISIX introduce the <code>public-api</code> plugin, the above process will be simplified and the public API router matching previously executed before Route router matching will be transferred to the plugin.</p>
+<ul>
+<li>When the request arrives, APISIX directly executes the Route router matching. When the corresponding route is found, the forwarding request is processed to the plugin.</li>
+<li>-When a route opens the <code>public-api</code> plugin, it will call the specified public API for request processing according to the plugin configuration, and the request forwarding will no longer be performed. The route without the <code>public-api</code> plugin will not be processed.</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1646136319962-68f66607-804c-4cbc-8742-0745a3ad0f5a.png" alt="error/flowchart.png"></p>
+<p>The public API provided by the user defined plugin will no longer be exposed by default. Instead, the user configures route to decide how to provide it. You can freely set routing parameters, such as <code>uri</code>, <code>host</code>, <code>method</code>, etc. after that, you only need to open the <code>public-api</code> plugin for routing.</p>
+<p>Because the <code>public-api</code> plugin has a low priority, it will be executed after most plugins are executed, so that users can configure any authentication and security plugins for route.</p>
+<p>Apache APISIX no longer performs the two stage Route route matching and performs different logic, all of which belong to Route routing matching, and the process of request processing is greatly simplified.</p>
+<h2 id="summary">Summary</h2>
+<p>You should note that after <code>public-api</code> is included in the official version release, Apache APISIX will no longer match the route of the public API in the HTTP request processing process of APISIX, that is, the public API registered in the plugin is not exposed by default. You can use the functions of the public API more flexibly through the use method of the <code>public-api</code> plugin.</p>
+<blockquote>
+<p>This plug-in will be supported in <code>APISIX 2.13.0</code>. If you have completed the development of custom plug-in before <code>APISIX 2.13.0</code>, upgrading the version will affect your services. Please confirm again before upgrading.</p>
+</blockquote>
+<p>To get more information about the <code>public-api</code> plugin description and full configuration list, you can refer to the <a href="https://apisix.apache.org/docs/apisix/next/plugins/public-api">Apache APISIX official documentation</a>.</p>
+<p>Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a>, or via the <a href="https://apisix.apache.org/zh/docs/general/join">mailing list</a> to communicate.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

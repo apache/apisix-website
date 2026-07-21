@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>如何利用 Apache APISX 提升 NGINX 的可观测性 | Apache APISIX</title><meta name="description" content="本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性等方面分享关于可观测性的方案与实践。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="如何利用 Apache APISX 提升 NGINX 的可观测性 | Apache APISIX"><meta property="og:description" content="本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性等方面分享关于可观测性的方案与实践。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"如何利用 Apache APISX 提升 NGINX 的可观测性","description":"本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性等方面分享关于可观测性的方案与实践。","datePublished":"2021-08-06","author":{"@type":"Person","name":"金卫"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/08/06/using-apache-apisix-to-improve-the-observability-of-nginx/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>如何利用 Apache APISX 提升 NGINX 的可观测性</h1> <p class="article-meta"> 2021-08-06 · 金卫  </p> <blockquote>
+<p>本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="概述">概述</h2>
+<p>“可观测性“是一种度量手段，方便掌握基础设施、系统平台或者应用程序的运行状况。常见的手段是收集 metrics、logging 和 tracing 及 events 数据，可以帮助开发人员和运维人员检测、调查、预警和纠正系统问题。</p>
+<p>本文将从 Nginx 可观测性、Apache APISIX 与 Nginx 的关系、Apache APISIX 可观测性，以及结合 Apache SkyWalking 进一步提升可观测性这些方面分享关于可观测性的方案与实践。</p>
+<h2 id="nginx-的可观测性">Nginx 的可观测性</h2>
+<h3 id="nginx-常见监控方式">Nginx 常见监控方式</h3>
+<p>Nginx 在一定程度上能够做到可观测，以下罗列出 Nginx 的常见监控方式：</p>
+<ol>
+<li>ngx_http_stub_status_module</li>
+<li>VTS module + exporter + prometheus + grafana（如果 Nginx 版本比较低，需要引入 exporter ）</li>
+<li>Nginx Amplify SaaS</li>
+</ol>
+<h4 id="ngx_http_stub_status_module">ngx_http_stub_status_module</h4>
+<p>ngx_http_stub_status_module 主要收集实例级别的统计信息。</p>
+<h4 id="vts-module">VTS module</h4>
+<p>VTS module 有 3 个比较明显的缺点：</p>
+<ol>
+<li>
+<p><strong>安装复杂</strong>：虽然 VTS module 能够采集指标，采集的指标类型也比较多，但是它的安装比较复杂。如果想要采用 VTS module，需要重新编译 Nginx，在编译 Nginx 之前加入 VTS moudle，完成编译后重新安装 Nginx 才可以正常使用 VTS。</p>
+</li>
+<li>
+<p><strong>扩展能力弱</strong>：VTS 扩展能力分为两部分，一是在编译之前给 VTS 增加扩展；二是在编译之后增加扩展 —— 修改 nginx.conf 配置文件。通过修改 nginx.conf 文件来增加扩展会使 Nginx reload，生产环境直接 reload 或多或少会对业务产生一些影响。</p>
+</li>
+<li>
+<p><strong>社区更新缓慢</strong>：VTS module 最新的一次更新是在 2018 年，已经停摆 3 年了。</p>
+</li>
+</ol>
+<h4 id="nginx-amplify-saas">Nginx Amplify SaaS</h4>
+<p>Nginx Amplify 是一个 SaaS 服务，Nginx Amplify 在远端提供服务，在 Nginx 服务之外安装 Agent。
+在 Nginx 之外安装采集模块，那么在采集指标上就会有限制，只能拿到 Nginx 暴露出来的信息，没有暴露的内部信息是拿不到的。</p>
+<p>另外，由于 Nginx Amplify SaaS 是一个 SaaS 服务，需要通过公网将采集到的数据传到服务端，这会带来一些安全隐患，同时把一些企业用户阻挡在外面。或许 Nginx Amplify 的目标群体是 Nginx plus 这样的企业用户，不是开源用户。</p>
+<p>另外，Nginx Amplify SaaS 社区也不活跃，已经停摆 2 年。</p>
+<h3 id="nginx-的缺陷">Nginx 的缺陷</h3>
+<p>Nginx 在 Events 收集上自身有缺陷，这里列举出两个问题：</p>
+<ol>
+<li>
+<p>Nginx 基于 nginx.conf 进行配置，修改后通过 reload nginx.conf 文件使配置生效。除 reload 事件外，没有其他 Events 可用，我们无法得知每次修改文件的变化，如：起初只配置 1 个路由，修改文件增加 10 个路由，只有 reload 事件无法得知增加的到低是哪 10 个路由。</p>
+</li>
+<li>
+<p>Nginx 开源产品缺少主动健康检查。Nginx 是一个反向代理，真正的后端服务可能会出现重启、升级或者异常的情况，如果没有主动的健康检查，依靠被动检查，只能在流量出现异常的时候，才知道服务出了问题，这会丢掉很多 Events，导致上游 Events 事件信息不完整。</p>
+</li>
+</ol>
+<h3 id="nginx-可观测性总结">Nginx 可观测性总结</h3>
+<p>Nginx 的开源版本没有提供非常好用的监控。虽然 Nginx 提供了一些监控工具，但这些工具的安装和配置非常复杂，几乎没有扩展性。可能这些工具的设计并不是为了可观测性，只是为了能看到指标或统计数据，方便定位问题。现在有各种可观测性设置类的产品，但是很难集成到 Nginx 上。</p>
+<p>另外，Nginx 社区停滞不前，导致 Nginx 迭代速度慢。</p>
+<h2 id="apache-apisix-概述">Apache APISIX 概述</h2>
+<h3 id="apache-apisix-与-nginx-的关系">Apache APISIX 与 Nginx 的关系</h3>
+<p><img src="https://static.apiseven.com/202108/1630651158638-aba4e627-d2d6-4bf5-b431-61eb3913a296.png" alt="Apache APISIX 与 Nginx 的关系"></p>
+<p>Apache APISIX 基于 Nginx 实现，但只依赖 Nginx 的网络库，在 Nginx 基础上，Apache APISIX 实现了自己的核心的代码，并预留了扩展机制。</p>
+<p>在表格中列出了 Apache APISIX 和 Nginx 的功能对比，Apache APISIX 既可以做反向代理，又可以实现一些 Nginx 不支持的功能，如：主动健康检查、流量管理、横向扩缩容等，而且这些功能都是开源的。</p>
+<ul>
+<li><strong>API 设计</strong>：在 API 设计方面使用 Apache APISIX 更加简单。</li>
+<li><strong>开源 Dashboard</strong>：在界面上就能把反向代理全部配置完。</li>
+<li><strong>主动健康检查</strong>：Apache APISIX 支持主动健康检查，可以结合 Events 完善可观测性。</li>
+<li><strong>流量管理</strong>：适合监测数据，或者在业务发布上线时使用。</li>
+<li><strong>横向扩缩容</strong>：Apache APISIX 支持横向扩缩容，这个特性得益于 Apache APISIX 的架构（见下图）。</li>
+<li><strong>插件扩展机制</strong>：Apache APISIX 的插件扩展机制使其具有极为强大的扩展能力。</li>
+<li><strong>插件编排</strong>：按照业务需求，将多个插件按照逻辑编排，组合起来使用。</li>
+<li><strong>证书管理</strong>：Apache APISIX 支持动态的证书管理。</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1630651158643-ecc67e12-2076-41e5-88d8-baa14144f35d.png" alt="Apache APISIX 架构图"></p>
+<h3 id="apache-apisix-简介">Apache APISIX 简介</h3>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 也是全世界最活跃的开源 API 网关项目，是生产可用的高性能网关。全球已有数百家企业使用 Apache APISIX 处理关键业务流量，涵盖金融、互联网、制造、零售、运营商等等，比如美国航空航天局（NASA）、欧盟的数字工厂、中国航信、中国移动、腾讯、华为、微博、网易、贝壳找房、360、泰康等。</p>
+<h3 id="apache-apisix-解决方案">Apache APISIX 解决方案</h3>
+<p><img src="https://static.apiseven.com/202108/1630651158645-83c22975-ebf1-4861-8b61-38639a28875a.png" alt="Apache APISIX 全流量解决方案"></p>
+<p>上图左边，从上往下是从单体服务到 SOA（面向服务的架构）到微服务的演进过程。</p>
+<p>在 SOA 下，网关一般采用 Nginx 或者 HAProxy；在微服务架构下，网关使用 Nginx 做负载均衡。微服务架构有两个比较常见的解决方案：一个是基于 Java 技术栈实现，如 Spring Cloud 系列；另一个是 Service Mesh。</p>
+<p>在这个演进过程中，Apache APISIX 处于什么位置，能做什么呢？</p>
+<p>简单的说，左图中红色的部分（Nginx / HAProxy / Kong / Spring Cloud Zuul / Spring Cloud Gateway / Traefik / Envoy / Ingress Nginx）都可以替换为 Apache APISIX 的解决方案。</p>
+<p><strong>在 SOA 下有 Apache APISIX SLB 解决方案，在微服务架构下有 Apache APISIX Gateway，在 Kubernetes 部署有 Apache APISIX Ingress，在 Service Mesh 里部署有 Apache APISIX mesh</strong>。</p>
+<p><img src="https://static.apiseven.com/202108/1630651158648-dffd59dd-15c2-4f76-832e-5ed3763b18e5.png" alt="Apache APISIX 全流量数据面"></p>
+<p>从业务请求的流量方面看，当客户端发起请求时会经过 LB，经过 Gateway，请求被分发到后端业务服务。红色的部分（LB / Gateway / Spring Cloud Gateway / K8s Ingress / Sidecar）都可以选择 Apache APISIX 作为解决方案。Apache APISIX 支持多语言开发插件，可以在 Java 体系下使用 Java 编写插件。</p>
+<p>Apache APISIX 是全流量的数据面，在 LB、Gateway、Ingress、sidecar 方面 Apache APISIX 都有相应的解决方案，他们是统一的解决方案，在可观测性方面也是统一的方案。当解决方案统一时，管理控制链也是很容易实现出来的。</p>
+<h2 id="apache-apisix-的可观测性">Apache APISIX 的可观测性</h2>
+<p>简单了解完 Nginx 和 Apache APISIX 之后，现在有两个问题：Apache APISIX 在可观测性上可以做哪些事情？Apache APISIX 可观测性上的优势在哪里？</p>
+<h3 id="apache-apisix-支持采集的数据类型">Apache APISIX 支持采集的数据类型</h3>
+<p>Apache APISIX 支持采集的数据类型：</p>
+<ol>
+<li>Tracing - 集成 SkyWalking</li>
+<li>Metrics - 集成 SkyWalking / Prometheus</li>
+<li>Logging - 集成 SkyWalking / 其他日志平台</li>
+</ol>
+<p>Apache APISIX 是一个网关类的产品，可以替代 Nginx 或者其他的网关；在可观测性上 Apache APISIX 可以集成多个 APM 或可观测性系统，如：Tracing 部分可以集成 SkyWalking，Metrics 指标上可以集成 SkyWalking 或 Prometheus，Logging 可以集成 SkyWalking 以及其他一些日志系统。</p>
+<h3 id="apache-apisix-在可观测性上的优势">Apache APISIX 在可观测性上的优势</h3>
+<h4 id="高度扩展能力">高度扩展能力</h4>
+<p>为什么 Apache APISIX 拥有强大的扩展能力？因为 Apache APISIX 支持多语言编写插件，可以使用 Lua、Java、Golang 等编程语言编写插件。Apache APISIX 可以通过插件扩展自身的能力。上文提到的三种数据类型，都是通过插件机制来实现的。</p>
+<h4 id="灵活的配置能力">灵活的配置能力</h4>
+<p>举三个例子来介绍一下 Apache APISIX 灵活的配置能力。</p>
+<p>第一个例子是 <strong>Apache APISIX 可以在运行时修改 logging 的配置</strong>，如：增加或修改日志字段。修改日志字段是一个比较常见的需求，比如：业务刚开始上线时，配置好了日志字段，系统运行一段时间后，需要修改或者增加几个日志字段。如果使用 Nginx，通过修改 nginx.conf 文件实现需求，reload 使配置生效。 <strong>Apache APISIX 只需要通过脚本把字段配置好，就会动态生效</strong>。</p>
+<p>第二个灵活配置能力的例子是 Prometheus 的使用。在 Apache APISIX 里，想要创建 / 删除某一个 metric 或者扩展 metrics labels，只需要在 Prometheus 插件里新增一个 metircs 或者填写相关信息，Apache APISIX 有 hot reload 机制可以直接生效，不需要重启。</p>
+<p>第三个灵活的配置能力体现在 Apache APISIX 的实现。Apache APISIX 把路由对象全部管理起来，在内存里有一套对象管理机制。在 Apache APISIX 里给某个 API 加插件，生效的级别可以细化到 API，每一个 API 都可以绑定插件，也可以从 API 上把插件去掉。 Apache APISIX 可以精细化控制到每一个服务里面每一个 API 的可观测性数据采集。换句话说，你可以只采集最关心的数据，而且这些配置都是动态生效的，可以随时调整。</p>
+<h4 id="活跃的社区">活跃的社区</h4>
+<p>Apache APISIX 最重要的一个优势是有一个活跃的社区，一个活跃的社区可以让产品快速迭代、变得越来越完善，让大家的需求得到满足。</p>
+<p><img src="https://static.apiseven.com/202108/1630651158650-2c4a287f-45a3-4c49-94d1-5be3914e5f69.png" alt="Apache APISIX 社区活跃度对比图"></p>
+<p>上图展示的是 Apache APISIX（绿色）、Kong（浅蓝）、mosn（黄色）、bfe（深蓝）贡献者增长曲线，Apache APISX 增长趋势最快，曲线最为陡峭。 Apache APISIX 社区活跃度在同类型项目里面是最活跃的。</p>
+<h2 id="结合-apache-skywalking在可观测性上做进一步提升">结合 Apache SkyWalking，在可观测性上做进一步提升</h2>
+<p>Apache APISIX 与 Apache SkyWalking 结合可以做哪些提升？除了 SkyWalking tracing 插件，还可以将 tracing、metrics、logging、events 汇聚到 SkyWalking，借助 SkyWalking 的聚合能力让数据实现联动。</p>
+<h3 id="skywalking-satellite">SkyWalking Satellite</h3>
+<p>SkyWalking Satellite 由 Apache APISIX 社区、Apache SkyWalking 社区、百度深度合作开发。</p>
+<p><img src="https://static.apiseven.com/202108/1630651158652-130e62e1-32dd-4705-9f24-ceffd039560a.png" alt="Apache APISIX SkyWalking Satellite"></p>
+<p>SkyWalking Satellite 按照上图步骤采集数据，SkyWalking Satellite 可以部署到更靠近产生数据的前端，以 sidecar 的形式存在。</p>
+<p>图中从上往下业务请求经过 Apache APISIX 代理到 Upstream，Satellite 在 Apache APISIX 的旁边，以 sidecar 的形式部署，收集 Apache  APISIX 的 tracing、metrics、logging 这三种数据类型的数据，通过 GRPC 协议发送给 SkyWalking。</p>
+<p>最重要的一点是：<strong>在这种部署方式下，Apache  APISIX 不需要做任何改动就可以直接将三种数据类型集成到 SkyWalking</strong>。</p>
+<h3 id="als-方案">ALS 方案</h3>
+<p>ALS（Access Log Service）将经过 Apache  APISIX 的访问日志发送出来，在普通的 access log 上增加特殊的字段，如：增加关键字段便于生成拓扑图，同时聚合出 metrics。</p>
+<p>ALS 方案最大的好处是可以直接通过 access log 方式分析和聚合出拓扑图、metrics 、logging 这三种类型的数据。
+在使用 Prometheus 时，如果配置了 URI 级别的 metrics 指标的统计，会导致整个 metrics 急剧膨胀。因为 URI 级别的服务可能有几十个，每个 metrics 后面可能有许多 labels，这会降低网关性能，增加 metrics 获取难度。<strong>使用 ALS 方案，通过流的方式将数据发送给 SkyWalking，把计算的事情交给 SkyWalking，后续也方便查询</strong>，不会出现每隔几秒钟拉取一次非常庞大的数据的情况。</p>
+<h3 id="将-events-整合到-skywalking">将 Events 整合到 SkyWalking</h3>
+<p>常用的 Events 包括：配置分发、集群变化、健康检查。</p>
+<p><strong>配置分发</strong>：在配置 API 分发时，可能会新增路由、修改路由、删除路由或增加插件。</p>
+<p><strong>集群变化</strong>：集群发生变化时，需要知道集群里的服务数。如：扩容时 IP 会发生变化，变化体现在网关收到消息的时候。每个过程都是一个事件，这些事件都需要被暴露出来。</p>
+<p><strong>健康检查</strong>：主动探测是否健康，例如：业务请求失败率突然变高，事件探测到业务服务不健康，此时可以快速定位到问题。</p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<h3 id="apache-apisix-的扩展机制的实现原理及其对稳定性的影响">Apache APISIX 的扩展机制的实现原理及其对稳定性的影响</h3>
+<p>问题：Apache APISIX 的扩展机制是怎么实现的？扩展这个功能是否对 Apache APISIX 本身稳定性有影响？</p>
+<p>答：Apache APISIX 扩展机制得益于它的架构，可以在各个 phases（rewrite / access / header_filter / body_filter / preread_filter / log）增加业务逻辑。</p>
+<p>至于稳定性方面， Apache  APISIX 已经开源了近 50 个插件，每一个插件都会有端到端的测试，这些插件都是经过验证的、是稳定可用的。但是自定义插件要遵循一定的规范，虽然很简单，但是大家也不能太随意。自定义插件的稳定性保证，需要由业务方自己来保证。</p>
+<h3 id="如何确认规则已生效">如何确认规则已生效</h3>
+<p>问：Nginx 的 nginx.conf 文件里面可能配置了很多规则，后面的规则可能被前面的规则拦截，不清楚后面的规则是否生效，Apache APISIX 是否有什么方法知道哪些规则已生效？</p>
+<p>答：Nginx 的 nginx.conf 文件配置越多，配置服务越复杂，这个文件越难以维护。但是在 Apache APISIX 里配置文件是固定的，Apache APISIX 官方提供的配置就是在大多数场景下的最优配置，其他路由的配置是通过 API 的方式配置进去的，路由配置都是在内存里面的。</p>
+<p>在管理方式上，可以通过多种组织方式管理你的路由，例如，可以通过 Dashboard 来管理。</p>
+<p>举例说明，比如有一个服务叫 ABC，在这个服务下面可会有各种路由定义，路由定义通过列表的方式进行查看，路由里有一个字段叫优先级，可以通过配置路由的优先级字段，让相似的路由规则按照优先级依次匹配。另外一种路由查看方式是在 dashboard 中给 API 打上标签，可以让路由的管理变得更加人性化，便于按照标签过滤查询路由列表。</p>
+<h2 id="关于作者">关于作者</h2>
+<p>金卫，Apache APISIX PMC 和 Apache SkyWalking committer。</p>
+<p><img src="https://static.apiseven.com/202108/1630651158654-2e028970-9e09-4d52-bf72-ab53aa98706b.png" alt="金卫个人介绍"></p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

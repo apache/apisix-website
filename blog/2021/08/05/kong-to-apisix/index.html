@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Kong-To-APISIX Migration Tool | Apache APISIX</title><meta name="description" content="You can use the Kong-To-APISIX migration tool to migrate Kong's configuration to the cloud-native API gateway Apache APISIX with one click."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/08/05/kong-to-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/05/kong-to-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/05/kong-to-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/05/kong-to-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Kong-To-APISIX Migration Tool | Apache APISIX"><meta property="og:description" content="You can use the Kong-To-APISIX migration tool to migrate Kong's configuration to the cloud-native API gateway Apache APISIX with one click."><meta property="og:url" content="https://apisix.apache.org/blog/2021/08/05/kong-to-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Kong-To-APISIX Migration Tool","description":"You can use the Kong-To-APISIX migration tool to migrate Kong's configuration to the cloud-native API gateway Apache APISIX with one click.","datePublished":"2021-08-05","author":{"@type":"Person","name":"吴舒旸"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/08/05/kong-to-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/08/05/kong-to-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/08/05/kong-to-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Kong-To-APISIX Migration Tool</h1> <p class="article-meta"> 2021-08-05 · 吴舒旸  </p> <blockquote>
+<p>Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.</p>
+</blockquote>
+<!--truncate-->
+<p>Apache APISIX is a production-ready open source seven-layer full traffic processing platform that serves as an API gateway for business entry traffic with high performance, low latency, official dashboard support, and over fifty plugins. If you are using Kong and are interested in APISIX but struggle to get started, try our just open source migration tool Kong-To-APISIX to help you migrate smoothly with one click.</p>
+<h2 id="what-is-kong-to-apisix">What is Kong-To-APISIX</h2>
+<p><a href="https://github.com/api7/kong-to-apisix">Kong-To-APISIX</a> leverages the declarative configuration files of Kong and APISIX to migrate configuration data, and adapts to the architecture and functionality of both sides. Currently, we support the migration of configuration data for Route, Service, Upstream, Target, Consumer and three plugins Rate Limiting, Proxy Caching and Key Authentication on one side of Kong, and we have completed a minimal demo using Kong’s Getting Started Guide as an example . We have completed a minimal demo.</p>
+<h2 id="how-to-migrate-configuration">How to migrate configuration</h2>
+<ol>
+<li>
+<p>To export a Kong declarative configuration file using Deck, refer to the following steps: <a href="https://docs.konghq.com/deck/1.7.x/guides/backup-restore/">Kong Official Document: Backup and Restore of Kong’s Configuration</a></p>
+</li>
+<li>
+<p>Download the repository and run the migration tool, which will generate the declarative configuration file <code>apisix.yaml</code> to be used.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/api7/kong-to-apisix</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> kong-to-apisix</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> build</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">./bin/kong-to-apisix</span><span style="color:#A5D6FF"> migrate</span><span style="color:#79C0FF"> --input</span><span style="color:#A5D6FF"> kong.yaml</span><span style="color:#79C0FF"> --output</span><span style="color:#A5D6FF"> apisix.yaml</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># migrate succeed</span></span></code></pre>
+</li>
+<li>
+<p>Use <code>apisix.yaml</code> to configure APISIX, refer to <a href="https://apisix.apache.org/docs/apisix/deployment-modes/#standalone">Apache APISIX Official Document: Stand-alone mode</a>.</p>
+</li>
+</ol>
+<h2 id="demo-test">Demo Test</h2>
+<ol>
+<li>
+<p>Make sure docker is up and running, deploy the test environment, and use docker-compose to run APISIX and Kong.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-docker</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> kong-to-apisix</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">./tools/setup.sh</span></span></code></pre>
+</li>
+<li>
+<p>Add configuration to Kong and test it according to Kong’s Getting Started Guide.</p>
+<ol>
+<li>Expose services via Service and Route for routing and forwarding</li>
+<li>Set up Rate Limiting and Proxy Caching plugins for flow limiting caching</li>
+<li>Set up Key Authentication plugin for authentication</li>
+<li>Set up load balancing via Upstream and Target</li>
+</ol>
+</li>
+<li>
+<p>Export Kong’s declarative configuration file to <code>kong.yaml</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> run</span><span style="color:#A5D6FF"> ./cmd/dumpkong/main.go</span></span></code></pre>
+</li>
+<li>
+<p>Run the migration tool, import <code>kong.yaml</code> and generate the APISIX configuration file <code>apisix.yaml</code> to docker volumes.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> EXPORT_PATH</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">./repos/apisix-docker/example/apisix_conf</span></span>
+<span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> run</span><span style="color:#A5D6FF"> ./cmd/kong-to-apisix/main.go</span></span></code></pre>
+</li>
+<li>
+<p>Test whether the migrated routes, load balancing, plugins, etc. are working properly on Apache APISIX side.</p>
+<ol>
+<li>
+<p>Test key auth plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -k</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -m</span><span style="color:#79C0FF"> 20</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> /dev/null</span><span style="color:#79C0FF"> -s</span><span style="color:#79C0FF"> -w</span><span style="color:#A5D6FF"> %{http_code}</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/mock</span></span>
+<span class="line"><span style="color:#8B949E"># output: 401</span></span></code></pre>
+</li>
+<li>
+<p>Test proxy cache plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># access for the first time</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -k</span><span style="color:#79C0FF"> -I</span><span style="color:#79C0FF"> -s</span><span style="color:#79C0FF">  -o</span><span style="color:#A5D6FF"> /dev/null</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/mock</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: apikey"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "Host: mockbin.org"</span></span>
+<span class="line"><span style="color:#8B949E"># see if got cached</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -I</span><span style="color:#79C0FF"> -s</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/mock</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: apikey"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "Host: mockbin.org"</span></span>
+<span class="line"><span style="color:#8B949E"># output:</span></span>
+<span class="line"><span style="color:#8B949E">#   HTTP/1.1 200 OK</span></span>
+<span class="line"><span style="color:#8B949E">#   ...</span></span>
+<span class="line"><span style="color:#8B949E">#   Apisix-Cache-Status: HIT</span></span></code></pre>
+</li>
+<li>
+<p>Test limit count plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">in</span><span style="color:#E6EDF3"> {</span><span style="color:#FFA657">1..5}</span><span style="color:#E6EDF3">; </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#FFA657">   curl</span><span style="color:#79C0FF"> -s</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> /dev/null</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/mock</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: apikey"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "Host: mockbin.org"</span></span>
+<span class="line"><span style="color:#FF7B72">done</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -k</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -m</span><span style="color:#79C0FF"> 20</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> /dev/null</span><span style="color:#79C0FF"> -s</span><span style="color:#79C0FF"> -w</span><span style="color:#A5D6FF"> %{http_code}</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/mock</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: apikey"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "Host: mockbin.org"</span></span>
+<span class="line"><span style="color:#8B949E"># output: 429</span></span></code></pre>
+</li>
+<li>
+<p>Test load balance.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">httpbin_num</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">0</span></span>
+<span class="line"><span style="color:#E6EDF3">mockbin_num</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">0for</span><span style="color:#FFA657"> i</span><span style="color:#A5D6FF"> in</span><span style="color:#A5D6FF"> {1..8}</span><span style="color:#E6EDF3">; </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">   body</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -k</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/mock</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "apikey: apikey"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "Host: mockbin.org"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">   if</span><span style="color:#E6EDF3"> [[ $body </span><span style="color:#FF7B72">==</span><span style="color:#FF7B72"> *</span><span style="color:#A5D6FF">"httpbin"</span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> ]]; </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">httpbin_num</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$((</span><span style="color:#FFA657">httpbin_num+1</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">   elif</span><span style="color:#E6EDF3"> [[ $body </span><span style="color:#FF7B72">==</span><span style="color:#FF7B72"> *</span><span style="color:#A5D6FF">"mockbin"</span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> ]]; </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">      mockbin_num</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$((</span><span style="color:#FFA657">mockbin_num+1</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">   fi</span></span>
+<span class="line"><span style="color:#FFA657">   sleep</span><span style="color:#A5D6FF"> 1.5done</span></span>
+<span class="line"><span style="color:#79C0FF">echo</span><span style="color:#A5D6FF"> "httpbin number: "</span><span style="color:#E6EDF3">${httpbin_num}</span><span style="color:#A5D6FF">", mockbin number: "</span><span style="color:#E6EDF3">${mockbin_num}</span></span>
+<span class="line"><span style="color:#8B949E"># output:</span></span>
+<span class="line"><span style="color:#8B949E">#   httpbin number: 6, mockbin number: 2</span></span></code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>Subsequent development plans for the migration tool are presented in the Roadmap on Kong-To-APISIX’s <a href="https://github.com/api7/kong-to-apisix">GitHub repository</a>. Feel free to test and use Kong-To-APISIX, and discuss any questions you may have in the Issues section of the repository. Anyone who is interested in this project is welcome to contribute to it!</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

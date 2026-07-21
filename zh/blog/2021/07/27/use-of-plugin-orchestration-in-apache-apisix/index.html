@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>插件编排在 Apache APISIX 中的应用与实践 | Apache APISIX</title><meta name="description" content="通过阅读本文，你可以了解云原生 API 网关 Apache APISIX 及其基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="插件编排在 Apache APISIX 中的应用与实践 | Apache APISIX"><meta property="og:description" content="通过阅读本文，你可以了解云原生 API 网关 Apache APISIX 及其基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"插件编排在 Apache APISIX 中的应用与实践","description":"通过阅读本文，你可以了解云原生 API 网关 Apache APISIX 及其基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。","datePublished":"2021-07-27","author":{"@type":"Person","name":"琚致远"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/07/27/use-of-plugin-orchestration-in-apache-apisix/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>插件编排在 Apache APISIX 中的应用与实践</h1> <p class="article-meta"> 2021-07-27 · 琚致远  </p> <blockquote>
+<p>通过阅读本文，您可以了解 Apache APISIX 与基本使用场景，以及在低代码潮流下，Apache APISIX 是如何集成“拖拽”的插件编排能力的。本文作者琚致远，Apache APISIX PMC，在<a href="https://api7.ai/">支流科技</a>负责企业产品与大前端技术。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="什么是-apache-apisix">什么是 Apache APISIX</h2>
+<p>Apache APISIX 是一个生产可用的七层全流量处理平台，可作为 API 网关处理业务流量入口，具有极高性能、超低延迟的显著特性。它内置了 50 多种插件，覆盖身份验证、安全防护、流量控制、Serverless、可观测性等多个方面，可满足企业客户常见的使用场景。</p>
+<p>如下方架构图所示，Apache APISIX 分为数据面（左侧）与控制面（右侧）两部分：通过控制面下发配置到 ETCD，数据面借助丰富的插件处理内外流量。</p>
+<p><img src="https://static.apiseven.com/202108/1639466553989-ecae1a31-8121-4390-a830-f386b9b12322.png" alt="Apache APISIX architecture"></p>
+<p>Apache APISIX 暴露了一组接口，方便我们为 API 绑定插件。如果我们希望为 API 增加限速能力，只需为 API 绑定 <code>limit-req</code> 插件：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">   "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "methods": ["GET"],</span></span>
+<span class="line"><span style="color:#A5D6FF">   "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">   },</span></span>
+<span class="line"><span style="color:#A5D6FF">   "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "limit-req": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "rate": 1,</span></span>
+<span class="line"><span style="color:#A5D6FF">       "burst": 2,</span></span>
+<span class="line"><span style="color:#A5D6FF">       "rejected_code": 503,</span></span>
+<span class="line"><span style="color:#A5D6FF">       "key": "remote_addr"</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">   }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+<p>调用成功后，当请求到达该 API 时将进行限速管控。</p>
+<p>该示例使用 <code>limit-req</code> 实现 API 限速（特定功能），若针对“根据某个插件的处理结果，决定后续的请求处理逻辑”这种场景化需求，该怎么做呢？当前，现有的插件机制无法满足这种需求，这时便引申出插件编排的能力来解决这个问题。</p>
+<h2 id="什么是插件编排">什么是插件编排</h2>
+<p>插件编排是低代码的一种表现形式，它可以帮助企业降低使用成本、增加运维效率，是企业数字化转型过程中不可或缺的能力。借助低代码 API 网关 Apache APISIX 中插件编排能力，我们可以轻松地将 50+ 插件通过“拖拽”的方式进行组合编排，被编排的插件也能够共享上下文信息，最终实现场景化需求。</p>
+<p>扩展上述 API 限速的场景：请求使用 <code>key-auth</code>插件进行身份认证，若认证通过，将由<code>kafka-logger</code> 插件接管并进行日志记录；若认证失败（插件返回 401 状态码），将使用<code>limit-req</code> 插件进行限速。</p>
+<p>见如下操作视频：</p>
+<iframe height="350" width="100%" src="https://api7-website-1301662268.file.myqcloud.com/202107/%E6%8F%92%E4%BB%B6%E7%BC%96%E6%8E%92.mp4" frameborder="0">
+</iframe>
+<p>该视频中，Web 界面列出了目前已有的插件与画板，我们可以将插件拖拽到画板上进行编排，并填写插件绑定的数据，然后便完成了整个流程。在整个过程中：</p>
+<ol>
+<li>操作可视化：我们除了可以使用界面可视化创建 API 之外，还可以通过编排能力直观、清晰地进行场景化设计；</li>
+<li>流程可复用：通过导入、导出画板的 JSON 数据，可以便捷地复用编排生成的工程数据。</li>
+<li>组合新“插件”：将每一个场景视作一个插件，通过使用条件元件组合不同的插件，来实现插件创造“插件”。</li>
+</ol>
+<h2 id="实现原理">实现原理</h2>
+<p>那么 Apache APISIX 是如何与低代码能力结合的呢？这需要数据面 Apache APISIX 与控制面 Apache APISIX Dashboard 共同配合完成。整体流程如下：</p>
+<p><img src="https://static.apiseven.com/202108/1639466624894-039f4e63-fd21-403a-94c5-6efc8425eb0f.png" alt="Apache APISIX plugin orchestration flow"></p>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p>在 Apache APISIX 中，我们在 Route 实体中新增了 <code>script</code> 执行逻辑 <a href="https://github.com/apache/apisix/pull/1982">PR</a>，可用于接收 Dashboard 生成的 Lua 函数并执行，它支持调用已有插件以复用代码。另外，它也作用于 HTTP 请求的生命周期中的各个阶段，如 <code>access</code>、<code>header_filer</code>、<code>body_filter</code> 等，系统会在相应阶段自动执行 <code>script</code> 函数对应阶段代码，见如下 <code>script</code> 示例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">  "script"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "local _M = {} \n function _M.access(api_ctx) \n ngx.log(ngx.INFO,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">hit access phase</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">) \n end \nreturn _M"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="apache-apisix-dashboard">Apache APISIX Dashboard</h3>
+<p>在 Dashboard 中，它包含了 Web 与 ManagerAPI 共两个子组件：Web 用于提供可视化界面，方便我们配置 API 网关；ManagerAPI 用于提供 RESTful API，供 Web 或其它客户端调用以便操作配置中心（默认为 ETCD），进而间接地控制 Apache APISIX。</p>
+<p>为了生成合法、有效的 script 函数，ManagerAPI 选择了 DAG 有向无环图的数据结构进行底层设计，并自主研发了 <code>dag-to-lua</code> <a href="https://github.com/api7/dag-to-lua">项目</a>：它将根节点作为开始节点，根据判断条件决定下一个流转插件，这将有效避免逻辑死循环。如下为 DAG 数据结构的示意图：</p>
+<p><img src="https://static.apiseven.com/202108/1639466682723-dcfd5c1b-9ae7-42b4-b3c2-c00aaf7a5996.png" alt="Apache APISIX plugin orchestration DAG data structure"></p>
+<p>对应到 ManagerAPI 接收的 <code>script</code> 参数上，示例如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">  "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">    "1-2-3"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">      "name"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "plugin-a",</span></span>
+<span class="line"><span style="color:#FFA657">      "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">    "4-5-6"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">      "name"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "plugin-b",</span></span>
+<span class="line"><span style="color:#FFA657">      "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#FFA657">    "7-8-9"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">      "name"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "plugin-c",</span></span>
+<span class="line"><span style="color:#FFA657">      "conf"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">  "rule"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">    "root"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "1-2-3",</span><span style="color:#A5D6FF"> //</span><span style="color:#A5D6FF"> 起始节点</span><span style="color:#A5D6FF"> ID</span></span>
+<span class="line"><span style="color:#FFA657">    "1-2-3"</span><span style="color:#79C0FF">:</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#E6EDF3">      [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "code == 200"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "4-5-6"</span></span>
+<span class="line"><span style="color:#E6EDF3">      ]</span><span style="color:#FFA657">,</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#FFA657">        ""</span><span style="color:#FFA657">,</span></span>
+<span class="line"><span style="color:#FFA657">        "7-8-9"</span></span>
+<span class="line"><span style="color:#E6EDF3">      ]</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>即客户端将最终编排后的数据转换为上述格式后，ManagerAPI 会借助 <code>dag-to-lua</code> 项目生成 Lua 函数，并交给 Apache APISIX 执行。</p>
+<p>在 Web 侧，经过挑选、对比与项目验证，我们选择了蚂蚁金服开源的 X6 图编辑引擎作为插件编排 Web 部分的底层框架，除了完善、清晰的文档外，一系列开箱即用的交互组件以及节点可定制化能力也是我们选择它的原因。</p>
+<p><img src="https://static.apiseven.com/202108/1639466742487-269ebd5a-4f6c-47c3-a941-1275a4b3d178.png" alt="X6 introduction"></p>
+<p>在编排实现过程中，我们抽象出了通用元件与插件元件的概念：通用元件是指开始节点、结束节点与条件判断节点，插件元件则是每一个可用的 Apache APISIX 插件，通过将这些元件拖拽到画板中来完成插件编排的流程。如图所示：</p>
+<p><img src="https://static.apiseven.com/202108/1639466805116-0e1c9a83-e5d0-40c1-8a76-8cb1402a491c.png" alt="Apache APISIX dashboard plugin orchestration demo1"></p>
+<p>在拖拽过程中，我们需要限制一系列的边界条件，这里有几个例子：</p>
+<p>当插件未配置时，系统将出现「存在未配置的元件」的错误提示，可以直观地看到哪个插件没有配置数据：</p>
+<p><img src="https://static.apiseven.com/202108/1639466853301-a67de136-633d-4b5d-9062-ac17bf625063.png" alt="Apache APISIX dashboard plugin orchestration demo2"></p>
+<p>当编辑某条 API 时，若该 API 已经绑定了插件数据，当使用插件编排模式时，系统在检测后将出现警告信息，只有用户明确确认希望使用编排模式时，系统才能继续进行。这可以有效避免 API 数据被误操作的情况。</p>
+<p><img src="https://static.apiseven.com/202108/1639466907551-07ec82f9-8988-4a66-a5f2-d3944d4f239c.png" alt="Apache APISIX dashboard plugin orchestration demo3"></p>
+<p>此外，还存在诸如开始元件只能有一个输出、条件判断元件只能有一个输入等情况。试想：如果系统不加限制地让用户操作，不合理的插件组合既无意义，又会产生无法预料的错误，因此不断丰富边界条件，也是在设计插件编排时需要着重考虑的问题。</p>
+<p>当我们完成编排后，将使用 X6 暴露的 API 生成流程图的 JSON 数据，然后转换为系统需要的 DAG 数据，最终生成 Lua 函数。</p>
+<h2 id="未来展望">未来展望</h2>
+<p>通过拖拽的方式，可以使得使用人员更方便地组合插件来满足不同的场景，以提升 API 网关可扩展能力与运维体验。在实际使用过程中，存在如下可以继续优化的问题：</p>
+<ol>
+<li>目前元件的边界判断条件还不够丰富，通过继续完善这些条件，以减少不合理的编排组合；</li>
+<li>当前编排示例不多，提供更多的参考示例可方便开发者学习、供用户使用；</li>
+<li>当前 Apache APISIX 使用了插件定义的 code 进行状态返回（异常则返回状态码，请求终止），可以支持更多 HTTP Response 字段甚至修改插件定义来扩展插件编排能力，如下述插件定义：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M = {</span></span>
+<span class="line"><span style="color:#FFA657">  version</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 0.1,</span></span>
+<span class="line"><span style="color:#FFA657">  priority</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 2500,</span></span>
+<span class="line"><span style="color:#79C0FF">  type</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> 'auth',</span></span>
+<span class="line"><span style="color:#FFA657">  name</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> plugin_name,</span></span>
+<span class="line"><span style="color:#FFA657">  schema</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> schema,</span></span>
+<span class="line"><span style="color:#8B949E">  # 新增的 result 字段，可存储插件运行结果，并传递到下个插件。</span></span>
+<span class="line"><span style="color:#FFA657">  result</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">    code</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#79C0FF">      type</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> "int"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

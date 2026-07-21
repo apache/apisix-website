@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Run APISIX Plugins in Envoy as Filters | Apache APISIX</title><meta name="description" content="Run APISIX Lua plugins as Envoy filters using envoy-apisix. Extend Envoy with dynamic capabilities without writing C++ code."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2020/12/16/another-way-to-implement-envoy-filter/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Run APISIX Plugins in Envoy as Filters | Apache APISIX"><meta property="og:description" content="Run APISIX Lua plugins as Envoy filters using envoy-apisix. Extend Envoy with dynamic capabilities without writing C++ code."><meta property="og:url" content="https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Run APISIX Plugins in Envoy as Filters","description":"Run APISIX Lua plugins as Envoy filters using envoy-apisix. Extend Envoy with dynamic capabilities without writing C++ code.","datePublished":"2020-12-16","author":{"@type":"Person","name":"Junxu Chen"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2020/12/16/another-way-to-implement-envoy-filter/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2020/12/16/another-way-to-implement-envoy-filter/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2020/12/16/another-way-to-implement-envoy-filter/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Run APISIX Plugins in Envoy as Filters</h1> <p class="article-meta"> 2020-12-16 · Junxu Chen  </p> <blockquote>
+<p>This article explains how to run Apache APISIX plugins in Envoy.</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>Source: <a href="https://www.apiseven.com/en/blog/another-way-to-implement-envoy-filter">https://www.apiseven.com/en/blog/another-way-to-implement-envoy-filter</a></p>
+</blockquote>
+<h2 id="ways-to-implement-envoy-filter">Ways to implement Envoy filter</h2>
+<h3 id="envoy-filter">Envoy filter</h3>
+<p>Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures.
+A pluggable filter chain mechanism allows filters to be written to perform different tasks and inserted into the main server.</p>
+<p><img src="https://static.apiseven.com/filters.png" alt="Envoy filter"></p>
+<h3 id="expansion-method">Expansion method</h3>
+<p>The existing filters may not meet the user’s custom requirements. In this case, Envoy needs to be extended. Customize new filters according to the existing filter chain to achieve customization requirements.</p>
+<p>Developers can extend Envoy in three ways:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center"></th><th align="center">Getting Started difficulty</th><th align="center">stability</th><th align="center">development efficiency</th><th align="center">Deploy and compile</th></tr></thead><tbody><tr><td align="center">C++</td><td align="center">high</td><td align="center">stable</td><td align="center">low</td><td align="center">long time to compile</td></tr><tr><td align="center">Lua</td><td align="center">low</td><td align="center">stable</td><td align="center">High</td><td align="center">no need to compile, deploy directly</td></tr><tr><td align="center">WASM</td><td align="center">high-medium</td><td align="center">on the fence</td><td align="center">depends on language</td><td align="center">compilation time depends on language</td></tr></tbody></table>
+<ol>
+<li>Using C++ to extend</li>
+</ol>
+<p>In this way, C++ code is written directly on the basis of Envoy for functional enhancement. After implementing a custom filter, the new binary file is recompiled to complete the upgrade. There are two problems with this way:</p>
+<ul>
+<li>
+<p>Limited by the C++ language, difficulty of getting started, scarcity of developers.</p>
+</li>
+<li>
+<p>Increasing the complexity of deployment, operation and maintenance, and upgrades. Envoy will become heavier and heavier, and every change requires recompiling the binary file, which is not conducive to iteration and management.</p>
+</li>
+</ul>
+<ol start="2">
+<li>Using Lua to extend</li>
+</ol>
+<p>Lua is born to be embedded in the application, so as to provide flexible extension and customization features for application, and is widely used.</p>
+<p>Lua Filter allows Lua scripts to be run in the request and response process. The main features currently supported include: inspection of headers, body, and trailers while streaming in either the request flow, response flow;modification of headers and trailers;blocking and buffering the full request/response body for inspection;performing an outbound async HTTP call to an upstream host;performing a direct response and skipping further filter iteration, etc.</p>
+<p>At present, many people directly distribute Lua code in configuration, which is not conducive to code organization and management, and it is difficult to share with others to form an ecosystem.</p>
+<ol start="3">
+<li>Using WASM extension</li>
+</ol>
+<p>Developers can write filters in their own programming language, compile them into WASM format using tools, and embed them into Envoy to run.</p>
+<p>It currently supports few languages, and using these languages ​​to extend is still not that simple. On the other hand, many people still have reservations about WASM and may not directly use it.</p>
+<h2 id="apache-apisix-solution">Apache APISIX solution</h2>
+<p>Based on the above analysis, we could see that Lua is very suitable for extending Envoy, and it is easy to learn, and the development efficiency is extremely high. Because it is embedded in Envoy, there is no additional network overhead, and the performance is good.</p>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> community proposes its own solution based on Lua, which is to provide a powerful and flexible basic library to implement all plugins of Apache APISIX and plugins that will be developed in the future to run on Envoy. Developers could also develop their own customized plugins based on this basic library.</p>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway, based on the Nginx library and Lua. Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.</p>
+<h3 id="example">Example</h3>
+<p>Please check the repo for specific code and how to run: <a href="https://github.com/api7/envoy-apisix">https://github.com/api7/envoy-apisix</a></p>
+<p>The relevant configuration of Envoy is as follows:</p>
+<p>Define a Filter:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">http_filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">- </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">entry.lua</span></span>
+<span class="line"><span style="color:#7EE787">  typed_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">    "@type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua</span></span>
+<span class="line"><span style="color:#7EE787">    source_codes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      entry.lua</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        filename</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix/entry.lua</span></span></code></pre>
+<p>Enable the Filter for a route and configure it with metadata:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">- </span><span style="color:#7EE787">match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/foo"</span></span>
+<span class="line"><span style="color:#7EE787">  route</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    cluster</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">web_service</span></span>
+<span class="line"><span style="color:#7EE787">  typed_per_filter_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    envoy.filters.http.lua</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "@type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">type.googleapis.com/envoy.extensions.filters.http.lua.v3.LuaPerRoute</span></span>
+<span class="line"><span style="color:#7EE787">      name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">entry.lua</span></span>
+<span class="line"><span style="color:#7EE787">  metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    filter_metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      envoy.filters.http.lua</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">uri-blocker</span></span>
+<span class="line"><span style="color:#7EE787">          conf</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">403</span></span>
+<span class="line"><span style="color:#7EE787">            block_rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">            - </span><span style="color:#A5D6FF">root.exe</span></span>
+<span class="line"><span style="color:#E6EDF3">            - </span><span style="color:#A5D6FF">root.m+</span></span></code></pre>
+<h3 id="how-does-it-work">How does it work</h3>
+<p>We don’t need to make major changes to Envoy, only some optimizations that are suitable for public needs.</p>
+<p>We shield platform differences for the plugin layer. All interfaces that need to be used are abstracted in the underlying framework, which we call apisix.core, so that all plugins can run on Envoy and Apache APISIX at the same time.</p>
+<p><img src="https://static.apiseven.com/main.png" alt="Architecture diagram"></p>
+<p>We use the previous example to show how the plugin runs:</p>
+<p><img src="https://static.apiseven.com/workflow.png" alt="Plugin workflow"></p>
+<h4 id="first-step-read-configuration">First step, read configuration</h4>
+<p>We configure through metadata to determine what plugins need to run on each route and what configuration is for each plugin.
+In the example, we configured plugin <code>uri-blocker</code> for the route whose prefix is ​​<code>/foo</code>, as well as the block rule of the plugin and the response status when a block is required.</p>
+<h4 id="second-step-parse-request">Second step, parse request</h4>
+<p>We encapsulated the client request data into <code>ctx</code> so that it can be used directly in the entire process.</p>
+<h4 id="third-step-run-the-plugin">Third step, run the plugin</h4>
+<p>We determine whether we need to block this request by matching the configured rules and the obtained uri. If a block is needed, we call <code>respond</code> to directly respond, otherwise we let it go.</p>
+<h2 id="future-outlook">Future outlook</h2>
+<p>More and more APISIX plugins are available to run on Envoy, and finally all APISIX plugins (Even that will be developed in the future) will be available to run on Envoy.</p>
+<p>At the same time, we hope that we could work with the Envoy community in the direction of Lua Filter, optimize and improve Lua Filter, enhance the expansion capabilities of Envoy, and reduce the difficulty of Envoy expansion.</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

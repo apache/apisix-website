@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 支持 gRPC Web 协议请求代理 | Apache APISIX</title><meta name="description" content="通过社区的积极讨论和贡献，Apache APISIX 又拓宽了 gRPC 生态的支持范围。本文将介绍 gRPC Web 协议请求代理的具体使用步骤及细节。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/01/25/apisix-grpc-web-integration/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="APISIX 支持 gRPC Web 协议请求代理 | Apache APISIX"><meta property="og:description" content="通过社区的积极讨论和贡献，Apache APISIX 又拓宽了 gRPC 生态的支持范围。本文将介绍 gRPC Web 协议请求代理的具体使用步骤及细节。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/01/25/apisix-grpc-web-integration/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 支持 gRPC Web 协议请求代理","description":"通过社区的积极讨论和贡献，Apache APISIX 又拓宽了 gRPC 生态的支持范围。本文将介绍 gRPC Web 协议请求代理的具体使用步骤及细节。","datePublished":"2022-01-25","author":{"@type":"Person","name":"帅进超"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/01/25/apisix-grpc-web-integration/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/01/25/apisix-grpc-web-integration/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/01/25/apisix-grpc-web-integration/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>APISIX 支持 gRPC Web 协议请求代理</h1> <p class="article-meta"> 2022-01-25 · 帅进超  </p> <blockquote>
+<p>Apache APISIX 已经支持了 gRPC 协议代理，以及通过 gRPC Transcode 插件支持了 HTTP(s) 到 gRPC Server 的代理。通过社区的积极讨论和贡献，Apache APISIX 又拓宽了 gRPC 生态的支持范围：支持 gRPC Web 协议请求代理。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="grpc-web-背景介绍">gRPC Web 背景介绍</h2>
+<p>gRPC 最初由谷歌开发，是一个基于 HTTP/2 实现的高性能远程过程调用框架。但由于浏览器没有直接暴露 HTTP/2，所以 Web 应用程序不能直接使用 gRPC。gRPC Web 是一个标准化协议，它解决了这个问题。</p>
+<p>第一个 gRPC-web 实现是在 2018 年作为一个 JavaScript 库发布的，Web 应用程序可以通过它直接与 gRPC 服务通信。其原理是创建与 HTTP/1.1 和 HTTP/2 兼容的端到端 gRPC 管道，然后浏览器发送常规的 HTTP 请求，位于浏览器和服务器之间的 gRPC-Web 代理对请求和响应进行转换。与 gRPC 类似，gRPC Web 在 Web 客户端和后端 gRPC 服务之间使用预定义的契约。Protocol Buffers 被用来序列化和编码消息。</p>
+<p><img src="https://static.apiseven.com/202108/1643099754071-1f5c3c68-f2bc-4746-95f5-cc083ace554b.png" alt="gRPC-web 工作原理"></p>
+<p>有了 gRPC Web，用户可以使用浏览器或 Node 客户端直接调用后端的 gRPC 应用程序。不过，在浏览器端使用 gRPC-Web 调用 gRPC 服务也存在一些限制：</p>
+<ul>
+<li>不支持客户端流和双向流调用。</li>
+<li>跨域调用 gRPC 服务需要在服务器端配置 CORS。</li>
+<li>gRPC 服务器端必须配置为支持 gRPC-Web，或者必须有第三方服务代理在浏览器和服务器之间对调用进行转换。</li>
+</ul>
+<h2 id="apache-apisix-grpc-web-proxy">Apache APISIX gRPC Web Proxy</h2>
+<p>Apache APISIX 通过插件的方式支持 gRPC Web 协议的代理，在 <code>grpc-web</code> 插件中完成了 gRPC Web与 gRPC Server 通讯时的协议转换及数据编解码工作，其通讯的过程如下：</p>
+<p>gRPC Web Client -> Apache APISIX（protocol conversion &#x26; data codec）-> gRPC server</p>
+<p>接下来通过一个完整的示例向大家演示怎样构建一个 gRPC Web 客户端，并通过 Apache APISIX 进行 gRPC Web 请求的代理。在以下的示例中，我们会将 Go 作为 gRPC Server 服务端处理程序，Node 作为 gRPC Web 客户端请求程序。</p>
+<h2 id="配置-protocol-buffer">配置 Protocol Buffer</h2>
+<p>首先进行第一步，安装 Protocol Buffer 编译器及相关插件。</p>
+<ol>
+<li>
+<p>安装 <code>protoc</code> 和 <code>proto-grpc-*</code> 插件。</p>
+<p>在编写客户端和服务端程序前，需要在系统中安装 Protocol Buffer 编译器 <code>protoc</code> 和 用于生成 <code>.proto</code> 的 Go、JavaScript、gRPC Web 接口代码的 <code>protoc-gen-go</code> 和 <code>protoc-gen-grpc-web</code> 插件。</p>
+<p>请运行以下脚本，安装上述组件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8B949E">#!/usr/bin/env bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF"> set</span><span style="color:#79C0FF"> -ex</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> PROTOBUF_VERSION</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"3.19.0"</span></span>
+<span class="line"><span style="color:#FFA657"> wget</span><span style="color:#A5D6FF"> https://github.com/protocolbuffers/protobuf/releases/download/v</span><span style="color:#E6EDF3">${PROTOBUF_VERSION}</span><span style="color:#A5D6FF">/protoc-</span><span style="color:#E6EDF3">${PROTOBUF_VERSION}</span><span style="color:#A5D6FF">-linux-x86_64.zip</span></span>
+<span class="line"><span style="color:#FFA657"> unzip</span><span style="color:#A5D6FF"> protoc-</span><span style="color:#E6EDF3">${PROTOBUF_VERSION}</span><span style="color:#A5D6FF">-linux-x86_64.zip</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> bin/protoc</span><span style="color:#A5D6FF"> /usr/local/bin/protoc</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> include/google</span><span style="color:#A5D6FF"> /usr/local/include/</span></span>
+<span class="line"><span style="color:#FFA657"> chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /usr/local/bin/protoc</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> PROTO_GO_PLUGIN_VER</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"1.2.0"</span></span>
+<span class="line"><span style="color:#FFA657"> wget</span><span style="color:#A5D6FF"> https://github.com/grpc/grpc-go/releases/download/cmd/protoc-gen-go-grpc/v</span><span style="color:#E6EDF3">${PROTO_GO_PLUGIN_VER}</span><span style="color:#A5D6FF">/protoc-gen-go-grpc.v</span><span style="color:#E6EDF3">${PROTO_GO_PLUGIN_VER}</span><span style="color:#A5D6FF">.linux.amd64.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657"> tar</span><span style="color:#79C0FF"> -zxvf</span><span style="color:#A5D6FF"> protoc-gen-go-grpc.v</span><span style="color:#E6EDF3">${PROTO_GO_PLUGIN_VER}</span><span style="color:#A5D6FF">.linux.amd64.tar.gz</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> protoc-gen-go-grpc</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-go</span></span>
+<span class="line"><span style="color:#FFA657"> chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-go</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> PROTO_JS_PLUGIN_VER</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"1.3.0"</span></span>
+<span class="line"><span style="color:#FFA657"> wget</span><span style="color:#A5D6FF"> https://github.com/grpc/grpc-web/releases/download/</span><span style="color:#E6EDF3">${PROTO_JS_PLUGIN_VER}</span><span style="color:#A5D6FF">/protoc-gen-grpc-web-</span><span style="color:#E6EDF3">${PROTO_JS_PLUGIN_VER}</span><span style="color:#A5D6FF">-linux-x86_64</span></span>
+<span class="line"><span style="color:#FFA657"> mv</span><span style="color:#A5D6FF"> protoc-gen-grpc-web-</span><span style="color:#E6EDF3">${PROTO_JS_PLUGIN_VER}</span><span style="color:#A5D6FF">-linux-x86_64</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-grpc-web</span></span>
+<span class="line"><span style="color:#FFA657"> chmod</span><span style="color:#A5D6FF"> +x</span><span style="color:#A5D6FF"> /usr/local/bin/protoc-gen-grpc-web</span></span></code></pre>
+</li>
+<li>
+<p>创建 <code>SayHello</code> 示例 <code>proto</code> 文件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E"> // a6/echo.proto</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> syntax </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "proto3"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> package</span><span style="color:#FFA657"> a6</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> option go_package </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "./;a6"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> message EchoRequest {</span></span>
+<span class="line"><span style="color:#FF7B72"> string</span><span style="color:#E6EDF3"> message </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> message EchoResponse {</span></span>
+<span class="line"><span style="color:#FF7B72"> string</span><span style="color:#E6EDF3"> message </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> service EchoService {</span></span>
+<span class="line"><span style="color:#E6EDF3"> rpc </span><span style="color:#D2A8FF">Echo</span><span style="color:#E6EDF3">(EchoRequest) returns (EchoResponse);</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span></code></pre>
+</li>
+</ol>
+<h2 id="配置服务端程序">配置服务端程序</h2>
+<ol>
+<li>
+<p>生成服务端 Go 原始消息和服务/客户端存根。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">protoc</span><span style="color:#79C0FF"> -I./a6</span><span style="color:#A5D6FF"> echo.proto</span><span style="color:#79C0FF"> --go_out=plugins=grpc:./a6</span></span></code></pre>
+</li>
+<li>
+<p>实现服务端处理程序接口。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E">// a6/echo.impl.go</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> package</span><span style="color:#FFA657"> a6</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">errors</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">golang.org/x/net/context</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3"> )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> type</span><span style="color:#FFA657"> EchoServiceImpl</span><span style="color:#FF7B72"> struct</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> func</span><span style="color:#E6EDF3"> (esi </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">EchoServiceImpl) </span><span style="color:#D2A8FF">Echo</span><span style="color:#E6EDF3">(ctx context.Context, in </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">EchoRequest) (</span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">EchoResponse, </span><span style="color:#FF7B72">error</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72"> if</span><span style="color:#D2A8FF"> len</span><span style="color:#E6EDF3">(in.Message) </span><span style="color:#FF7B72">&#x3C;=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">     return</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3">, errors.</span><span style="color:#D2A8FF">New</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"message invalid"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#FF7B72"> return</span><span style="color:#FF7B72"> &#x26;</span><span style="color:#FFA657">EchoResponse</span><span style="color:#E6EDF3">{Message: </span><span style="color:#A5D6FF">"response: "</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> in.Message}, </span><span style="color:#79C0FF">nil</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span></code></pre>
+</li>
+<li>
+<p>服务端程序运行入口文件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#8B949E">// server.go</span></span>
+<span class="line"><span style="color:#FF7B72"> package</span><span style="color:#FFA657"> main</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> import</span><span style="color:#E6EDF3"> (</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">fmt</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">log</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">net</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">apisix.apache.org/example/a6</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#A5D6FF"> "</span><span style="color:#FFA657">google.golang.org/grpc</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3"> )</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> func</span><span style="color:#D2A8FF"> main</span><span style="color:#E6EDF3">() {</span></span>
+<span class="line"><span style="color:#E6EDF3"> lis, err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> net.</span><span style="color:#D2A8FF">Listen</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"tcp"</span><span style="color:#E6EDF3">, fmt.</span><span style="color:#D2A8FF">Sprintf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">":</span><span style="color:#FF7B72">%d</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">50001</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72"> if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">     log.</span><span style="color:#D2A8FF">Fatalf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to listen: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3"> grpcServer </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> grpc.</span><span style="color:#D2A8FF">NewServer</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3"> a6.</span><span style="color:#D2A8FF">RegisterEchoServiceServer</span><span style="color:#E6EDF3">(grpcServer, </span><span style="color:#FF7B72">&#x26;</span><span style="color:#FFA657">a6</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">EchoServiceImpl</span><span style="color:#E6EDF3">{})</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72"> if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> grpcServer.</span><span style="color:#D2A8FF">Serve</span><span style="color:#E6EDF3">(lis); err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">     log.</span><span style="color:#D2A8FF">Fatalf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to serve: </span><span style="color:#FF7B72">%s</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span>
+<span class="line"><span style="color:#E6EDF3"> }</span></span></code></pre>
+</li>
+<li>
+<p>编译并启动服务端服务。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">go</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> grpc-server</span><span style="color:#A5D6FF"> server.go</span></span>
+<span class="line"><span style="color:#FFA657">./grpc-server</span></span></code></pre>
+</li>
+</ol>
+<h2 id="配置客户端程序">配置客户端程序</h2>
+<ol>
+<li>
+<p>生成客户端 <code>proto</code> 代码</p>
+<p>生成客户端 JavaScript 原始消息、服务/客户端存根和 gRPC Web 的 JavaScript 的接口代码。
+gRPC Web 的 <code>proto</code> 插件提供了两种代码生成模式：</p>
+<ol>
+<li>mode=grpcwebtext： 默认生成的代码以 grpc-web-text 格式发送 payload</li>
+</ol>
+<ul>
+<li>Content-type： application/grpc-web-text</li>
+<li>Payload 使用 base64 编码</li>
+<li>支持一元和服务器流式调用</li>
+</ul>
+<ol>
+<li>mode=grpcweb：以二进制 protobuf 格式发送 payload</li>
+</ol>
+<ul>
+<li>Content-type： application/grpc-web+proto</li>
+<li>Payload 采用二进制 protobuf 格式</li>
+<li>目前仅支持一元调用</li>
+</ul>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> protoc</span><span style="color:#79C0FF"> -I=./a6</span><span style="color:#A5D6FF"> echo.proto</span><span style="color:#79C0FF"> --js_out=import_style=commonjs:./a6</span><span style="color:#79C0FF"> --grpc-web_out=import_style=commonjs,mode=grpcweb:./a6</span></span></code></pre>
+<ol start="2">
+<li>
+<p>安装客户端依赖库</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> npm</span><span style="color:#A5D6FF"> i</span><span style="color:#A5D6FF"> grpc-web</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> npm</span><span style="color:#A5D6FF"> i</span><span style="color:#A5D6FF"> google-protobuf</span></span></code></pre>
+</li>
+<li>
+<p>客户端执行入口文件</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">//</span><span style="color:#A5D6FF"> client.js</span></span>
+<span class="line"><span style="color:#FFA657">const</span><span style="color:#A5D6FF"> {EchoRequest}</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">'./a6/echo_pb'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FFA657">const</span><span style="color:#A5D6FF"> {EchoServiceClient}</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">'./a6/echo_grpc_web_pb'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FFA657">//</span><span style="color:#A5D6FF"> 连接到</span><span style="color:#A5D6FF"> Apache</span><span style="color:#A5D6FF"> APISIX</span><span style="color:#A5D6FF"> 的入口</span></span>
+<span class="line"><span style="color:#79C0FF">let</span><span style="color:#A5D6FF"> echoService</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> new</span><span style="color:#A5D6FF"> EchoServiceClient</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">'http://127.0.0.1:9080'</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">let</span><span style="color:#A5D6FF"> request</span><span style="color:#A5D6FF"> =</span><span style="color:#A5D6FF"> new</span><span style="color:#A5D6FF"> EchoRequest</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#FFA657">request.setMessage(</span><span style="color:#FFA657">"hello"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">echoService.echo(request,</span><span style="color:#A5D6FF"> {},</span><span style="color:#A5D6FF"> function</span><span style="color:#E6EDF3"> (err, </span><span style="color:#A5D6FF">response</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">err</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#FFA657">         console.log(err.code</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FFA657">         console.log(err.message</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">     } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">         console.log(response.getMessage(</span><span style="color:#E6EDF3">));</span></span>
+<span class="line"><span style="color:#E6EDF3">     }</span></span>
+<span class="line"><span style="color:#E6EDF3"> });</span></span></code></pre>
+</li>
+<li>
+<p>最终项目结构</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> tree</span><span style="color:#A5D6FF"> .</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> a6</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo.impl.go</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo.pb.go</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo.proto</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   ├──</span><span style="color:#A5D6FF"> echo_grpc_web_pb.js</span></span>
+<span class="line"><span style="color:#FFA657"> │</span><span style="color:#A5D6FF">   └──</span><span style="color:#A5D6FF"> echo_pb.js</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> client.js</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> server.go</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> go.mod</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> go.sum</span></span>
+<span class="line"><span style="color:#FFA657"> ├──</span><span style="color:#A5D6FF"> package.json</span></span>
+<span class="line"><span style="color:#FFA657"> └──</span><span style="color:#A5D6FF"> package-lock.json</span></span></code></pre>
+</li>
+</ol>
+<p>完成上述的步骤之后，你已经配置了把 gRPC Server 的服务端程序和 gRPC Web 的客户端程序，并且启动了服务端程序，它将通过 <code>50001</code> 端口接收请求。</p>
+<h2 id="配置-apache-apisix">配置 Apache APISIX</h2>
+<p>接下来只需在 Apache APISIX 路由的插件配置中启用 <code>grpc-web</code> 插件，即可进行 gRPC Web 请求的代理。</p>
+<ol>
+<li>
+<p>启用 <code>grpc-web</code> 代理插件</p>
+<p>启用 <code>grpc-web</code> 代理插件，路由必须使用<strong>前缀匹配</strong>模式（例如：<code>/* 或 /grpc/example/*</code>）， 因 gRPC Web 客户端会在 URI 中传递 <code>proto</code> 中声明的包名称、服务接口名称、方法名称等信息（例如：<code>/path/a6.EchoService/Echo</code>），<strong>使用绝对匹配时会使插件无法从 URI 中提取 <code>proto</code> 信息</strong>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "uri":"/*", // 前缀匹配模式</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">         "grpc-web":{} //开启 gRPC Web 代理</span></span>
+<span class="line"><span style="color:#A5D6FF">     },</span></span>
+<span class="line"><span style="color:#A5D6FF">     "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">         "scheme":"grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">             "127.0.0.1:50001":1 // gRPC Server Listen 地址和端口</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+</li>
+<li>
+<p>验证 gRPC Web 代理请求</p>
+<p>通过 Node 执行 <code>client.js</code> 即可向 Apache APISIX 发送 gRPC Web 协议请求。
+上述客户端和服务端的处理逻辑分别是：客户端向服务端发送一条消息内容是 <code>hello</code>，服务端收到消息后响应 <code>response: hello</code>，执行结果如下。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> node</span><span style="color:#A5D6FF"> client.js</span></span>
+<span class="line"><span style="color:#FFA657">response:</span><span style="color:#A5D6FF"> hello</span></span></code></pre>
+</li>
+<li>
+<p>关闭 <code>grpc-web</code> 代理插件</p>
+<p>只需将路由插件配置中的 grpc-web 属性移除即可。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">     "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">     "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">     },</span></span>
+<span class="line"><span style="color:#A5D6FF">     "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">         "scheme":"grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">         "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">             "127.0.0.1:50001":1</span></span>
+<span class="line"><span style="color:#A5D6FF">         }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF"> }'</span></span></code></pre>
+</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>本文为大家带来了 Apache APISIX 的 <code>grpc-web</code> 插件讲解及实战案例。</p>
+<p>欢迎随时在 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 中发起讨论，或通过<a href="https://apisix.apache.org/zh/docs/general/join">邮件列表</a>进行交流。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

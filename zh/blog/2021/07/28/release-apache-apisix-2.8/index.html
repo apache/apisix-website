@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 2.8 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 2.8 版本发布了以下功能：独立的 Keepalive 连接池、stream 代理功能增强、gzip 插件、支持通过插件的方式执行特定逻辑、支持自定义 balancer。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/07/28/release-apache-apisix-2.8/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 2.8 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 2.8 版本发布了以下功能：独立的 Keepalive 连接池、stream 代理功能增强、gzip 插件、支持通过插件的方式执行特定逻辑、支持自定义 balancer。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 2.8 正式发布","description":"Apache APISIX 2.8 版本发布了以下功能：独立的 Keepalive 连接池、stream 代理功能增强、gzip 插件、支持通过插件的方式执行特定逻辑、支持自定义 balancer。","datePublished":"2021-07-28","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/07/28/release-apache-apisix-2.8/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/07/28/release-apache-apisix-2.8/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/07/28/release-apache-apisix-2.8/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 2.8 正式发布</h1> <p class="article-meta"> 2021-07-28 · 罗泽轩  </p> <blockquote>
+<p>Apache APISIX 2.8 版本正式发布！</p>
+</blockquote>
+<!--truncate-->
+<p>Apache APISIX 2.8 版本正式发布！🎉 这个版本有 30+ 开发者参与，共提交了 100+ PR，支持了 <strong>1 个新功能、1 个新体验、2 个新插件、2 个新玩法</strong>，快去阅读了解 2.8 版本的新特性吧！</p>
+<p>👇👇👇</p>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="新功能独立的-keepalive-连接池">新功能：独立的 Keepalive 连接池</h3>
+<p>从<a href="https://apisix.apache.org/blog/2021/06/29/release-apache-apisix-2.7">2.7 版本</a>开始添加 Apache APISIX 自己的补丁和 Nginx C 模块，增强原生 Nginx 的功能，希望能够动态设置越来越多的 Nginx 配置。在发布的最新版本中，Apache APISIX 已经支持在 Upstream 级别上配置独立的 Keepalive 连接池。</p>
+<p>目前包含了以下功能：</p>
+<ul>
+<li>动态设置 mTLS</li>
+<li>动态设置 client_max_body_size</li>
+<li>Upstream 的 keepalive（2.8 新功能）</li>
+<li>gzip (2.8 新插件)</li>
+</ul>
+<p>在 Apache APISIX 后续版本中，我们也会陆续允许下面的 Nginx 配置能够被动态设置：</p>
+<ul>
+<li>real_ip</li>
+<li>proxy_max_temp_file_size</li>
+<li>……</li>
+</ul>
+<p>Upstream 的配置举例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    "id": "backend",</span></span>
+<span class="line"><span>    "nodes": {"host:80": 100},</span></span>
+<span class="line"><span>    "type":"roundrobin",</span></span>
+<span class="line"><span>    "keepalive_pool": {</span></span>
+<span class="line"><span>        "size": 4,</span></span>
+<span class="line"><span>        "idle_timeout": 8,</span></span>
+<span class="line"><span>        "requests": 16</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="新体验stream-代理功能增强">新体验：stream 代理功能增强</h3>
+<p>在 2.8 版本中，把 <a href="http://apisix.apache.org/docs/apisix/plugins/ip-restriction/">ip-restriction</a> 和 <a href="http://apisix.apache.org/docs/apisix/plugins/limit-conn/">limit-conn</a> 两个插件从 HTTP 部分的移植到了 stream 部分，这么做的好处是丰富网关在 stream 代理的功能，增加对上游服务的安全性保障。</p>
+<p>ip-restriction 可以用来做 IP 黑白名单过滤，保证只有来自特定 IP 的请求才能访问到后端服务。</p>
+<p>limit-conn 可以用来限制特定路由上同时存在的连接个数，限制客户端的并发访问量。</p>
+<h3 id="新插件gzip-插件">新插件：gzip 插件</h3>
+<p>2.8 版本中新增了 gzip 插件，使用 gzip 插件可以<strong>动态设置路由级别的 gzip 参数</strong>。</p>
+<p>gzip 配置举例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "gzip": {</span></span>
+<span class="line"><span>            "min_length": 20,</span></span>
+<span class="line"><span>            "http_version": 1.1,</span></span>
+<span class="line"><span>            "buffers": {</span></span>
+<span class="line"><span>                "number": 32,</span></span>
+<span class="line"><span>                "size": 4096</span></span>
+<span class="line"><span>            },</span></span>
+<span class="line"><span>            "types": [</span></span>
+<span class="line"><span>                "text/html"</span></span>
+<span class="line"><span>            ],</span></span>
+<span class="line"><span>            "comp_level": 1,</span></span>
+<span class="line"><span>            "vary": false</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="新插件ua-restriction">新插件：ua-restriction</h3>
+<p><code>ua-restriction</code> 插件用于校验 User-Agent 是否处于黑白名单中，黑白名单是一个非常常见的需求，现在可以通过插件的方式启用了。</p>
+<p><code>ua-restriction</code> 配置举例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "ua-restriction": {</span></span>
+<span class="line"><span>            "denylist": [</span></span>
+<span class="line"><span>                "my-bot1",</span></span>
+<span class="line"><span>                "(Baiduspider)/(\\d+)\\.(\\d+)"</span></span>
+<span class="line"><span>            ]</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="新玩法支持通过插件的方式执行特定逻辑">新玩法：支持通过插件的方式执行特定逻辑</h3>
+<p>得益于 Apache APISIX 架构，许多功能都是通过插件的方式实现的。从 2.8 版本开始，插件又添加了新玩法。<strong>现在 Apache APISIX 支持在选择上游节点之后，通过插件的方式执行特定逻辑。</strong></p>
+<p>只需要在插件里定义下面的方法：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>function _M.balancer(conf, ctx)</span></span>
+<span class="line"><span>    core.log.notice("IP: ", ctx.balancer_ip, ", Port: ", ctx.balancer_port)</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>在这个示例里，日志会输出上游的 IP 和 Port。</p>
+<p><strong>什么场景下会运行上述方法？</strong></p>
+<ol>
+<li>选择上游节点之后，访问上游之前</li>
+<li>每次重试之前</li>
+</ol>
+<p>出于性能考虑，上述方法首次运行在 OpenResty 的 access 阶段（实际上 APISIX 在 access 阶段就选好了上游节点），该方法并不与 OpenResty 的同名阶段重合。</p>
+<h3 id="新玩法支持自定义-balancer">新玩法：支持自定义 balancer</h3>
+<p>从 2.8 版本开始，用户可以自定义 balancer。<strong>这里的 balancer，是指最少连接数、轮询、一致性哈希等负载均衡器。</strong></p>
+<p>虽然 Apache APISIX 已经提供了丰富的 balancer，但是用户可能需要用的 balancer 是和业务紧密相关的 balancer，比如：需要考虑机房、可用区等等。支持自定义 balancer，用户可以编写自己的 balancer，并通过 <code>require("apisix.balancer.your_balancer")</code>  加载到程序中。</p>
+<p>通常自定义的 balancer 需要 node 提供 host/port 以外的数据，可以把数据放到 metadata 里面，举个例子：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    "nodes": [</span></span>
+<span class="line"><span>        { "host": "0.0.0.0", "port": 1980, "weight": 1, "metadata": {"b": 1} }</span></span>
+<span class="line"><span>    ]</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h2 id="下载">下载</h2>
+<p>下载 Apache APISIX 2.8</p>
+<ul>
+<li>源代码：请访问<a href="https://apisix.apache.org/downloads/">下载页面</a></li>
+<li>二进制安装包：请访问<a href="https://apisix.apache.org/zh/docs/apisix/how-to-build/">安装指南</a></li>
+</ul> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

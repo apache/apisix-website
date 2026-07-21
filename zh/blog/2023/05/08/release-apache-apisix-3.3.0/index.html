@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.3.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.3.0 版本正式发布，此版本提供了更好的多域名匹配场景下的表现。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/05/08/release-apache-apisix-3.3.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/05/08/release-apache-apisix-3.3.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/05/08/release-apache-apisix-3.3.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/05/08/release-apache-apisix-3.3.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Apache APISIX 3.3.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.3.0 版本正式发布，此版本提供了更好的多域名匹配场景下的表现。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/05/08/release-apache-apisix-3.3.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.3.0 正式发布","description":"Apache APISIX 3.3.0 版本正式发布，此版本提供了更好的多域名匹配场景下的表现。","datePublished":"2023-05-08","author":{"@type":"Person","name":"曾元豪"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/05/08/release-apache-apisix-3.3.0/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/05/08/release-apache-apisix-3.3.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/05/08/release-apache-apisix-3.3.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Apache APISIX 3.3.0 正式发布</h1> <p class="article-meta"> 2023-05-08 · 曾元豪  </p> <blockquote>
+<p>Apache APISIX 3.3.0 版本正式发布，此版本提供了更好的多域名匹配场景下的表现。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="apisix-330-新功能">APISIX 3.3.0 新功能</h2>
+<p>时隔一个月，新版本又来了。这次的 APISIX 3.3.0 是 3.2 LTS 版本以来的第一个新版本，在 3.x 的新时代里，我们一如既往地给大家奉上更多新功能。</p>
+<p>此次发布的 3.3.0 版本，将默认路由匹配模式从 <code>radixtree_uri</code> 改为 <code>radixtree_host_uri</code>，提供了更好的多域名匹配场景下的表现。在这之外，我们还引入了许多新的特性和功能，旨在优化 APISIX 的使用体验。</p>
+<h2 id="新特性">新特性</h2>
+<h3 id="支持将路由证书存储在-secrets-manager-中">支持将路由证书存储在 secrets manager 中</h3>
+<p>APISIX 3.3.0 版本支持从 Vault 中加载证书，提供了更好的安全性保障。</p>
+<h4 id="相关示例">相关示例</h4>
+<p>第一步：配置 Vault 对接参数</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$ curl http://127.0.0.1:9180/apisix/admin/secrets/vault/test1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "uri": "http://127.0.0.1:8200",</span></span>
+<span class="line"><span>    "prefix": "kv/apisix",</span></span>
+<span class="line"><span>    "token" : "root"</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>第二步：在 SSL 对象上使用 <code>$secret://</code> 的语法引用 vault 相关路径的配置，APISIX 将从对应 vault 资源路径中获取到相关证书数据</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$ curl http://127.0.0.1:9180/apisix/admin/ssls/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "cert": "$secret://vault/test1/ssl/test2.com.crt",</span></span>
+<span class="line"><span>    "key": "$secret://vault/test1/ssl/test2.com.key",</span></span>
+<span class="line"><span>    "sni": "test2.com"</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>最后在具体的 route 上配置上述 SSL 对象，route 证书便可以从 vault 中加载。</p>
+<h3 id="支持通过配置绕过-admin-api-身份验证">支持通过配置绕过 Admin API 身份验证</h3>
+<p>默认情况下 APISIX 将检查 <code>X-API-KEY</code> ，现在可以通过在配置文件中关闭 <code>admin_key_required</code> 配置项，关闭相关的检查。</p>
+<p>第一步：修改 config.yaml 配置文件</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>...</span></span>
+<span class="line"><span>deployment:</span></span>
+<span class="line"><span>  admin:</span></span>
+<span class="line"><span>    admin_key_required: false</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<p>第二步：不使用 admin key 访问资源</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -v http://127.0.0.1:9180/apisix/admin/routes</span></span></code></pre>
+<p>这样就可以简化开发调试的复杂度了。</p>
+<h3 id="新功能优化以及更多小功能">新功能：优化以及更多小功能</h3>
+<p>除了上面提到的几个大的功能外，此次发布也包含许多值得述说的改动：</p>
+<ul>
+<li>fault-injection 插件支持请求头注入</li>
+<li>提供在其他插件中引用 proxy-rewrite 插件中路由改写捕捉到的变量支持</li>
+<li>limit-count 插件提供 username 与 ssl redis 认证方式
+等等。</li>
+</ul>
+<p>如果你对新版本的完整更新细节感兴趣，请参考 3.3.0 发布的 <a href="https://github.com/apache/apisix/blob/release/3.3/docs/zh/latest/CHANGELOG.md#330">CHANGELOG</a>。</p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

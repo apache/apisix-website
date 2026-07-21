@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Stable Product Delivery with Cypress | Apache APISIX</title><meta name="description" content="Why APISIX Dashboard uses Cypress for E2E testing. Learn the setup, configuration, and best practices for stable product delivery."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/02/08/stable-product-delivery-with-cypress/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="Stable Product Delivery with Cypress | Apache APISIX"><meta property="og:description" content="Why APISIX Dashboard uses Cypress for E2E testing. Learn the setup, configuration, and best practices for stable product delivery."><meta property="og:url" content="https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Stable Product Delivery with Cypress","description":"Why APISIX Dashboard uses Cypress for E2E testing. Learn the setup, configuration, and best practices for stable product delivery.","datePublished":"2021-02-08","author":{"@type":"Person","name":"Yi Sun"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/02/08/stable-product-delivery-with-cypress/"}]</script><link rel="stylesheet" href="/_astro/Base.DP5vhmrn.css"></head> <body> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="https://apisix.apache.org/img/logo2.svg" alt="Apache APISIX logo" width="120" height="30"> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/02/08/stable-product-delivery-with-cypress/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/02/08/stable-product-delivery-with-cypress/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap"> <article class="prose"> <h1>Stable Product Delivery with Cypress</h1> <p class="article-meta"> 2021-02-08 · Yi Sun  </p> <blockquote>
+<p>This article explains how Yi Sun, GitHub ID <a href="https://github.com/LiteSun">@LiteSun</a>, became Apache APISIX Committer from <a href="https://www.apiseven.com/">API7.ai</a>, implements stable product delivery with Cypress.</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>Source:</p>
+<ul>
+<li><a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></li>
+<li><a href="https://github.com/apache/apisix-dashboard">https://github.com/apache/apisix-dashboard</a></li>
+</ul>
+</blockquote>
+<h2 id="background">Background</h2>
+<p>The Apache APISIX Dashboard is designed to make it as easy as possible for users to operate Apache APISIX through a front-end interface, and since the project’s inception, there have been 552 commits and 10 releases. With such rapid product iteration, it is important to ensure the quality of the open-source product. For this reason, we have introduced an E2E testing module to ensure stable product delivery.</p>
+<h2 id="what-is-front-end-e2e">What is Front-End E2E</h2>
+<p>E2E, which stands for “End to End”, can be translated as “end-to-end” testing. It mimics user behavior, starting with an entry point and executing actions step-by-step until a job is completed. Sound testing prevents code changes from breaking the original logic.</p>
+<h2 id="why-cypress">Why Cypress</h2>
+<p>We used Taiko, Puppeteer, TestCafe, and Cypress to write test cases for creating routes during the selection research period, and we used each testing framework to write cases to experience their respective features.</p>
+<p>Taiko is characterized by smart selector, which can intelligently locate the elements that you want to operate based on text content and location relations, and has a low start-up cost, so you can finish the test cases quickly. However, it is not user-friendly when writing test cases. When the user exits the terminal by mistake, all the written test cases are lost, and if you want to run a complete test case, you need to use it together with other test runners, which undoubtedly increases the learning cost for the user.</p>
+<p>Puppeteer has the best performance. However, testing is not the focus of Puppeteer. It is widely used for web crawlers. Our project started with Puppeteer, the official E2E testing framework recommended by ANTD, and after using it for a while we found that Puppeteer did not look so friendly to non-front-end developers and it was hard to get other users involved. When users write test cases, the lack of intelligent element positioning makes the learning curve very high.</p>
+<p>TestCafe is surprisingly easy to install, it has a built-in waiting mechanism so that users don’t have to actively sleep waiting for page interactions, and it supports concurrent multi-browser testing, which is helpful for multi-browser compatibility testing. The disadvantage is that its debugging process is not so user-friendly, and you have to run a new use case after each test case change. For the developers, they need to have some basic Javascript syntax. Secondly, its running speed is relatively slow for several other frameworks, especially when executing withText () to find elements.</p>
+<p>After a comprehensive comparison, we finally chose Cypress as our front-end E2E framework, listing four main reasons:</p>
+<ol>
+<li>Simple syntax</li>
+</ol>
+<p>The syntax used in Cypress tests is very simple and easy to read and write. With a little practice, you can master creating test cases, which is important for open source projects because it allows the community interested in E2E test cases to participate in writing test cases with minimal learning cost.</p>
+<ol start="2">
+<li>Easy debugging</li>
+</ol>
+<p>When debugging test cases, we can use Cypress’s Test Runner, which presents multi-dimensional data that allows us to quickly pinpoint the problem.</p>
+<ul>
+<li>Showing the status of the test case execution, including the number of successes, failures, and runs in progress.</li>
+<li>Displaying the total time spent on the execution of the entire test set.</li>
+<li>A built-in Selector Playground to help locate elements.</li>
+<li>shows each step of execution for each use case and forms a snapshot that can show information about each execution step after it is completed.</li>
+</ul>
+<ol start="3">
+<li>Active community</li>
+</ol>
+<p>Cypress has a large community of users, and there are always many people inside the community sharing their experiences and ideas.</p>
+<p>This is helpful when encountering problems, and you are likely to encounter problems that others have encountered before. Also, when new features are requested, we can participate in the community by discussing and adding features to Cypress that we want to add, just like we do in the APISIX community: listening to the community and feeding it back.</p>
+<ol start="4">
+<li>Clear documentation</li>
+</ol>
+<p>Cypress’s documentation structure is clearer and more comprehensive. In the early stages of use, we were able to quickly introduce Cypress into our project and write our first case based on the official documentation guidelines. In addition, there is a large amount of documentation available on the documentation site that gives users good guidance on what is best practice.</p>
+<h2 id="cypress-and-apisix-dashboard">Cypress and APISIX Dashboard</h2>
+<p>There are currently 49 test cases written for the APISIX Dashboard. We configured the corresponding CI in GitHub Action to ensure that the code passes before each merge to ensure code quality. We share the use of Cypress in APISIX Dashboard with you by referring to Cypress best practices and combining them with our project.</p>
+<p><img src="https://static.apiseven.com/202102/image.png" alt="image"></p>
+<ol>
+<li>Commonly used functions are encapsulated into commands.</li>
+</ol>
+<p>Take login as an example, login is an essential part of entering the system, so we encapsulate it as a command, so that the login command can be called before each case run.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Cypress.Commands.add("login", () => {</span></span>
+<span class="line"><span>  cy.request(</span></span>
+<span class="line"><span>    "POST",</span></span>
+<span class="line"><span>    'http://127.0.0.1/apisix/admin/user/login',</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>      username: "user",</span></span>
+<span class="line"><span>      password: "user",</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  ).then((res) => {</span></span>
+<span class="line"><span>    expect(res.body.code).to.equal(0);</span></span>
+<span class="line"><span>    localStorage.setItem("token", res.body.data.token);</span></span>
+<span class="line"><span>  });</span></span>
+<span class="line"><span>});</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>beforeEach(() => {</span></span>
+<span class="line"><span>  // init login</span></span>
+<span class="line"><span>  cy.login();</span></span>
+<span class="line"><span>})</span></span></code></pre>
+<ol start="2">
+<li>Extract the selector and data as public variables.</li>
+</ol>
+<p>To make it more intuitive for the user to understand the meaning of the test code, we extract a selector and data as public variables.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  const data = {</span></span>
+<span class="line"><span>    name: 'hmac-auth',</span></span>
+<span class="line"><span>    deleteSuccess: 'Delete Plugin Successfully',</span></span>
+<span class="line"><span>  };</span></span>
+<span class="line"><span>  const domSelector = {</span></span>
+<span class="line"><span>    tableCell: '.ant-table-cell',</span></span>
+<span class="line"><span>    empty: '.ant-empty-normal',</span></span>
+<span class="line"><span>    refresh: '.anticon-reload',</span></span>
+<span class="line"><span>    codemirror: '.CodeMirror',</span></span>
+<span class="line"><span>    switch: '#disable',</span></span>
+<span class="line"><span>    deleteBtn: '.ant-btn-dangerous',</span></span>
+<span class="line"><span>  };</span></span></code></pre>
+<ol start="3">
+<li>Remove cy.wait(someTime)</li>
+</ol>
+<p>We used cy.wait(someTime) in the early days of Cypress, but found that cy.wait(someTime) relies too much on the network environment and the performance of the test machine, which can cause test cases to report errors when the network environment or machine performance is poor. The recommended practice is to use it in conjunction with cy.intercept() to explicitly specify the network resources to wait for.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#E6EDF3">cy.</span><span style="color:#D2A8FF">intercept</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"https://apisix.apache.org/"</span><span style="color:#E6EDF3">).</span><span style="color:#D2A8FF">as</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"fetchURL"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">cy.</span><span style="color:#D2A8FF">wait</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"@fetchURL"</span><span style="color:#E6EDF3">);</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>At present, APISIX Dashboard has written 49 test cases. In the future, we will continue to enhance the front-end E2E coverage, and require the community to agree to write test cases for each new feature or bugfix submission to ensure the stability of the product.</p>
+<p>Welcome to join us to polish the world-class gateway product.</p>
+<p>Project repository: <a href="https://github.com/apache/apisix-dashboard">https://github.com/apache/apisix-dashboard</a></p> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <h4>ASF</h4> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <h4>Community</h4> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <h4>More</h4> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
