@@ -1,0 +1,83 @@
+---
+import Base from './Base.astro';
+import { SITE, type Locale } from '../lib/site';
+import type { DocEntry, SidebarNode } from '../lib/content';
+
+interface Props {
+  entry: DocEntry;
+  locale: Locale;
+  path: string; // canonical path without locale prefix
+  sidebar?: SidebarNode[];
+  titleById?: Map<string, string>;
+  urlById?: (id: string) => string;
+  editUrl?: string;
+  versionLabel?: string;
+  /** Sidebar id of the current page (path-derived); defaults to entry.id. */
+  activeId?: string;
+}
+const { entry, locale, path, sidebar = [], titleById, urlById, editUrl, versionLabel } = Astro.props;
+const active = Astro.props.activeId ?? entry.id;
+const { Content } = entry.mod;
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: entry.title,
+  description: entry.description,
+  author: { '@type': 'Organization', name: 'Apache APISIX' },
+  mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
+}];
+
+const renderable = (node: SidebarNode): boolean => !!node.id || !!(node.items && node.items.length);
+---
+<Base
+  title={entry.title}
+  description={entry.description}
+  locale={locale}
+  path={path}
+  jsonLd={jsonLd}
+  canonicalOverride={entry.mod.frontmatter.canonical}
+>
+  <div class="container docs-layout">
+    {sidebar.length > 0 && (
+      <nav class="docs-sidebar" aria-label="Docs sidebar">
+        {versionLabel && <p style="font-weight:700;padding:.2rem .5rem;margin:0">{versionLabel}</p>}
+        <ul>
+          {sidebar.filter(renderable).map((node) => (
+            <li class={node.items ? 'cat' : ''}>
+              {node.id
+                ? <a href={urlById!(node.id)} class={node.id === active ? 'active' : ''}>{titleById?.get(node.id) ?? node.id}</a>
+                : <span>{node.label}</span>}
+              {node.items && (
+                <ul>
+                  {node.items.filter(renderable).map((child) => (
+                    <li>
+                      {child.id
+                        ? <a href={urlById!(child.id)} class={child.id === active ? 'active' : ''}>{titleById?.get(child.id) ?? child.id}</a>
+                        : <span>{child.label}</span>}
+                      {child.items && (
+                        <ul>
+                          {child.items.filter((n) => n.id).map((g) => (
+                            <li><a href={urlById!(g.id!)} class={g.id === active ? 'active' : ''}>{titleById?.get(g.id!) ?? g.id}</a></li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+    <article class="docs-content prose">
+      <h1>{entry.title}</h1>
+      <Content />
+      <div class="docs-meta">
+        {editUrl && <a href={editUrl}>Edit this page on GitHub</a>}
+        <a href="https://github.com/apache/apisix/issues">Report an issue</a>
+      </div>
+    </article>
+  </div>
+</Base>

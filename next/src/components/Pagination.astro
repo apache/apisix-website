@@ -1,0 +1,18 @@
+---
+interface Props {
+  current: number; // 1-based
+  total: number;
+  /** URL base ending WITHOUT "page/N/", e.g. "/blog/" — page 1 is the base itself. */
+  base: string;
+}
+const { current, total, base } = Astro.props;
+const pageUrl = (n: number) => (n === 1 ? base : `${base}page/${n}/`);
+---
+{total > 1 && (
+  <nav class="pagination" aria-label="Pagination">
+    {current > 1 && <a href={pageUrl(current - 1)} rel="prev">«</a>}
+    {Array.from({ length: total }, (_, i) => i + 1).map((n) =>
+      n === current ? <span class="current">{n}</span> : <a href={pageUrl(n)}>{n}</a>)}
+    {current < total && <a href={pageUrl(current + 1)} rel="next">»</a>}
+  </nav>
+)}

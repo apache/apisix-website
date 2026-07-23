@@ -1,0 +1,13 @@
+---
+import Article from '../../layouts/Article.astro';
+import { getBlogPosts } from '../../lib/content';
+
+export function getStaticPaths() {
+  return getBlogPosts('en').map((post) => ({
+    params: { rest: post.slug },
+    props: { post },
+  }));
+}
+const { post } = Astro.props;
+---
+<Article post={post} locale="en" path={post.url} schemaType="BlogPosting" />

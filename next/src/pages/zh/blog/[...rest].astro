@@ -1,0 +1,14 @@
+---
+import Article from '../../../layouts/Article.astro';
+import { getBlogPosts } from '../../../lib/content';
+
+export function getStaticPaths() {
+  return getBlogPosts('zh').map((post) => ({
+    params: { rest: post.slug },
+    props: { post },
+  }));
+}
+const { post } = Astro.props;
+const path = post.url.replace(/^\/zh/, '');
+---
+<Article post={post} locale="zh" path={path} schemaType="BlogPosting" />

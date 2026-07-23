@@ -1,0 +1,45 @@
+---
+import Base from './Base.astro';
+import type { Post } from '../lib/content';
+import { SITE, type Locale } from '../lib/site';
+import { tagSlug } from '../lib/content';
+
+interface Props {
+  post: Post;
+  locale: Locale;
+  path: string;
+  /** e.g. "/blog" or "/learning-center" for tag links; omit to hide tags */
+  tagBase?: string;
+  schemaType?: 'BlogPosting' | 'TechArticle' | 'Article';
+}
+const { post, locale, path, tagBase, schemaType = 'BlogPosting' } = Astro.props;
+const { Content } = post.mod;
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': schemaType,
+  headline: post.title,
+  description: post.description,
+  datePublished: post.dateStr,
+  image: post.image,
+  author: post.author ? { '@type': 'Person', name: post.author } : { '@type': 'Organization', name: 'Apache APISIX' },
+  publisher: { '@type': 'Organization', name: 'Apache APISIX', url: SITE },
+  mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
+}];
+---
+<Base title={post.title} description={post.description} locale={locale} path={path} image={post.image} jsonLd={jsonLd}>
+  <div class="container article-wrap">
+    <article class="prose">
+      <h1>{post.title}</h1>
+      <p class="article-meta">
+        {post.dateStr}{post.author ? ` · ${post.author}` : ''}
+        {tagBase && post.tags.length > 0 && (
+          <span class="tag-row" style="display:inline-flex;margin-left:.75rem;vertical-align:middle">
+            {post.tags.map((tag) => <a class="tag" href={`${tagBase}/tags/${tagSlug(tag)}/`}>{tag}</a>)}
+          </span>
+        )}
+      </p>
+      <Content />
+    </article>
+  </div>
+</Base>

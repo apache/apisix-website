@@ -1,0 +1,44 @@
+---
+import { NAV, LOGO, localePrefix, type Locale } from '../lib/site';
+
+interface Props { locale: Locale; path: string }
+const { locale, path } = Astro.props;
+const prefix = localePrefix(locale);
+const label = (item: { label: string; labelZh?: string }) =>
+  locale === 'zh' && item.labelZh ? item.labelZh : item.label;
+const href = (h: string) => (h.startsWith('http') ? h : `${prefix}${h}`);
+const switchUrl = locale === 'zh' ? path : `/zh${path}`;
+---
+<div class="announcement">
+  🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href={`${prefix}/ai-gateway/`}>Learn More</a>
+</div>
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href={`${prefix}/`}>
+      <img src={LOGO} alt="" width="36" height="30" />
+      <span>Apache APISIX®</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      {NAV.map((item) => item.items ? (
+        <details class="nav-drop">
+          <summary>{label(item)} ▾</summary>
+          <div class="menu">
+            {item.items.map((sub) => <a href={href(sub.href)}>{sub.label}</a>)}
+          </div>
+        </details>
+      ) : (
+        <a href={href(item.href)}>{label(item)}</a>
+      ))}
+      <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a>
+      <a href={switchUrl} title={locale === 'zh' ? 'English' : '简体中文'}>{locale === 'zh' ? 'EN' : '中'}</a>
+    </nav>
+    <details class="mobile-toggle">
+      <summary aria-label="Menu">☰</summary>
+      <div class="menu">
+        {NAV.map((item) => <a href={href(item.href)}>{label(item)}</a>)}
+        <a href="https://github.com/apache/apisix">GitHub</a>
+        <a href={switchUrl}>{locale === 'zh' ? 'English' : '简体中文'}</a>
+      </div>
+    </details>
+  </div>
+</header>

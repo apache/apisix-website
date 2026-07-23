@@ -1,0 +1,23 @@
+---
+import Base from '../../../../../layouts/Base.astro';
+import { getGeneralDocs } from '../../../../../lib/content';
+
+const events = getGeneralDocs('zh')
+  .filter((d) => d.id.startsWith('events/'))
+  .sort((a, b) => b.id.localeCompare(a.id));
+---
+<Base title="活动" description="Apache APISIX 线下与线上活动。" locale="zh" path="/docs/general/events/">
+  <div class="container">
+    <div class="page-title"><h1>活动</h1><p>Apache APISIX 线下与线上活动。</p></div>
+    <div class="post-list">
+      {events.map((e) => (
+        <a class="post-card" href={e.url}>
+          <div class="body">
+            <h3>{e.title}</h3>
+            {e.description && <p class="desc">{e.description}</p>}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

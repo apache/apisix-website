@@ -1,0 +1,22 @@
+---
+import DocPage from '../../../layouts/DocPage.astro';
+import { getGeneralDocs } from '../../../lib/content';
+
+export function getStaticPaths() {
+  const docs = getGeneralDocs('en');
+  return docs.map((entry) => ({ params: { id: entry.id }, props: { entry, docs } }));
+}
+const { entry, docs } = Astro.props;
+const sidebar = docs.filter((d) => !d.id.startsWith('events/')).map((d) => ({ id: d.id }));
+const titleById = new Map(docs.map((d) => [d.id, d.title]));
+const urlById = (id: string) => `/docs/general/${id}/`;
+---
+<DocPage
+  entry={entry}
+  locale="en"
+  path={`/docs/general/${entry.id}/`}
+  sidebar={sidebar}
+  titleById={titleById}
+  urlById={urlById}
+  editUrl={`https://github.com/apache/apisix-website/edit/master/website/docs/general/${entry.id}.md`}
+/>

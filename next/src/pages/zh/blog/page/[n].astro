@@ -1,0 +1,11 @@
+---
+import BlogList from '../../../../components/BlogList.astro';
+import { getBlogPosts, paginate } from '../../../../lib/content';
+
+export function getStaticPaths() {
+  const pages = paginate(getBlogPosts('zh'));
+  return pages.slice(1).map((_, i) => ({ params: { n: String(i + 2) } }));
+}
+const page = Number(Astro.params.n);
+---
+<BlogList locale="zh" page={page} />

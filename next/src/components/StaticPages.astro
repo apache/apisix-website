@@ -1,0 +1,147 @@
+---
+/**
+ * Shared bodies for the simple static pages, keyed by `kind`.
+ * Each page mirrors the copy/intent of the current React page but renders as
+ * pure static HTML.
+ */
+import Base from '../layouts/Base.astro';
+import { SITE, t, localePrefix, type Locale } from '../lib/site';
+import { getApisixDocs, getLearningPosts } from '../lib/content';
+
+interface Props { kind: 'docs-hub' | 'downloads' | 'team' | 'contribute' | 'comparisons' | 'ai-gateway' | 'plugins'; locale: Locale }
+const { kind, locale } = Astro.props;
+const p = localePrefix(locale);
+
+const DOCS_PROJECTS = [
+  { name: 'Apache APISIX®', href: `${p}/docs/apisix/getting-started/README/`, desc: t(locale, 'The cloud-native API gateway itself: concepts, tutorials, plugins, and reference.', '云原生 API 网关本体：概念、教程、插件与参考文档。') },
+  { name: 'Ingress Controller', href: `${p}/docs/ingress-controller/overview/`, desc: t(locale, 'Use APISIX as a Kubernetes ingress / Gateway API implementation.', '将 APISIX 用作 Kubernetes Ingress / Gateway API 实现。') },
+  { name: 'Helm Charts', href: `${p}/docs/helm-chart/apisix/`, desc: t(locale, 'Deploy APISIX and its ecosystem on Kubernetes with Helm.', '使用 Helm 在 Kubernetes 上部署 APISIX 及其生态。') },
+  { name: 'Docker', href: `${p}/docs/docker/build/`, desc: t(locale, 'Official images and Docker deployment guides.', '官方镜像与 Docker 部署指南。') },
+  { name: 'Java Plugin Runner', href: `${p}/docs/java-plugin-runner/development/`, desc: t(locale, 'Write APISIX plugins in Java.', '用 Java 编写 APISIX 插件。') },
+  { name: 'Go Plugin Runner', href: `${p}/docs/go-plugin-runner/getting-started/`, desc: t(locale, 'Write APISIX plugins in Go.', '用 Go 编写 APISIX 插件。') },
+  { name: 'Python Plugin Runner', href: `${p}/docs/python-plugin-runner/getting-started/`, desc: t(locale, 'Write APISIX plugins in Python.', '用 Python 编写 APISIX 插件。') },
+  { name: 'General', href: `${p}/docs/general/join/`, desc: t(locale, 'Community, contribution, and release guides.', '社区、贡献与发版指南。') },
+];
+
+const DOWNLOADS = [
+  { name: 'APISIX', repo: 'apache/apisix', src: 'https://downloads.apache.org/apisix/' },
+  { name: 'APISIX Ingress Controller', repo: 'apache/apisix-ingress-controller', src: 'https://downloads.apache.org/apisix/' },
+  { name: 'APISIX Helm Chart', repo: 'apache/apisix-helm-chart', src: 'https://downloads.apache.org/apisix/' },
+  { name: 'APISIX Docker', repo: 'apache/apisix-docker', src: 'https://hub.docker.com/r/apache/apisix' },
+  { name: 'APISIX Java Plugin Runner', repo: 'apache/apisix-java-plugin-runner', src: 'https://downloads.apache.org/apisix/' },
+  { name: 'APISIX Go Plugin Runner', repo: 'apache/apisix-go-plugin-runner', src: 'https://downloads.apache.org/apisix/' },
+];
+
+const plugins = kind === 'plugins'
+  ? getApisixDocs(locale).filter((d) => d.id.startsWith('plugins/')).sort((a, b) => a.id.localeCompare(b.id))
+  : [];
+const comparisons = kind === 'comparisons'
+  ? getLearningPosts(locale).filter((post) => post.tags.includes('comparison'))
+  : [];
+
+const META: Record<string, { title: string; desc: string; path: string }> = {
+  'docs-hub': { title: t(locale, 'Documentation', '文档'), desc: t(locale, 'Documentation for Apache APISIX and its sub-projects.', 'Apache APISIX 及其子项目的文档。'), path: '/docs/' },
+  downloads: { title: t(locale, 'Downloads', '下载'), desc: t(locale, 'Download official Apache APISIX source releases and binaries.', '下载 Apache APISIX 官方源码发行版与二进制。'), path: '/downloads/' },
+  team: { title: t(locale, 'Team', '团队'), desc: t(locale, 'The people behind Apache APISIX: PMC members, committers, and contributors.', 'Apache APISIX 背后的人：PMC 成员、Committer 与贡献者。'), path: '/team/' },
+  contribute: { title: t(locale, 'Contribute', '参与贡献'), desc: t(locale, 'How to contribute code, docs, and community help to Apache APISIX.', '如何为 Apache APISIX 贡献代码、文档与社区支持。'), path: '/contribute/' },
+  comparisons: { title: t(locale, 'Comparisons', '对比'), desc: t(locale, 'How Apache APISIX compares to Kong, Envoy, NGINX, Traefik, and cloud gateways.', 'Apache APISIX 与 Kong、Envoy、NGINX、Traefik 及云网关的对比。'), path: '/comparisons/' },
+  'ai-gateway': { title: 'AI Gateway', desc: t(locale, 'Use Apache APISIX as an AI gateway: LLM proxying, load balancing, token rate limiting, and prompt security.', '将 Apache APISIX 用作 AI 网关：LLM 代理、负载均衡、token 限流与提示词安全。'), path: '/ai-gateway/' },
+  plugins: { title: t(locale, 'Plugin Hub', '插件中心'), desc: t(locale, 'Explore 100+ Apache APISIX plugins for authentication, security, traffic, observability, serverless, and AI.', '探索 100+ APISIX 插件：认证、安全、流量、可观测、Serverless 与 AI。'), path: '/plugins/' },
+};
+const meta = META[kind];
+// Production canonicalizes the untranslated zh comparisons/ai-gateway pages
+// to their EN counterparts; every other zh page self-canonicalizes.
+const zhCanonicalToEn = locale === 'zh' && (kind === 'comparisons' || kind === 'ai-gateway')
+  ? `${SITE}${meta.path}`
+  : undefined;
+---
+<Base title={meta.title} description={meta.desc} locale={locale} path={meta.path} canonicalOverride={zhCanonicalToEn}>
+  <div class="container">
+    <div class="page-title"><h1>{meta.title}</h1><p>{meta.desc}</p></div>
+
+    {kind === 'docs-hub' && (
+      <div class="post-list">
+        {DOCS_PROJECTS.map((proj) => (
+          <a class="post-card" href={proj.href}><div class="body"><h3>{proj.name}</h3><p class="desc">{proj.desc}</p></div></a>
+        ))}
+      </div>
+    )}
+
+    {kind === 'downloads' && (
+      <div class="archive-list prose">
+        <table>
+          <thead><tr><th>{t(locale, 'Project', '项目')}</th><th>{t(locale, 'Source & releases', '源码与发布')}</th><th>GitHub</th></tr></thead>
+          <tbody>
+            {DOWNLOADS.map((d) => (
+              <tr>
+                <td>{d.name}</td>
+                <td><a href={d.src}>{t(locale, 'Download', '下载')}</a></td>
+                <td><a href={`https://github.com/${d.repo}/releases`}>{d.repo}</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p>{t(locale,
+          'All official releases are signed. Verify signatures and hashes using the Apache verification guide.',
+          '所有官方发行版均经过签名，请按照 Apache 校验指南验证签名与哈希。')}
+          <a href="https://www.apache.org/dyn/closer.cgi"> apache.org/dyn/closer.cgi</a></p>
+      </div>
+    )}
+
+    {kind === 'team' && (
+      <div class="archive-list prose">
+        <p>{t(locale,
+          'Apache APISIX is developed by an open community of PMC members, committers, and hundreds of contributors, governed by the Apache Way. The full, always-current member list lives in the project repository and committee info pages.',
+          'Apache APISIX 由 PMC 成员、Committer 和数百位贡献者组成的开放社区按照 Apache Way 治理和开发。完整且实时的成员名单见项目仓库与委员会信息页。')}</p>
+        <ul>
+          <li><a href="https://projects.apache.org/committee.html?apisix">Apache APISIX committee (PMC & committers)</a></li>
+          <li><a href="https://github.com/apache/apisix/graphs/contributors">GitHub contributors</a></li>
+          <li><a href={`${p}/docs/general/join/`}>{t(locale, 'How to become a committer', '如何成为 Committer')}</a></li>
+        </ul>
+      </div>
+    )}
+
+    {kind === 'contribute' && (
+      <div class="post-list">
+        <a class="post-card" href={`${p}/docs/general/contributor-guide/`}><div class="body"><h3>{t(locale, 'Contributor guide', '贡献者指南')}</h3><p class="desc">{t(locale, 'Set up your environment and send your first pull request.', '搭建环境并提交你的第一个 PR。')}</p></div></a>
+        <a class="post-card" href={`${p}/docs/general/submit-issue/`}><div class="body"><h3>{t(locale, 'Submit an issue', '提交 Issue')}</h3><p class="desc">{t(locale, 'Report bugs or request features the right way.', '正确地报告缺陷或提出特性请求。')}</p></div></a>
+        <a class="post-card" href={`${p}/docs/general/committer-guide/`}><div class="body"><h3>{t(locale, 'Committer guide', 'Committer 指南')}</h3><p class="desc">{t(locale, 'Responsibilities and workflow for committers.', 'Committer 的职责与工作流程。')}</p></div></a>
+        <a class="post-card" href={`${p}/docs/general/join/`}><div class="body"><h3>{t(locale, 'Join the community', '加入社区')}</h3><p class="desc">{t(locale, 'Mailing lists, Slack, and community channels.', '邮件列表、Slack 与社区渠道。')}</p></div></a>
+      </div>
+    )}
+
+    {kind === 'comparisons' && (
+      <div class="post-list">
+        {comparisons.map((post) => (
+          <a class="post-card" href={post.url}><div class="body"><h3>{post.title}</h3><p class="desc">{post.description}</p></div></a>
+        ))}
+      </div>
+    )}
+
+    {kind === 'ai-gateway' && (
+      <div class="archive-list">
+        <div class="grid-3">
+          <a class="card" href={`${p}/docs/apisix/plugins/ai-proxy/`}><h3>ai-proxy</h3><p>{t(locale, 'Proxy OpenAI-compatible LLM APIs with a unified interface.', '以统一接口代理 OpenAI 兼容的 LLM API。')}</p></a>
+          <a class="card" href={`${p}/docs/apisix/plugins/ai-proxy-multi/`}><h3>ai-proxy-multi</h3><p>{t(locale, 'Load balancing, retries, and fallbacks across LLM providers.', '跨 LLM 提供商的负载均衡、重试与回退。')}</p></a>
+          <a class="card" href={`${p}/docs/apisix/plugins/ai-rate-limiting/`}><h3>ai-rate-limiting</h3><p>{t(locale, 'Token-based rate limiting for LLM traffic.', '面向 LLM 流量的 token 级限流。')}</p></a>
+          <a class="card" href={`${p}/docs/apisix/plugins/ai-prompt-guard/`}><h3>ai-prompt-guard</h3><p>{t(locale, 'Allow/deny prompt patterns before they reach the model.', '在请求到达模型前对提示词进行允许/拒绝控制。')}</p></a>
+          <a class="card" href={`${p}/docs/apisix/plugins/ai-rag/`}><h3>ai-rag</h3><p>{t(locale, 'Retrieval-augmented generation at the gateway layer.', '在网关层实现检索增强生成。')}</p></a>
+          <a class="card" href={`${p}/learning-center/mcp-protocol-ai-gateway/`}><h3>MCP</h3><p>{t(locale, 'Understand the Model Context Protocol and AI gateways.', '了解 Model Context Protocol 与 AI 网关。')}</p></a>
+        </div>
+      </div>
+    )}
+
+    {kind === 'plugins' && (
+      <div class="post-list" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+        {plugins.map((pl) => (
+          <a class="post-card" href={pl.url}>
+            <div class="body">
+              <h3>{pl.id.replace('plugins/', '')}</h3>
+              {pl.description && <p class="desc">{pl.description}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</Base>

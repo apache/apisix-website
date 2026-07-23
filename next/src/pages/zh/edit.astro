@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="编辑此页" locale="zh" path="/edit/" noindex hasAlternate={false}>
+  <div class="container article-wrap">
+    <article class="prose">
+      <h1>正在跳转到 GitHub…</h1>
+      <p>如果没有自动跳转，说明来源链接缺少目标地址。<a href="https://github.com/apache/apisix">打开 APISIX 仓库</a></p>
+    </article>
+  </div>
+  <script is:inline>
+    var target = window.location.hash.slice(1);
+    if (target.indexOf('https://github.com/apache/') === 0) window.location.replace(target);
+  </script>
+</Base>

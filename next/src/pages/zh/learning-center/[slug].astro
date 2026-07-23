@@ -1,0 +1,56 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getLearningPosts } from '../../../lib/content';
+import { SITE } from '../../../lib/site';
+
+export function getStaticPaths() {
+  return getLearningPosts('zh').map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+const { post } = Astro.props;
+const path = `/learning-center/${post.slug}/`;
+
+// learning-center pages carry structured FAQ data in frontmatter — emit FAQPage
+// JSON-LD exactly like the current SEO setup.
+const faq = post.mod.frontmatter.faq;
+const { Content } = post.mod;
+const jsonLd: object[] = [{
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: post.title,
+  description: post.description,
+  datePublished: post.dateStr,
+  author: { '@type': 'Organization', name: 'Apache APISIX' },
+  mainEntityOfPage: `${SITE}${path}`,
+}];
+if (Array.isArray(faq) && faq.length) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f: any) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  });
+}
+---
+<Base title={post.title} description={post.description} locale="zh" path={path} jsonLd={jsonLd}>
+  <div class="container article-wrap">
+    <article class="prose">
+      <h1>{post.title}</h1>
+      <p class="article-meta">{post.dateStr}</p>
+      <Content />
+      {Array.isArray(faq) && faq.length > 0 && (
+        <section>
+          <h2>Frequently asked questions</h2>
+          {faq.map((f: any) => (
+            <details>
+              <summary style="font-weight:600;cursor:pointer;margin:.5rem 0">{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </section>
+      )}
+    </article>
+  </div>
+</Base>

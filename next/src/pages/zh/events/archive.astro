@@ -1,0 +1,18 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getGeneralDocs } from '../../../lib/content';
+
+const events = getGeneralDocs('zh')
+  .filter((d) => d.id.startsWith('events/'))
+  .sort((a, b) => b.id.localeCompare(a.id));
+---
+<Base title="活动归档" locale="zh" path="/events/archive/">
+  <div class="container">
+    <div class="page-title"><h1>活动归档</h1></div>
+    <div class="archive-list">
+      <ul>
+        {events.map((e) => <li><a href={e.url}>{e.title}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</Base>

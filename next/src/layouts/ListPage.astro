@@ -1,0 +1,41 @@
+---
+import Base from './Base.astro';
+import PostCard from '../components/PostCard.astro';
+import Pagination from '../components/Pagination.astro';
+import type { Post } from '../lib/content';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  title: string;
+  heading: string;
+  sub?: string;
+  description?: string;
+  locale: Locale;
+  path: string;       // canonical path without locale prefix
+  base: string;       // pagination base WITH locale prefix
+  posts: Post[];
+  current: number;
+  total: number;
+  archiveUrl?: string;
+  tagsUrl?: string;
+}
+const { title, heading, sub, description, locale, path, base, posts, current, total, archiveUrl, tagsUrl } = Astro.props;
+---
+<Base title={title} description={description ?? sub} locale={locale} path={path}>
+  <div class="container">
+    <div class="page-title">
+      <h1>{heading}</h1>
+      {sub && <p>{sub}</p>}
+      {(archiveUrl || tagsUrl) && (
+        <p class="tag-row" style="margin-top:.6rem">
+          {archiveUrl && <a class="tag" href={archiveUrl}>Archive</a>}
+          {tagsUrl && <a class="tag" href={tagsUrl}>All tags</a>}
+        </p>
+      )}
+    </div>
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+    <Pagination current={current} total={total} base={base} />
+  </div>
+</Base>

@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import { getBlogPosts, type Post } from '../lib/content';
+import { t, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  path: string;
+  posts?: Post[];
+  heading?: string;
+}
+const { locale, path, heading } = Astro.props;
+const posts = Astro.props.posts ?? getBlogPosts(locale);
+const byYear = new Map<number, Post[]>();
+for (const post of posts) {
+  const y = post.date.getUTCFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+<Base title={heading ?? t(locale, 'Archive', '归档')} locale={locale} path={path}>
+  <div class="container">
+    <div class="page-title"><h1>{heading ?? t(locale, 'Archive', '归档')}</h1></div>
+    <div class="archive-list">
+      {years.map((y) => (
+        <section>
+          <h2>{y}</h2>
+          <ul>
+            {byYear.get(y)!.map((post) => (
+              <li><a href={post.url}>{post.title}</a> <small>({post.dateStr})</small></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+</Base>

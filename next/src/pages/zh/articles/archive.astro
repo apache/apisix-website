@@ -1,0 +1,5 @@
+---
+import BlogArchive from '../../../components/BlogArchive.astro';
+import { getArticles } from '../../../lib/content';
+---
+<BlogArchive locale="zh" path="/articles/archive/" posts={getArticles('zh')} heading="Articles Archive" />
