@@ -68,7 +68,7 @@ const NotFound: FC = () => {
         <p>
           You can also open the
           {' '}
-          <Link to="/">home page</Link>
+          <Link to="pathname:///" target="_self">home page</Link>
           ,
           {' '}
           <Link to="/docs/">documentation</Link>

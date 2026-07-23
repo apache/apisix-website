@@ -7,11 +7,22 @@ const events = getGeneralDocs('zh')
   .sort((a, b) => b.id.localeCompare(a.id));
 ---
 <Base title="活动归档" locale="zh" path="/events/archive/">
+  <header class="page-head">
+    <div class="container">
+      <div class="page-title">
+        <p class="breadcrumbs"><a href="/zh/docs/general/events/">← 活动</a></p>
+        <p class="kicker">活动</p>
+        <h1>活动归档</h1>
+        <p>历届 Apache APISIX 线上与线下活动。</p>
+      </div>
+    </div>
+  </header>
   <div class="container">
-    <div class="page-title"><h1>活动归档</h1></div>
     <div class="archive-list">
       <ul>
-        {events.map((e) => <li><a href={e.url}>{e.title}</a></li>)}
+        {events.map((e) => (
+          <li><a href={e.url}><span>{e.title}</span> <time>{(e.id.match(/(\d{4})/) || [])[1] ?? ''}</time></a></li>
+        ))}
       </ul>
     </div>
   </div>

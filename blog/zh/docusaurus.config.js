@@ -85,6 +85,11 @@ module.exports = {
       title: 'Apache APISIX®',
       logo: {
         src: 'img/logo2.svg',
+        // Full-page navigation: / is produced by the static Astro build.
+        href: 'pathname:///',
+        // Explicit target: the Link resolver injects target="_blank" on
+        // pathname:// URLs otherwise (same as the locale dropdowns do).
+        target: '_self',
       },
       items: require('../../config/navbar.js'),
     },

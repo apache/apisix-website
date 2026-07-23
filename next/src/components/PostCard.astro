@@ -1,13 +1,21 @@
 ---
 import type { Post } from '../lib/content';
-interface Props { post: Post }
-const { post } = Astro.props;
+interface Props { post: Post; eager?: boolean }
+const { post, eager = false } = Astro.props;
+const meta = [post.dateHuman, post.author].filter(Boolean).join(' · ');
 ---
 <a class="post-card" href={post.url}>
-  {post.image && <img class="cover" src={post.image} alt={post.title} loading="lazy" width="640" height="360" />}
+  {post.image
+    ? <img class="cover" src={post.image} alt="" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" width="640" height="360" />
+    : (
+      <div class="cover cover-fallback" aria-hidden="true">
+        <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy" />
+        {post.tags[0] && <span>{post.tags[0]}</span>}
+      </div>
+    )}
   <div class="body">
     <h3>{post.title}</h3>
     {post.description && <p class="desc">{post.description}</p>}
-    <p class="meta">{post.dateStr}{post.author ? ` · ${post.author}` : ''}</p>
+    {meta && <p class="meta">{meta}</p>}
   </div>
 </a>

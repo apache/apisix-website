@@ -151,33 +151,131 @@ a.card:hover h3 { color: var(--color-primary); }
 a.card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-card); }
 
 /* ---------- listing ---------- */
-.page-title { padding: 2.5rem 0 0; }
-.page-title h1 { font-size: 2.1rem; margin: 0 0 .4rem; }
-.page-title p { color: var(--color-text-soft); margin: 0; }
+/* Shared warm header band for list/archive/tags/events pages — the wave-2
+   sibling of the homepage hero gradient. */
+.page-head { background: linear-gradient(180deg, #fff 0%, #fdf3f3 100%); border-bottom: 1px solid var(--color-border); padding: 2.75rem 0 1.75rem; }
+.page-title { padding: 0; }
+.page-title h1 { font-size: clamp(2rem, 1.4rem + 2vw, 2.6rem); letter-spacing: -.02em; margin: 0 0 .4rem; }
+.page-title p { color: var(--color-text-soft); max-width: 46rem; margin: 0; }
+/* Re-assert component styles that the generic .page-title p rule would win over. */
+.page-title .kicker { color: var(--color-primary-dark); margin: 0 0 .4rem; }
+.page-title .breadcrumbs { margin-bottom: 1rem; }
+.page-title .tag-row { margin-top: 1.1rem; }
 .post-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; padding: 2rem 0; }
-.post-card { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: 10px; overflow: hidden; color: inherit; background: var(--color-surface); }
-.post-card:hover { text-decoration: none; box-shadow: 0 8px 22px rgb(0 0 0 / 8%); }
+.post-card { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: var(--radius-card); overflow: hidden; color: inherit; background: var(--color-surface); transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+.post-card:hover { text-decoration: none; transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--color-hover-border); }
+.post-card:hover h3 { color: var(--color-primary); }
+.post-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
 .post-card img.cover { aspect-ratio: 16/9; object-fit: cover; width: 100%; }
+.post-card .cover-fallback { aspect-ratio: 16/9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; background: linear-gradient(135deg, #fdf3f3 0%, #fcebeb 60%, #f8f8fa 100%); }
+.post-card .cover-fallback img { width: 64px; height: 64px; }
+.post-card .cover-fallback span { font-size: .8125rem; font-weight: 600; letter-spacing: .04em; color: var(--color-badge-text); text-transform: uppercase; }
 .post-card .body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .45rem; }
-.post-card h3 { margin: 0; font-size: 1.02rem; line-height: 1.4; }
+.post-card h3 { margin: 0; font-size: 1.02rem; line-height: 1.4; transition: color var(--dur) var(--ease); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .post-card .desc { color: var(--color-text-soft); font-size: .88rem; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .post-card .meta { margin-top: auto; color: var(--color-text-soft); font-size: .8125rem; }
 .tag-row { display: flex; flex-wrap: wrap; gap: .4rem; }
 .tag { font-size: .8125rem; padding: .25rem .7rem; border: 1px solid var(--color-border); border-radius: 99px; color: var(--color-text-soft); }
 a.tag { padding: .35rem .75rem; }
 a.tag:hover { border-color: var(--color-primary); color: var(--color-primary); text-decoration: none; }
+a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.tag-cloud { padding: 2rem 0 3rem; gap: .6rem; }
+.tag-cloud .tag { display: inline-flex; align-items: center; gap: .45rem; font-size: .9rem; padding: .55rem 1.05rem; min-height: 44px; color: var(--color-text); }
+.tag .count { font-size: .78rem; color: var(--color-text-soft); background: var(--color-surface-alt); border-radius: 99px; padding: .1rem .5rem; font-variant-numeric: tabular-nums; }
 
-.pagination { display: flex; justify-content: center; gap: .4rem; padding: 1rem 0 2rem; flex-wrap: wrap; }
-.pagination a, .pagination span { padding: .35rem .75rem; border: 1px solid var(--color-border); border-radius: 6px; font-size: .9rem; }
-.pagination .current { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.pagination { display: flex; justify-content: center; gap: .5rem; padding: 1rem 0 2rem; flex-wrap: wrap; }
+.pagination a, .pagination span { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0 .6rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: .9rem; }
+.pagination .gap { border: 0; min-width: auto; }
+.pagination .current { background: var(--color-primary-dark); border-color: var(--color-primary-dark); color: #fff; font-weight: 600; }
 .pagination a:hover { border-color: var(--color-primary); text-decoration: none; }
 
 /* ---------- article / prose ---------- */
-.article-wrap { display: grid; grid-template-columns: minmax(0, 760px); justify-content: center; padding: 2.5rem 0; }
+.article-wrap { display: grid; grid-template-columns: minmax(0, 720px); justify-content: center; padding: 2.5rem 0; }
+
+/* ---------- article side rails (wide screens) ---------- */
+/* Left: tags + back. Right: on-this-page TOC. Both sticky, both hidden below
+   1240px, where the inline <details> TOC and header tag row take over. */
+.article-side, .toc { display: none; }
+.side-title { text-transform: uppercase; letter-spacing: .06em; font-size: .75rem; font-weight: 700; color: var(--color-text-soft); margin: 0 0 .6rem; }
+.toc-inline { border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-alt); padding: .6rem 1rem; margin: 1.25rem 0 0; font-size: .95rem; }
+.toc-inline summary { cursor: pointer; font-weight: 600; padding: .2rem 0; }
+.toc-inline ul { list-style: none; margin: .5rem 0 .25rem; padding: 0; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li a, .toc-inline li a {
+  display: block; padding: .3rem 0 .3rem .75rem; color: var(--color-text-soft);
+  border-left: 2px solid var(--color-border); line-height: 1.45;
+}
+.toc li a:hover, .toc-inline li a:hover { color: var(--color-primary); border-color: var(--color-hover-border); text-decoration: none; }
+.toc li.d3 a, .toc-inline li.d3 a { padding-left: 1.6rem; font-size: .92em; }
+@media (min-width: 1240px) {
+  /* Article pages get a wider canvas than the 1140px site container so the
+     rails don't squeeze the reading column (target: 760px at 20px body,
+     the Medium/GitHub-blog measure; it may compress to ~680px at 1240). */
+  .article-wrap.with-rails { max-width: 1340px; grid-template-columns: 190px minmax(0, 760px) 230px; gap: 3rem; }
+  .article-wrap.with-rails .article-header .header-tags { display: none; }
+  .article-wrap.with-rails .toc-inline { display: none; }
+  .article-side {
+    display: block; position: sticky; top: calc(var(--header-height) + 1.5rem);
+    align-self: start; font-size: .9rem; padding-top: .4rem;
+  }
+  .article-side .side-back { margin-top: 1.5rem; }
+  .toc {
+    display: block; position: sticky; top: calc(var(--header-height) + 1.5rem);
+    align-self: start; font-size: .88rem; padding-top: .4rem;
+    max-height: calc(100vh - var(--header-height) - 3rem);
+    max-height: calc(100dvh - var(--header-height) - 3rem);
+    overflow-y: auto;
+  }
+}
+.article-hero { margin: 2rem 0 0; }
+.article-hero img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; border: 1px solid var(--color-border); display: block; }
+.post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; font-size: 1rem; line-height: 1.45; }
+.post-nav-card {
+  display: block; border: 1px solid var(--color-border); border-radius: var(--radius-card);
+  padding: 1rem 1.2rem; color: inherit;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.post-nav-card:hover { text-decoration: none; transform: translateY(-3px); box-shadow: var(--shadow-card-hover); border-color: var(--color-hover-border); }
+.post-nav-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+.post-nav-card.older { text-align: right; }
+.post-nav-label { display: block; font-size: .8rem; font-weight: 600; color: var(--color-text-soft); margin-bottom: .3rem; }
+.post-nav-title { display: block; font-weight: 600; font-size: .95rem; }
+.post-nav-card:hover .post-nav-title { color: var(--color-primary); }
+@media (max-width: 640px) { .post-nav { grid-template-columns: 1fr; } .post-nav-card.older { text-align: left; } }
+@media (prefers-reduced-motion: reduce) { .post-nav-card:hover { transform: none; } }
+.related-posts { border-top: 1px solid var(--color-border); margin-top: 1.5rem; padding: 2rem 0 1rem; }
+.related-posts h2 { font-size: 1.4rem; margin: 0; }
+.related-posts .post-list { padding-top: 1.5rem; }
+/* Long-form reading size — ~76 CPL at 19px/720px (production runs 20px). */
+.article-wrap .prose { font-size: 1.25rem; line-height: 1.75; }
+@media (max-width: 996px) { .article-wrap .prose { font-size: 1.0625rem; } }
+.article-wrap .prose h1 { font-size: clamp(2.2rem, 1.8rem + 1.4vw, 2.75rem); letter-spacing: -.02em; text-wrap: balance; }
+.article-wrap .prose h2 { font-size: 1.75rem; line-height: 1.25; }
+.article-wrap .prose h3 { font-size: 1.375rem; line-height: 1.3; }
+.article-wrap .prose h4 { font-size: 1.125rem; margin: 1.5rem 0 .5rem; }
+.article-header { padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 2rem; }
+.article-header .article-meta { margin-bottom: 0; }
+.article-header .tag-row { margin-top: .75rem; }
+.article-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); }
+.faq details { border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: .9rem 1.1rem; margin: .75rem 0; transition: border-color var(--dur) var(--ease); }
+.faq details:hover { border-color: var(--color-hover-border); }
+.faq summary { font-weight: 600; cursor: pointer; }
+.faq details[open] > summary { color: var(--color-primary-dark); margin-bottom: .35rem; }
+.faq details > p { margin: .5rem 0 0; color: var(--color-text-soft); }
 .prose h1 { font-size: 2.1rem; line-height: 1.25; margin: 0 0 .75rem; }
 .prose h2 { font-size: 1.5rem; margin: 2.2rem 0 .8rem; padding-top: .3rem; }
 .prose h3 { font-size: 1.2rem; margin: 1.8rem 0 .6rem; }
 .prose p, .prose li { color: #2f3337; }
+.prose a { color: var(--color-primary-dark); text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: rgb(154 37 33 / 40%); text-underline-offset: 3px; }
+/* Tag pills and the footer back-link inside articles keep their component look. */
+.prose a.tag { color: var(--color-text-soft); text-decoration: none; }
+.prose a.tag:hover { color: var(--color-primary); text-decoration: none; }
+.prose .cta-link { text-decoration: none; }
+.prose .cta-link:hover { text-decoration: underline; }
+.prose a.post-nav-card { color: inherit; text-decoration: none; }
+.prose a:hover { color: var(--color-primary); text-decoration-color: currentcolor; }
+.prose :not(pre) > code { overflow-wrap: anywhere; }
+.prose iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: 8px; }
 .prose img { border-radius: 8px; }
 .prose code { font-family: var(--font-mono); font-size: .86em; background: var(--color-code-bg); padding: .12em .35em; border-radius: 4px; }
 .prose pre { background: #0d1117; color: #e6edf3; border-radius: 10px; padding: 1rem 1.2rem; overflow-x: auto; font-size: .86rem; line-height: 1.6; }
@@ -306,6 +404,7 @@ section.endcta.alt { background: transparent; padding: 4rem 1rem 0; }
   a.card:hover { transform: none; }
   .chip.logo:hover { transform: none; }
   .btn:active { transform: none; }
+  .post-card:hover { transform: none; }
 }
 
 /* scroll-triggered reveal; falls back to fully visible where unsupported */
@@ -317,9 +416,14 @@ section.endcta.alt { background: transparent; padding: 4rem 1rem 0; }
 /* ---------- misc ---------- */
 .breadcrumbs { font-size: .82rem; color: var(--color-text-soft); margin-bottom: 1rem; }
 .archive-list { padding: 1.5rem 0 2rem; }
-.archive-list h2 { font-size: 1.3rem; margin: 1.6rem 0 .6rem; }
-.archive-list ul { margin: 0; padding-left: 1.25rem; }
-.archive-list li { margin: .3rem 0; }
+.archive-list h2 { font-size: 1.5rem; margin: 2.2rem 0 .4rem; padding-bottom: .4rem; border-bottom: 1px solid var(--color-border); }
+.archive-list h2 .year-count { color: var(--color-text-soft); font-size: .95rem; font-weight: 400; }
+.archive-list ul { list-style: none; margin: 0; padding: 0; }
+.archive-list li { margin: 0; }
+.archive-list li a { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; color: var(--color-text); padding: .6rem .75rem; margin-inline: -.75rem; border-radius: 8px; }
+.archive-list li a:hover { background: var(--color-surface-alt); color: var(--color-primary); text-decoration: none; }
+.archive-list time { color: var(--color-text-soft); font-size: .8125rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 480px) { .archive-list li a { flex-wrap: wrap; row-gap: .1rem; } }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .anchor-link { opacity: 0; margin-left: .35rem; font-size: .8em; }
 h2:hover .anchor-link, h3:hover .anchor-link, .anchor-link:focus-visible { opacity: 1; }
