@@ -7,7 +7,7 @@ tags: [authentication, security, api-gateway]
 hide_table_of_contents: false
 ---
 
-API gateway authentication is the practice of verifying client identity at a centralized entry point before requests reach backend services. By enforcing authentication at the gateway layer, organizations eliminate redundant auth logic across services, reduce attack surface, and gain a single enforcement point for access policies.
+API gateway authentication verifies client identity at a centralized entry point before requests reach backend services. Depending on the client and trust model, credentials can be a username and password, API key, signed token, OAuth access token, or client certificate. Centralized enforcement reduces duplicated authentication logic and creates one control point for access policies.
 
 ## What is API Gateway Authentication
 
@@ -18,6 +18,12 @@ An API gateway centralizes this concern. It intercepts every inbound request, va
 Centralizing authentication at the gateway layer provides three key advantages. First, it significantly reduces per-service authentication code by consolidating auth logic into a single component. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.
 
 ## Authentication Methods
+
+### Basic and LDAP Authentication
+
+Basic authentication encodes a username and password in the HTTP `Authorization` header and should be used only over TLS. It is straightforward for controlled integrations but requires strong credential rotation. Apache APISIX supports this method through the [basic-auth plugin](/docs/apisix/plugins/basic-auth/).
+
+LDAP authentication validates a username and password against an LDAP directory instead of storing credentials in each backend service. The [ldap-auth plugin](/docs/apisix/plugins/ldap-auth/) lets a gateway use an existing directory as the credential source while applying route-level access policies centrally.
 
 ### Key Auth
 
@@ -37,7 +43,7 @@ APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plug
 
 ### OAuth 2.0
 
-OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to an API on behalf of a resource owner. The gateway validates bearer tokens issued by an authorization server, typically by introspecting the token or verifying a JWT access token locally.
+OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to an API on behalf of a resource owner. For machine-to-machine access, the client credentials grant issues tokens to an application rather than a user. The gateway validates bearer tokens issued by an authorization server, typically by introspecting the token or verifying a JWT access token locally.
 
 OAuth 2.0 is widely adopted across enterprises for API integrations. The framework's delegation model makes it essential for any API exposed to external developers or partner ecosystems.
 
@@ -63,6 +69,8 @@ HMAC is common in financial APIs and webhook verification scenarios where reques
 
 | Method | Complexity | Statefulness | Best For | Token Expiry |
 |--------|-----------|-------------|----------|-------------|
+| Basic Auth | Low | Stateless (lookup) | Controlled integrations, legacy clients | Manual rotation |
+| LDAP | Medium | Directory lookup | Enterprise users and existing directories | Directory policy |
 | Key Auth | Low | Stateless (lookup) | Internal services, simple integrations | Manual rotation |
 | JWT | Medium | Stateless | High-throughput APIs, mobile clients | Built-in (exp claim) |
 | OAuth 2.0 | High | Stateful (auth server) | Third-party access, delegated auth | Access token TTL |
@@ -84,7 +92,7 @@ HMAC is common in financial APIs and webhook verification scenarios where reques
 
 ## How Apache APISIX Handles Authentication
 
-Apache APISIX provides a plugin-based authentication architecture that supports all six methods described above. Each authentication plugin runs in the gateway's request processing pipeline before the request reaches any upstream service.
+Apache APISIX provides a plugin-based authentication architecture that supports the methods described above. Each authentication plugin runs in the gateway's request processing pipeline before the request reaches any upstream service.
 
 APISIX's consumer abstraction ties authentication credentials to named entities. A single consumer can have multiple authentication methods attached, enabling gradual migration between methods. For example, an organization migrating from Key Auth to JWT can configure both plugins on the same consumer during the transition period.
 

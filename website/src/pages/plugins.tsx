@@ -266,8 +266,7 @@ const Plugins: FC = () => {
     );
   });
 
-  // Structured data for the plugin catalog: a CollectionPage whose ItemList
-  // enumerates every plugin, plus an FAQPage to surface in rich results / AI answers.
+  // Structured data for the visible plugin catalog.
   const allPlugins = plugins.flatMap((section) => section.plugins);
   const collectionSchema = {
     '@context': 'https://schema.org',
@@ -292,37 +291,6 @@ const Plugins: FC = () => {
       }),
     },
   };
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'How many plugins does Apache APISIX have?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Apache APISIX ships with 100+ plugins covering authentication, security, traffic control, observability, serverless, and AI gateway use cases, all available in the open-source project.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What can Apache APISIX plugins do?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'APISIX plugins extend the gateway with capabilities such as key, JWT and OpenID Connect authentication, rate limiting, CORS, request and response transformation, Prometheus and OpenTelemetry observability, and AI proxying for LLM providers.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Can I write custom plugins for Apache APISIX?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes. You can write custom plugins in Lua, or use the Java, Go, and Python plugin runners and Wasm to develop plugins in other languages.',
-        },
-      },
-    ],
-  };
-
   return (
     <Layout title={translate({ id: 'plugins.meta.title', message: 'Plugin Hub: 100+ API Gateway & AI Plugins' })}>
       <Head>
@@ -330,7 +298,6 @@ const Plugins: FC = () => {
         <meta property="og:description" content={translate({ id: 'plugins.meta.ogDescription', message: 'Explore 100+ Apache APISIX plugins for authentication, security, traffic control, observability, and AI.' })} />
         <script src="/js/plugin-icon.js" defer />
         <script type="application/ld+json">{JSON.stringify(collectionSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Head>
       <Page>
         <PageTitle>

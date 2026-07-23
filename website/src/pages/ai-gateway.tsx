@@ -11,24 +11,24 @@ const ChakraTestPage: React.FC = () => (
   <Layout>
     <Head>
       <title>
-        What is an AI Gateway? APISIX AI Gateway for LLMs & AI Agents
+        Open-Source AI Gateway for LLMs and AI Agents | Apache APISIX
       </title>
       <link rel="canonical" href="https://apisix.apache.org/ai-gateway/" />
 
       <meta
         name="description"
-        content="An AI gateway manages traffic between applications and LLM providers. Apache APISIX AI Gateway provides LLM load balancing, retry and fallback, token rate limiting, MCP protocol support, and enhanced security for AI agents and applications."
+        content="Apache APISIX proxies, routes, secures, and observes LLM traffic between AI applications and model providers."
       />
 
       <meta property="og:type" content="website" />
       <meta
         property="og:title"
-        content="What is an AI Gateway? APISIX AI Gateway for LLMs & AI Agents"
+        content="Open-Source AI Gateway for LLMs and AI Agents | Apache APISIX"
       />
       <meta property="og:url" content="https://apisix.apache.org/ai-gateway/" />
       <meta
         property="og:description"
-        content="An AI gateway manages traffic between applications and LLM providers. Apache APISIX AI Gateway provides LLM load balancing, token rate limiting, MCP support, and security for AI agents."
+        content="Apache APISIX proxies, routes, secures, and observes LLM traffic between AI applications and model providers."
       />
       <meta
         property="og:image"
@@ -38,49 +38,16 @@ const ChakraTestPage: React.FC = () => (
       <meta name="twitter:card" content="summary_large_image" />
       <meta
         name="twitter:title"
-        content="What is an AI Gateway? APISIX AI Gateway for LLMs &amp; AI Agents"
+        content="Open-Source AI Gateway for LLMs and AI Agents | Apache APISIX"
       />
       <meta
         name="twitter:description"
-        content="An AI gateway manages traffic between applications and LLM providers. Apache APISIX AI Gateway provides LLM load balancing, token rate limiting, MCP support, and security for AI agents."
+        content="Apache APISIX proxies, routes, secures, and observes LLM traffic between AI applications and model providers."
       />
       <meta
         name="twitter:image"
         content="https://static.api7.ai/uploads/2025/04/17/zdPVQ1zg_apisix-ai-gateway.png"
       />
-
-      <script type="application/ld+json">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: [
-            {
-              '@type': 'Question',
-              name: 'What is an AI Gateway?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'An AI gateway is a specialized API gateway that sits between applications and AI/LLM providers, managing traffic routing, load balancing, token rate limiting, security, and observability for AI workloads.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'What is the difference between an AI Gateway and an API Gateway?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'An API gateway handles general API traffic management, while an AI gateway is optimized for AI-specific needs like LLM load balancing, token-based rate limiting, prompt caching, model fallback, and support for AI protocols like MCP.',
-              },
-            },
-            {
-              '@type': 'Question',
-              name: 'Does Apache APISIX support AI Gateway features?',
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: 'Yes. Apache APISIX includes AI gateway capabilities such as AI proxying for 20+ LLM providers, LLM load balancing, retry and fallback, token-based rate limiting, prompt decoration, and content moderation plugins.',
-              },
-            },
-          ],
-        })}
-      </script>
     </Head>
     <ChakraWrapper>
       <Hero />

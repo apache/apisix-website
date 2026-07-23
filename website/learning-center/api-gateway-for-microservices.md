@@ -7,7 +7,7 @@ tags: [microservices, architecture, api-gateway]
 hide_table_of_contents: false
 ---
 
-Microservices architectures need an API gateway to provide a single entry point that abstracts the complexity of a distributed service fleet from API consumers. The gateway handles cross-cutting concerns like authentication, routing, rate limiting, and observability centrally, preventing each microservice from reimplementing these capabilities independently and ensuring consistent behavior across the entire API surface.
+Microservices architectures need an API gateway to act as a single entry point for API consumers and route requests to the correct backend services. The gateway centralizes access control, authentication and authorization, protocol translation, rate limiting, and observability, so each microservice does not have to implement these cross-cutting concerns independently.
 
 ## Why Microservices Need a Gateway
 

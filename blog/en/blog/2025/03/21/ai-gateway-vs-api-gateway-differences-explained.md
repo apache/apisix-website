@@ -19,7 +19,7 @@ image: https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gate
 tags: [Ecosystem]
 ---
 
->_"The future isn't AI gateways—it's API gateways that speak AI."_ This blog explores AI gateways, their differences from API gateways, and why evolved solutions like [Apache APISIX AI Gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/) are shaping the future.
+An AI gateway manages LLM and model traffic, while a traditional API gateway manages general API traffic. This article compares their traffic patterns, controls, and architecture, and explains how the [Apache APISIX AI Gateway](/ai-gateway/) extends an API gateway for AI workloads.
 
 <!--truncate-->
 
@@ -35,7 +35,7 @@ The proliferation of **generative AI and LLMs (Large Language Models)** has intr
 - **Stream-Type Requests**: AI agents often generate real-time, streaming responses (e.g., ChatGPT's incremental output), demanding low-latency handling.
 - **Tool Integration**: AI systems increasingly rely on external data sources and APIs (e.g., retrieving live weather data or CRM records).
 
-According to a 2023 Gartner report, over 75% of enterprises now use AI models in production, driving demand for specialized infrastructure. Traditional API gateways, designed for RESTful APIs and static request-response cycles, struggle with these AI-specific demands. Enter the [AI gateway](https://apisix.apache.org/blog/2025/03/06/what-is-an-ai-gateway/)—a purpose-built solution to manage AI-native traffic.
+According to a 2023 Gartner report, over 75% of enterprises now use AI models in production, driving demand for specialized infrastructure. Traditional API gateways, designed for RESTful APIs and static request-response cycles, struggle with these AI-specific demands. Enter the [AI gateway](/blog/2025/03/06/what-is-an-ai-gateway/)—a purpose-built solution to manage AI-native traffic.
 
 ## AI Agents vs. Traditional Devices: Why Stream-Type Requests Demand Specialized Handling
 
@@ -150,4 +150,4 @@ In the future, the line between "AI gateway" and "API gateway" will blur. But th
 
 AI gateways are not a replacement but an evolution of API gateways. While purpose-built solutions address immediate LLM challenges, their limitations in observability and scalability make them transitional. Established API gateways—enhanced with streaming support, token-aware plugins, and MCP—are poised to dominate.
 
-Solutions like **[Apache APISIX AI Gateway](https://apisix.apache.org/blog/2025/02/24/apisix-ai-gateway-features/)** exemplify this shift, blending AI-native features with battle-tested API management. As AI permeates every app, enterprises must choose platforms that scale beyond siloed use cases. The winners? Adaptable, extensible tools that speak both API and AI.
+Solutions like **[Apache APISIX AI Gateway](/blog/2025/02/24/apisix-ai-gateway-features/)** exemplify this shift, blending AI-native features with battle-tested API management. As AI permeates every app, enterprises must choose platforms that scale beyond siloed use cases. The winners? Adaptable, extensible tools that speak both API and AI.

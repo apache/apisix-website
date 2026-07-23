@@ -1,5 +1,5 @@
 ---
-title: "How to Monetize APIs with APISIX and Billing"
+title: "API Monetization: APISIX Rate Limits and Billing Guide"
 authors:
   - name: Bobur Umurzokov
     title: Author
@@ -18,7 +18,7 @@ tags: [Ecosystem]
 image: https://static.apiseven.com/2022/10/25/6357addd22a01.png
 ---
 
-> 💁🏼 This blog post gives you an idea of building your technology stack with an [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) and a [payment provider](https://en.wikipedia.org/wiki/List_of_online_payment_service_providers) that can help you run quickly and securely your API monetization system which simply provides flexibility for your customers.
+API monetization turns API access into revenue through models such as subscriptions or metered usage. This guide explains how an [API gateway](/learning-center/what-is-an-api-gateway/) can enforce access and usage limits while a billing provider calculates charges and issues invoices.
 
 <!--truncate-->
 
@@ -101,7 +101,7 @@ There are many popular open-source projects available like [Apache APISIX](https
 
 Resources cost money 💰. We can protect an API by adding _a rate limit policy_ with Apache APISIX as it is a basic step toward API Monetization. Apache APISIX allows you to set throttling limits per each API consumer and quotas to your APIs and allows you to control third-party usage of your API by ensuring you are able to monetize your API.
 
-APISIX uses its `limit-count` (_rate limiting_) plugin. [API rate limiting plugin](https://apisix.apache.org/docs/apisix/plugins/limit-count/) can prevent an API not only from being overwhelmed or from possible malicious attacks but also it can enforce a limit on the number of data clients can consume. Later you can charge API consumers by the quantity of data used (the number of requests).
+APISIX uses its `limit-count` (_rate limiting_) plugin. The [API rate limiting plugin](/docs/apisix/plugins/limit-count/) can prevent an API not only from being overwhelmed or from possible malicious attacks but also it can enforce a limit on the number of data clients can consume. Later you can charge API consumers by the quantity of data used (the number of requests).
 
 With the help of APISIX `rate-limiting` plugin, you can also configure the different rate limits for authenticated and unauthenticated requests. It also defines the limit quota in the [response headers](https://apisix.apache.org/docs/apisix/plugins/limit-count/) to track the maximum number of requests you are permitted to make or the number of requests remaining in the current rate limit window.
 
