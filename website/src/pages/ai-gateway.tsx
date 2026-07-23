@@ -17,7 +17,7 @@ const ChakraTestPage: React.FC = () => (
 
       <meta
         name="description"
-        content="Apache APISIX proxies, routes, secures, and observes LLM traffic between AI applications and model providers."
+        content="Use Apache APISIX as an open-source LLM gateway and proxy for model routing, load balancing, retries, fallback, token rate limiting, security, and observability."
       />
 
       <meta property="og:type" content="website" />
@@ -28,7 +28,7 @@ const ChakraTestPage: React.FC = () => (
       <meta property="og:url" content="https://apisix.apache.org/ai-gateway/" />
       <meta
         property="og:description"
-        content="Apache APISIX proxies, routes, secures, and observes LLM traffic between AI applications and model providers."
+        content="Use Apache APISIX as an open-source LLM gateway and proxy for model routing, load balancing, retries, fallback, token rate limiting, security, and observability."
       />
       <meta
         property="og:image"
@@ -42,7 +42,7 @@ const ChakraTestPage: React.FC = () => (
       />
       <meta
         name="twitter:description"
-        content="Apache APISIX proxies, routes, secures, and observes LLM traffic between AI applications and model providers."
+        content="Use Apache APISIX as an open-source LLM gateway and proxy for model routing, load balancing, retries, fallback, token rate limiting, security, and observability."
       />
       <meta
         name="twitter:image"

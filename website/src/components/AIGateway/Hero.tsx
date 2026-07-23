@@ -47,9 +47,10 @@ const Hero: React.FC = () => {
                 fontStyle="normal"
                 sx={{ lineHeight: '28.5px' }}
               >
-                Apache APISIX proxies, routes, secures, and observes LLM traffic
-                between AI applications and model providers, with load
-                balancing, retries, fallback, and token rate limiting.
+                Apache APISIX provides an LLM gateway and LLM proxy for routing,
+                securing, and observing traffic between AI applications and
+                model providers, with load balancing, retries, fallback, and
+                token rate limiting.
               </Text>
             </Stack>
           </GridItem>

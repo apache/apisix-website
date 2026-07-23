@@ -1,5 +1,5 @@
 ---
-title: "API Monetization: APISIX Rate Limits and Billing Guide"
+title: "API Monetization with APISIX: Rate Limits and Billing"
 authors:
   - name: Bobur Umurzokov
     title: Author
@@ -101,9 +101,9 @@ There are many popular open-source projects available like [Apache APISIX](https
 
 Resources cost money 💰. We can protect an API by adding _a rate limit policy_ with Apache APISIX as it is a basic step toward API Monetization. Apache APISIX allows you to set throttling limits per each API consumer and quotas to your APIs and allows you to control third-party usage of your API by ensuring you are able to monetize your API.
 
-APISIX uses its `limit-count` (_rate limiting_) plugin. The [API rate limiting plugin](/docs/apisix/plugins/limit-count/) can prevent an API not only from being overwhelmed or from possible malicious attacks but also it can enforce a limit on the number of data clients can consume. Later you can charge API consumers by the quantity of data used (the number of requests).
+APISIX uses the [`limit-count` plugin](/docs/apisix/plugins/limit-count/) to enforce request quotas over a fixed or sliding time window. It can reject requests that exceed the configured quota and apply limits by Consumer or another request attribute. These controls can enforce the usage allowance for an API plan, while metering and billing remain external responsibilities.
 
-With the help of APISIX `rate-limiting` plugin, you can also configure the different rate limits for authenticated and unauthenticated requests. It also defines the limit quota in the [response headers](https://apisix.apache.org/docs/apisix/plugins/limit-count/) to track the maximum number of requests you are permitted to make or the number of requests remaining in the current rate limit window.
+When `show_limit_quota_header` is enabled, `limit-count` returns `X-RateLimit-Limit` and `X-RateLimit-Remaining` [response headers](/docs/apisix/plugins/limit-count/). A metering system can combine request logs and exported metrics with these gateway controls to calculate billable usage.
 
 Refer to the documentation to understand [Consumer concept](https://apisix.apache.org/docs/apisix/terminology/consumer/) and learn the different ways to set up [rate limiting](https://apisix.apache.org/docs/apisix/plugins/limit-count/) with Apache APISIX.
 
@@ -113,7 +113,7 @@ Next, for your API monetization stack, you need a 3rd-party recurring billing so
 
 ### How API Management and a billing platform work together
 
-To make these two API monetization components work well together, you need to integrate API Management and billing software. For instance, Apache APISIX tracks API usage in real-time saves consumption details and exposes a dedicated endpoint with an API usage report. On the other hand, the billing provider enables you to send a monthly invoice to each of your consumer’s API usage.
+To make these two API monetization components work well together, you need to integrate API management and billing software. Apache APISIX can enforce quotas and export request metrics or access logs through its observability and logging plugins. An external metering workflow aggregates that usage data and sends billable records to the billing provider, which calculates charges and issues invoices.
 
 You’ll also want to be aware of what it takes to integrate the billing provider with your current solution by considering the fact that different providers have different ways to integrate mainly through _API communication_. We will describe the integration process with Apache APISIX with a step-by-step tutorial in our next post in this series.
 
