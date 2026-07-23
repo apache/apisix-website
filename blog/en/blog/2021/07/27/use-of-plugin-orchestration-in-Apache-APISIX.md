@@ -11,7 +11,6 @@ keywords:
 - API Gateway
 description: Build API processing pipelines with drag-and-drop plugin orchestration in APISIX Dashboard. Low-code configuration tutorial.
 tags: [Ecosystem]
-image: https://static.apiseven.com/202108/1639466553989-ecae1a31-8121-4390-a830-f386b9b12322.png
 ---
 
 > Read this article to learn about Apache APISIX and basic usage scenarios, and how Apache APISIX integrates "drag and drop" plugin orchestration capabilities in a low-code trend.

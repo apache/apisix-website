@@ -11,7 +11,6 @@ keywords:
 - API
 description: "了解微服务为什么需要 API 网关，以及 Apache APISIX 如何帮助统一路由、认证、限流、观测和流量治理。"
 tags: [Ecosystem]
-image: https://static.apiseven.com/uploads/2023/01/30/dSfRMQcD_%E5%9B%BE1.png
 ---
 
 微服务需要 API 网关作为客户端与后端服务之间的统一入口。网关集中处理路由、身份认证、限流、负载均衡和可观测性，避免每个微服务重复实现这些通用能力，也让平台团队能够一致地治理 API 流量。
