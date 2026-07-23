@@ -12,6 +12,33 @@ export interface MdModule {
  * Fallback meta description when frontmatter has none: the first real prose
  * paragraph of the document (same behavior as the current Docusaurus site).
  */
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** Deterministic display date — no ICU dependency. */
+export function humanDate(date: Date, locale: Locale): string {
+  const y = date.getUTCFullYear();
+  const m = date.getUTCMonth();
+  const d = date.getUTCDate();
+  return locale === 'zh' ? `${y}年${m + 1}月${d}日` : `${MONTHS[m]} ${d}, ${y}`;
+}
+
+/** Estimated reading time: ~200 latin words or ~400 CJK chars per minute. */
+export function readingMinutes(mod: MdModule): number {
+  const raw = mod.rawContent?.() ?? '';
+  const text = raw.replace(/```[\s\S]*?```/g, ' ');
+  const cjk = (text.match(/[一-鿿]/g) ?? []).length;
+  const latin = (text.match(/[A-Za-z0-9]+/g) ?? []).length;
+  return Math.max(1, Math.round(latin / 200 + cjk / 400));
+}
+
+/** Same-first-tag posts first (newest first), topped up with other recent posts. */
+export function relatedPosts(post: Post, pool: Post[], n = 3): Post[] {
+  const rest = pool.filter((p) => p.url !== post.url);
+  const tag = post.tags[0];
+  const same = tag ? rest.filter((p) => p.tags.includes(tag)) : [];
+  const sameSet = new Set(same);
+  return [...same, ...rest.filter((p) => !sameSet.has(p))].slice(0, n);
+}
+
 export function excerpt(mod: MdModule): string {
   const raw = mod.rawContent?.() ?? '';
   const cleaned = raw
@@ -40,6 +67,8 @@ export interface Post {
   description: string;
   date: Date;
   dateStr: string;
+  /** locale-formatted display date ("Jul 10, 2026" / "2026年7月10日"); '' when undated */
+  dateHuman: string;
   tags: string[];
   image?: string;
   author?: string;
@@ -95,7 +124,9 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
   //  - frontmatter slug containing "/" replaces the whole path;
   //  - otherwise the filename is used AS-IS (case and spaces preserved —
   //    see /blog/2023/09/08/APISIX-integrates-with-Coraza/).
-  const slug = fmSlug ?? name;
+  // A leading "/" in the slug would double up in the URL (Docusaurus
+  // normalizeUrl collapses it; see the 2021-06-03 firsthand-experience post).
+  const slug = (fmSlug ?? name).replace(/^\/+/, '');
   const urlPath = slug.includes('/') ? slug : `${y}/${mo}/${d}/${slug}`;
   return {
     url: `${localePrefix(locale)}/blog/${urlPath}/`,
@@ -104,6 +135,7 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
     description: mod.frontmatter.description ?? excerpt(mod),
     date: new Date(`${y}-${mo}-${d}T00:00:00Z`),
     dateStr: `${y}-${mo}-${d}`,
+    dateHuman: humanDate(new Date(`${y}-${mo}-${d}T00:00:00Z`), locale),
     tags: toTags(mod.frontmatter),
     image: mod.frontmatter.image,
     author: mod.frontmatter.author ?? (Array.isArray(mod.frontmatter.authors) ? mod.frontmatter.authors[0]?.name : undefined),
@@ -120,7 +152,9 @@ function flatPost(path: string, mod: MdModule, urlBase: string, locale: Locale):
     title: mod.frontmatter.title ?? slug,
     description: mod.frontmatter.description ?? excerpt(mod),
     date,
-    dateStr: date.toISOString().slice(0, 10),
+    // Undated posts sort last (epoch) but must not DISPLAY "1970-01-01".
+    dateStr: mod.frontmatter.date ? date.toISOString().slice(0, 10) : '',
+    dateHuman: mod.frontmatter.date ? humanDate(date, locale) : '',
     tags: toTags(mod.frontmatter),
     image: mod.frontmatter.image,
     author: mod.frontmatter.author,

@@ -16,9 +16,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-// Clean export of apache/apisix-website origin/master (populated via
-// `git archive`), decoupled from the mutable working checkout next door.
-const WEBSITE_REPO = path.join(root, '.sync/website');
+// Clean export of apache/apisix-website (populated via `git archive`),
+// decoupled from any mutable working checkout. In CI, WEBSITE_REPO points at
+// the checked-out repo root itself.
+const WEBSITE_REPO = process.env.WEBSITE_REPO || path.join(root, '.sync/website');
 const OUT = path.join(root, 'content');
 
 const stats = { copied: 0, tabsFlattened: 0, importsStripped: 0, codeTitles: 0, canonicals: 0 };

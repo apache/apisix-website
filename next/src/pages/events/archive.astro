@@ -7,11 +7,22 @@ const events = getGeneralDocs('en')
   .sort((a, b) => b.id.localeCompare(a.id));
 ---
 <Base title="Events Archive" locale="en" path="/events/archive/">
+  <header class="page-head">
+    <div class="container">
+      <div class="page-title">
+        <p class="breadcrumbs"><a href="/docs/general/events/">← Events</a></p>
+        <p class="kicker">Events</p>
+        <h1>Events archive</h1>
+        <p>Past Apache APISIX meetups, conferences, and workshops.</p>
+      </div>
+    </div>
+  </header>
   <div class="container">
-    <div class="page-title"><h1>Events archive</h1></div>
     <div class="archive-list">
       <ul>
-        {events.map((e) => <li><a href={e.url}>{e.title}</a></li>)}
+        {events.map((e) => (
+          <li><a href={e.url}><span>{e.title}</span> <time>{(e.id.match(/(\d{4})/) || [])[1] ?? ''}</time></a></li>
+        ))}
       </ul>
     </div>
   </div>

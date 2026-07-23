@@ -1,18 +1,32 @@
 ---
+import type { Locale } from '../lib/site';
+
 interface Props {
   current: number; // 1-based
   total: number;
   /** URL base ending WITHOUT "page/N/", e.g. "/blog/" — page 1 is the base itself. */
   base: string;
+  locale?: Locale;
 }
-const { current, total, base } = Astro.props;
+const { current, total, base, locale = 'en' } = Astro.props;
 const pageUrl = (n: number) => (n === 1 ? base : `${base}page/${n}/`);
+// Windowed: first, last, current±1, with ellipses for the gaps (build-time, zero JS).
+const nums = Array.from({ length: total }, (_, i) => i + 1)
+  .filter((n) => n === 1 || n === total || Math.abs(n - current) <= 1);
+// A gap of exactly one page renders that page instead of a pointless "…".
+const items = nums.flatMap((n, i, a) =>
+  i === 0 ? [n]
+    : n - a[i - 1] === 2 ? [n - 1, n]
+      : n - a[i - 1] > 1 ? ['…' as const, n]
+        : [n]);
 ---
 {total > 1 && (
-  <nav class="pagination" aria-label="Pagination">
-    {current > 1 && <a href={pageUrl(current - 1)} rel="prev">«</a>}
-    {Array.from({ length: total }, (_, i) => i + 1).map((n) =>
-      n === current ? <span class="current">{n}</span> : <a href={pageUrl(n)}>{n}</a>)}
-    {current < total && <a href={pageUrl(current + 1)} rel="next">»</a>}
+  <nav class="pagination" aria-label={locale === 'zh' ? '分页' : 'Pagination'}>
+    {current > 1 && <a href={pageUrl(current - 1)} rel="prev" aria-label={locale === 'zh' ? '上一页' : 'Previous page'}>«</a>}
+    {items.map((it) =>
+      it === '…' ? <span class="gap">…</span>
+        : it === current ? <span class="current" aria-current="page">{it}</span>
+          : <a href={pageUrl(it)}>{it}</a>)}
+    {current < total && <a href={pageUrl(current + 1)} rel="next" aria-label={locale === 'zh' ? '下一页' : 'Next page'}>»</a>}
   </nav>
 )}

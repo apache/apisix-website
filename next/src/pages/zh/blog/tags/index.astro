@@ -1,23 +1,23 @@
 ---
 import Base from '../../../../layouts/Base.astro';
-import { getLearningPosts, groupByTag } from '../../../../lib/content';
+import { getBlogPosts, groupByTag } from '../../../../lib/content';
 
-const tags = groupByTag(getLearningPosts('zh'));
+const tags = groupByTag(getBlogPosts('zh'));
 const sorted = [...tags.entries()].sort((a, b) => b[1].posts.length - a[1].posts.length || a[0].localeCompare(b[0]));
 ---
-<Base title="标签 | 学习中心" locale="zh" path="/learning-center/tags/">
+<Base title="标签 | 博客" locale="zh" path="/blog/tags/">
   <header class="page-head">
     <div class="container">
       <div class="page-title">
-        <p class="kicker">学习中心</p>
-        <h1>学习中心标签</h1>
+        <p class="kicker">博客</p>
+        <h1>博客标签</h1>
       </div>
     </div>
   </header>
   <div class="container">
     <nav class="tag-row tag-cloud" aria-label="标签">
       {sorted.map(([slug, { label, posts }]) => (
-        <a class="tag" href={`/zh/learning-center/tags/${slug}/`}>{label} <span class="count">{posts.length}</span></a>
+        <a class="tag" href={`/zh/blog/tags/${slug}/`}>{label} <span class="count">{posts.length}</span></a>
       ))}
     </nav>
   </div>

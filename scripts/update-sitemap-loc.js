@@ -111,6 +111,22 @@ function filterSitemapUrls(sitemap) {
   return before - sitemap.urlset.url.length;
 }
 
+/**
+ * Ensure the homepage entry exists. The landing page is produced by the
+ * static Astro build (next/), not by the website workspace, so the merged
+ * Docusaurus sitemaps no longer contain it.
+ */
+function ensureHomepage(sitemap, url) {
+  const urls = sitemap.urlset.url;
+  if (urls.some((entry) => entry.loc && entry.loc._text === url)) return;
+  urls.unshift({
+    loc: { _text: url },
+    lastmod: { _text: new Date().toISOString().split('T')[0] },
+    priority: { _text: getPriority(url) },
+    changefreq: { _text: getChangefreq(url) },
+  });
+}
+
 const tasks = new Listr([
   {
     title: `Check sitemap.xml files exist`,
@@ -140,6 +156,9 @@ const tasks = new Listr([
             }
             const removed = filterSitemapUrls(res);
             console.log(`  Filtered out ${removed} URLs from ${group[0]}`);
+            ensureHomepage(res, group[0].includes('/zh/')
+              ? 'https://apisix.apache.org/zh/'
+              : 'https://apisix.apache.org/');
             return res;
           })
           .then((sitemap) => writeFile(group[0], js2xml(sitemap, { compact: true }, 'utf-8'))),

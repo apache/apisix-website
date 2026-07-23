@@ -108,6 +108,27 @@ const PILLAR_IMGS = [
   { src: '/img/infographs/multiplatform.svg', w: 543, h: 244 },
 ];
 
+// Product-level schema for the homepage (Organization + WebSite come from
+// Base's ORG_JSONLD). Ported from the retired React homepage's SEO markup.
+const SOFTWARE_APPLICATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Apache APISIX',
+  applicationCategory: 'DeveloperApplication',
+  applicationSubCategory: 'API Gateway',
+  operatingSystem: 'Linux, Docker, Kubernetes',
+  description:
+    'Apache APISIX is a dynamic, high-performance, open-source API gateway and AI gateway with load balancing, authentication, rate limiting, observability, and 100+ plugins.',
+  url: 'https://apisix.apache.org/',
+  license: 'https://www.apache.org/licenses/LICENSE-2.0',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: {
+    '@type': 'Organization',
+    name: 'The Apache Software Foundation',
+    url: 'https://www.apache.org/',
+  },
+};
 ---
 <Base
   title={t(locale, 'Apache APISIX - Open Source API Gateway & AI Gateway', 'Apache APISIX - 开源 API 网关与 AI 网关')}
@@ -118,6 +139,7 @@ const PILLAR_IMGS = [
   locale={locale}
   path="/"
   image={SOCIAL_IMAGE}
+  jsonLd={[SOFTWARE_APPLICATION_SCHEMA]}
 >
   <section class="hero">
     <div class="container">

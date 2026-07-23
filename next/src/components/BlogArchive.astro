@@ -8,27 +8,41 @@ interface Props {
   path: string;
   posts?: Post[];
   heading?: string;
+  kicker?: string;
 }
-const { locale, path, heading } = Astro.props;
+const { locale, path, heading, kicker } = Astro.props;
 const posts = Astro.props.posts ?? getBlogPosts(locale);
+// Undated posts (dateStr === '') bucket under 0 and render last as "Undated"
+// rather than surfacing a fake epoch year.
 const byYear = new Map<number, Post[]>();
 for (const post of posts) {
-  const y = post.date.getUTCFullYear();
+  const y = post.dateStr ? post.date.getUTCFullYear() : 0;
   if (!byYear.has(y)) byYear.set(y, []);
   byYear.get(y)!.push(post);
 }
 const years = [...byYear.keys()].sort((a, b) => b - a);
+const yearLabel = (y: number) => (y === 0 ? t(locale, 'Undated', '未注明日期') : String(y));
 ---
 <Base title={heading ?? t(locale, 'Archive', '归档')} locale={locale} path={path}>
+  <header class="page-head">
+    <div class="container">
+      <div class="page-title">
+        {kicker && <p class="kicker">{kicker}</p>}
+        <h1>{heading ?? t(locale, 'Archive', '归档')}</h1>
+        <nav class="tag-row year-nav" aria-label={t(locale, 'Jump to year', '按年份跳转')}>
+          {years.map((y) => <a class="tag" href={`#y${y}`}>{yearLabel(y)} <span class="count">{byYear.get(y)!.length}</span></a>)}
+        </nav>
+      </div>
+    </div>
+  </header>
   <div class="container">
-    <div class="page-title"><h1>{heading ?? t(locale, 'Archive', '归档')}</h1></div>
     <div class="archive-list">
       {years.map((y) => (
         <section>
-          <h2>{y}</h2>
+          <h2 id={`y${y}`}>{yearLabel(y)} <span class="year-count">· {byYear.get(y)!.length} {t(locale, 'posts', '篇')}</span></h2>
           <ul>
             {byYear.get(y)!.map((post) => (
-              <li><a href={post.url}>{post.title}</a> <small>({post.dateStr})</small></li>
+              <li><a href={post.url}><span>{post.title}</span> {post.dateStr && <time datetime={post.dateStr}>{post.dateHuman}</time>}</a></li>
             ))}
           </ul>
         </section>

@@ -14,9 +14,10 @@ interface Props {
   urlBase: string; // e.g. "/learning-center"
   heading: string;
   sub?: string;
+  kicker?: string;
   withTags?: boolean;
 }
-const { locale, page, posts, urlBase, heading, sub, withTags = false } = Astro.props;
+const { locale, page, posts, urlBase, heading, sub, kicker, withTags = false } = Astro.props;
 const prefix = localePrefix(locale);
 const pages = paginate(posts);
 const pagePosts = pages[page - 1] ?? [];
@@ -25,6 +26,7 @@ const pagePosts = pages[page - 1] ?? [];
   title={heading}
   heading={heading}
   sub={sub}
+  kicker={kicker}
   locale={locale}
   path={page === 1 ? `${urlBase}/` : `${urlBase}/page/${page}/`}
   base={`${prefix}${urlBase}/`}

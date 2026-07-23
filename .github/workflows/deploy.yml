@@ -149,32 +149,82 @@ jobs:
         run: |
           yarn update-sitemap && git status
 
-      # ---- Static homepage migration (wave 1) --------------------------------
-      # The landing page (/ and /zh/) is served from a zero-JS Astro build in
-      # next/; every other URL above is produced by Docusaurus. The Astro
-      # homepage needs no synced docs, so this build skips the content sync.
-      # Runs last, after every Node 16 Docusaurus step (build, canonical
-      # assert, sitemap), so switching to Node 22 never touches the Docusaurus
-      # toolchain. See next/MIGRATION.md.
+      # ---- Static migration (waves 1-2) --------------------------------------
+      # Wave 1: the landing pages (/ and /zh/). Wave 2: the content subtrees
+      # whose markdown lives in THIS repo — blog (EN+ZH), learning-center,
+      # articles, events/archive. Everything else is still produced by
+      # Docusaurus. Runs last, after every Node 16 Docusaurus step (build,
+      # canonical assert, sitemap), so switching to Node 22 never touches the
+      # Docusaurus toolchain. See next/MIGRATION.md.
       - name: Set up Node.js 22 for the Astro build
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Build the Astro homepage
+      - name: Build the Astro pages
         working-directory: next
         run: |
           npm ci
+          # Blog/learning-center/articles markdown is synced from this very
+          # checkout (WEBSITE_REPO); project docs stay un-synced until wave 3.
+          WEBSITE_REPO="$GITHUB_WORKSPACE" node scripts/sync-content.mjs
           npx astro build
 
-      - name: Overlay the Astro homepage onto the Docusaurus build
+      - name: Assert URL parity for the wave-2 subtrees
         run: |
           set -euo pipefail
-          # File-level allowlist: only the two landing pages and the shared
-          # Astro asset dir come from the Astro build. Everything else in
-          # website/build (docs, blog, sitemaps, .htaccess, robots) is left as
-          # Docusaurus produced it, so URLs stay byte-identical.
-          for path in index.html zh/index.html _astro; do
+          # Every URL Docusaurus produced under a migrated prefix must exist in
+          # the Astro build too (same index.html path). Astro may add pages
+          # (blog tag pages are deliberately additive); it must never drop one.
+          ROOT="$PWD"
+          fail=0
+          for prefix in blog zh/blog learning-center zh/learning-center articles zh/articles events zh/events; do
+            [ -d "website/build/$prefix" ] || continue
+            missing=$(cd "website/build/$prefix" && find . -name index.html | sort | while read -r f; do
+              [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f"
+            done)
+            if [ -n "$missing" ]; then
+              echo "MISSING in Astro build:"; echo "$missing"; fail=1
+            fi
+            # Non-HTML files (feeds today) must either already be in the Astro
+            # tree or be handled by the feed-carry step below — anything else
+            # would be silently dropped by the subtree replacement.
+            unhandled=$(cd "website/build/$prefix" && find . -type f ! -name index.html | sort | while read -r f; do
+              case "$prefix/${f#./}" in
+                learning-center/atom.xml|learning-center/rss.xml|articles/atom.xml|articles/rss.xml|\
+                zh/learning-center/atom.xml|zh/learning-center/rss.xml|zh/articles/atom.xml|zh/articles/rss.xml) ;;
+                *) [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f" ;;
+              esac
+            done)
+            if [ -n "$unhandled" ]; then
+              echo "NON-HTML files not in the Astro tree and not in the feed-carry list:"; echo "$unhandled"; fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Carry the Docusaurus RSS/atom feeds into the Astro tree
+        run: |
+          set -euo pipefail
+          # Docusaurus generates subscription feeds for these sections; the
+          # Astro build does not (yet). Copy them into the Astro tree so the
+          # subtree replacement below keeps the feed URLs alive.
+          for f in learning-center/atom.xml learning-center/rss.xml \
+                   articles/atom.xml articles/rss.xml \
+                   zh/learning-center/atom.xml zh/learning-center/rss.xml \
+                   zh/articles/atom.xml zh/articles/rss.xml; do
+            cp "website/build/$f" "next/dist/$f"
+          done
+
+      - name: Overlay the Astro pages onto the Docusaurus build
+        run: |
+          set -euo pipefail
+          # Path allowlist: the landing pages, the wave-2 content subtrees, and
+          # the shared Astro asset dir come from the Astro build. Everything
+          # else in website/build (docs, plugins, sitemaps, .htaccess, robots)
+          # is left as Docusaurus produced it, so those URLs stay byte-identical.
+          for path in index.html zh/index.html _astro \
+                      blog zh/blog learning-center zh/learning-center \
+                      articles zh/articles events zh/events; do
             rm -rf "website/build/$path"
             mkdir -p "website/build/$(dirname "$path")"
             cp -R "next/dist/$path" "website/build/$path"
@@ -185,6 +235,15 @@ jobs:
           grep -q '同一个网关' website/build/zh/index.html
           grep -q '/_astro/.*\.css' website/build/index.html
           test -d website/build/_astro
+          # Wave-2 sanity: key subtree landmarks exist.
+          test -f website/build/blog/index.html
+          test -f website/build/zh/blog/index.html
+          test -f website/build/blog/tags/index.html
+          test -f website/build/learning-center/index.html
+          test -f website/build/learning-center/atom.xml
+          test -f website/build/articles/index.html
+          test -f website/build/zh/articles/rss.xml
+          test -f website/build/events/archive/index.html
           # Merge the homepage's image assets (integration brand icons, feature
           # infographics, architecture diagram) into the Docusaurus img tree.
           # cp merges: it adds the new files and overwrites only same-named

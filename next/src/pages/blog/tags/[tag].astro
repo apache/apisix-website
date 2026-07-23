@@ -1,24 +1,24 @@
 ---
 import ListPage from '../../../layouts/ListPage.astro';
-import { getLearningPosts, groupByTag } from '../../../lib/content';
+import { getBlogPosts, groupByTag } from '../../../lib/content';
 
 export function getStaticPaths() {
-  const tags = groupByTag(getLearningPosts('en'));
+  const tags = groupByTag(getBlogPosts('en'));
   return [...tags.entries()].map(([slug, group]) => ({ params: { tag: slug }, props: group }));
 }
 const { label, posts } = Astro.props;
 const tag = Astro.params.tag;
 ---
 <ListPage
-  title={`${label} | Learning Center`}
+  title={`${label} | Blog`}
   heading={label}
   kicker={'Tag'}
   sub={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'} tagged “${label}”`}
   locale="en"
-  path={`/learning-center/tags/${tag}/`}
-  base={`/learning-center/tags/${tag}/`}
+  path={`/blog/tags/${tag}/`}
+  base={`/blog/tags/${tag}/`}
   posts={posts}
   current={1}
   total={1}
-  tagsUrl={'/learning-center/tags/'}
+  tagsUrl={'/blog/tags/'}
 />

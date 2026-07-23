@@ -14,6 +14,8 @@ interface Props {
   jsonLd?: object[];
   /** Set false for pages that exist in only one locale. */
   hasAlternate?: boolean;
+  /** Open Graph object type; article pages pass "article". */
+  ogType?: 'website' | 'article';
   noindex?: boolean;
   /** Cross-site canonical embedded in upstream docs (docs.api7.ai hub pages). */
   canonicalOverride?: string;
@@ -32,6 +34,7 @@ const {
   noindex = false,
   canonicalOverride,
   titleSuffix = true,
+  ogType = 'website',
 } = Astro.props;
 
 const enUrl = `${SITE}${path}`;
@@ -55,7 +58,7 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   {hasAlternate && <link rel="alternate" hreflang="x-default" href={enUrl} />}
   <link rel="icon" href={FAVICON} />
   <link rel="sitemap" type="application/xml" href={locale === 'zh' ? '/zh/sitemap.xml' : '/sitemap.xml'} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
   <meta property="og:url" content={canonical} />
