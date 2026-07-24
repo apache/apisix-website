@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Fault Injection Testing with API Gateway | Apache APISIX</title><meta name="description" content="Test microservice resilience using the APISIX fault-injection plugin. Simulate errors, delays, and aborts to verify circuit breakers and retries."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/08/28/fault-injection-testing-with-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/08/28/fault-injection-testing-with-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/08/28/fault-injection-testing-with-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/08/28/fault-injection-testing-with-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Fault Injection Testing with API Gateway | Apache APISIX"><meta property="og:description" content="Test microservice resilience using the APISIX fault-injection plugin. Simulate errors, delays, and aborts to verify circuit breakers and retries."><meta property="og:url" content="https://apisix.apache.org/blog/2022/08/28/fault-injection-testing-with-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/10/20/6350b3f63a715.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/10/20/6350b3f63a715.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fault Injection Testing with API Gateway","description":"Test microservice resilience using the APISIX fault-injection plugin. Simulate errors, delays, and aborts to verify circuit breakers and retries.","datePublished":"2022-08-28","image":"https://static.apiseven.com/2022/10/20/6350b3f63a715.png","author":{"@type":"Person","name":"Bobur Umurzokov"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/08/28/fault-injection-testing-with-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/08/28/fault-injection-testing-with-api-gateway/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/08/28/fault-injection-testing-with-api-gateway/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/plugins/">Plugins</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Fault Injection Testing with API Gateway</h1> <p class="article-meta"> <time datetime="2022-08-28">Aug 28, 2022</time> · Bobur Umurzokov  · 8 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/plugins/">Plugins</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#explore-distributed-system-stability-">Explore distributed system stability 💪</a></li><li class="d3"><a href="#here-is-a-quick-overview-of-what-we-cover-">Here is a quick overview of what we cover 👇</a></li><li class><a href="#software-fault-injection-">Software Fault Injection 💻💉</a></li><li class><a href="#fault-injection-testing-with-api-gateway">Fault Injection Testing with API Gateway</a></li><li class><a href="#apache-apisix-fault-injection-plugin-">Apache APISIX Fault Injection Plugin 🔌</a></li><li class><a href="#experiment-with-the-fault-injection-plugin-">Experiment with the Fault Injection Plugin 🔬</a></li><li class="d3"><a href="#before-you-begin-">Before you begin 🙅</a></li><li class="d3"><a href="#understand-the-demo-scenario">Understand the demo scenario</a></li><li class="d3"><a href="#injecting-an-http-delay-fault">Injecting an HTTP delay fault</a></li><li class="d3"><a href="#injecting-an-http-abort-fault">Injecting an HTTP abort fault</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#related-resources">Related resources</a></li><li class><a href="#recommended-content-">Recommended content 💁</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/10/20/6350b3f63a715.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>💁 This blog post describes how an <strong>API Gateway</strong> like <a href="https://apisix.apache.org/">Apache APISIX</a> is useful for testing the robustness and resilience of microservices APIs.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="explore-distributed-system-stability-">Explore distributed system stability 💪</h2>
+<p><a href="https://azure.microsoft.com/en-us/resources/designing-distributed-systems/">Distributed systems</a> such as <a href="https://docs.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices">microservices</a> have led to an increase in the complexity of the systems we work with. It is difficult to have full confidence in this architecture when there are many components and “a lot of moving parts” that could potentially fail. It is critical to handle failures in service-to-service calls gracefully. Also, we want to be sure that any resilience mechanisms we have in place such as error handling code, <a href="https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-circuit-breaker-ggk">circuit breaker</a>, <a href="https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c">health checks</a>, <a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/retry">retry</a>, fallback, redundant instances, and so on. We can verify this with the help of the testing method <strong><a href="https://en.wikipedia.org/wiki/Fault_injection">Fault Injection</a></strong> 💉.</p>
+<p><img src="https://static.apiseven.com/2022/blog/0831/afe53i95g4tt82rx8gwp.jpg" alt="Fault Injection Testing with Apache APISIX"></p>
+<p>Throughout the post, we get to know the types of possible failure injections with the <strong><a href="https://apisix.apache.org/docs/apisix/plugins/fault-injection/">Fault Injection Plugin</a></strong> 🔌 and simulate failures on our existing <a href="https://github.com/Boburmirzo/apisix-dotnet-docker/tree/main/ProductApi">Product backend service</a> (developed by using <a href="https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0">ASP.NET Core WEB API</a>).</p>
+<h3 id="here-is-a-quick-overview-of-what-we-cover-">Here is a quick overview of what we cover 👇</h3>
+<ul>
+<li>✅ <a href="https://www.intechopen.com/chapters/56668">Software Fault Injection</a>.</li>
+<li>✅ Fault injection testing (FIT) with API Gateway.</li>
+<li>✅ Apache APISIX <a href="https://apisix.apache.org/docs/apisix/plugins/fault-injection/">Fault Injection Plugin</a>.</li>
+<li>✅ Fault injection different types of failures.</li>
+<li>✅ Experiment with Fault Injection Plugin.</li>
+</ul>
+<blockquote>
+<p>Application is <strong>correct</strong> if it acts as specified. It is <strong>robust</strong> if it can take a high load until it goes down. Application is <strong>resilient</strong> if it can go back to normal after a disruption.</p>
+</blockquote>
+<h2 id="software-fault-injection-">Software Fault Injection 💻💉</h2>
+<p>Among the many methods to perform Fault Injection, the technique of <strong>Software Fault Injection</strong> is especially getting more popular among companies managing large, complex, and distributed systems. In this software testing technique, a special piece of code associated with the system under test tries to simulate faults. It is usually completed before deployment to identify potential flaws in the running software 😱. Fault injection can better identify the nature and cause of production failures.</p>
+<h2 id="fault-injection-testing-with-api-gateway">Fault Injection Testing with API Gateway</h2>
+<p>The <strong>fault injection</strong> approach at the <a href="https://apisix.apache.org/docs/apisix/terminology/api-gateway/">API Gateway</a> level can be used to test the resiliency of application or microservices APIs against various forms of failures to build confidence in the production environment. The technique can be used to inject delays and abort requests with user-specified error codes, thereby providing the ability to stage different failure scenarios such as service failures, service overloads, high network latency, network partitions, etc. Fault injection can be limited to a specific set of requests based on the (destination) upstream cluster of a request and/or a set of pre-defined request headers.</p>
+<p>For a streaming giant like <a href="https://www.netflix.com/">Netflix</a>, the migration to a complex cloud-based microservices architecture would not have been possible without a revolutionary testing method known as fault injection 👊. There is a very well-known strategy like <a href="https://en.wikipedia.org/wiki/Chaos_engineering">Chaos engineering</a> which uses fault injection to accomplish the goal of more reliable systems. And Netflix teams built their own <em>Chaos engineering tool</em> called <a href="https://netflix.github.io/chaosmonkey/">Chaos Monkey</a>.</p>
+<h2 id="apache-apisix-fault-injection-plugin-">Apache APISIX Fault Injection Plugin 🔌</h2>
+<p><a href="https://apisix.apache.org/docs/apisix/plugins/fault-injection/">Apache APISIX Fault Injection Plugin</a> also offers a <em>mechanism</em> to inject some errors into our APIs and ensures that our resilience measures are effective.</p>
+<p>Apache APISIX works in <strong>two different modes</strong>, both configured using the <code>fault-injection</code> plugin attributes⤵️:</p>
+<ol>
+<li>
+<p><strong>Delays:</strong> Delays are timing failures. They simulate increased network latency or an overloaded upstream service.</p>
+</li>
+<li>
+<p><strong>Aborts:</strong> Aborts are crash failures. They mimic failures in upstream services. Aborts usually manifest in the form of HTTP error codes or TCP connection failures.</p>
+</li>
+</ol>
+<p>For detailed instructions on how to configure delays and aborts, see <a href="https://apisix.apache.org/docs/apisix/plugins/fault-injection/">Fault Injection</a>. You can also try out a centralized platform <a href="https://www.api7.cloud/">API7 Cloud</a> ☁️ to use more advanced API Gateway <a href="https://www.api7.cloud/docs/overview/api7-cloud">features</a>. API7 Cloud provides a fully managed chaos engineering service with the dashboard to configure the <a href="https://www.api7.cloud/docs/references/policies/traffic-management/fault-injection">Fault Injection policy</a> easily👍🏻.</p>
+<h2 id="experiment-with-the-fault-injection-plugin-">Experiment with the Fault Injection Plugin 🔬</h2>
+<p>This part shows you how to inject faults to test the resiliency of your application.</p>
+<h3 id="before-you-begin-">Before you begin 🙅</h3>
+<p>☝️ Familiarize yourself with the <a href="https://microsoft.github.io/code-with-engineering-playbook/automated-testing/fault-injection-testing/">fault injection concept</a>.
+☝️ If you followed the previous blog post about <a href="https://dev.to/apisix/manage-net-microservices-apis-with-apache-apisix-api-gateway-2cbk">Manage .NET Microservices APIs with Apache APISIX API Gateway</a>, make sure you have read it and completed the steps to set up <code>APISIX, etcd and ASP.NET WEB API</code> before continuing with a demo session. Or you can see the complete source code on <a href="https://github.com/Boburmirzo/apisix-dotnet-docker">Github</a> and the instruction on how to build a multi-container APISIX via Docker CLI.</p>
+<h3 id="understand-the-demo-scenario">Understand the demo scenario</h3>
+<p>I assume that you have the demo project <a href="https://github.com/Boburmirzo/apisix-dotnet-docker">apisix-dotnet-docker</a> up and running. In the ASP.NET Core project, there is a simple API to get all products list from the service layer in <a href="https://github.com/Boburmirzo/apisix-dotnet-docker/blob/main/ProductApi/Controllers/ProductsController.cs">ProductsController.cs</a> file.</p>
+<p>Let’s suppose that we have an <em>online shopping sample application</em> that consists of many microservices such as <code>Catalog, Product, Order and etc</code>. When we are retrieving data about products belonging to a specific catalog, there will be service-to-service interaction between Catalog and Product services. In this case, something might go wrong due to any number of reasons.</p>
+<p><img src="https://static.apiseven.com/2022/blog/0831/s3a82cmrr84vyqvceuwp.jpg" alt="FIT with Apache APISIX"></p>
+<p>To test the shopping application’s microservices for resiliency, we are going to simulate the product service misbehaving as a faulty service:</p>
+<ul>
+<li>By adding a <strong>delay</strong> to the HTTP request.</li>
+<li>By <strong>aborting</strong> the HTTP requests and returning a custom status code.</li>
+</ul>
+<h3 id="injecting-an-http-delay-fault">Injecting an HTTP delay fault</h3>
+<p>In the first example, we introduce a 5-second delay for every request to the product service to test if we correctly set a connection timeout for calls to the product service from the Catalog service.</p>
+<blockquote>
+<p>Note that you can also specify the percentage of requests to be delayed in numbers. Like 10 means: <em>10% of overall requests will be delayed</em>. In our demo case, we made it 100% to easily test the delay in time.</p>
+</blockquote>
+<p>The following route configuration example creates a new upstream for our backend service (productapi) that runs on port <code>80</code>, and registers a route with the <code>fault-injection</code> plugin enabled. You can notice that we set the delay injection in the plugin settings:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "name": "Route for Fault Injection with the delay",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "methods": [</span></span>
+<span class="line"><span style="color:#A5D6FF">    "GET"</span></span>
+<span class="line"><span style="color:#A5D6FF">  ],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/api/products",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "fault-injection": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "delay": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "duration": 5,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "percentage": 100</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "productapi:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Below we confirm the rule was created by running another <code>curl</code> command with the time measurement:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FF7B72">time</span><span style="color:#E6EDF3"> curl http://127.0.0.1:9080/api/products -i</span></span></code></pre>
+<p>After you run the cmd, you will see there is some delay was introduced:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>Content-Type: application/json; charset=utf-8</span></span>
+<span class="line"><span>Transfer-Encoding: chunked</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>[{"name":"Macbook Pro","price":1500.9},{"name":"SurfaceBook 3","price":1599.9}]</span></span>
+<span class="line"><span>real    0m5.004s</span></span>
+<span class="line"><span>user    0m0.004s</span></span>
+<span class="line"><span>sys     0m0.000s</span></span></code></pre>
+<p>The result of fault injection is as we expected.👏</p>
+<h3 id="injecting-an-http-abort-fault">Injecting an HTTP abort fault</h3>
+<p>In the following example, we will introduce an HTTP abort to the product microservice to check how our imaginary Catalog service responds immediately to the failures introduced by the dependent service. Let’s say when the Product service fails, we should expect an HTTP error with the <code>Product service currently unavailable</code> error message.</p>
+<p>We can test it in action. Now we can enable abort injection with the following route settings.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "name": "Route for Fault Injection with the abort",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "methods": [</span></span>
+<span class="line"><span style="color:#A5D6FF">    "GET"</span></span>
+<span class="line"><span style="color:#A5D6FF">  ],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/api/products",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "fault-injection": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "abort": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "http_status": 503,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body": "The product service is currently unavailable.",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "percentage": 100</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "productapi:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>If you run <code>curl cmd</code> to hit the APISIX route, now it quickly responds with HTTP 503 error which in turn very comfortable to test catalog service how it reacts to such kind of server errors from downstream services.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF">  http://127.0.0.1:9080/api/products</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 503</span><span style="color:#A5D6FF"> Service</span><span style="color:#A5D6FF"> Temporarily</span><span style="color:#A5D6FF"> Unavailable</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.13.1</span></span></code></pre>
+<p>With that we can finalize our demo example.</p>
+<h2 id="summary">Summary</h2>
+<p>As we learned, by using the fault injection method, engineers can build better and more stable systems. And open source projects like <a href="https://apisix.apache.org/">Apache APISIX</a> make it more accessible for us to some fault injection testing techniques and helps you to plan for unknown failures in the distributed architecture.</p>
+<h2 id="related-resources">Related resources</h2>
+<p>➔ <a href="https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-circuit-breaker-ggk">Implementing resilient applications with API Gateway (Circuit breaker)</a>.</p>
+<p>➔ <a href="https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c">Implementing resilient applications with API Gateway (Health Check)</a>.</p>
+<h2 id="recommended-content-">Recommended content 💁</h2>
+<p>➔ Watch Video Tutorial:</p>
+<ul>
+<li>
+<p><a href="https://youtu.be/dUOjJkb61so">Getting Started with Apache APISIX</a>.</p>
+</li>
+<li>
+<p><a href="https://youtu.be/nU8-uQkAHA4">Manage .NET Microservice API with Apache APISIX API Gateway</a>.</p>
+</li>
+</ul>
+<p>➔ Read the blog posts:</p>
+<ul>
+<li>
+<p><a href="https://dev.to/apisix/overview-of-apache-apisix-api-gateway-plugins-2m8o">Overview of Apache APISIX API Gateway Plugins</a>.</p>
+</li>
+<li>
+<p><a href="https://dev.to/apisix/run-apache-apisix-on-microsoft-azure-container-instance-1gdk">Run Apache APISIX on Microsoft Azure Container Instance</a>.</p>
+</li>
+<li>
+<p><a href="https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3">API Security with OIDC by using Apache APISIX and Microsoft Azure AD</a>.</p>
+</li>
+<li>
+<p><a href="https://dev.to/apisix/apis-observability-with-apache-apisix-plugins-1bnm">API Observability with Apache APISIX Plugins</a>.</p>
+</li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/09/08/api-monetization-using-stack/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">API Monetization with APISIX: Rate Limits and Billing</span> </a> <a class="post-nav-card older" href="/blog/2022/08/17/backend-for-frontend-demo/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Backend-for-Frontend: the demo</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#explore-distributed-system-stability-">Explore distributed system stability 💪</a></li><li class="d3"><a href="#here-is-a-quick-overview-of-what-we-cover-">Here is a quick overview of what we cover 👇</a></li><li class><a href="#software-fault-injection-">Software Fault Injection 💻💉</a></li><li class><a href="#fault-injection-testing-with-api-gateway">Fault Injection Testing with API Gateway</a></li><li class><a href="#apache-apisix-fault-injection-plugin-">Apache APISIX Fault Injection Plugin 🔌</a></li><li class><a href="#experiment-with-the-fault-injection-plugin-">Experiment with the Fault Injection Plugin 🔬</a></li><li class="d3"><a href="#before-you-begin-">Before you begin 🙅</a></li><li class="d3"><a href="#understand-the-demo-scenario">Understand the demo scenario</a></li><li class="d3"><a href="#injecting-an-http-delay-fault">Injecting an HTTP delay fault</a></li><li class="d3"><a href="#injecting-an-http-abort-fault">Injecting an HTTP abort fault</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#related-resources">Related resources</a></li><li class><a href="#recommended-content-">Recommended content 💁</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2023/08/14/rate-limit/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Rate Limit Your APIs With Apache APISIX</h3> <p class="desc">A guide to using the rate limit plugins in Apache APISIX with some practical examples.</p> <p class="meta">Aug 14, 2023 · Navendu Pottekkat</p> </div> </a><a class="post-card" href="/blog/2023/07/20/data-mask-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Creating a Custom Data Mask Plugin</h3> <p class="desc">A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case.</p> <p class="meta">Jul 20, 2023 · Zeping Bai</p> </div> </a><a class="post-card" href="/blog/2023/07/07/tiny-apisix-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>A &quot;Tiny&quot; APISIX Plugin</h3> <p class="desc">A &quot;tiny&quot; example to demonstrate how Apache APISIX supports Wasm plugins.</p> <p class="meta">Jul 7, 2023 · Navendu Pottekkat</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

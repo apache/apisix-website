@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>The practice of Nacos service discovery on API Gateway | Apache APISIX</title><meta name="description" content="Learn how Apache APISIX integrates with Nacos for service discovery, dynamic upstream updates, and API Gateway routing in microservices architectures."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/21/nacos-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="The practice of Nacos service discovery on API Gateway | Apache APISIX"><meta property="og:description" content="Learn how Apache APISIX integrates with Nacos for service discovery, dynamic upstream updates, and API Gateway routing in microservices architectures."><meta property="og:url" content="https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"The practice of Nacos service discovery on API Gateway","description":"Learn how Apache APISIX integrates with Nacos for service discovery, dynamic upstream updates, and API Gateway routing in microservices architectures.","datePublished":"2022-02-21","author":{"@type":"Person","name":"Zhihuang Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/02/21/nacos-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/02/21/nacos-api-gateway/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/02/21/nacos-api-gateway/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>The practice of Nacos service discovery on API Gateway</h1> <p class="article-meta"> <time datetime="2022-02-21">Feb 21, 2022</time> · Zhihuang Lin  · 5 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#background-information">Background Information</a></li><li class><a href="#api-gateway-integrates-service-discovery-based-on-nacos">API Gateway Integrates Service Discovery Based on Nacos</a></li><li class="d3"><a href="#prerequisites">Prerequisites</a></li><li class="d3"><a href="#step-1-service-register">Step 1: Service Register</a></li><li class="d3"><a href="#step-2-add-nacos-route">Step 2: Add Nacos Route</a></li><li class="d3"><a href="#step-3-verify-configuration-results">Step 3: Verify Configuration Results</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header>  <blockquote>
+<p>This article introduces the basic concepts of Apache APISIX and the Service Registry, and shows you the practice of Nacos service discovery on API Gateway.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="background-information">Background Information</h2>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap. At the same time, when using service discovery components, you can not only use etcd, but also Eureka, Consul, and Nacos as service discovery components. This article will introduce you in detail how to configure Nacos in Apache APISIX as a service discovery component in Apache APISIX API Gateway.</p>
+<p><img src="https://static.apiseven.com/202108/1646038041730-3d9bfdd8-d2f0-41a2-84f5-cb1e1d567a86.png" alt="error/Apache APISIX API Getway.png"></p>
+<p>Service Registry is the core component of service management, similar to the role of directory service, and one of the most basic facilities in the microservices architecture. It is mainly used to store service information, such as service provider URL, routing information, and so on. The service registry is implemented by mapping complex service-side information to simple and understandable information for the client.</p>
+<p>The core functions of the Service Registry are as follows:</p>
+<ul>
+<li>Service registration: <strong>Service providers</strong> register with the <strong>Service Registration Center</strong>.</li>
+<li>Service discovery: <strong>Service consumers</strong> can find the call routing information of service providers through the registry.</li>
+<li>Health check: Ensure that service nodes registered with the service registry can be invoked normally, and avoid the waste of call resources caused by invalid nodes.</li>
+</ul>
+<p>The registry is essentially to decouple service providers and service consumers. In the microservice system, each business service will call each other frequently, and the IP, port and other routing information of each service need to be managed uniformly. But how do you manage it? You can provide information about existing services to a unified service registry for management through the Service Registration function of the Service Registry.</p>
+<p>From the above description, you can know that the registry can help users quickly find services and service addresses through mapping. As business updates iterate, services change frequently. Clients can still pull a list of services through the service discovery function of the registry after registering new services or service downtime on the service side. If the service node of the registry changes, the registry sends a request to notify the client to pull again.</p>
+<p>If the service on the server side suddenly goes down and there is no feedback to the service registry, the client can show the service side its service status by actively reporting the heartbeat at regular intervals through the health check function of the service registry. If the service status is abnormal, the service registry will be notified, and the service registry can remove the down service nodes in time to avoid waste of resources.</p>
+<p>Apache APISIX + Nacos can centralize business-independent control of each microservice node into Apache APISIX for unified management, that is, <strong>the ability to implement proxy and routing forwarding of interface services through Apache APISIX</strong>. After registering various microservices on Nacos, Apache APISIX can get the list of services through the service discovery function of Nacos, and find corresponding service addresses to achieve dynamic proxy.</p>
+<p><img src="https://static.apiseven.com/202108/1645433743260-53613be6-2812-4af7-9bed-8a03014f2c69.png" alt="error/Principle Introduction.png"></p>
+<h2 id="api-gateway-integrates-service-discovery-based-on-nacos">API Gateway Integrates Service Discovery Based on Nacos</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>This article is based on the following environments.</p>
+<ul>
+<li>OS: Centos 7.9.</li>
+<li>Apache APISIX 2.12.1, please refer to: <a href="https://apisix.apache.org/docs/apisix/how-to-build">How-to-Bulid Apache APISIX</a>.</li>
+<li>Nacos 2.0.4, please refer to: <a href="https://nacos.io/zh-cn/docs/quick-start.html">Nacos Quick Start</a>.</li>
+<li>Node.js, please refer to: <a href="https://github.com/nodejs/help/wiki/Installation">Node.js Installation</a>.</li>
+</ul>
+<h3 id="step-1-service-register">Step 1: Service Register</h3>
+<ol>
+<li>Use Node.js’s Koa framework starts a simple test service on port <code>3005</code> as <a href="https://apisix.apache.org/docs/apisix/admin-api/">upstream</a>.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>const Koa = require('koa');</span></span>
+<span class="line"><span>const app = new Koa();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.use(async ctx => {</span></span>
+<span class="line"><span>  ctx.body = 'Hello World';</span></span>
+<span class="line"><span>});</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.listen(3005);</span></span></code></pre>
+<ol start="2">
+<li>Register the service on the command line by requesting the Nacos Open API.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X POST 'http://127.0.0.1:8848/nacos/v1/ns/instance?serviceName=APISIX-NACOS&#x26;ip=127.0.0.1&#x26;port=3005&#x26;ephemeral=false'</span></span></code></pre>
+<ol start="3">
+<li>After service registration, use the following command to query the current service.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X GET 'http://127.0.0.1:8848/nacos/v1/ns/instance/list?serviceName=APISIX-NACOS'</span></span></code></pre>
+<p>Examples of correct returned results are as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "name": "DEFAULT_GROUP@@APISIX-NACOS",</span></span>
+<span class="line"><span>  "groupName": "DEFAULT_GROUP",</span></span>
+<span class="line"><span>  "clusters": "",</span></span>
+<span class="line"><span>  "cacheMillis": 10000,</span></span>
+<span class="line"><span>  "hosts": [</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>      "instanceId": "127.0.0.1#3005#DEFAULT#DEFAULT_GROUP@@APISIX-NACOS",</span></span>
+<span class="line"><span>      "ip": "127.0.0.1",</span></span>
+<span class="line"><span>      "port": 3005,</span></span>
+<span class="line"><span>      "weight": 1.0,</span></span>
+<span class="line"><span>      "healthy": true,</span></span>
+<span class="line"><span>      "enabled": true,</span></span>
+<span class="line"><span>      "ephemeral": true,</span></span>
+<span class="line"><span>      "clusterName": "DEFAULT",</span></span>
+<span class="line"><span>      "serviceName": "DEFAULT_GROUP@@APISIX-NACOS",</span></span>
+<span class="line"><span>      "metadata": {},</span></span>
+<span class="line"><span>      "instanceHeartBeatInterval": 5000,</span></span>
+<span class="line"><span>      "instanceHeartBeatTimeOut": 15000,</span></span>
+<span class="line"><span>      "ipDeleteTimeout": 30000,</span></span>
+<span class="line"><span>      "instanceIdGenerator": "simple"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  ],</span></span>
+<span class="line"><span>  "lastRefTime": 1643191399694,</span></span>
+<span class="line"><span>  "checksum": "",</span></span>
+<span class="line"><span>  "allIPs": false,</span></span>
+<span class="line"><span>  "reachProtectionThreshold": false,</span></span>
+<span class="line"><span>  "valid": true</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="step-2-add-nacos-route">Step 2: Add Nacos Route</h3>
+<p>Create a new <a href="https://apisix.apache.org/docs/apisix/admin-api/#route">route</a> using the Admin API provided by Apache APISIX. APISIX selects the service discovery type to use through the <code>upstream.discovery_type</code> field. <code>upstream.service_name</code> needs to be associated with the corresponding service name of the registry. Therefore, when creating a route, specify the service discovery type as <code>nacos</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "uri": "/nacos/*",</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "service_name": "APISIX-NACOS",</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "discovery_type": "nacos"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>In the above command, the request header <code>X-API-KEY</code> is the access token of the Admin API, which can be viewed under <code>apisix.admin_key.key</code> in the <code>conf/config.yaml</code> file.</p>
+<p>After successful addition, examples of correct returned results are as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>  "action": "set",</span></span>
+<span class="line"><span>  "node": {</span></span>
+<span class="line"><span>    "key": "\/apisix\/routes\/1",</span></span>
+<span class="line"><span>    "value": {</span></span>
+<span class="line"><span>      "update_time": 1643191044,</span></span>
+<span class="line"><span>      "create_time": 1643176603,</span></span>
+<span class="line"><span>      "priority": 0,</span></span>
+<span class="line"><span>      "uri": "\/nacos\/*",</span></span>
+<span class="line"><span>      "upstream": {</span></span>
+<span class="line"><span>        "hash_on": "vars",</span></span>
+<span class="line"><span>        "discovery_type": "nacos",</span></span>
+<span class="line"><span>        "scheme": "http",</span></span>
+<span class="line"><span>        "pass_host": "pass",</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "service_name": "APISIX-NACOS"</span></span>
+<span class="line"><span>      },</span></span>
+<span class="line"><span>      "id": "1",</span></span>
+<span class="line"><span>      "status": 1</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>In addition, you can also pass other service related parameters in <code>upstream.discovery_args</code> to specify the namespace or group where the service is located. For details, please refer to the <a href="https://apisix.apache.org/docs/apisix/discovery/nacos#discovery_args">official documentation</a>.</p>
+<h3 id="step-3-verify-configuration-results">Step 3: Verify Configuration Results</h3>
+<p>Use the following command to send the request to the route to be configured.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i http://127.0.0.1:9080/nacos/</span></span></code></pre>
+<p>Examples of correct returned results are as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>Content-Length: 11</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span>Date: Thu, 27 Jan 2022 00:48:26 GMT</span></span>
+<span class="line"><span>Server: APISIX/2.12.0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Hello World</span></span></code></pre>
+<p>It can be seen from the example that the new route in Apache APISIX can find the correct service address through Nacos service discovery and respond normally.</p>
+<h2 id="summary">Summary</h2>
+<p>This article introduces the concept of registry center and how Apache APISIX cooperates with Nacos to implement routing proxy based on service discovery. Users can use Apache APISIX and Nacos according to their business requirements and past technology architecture to realize the proxy and routing and forwarding capabilities of interface services.</p>
+<p>To get more information about the <code>nacos</code> plugin description and full configuration list, you can refer to the <a href="https://apisix.apache.org/docs/apisix/discovery/nacos/">Apache APISIX’s official documentation</a>.</p>
+<p>Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a>, or via the <a href="https://apisix.apache.org/zh/docs/general/join">mailing list</a> to communicate.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/02/23/csrf-api-gateway/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">API Gateway Enhances Security by CSRF Plugin</span> </a> <a class="post-nav-card older" href="/blog/2022/02/17/weekly-report-0214/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Biweekly Report (Feb 1 - Feb 14)</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#background-information">Background Information</a></li><li class><a href="#api-gateway-integrates-service-discovery-based-on-nacos">API Gateway Integrates Service Discovery Based on Nacos</a></li><li class="d3"><a href="#prerequisites">Prerequisites</a></li><li class="d3"><a href="#step-1-service-register">Step 1: Service Register</a></li><li class="d3"><a href="#step-2-add-nacos-route">Step 2: Add Nacos Route</a></li><li class="d3"><a href="#step-3-verify-configuration-results">Step 3: Verify Configuration Results</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

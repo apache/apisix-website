@@ -1,0 +1,255 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX OpenID Connect Plugin with Okta Authentication | Apache APISIX</title><meta name="description" content="Step-by-step guide to configure the APISIX openid-connect plugin with Okta for centralized API authentication and SSO."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX OpenID Connect Plugin with Okta Authentication | Apache APISIX"><meta property="og:description" content="Step-by-step guide to configure the APISIX openid-connect plugin with Okta for centralized API authentication and SSO."><meta property="og:url" content="https://apisix.apache.org/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/okta.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/okta.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX OpenID Connect Plugin with Okta Authentication","description":"Step-by-step guide to configure the APISIX openid-connect plugin with Okta for centralized API authentication and SSO.","datePublished":"2021-08-16","image":"https://static.apiseven.com/2022/blog/0818/plugins/okta.png","author":{"@type":"Person","name":"Peter Zhu"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/authentication/">Authentication</a><a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX OpenID Connect Plugin with Okta Authentication</h1> <p class="article-meta"> <time datetime="2021-08-16">Aug 16, 2021</time> · Peter Zhu  · 11 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/authentication/">Authentication</a><a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#introducing-apache-apisix">Introducing Apache APISIX</a></li><li class><a href="#introducing-okta">Introducing Okta</a></li><li class><a href="#what-is-identity-authentication">What Is Identity Authentication</a></li><li class><a href="#identity-authentication-modes">Identity Authentication Modes</a></li><li class="d3"><a href="#traditional-authentication-mode">Traditional Authentication Mode</a></li><li class="d3"><a href="#centralized-identity-authentication-mode">Centralized Identity Authentication Mode</a></li><li class><a href="#what-is-openid-connect">What is OpenID Connect</a></li><li class="d3"><a href="#openid-authentication-process">OpenID Authentication Process</a></li><li class><a href="#how-to-configure-okta-authentication-using-the-apache-apisix-openid-connect-plug-in">How to Configure Okta Authentication Using the Apache APISIX OpenID Connect Plug-in</a></li><li class="d3"><a href="#prerequisites">Prerequisites</a></li><li class="d3"><a href="#step-1-configuring-okta">Step 1: Configuring Okta</a></li><li class="d3"><a href="#step-2-install-apache-apisix">Step 2: Install Apache APISIX</a></li><li class="d3"><a href="#step-3-start-apache-apisix-and-configure-the-corresponding-route">Step 3: Start Apache APISIX and Configure the Corresponding Route</a></li><li class="d3"><a href="#step-4-access-apache-apisix">Step 4: Access Apache APISIX</a></li><li class><a href="#about-okta">About Okta</a></li><li class><a href="#about-apache-apisix">About Apache APISIX</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/okta.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>This blog shows the procedures of using Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication. This blog contains conceptual introductions of Apache APISIX and Okta Centralized Authentication, and detailed step-by-step instructions.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="introducing-apache-apisix">Introducing Apache APISIX</h2>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> is a dynamic, real-time, high-performance API gateway, providing rich traffic management. The project offers load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and many useful plugins. In addition, the gateway supports dynamic plugin changes along with hot-plugging. The OpenID Connect plugin for Apache APISIX allows users to replace traditional authentication mode with centralized identity authentication mode via OpenID Connect.</p>
+<h2 id="introducing-okta">Introducing Okta</h2>
+<p>Okta is a trusted platform to secure every identity. It is a customizable, secure, and drop-in solution to add authentication and authorization services to your applications. More than 10,650 organizations trust Okta’s software and APIs to sign in, authorize and manage users.</p>
+<h2 id="what-is-identity-authentication">What Is Identity Authentication</h2>
+<p>Identity Authentication verifies a user’s identity by specific means. We obtain detailed user metadata from the Identity Provider (IdP) to determine whether a user has access to particular resources.</p>
+<h2 id="identity-authentication-modes">Identity Authentication Modes</h2>
+<p>There are two main categories of identity authentication: <em>traditional mode</em> and <em>centralized mode</em>.</p>
+<h3 id="traditional-authentication-mode">Traditional Authentication Mode</h3>
+<p>In the traditional authentication mode, each application service needs to support authentication separately, such as accessing the login interface when the user is not logged in. The interface returns a 301 jump page. All application services need to develop the logic to maintain the session and interact with the identity provider for authentication.</p>
+<p>You can see the flow of traditional authentication in the figure below.</p>
+<p>First, the user initiates a request, then the gateway receives the request and forwards it to the corresponding application services, and finally, the application services interact with the identity provider to complete the authorization.</p>
+<p><img src="https://static.apiseven.com/202108/1639467045776-715e1805-540b-4cef-87c5-6166e2af43a8.png" alt="traditional authentication work flow"></p>
+<h3 id="centralized-identity-authentication-mode">Centralized Identity Authentication Mode</h3>
+<p>Unlike traditional authentication, the centralized identity mode removes user authentication from the application services. Take Apache APISIX as an example; you can see the centralized identity authentication process in the figure below.</p>
+<p>First, the user initiates a request, then the gateway itself takes charge of the user authentication process, interacting with the identity provider and sending them an authorization request. The identity provider returns user identity information (user info). After the gateway identifies the user, it forwards the user identity information (user info) to the services in a request header.</p>
+<p><img src="https://static.apiseven.com/202108/1639467122244-d4292436-c5ce-48f6-b1d5-67645f24fbc9.png" alt="Centralized Identity Authentication work flow"></p>
+<p>Compared with the traditional authentication mode, centralized identity mode has the following advantages:</p>
+<ol>
+<li>Centralized auth simplifies the application development process, and reduces the development application workload and maintenance costs by avoiding the need to repeat the development of authentication code for each application.</li>
+<li>Centralized authentication mode improves business security. At the gateway level, it can intercept unauthenticated requests in time to protect back-end applications.</li>
+</ol>
+<h2 id="what-is-openid-connect">What is OpenID Connect</h2>
+<p>OpenID Connect (OIDC) is a centralized identity authentication mode. The benefit of using OpenID Connect is that users only need to register and log in with one OpenID Connect identity provider’s website and use one account’s password information to access different applications. <a href="https://developer.okta.com/">Okta</a> is a common OpenID Connect identity provider, and the Apache APISIX OpenID Connect plugin supports OpenID. As a result, the plugin can replace traditional authentication mode with centralized identity authentication. In this case, we’re using Okta.</p>
+<h3 id="openid-authentication-process">OpenID Authentication Process</h3>
+<p><img src="https://static.apiseven.com/202108/1639467187923-71854ddb-65fd-4a90-8bd0-242b47a8624b.png" alt="OpenID Authentication Process"></p>
+<ol>
+<li>APISIX initiates an authentication request to the Identity Provider.</li>
+<li>The user logs in and authenticates on the Identity Provider.</li>
+<li>The Identity Provider returns to APISIX with the Authorization Code.</li>
+<li>APISIX requests the Identity Provider with the Code extracted from the request parameters.</li>
+<li>The Identity Provider sends an answer message to APISIX with the ID Token and Access Token.</li>
+<li>APISIX sends the Access Token to the Identity Provider’s User Endpoint for authentication.</li>
+<li>After passing the authentication, the User Endpoint sends the User Info to APISIX to complete authentication.</li>
+</ol>
+<h2 id="how-to-configure-okta-authentication-using-the-apache-apisix-openid-connect-plug-in">How to Configure Okta Authentication Using the Apache APISIX OpenID Connect Plug-in</h2>
+<p>Configuring Okta authentication using the Apache APISIX OpenID Connect plugin is a simple three-step process that allows you to switch from traditional authentication to centralized identity authentication mode. The following sections describe the steps to configure Okta authentication using the OpenID Connect plug-in for Apache APISIX.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Have an Okta account ready for use.</p>
+<h3 id="step-1-configuring-okta">Step 1: Configuring Okta</h3>
+<ol>
+<li>Log in to your Okta account and click “Create App Integration” to create an Okta application.
+<img src="https://static.apiseven.com/202108/1639467243454-ac16645a-4a8a-426f-93a2-e840cae3c502.png" alt="Create App Integration"></li>
+<li>Select “OIDC-OpenID Connect” for the Sign-in method, and select “Web Application” for the Application type.
+<img src="https://static.apiseven.com/202108/1639467299429-0ea741a7-95fd-43b5-a0c4-25a7026e62d2.png" alt="Create a new App Integration"></li>
+<li>Set the redirect URL for login and logout. The “Sign-in redirect URIs” are links a user can go to after a successful login, and the “Sign-out redirect URIs” are links a user goes to after a successful logout. In this example, we set both sign-in and sign-out redirect URIs to <code>http://127.0.0.1:9080/</code>.
+<img src="https://static.apiseven.com/202108/1639467390099-e9594a05-7e78-4f20-a902-7c4ca2c302fb.png" alt="Set the redirect URL for login and logout"></li>
+<li>After finishing the settings, click “Save” to save the changes.
+<img src="https://static.apiseven.com/202108/1639467449049-628d7796-0d8e-4ed9-8334-5ba7f0fb32f4.png" alt="save the changes"></li>
+<li>Visit the General page of the application to obtain the following configuration, which is required to configure Apache APISIX OpenID Connect.</li>
+</ol>
+<ul>
+<li>Client ID: OAuth client ID, the application ID, which corresponds to client_id and {YOUR_CLIENT_ID} below.</li>
+<li>Client secret: OAuth client secret, the application key, which corresponds to client_secret and {YOUR_CLIENT_SECRET} below.</li>
+<li>Okta domain: The domain name used by the application, corresponding to {YOUR_ISSUER} below.</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1639467501106-d95bf8ad-db47-4918-ac70-424b12488e5b.png" alt="obtain configuration"></p>
+<h3 id="step-2-install-apache-apisix">Step 2: Install Apache APISIX</h3>
+<h4 id="install-dependencies">Install dependencies</h4>
+<p>The Apache APISIX runtime environment requires dependencies on NGINX and etcd.</p>
+<p>Before installing Apache APISIX, please install dependencies according to the operating system you are using. We provide the dependencies installation instructions for CentOS7, Fedora 31 and 32, Ubuntu 16.04 and 18.04, Debian 9 and 10, and macOS. Please refer to <a href="https://apisix.apache.org/docs/apisix/install-dependencies/">Install Dependencies</a> for more details.</p>
+<h4 id="installation-via-rpm-package-centos-7">Installation via RPM Package (CentOS 7)</h4>
+<p>This installation method is suitable for CentOS 7; please run the following command to install Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">sudo</span><span style="color:#A5D6FF"> yum</span><span style="color:#A5D6FF"> install</span><span style="color:#79C0FF"> -y</span><span style="color:#A5D6FF"> https://github.com/apache/apisix/releases/download/2.7/apisix-2.7-0.x86_64.rpm</span></span></code></pre>
+<h4 id="installation-via-docker">Installation via Docker</h4>
+<p>Please refer to <a href="https://hub.docker.com/r/apache/apisix">Installing Apache APISIX with Docker</a>.</p>
+<h4 id="installation-via-helm-chart">Installation via Helm Chart</h4>
+<p>Please refer to <a href="https://github.com/apache/apisix-helm-chart">Installing Apache APISIX with Helm Chart</a>.</p>
+<h4 id="installation-via-source-release">Installation via source release</h4>
+<ol>
+<li>Create a directory named <code>apisix-2.7</code>.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mkdir</span><span style="color:#A5D6FF"> apisix-2.7</span></span></code></pre>
+<ol start="2">
+<li>Download Apache APISIX Release source package.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">wget</span><span style="color:#A5D6FF"> https://downloads.apache.org/apisix/2.7/apache-apisix-2.7-src.tgz</span></span></code></pre>
+<p>You can also download the Apache APISIX release source package from the Apache APISIX website. The <a href="https://apisix.apache.org/downloads/">Apache APISIX Official Website - Download Page</a> also provides source packages for Apache APISIX, APISIX Dashboard, and APISIX Ingress Controller.</p>
+<ol start="3">
+<li>Unzip the Apache APISIX Release source package.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">tar</span><span style="color:#A5D6FF"> zxvf</span><span style="color:#A5D6FF"> apache-apisix-2.7-src.tgz</span><span style="color:#79C0FF"> -C</span><span style="color:#A5D6FF"> apisix-2.7</span></span></code></pre>
+<ol start="4">
+<li>Install the runtime-dependent Lua libraries.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Switch to the apisix-2.7 directory</span></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> apisix-2.7</span></span>
+<span class="line"><span style="color:#8B949E"># Create dependencies</span></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> deps</span></span></code></pre>
+<h4 id="initializing-dependencies">Initializing Dependencies</h4>
+<p>Run the following command to initialize the NGINX configuration file and etcd.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># initialize NGINX config file and etcd</span></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> init</span></span></code></pre>
+<h3 id="step-3-start-apache-apisix-and-configure-the-corresponding-route">Step 3: Start Apache APISIX and Configure the Corresponding Route</h3>
+<ol>
+<li>Run the following command to start Apache APISIX.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">apisix</span><span style="color:#A5D6FF"> start</span></span></code></pre>
+<ol start="2">
+<li>Create a route and configure the OpenID Connect plugin. The following code example creates a route through the Apache APISIX Admin API, setting the upstream path to httpbin.org, a simple backend service for receiving and responding to requests. The following will use the get page of httpbin.org. Please refer to <a href="http://httpbin.org/#/HTTP_Methods/get_get">http bin get</a> for more information. For specific configuration items, please refer to the <a href="https://apisix.apache.org/docs/apisix/plugins/openid-connect/">Apache APISIX OpenID Connect Plugin</a>.</li>
+</ol>
+<p>The OpenID Connect configuration fields are listed below:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Field</th><th align="left">Default Value</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">client_id</td><td align="left">""</td><td align="left">OAuth client ID.</td></tr><tr><td align="left">client_secret</td><td align="left">""</td><td align="left">OAuth client secret.</td></tr><tr><td align="left">discovery</td><td align="left">""</td><td align="left">Service discovery endpoints for identity providers.</td></tr><tr><td align="left">scope</td><td align="left">openid</td><td align="left">Scope of resources to be accessed.</td></tr><tr><td align="left">relm</td><td align="left">apisix</td><td align="left">Specify the WWW-Authenticate response header authentication information.</td></tr><tr><td align="left">bearer_only</td><td align="left">false</td><td align="left">Whether to check the token in the request header.</td></tr><tr><td align="left">logout_path</td><td align="left">/logout</td><td align="left">Log out URI.</td></tr><tr><td align="left">redirect_uri</td><td align="left">request_uri</td><td align="left">The URI that the identity provider redirects back to, defaulting to the request address.</td></tr><tr><td align="left">timeout</td><td align="left">3</td><td align="left">Request timeout time, the unit is defined in seconds.</td></tr><tr><td align="left">ssl_verify</td><td align="left">false</td><td align="left">Verify the identity provider’s SSL certificate.</td></tr><tr><td align="left">introspection_endpoint</td><td align="left">""</td><td align="left">The URL of the identity provider’s token authentication endpoint, which will be extracted from the discovery, response if left blank.</td></tr><tr><td align="left">introspection_endpoint_auth_method</td><td align="left">client_secret_basic</td><td align="left">Name of the authentication method for token introspection.</td></tr><tr><td align="left">public_key</td><td align="left">""</td><td align="left">Public key for an authentication token.</td></tr><tr><td align="left">token_signing_alg_values_expected</td><td align="left">""</td><td align="left">Algorithm for authentication tokens.</td></tr><tr><td align="left">set_access_token_header</td><td align="left">true</td><td align="left">Whether to carry the access token in the request header.</td></tr><tr><td align="left">access_token_in_authorization_header</td><td align="left">false</td><td align="left">Whether to put an access token in the Authorization header. The access token is placed in the Authorization header when this value is set to true and in the X-Access-Token header when it is set to false.</td></tr><tr><td align="left">set_id_token_header</td><td align="left">true</td><td align="left">Whether to carry the ID token in the X-ID-Token request header.</td></tr><tr><td align="left">set_userinfo_header</td><td align="left">true</td><td align="left">Whether to carry user information in the X-Userinfo request header.</td></tr></tbody></table>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF">  -XPOST</span><span style="color:#A5D6FF"> 127.0.0.1:9080/apisix/admin/routes</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1"</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "openid-connect":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_id":"{YOUR_CLIENT_ID}",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_secret":"{YOUR_CLIENT_SECRET}",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "discovery":"https://{YOUR_ISSUER}/.well-known/openid-configuration",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "scope":"openid profile",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "bearer_only":false,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "realm":"master",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "introspection_endpoint_auth_method":"client_secret_post",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "redirect_uri":"http://127.0.0.1:9080/"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="step-4-access-apache-apisix">Step 4: Access Apache APISIX</h3>
+<ol>
+<li>Visit “<a href="http://127.0.0.1:9080/get">http://127.0.0.1:9080/get</a>” and the page is redirected to the Okta login page because the OpenID Connect plugin is enabled.
+<img src="https://static.apiseven.com/202108/1639467566395-2a049b96-3b1f-4e74-93f0-d6ea2f52a72e.png" alt="visit Okta login page"></li>
+<li>Enter the username and password for the user’s Okta account and click “Sign In” to log in to your Okta account.</li>
+<li>After successful login, you can access the get page in “httpbin.org”. The “httpbin.org/get” page will return the requested data with X-Access-Token,X-Id-Token, and X-Userinfo as follows.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="sh"><code><span class="line"><span style="color:#FFA657">"X-Access-Token"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "******Y0RPcXRtc0FtWWVuX2JQaFo1ZVBvSlBNdlFHejN1dXY5elV3IiwiYWxnIjoiUlMyNTYifQ.***TVER3QUlPbWZYSVRzWHRxRWh2QUtQMWRzVDVGZHZnZzAiLCJpc3MiOiJodHRwczovL3FxdGVzdG1hbi5va3RhLmNvbSIsImF1ZCI6Imh0dHBzOi8vcXF0ZXN0bWFuLm9rdGEuY29tIiwic3ViIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImlhdCI6MTYyODEyNjIyNSwiZXhwIjoxNjI4MTI5ODI1LCJjaWQiOiIwb2ExMWc4ZDg3TzBGQ0dYZzY5NiIsInVpZCI6IjAwdWEwNWVjZEZmV0tMS3VvNjk1Iiwic2NwIjpbIm9wZW5pZCIsInByb2Zpb***.****iBshIcJhy8QNvzAFD0fV4gh7OAdTXFMu5k0hk0JeIU6Tfg_Mh-josfap38nxRN5hSWAvWSk8VNxokWTf1qlaRbypJrKI4ntadl1PrvG-HgUSFD0JpyqSQcv10TzVeSgBfOVD-czprG2Azhck-SvcjCNDV-qc3P9KoPQz0SRFX0wuAHWUbj1FRBq79YnoJfjkJKUHz3uu7qpTK89mxco8iyuIwB8fAxPMoXjIuU6-6Bw8kfZ4S2FFg3GeFtN-vE9bE5vFbP-JFQuwFLZNgqI0XO2S7l7Moa4mWm51r2fmV7p7rdpoNXYNerXOeZIYysQwe2_L****",</span></span>
+<span class="line"><span style="color:#FFA657">"X-Id-Token"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "******aTdDRDJnczF5RnlXMUtPZUtuSUpQdyIsImFtciI6WyJwd2QiXSwic3ViIjoiMDB1YTA1ZWNkRmZXS0xLdW82OTUiLCJpc3MiOiJodHRwczpcL1wvcXF0ZXN0bWFuLm9rdGEuY29tIiwiYXVkIjoiMG9hMTFnOGQ4N08wRkNHWGc2OTYiLCJuYW1lIjoiUGV0ZXIgWmh1IiwianRpIjoiSUQuNGdvZWo4OGUyX2RuWUI1VmFMeUt2djNTdVJTQWhGNS0tM2l3Z0p5TTcxTSIsInZlciI6MSwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsImV4cCI6MTYyODEyOTgyNSwiaWRwIjoiMDBvYTA1OTFndHAzMDhFbm02OTUiLCJub25jZSI6ImY3MjhkZDMxMWRjNGY3MTI4YzlmNjViOGYzYjJkMDgyIiwiaWF0IjoxNjI4MTI2MjI1LCJhdXRoX3RpbWUi*****",</span></span>
+<span class="line"><span style="color:#FFA657">"X-Userinfo"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "*****lfbmFtZSI6IlpodSIsImxvY2FsZSI6ImVuLVVTIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiMjgzMDE4Nzk5QHFxLmNvbSIsInVwZGF0ZWRfYXQiOjE2MjgwNzA1ODEsInpvbmVpbmZvIjoiQW1lcmljYVwvTG9zX0FuZ2VsZXMiLCJzdWIiOiIwMHVhMDVlY2RGZldLTEt1bzY5NSIsImdpdmVuX25hbWUiOiJQZXRlciIsIm5hbWUiOiJQZXRl****"</span></span></code></pre>
+<p><strong>X-Access-Token</strong>: Apache APISIX puts the access token obtained from the user provider into the X-Access-Token request header, optionally via the access_token_in_authorization_header in the plugin configuration Authorization request header.</p>
+<p><img src="https://static.apiseven.com/202108/1639467626264-980605e2-0b21-4512-9e2c-af71950fcf99.png" alt="X-Access-Token"></p>
+<p><strong>X-Id-Token</strong>: Apache APISIX will get the Id token from the user provider through the base64 encoding into the X-Id-Token request header, you can choose whether to enable this function through the set_id_token_header in the plugin configuration, the default is enabled.</p>
+<p><img src="https://static.apiseven.com/202108/1639467682902-ada726b8-b46b-460d-8313-ef47b38d13ab.png" alt="X-Id-Token"></p>
+<p><strong>X-Userinfo</strong>: Apache APISIX will get the user information from the user provider and put it into X-Userinfo after encoding it with Base64, you can choose whether to enable this feature through set_userinfo_header in the plugin configuration, it is set to be on by default.</p>
+<p><img src="https://static.apiseven.com/202108/1639467730566-fc8a8a76-a3aa-4b8e-bb13-505b50839877.png" alt="X-Userinfo"></p>
+<p>As you can see, Apache APISIX will carry the X-Access-Token, X-Id-Token, and X-Userinfo request headers to the upstream. The upstream can parse these headers to get the user IDid information and user metadata.</p>
+<p>We have shown the process of building centralized identity authentication from Okta directly into the Apache APISIX Gateway. It is easy to sign up for a free Okta Developer Account to get started. Our approach reduces developer overhead and enables a safe and streamlined experience.</p>
+<h2 id="about-okta">About Okta</h2>
+<p>Okta is a customizable, secure, and drop-in solution to add authentication and authorization services to your applications. Get scalable authentication built right into your application without the development overhead, security risks, and maintenance that come from coding it yourself. You can connect any application in any language or on any stack to Okta and define how you want your users to sign in. Each time a user tries to authenticate, Okta will verify their identity and send the required information back to your app.</p>
+<h2 id="about-apache-apisix">About Apache APISIX</h2>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway. Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. You can use Apache APISIX to handle traditional north-south traffic, as well as east-west traffic between services. It can also be used as a k8s ingress controller.</p>
+<p>Hundreds of companies worldwide have used Apache APISIX, covering finance, internet, manufacturing, retail, operators, such as NASA, the European Union’s Digital Factory, TravelSky, Tencent, Huawei, Weibo, China Mobile, Taikang, 360 , etc.</p>
+<p>Github: <a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></p>
+<p>Website: <a href="https://apisix.apache.org">https://apisix.apache.org</a></p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2021/08/17/interview-airwallex/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Interview with Yang to explore API gateway in Airwallex</span> </a> <a class="post-nav-card older" href="/blog/2021/08/14/contributors-the-golden-metric-of-opensource-projects/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Contributors — The Golden Metric of OpenSource Projects</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#introducing-apache-apisix">Introducing Apache APISIX</a></li><li class><a href="#introducing-okta">Introducing Okta</a></li><li class><a href="#what-is-identity-authentication">What Is Identity Authentication</a></li><li class><a href="#identity-authentication-modes">Identity Authentication Modes</a></li><li class="d3"><a href="#traditional-authentication-mode">Traditional Authentication Mode</a></li><li class="d3"><a href="#centralized-identity-authentication-mode">Centralized Identity Authentication Mode</a></li><li class><a href="#what-is-openid-connect">What is OpenID Connect</a></li><li class="d3"><a href="#openid-authentication-process">OpenID Authentication Process</a></li><li class><a href="#how-to-configure-okta-authentication-using-the-apache-apisix-openid-connect-plug-in">How to Configure Okta Authentication Using the Apache APISIX OpenID Connect Plug-in</a></li><li class="d3"><a href="#prerequisites">Prerequisites</a></li><li class="d3"><a href="#step-1-configuring-okta">Step 1: Configuring Okta</a></li><li class="d3"><a href="#step-2-install-apache-apisix">Step 2: Install Apache APISIX</a></li><li class="d3"><a href="#step-3-start-apache-apisix-and-configure-the-corresponding-route">Step 3: Start Apache APISIX and Configure the Corresponding Route</a></li><li class="d3"><a href="#step-4-access-apache-apisix">Step 4: Access Apache APISIX</a></li><li class><a href="#about-okta">About Okta</a></li><li class><a href="#about-apache-apisix">About Apache APISIX</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Secure APIs with Keycloak and APISIX</h3> <p class="desc">Learn how to secure APIs with Keycloak and Apache APISIX using OpenID Connect, centralized authentication, and gateway-level access control.</p> <p class="meta">Jul 6, 2022 · Xinxin Zhu</p> </div> </a><a class="post-card" href="/blog/2022/07/04/apisix-integrates-with-hydra/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/plugins/ory.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX integrates with Ory Hydra</h3> <p class="desc">Set up centralized OAuth 2.0 authentication in APISIX using the OpenID Connect plugin with Ory Hydra as the identity provider.</p> <p class="meta">Jul 4, 2022 · Fei Han</p> </div> </a><a class="post-card" href="/blog/2022/01/26/apisix-integrate-forward-auth-plugin/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Authentication</span> </div> <div class="body"> <h3>forward-auth Plugin for Authentication Function</h3> <p class="desc">This article describes `forward-auth`, a new plugin in APISIX, and show the details on how to use this cleanly designed authentication model.</p> <p class="meta">Jan 26, 2022 · Zeping Bai</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

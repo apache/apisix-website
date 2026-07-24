@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 在有赞云原生 PaaS 平台的应用实践 | Apache APISIX</title><meta name="description" content="本文介绍了有赞云原生 PaaS 平台如何使用云原生 API 网关 Apache APISIX 作为产品流量网关的具体示例，以及为什么选择 Apache APISIX作为业务网关及其带来的好处。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/09/14/youzan/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/09/14/youzan/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/09/14/youzan/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/09/14/youzan/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX 在有赞云原生 PaaS 平台的应用实践 | Apache APISIX"><meta property="og:description" content="本文介绍了有赞云原生 PaaS 平台如何使用云原生 API 网关 Apache APISIX 作为产品流量网关的具体示例，以及为什么选择 Apache APISIX作为业务网关及其带来的好处。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/09/14/youzan/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0817/%E6%9C%89%E8%B5%9E%E4%BA%91.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0817/%E6%9C%89%E8%B5%9E%E4%BA%91.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 在有赞云原生 PaaS 平台的应用实践","description":"本文介绍了有赞云原生 PaaS 平台如何使用云原生 API 网关 Apache APISIX 作为产品流量网关的具体示例，以及为什么选择 Apache APISIX作为业务网关及其带来的好处。","datePublished":"2021-09-14","image":"https://static.apiseven.com/2022/blog/0817/%E6%9C%89%E8%B5%9E%E4%BA%91.png","author":{"@type":"Person","name":"戴诺璟"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/09/14/youzan/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/09/14/youzan/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/09/14/youzan/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/case-studies/">Case Studies</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX 在有赞云原生 PaaS 平台的应用实践</h1> <p class="article-meta"> <time datetime="2021-09-14">2021年9月14日</time> · 戴诺璟  · 约 7 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/case-studies/">Case Studies</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#为什么需要流量网关">为什么需要流量网关</a></li><li class="d3"><a href="#有赞-ops-平台">有赞 OPS 平台</a></li><li class="d3"><a href="#没有网关层治理出现的问题">没有网关层治理出现的问题</a></li><li class><a href="#为什么选择了-apache-apisix">为什么选择了 Apache APISIX</a></li><li class><a href="#使用-apache-apisix-后的产品新貌">使用 Apache APISIX 后的产品新貌</a></li><li class="d3"><a href="#效果一优化了架构性能">效果一：优化了架构性能</a></li><li class="d3"><a href="#效果二内部服务接入标准化">效果二：内部服务接入标准化</a></li><li class><a href="#更多玩法待开发">更多玩法待开发</a></li><li class="d3"><a href="#升级运维自动化">升级运维自动化</a></li><li class="d3"><a href="#traffic-split-插件使用">traffic split 插件使用</a></li><li class="d3"><a href="#东西向流量管理">东西向流量管理</a></li><li class="d3"><a href="#内部权限系统对接">内部权限系统对接</a></li><li class="d3"><a href="#go-plugin-开发">Go Plugin 开发</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0817/%E6%9C%89%E8%B5%9E%E4%BA%91.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文主要介绍了有赞云原生 PaaS 平台使用 Apache APISIX 的企业案例，以及如何使用 Apache APISIX 作为产品流量网关的具体实例。</p>
+</blockquote>
+<!--truncate-->
+<p>作者戴诺璟，来自有赞技术中台，运维平台开发工程师</p>
+<p>有赞是一家主要从事零售科技 SaaS 服务的企业，帮助商家进行网上开店、社交营销、提高留存复购，拓展全渠道新零售业务。在今年，有赞技术中台开始设计实现新的云原生 PaaS 平台，希望通过一套通用模型来进行各种应用的发布管理和微服务相关治理。而 Apache APISIX 在其中起到了非常关键的作用。</p>
+<h2 id="为什么需要流量网关">为什么需要流量网关</h2>
+<h3 id="有赞-ops-平台">有赞 OPS 平台</h3>
+<p>有赞 OPS 平台是前期基于 FLASK 的单体应用，主要以支持业务为主。后来逐渐上线了很多业务，部署了很多业务端代码，进入容器化阶段。网关在当时只是内部 FLASK 应用的一部分功能，且没有一个明确的网关概念，仅作为业务应用的流量转发功能使用。下图展示的就是当时的网关 1.0 业务结构。</p>
+<p><img src="https://static.apiseven.com/202108/1631607246260-65fa3794-befc-4e84-beee-e5526085c719.png" alt="1.0 业务结构"></p>
+<p>由于前期整个体系主要着重于业务方向，所以没有产生太多的动力去进行改造。从 2018 年开始，通过内部交流我们发现，如果没有一个很好的网关层治理，对后续产品功能的实现和业务接入度上会带来越来越明显的瓶颈。</p>
+<h3 id="没有网关层治理出现的问题">没有网关层治理出现的问题</h3>
+<h4 id="问题一性能方面">问题一：性能方面</h4>
+<ol>
+<li>每次新增后端服务，都需要进行编码变更</li>
+<li>流量转发的代码用 Python 简单实现，未按“网关”要求进行设计</li>
+<li>Flask 框架的性能限制，单机 QPS 范围局限在 120-150</li>
+<li>重复造轮子：不同的业务需求都生产一套对应入口</li>
+<li>管理麻烦，运维复杂</li>
+</ol>
+<p>基于这个问题，我们的行动方向是：专业的工作交给专业的系统去做。</p>
+<h4 id="问题二内部业务方面">问题二：内部业务方面</h4>
+<p><img src="https://static.apiseven.com/202108/1631607280492-f3e9abbe-5017-497a-a8b8-80dd079f5a98.png" alt="内部业务问题"></p>
+<ol>
+<li>需要管理的内部服务数量非常多（上百）</li>
+<li>部分服务未对接 CAS 实现鉴权</li>
+<li>新的服务对接 CAS 存在对接成本，重复开发耗时耗力</li>
+<li>所有服务直接配置在接入层，没有内部服务的规范及最佳实践</li>
+</ol>
+<p>带着以上这两方面问题，我们就开始对网关类产品进行了相关的调研。</p>
+<h2 id="为什么选择了-apache-apisix">为什么选择了 Apache APISIX</h2>
+<p>最早我们也调研了很多的网关系统，比如 Apache APISIX、Kong、traefik 和 MOSN，还有我们公司内部的两个相关项目 YZ7 和 Tether。</p>
+<p><img src="https://static.apiseven.com/202108/1631607308093-b2135819-6d17-41d4-b2fb-10cbefa3c27b.png" alt="网关系统预选"></p>
+<p>考虑到产品成熟度和可拓展性，最终我们在 Kong 和 Apache APISIX 中进行对比选择。</p>
+<p><img src="https://static.apiseven.com/202108/1631607325400-45aba773-ef63-4168-8c01-5cfa69bb4021.png" alt="多维度对比"></p>
+<p>从上图对比中可以发现，两者在很多方面基本不相上下，所以存储端成为我们重点考虑的一点。因为 etcd 在我们公司内部的运维体系上已经比较成熟，所以 Apache APISIX 相较 Kong 则略胜一筹。</p>
+<p>同时考虑到在开源项目层面，Apache APISIX 的国内交流与跟进处理速度上都非常优秀，项目的插件体系比较丰富全面，对各个阶段的使用类型都比较契合。</p>
+<p>所以在 2020 年调研之后，最终选择了 <a href="https://github.com/apache/apisix">Apache APISIX</a> 作为有赞即将推出云原生 PaaS 平台的流量网关。</p>
+<h2 id="使用-apache-apisix-后的产品新貌">使用 Apache APISIX 后的产品新貌</h2>
+<p>当我们开始接入 Apache APISIX 后，前文提到的两方面问题逐一得到了解决。</p>
+<h3 id="效果一优化了架构性能">效果一：优化了架构性能</h3>
+<p>Apache APISIX 作为入口网关部署在内部服务区域边缘，前端的所有请求都会经过它。同时我们通过 Apache APISIX 的插件功能实现了与公司内部 CAS 单点登录系统的对接，之前负责流量转发的账号变为纯业务系统。同时在前端我们提供了一个负责鉴权的 SDK 与 Apache APISIX 鉴权接口进行对接，达成一套完整又自动化的流程体系。</p>
+<p><img src="https://static.apiseven.com/202108/1631607354934-f951c4f5-8d45-458e-83a6-de20fd206540.png" alt="优化架构"></p>
+<p>于是问题得到了解决：</p>
+<ol>
+<li>每次增加新的后端服务，只需调用 Apache APISIX 接口，将新的服务配置写入</li>
+<li>流量转发通过 Apache APISIX 完成，在网关该做的事情上，它完成得十分优秀</li>
+<li>网关不再是架构中的性能瓶颈</li>
+<li>对不同的业务需求，可以统一使用同一个网关来实现；业务细节有差异，可以通过插件实现</li>
+</ol>
+<h3 id="效果二内部服务接入标准化">效果二：内部服务接入标准化</h3>
+<p>接入 Apache APISIX 后，公司新的内部服务接入时将自带鉴权功能，接入成本极低，业务方可以直接开始开发业务代码。同时在新服务接入时，按内部服务的规范进行相关路由配置，后端服务可以统一拿到鉴权后的用户身份，省时省力。</p>
+<p>具体关于内部服务的一些调整细节这里简单介绍一下。</p>
+<h4 id="鉴权插件-ops-jwt-auth">鉴权插件 OPS-JWT-Auth</h4>
+<p>鉴权插件是基于 JWT-Auth 协议去开发的，用户访问前端时，前端会先去调用 SDK，去前端本地获取可用的 JWT-Token。然后通过下图的路径获得用户有效信息，放在前端的某个存储里，完成登录鉴权。</p>
+<p><img src="https://static.apiseven.com/202108/1631607385027-4cf6381d-d0ea-4e5e-a8c9-ffc599e6e69c.png" alt="登录鉴权"></p>
+<h4 id="部署配置升级">部署配置升级</h4>
+<p>在部署层面，我们从简单版本经历三次迭代后实现了目前的多集群配置部署。</p>
+<ul>
+<li>版本一：双机房 4 个独立节点，管理程序分别写入每个节点的 etcd</li>
+<li>版本二: 双机房 4 个独立节点，主机房三节点 etcd 集群</li>
+<li>版本三: 三机房 6 个独立节点，三机房 etcd 集群</li>
+</ul>
+<p>目前我们还是计算与存储混合部署在一起，后续我们会去部署一个真正高可用的 etcd 集群，这样在管控平面 Apache APISIX 运行时就可以分离出来，以无状态模式部署。</p>
+<h4 id="新增鉴权插件-pat-auth">新增鉴权插件 PAT-Auth</h4>
+<p>在今年我们又新增了 Person Access Token（PAT）的鉴权插件，这个功能类似于在 GitHub 上去调用 Open API 一样，会生成一个个人 Token，可以以个人身份去调用 Open API。</p>
+<p>因为我们自己的运维平台也有一些这样的需求，比如本地的一些开发插件需要以个人身份去访问云平台上的接口时，这种情况下个人 Token 方式就比较方便，允许开发自己给自己授权。</p>
+<p>目前 Apache APISIX 2.2 版本后已支持多个 Auth 插件使用，现在可以支持一个 Consumer 运行多个 Auth 插件的场景实现。</p>
+<h2 id="更多玩法待开发">更多玩法待开发</h2>
+<h3 id="升级运维自动化">升级运维自动化</h3>
+<p>在使用 Apache APISIX 的过程中，我们也经历了几次版本变动。但每次升级，都或多或少出现因为兼容性而导致改造开发，完成后进行线上变更，运维效率较低。所以后续我们会尝试在存储面部署三机房 etcd 集群的同时，将 Apache APISIX 运行面容器化实现自动发布。</p>
+<h3 id="traffic-split-插件使用">traffic split 插件使用</h3>
+<p><a href="https://github.com/apache/apisix/blob/master/docs/en/latest/plugins/traffic-split.md">traffic split</a> 是 Apache APISIX 在最近几个版本中引入的插件，主要功能是进行流量分离。有了这个插件后，我们可以根据一些流量头上的特征，利用它去自动完成相关操作。</p>
+<p><img src="https://static.apiseven.com/202108/1631607412159-bc84d447-ef28-4726-8ee1-b960415ac5ce.png" alt="traffic split"></p>
+<p>如上图在路由配置上引入 traffic split 插件，如果当有 Region=Region1 的情况，便将其路由到 Upstream1。通过这样的规则配置，完成流量管控的操作。</p>
+<h3 id="东西向流量管理">东西向流量管理</h3>
+<p>我们的使用场景中更多是涉及到在内网多个服务之间去做服务，调用鉴权时可以依靠 Apache APISIX 做流量管理。服务 A、服务 B 都可以通过它去调用服务 C，中间还可以加入鉴权的插件，设定其调用对象范围、环境范围或者速率和熔断限流等，做出类似这样的流量管控。</p>
+<p><img src="https://static.apiseven.com/202108/1631607435661-c22c61c4-396b-4412-9643-b6ccb16cfb1c.png" alt="流量管理"></p>
+<h3 id="内部权限系统对接">内部权限系统对接</h3>
+<p>之后我们也打算将公司的权限系统与 Apache APISIX 进行对接，鉴权通过后，判定用户是否有权限去访问后端的某个资源，权限的管理员只需在管控平面上做统一配置即可。</p>
+<p><img src="https://static.apiseven.com/202108/1631607457290-e1f379c5-a23e-46a6-9cea-93cb6f5916ba.png" alt="系统对接"></p>
+<p>这样带来的一个好处就是后端的所有服务不需要各自去实现权限管控，因为当下所有流量都是经过网关层处理。</p>
+<h3 id="go-plugin-开发">Go Plugin 开发</h3>
+<p>目前 Apache APISIX 在计算语言层面已支持多计算语言，比如 Java、Go 以及 Python。刚好我们最近实现的云原生 PaaS 平台，也开始把技术栈从 Python 往 Go 上转移。</p>
+<p>希望后续在使用 Apache APISIX 的过程中，可以用 Go 去更新一些我们已经实现了的插件，期待在后续的迭代中给有赞产品带来更多的好处。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/09/15/weekly-report/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">社区周报｜社区持续活跃，功能亮点更新进行中</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/09/13/china-mobile-cloud-usercase/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">APISIX 在移动云公司的应用实践</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#为什么需要流量网关">为什么需要流量网关</a></li><li class="d3"><a href="#有赞-ops-平台">有赞 OPS 平台</a></li><li class="d3"><a href="#没有网关层治理出现的问题">没有网关层治理出现的问题</a></li><li class><a href="#为什么选择了-apache-apisix">为什么选择了 Apache APISIX</a></li><li class><a href="#使用-apache-apisix-后的产品新貌">使用 Apache APISIX 后的产品新貌</a></li><li class="d3"><a href="#效果一优化了架构性能">效果一：优化了架构性能</a></li><li class="d3"><a href="#效果二内部服务接入标准化">效果二：内部服务接入标准化</a></li><li class><a href="#更多玩法待开发">更多玩法待开发</a></li><li class="d3"><a href="#升级运维自动化">升级运维自动化</a></li><li class="d3"><a href="#traffic-split-插件使用">traffic split 插件使用</a></li><li class="d3"><a href="#东西向流量管理">东西向流量管理</a></li><li class="d3"><a href="#内部权限系统对接">内部权限系统对接</a></li><li class="d3"><a href="#go-plugin-开发">Go Plugin 开发</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2025/09/03/360-built-unified-l7-load-balancer-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-case.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX 在 360 统一七层负载均衡的落地实践</h3> <p class="desc">360 使用 Apache APISIX 统一七层负载均衡，通过其 Admin API 和 etcd 热同步机制，实现了 VPC、云原生能力以及精细化路由的一体化升级。</p> <p class="meta">2025年9月3日 · 360 智汇云</p> </div> </a><a class="post-card" href="/zh/blog/2025/06/04/configure-apisix-in-a-single-command-with-apisix-mcp/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>MCP 智能化管理实践：一句话搞定 APISIX 网关</h3> <p class="desc">作者：林志煌，API7.ai 前端开发、产品经理。本文整理自 2025 年 4 月 12 日林志煌在 APISIX 深圳 Meetup 的演讲。</p> <p class="meta">2025年6月4日 · 林志煌</p> </div> </a><a class="post-card" href="/zh/blog/2025/05/29/apisix-ai-gateway-from-cloud-native-to-ai-native/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从云原生到 AI 原生：Apache APISIX 的 AI 网关架构设计与智能实践</h3> <p class="desc">了解 Apache APISIX 如何从云原生 API 网关扩展到 AI 网关，覆盖 LLM 流量治理、安全、观测和成本控制。</p> <p class="meta">2025年5月29日 · 王院生</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

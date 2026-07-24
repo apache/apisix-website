@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>gRPC on the client side | Apache APISIX</title><meta name="description" content="Most inter-systems communication components that use REST serialize their payload in JSON. As of now, JSON lacks a widely-used schema validation standard: JSON Schema is not widespread. Standard schema validation allows delegating the validation to a third-party library and being done with it. Without one, we must fall back to manual validation in the code. Worse, we must keep the validation code in sync with the schema. XML has schema validation out-of-the-box: an XML document can declare a grammar that it must conform to. SOAP, being based on XML, benefits from it too. Other serialization alternatives have a schema validation option: e.g., Avro, Kryo and Protocol Buffers. Interestingly enough, gRPC uses Protobuf to offer RPC across distributed components:"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/03/16/grpc-client-side/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/03/16/grpc-client-side/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/03/16/grpc-client-side/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/03/16/grpc-client-side/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="gRPC on the client side | Apache APISIX"><meta property="og:description" content="Most inter-systems communication components that use REST serialize their payload in JSON. As of now, JSON lacks a widely-used schema validation standard: JSON Schema is not widespread. Standard schema validation allows delegating the validation to a third-party library and being done with it. Without one, we must fall back to manual validation in the code. Worse, we must keep the validation code in sync with the schema. XML has schema validation out-of-the-box: an XML document can declare a grammar that it must conform to. SOAP, being based on XML, benefits from it too. Other serialization alternatives have a schema validation option: e.g., Avro, Kryo and Protocol Buffers. Interestingly enough, gRPC uses Protobuf to offer RPC across distributed components:"><meta property="og:url" content="https://apisix.apache.org/blog/2023/03/16/grpc-client-side/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/06/08/DOxFlzQc_grpc.svg"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2023/06/08/DOxFlzQc_grpc.svg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"gRPC on the client side","description":"Most inter-systems communication components that use REST serialize their payload in JSON. As of now, JSON lacks a widely-used schema validation standard: JSON Schema is not widespread. Standard schema validation allows delegating the validation to a third-party library and being done with it. Without one, we must fall back to manual validation in the code. Worse, we must keep the validation code in sync with the schema. XML has schema validation out-of-the-box: an XML document can declare a grammar that it must conform to. SOAP, being based on XML, benefits from it too. Other serialization alternatives have a schema validation option: e.g., Avro, Kryo and Protocol Buffers. Interestingly enough, gRPC uses Protobuf to offer RPC across distributed components:\n","datePublished":"2023-03-16","image":"https://static.apiseven.com/uploads/2023/06/08/DOxFlzQc_grpc.svg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/03/16/grpc-client-side/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/03/16/grpc-client-side/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/03/16/grpc-client-side/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>gRPC on the client side</h1> <p class="article-meta"> <time datetime="2023-03-16">Mar 16, 2023</time> · Nicolas Fränkel  · 7 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#a-simple-grpc-service">A simple gRPC service</a></li><li class><a href="#testing-the-grpc-service">Testing the gRPC service</a></li><li class><a href="#accessing-the-grpc-service-with-regular-tools">Accessing the gRPC service with regular tools</a></li><li class><a href="#benefits-of-transcoding">Benefits of transcoding</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2023/06/08/DOxFlzQc_grpc.svg" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>In this post, we will briefly describe gRPC and how it benefits inter-service communication.</p>
+</blockquote>
+<!--truncate-->
+<p>Most inter-systems communication components that use REST serialize their payload in JSON. As of now, JSON lacks a widely-used schema validation standard: <a href="https://json-schema.org/">JSON Schema</a> is not widespread. Standard schema validation allows delegating the validation to a third-party library and being done with it. Without one, we must fall back to manual validation in the code. Worse, we must keep the validation code in sync with the schema.</p>
+<p>XML has schema validation out-of-the-box: an XML document can declare a grammar that it must conform to. SOAP, being based on XML, benefits from it too.</p>
+<p>Other serialization alternatives have a schema validation option: <em>e.g.</em>, <a href="https://avro.apache.org/">Avro</a>, <a href="https://github.com/EsotericSoftware/kryo">Kryo</a> and <a href="https://protobuf.dev/">Protocol Buffers</a>. Interestingly enough, gRPC uses Protobuf to offer RPC across distributed components:</p>
+<p>gRPC is a modern open source high performance Remote Procedure Call (RPC) framework that can run in any environment. It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication. It is also applicable in last mile of distributed computing to connect devices, mobile applications and browsers to backend services. — <a href="https://grpc.io/">Why gRPC?</a></p>
+<p>Moreover, Protocol is a <em>binary</em> serialization mechanism, saving a lot of bandwidth. Thus, gRPC is an excellent option for inter-systems communication. But if all your components talk gRPC, how can simple clients call them? In this post, we will build a gRPC service and show how to call it from curl.</p>
+<h2 id="a-simple-grpc-service">A simple gRPC service</h2>
+<p>The <a href="https://grpc.io/docs/">gRPC documentation</a> is exhaustive, so here’s a summary:</p>
+<ul>
+<li>
+<p>gRPC is a Remote Procedure Call framework</p>
+</li>
+<li>
+<p>It works across a wide range of languages</p>
+</li>
+<li>
+<p>It relies on Protocol Buffers:</p>
+<blockquote>
+<p>Protocol buffers are Google’s language-neutral, platform-neutral, extensible mechanism for serializing structured data – think XML, but smaller, faster, and simpler. You define how you want your data to be structured once, then you can use special generated source code to easily write and read your structured data to and from a variety of data streams and using a variety of languages.</p>
+<p>— <a href="https://protobuf.dev/">Protocol Buffers</a></p>
+</blockquote>
+</li>
+<li>
+<p>It’s part of the <a href="https://www.cncf.io/">CNCF</a> portfolio and is currently in the incubation stage</p>
+</li>
+</ul>
+<p>Let’s set up our gRPC service. We will use Java, Kotlin, Spring Boot, and a dedicated gRPC Spring Boot integration project. The project structure holds two projects, one for the model and one for the code. Let’s start with the model project.</p>
+<p>I didn’t want something complicated; reusing a simple example is enough: the request sends a string, and the response prefixes it with <code>Hello</code>. We design this model in a dedicated Protobuf schema file:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="proto"><code><span class="line"><span style="color:#FF7B72">syntax</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "proto3"</span><span style="color:#E6EDF3">;                                        </span><span style="color:#8B949E">//1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">package</span><span style="color:#A5D6FF"> ch.frankel.blog.grpc.model</span><span style="color:#E6EDF3">;                       </span><span style="color:#8B949E">//2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">option</span><span style="color:#79C0FF"> java_multiple_files</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;                        </span><span style="color:#8B949E">//3</span></span>
+<span class="line"><span style="color:#FF7B72">option</span><span style="color:#79C0FF"> java_package</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "ch.frankel.blog.grpc.model"</span><span style="color:#E6EDF3">;       </span><span style="color:#8B949E">//3</span></span>
+<span class="line"><span style="color:#FF7B72">option</span><span style="color:#79C0FF"> java_outer_classname</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "HelloProtos"</span><span style="color:#E6EDF3">;              </span><span style="color:#8B949E">//3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">service</span><span style="color:#FFA657"> HelloService</span><span style="color:#E6EDF3"> {                                    </span><span style="color:#8B949E">//4</span></span>
+<span class="line"><span style="color:#FF7B72">    rpc</span><span style="color:#D2A8FF"> SayHello</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">HelloRequest</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">returns</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">HelloResponse</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">message</span><span style="color:#FFA657"> HelloRequest</span><span style="color:#E6EDF3"> {                                    </span><span style="color:#8B949E">//5</span></span>
+<span class="line"><span style="color:#FF7B72">    string</span><span style="color:#E6EDF3"> name </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;                                      </span><span style="color:#8B949E">//6</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">message</span><span style="color:#FFA657"> HelloResponse</span><span style="color:#E6EDF3"> {                                   </span><span style="color:#8B949E">//7</span></span>
+<span class="line"><span style="color:#FF7B72">    string</span><span style="color:#E6EDF3"> message </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;                                   </span><span style="color:#8B949E">//6</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol>
+<li>Protobuf definition version</li>
+<li>Package</li>
+<li>Java-specific configuration</li>
+<li>Service definition</li>
+<li>Request definition</li>
+<li>Field definition. First comes the type, then the name, and finally, the order</li>
+<li>Response definition</li>
+</ol>
+<p>We shall use Maven to generate the Java boilerplate code:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">project</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;</span><span style="color:#7EE787">dependencies</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>io.grpc&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>                         </span><span style="color:#8B949E">&#x3C;!--1--></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>grpc-stub&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>${grpc.version}&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>io.grpc&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>                         </span><span style="color:#8B949E">&#x3C;!--1--></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>grpc-protobuf&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>${grpc.version}&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>jakarta.annotation&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>              </span><span style="color:#8B949E">&#x3C;!--1--></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>jakarta.annotation-api&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>1.3.5&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">optional</span><span style="color:#E6EDF3">>true&#x3C;/</span><span style="color:#7EE787">optional</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;/</span><span style="color:#7EE787">dependencies</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;</span><span style="color:#7EE787">build</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">extensions</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">extension</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>kr.motd.maven&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>                 </span><span style="color:#8B949E">&#x3C;!--2--></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>os-maven-plugin&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>1.7.1&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">extension</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">extensions</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;</span><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;</span><span style="color:#7EE787">plugin</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>org.xolstice.maven.plugins&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>    </span><span style="color:#8B949E">&#x3C;!--3--></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>protobuf-maven-plugin&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>${protobuf-plugin.version}&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">configuration</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">protocArtifact</span><span style="color:#E6EDF3">>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}&#x3C;/</span><span style="color:#7EE787">protocArtifact</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">pluginId</span><span style="color:#E6EDF3">>grpc-java&#x3C;/</span><span style="color:#7EE787">pluginId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">pluginArtifact</span><span style="color:#E6EDF3">>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}&#x3C;/</span><span style="color:#7EE787">pluginArtifact</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">configuration</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;</span><span style="color:#7EE787">executions</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;</span><span style="color:#7EE787">execution</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">            &#x3C;</span><span style="color:#7EE787">goals</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">              &#x3C;</span><span style="color:#7EE787">goal</span><span style="color:#E6EDF3">>compile&#x3C;/</span><span style="color:#7EE787">goal</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">              &#x3C;</span><span style="color:#7EE787">goal</span><span style="color:#E6EDF3">>compile-custom&#x3C;/</span><span style="color:#7EE787">goal</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">            &#x3C;/</span><span style="color:#7EE787">goals</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">          &#x3C;/</span><span style="color:#7EE787">execution</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">        &#x3C;/</span><span style="color:#7EE787">executions</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">      &#x3C;/</span><span style="color:#7EE787">plugin</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x3C;/</span><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;/</span><span style="color:#7EE787">build</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">project</span><span style="color:#E6EDF3">></span></span></code></pre>
+<ol>
+<li>Compile-time dependencies</li>
+<li>Sniff information about the Operating System. Used in the next plugin</li>
+<li>Generate Java code from the <code>proto</code> file</li>
+</ol>
+<p>After compilation, the structure should look something like the following:</p>
+<p><img src="https://static.apiseven.com/uploads/2023/06/08/JkWtxWqP_model.jpeg" alt="Proto model project structure"></p>
+<p>We can package the classes in a JAR and use it in a web app project. The latter is in Kotlin, but only because it’s my favourite JVM language.</p>
+<p>We only need a specific Spring Boot starter dependency to integrate gRPC endpoints with Spring Boot:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E6EDF3">&#x3C;</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">>net.devh&#x3C;/</span><span style="color:#7EE787">groupId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">>grpc-server-spring-boot-starter&#x3C;/</span><span style="color:#7EE787">artifactId</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">  &#x3C;</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">>2.14.0.RELEASE&#x3C;/</span><span style="color:#7EE787">version</span><span style="color:#E6EDF3">></span></span>
+<span class="line"><span style="color:#E6EDF3">&#x3C;/</span><span style="color:#7EE787">dependency</span><span style="color:#E6EDF3">></span></span></code></pre>
+<p>Here’s the significant bit:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">@</span><span style="color:#FF7B72">GrpcService</span><span style="color:#8B949E">                                                        //1</span></span>
+<span class="line"><span style="color:#FF7B72">class</span><span style="color:#FFA657"> HelloService</span><span style="color:#E6EDF3"> : HelloServiceImplBase() {                       </span><span style="color:#8B949E">//2</span></span>
+<span class="line"><span style="color:#E6EDF3">  override fun </span><span style="color:#D2A8FF">sayHello</span><span style="color:#E6EDF3">(</span></span>
+<span class="line"><span style="color:#FFA657">      request</span><span style="color:#E6EDF3">: </span><span style="color:#FFA657">HelloRequest</span><span style="color:#E6EDF3">,                                        </span><span style="color:#8B949E">//2</span></span>
+<span class="line"><span style="color:#FFA657">      observer</span><span style="color:#E6EDF3">: StreamObserver&#x3C;</span><span style="color:#FF7B72">HelloResponse</span><span style="color:#E6EDF3">>                       </span><span style="color:#8B949E">//3</span></span>
+<span class="line"><span style="color:#E6EDF3">  ) {</span></span>
+<span class="line"><span style="color:#D2A8FF">    with</span><span style="color:#E6EDF3">(observer) {</span></span>
+<span class="line"><span style="color:#E6EDF3">      val reply </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> HelloResponse.</span><span style="color:#D2A8FF">newBuilder</span><span style="color:#E6EDF3">()                        </span><span style="color:#8B949E">//2</span></span>
+<span class="line"><span style="color:#E6EDF3">                               .</span><span style="color:#D2A8FF">setMessage</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"Hello ${request.name}"</span><span style="color:#E6EDF3">) </span><span style="color:#8B949E">//4</span></span>
+<span class="line"><span style="color:#E6EDF3">                               .</span><span style="color:#D2A8FF">build</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#D2A8FF">      onNext</span><span style="color:#E6EDF3">(reply)                                                 </span><span style="color:#8B949E">//5</span></span>
+<span class="line"><span style="color:#D2A8FF">      onCompleted</span><span style="color:#E6EDF3">()                                                 </span><span style="color:#8B949E">//5</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol>
+<li>The <code>grpc-server-spring-boot-starter</code> detects the annotation and works its magic</li>
+<li>Reference classes generated in the above project</li>
+<li>The method signature allows a <code>StreamObserver</code> parameter. The class comes from <code>grpc-stub.jar</code></li>
+<li>Get the request and prefix it to build the response message</li>
+<li>Play the events</li>
+</ol>
+<p>We can now start the web app with <code>./mvnw spring-boot:run</code>.</p>
+<h2 id="testing-the-grpc-service">Testing the gRPC service</h2>
+<p>The whole idea behind the post is that accessing the gRPC service with regular tools is impossible. To test, we need a dedicated tool nonetheless. I found <a href="https://github.com/fullstorydev/grpcurl">grpcurl</a>. Let’s install it and use it to list available services:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">grpcurl</span><span style="color:#79C0FF"> --plaintext</span><span style="color:#A5D6FF"> localhost:9090</span><span style="color:#A5D6FF"> list</span><span style="color:#8B949E">   #1-2</span></span></code></pre>
+<ol>
+<li>List all available gRPC services <strong>without</strong> TLS verification</li>
+<li>To avoid clashes between gRPC and other channels, <em>e.g.</em>, REST, Spring Boot uses another port</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ch.frankel.blog.grpc.model.HelloService   #1</span></span>
+<span class="line"><span>grpc.health.v1.Health                     #2</span></span>
+<span class="line"><span>grpc.reflection.v1alpha.ServerReflection  #2</span></span></code></pre>
+<ol>
+<li>The gRPC service we defined</li>
+<li>Two additional services provided by the custom starter</li>
+</ol>
+<p>We can also dive into the structure of the service:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">grpcurl</span><span style="color:#79C0FF"> --plaintext</span><span style="color:#A5D6FF"> localhost:9090</span><span style="color:#A5D6FF"> describe</span><span style="color:#A5D6FF"> ch.frankel.blog.grpc.model.HelloService</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>service HelloService {</span></span>
+<span class="line"><span>  rpc SayHello ( .ch.frankel.blog.grpc.model.HelloRequest ) returns ( .ch.frankel.blog.grpc.model.HelloResponse );</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>Finally, we can call the service with data:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">grpcurl</span><span style="color:#79C0FF"> --plaintext</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{"name": "John"}'</span><span style="color:#A5D6FF"> localhost:9090</span><span style="color:#A5D6FF"> ch.frankel.blog.grpc.model.HelloService/SayHello</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "message"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Hello John"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="accessing-the-grpc-service-with-regular-tools">Accessing the gRPC service with regular tools</h2>
+<p>Imagine that we have a regular JavaScript client-side application that needs to access the gRPC service. What would be the alternatives?</p>
+<p>The general approach is through <code>grpc-web</code>:</p>
+<blockquote>
+<p>A JavaScript implementation of gRPC for browser clients. For more information, including a quick start, see the gRPC-web documentation.</p>
+<p>gRPC-web clients connect to gRPC services via a special proxy; by default, gRPC-web uses Envoy.</p>
+<p>In the future, we expect gRPC-web to be supported in language-specific web frameworks for languages such as Python, Java, and Node. For details, see the roadmap.</p>
+<p>— <a href="https://github.com/grpc/grpc-web">grpc-web</a></p>
+</blockquote>
+<p>The description states a single limitation: it works only for JavaScript (as of now). However, there’s another one. It’s pretty intrusive. You need to get the <code>proto</code> file, generate boilerplate code, and make your code call it. You must do it for every client type. Worse, if the proto file changes, you need to regenerate the client code in each of them.</p>
+<p>An alternative exists, though, if you’re using an API Gateway. I’ll describe how to do it with <a href="https://apisix.apache.org/">Apache APISIX</a>, but perhaps other gateways can do the same. <a href="https://apisix.apache.org/docs/apisix/plugins/grpc-transcode/">grpc-transcode</a> is a plugin that allows transcoding REST calls to gRPC and back again.</p>
+<p>The first step is to register the proto file in Apache APISIX:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://localhost:9180/apisix/admin/protos/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> "{ </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">content</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">: </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">$(</span><span style="color:#FFA657">sed</span><span style="color:#A5D6FF"> 's/"/\\"/g' ../model/src/main/proto/model.proto)</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF"> }"</span></span></code></pre>
+<p>The second step is to create a route with the above plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://localhost:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/helloservice/sayhello",                           #1</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "grpc-transcode": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "proto_id": "1",                                       #2</span></span>
+<span class="line"><span style="color:#A5D6FF">      "service": "ch.frankel.blog.grpc.model.HelloService",  #3</span></span>
+<span class="line"><span style="color:#A5D6FF">      "method": "SayHello"                                   #4</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "scheme": "grpc",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "server:9090": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol>
+<li>Define a granular route</li>
+<li>Reference the proto file defined in the previous command</li>
+<li>gRPC service</li>
+<li>gRPC method</li>
+</ol>
+<p>At this point, <strong>any client</strong> can make an HTTP request to the defined endpoint. Apache APISIX will transcode the call to gRPC, forward it to the defined service, get the response, and transcode it again.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/helloservice/sayhello?name=John</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"message"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Hello John"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Compared to <code>grpc-web</code>, the API Gateway approach allows sharing the <code>proto</code> file with a single component: the Gateway itself.</p>
+<h2 id="benefits-of-transcoding">Benefits of transcoding</h2>
+<p>At this point, we can leverage the capabilities of the API Gateway. Imagine we want a default value if no <code>name</code> is passed, <em>e.g.</em>, <code>World</code>. Developers would happily set it in the code, but any change to the value would require a complete build and deployment. Changes can be nearly-instant if we put the default value in the Gateway’s routes processing chain. Let’s change our route accordingly:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://localhost:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "uri": "/helloservice/sayhello",</span></span>
+<span class="line"><span style="color:#A5D6FF">  "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "grpc-transcode": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      ...</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "serverless-pre-function": {                    #1</span></span>
+<span class="line"><span style="color:#A5D6FF">      "phase": "rewrite",                           #2</span></span>
+<span class="line"><span style="color:#A5D6FF">      "functions" : [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "return function(conf, ctx)                 #3</span></span>
+<span class="line"><span style="color:#A5D6FF">          local core = require(\"apisix.core\")</span></span>
+<span class="line"><span style="color:#A5D6FF">          if not ngx.var.arg_name then</span></span>
+<span class="line"><span style="color:#A5D6FF">            local uri_args = core.request.get_uri_args(ctx)</span></span>
+<span class="line"><span style="color:#A5D6FF">            uri_args.name = \"World\"</span></span>
+<span class="line"><span style="color:#A5D6FF">            ngx.req.set_uri_args(uri_args)</span></span>
+<span class="line"><span style="color:#A5D6FF">          end</span></span>
+<span class="line"><span style="color:#A5D6FF">        end"</span></span>
+<span class="line"><span style="color:#A5D6FF">      ]</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      ...</span></span>
+<span class="line"><span style="color:#A5D6FF">  }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<ol>
+<li>Generic all-purpose plugin when none fits</li>
+<li>Rewrite the request</li>
+<li>Magic Lua code that does the trick</li>
+</ol>
+<p>Now, we can execute the request with an empty argument and get the expected result:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/helloservice/sayhello?name</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span><span style="color:#7EE787">"message"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"Hello World"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, we have briefly described gRPC and how it benefits inter-service communication. We developed a simple gRPC service using Spring Boot and <code>grpc-server-spring-boot-starter</code>. It comes at a cost, though: regular clients cannot access the service. We had to resort to <code>grpcurl</code> to test it. The same goes for clients based on JavaScript - or the browser.</p>
+<p>To bypass this limitation, we can leverage an API Gateway. I demoed how to configure Apache APISIX with the <code>grpc-transcode</code> plugin to achieve the desired result.</p>
+<p>The complete source code for this post can be found on <a href="https://github.com/ajavageek/grpc-apisix">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://grpc.io/">gRPC</a></li>
+<li><a href="https://protobuf.dev/">Protocol Buffers</a></li>
+<li><a href="https://github.com/trustin/os-maven-plugin">os-maven-plugin</a></li>
+<li><a href="https://github.com/xolstice/protobuf-maven-plugin">Maven Protocol Buffers Plugin</a></li>
+<li><a href="https://yidongnan.github.io/grpc-spring-boot-starter/">gRPC-Spring-Boot-Starter</a></li>
+<li><a href="https://github.com/fullstorydev/grpcurl">grpcurl</a></li>
+<li><a href="https://apisix.apache.org">Apache APISIX</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/grpc-transcode/">grpc-transcode plugin</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2023/03/17/weekly-report-0312/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Biweekly Report (Feb 27 - Mar 12)</span> </a> <a class="post-nav-card older" href="/blog/2023/03/10/release-apache-apisix-3.2.0/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Release Apache APISIX 3.2.0</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#a-simple-grpc-service">A simple gRPC service</a></li><li class><a href="#testing-the-grpc-service">Testing the gRPC service</a></li><li class><a href="#accessing-the-grpc-service-with-regular-tools">Accessing the gRPC service with regular tools</a></li><li class><a href="#benefits-of-transcoding">Benefits of transcoding</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

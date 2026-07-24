@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>16 API Security Best Practices with APISIX (Part 1) | Apache APISIX</title><meta name="description" content="Implement 16 API security practices using APISIX: authentication, authorization, encryption, input validation, rate limiting, and more."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/02/20/secure-api-practices-apisix-1/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/02/20/secure-api-practices-apisix-1/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/02/20/secure-api-practices-apisix-1/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/02/20/secure-api-practices-apisix-1/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="16 API Security Best Practices with APISIX (Part 1) | Apache APISIX"><meta property="og:description" content="Implement 16 API security practices using APISIX: authentication, authorization, encryption, input validation, rate limiting, and more."><meta property="og:url" content="https://apisix.apache.org/blog/2024/02/20/secure-api-practices-apisix-1/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"16 API Security Best Practices with APISIX (Part 1)","description":"Implement 16 API security practices using APISIX: authentication, authorization, encryption, input validation, rate limiting, and more.\n","datePublished":"2024-02-20","image":"https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/02/20/secure-api-practices-apisix-1/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/02/20/secure-api-practices-apisix-1/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/02/20/secure-api-practices-apisix-1/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>16 API Security Best Practices with APISIX (Part 1)</h1> <p class="article-meta"> <time datetime="2024-02-20">Feb 20, 2024</time> · Nicolas Fränkel  · 8 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#authentication">Authentication</a></li><li class><a href="#authorization">Authorization</a></li><li class><a href="#input-validation">Input validation</a></li><li class><a href="#ip-whitelisting">IP Whitelisting</a></li><li class><a href="#logging-and-monitoring">Logging and Monitoring</a></li><li class><a href="#rate-limiting">Rate Limiting</a></li><li class><a href="#security-headers">Security Headers</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2024/02/15/kgIjhRXf_img-BuLDzx81CexYQAzkaF36h_large.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>A couple of months ago, I stumbled upon this list of  Secure your API with these <a href="https://www.linkedin.com/posts/brijpandeyji_secure-your-api-with-these-16-practices-activity-7094020647529369601-5kzQ/">16 practices to secure your API</a>:</p>
+<p>While it’s debatable whether some points relate to security, <em>e.g.,</em>, versioning, the list is a good starting point anyway. In this two-post series, I’d like to describe how we can implement each point with Apache APISXI (or not).</p>
+</blockquote>
+<!--truncate-->
+<h2 id="authentication">Authentication</h2>
+<p>Authentication is about identifying yourself with a system. It requires a proof.</p>
+<p>Apache APISIX provides two kinds of authentications: internal, with APISIX checking credentials, and external, when delegated to a third party. All authentication mechanisms work via plugins. Here’s the current list of available authentication plugins.</p>
+<table>
+<thead>
+<tr>
+  <th>Type</th>
+  <th>Name</th>
+  <th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td rowspan="3">Internal</td>
+  <td><code>key-auth</code></td>
+  <td>Authenticate via an HTTP Header</td>
+</tr>
+<tr>
+  <td><code>basic-auth</code></td>
+  <td>Relies on a browser callback</td>
+</tr>
+<tr>
+  <td><code>jwt-auth</code></td>
+  <td>Uses a JWT token to authenticate</td>
+</tr>
+<tr>
+  <td rowspan="10">External</td>
+  <td><code>authz-keycloak</code></td>
+  <td>Delegates to <a href="https://www.keycloak.org/">Keycloak</a></td>
+</tr>
+<tr>
+  <td><code>authz-casdoor</code></td>
+  <td>Delegates to <a href="https://casdoor.org/">Casdoor</a></td>
+</tr>
+<tr>
+  <td><code>wolf-rbac</code></td>
+  <td>Delegates to <a href="https://github.com/iGeeky/wolf">wolf</a></td>
+</tr>
+<tr>
+  <td><code>openid-connect</code></td>
+  <td>Delegates to an <a href="https://openid.net/connect/">OpenID Connect</a>-compliant third-party</td>
+</tr>
+<tr>
+  <td><code>cas-auth</code></td>
+  <td>Delegates to a <a href="https://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a>-compliant third-party</td>
+</tr>
+<tr>
+  <td><code>hmac-auth</code></td>
+  <td>Delegates to an <a href="https://en.wikipedia.org/wiki/HMAC">HMAC</a>-compliant third-party</td>
+</tr>
+<tr>
+  <td><code>authz-casbin</code></td>
+  <td>Delegates to a <a href="https://github.com/casbin/lua-casbin/">Lua Casbin</a>-compliant third-party</td>
+</tr>
+<tr>
+  <td><code>ldap-auth</code></td>
+  <td>Delegates to an LDAP</td>
+</tr>
+<tr>
+  <td><code>opa</code></td>
+  <td>Delegates to an <a href="https://www.openpolicyagent.org/">Open Policy Agent</a> endpoint</td>
+</tr>
+<tr>
+  <td><code>forward-auth</code></td>
+  <td>Forwards the authentication to a third-party endpoint</td>
+</tr>
+</tbody>
+</table>
+<p>APISIX assigns authenticated calls to a <em>consumer</em>. For example, we can create a consumer authenticated with the <code>key-auth</code> plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">john</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      key-auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mykey</span></span></code></pre>
+<p>Every request containing the header <code>apikey</code> with the key <code>mykey</code> will be assigned to the consumer <code>john</code>.</p>
+<h2 id="authorization">Authorization</h2>
+<p>Authentication alone isn’t enough. Once a request to a URL has been authenticated, we need to decide whether it’s allowed to proceed further. That’s the role of authorization.</p>
+<blockquote>
+<p>Authorization […] is the function of specifying access rights/privileges to resources, which is related to general information security and computer security, and to access control in particular. More formally, “to authorize” is to define an access policy.</p>
+<p>— <a href="https://en.wikipedia.org/wiki/Authorization">Authorization on Wikipedia</a></p>
+</blockquote>
+<p>Apache APISIX implements authorization mainly via the <a href="https://apisix.apache.org/docs/apisix/plugins/consumer-restriction/">consumer-restriction</a> plugin. Here’s the most straightforward usage of the <code>consumer-restriction</code> plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span><span style="color:#8B949E">                     #1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      keyauth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mykey</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#8B949E">                        #2</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      keyauth</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span></span>
+<span class="line"><span style="color:#7EE787">      consumer-restriction</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        whitelist</span><span style="color:#E6EDF3">:                        </span><span style="color:#8B949E">#3</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">johndoe</span></span></code></pre>
+<ol>
+<li>Define a consumer</li>
+<li>Reference an already existing upstream</li>
+<li>Only allows defined consumers to access the route</li>
+</ol>
+<p>Most real-world authorization models avoid binding an identity directly to a permission. They generally bind a group (and even a role) so that it becomes easier to manage many identities. Apache APISIX provides the <a href="https://apisix.apache.org/docs/apisix/terminology/consumer-group/">consumer group</a> abstraction for this.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumer_groups</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">accountants</span><span style="color:#8B949E">                      #1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">    group_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">accountants</span><span style="color:#8B949E">                #2</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      keyauth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mykey</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      keyauth</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span></span>
+<span class="line"><span style="color:#7EE787">      consumer-restriction</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">consumer_group_id</span><span style="color:#8B949E">          #3</span></span>
+<span class="line"><span style="color:#7EE787">        whitelist</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">accountants</span></span></code></pre>
+<ol>
+<li>Define a consumer group</li>
+<li>Assign the consumer to the previously defined consumer group</li>
+<li>Restrict the access to members of the defined consumer group, <em>i.e.</em>, <code>accountants</code></li>
+</ol>
+<h2 id="input-validation">Input validation</h2>
+<p>With Apache APISIX, you can define a set of JSON schemas and validate a request against any of them. My colleague Navendu has written an exhaustive blog post on the subject: <a href="https://navendu.me/posts/request-validation/">Your API Requests Should Be Validated</a>.</p>
+<p>I think it’s not the API Gateway’s responsibility to handle request validation. Each upstream has specific logic, and moving the validation responsibility from the upstream to the Gateway ties the latter to the logic for no actual benefit.</p>
+<p>In any case, the checkbox is ticked.</p>
+<h2 id="ip-whitelisting">IP Whitelisting</h2>
+<p>Apache APISIX implements IP Whitelisting via the <a href="https://apisix.apache.org/docs/apisix/plugins/ip-restriction/">ip-restriction</a> plugin. You can define either regular IPs or CIDR blocks.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      ip-restriction</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        whitelist</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">13.74.26.106/24</span></span></code></pre>
+<h2 id="logging-and-monitoring">Logging and Monitoring</h2>
+<p>Logging and Monitoring fall into the broader <em>Observability</em> category, also encompassing <em>Tracing</em>. Apache APISIX offers a broad range of Observability plugins in each category.</p>
+<table>
+<thead>
+<tr>
+  <th>Type</th>
+  <th>Name</th>
+  <th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td rowspan="3">Tracing</td>
+  <td><code>zipkin</code></td>
+  <td>Collect and send traces according to the Zipkin specification</td>
+</tr>
+<tr>
+  <td><code>skywalking</code></td>
+  <td>Integrate with the <a href="https://skywalking.apache.org/">Apache SkyWalking</a> project</td>
+</tr>
+<tr>
+  <td><code>opentelemetry</code></td>
+  <td>Report data according to the OpenTelemetry specification</td>
+</tr>
+<tr>
+  <td rowspan="3">Metrics</td>
+  <td><code>prometheus</code></td>
+  <td>Expose metrics in the Prometheus format</td>
+</tr>
+<tr>
+  <td><code>node-status</code></td>
+  <td>Expose metrics in JSON format</td>
+</tr>
+<tr>
+  <td><code>datadog</code></td>
+  <td>Integrate with Datadog</td>
+</tr>
+<tr>
+  <td rowspan="14">Logging</td>
+  <td><code>file-logger</code></td>
+  <td>Push log streams to a local file</td>
+</tr>
+<tr>
+  <td><code>syslog</code></td>
+  <td>Push logs to a Syslog server</td>
+</tr>
+<tr>
+  <td><code>http-logger</code></td>
+  <td>Push JSON-encoded logs to an HTTP server</td>
+</tr>
+<tr>
+  <td><code>tcp-logger</code></td>
+  <td>Push JSON-encoded logs to a TCP server</td>
+</tr>
+<tr>
+  <td><code>udp-logger</code></td>
+  <td>Push JSON-encoded logs to a UDP server</td>
+</tr>
+<tr>
+  <td><code>kafka-logger</code></td>
+  <td>Push JSON-encoded logs to a Kafka cluster</td>
+</tr>
+<tr>
+  <td><code>rocketmq-logger</code></td>
+  <td>Push JSON-encoded logs to a RocketMQ cluster</td>
+</tr>
+<tr>
+  <td><code>loki-logger</code></td>
+  <td>Push JSON-encoded logs to a Loki instance</td>
+</tr>
+<tr>
+  <td><code>splunk-hec-logging</code></td>
+  <td>Push logs to a Splunk instance</td>
+</tr>
+<tr>
+  <td><code>loggly</code></td>
+  <td>Push logs to a Loggly instance</td>
+</tr>
+<tr>
+  <td><code>elasticsearch-logger</code></td>
+  <td>Push logs to an Elasticsearch instance</td>
+</tr>
+<tr>
+  <td><code>sls-logger</code></td>
+  <td>Push logs to Alibaba Cloud Log Service</td>
+</tr>
+<tr>
+  <td><code>google-cloud-logging</code></td>
+  <td>Push access logs to Google Cloud Logging Service</td>
+</tr>
+<tr>
+  <td><code>tencent-cloud-cls</code></td>
+  <td>Push access logs to Tencent Cloud CLS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rate-limiting">Rate Limiting</h2>
+<p>Rate Limiting protects upstreams from Distributed Denial of Services attacks, <em>a.k.a</em> DDoS. It’s one of the main features of reverse proxies and API Gateways. APISIX implements rate limiting through three different plugins:</p>
+<ul>
+<li>The <a href="https://apisix.apache.org/docs/apisix/plugins/limit-conn/">limit-conn</a> Plugin limits the number of concurrent requests to your services</li>
+<li>The <a href="https://apisix.apache.org/docs/apisix/plugins/limit-req/">limit-req</a> Plugin limits the number of requests to your service using the <a href="https://en.wikipedia.org/wiki/Leaky_bucket">leaky bucket algorithm</a></li>
+<li>The <a href="https://apisix.apache.org/docs/apisix/plugins/limit-count/">limit-count</a> Plugin limits the number of requests to your service by a given count per time. The plugin is using <em>Fixed Window</em> algorithm</li>
+</ul>
+<p>Let’s use <code>limit-count</code> for the sake of example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      limit-count</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span></code></pre>
+<p>The above configuration snippet protects the upstream from being hit by more than ten requests per second. It applies to every IP address because of the default configuration. The complete snippet would look like the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      limit-count</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#7EE787">        key_type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">var</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">remote_addr</span></span></code></pre>
+<p>When dealing with APIs, there’s a considerable chance you want to differentiate between your clients. Some might get a better rate for different reasons: they paid a premium offer; they are considered strategic; they are internal clients, etc. The same consumer could also use different IP addresses because they run on various machines with other APIs. Allowing the same consumer more calls because they execute their requests on a distributed infrastructure would be unfair.</p>
+<p>As it stands, the IP is not a great way to assign the limit; we prefer to use a named consumer or, even better, a consumer group. It’s perfectly possible with APISIX:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">consumer_groups</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      limit-count</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">premium</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      limit-count</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        count</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">10</span></span>
+<span class="line"><span style="color:#7EE787">        time_window</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">        rejected_code</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">consumers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">johndoe</span></span>
+<span class="line"><span style="color:#7EE787">    group_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">basic</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      keyauth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mykey1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">username</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">janedoe</span></span>
+<span class="line"><span style="color:#7EE787">    group_id</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">premium</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      keyauth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">mykey2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      key-auth</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span></span></code></pre>
+<p>Now, <code>johndoe</code> can only send a request every second, as he’s part of the <code>basic</code> plan, while <code>janedoe</code> can request ten times as much as part of the premium plan.</p>
+<h2 id="security-headers">Security Headers</h2>
+<p>The OWASP lists plenty of <a href="https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html">HTTP Headers</a> you can set to improve the security of your web apps and APIs. Apache APISIX provides two dedicated plugins for specific security risks:</p>
+<ul>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/cors/">CORS</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/csrf/">CSRF</a></li>
+</ul>
+<p>For any other header, you can use the more generic <a href="https://apisix.apache.org/docs/apisix/plugins/response-rewrite/">response-rewrite</a> plugin to add them. Finally, we can also remove default HTTP response headers, such as <code>Server</code>, to make targeted attacks less likely.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">global_rules</span><span style="color:#E6EDF3">:                               </span><span style="color:#8B949E">#1</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      response-rewrite</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        headers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          set</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            X-Content-Type-Options</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nosniff</span><span style="color:#8B949E"> #2</span></span>
+<span class="line"><span style="color:#7EE787">          remove</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">            - </span><span style="color:#A5D6FF">Server</span><span style="color:#8B949E">                        #3</span></span></code></pre>
+<ol>
+<li>Do on every route - security by default! It still can be overridden on a per-route basis, in case of need</li>
+<li>Tell the browser not to infer the content type if it’s not explicitly set</li>
+<li>Don’t advertise the server</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>We’ve seen how to configure Apache APISIX to secure your APIs against 7 of the 16 rules in the original list. The rules left could be less straightforward to implement; we will cover them in the second installment.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2024/02/27/secure-api-practices-apisix-2/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">16 API Security Best Practices with APISIX (Part 2)</span> </a> <a class="post-nav-card older" href="/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Protect APIs with OWASP Coraza WAF in APISIX</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#authentication">Authentication</a></li><li class><a href="#authorization">Authorization</a></li><li class><a href="#input-validation">Input validation</a></li><li class><a href="#ip-whitelisting">IP Whitelisting</a></li><li class><a href="#logging-and-monitoring">Logging and Monitoring</a></li><li class><a href="#rate-limiting">Rate Limiting</a></li><li class><a href="#security-headers">Security Headers</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

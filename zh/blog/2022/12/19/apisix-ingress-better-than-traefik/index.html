@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>为什么 APISIX Ingress 是比 Traefik 更好的选择？ | Apache APISIX</title><meta name="description" content="本文可以为正在选型 Kubernetes Ingress Controller 产品的用户提供一些帮助。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/12/19/apisix-ingress-better-than-traefik/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/12/19/apisix-ingress-better-than-traefik/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/12/19/apisix-ingress-better-than-traefik/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/12/19/apisix-ingress-better-than-traefik/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="为什么 APISIX Ingress 是比 Traefik 更好的选择？ | Apache APISIX"><meta property="og:description" content="本文可以为正在选型 Kubernetes Ingress Controller 产品的用户提供一些帮助。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/12/19/apisix-ingress-better-than-traefik/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"为什么 APISIX Ingress 是比 Traefik 更好的选择？","description":"本文可以为正在选型 Kubernetes Ingress Controller 产品的用户提供一些帮助。","datePublished":"2022-12-19","author":{"@type":"Person","name":"张晋涛"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/12/19/apisix-ingress-better-than-traefik/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/12/19/apisix-ingress-better-than-traefik/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/12/19/apisix-ingress-better-than-traefik/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>为什么 APISIX Ingress 是比 Traefik 更好的选择？</h1> <p class="article-meta"> <time datetime="2022-12-19">2022年12月19日</time> · 张晋涛  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#apache-apisix-ingress">Apache APISIX Ingress</a></li><li class><a href="#traefik">Traefik</a></li><li class><a href="#apisix-ingress-vs-traefik">APISIX Ingress vs Traefik</a></li><li class="d3"><a href="#协议支持">协议支持</a></li><li class="d3"><a href="#可扩展性">可扩展性</a></li><li class="d3"><a href="#生态">生态</a></li><li class><a href="#来自用户的声音">来自用户的声音</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header>  <blockquote>
+<p>本文可以为正在选型 Kubernetes Ingress Controller 产品的用户提供一些帮助。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>作者张晋涛，API7.ai 云原生专家，Apache APISIX Committer、Kubernetes Ingress Nginx Reviewer</p>
+</blockquote>
+<h2 id="apache-apisix-ingress">Apache APISIX Ingress</h2>
+<p><a href="https://github.com/apache/apisix-ingress-controller/">Apache APISIX Ingress</a> 是一个使用 Apache APISIX 作为数据面的 Kubernetes Ingress controller 实现。</p>
+<p>目前，它支持多种规则的配置方式，包括 Ingress、APISIX Ingress CRD （自定义资源）以及 Gateway API。</p>
+<p>其整体采用数据面与控制面分离的架构，由 Apache APISIX 承载实际的业务流量。因此大大提升了整体的安全性，极大避免了由于数据面被攻击而导致 Kubernetes 集群被攻击的可能。</p>
+<p><img src="https://static.apiseven.com/2022/12/22/63a4011023eef.png" alt="image (4).png"></p>
+<h2 id="traefik">Traefik</h2>
+<p>Traefik 是由 Traefik Labs 开源的一款反向代理和负载均衡器。它在 Kubernetes 中支持多种规则的配置方式，包括 Ingress、Traefik IngressRoute（自定义资源）和 Gateway API。</p>
+<p>Traefik 是一个统一的二进制文件，控制面和数据面的代理逻辑均绑定在一起。因此，如果受到攻击或者有远程执行的安全漏洞被利用，极有可能存在 Kubernetes 集群被攻击的情况。</p>
+<p><img src="https://static.apiseven.com/2022/12/22/63a4010fb7f25.png" alt="image (5).png"></p>
+<h2 id="apisix-ingress-vs-traefik">APISIX Ingress vs Traefik</h2>
+<p>接下来我将从以下几个维度对 Apache APISIX Ingress 和 Traefik 进行一些对比，方便大家在选型时对产品有更多的认知。</p>
+<h3 id="协议支持">协议支持</h3>
+<p>作为网关，最为核心的能力便是要能够正确的代理流量。作为 Kubernetes 集群的入口网关，主要处理如下两部分的流量：即 <strong>Client 到网关的流量</strong>和<strong>网关与 Upstream 的流量</strong>。如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">Client</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF">---</span><span style="color:#E6EDF3">-</span><span style="color:#FF7B72">></span><span style="color:#A5D6FF"> Ingress</span><span style="color:#FF7B72"> &#x3C;</span><span style="color:#A5D6FF">---</span><span style="color:#E6EDF3">-</span><span style="color:#FF7B72">></span><span style="color:#A5D6FF"> Upstream</span><span style="color:#A5D6FF"> Service</span></span></code></pre>
+<p>当前的协议多种多样，以下简单汇总了两个项目对协议的支持，仅供参考。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">协议</th><th align="center">APISIX Ingress</th><th align="center">Traefik</th></tr></thead><tbody><tr><td align="center">HTTP/HTTPS</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">HTTP/2</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">HTTP/3</td><td align="center">不支持</td><td align="center">支持</td></tr><tr><td align="center">TCP</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">UDP</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">WebSocket</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">Dubbo</td><td align="center">支持</td><td align="center">不支持</td></tr></tbody></table>
+<p>此外，无论是 APISIX Ingress 还是 Traefik，均可通过 HTTP/2 或者 TCP 代理等方式支持 gRPC、MQTT 等协议，故而未在上述表格中列出。</p>
+<p>从协议支持的角度来看，APISIX Ingress 和 Traefik 各有优势。此外，APISIX 对于 HTTP/3 的支持正在规划中，后续也可随时关注社区动态。</p>
+<h3 id="可扩展性">可扩展性</h3>
+<p>由于业务需求多种多样，所以可扩展性也是进行技术选型的一个主要指标。APISIX Ingress 和 Traefik 均提供了一些扩展方式，我们将分别进行介绍。</p>
+<h4 id="apisix-ingress">APISIX Ingress</h4>
+<p>在 APISIX Ingress 中进行功能扩展，主要是通过开发自定义插件来完成。当前，APISIX Ingress 主要支持如下几种插件的开发方式：</p>
+<ul>
+<li>通过 Lua 进行插件的开发：这种方式相对简单，并且几乎没有性能损耗；</li>
+<li>通过 Plugin Runner 开发：这种模式下支持 JAVA/Python/Go 等多种计算语言进行开发，方便用户利用现有的业务逻辑，同时无需学习新语言；</li>
+<li>通过 WASM 进行插件插件：这种模式下，可以使用任何支持构建出 WASM 的语言进行插件开发；</li>
+</ul>
+<p>此外，还可以通过 Serverless 插件来直接编排 Lua 代码，满足业务需求。</p>
+<p>当然，如果你有 Lua 模块的开发经验，也可以直接编写 Lua 模块，然后进行加载即可，只需在配置文件中增加如下内容即可：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#7EE787">extra_lua_path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/path/to/example/?.lua"</span></span></code></pre>
+<p>具体关于插件的的开发步骤和使用，请参考 <a href="https://apisix.apache.org/docs/apisix/plugin-develop/">Apache APISIX 的插件开发文档</a>。</p>
+<h4 id="traefik-1">Traefik</h4>
+<p>Traefik 也提供了相关插件机制用于功能扩展。但是 Traefik 是由 Go 进行开发的，因此它的插件也需要用 Go 进行开发。</p>
+<p>在开发完成后，就可以在 Traefik 的配置中添加如下内容进行引用了（需注意，插件的名字需要与包名保持一致）。例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">experimental</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">localPlugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">example</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">moduleName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">github.com/traefik/pluginproviderdemo</span></span></code></pre>
+<p>总体来看，APISIX Ingress 提供了更多种的扩展方式，可以根据实际情况进行灵活选择。可以根据自己喜欢或擅长的工具即可，更容易实现与现有业务集成。而 Traefik 目前则只支持通过 Go 语言进行开发，选择较少。</p>
+<h3 id="生态">生态</h3>
+<p>在进行技术选型时候，除了考虑一些性能表现，还需要对产品的整个生态支持进行考察。比如项目所使用的协议、项目归属以及与现有基础设施是否可以整合等等。下方简单整理了几个角度进行呈现（包含了控制面和数据面）。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">对比维度</th><th align="center">APISIX Ingress</th><th align="center">Traefik</th></tr></thead><tbody><tr><td align="center">归属</td><td align="center">Apache 软件基金会（ASF）</td><td align="center">Traefik Labs</td></tr><tr><td align="center">协议</td><td align="center">Apache 2.0</td><td align="center">MIT</td></tr><tr><td align="center">诞生时间</td><td align="center">2019 年 6 月</td><td align="center">2015 年 8 月</td></tr><tr><td align="center">consul</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">nacos</td><td align="center">支持</td><td align="center">不支持</td></tr><tr><td align="center">Eureka</td><td align="center">支持</td><td align="center">不支持</td></tr><tr><td align="center">etcd</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">zookeeper</td><td align="center">支持</td><td align="center">支持</td></tr><tr><td align="center">DNS</td><td align="center">支持</td><td align="center">不支持</td></tr></tbody></table>
+<p>此外，这两个项目都非常积极与一些周边项目进行了集成与合作。比如 Rancher、KubeSphere 等。</p>
+<p>从生态合作角度来看，APISIX Ingress 比 Traefik 提供了更为广泛的集成能力，尤其是与基础组件。因此在进行技术选型时，可以结合当前自己所用的基础组件的情况进行权衡。</p>
+<h2 id="来自用户的声音">来自用户的声音</h2>
+<p>在今年，我们也看到了很多来自用户的声音，他们开始在业务架构中用上了 APISIX Ingress。比如<a href="https://www.apiseven.com/usercase/apisix-ingress-with-horizon-ai">地平线使用 APISIX Ingress 替换了 Traefik</a>，主要是考虑如下方面：</p>
+<ul>
+<li>通过 Annotation 增加的配置不易重用；</li>
+<li>Traefik 中默认的行为与 NGINX 中不同，用户在使用时候会产生困惑；</li>
+</ul>
+<p>在切换为 Apache APISIX Ingress 后，得益于 APISIX Ingress 丰富的插件生态，绝大多数需求均可通过内置插件满足。并且插件的配置可直接通过 APISIX Ingress 的 ApisixRoute 资源进行定义，比较直观。也可以通过 ApisixPluginConfig 进行插件模板的配置，在其他的 ApisixRoute 资源中进行引用。</p>
+<p><img src="https://static.apiseven.com/2022/12/22/63a4011134069.png" alt="image (8).png"></p>
+<p>APISIX Ingress 的数据面性能更佳，能高效地应对日益增长的业务流量，而不会陷入性能瓶颈。</p>
+<p>除地平线以外，包括<a href="http://www.igetcool.com/">少年得到</a>，<a href="http://www.gwwisdom.com/">观为智慧</a>等公司也都使用 APISIX Ingress 替换了 Traefik，更多用户案例请参考<a href="https://www.apiseven.com/usercases">用户案例</a>。</p>
+<p>此外，Apache APISIX 社区非常活跃，在 GitHub 和 Slack 等频道上都会快速响应。也期待各位在社区积极进行反馈与讨论。</p>
+<h2 id="总结">总结</h2>
+<p>本文从协议支持、可扩展性和生态等方面对比了 Apache APISIX Ingress 和 Traefik。从内容中也可以看到，APISIX Ingress 在可扩展性和生态集成方面有一定的优势，用户可以更容易地对 APISIX Ingress 进行扩展，以及与一些基础组件进行集成。</p>
+<p>希望本文可以为正在选型 Kubernetes Ingress Controller 产品的用户提供一些帮助。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/12/22/weekly-report-1218/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">社区双周报 (12.05 - 12.18)</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/12/19/auth-apisix-gateway/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">认证鉴权对于 API 网关的重要性</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#apache-apisix-ingress">Apache APISIX Ingress</a></li><li class><a href="#traefik">Traefik</a></li><li class><a href="#apisix-ingress-vs-traefik">APISIX Ingress vs Traefik</a></li><li class="d3"><a href="#协议支持">协议支持</a></li><li class="d3"><a href="#可扩展性">可扩展性</a></li><li class="d3"><a href="#生态">生态</a></li><li class><a href="#来自用户的声音">来自用户的声音</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

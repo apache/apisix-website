@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API 网关 APISIX 集成 OpenWhisk 丰富认证场景 | Apache APISIX</title><meta name="description" content="本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，结合 API 网关 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API 网关 APISIX 集成 OpenWhisk 丰富认证场景 | Apache APISIX"><meta property="og:description" content="本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，结合 API 网关 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API 网关 APISIX 集成 OpenWhisk 丰富认证场景","description":"本文为大家介绍了关于 `openwhisk` 插件的功能前瞻与使用步骤，结合 API 网关 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。","datePublished":"2021-12-24","image":"https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png","author":{"@type":"Person","name":"白泽平"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/12/24/apisix-integrate-openwhisk-plugin/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/12/24/apisix-integrate-openwhisk-plugin/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/plugins/">Plugins</a><a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>API 网关 APISIX 集成 OpenWhisk 丰富认证场景</h1> <p class="article-meta"> <time datetime="2021-12-24">2021年12月24日</time> · 白泽平  · 约 3 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/plugins/">Plugins</a><a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#项目介绍">项目介绍</a></li><li class="d3"><a href="#apache-apisix">Apache APISIX</a></li><li class="d3"><a href="#apache-openwhisk">Apache OpenWhisk</a></li><li class><a href="#集成原理">集成原理</a></li><li class><a href="#如何使用">如何使用</a></li><li class="d3"><a href="#步骤一搭建-apache-openwhisk-测试环境">步骤一：搭建 Apache OpenWhisk 测试环境</a></li><li class="d3"><a href="#步骤二创建路由并开启-openwhisk-插件">步骤二：创建路由并开启 openwhisk 插件</a></li><li class="d3"><a href="#步骤三测试请求">步骤三：测试请求</a></li><li class="d3"><a href="#步骤四测试复杂响应">步骤四：测试复杂响应</a></li><li class="d3"><a href="#补充关闭插件">补充：关闭插件</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/openwhish.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文为大家介绍了关于 <code>openwhisk</code> 插件的功能前瞻与使用步骤，结合 Apache APISIX 提供的多种身份认证插件来实现认证与授权等功能。</p>
+</blockquote>
+<!--truncate-->
+<p>本文将介绍 Apache APISIX 中新增插件——<code>openwhisk</code>，并通过详细步骤向大家展示如何将 OpenWhisk 服务与 Apache APISIX 进行集成，来享受无服务器计算的优势。此插件预计在 Apache APISIX 2.12 版本中正式上线，敬请期待！</p>
+<p><img src="https://static.apiseven.com/202108/1640313816872-b2c018be-5433-4baf-ba6a-8330e160866a.png" alt="APISIX&#x26;OpenWhisk"></p>
+<h2 id="项目介绍">项目介绍</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 不仅支持插件动态变更和热插拔，而且拥有众多实用的插件。</p>
+<h3 id="apache-openwhisk">Apache OpenWhisk</h3>
+<p><a href="https://openwhisk.apache.org/">Apache OpenWhisk</a> 是一个开源的分布式无服务器平台，可以通过执行函数响应任何规模的时间。它使用 Docker 容器管理基础设施、服务器和规模扩展，助力用户构建出色且高效的应用程序。</p>
+<p>在 OpenWhisk 中开发者可以使用多种编程语言来编写函数（称为 Action），这些函数将由 OpenWhisk 负责动态调度并处理来自事件（通过 trigger）或外部请求（通过 HTTP 请求）的响应。</p>
+<h2 id="集成原理">集成原理</h2>
+<p>Apache APISIX 为便捷集成 Apache OpenWhisk 提供了插件支持，用户可以定义一个包含无服务器插件的路由，并结合 Apache APISIX 提供的多种身份认证插件来实现认证与授权功能。</p>
+<p>大体操作原理如下：用户可以使用openwhisk插件在路由中定义一个“动态上游”，当路由匹配到请求时，它将中止到原上游的请求，并向 OpenWhisk 的 API Host 端点发送请求。</p>
+<blockquote>
+<p>请求中将包含用户为插件配置的 Namespace、Action、Service Token 以及原始 HTTP 请求体数据，并将从 OpenWhisk 中获取到的响应内容返回至客户端。</p>
+</blockquote>
+<h2 id="如何使用">如何使用</h2>
+<h3 id="步骤一搭建-apache-openwhisk-测试环境">步骤一：搭建 Apache OpenWhisk 测试环境</h3>
+<ol>
+<li>首先，您需要确保使用 Linux 系统，并且系统中已经安装了 Docker 软件。执行以下命令：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> -d</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -h</span><span style="color:#A5D6FF"> openwhisk</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> openwhisk</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 3233:3233</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 3232:3232</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -v</span><span style="color:#A5D6FF"> /var/run/docker.sock:/var/run/docker.sock</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  openwhisk/standalone:nightly</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> exec</span><span style="color:#A5D6FF"> openwhisk</span><span style="color:#A5D6FF"> waitready</span></span></code></pre>
+<ol start="2">
+<li>等待命令执行完成后，将输出以下内容：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ok: whisk auth set. Run 'wsk property get --auth' to see the new value.</span></span>
+<span class="line"><span>ok: whisk API host set to http://openwhisk:3233</span></span>
+<span class="line"><span>ok: updated action testme</span></span>
+<span class="line"><span>server initializing...</span></span>
+<span class="line"><span>server initializing...</span></span>
+<span class="line"><span>    "ready": true</span></span>
+<span class="line"><span>ok: deleted action testme</span></span></code></pre>
+<ol start="3">
+<li>创建以下文件 <code>test.js</code> 用作测试函数。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">function </span><span style="color:#D2A8FF">main</span><span style="color:#E6EDF3">(args) {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "hello"</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> args.name </span><span style="color:#FF7B72">||</span><span style="color:#A5D6FF"> ""</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol start="4">
+<li>在 OpenWhisk 中注册以上函数。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 为 OpenWhisk CLI 工具设置 API Host 和鉴权信息，您可以从这里 https://s.apache.org/openwhisk-cli-download 下载它</span></span>
+<span class="line"><span style="color:#FFA657">wsk</span><span style="color:#A5D6FF"> property</span><span style="color:#A5D6FF"> set</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --apihost</span><span style="color:#A5D6FF"> 'http://localhost:3233'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --auth</span><span style="color:#A5D6FF"> '23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 创建测试函数</span></span>
+<span class="line"><span style="color:#FFA657">wsk</span><span style="color:#A5D6FF"> action</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> test</span><span style="color:#A5D6FF"> test.js</span></span></code></pre>
+<h3 id="步骤二创建路由并开启-openwhisk-插件">步骤二：创建路由并开启 <code>openwhisk</code> 插件</h3>
+<p>下面我们将创建一个路由，并为其添加 <code>openwhisk</code> 插件。执行以下命令：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "openwhisk": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "api_host": "http://localhost:3233",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "service_token": "23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "namespace": "guest",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "action": "test"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/openwhisk"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="步骤三测试请求">步骤三：测试请求</h3>
+<p>下面我们将使用 cURL 进行测试。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 使用 POST 请求并发送数据</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/openwhisk</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "name": "world"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 17</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"hello"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"world"</span><span style="color:#FFA657">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 使用 GET 请求</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/openwhisk</span><span style="color:#79C0FF"> -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 12</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"hello"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">""</span><span style="color:#FFA657">}</span></span></code></pre>
+<h3 id="步骤四测试复杂响应">步骤四：测试复杂响应</h3>
+<ol>
+<li>创建并更新 <code>test.js</code> 测试函数</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="java"><code><span class="line"><span style="color:#E6EDF3">function </span><span style="color:#D2A8FF">main</span><span style="color:#E6EDF3">(args) {</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "status"</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> "403"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers"</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "test"</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> "header"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "body"</span><span style="color:#FF7B72">:</span><span style="color:#A5D6FF"> "A test body"</span></span>
+<span class="line"><span style="color:#E6EDF3">    };</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">2.</span><span style="color:#E6EDF3"> 进行测试请求</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">```shell</span></span>
+<span class="line"><span style="color:#E6EDF3"># 使用 GET 请求</span></span>
+<span class="line"><span style="color:#E6EDF3">curl http</span><span style="color:#FF7B72">:</span><span style="color:#8B949E">//127.0.0.1:9080/openwhisk -i</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">HTTP</span><span style="color:#FF7B72">/</span><span style="color:#79C0FF">1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#E6EDF3"> FORBIDDEN</span></span>
+<span class="line"><span style="color:#E6EDF3">Content</span><span style="color:#FF7B72">-</span><span style="color:#E6EDF3">Type</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> application</span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3">json</span></span>
+<span class="line"><span style="color:#E6EDF3">Content</span><span style="color:#FF7B72">-</span><span style="color:#E6EDF3">Length</span><span style="color:#FF7B72">:</span><span style="color:#79C0FF"> 12</span></span>
+<span class="line"><span style="color:#E6EDF3">test</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> header</span></span>
+<span class="line"><span style="color:#E6EDF3">Server</span><span style="color:#FF7B72">:</span><span style="color:#E6EDF3"> APISIX</span><span style="color:#FF7B72">/</span><span style="color:#79C0FF">2.10</span><span style="color:#E6EDF3">.</span><span style="color:#FFA198;font-style:italic">2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">A test body</span></span></code></pre>
+<h3 id="补充关闭插件">补充：关闭插件</h3>
+<p>如使用完毕，只需移除路由配置中 OpenWhisk 相关配置并保存，即可关闭路由上的 OpenWhisk 插件。此时您可以开启其他 Serverless 类插件或添加上游等后续操作。</p>
+<p>得益于 Apache APISIX 的动态化优势，开启关闭插件的过程都不需要重启 Apache APISIX，十分方便。</p>
+<h2 id="总结">总结</h2>
+<p>本文为大家介绍了关于 <code>openwhisk</code> 插件的功能前瞻与使用步骤，更多关于 <code>openwhisk</code> 插件说明和完整配置列表，可以参考<a href="https://apisix.apache.org/docs/apisix/next/plugins/openwhisk">官方文档</a>。</p>
+<p>目前，我们也在开发其他 Serverless 插件以便与更多云服务进行集成。如果您对此类集成项目感兴趣，也欢迎随时在 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 中发起讨论，或通过<a href="https://apisix.apache.org/zh/docs/general/join">邮件列表</a>进行交流。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/12/24/open-policy-agent/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX 集成 Open Policy Agent</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/12/22/google-logging/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">API 网关现已支持对接 Google Cloud Logging</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#项目介绍">项目介绍</a></li><li class="d3"><a href="#apache-apisix">Apache APISIX</a></li><li class="d3"><a href="#apache-openwhisk">Apache OpenWhisk</a></li><li class><a href="#集成原理">集成原理</a></li><li class><a href="#如何使用">如何使用</a></li><li class="d3"><a href="#步骤一搭建-apache-openwhisk-测试环境">步骤一：搭建 Apache OpenWhisk 测试环境</a></li><li class="d3"><a href="#步骤二创建路由并开启-openwhisk-插件">步骤二：创建路由并开启 openwhisk 插件</a></li><li class="d3"><a href="#步骤三测试请求">步骤三：测试请求</a></li><li class="d3"><a href="#步骤四测试复杂响应">步骤四：测试复杂响应</a></li><li class="d3"><a href="#补充关闭插件">补充：关闭插件</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2022/09/20/apisix-integrate-cncf-openfunction/"> <img class="cover" src="https://static.apiseven.com/2022/09/20/63296a9c05e59.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>API 网关 Apache APISIX 集成 CNCF OpenFunction</h3> <p class="desc">本文介绍了 Apache APISIX openfunction 插件的功能与使用步骤，为 APISIX 的无服务领域功能再添一员。</p> <p class="meta">2022年9月20日 · 李从旺</p> </div> </a><a class="post-card" href="/zh/blog/2022/09/15/apache-apisix-integrat-with-elasticsearch-for-logger/"> <img class="cover" src="https://static.apiseven.com/2022/09/20/63296a9ba9a7d.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>API 网关 Apache APISIX 集成 Elasticsearch 实现实时日志监控</h3> <p class="desc">本文将为你介绍 Apache APISIX 的 elasticsearch-logger 插件的相关信息，以及如何通过此插件获取 APISIX 的实时日志。</p> <p class="meta">2022年9月15日 · 王程程</p> </div> </a><a class="post-card" href="/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>使用 Prometheus 监控云原生 API 网关 APISIX</h3> <p class="desc">本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。</p> <p class="meta">2022年7月13日 · 韩飞</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

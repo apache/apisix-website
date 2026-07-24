@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Observability with DeepFlow and eBPF | Apache APISIX</title><meta name="description" content="Learn how to add zero-code observability for Apache APISIX with DeepFlow and eBPF, including tracing, metrics, logs, and profiling."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX Observability with DeepFlow and eBPF | Apache APISIX"><meta property="og:description" content="Learn how to add zero-code observability for Apache APISIX with DeepFlow and eBPF, including tracing, metrics, logs, and profiling."><meta property="og:url" content="https://apisix.apache.org/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Observability with DeepFlow and eBPF","description":"Learn how to add zero-code observability for Apache APISIX with DeepFlow and eBPF, including tracing, metrics, logs, and profiling.","datePublished":"2024-02-07","image":"https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg","author":{"@type":"Person","name":"Qian Li"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/02/07/unlock-observability-for-apisix-with-deepflow/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX Observability with DeepFlow and eBPF</h1> <p class="article-meta"> <time datetime="2024-02-07">Feb 7, 2024</time> · Qian Li  · 9 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#1-install-apisix-and-deepflow">1. Install APISIX and DeepFlow</a></li><li class><a href="#2-distributed-tracing">2. Distributed Tracing</a></li><li class="d3"><a href="#21-deepflow-ebpf-autotracing">2.1 DeepFlow eBPF AutoTracing</a></li><li class="d3"><a href="#22-deepflow-ebpf--opentelemetry">2.2 DeepFlow eBPF + OpenTelemetry</a></li><li class><a href="#3-performance-metrics">3. Performance Metrics</a></li><li class="d3"><a href="#31-out-of-the-box-ebpf-metrics">3.1 Out-of-the-Box eBPF Metrics</a></li><li class="d3"><a href="#32-enable-the-prometheus-plugin-in-apisix">3.2 Enable the Prometheus Plugin in APISIX</a></li><li class="d3"><a href="#33-collect-apisix-metrics-with-prometheus">3.3 Collect APISIX Metrics with Prometheus</a></li><li class="d3"><a href="#34-integrating-prometheus-metrics-with-deepflow">3.4 Integrating Prometheus Metrics with DeepFlow</a></li><li class="d3"><a href="#35-prometheus-integration-showcase">3.5 Prometheus Integration Showcase</a></li><li class><a href="#4-access-logs-and-continuous-profiling">4. Access Logs and Continuous Profiling</a></li><li class><a href="#5-what-is-apisix">5. What is APISIX</a></li><li class><a href="#6-what-is-deepflow">6. What is DeepFlow</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2024/02/07/nQJ5SWsx_deepflow-cover-en.jpeg" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>This article aims to elucidate how to leverage DeepFlow’s zero-code feature based on eBPF to construct an observability solution for APISIX.</p>
+</blockquote>
+<!--truncate-->
+<p>With the growing emphasis on the observability of application components, Apache APISIX has introduced a plugin mechanism to enrich observability signals. However, these data are scattered across multiple stacks, creating data silos. <strong>This article aims to elucidate how to leverage DeepFlow’s zero-code feature based on eBPF to construct an observability solution for APISIX.</strong> On this basis, it integrates the rich data sources of existing APISIX plugins to eliminate data silos and build an all-in-one platform for comprehensive observability of the APISIX gateway.</p>
+<p>Through DeepFlow, APISIX can achieve comprehensive observability from traffic monitoring and tracing analysis to performance optimization, eliminating data dispersion and providing a centralized view. This accelerates fault diagnosis and performance tuning, making the work of DevOps and SRE teams more efficient. <strong>This article will focus on how APISIX’s tracing data, metric data, access logs, and performance profiling data can be integrated with DeepFlow.</strong></p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/klRaMpb4_deepflow-1.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h2 id="1-install-apisix-and-deepflow">1. Install APISIX and DeepFlow</h2>
+<p>For convenience, this article describes deploying both DeepFlow and APISIX as Kubernetes services, with the entire deployment process taking approximately 5 minutes. For detailed deployment steps, refer to the <a href="https://deepflow.io/docs/ce-install/all-in-one/">DeepFlow</a> and <a href="https://apisix.apache.org/docs/apisix/3.2/installation-guide/">APISIX</a> official deployment documentation.</p>
+<p>Note: To leverage DeepFlow’s observability capabilities that utilize eBPF technology, your host’s <strong>Linux kernel must be version 4.14 or higher</strong>.</p>
+<h2 id="2-distributed-tracing">2. Distributed Tracing</h2>
+<p>There are two approaches to implementing distributed tracing for APISIX and backend services using DeepFlow: Firstly, DeepFlow leverages eBPF to enable out-of-the-box, RPC-level distributed tracing for APISIX and backend services, requiring no code changes. Secondly, if backend services have APM (Application Performance Monitoring) tools like OpenTelemetry or SkyWalking enabled, you can integrate all tracing data into DeepFlow using the APISIX Tracers plugin. This enables comprehensive, end-to-end tracing at the application function level.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/hA587UwF_deepflow-2.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h3 id="21-deepflow-ebpf-autotracing">2.1 DeepFlow eBPF AutoTracing</h3>
+<p><strong>DeepFlow offers out-of-the-box distributed tracing (AutoTracing) that requires no APISIX plugins or code changes to be enabled.</strong> It only necessitates deploying the deepflow-agent on the server where APISIX is located. In Grafana, find the <a href="https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?orgId=1">Distributed Tracing Dashboard provided by DeepFlow</a>, where you can initiate a trace on a specific request and see the end-to-end trace of that request in both APISIX and its backend services, as illustrated below:</p>
+<ul>
+<li>(1): Accesses the APISIX gateway service on the K8s Node NIC via nodeport.</li>
+<li>(2): Enters the NIC of the POD corresponding to the APISIX gateway service.</li>
+<li>(3): Goes into the OpenResty process within the APISIX gateway service.</li>
+<li>(4): The request is forwarded to the backend service by the OpenResty process.</li>
+<li>(5): Forwarded by the NIC of the POD corresponding to the APISIX gateway service.</li>
+<li>(6)/(7): Forwarded to the backend service.</li>
+</ul>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/XNkYJZ13_deepflow-3.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h3 id="22-deepflow-ebpf--opentelemetry">2.2 DeepFlow eBPF + OpenTelemetry</h3>
+<p>This approach involves APISIX generating trace data using the OpenTelemetry plugin, while the backend service also has APM capabilities and can convert generated trace data into the OpenTelemetry format. When APISIX and backend services both send trace data to DeepFlow, it can create a comprehensive trace-tree without any blind spots, incorporating APM application SPAN, eBPF system SPAN, and cBPF network SPAN.</p>
+<p>This method is ideal for achieving function-level distributed tracing inside the application process or when the backend service uses a thread pool for call handling, which may disrupt DeepFlow AutoTracing.</p>
+<h4 id="221-deploy-backend-services-with-apm-enabled">2.2.1 Deploy Backend Services with APM Enabled</h4>
+<p>To demonstrate the full tracing effect, we first deploy a demo application behind the APISIX gateway that supports OpenTelemetry. The deployment of the Demo application can refer to: “<a href="https://deepflow.io/docs/integration/input/tracing/opentelemetry/#experience-based-on-the-spring-boot-demo">DeepFlow Demo - One-click deployment of a WebShop application composed of five microservices written in Spring Boot</a>”. Create a route on APISIX to access the backend service, with the access domain being <code>apisix.deepflow.demo</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>apiVersion: apisix.apache.org/v2</span></span>
+<span class="line"><span>kind: ApisixRoute</span></span>
+<span class="line"><span>metadata:</span></span>
+<span class="line"><span>  name: deepflow-apisix-demo</span></span>
+<span class="line"><span>  namespace: deepflow-otel-spring-demo</span></span>
+<span class="line"><span>spec:</span></span>
+<span class="line"><span>  http:</span></span>
+<span class="line"><span>    - name: deepflow-apisix-demo</span></span>
+<span class="line"><span>      match:</span></span>
+<span class="line"><span>        hosts:</span></span>
+<span class="line"><span>          - apisix.deepflow.demo</span></span>
+<span class="line"><span>        paths:</span></span>
+<span class="line"><span>          - "/*"</span></span>
+<span class="line"><span>      backends:</span></span>
+<span class="line"><span>        - serviceName: web-shop</span></span>
+<span class="line"><span>          servicePort: 18090</span></span></code></pre>
+<h4 id="222-enable-the-opentelemetry-plugin-in-apisix">2.2.2 Enable the OpenTelemetry Plugin in APISIX</h4>
+<p>Add OpenTelemetry plugins to the APISIX configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## vim ./apisix/.values.yaml</span></span>
+<span class="line"><span>plugins:</span></span>
+<span class="line"><span>  - opentelemetry</span></span>
+<span class="line"><span>#...</span></span>
+<span class="line"><span>pluginAttrs:</span></span>
+<span class="line"><span>  opentelemetry:</span></span>
+<span class="line"><span>    resource:</span></span>
+<span class="line"><span>      service.name: APISIX</span></span>
+<span class="line"><span>    collector:</span></span>
+<span class="line"><span>      ## Send data to deepflow-agent</span></span>
+<span class="line"><span>      ## Of course, you can also send it to otel-collector for processing, and then have otel-collector forward it to deepflow-agent</span></span>
+<span class="line"><span>      address: deepflow-agent.deepflow.svc.cluster.local/api/v1/otel/trace</span></span>
+<span class="line"><span>      request_timeout: 3</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## After adding, update helm upgrade --install -n apisix apisix ./apisix</span></span></code></pre>
+<p>Enable OpenTelemetry functionality for a specific route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## View router id</span></span>
+<span class="line"><span>## Find the router id for the domain</span></span>
+<span class="line"><span>curl -s http://10.109.77.186:9180/apisix/admin/routes -H 'X-API-KEY: This is apisix-admin token' | jq</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## Enable the otel feature for a specific route</span></span>
+<span class="line"><span>curl http://10.109.77.186:9180/apisix/admin/routes -H 'X-API-KEY: This is apisix-admin token' -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "name": "deepflow-apisix-demo",            ## Assign a name to this route</span></span>
+<span class="line"><span>    "methods": ["GET"],</span></span>
+<span class="line"><span>    "uris": ["/*"],</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "opentelemetry": {</span></span>
+<span class="line"><span>            "sampler": {</span></span>
+<span class="line"><span>                "name": "always_on"</span></span>
+<span class="line"><span>            },</span></span>
+<span class="line"><span>            "additional_attributes": [        ## Customize tags for span through `additional_attributes`</span></span>
+<span class="line"><span>                "deepflow=demo"</span></span>
+<span class="line"><span>            ]</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "type": "roundrobin",                 ## Round Robin Load Balancing</span></span>
+<span class="line"><span>        "nodes": {                            ## Upstream Address</span></span>
+<span class="line"><span>            "10.1.23.200:18090": 1            ## Service access address: Upstream ID</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h4 id="223-using-deepflow-to-integrate-opentelemetry-traces">2.2.3 Using DeepFlow to Integrate OpenTelemetry Traces</h4>
+<p>The integration of OpenTelemetry Span data through DeepFlow Agent is enabled by default and requires no additional configuration.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## View the default configuration of deepflow-agent</span></span>
+<span class="line"><span>## deepflow-ctl agent-group-config example</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## This parameter controls whether to enable receiving data from external sources, including Prometheus, Telegraf, OpenTelemetry, and SkyWalking.</span></span>
+<span class="line"><span>## Data Integration Socket</span></span>
+<span class="line"><span>## Default: 1. Options: 0 (disabled), 1 (enabled).</span></span>
+<span class="line"><span>## Note: Whether to enable receiving external data sources such as Prometheus,</span></span>
+<span class="line"><span>##   Telegraf, OpenTelemetry, and SkyWalking.</span></span>
+<span class="line"><span>#external_agent_http_proxy_enabled: 1</span></span></code></pre>
+<h4 id="224-opentelemetry-integration-showcase">2.2.4 OpenTelemetry Integration Showcase</h4>
+<p>We initiate a command from the client to access the WebShop service:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -H "Host: apisix.deepflow.demo" 10.1.23.200:44640/shop/full-test</span></span>
+<span class="line"><span>## Here, the IP is the K8s cluster node IP, and port 44640 is the NodePort exposed by APISIX 9180.</span></span></code></pre>
+<p>Open the <a href="https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?orgId=1">Distributed Tracing Dashboard provided by DeepFlow</a> in Grafana, find the corresponding request, and initiate tracing. You’ll be able to see traces from both APISIX and the backend services. Moreover, the application SPANs generated by APM and the network SPANs and system SPANs generated by DeepFlow are all comprehensively associated on one flame graph:</p>
+<blockquote>
+<p>Note: In the flame graph, “A” represents the application SPAN generated by APM, while “N” and “S” represent the network SPAN and system SPAN generated by DeepFlow, respectively.</p>
+</blockquote>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/UqbPnqST_deepflow-4.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h2 id="3-performance-metrics">3. Performance Metrics</h2>
+<p>DeepFlow offers immediate insights into metrics, featuring detailed RED (Rate, Error, Duration) performance metrics at the endpoint level, along with comprehensive TCP network performance metrics, including throughput, retransmissions, zero window, and connection anomalies. Metrics from APISIX, including HTTP status codes, bandwidth, connections, and latency, captured by Metrics-type plugins like Prometheus and node-status, can also be integrated into DeepFlow. This data, detailing both instance and route granularity, is viewable on the APISIX-provided Grafana Dashboard.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/moFwGgPH_deepflow-5.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h3 id="31-out-of-the-box-ebpf-metrics">3.1 Out-of-the-Box eBPF Metrics</h3>
+<p>Once the deepflow-agent is deployed on the server hosting APISIX, it automatically gathers highly detailed application and network level metrics. This includes metrics such as request rates, response latencies, and error statuses for specific clients or endpoints, as well as TCP connection setup times, connection anomalies, and more. Detailed metrics can be found on <a href="https://deepflow.io/docs/features/universal-map/metrics-and-operators/">the DeepFlow official website in the metrics section</a>. By opening the <strong>Application - K8s Ingress Dashboard</strong> provided by DeepFlow in Grafana, you can view application layer performance metrics related to APISIX. Similarly, network-related metrics can be viewed in the <strong>Network - K8s Pod</strong> Dashboard.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/lbVMAzAa_deepflow-6.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/3615sk3K_deepflow-7.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h3 id="32-enable-the-prometheus-plugin-in-apisix">3.2 Enable the Prometheus Plugin in APISIX</h3>
+<p>Add the Prometheus plugin to the APISIX configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## vim ./apisix/.values.yaml</span></span>
+<span class="line"><span>plugins:</span></span>
+<span class="line"><span>  - prometheus</span></span>
+<span class="line"><span># ...</span></span>
+<span class="line"><span>pluginAttrs:</span></span>
+<span class="line"><span>  prometheus:</span></span>
+<span class="line"><span>    export_uri: /metrics    ## The default URI is `/apisix/prometheus/metrics`</span></span>
+<span class="line"><span>    export_addr:</span></span>
+<span class="line"><span>      ip: 0.0.0.0           ## Scrape Address</span></span>
+<span class="line"><span>      port: 9091            ## Default port 9091</span></span>
+<span class="line"><span>    metrics:</span></span>
+<span class="line"><span>      http_status:  </span></span>
+<span class="line"><span>        extra_labels:</span></span>
+<span class="line"><span>          - upstream_addr: $upstream_addr        ## For example, add an upstream server address (the variable here is an NGINX variable)</span></span>
+<span class="line"><span>          - upstream_status: $upstream_status    ## For example, add the status of an upstream server (the variable here is an NGINX variable)</span></span>
+<span class="line"><span>                                                 ## APISIX Built-in Variables: https://apisix.apache.org/docs/apisix/3.2/apisix-variable/</span></span>
+<span class="line"><span>                                                 ## NGINX Built-in Variables：https://nginx.org/en/docs/varindex.html</span></span></code></pre>
+<p>Enable Prometheus plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## Note: Since the otel feature has been enabled above, here we need to enable Prometheus on top of the otel functionality.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>curl http://10.109.77.186:9180/apisix/admin/routes/$router_id -H 'X-API-KEY: $apisix-admin token' -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "name": "deepflow-apisix-demo",       ## Assign a name to this route</span></span>
+<span class="line"><span>    "methods": ["GET"],</span></span>
+<span class="line"><span>    "uris": ["/*"],</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "prometheus":{                    ## Enable Prometheus</span></span>
+<span class="line"><span>            "prefer_name": true           ## When set to "true," the Prometheus metrics will display the route/service name instead of the ID.</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "nodes": {</span></span>
+<span class="line"><span>            "10.1.23.200:18090": 1</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h3 id="33-collect-apisix-metrics-with-prometheus">3.3 Collect APISIX Metrics with Prometheus</h3>
+<p>Collecting APISIX metrics using Prometheus (example given using Prometheus CRD deployment method):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## Collecting via ServiceMonitor Method (Prometheus deployed in Kubernetes as a CRD)</span></span>
+<span class="line"><span>## The APISIX `values.yaml` file provides the corresponding module</span></span>
+<span class="line"><span>serviceMonitor:</span></span>
+<span class="line"><span>  ## Whether to enable</span></span>
+<span class="line"><span>  enabled: true</span></span>
+<span class="line"><span>  ## Which namespace to create in</span></span>
+<span class="line"><span>      namespace: "apisix"</span></span>
+<span class="line"><span>  ## ServiceMonitor name, defaults to fullname</span></span>
+<span class="line"><span>  name: ""</span></span>
+<span class="line"><span>  ## Scrape interval</span></span>
+<span class="line"><span>  interval: 15s</span></span>
+<span class="line"><span>  ## URI where metrics are exposed</span></span>
+<span class="line"><span>  path: /metrics</span></span>
+<span class="line"><span>  ## Prefix for the scraped metrics</span></span>
+<span class="line"><span>  metricPrefix: apisix_</span></span>
+<span class="line"><span>  ## Scrape port</span></span>
+<span class="line"><span>  containerPort: 9091</span></span>
+<span class="line"><span>  ## Add labels</span></span>
+<span class="line"><span>  labels:</span></span>
+<span class="line"><span>    ## For this deployment, the project uses kube-prometheus; use this label for kube-prometheus to recognize the ServiceMonitor</span></span>
+<span class="line"><span>    app.kubernetes.io/part-of: kube-prometheus</span></span>
+<span class="line"><span>  annotations: {}</span></span></code></pre>
+<p>At this point, a Prometheus backend service is required to collect the metrics generated by APISIX plugins. Therefore, it is necessary to deploy a <code>prometheus-server</code> first. However, since these metrics do not rely on prometheus-server for storage, it is possible to deploy a prometheus-server in agent mode or use a lighter weight grafana-agent instead. Assuming that prometheus-server has been deployed, enabling <code>RemoteWrite</code> will send metric data to DeepFlow:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write</span></span>
+<span class="line"><span>## https://deepflow.io/docs/zh/integration/input/metrics/prometheus/#配置-remote-write</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Sending to DeepFlow via kube-prometheus (adding remote write in the YAML manifest)</span></span>
+<span class="line"><span>apiVersion: monitoring.coreos.com/v1</span></span>
+<span class="line"><span>kind: Prometheus</span></span>
+<span class="line"><span>metadata:</span></span>
+<span class="line"><span>  labels:</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>  name: k8s</span></span>
+<span class="line"><span>  namespace: monitoring</span></span>
+<span class="line"><span>spec:</span></span>
+<span class="line"><span>  enableRemoteWriteReceiver: true</span></span>
+<span class="line"><span>  remoteWrite:</span></span>
+<span class="line"><span>    ## Note: Here should be the deepflow-agent service address, which needs to be specified according to the actual location.</span></span>
+<span class="line"><span>    - url: "http://deepflow-agent.deepflow.svc.cluster.local/api/v1/prometheus"</span></span></code></pre>
+<h3 id="34-integrating-prometheus-metrics-with-deepflow">3.4 Integrating Prometheus Metrics with DeepFlow</h3>
+<p>Integrating Prometheus metrics through deepflow-agent is enabled by default and requires no additional configuration.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>## View the default configuration of deepflow-agent</span></span>
+<span class="line"><span>## deepflow-ctl agent-group-config example</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## This parameter controls whether to accept data from external sources, including Prometheus, Telegraf, OpenTelemetry, and SkyWalking.</span></span>
+<span class="line"><span>## Data Integration Socket</span></span>
+<span class="line"><span>## Default: 1. Options: 0 (disabled), 1 (enabled).</span></span>
+<span class="line"><span>## Note: Whether to enable receiving external data sources such as Prometheus,</span></span>
+<span class="line"><span>##   Telegraf, OpenTelemetry, and SkyWalking.</span></span>
+<span class="line"><span>#external_agent_http_proxy_enabled: 1</span></span></code></pre>
+<h3 id="35-prometheus-integration-showcase">3.5 Prometheus Integration Showcase</h3>
+<p>Since DeepFlow supports PromQL, you only need to change the data-source in the <a href="https://github.com/apache/apisix/blob/master/docs/assets/other/json/apisix-grafana-dashboard.json">Grafana dashboard</a> provided by APISIX to DeepFlow. This way, you can view the rich performance metrics natively provided by APISIX. For instructions on how to use these metrics, refer to <a href="https://apisix.apache.org/docs/apisix/plugins/prometheus/">the official documentation regarding the Prometheus plugin</a>.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/3S4sUpX2_deepflow-8.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h2 id="4-access-logs-and-continuous-profiling">4. Access Logs and Continuous Profiling</h2>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/7KO1FcJL_deepflow-8.1.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<p>For access logs, there is no need for APISIX to be modified in any way. Simply deploying deepflow-agent on the server where APISIX is located. By opening the <a href="https://ce-demo.deepflow.yunshan.net/d/Application_Request_Log/application-request-log?orgId=1">Application - Request Log Dashboard provided by DeepFlow</a> in Grafana, you can view the access logs, which include header information from both the Request and Response. Additionally, you can analyze the response latency and error codes for each request.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/4bOa7VKs_deepflow-9.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<p>DeepFlow also utilizes eBPF to capture function call stacks of applications, a feature available in the enterprise edition. This functionality enables the generation of an On-CPU Profile for the APISIX process, detailing the function call stack. It encompasses not just application functions but also the time spent in libraries and kernel syscalls.</p>
+<p><img src="https://static.apiseven.com/uploads/2024/02/07/KveTMwaQ_deepflow-10.jpeg" alt="Integrating APISIX with DeepFlow"></p>
+<h2 id="5-what-is-apisix">5. What is APISIX</h2>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> is a dynamic, real-time, high-performance open-source API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, and observability. Being built based on NGINX and LuaJIT, Apache APISIX has ultra-high performance with a single-core QPS of up to 23,000 and an average delay of only 0.2 milliseconds. It can solve problems in traditional architecture, and at the same time adapt to the needs of the cloud-native era.</p>
+<p>As an API gateway, Apache APISIX has a wide range of application scenarios. It can be applied to scenarios such as gateways, Kubernetes Ingress Controller, and service mesh, and can help enterprises quickly and safely process API and microservice traffic. At present, it has been tested and highly recognized by worldwide enterprises and organizations such as Zoom, Airwallex, Lotus Cars, vivo, and European Factory Platform.</p>
+<p>Open-sourced and donated by API7.ai to Apache Software Foundation in 2019, Apache APISIX is now the most active API gateway project on GitHub addressing 1 Trillion+ API calls per day, which is still growing.</p>
+<p>GitHub address：<a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></p>
+<h2 id="6-what-is-deepflow">6. What is DeepFlow</h2>
+<p>DeepFlow, an open-source observability project, aims to deliver comprehensive observability for complex cloud infrastructures and cloud-native applications. Utilizing eBPF technology, it offers application performance metrics, distributed tracing, and continuous profiling with zero-code instrumentation, thanks to its integration of smart-encoding technology for full-stack correlation. DeepFlow enables automatic deep observability for cloud-native applications, easing developers’ workload and equipping DevOps/SRE teams with advanced monitoring and diagnostic tools that span from code to infrastructure.</p>
+<p>GitHub address：<a href="https://github.com/deepflowio/deepflow">https://github.com/deepflowio/deepflow</a></p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Protect APIs with OWASP Coraza WAF in APISIX</span> </a> <a class="post-nav-card older" href="/blog/2024/01/31/bi-weekly-report/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Biweekly Report (January 15 - January 28)</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#1-install-apisix-and-deepflow">1. Install APISIX and DeepFlow</a></li><li class><a href="#2-distributed-tracing">2. Distributed Tracing</a></li><li class="d3"><a href="#21-deepflow-ebpf-autotracing">2.1 DeepFlow eBPF AutoTracing</a></li><li class="d3"><a href="#22-deepflow-ebpf--opentelemetry">2.2 DeepFlow eBPF + OpenTelemetry</a></li><li class><a href="#3-performance-metrics">3. Performance Metrics</a></li><li class="d3"><a href="#31-out-of-the-box-ebpf-metrics">3.1 Out-of-the-Box eBPF Metrics</a></li><li class="d3"><a href="#32-enable-the-prometheus-plugin-in-apisix">3.2 Enable the Prometheus Plugin in APISIX</a></li><li class="d3"><a href="#33-collect-apisix-metrics-with-prometheus">3.3 Collect APISIX Metrics with Prometheus</a></li><li class="d3"><a href="#34-integrating-prometheus-metrics-with-deepflow">3.4 Integrating Prometheus Metrics with DeepFlow</a></li><li class="d3"><a href="#35-prometheus-integration-showcase">3.5 Prometheus Integration Showcase</a></li><li class><a href="#4-access-logs-and-continuous-profiling">4. Access Logs and Continuous Profiling</a></li><li class><a href="#5-what-is-apisix">5. What is APISIX</a></li><li class><a href="#6-what-is-deepflow">6. What is DeepFlow</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 架构分析：如何动态管理 Nginx 集群？ | Apache APISIX</title><meta name="description" content="本文主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/08/10/apisix-nginx/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/08/10/apisix-nginx/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/08/10/apisix-nginx/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/08/10/apisix-nginx/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 架构分析：如何动态管理 Nginx 集群？ | Apache APISIX"><meta property="og:description" content="本文主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/08/10/apisix-nginx/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 架构分析：如何动态管理 Nginx 集群？","description":"本文主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。","datePublished":"2021-08-10","author":{"@type":"Person","name":"陶辉"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/08/10/apisix-nginx/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/08/10/apisix-nginx/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/08/10/apisix-nginx/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 架构分析：如何动态管理 Nginx 集群？</h1> <p class="article-meta"> <time datetime="2021-08-10">2021年8月10日</time> · 陶辉  · 约 12 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#基于-etcd-watch-机制的配置同步方案">基于 etcd watch 机制的配置同步方案</a></li><li class><a href="#ngxtimerat-定时器">ngx.timer.at 定时器</a></li><li class="d3"><a href="#nginx-的红黑树定时器">Nginx 的红黑树定时器</a></li><li class="d3"><a href="#openresty-的-lua-定时器">OpenResty 的 Lua 定时器</a></li><li class="d3"><a href="#apache-apisix-基于定时器实现的-watch-机制">Apache APISIX 基于定时器实现的 watch 机制</a></li><li class="d3"><a href="#lua-resty-etcd-库的-http11-协议">lua-resty-etcd 库的 HTTP/1.1 协议</a></li><li class><a href="#apisix-配置与插件的远程变更">APISIX 配置与插件的远程变更</a></li><li class="d3"><a href="#通过-nginx-的-apisixadmin-接口修改配置">通过 Nginx 的 /apisix/admin/ 接口修改配置</a></li><li class="d3"><a href="#为什么新配置不-reload-就可以生效">为什么新配置不 reload 就可以生效</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header>  <blockquote>
+<p>本文转发自陶辉个人博客，主要介绍了基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理讲解。</p>
+</blockquote>
+<!--truncate-->
+<p>开源版 Nginx 最为人诟病的就是不具备动态配置、远程 API 及集群管理的能力，而 Apache APISIX 作为 Apache 基金会毕业的开源七层网关，基于 etcd 和 Lua 实现了对 Nginx 集群的动态管理。</p>
+<p><img src="https://static.apiseven.com/202108/1631170283612-ba5e27ff-726b-47a6-aa51-84731b067c44.png" alt="APISIX 架构图"></p>
+<p>让 Nginx 具备动态、集群管理能力并不容易，因为这将面临以下问题：</p>
+<ul>
+<li>微服务架构使得上游服务种类多、数量大，这导致路由规则、上游 Server 的变更极为频率。而 Nginx 的路由匹配是基于静态的 Trie 前缀树、哈希表、正则数组实现的，一旦<code>server_name</code>、<code>location</code> 变动，不执行 reload 就无法实现配置的动态变更</li>
+<li>Nginx 将自己定位于 ADC 边缘负载均衡，因此它对上游并不支持 HTTP2 协议。这增大了 OpenResty 生态实现 etcd gRPC 接口的难度，因此通过 watch 机制接收配置变更必然效率低下</li>
+<li>多进程架构增大了 Worker 进程间的数据同步难度，必须选择 1 个低成本的实现机制，保证每个 Nginx 节点、Worker 进程都持有最新的配置</li>
+</ul>
+<p>Apache APISIX 基于 Lua 定时器及 lua-resty-etcd 模块实现了配置的动态管理，本文将基于 APISIX 2.8 版本、OpenResty 1.19.3.2 版本以及 Nginx 1.19.3 版本进行 Apache APISIX 实现 REST API 远程控制 Nginx 集群的原理。</p>
+<h2 id="基于-etcd-watch-机制的配置同步方案">基于 etcd watch 机制的配置同步方案</h2>
+<p>管理集群必须依赖中心化的配置，etcd 就是这样一个数据库。Apache APISIX 没有选择关系型数据库作为配置中心，是因为 etcd 具有以下 2 个优点：</p>
+<ul>
+<li>etcd 采用类 Paxos 的 Raft 协议保障了数据一致性，它是去中心化的分布式数据库，可靠性高于关系数据库</li>
+<li>etcd 的 watch 机制允许客户端监控某个 key 的变动，即，若类似 /nginx/http/upstream 这种 key 的 value 值发生变动，watch 客户端会立刻收到通知，如下图所示：</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1631170345853-f020a64d-3e97-49c0-8395-c9e4e9cf4233.jpeg" alt="基于 etcd 同步 nginx 配置"></p>
+<p>因此，不同于 Orange 和 Kong，Apache APISIX 采用了 etcd 作为中心化的配置组件。你可以在生产环境的 Apache APISIX 中通过 etcdctl 看到如下类似配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># etcdctl get  "/apisix/upstreams/1"</span></span>
+<span class="line"><span style="color:#A5D6FF">/apisix/upstreams/1</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#A5D6FF">"hash_on":"vars"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"nodes"</span><span style="color:#E6EDF3">:{</span><span style="color:#A5D6FF">"httpbin.org:80":1</span><span style="color:#E6EDF3">},</span><span style="color:#A5D6FF">"create_time":1627982128</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"update_time":1627982128</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"scheme":"http"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"type":"roundrobin"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"pass_host":"pass"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"id":"1"</span><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>其中，/apisix 这个前缀可以在 conf/config.yaml 中修改，比如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">etcd</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  host</span><span style="color:#E6EDF3">:  </span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#A5D6FF">"http://127.0.0.1:2379"</span></span>
+<span class="line"><span style="color:#7EE787">  prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix</span><span style="color:#8B949E">                 # apisix configurations prefix</span></span></code></pre>
+<p>而 upstreams/1 就等价于 nginx.conf 中的 http { upstream 1 {} } 配置。类似关键字还有 /apisix/services/、/apisix/routes/ 等。</p>
+<p>那么，Nginx 是怎样通过 watch 机制获取到 etcd 配置数据变化的呢？有没有新启动一个 agent 进程？它通过 HTTP/1.1 还是 gRPC 与 etcd 通讯的？</p>
+<h2 id="ngxtimerat-定时器">ngx.timer.at 定时器</h2>
+<p>Apache APISIX 并没有启动 Nginx 以外的进程与 etcd 通讯。实际上它是通过 <code>ngx.timer.at</code> 这个定时器实现了 watch 机制。为了方便对 OpenResty 不太了解的同学理解，我们先来看看 Nginx 中的定时器是如何实现的，它是 watch 机制实现的基础。</p>
+<h3 id="nginx-的红黑树定时器">Nginx 的红黑树定时器</h3>
+<p>Nginx 采用了 epoll + nonblock socket 这种多路复用机制实现事件处理模型，其中每个 worker 进程会循环处理网络 IO 及定时器事件：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#8B949E">//参见 Nginx 的 src/os/unix/ngx_process_cycle.c 文件</span></span>
+<span class="line"><span style="color:#FF7B72">static</span><span style="color:#FF7B72"> void</span></span>
+<span class="line"><span style="color:#D2A8FF">ngx_worker_process_cycle</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">ngx_cycle_t</span><span style="color:#FF7B72"> *</span><span style="color:#FFA657">cycle</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">void</span><span style="color:#FF7B72"> *</span><span style="color:#FFA657">data</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> ( ;; ) {</span></span>
+<span class="line"><span style="color:#D2A8FF">        ngx_process_events_and_timers</span><span style="color:#E6EDF3">(cycle);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// 参见 ngx_proc.c 文件</span></span>
+<span class="line"><span style="color:#FF7B72">void</span></span>
+<span class="line"><span style="color:#D2A8FF">ngx_process_events_and_timers</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">ngx_cycle_t</span><span style="color:#FF7B72"> *</span><span style="color:#FFA657">cycle</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#E6EDF3">    timer </span><span style="color:#FF7B72">=</span><span style="color:#D2A8FF"> ngx_event_find_timer</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#E6EDF3">    (</span><span style="color:#FF7B72">void</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">ngx_process_events</span><span style="color:#E6EDF3">(cycle, timer, flags);</span></span>
+<span class="line"><span style="color:#D2A8FF">    ngx_event_process_posted</span><span style="color:#E6EDF3">(cycle, </span><span style="color:#FF7B72">&#x26;</span><span style="color:#E6EDF3">ngx_posted_accept_events);</span></span>
+<span class="line"><span style="color:#D2A8FF">    ngx_event_expire_timers</span><span style="color:#E6EDF3">();</span></span>
+<span class="line"><span style="color:#D2A8FF">    ngx_event_process_posted</span><span style="color:#E6EDF3">(cycle, </span><span style="color:#FF7B72">&#x26;</span><span style="color:#E6EDF3">ngx_posted_events);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p><code>ngx_event_expire_timers</code> 函数会调用所有超时事件的 handler 方法。事实上，定时器是由<a href="https://zh.wikipedia.org/zh-hans/%E7%BA%A2%E9%BB%91%E6%A0%91">红黑树</a>（一种平衡有序二叉树）实现的，其中 key 是每个事件的绝对过期时间。这样，只要将最小节点与当前时间做比较，就能快速找到过期事件。</p>
+<h3 id="openresty-的-lua-定时器">OpenResty 的 Lua 定时器</h3>
+<p>当然，以上 C 函数开发效率很低。因此，OpenResty 封装了 Lua 接口，通过 <a href="https://github.com/openresty/lua-nginx-module#ngxtimerat">ngx.timer.at</a> 将 <code>ngx_timer_add</code> 这个 C 函数暴露给了 Lua 语言：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#8B949E">//参见 OpenResty /ngx_lua-0.10.19/src/ngx_http_lua_timer.c 文件</span></span>
+<span class="line"><span style="color:#FF7B72">void</span></span>
+<span class="line"><span style="color:#D2A8FF">ngx_http_lua_inject_timer_api</span><span style="color:#E6EDF3">(lua_State </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">L</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#D2A8FF">    lua_createtable</span><span style="color:#E6EDF3">(L, </span><span style="color:#79C0FF">0</span><span style="color:#8B949E"> /* narr */</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">4</span><span style="color:#8B949E"> /* nrec */</span><span style="color:#E6EDF3">);</span><span style="color:#8B949E">    /* ngx.timer. */</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D2A8FF">    lua_pushcfunction</span><span style="color:#E6EDF3">(L, ngx_http_lua_ngx_timer_at);</span></span>
+<span class="line"><span style="color:#D2A8FF">    lua_setfield</span><span style="color:#E6EDF3">(L, </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"at"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D2A8FF">    lua_setfield</span><span style="color:#E6EDF3">(L, </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"timer"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#FF7B72">static</span><span style="color:#FF7B72"> int</span></span>
+<span class="line"><span style="color:#D2A8FF">ngx_http_lua_ngx_timer_at</span><span style="color:#E6EDF3">(lua_State </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">L</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#D2A8FF"> ngx_http_lua_ngx_timer_helper</span><span style="color:#E6EDF3">(L, </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#FF7B72">static</span><span style="color:#FF7B72"> int</span></span>
+<span class="line"><span style="color:#D2A8FF">ngx_http_lua_ngx_timer_helper</span><span style="color:#E6EDF3">(lua_State </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">L</span><span style="color:#E6EDF3">, </span><span style="color:#FF7B72">int</span><span style="color:#FFA657"> every</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#79C0FF">    ngx_event_t</span><span style="color:#FF7B72">             *</span><span style="color:#E6EDF3">ev </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> NULL</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">    ev->handler </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx_http_lua_timer_handler;</span></span>
+<span class="line"><span style="color:#D2A8FF">    ngx_add_timer</span><span style="color:#E6EDF3">(ev, delay);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>因此，当我们调用 <code>ngx.timer.at</code>  Lua 定时器时，就是在 Nginx 的红黑树定时器里加入了 <code>ngx_http_lua_timer_handler</code> 回调函数，这个函数不会阻塞 Nginx。</p>
+<p>下面我们来看看 Apache APISIX 是怎样使用 <code>ngx.timer.at</code> 的。</p>
+<h3 id="apache-apisix-基于定时器实现的-watch-机制">Apache APISIX 基于定时器实现的 watch 机制</h3>
+<p>Nginx 框架为 C 模块开发提供了许多钩子，而 OpenResty 将部分钩子以 Lua 语言形式暴露了出来，如下图所示：</p>
+<p><img src="https://static.apiseven.com/202108/1631170424663-53f56c99-aefc-4546-ac0b-76a25a6f0071.png" alt="openresty 钩子"></p>
+<p>Apache APISIX 仅使用了其中 8 个钩子（注意，APISIX 没有使用 <code>set_by_lua</code> 和 <code>rewrite_by_lua</code>，rewrite 阶段的插件其实是 Apache APISIX 自定义的，与 Nginx 无关），包括：</p>
+<ul>
+<li>init_by_lua：Master 进程启动时的初始化</li>
+<li>init_worker_by_lua：每个 Worker 进程启动时的初始化（包括 privileged agent 进程的初始化，这是实现 Java 等多语言插件远程 RPC 调用的关键）</li>
+<li>ssl_certificate_by_lua：在处理 TLS 握手时，openssl 提供了一个钩子，OpenResty 通过修改 Nginx 源码以 Lua 方式暴露了该钩子</li>
+<li>access_by_lua：接收到下游的 HTTP 请求头部后，在此匹配 Host 域名、URI、Method 等路由规则，并选择 Service、Upstream 中的插件及上游 Server</li>
+<li>balancer_by_lua：在 content 阶段执行的所有反向代理模块，在选择上游 Server 时都会回调 <code>init_upstream</code> 钩子函数，OpenResty 将其命名为 <code>balancer_by_lua</code></li>
+<li>header_filter_by_lua：将 HTTP 响应头部发送给下游前执行的钩子</li>
+<li>body_filter_by_lua：将 HTTP 响应包体发送给下游前执行的钩子</li>
+<li>log_by_lua：记录 access 日志时的钩子</li>
+</ul>
+<p>准备好上述知识后，我们就可以回答 Apache APISIX 是怎样接收 etcd 数据的更新了。</p>
+<h4 id="nginxconf-的生成方式">nginx.conf 的生成方式</h4>
+<p>每个 Nginx Worker 进程都会在 <code>init_worker_by_lua</code> 阶段通过 <code>http_init_worker</code> 函数启动定时器：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#79C0FF">init_worker_by_lua_block</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    apisix.</span><span style="color:#79C0FF">http_init_worker</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>你可能很好奇，下载 Apache APISIX 源码后没有看到 nginx.conf，这段配置是哪来的？</p>
+<p>这里的 nginx.conf 实际是由 Apache APISIX 的启动命令实时生成的。当你执行 make run 时，它会基于 Lua 模板 apisix/cli/ngx_tpl.lua 文件生成 nginx.conf。请注意，这里的模板规则是 OpenResty 自实现的，语法细节参见 <a href="https://github.com/bungle/lua-resty-template">lua-resty-template</a>。生成 nginx.conf 的具体代码参见 apisix/cli/ops.lua 文件：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> template </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"resty.template"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> ngx_tpl </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.cli.ngx_tpl"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> init</span><span style="color:#E6EDF3">(env)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> yaml_conf, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> file.</span><span style="color:#79C0FF">read_yaml_conf</span><span style="color:#E6EDF3">(env.</span><span style="color:#79C0FF">apisix_home</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> conf_render </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> template.</span><span style="color:#79C0FF">compile</span><span style="color:#E6EDF3">(ngx_tpl)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ngxconf </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> conf_render</span><span style="color:#E6EDF3">(sys_conf)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> util.</span><span style="color:#79C0FF">write_file</span><span style="color:#E6EDF3">(env.</span><span style="color:#79C0FF">apisix_home</span><span style="color:#FF7B72"> ..</span><span style="color:#A5D6FF"> "/conf/nginx.conf"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                    ngxconf)</span></span></code></pre>
+<p>当然，Apache APISIX 允许用户修改 nginx.conf 模板中的部分数据，具体方法是模仿 conf/config-default.yaml 的语法修改 conf/config.yaml 配置。其实现原理参见 <code>read_yaml_conf</code> 函数：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">read_yaml_conf</span><span style="color:#E6EDF3">(apisix_home)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> local_conf_path </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> profile</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">yaml_path</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"config-default"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> default_conf_yaml, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> util.</span><span style="color:#79C0FF">read_file</span><span style="color:#E6EDF3">(local_conf_path)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    local_conf_path </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> profile</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">yaml_path</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"config"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> user_conf_yaml, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> util.</span><span style="color:#79C0FF">read_file</span><span style="color:#E6EDF3">(local_conf_path)</span></span>
+<span class="line"><span style="color:#E6EDF3">    ok, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> merge_conf</span><span style="color:#E6EDF3">(default_conf, user_conf)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>可见，ngx_tpl.lua 模板中仅部分数据可由 yaml 配置中替换，其中 conf/config-default.yaml 是官方提供的默认配置，而 conf/config.yaml 则是由用户自行覆盖的自定义配置。如果你觉得仅替换模板数据还不够，大可直接修改 ngx_tpl 模板。</p>
+<h4 id="apache-apisix-获取-etcd-通知的方式">Apache APISIX 获取 etcd 通知的方式</h4>
+<p>Apache APISIX 将需要监控的配置以不同的前缀存入了 etcd，目前包括以下 11 种：</p>
+<ul>
+<li>/apisix/consumers/：Apache APISIX 支持以 consumer 抽象上游种类</li>
+<li>/apisix/global_rules/：全局通用的规则</li>
+<li>/apisix/plugin_configs/：可以在不同 Router 间复用的 Plugin</li>
+<li>/apisix/plugin_metadata/：部分插件的元数据</li>
+<li>/apisix/plugins/：所有 Plugin 插件的列表</li>
+<li>/apisix/proto/：当透传 gRPC 协议时，部分插件需要转换协议内容，该配置存储 protobuf 消息定义</li>
+<li>/apisix/routes/：路由信息，是 HTTP 请求匹配的入口，可以直接指定上游 Server，也可以挂载 services 或者 upstream</li>
+<li>/apisix/services/：可以将相似的 router 中的共性部分抽象为 services，再挂载 plugin</li>
+<li>/apisix/ssl/：SSL 证书公、私钥及相关匹配规则</li>
+<li>/apisix/stream_routes/：OSI 四层网关的路由匹配规则</li>
+<li>/apisix/upstreams/：对一组上游 Server 主机的抽象</li>
+</ul>
+<p>这里每类配置对应的处理逻辑都不相同，因此 Apache APISIX 抽象出 apisix/core/config_etcd.lua 文件，专注 etcd 上各类配置的更新维护。在 <code>http_init_worker</code> 函数中每类配置都会生成 1 个 config_etcd 对象：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">init_worker</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> err</span></span>
+<span class="line"><span style="color:#E6EDF3">    plugin_configs, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">config</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">new</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"/plugin_configs"</span><span style="color:#E6EDF3">, {</span></span>
+<span class="line"><span style="color:#E6EDF3">        automatic </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        item_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">plugin_config</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        checker </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_checker,</span></span>
+<span class="line"><span style="color:#E6EDF3">    })</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>而在 <code>config_etcd</code> 的 new 函数中，则会循环注册 <code>_automatic_fetch</code> 定时器:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">new</span><span style="color:#E6EDF3">(key, opts)</span></span>
+<span class="line"><span style="color:#79C0FF">    ngx_timer_at</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">, _automatic_fetch, obj)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p><code>_automatic_fetch</code> 函数会反复执行 <code>sync_data</code> 函数（包装到 xpcall 之下是为了捕获异常）：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> _automatic_fetch</span><span style="color:#E6EDF3">(premature, self)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> xpcall</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">function</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> sync_data</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">debug.traceback</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#79C0FF">    ngx_timer_at</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">, _automatic_fetch, </span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p><code>sync_data</code> 函数将通过 etcd 的 watch 机制获取更新，它的实现机制我们接下来会详细分析。</p>
+<p>所以总结来看，Apache APISIX 在每个 Nginx Worker 进程的启动过程中，通过 <code>ngx.timer.at</code> 函数将 <code>_automatic_fetch</code> 插入定时器。<code>_automatic_fetch</code> 函数执行时会通过 <code>sync_data</code> 函数，基于 watch 机制接收 etcd 中的配置变更通知，这样，每个 Nginx 节点、Worker 进程都将保持最新的配置。如此设计还有 1 个明显的优点：etcd 中的配置直接写入 Nginx Worker 进程中，这样处理请求时就能直接使用新配置，无须在进程间同步配置，这要比启动 1 个 agent 进程更简单！</p>
+<h3 id="lua-resty-etcd-库的-http11-协议">lua-resty-etcd 库的 HTTP/1.1 协议</h3>
+<p><code>sync_data</code> 函数到底是怎样获取 etcd 的配置变更消息的呢？先看下 <code>sync_data</code> 源码：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> etcd         </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"resty.etcd"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">etcd_cli, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> etcd.</span><span style="color:#79C0FF">new</span><span style="color:#E6EDF3">(etcd_conf)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> sync_data</span><span style="color:#E6EDF3">(self)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> dir_res, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> waitdir</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">etcd_cli</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">key</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">prev_index</span><span style="color:#FF7B72"> +</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">timeout</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> waitdir</span><span style="color:#E6EDF3">(etcd_cli, key, modified_index, timeout)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> res_func, func_err, http_cli </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> etcd_cli</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">watchdir</span><span style="color:#E6EDF3">(key, opts)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> http_cli </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> res_cancel, err_cancel </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> etcd_cli</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">watchcancel</span><span style="color:#E6EDF3">(http_cli)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>这里实际与 etcd 通讯的是 <a href="https://github.com/api7/lua-resty-etcd">lua-resty-etcd</a> 库。它提供的 watchdir 函数用于接收 etcd 发现 key 目录对应 value 变更后发出的通知。</p>
+<p>watchcancel 函数又是做什么的呢？这其实是 OpenResty 生态的缺憾导致的。etcd v3 已经支持高效的 gRPC 协议（底层为 HTTP2 协议）。你可能听说过，HTTP2 不但具备多路复用的能力，还支持服务器直接推送消息，从 HTTP3 协议对照理解 HTTP2 ：</p>
+<p><img src="https://static.apiseven.com/202108/1631170499370-57a7c452-e97e-4ac0-b7bf-073e13946a21.png" alt="http2_stream_frame_conn"></p>
+<p>然而，Lua 生态目前并不支持 HTTP2 协议，所以 lua-resty-etcd 库实际是通过低效的 HTTP/1.1 协议与 etcd 通讯的，因此接收 /watch 通知也是通过带有超时的 /v3/watch 请求完成的。这个现象其实是由 2 个原因造成的：</p>
+<ol>
+<li>Nginx 将自己定位为边缘负载均衡，因此上游必然是企业内网，时延低、带宽大，所以对上游协议不必支持 HTTP2 协议</li>
+<li>当 Nginx 的 upstream 不能提供 HTTP2 机制给 Lua 时，Lua 只能基于 cosocket 自己实现了。HTTP2 协议非常复杂，目前还没有生产环境可用的 HTTP2 cosocket 库。</li>
+</ol>
+<p>使用 HTTP/1.1 的 lua-resty-etcd 库其实很低效，如果你在 APISIX 上抓包，会看到频繁的 POST 报文，其中 URI 为 /v3/watch，而 Body 是 Base64 编码的 watch 目录：</p>
+<p><img src="https://static.apiseven.com/202108/1631170602368-d105d014-efe4-48c7-93b8-be5447c76a70.jpeg" alt="APISIX 与 etcd 通过 HTTP1 通讯"></p>
+<p>我们可以验证下 <code>watchdir</code> 函数的实现细节：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- lib/resty/etcd/v3.lua 文件</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">watchdir</span><span style="color:#E6EDF3">(self, key, opts)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#79C0FF"> watch</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">, key, attr)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> watch</span><span style="color:#E6EDF3">(self, key, attr)</span></span>
+<span class="line"><span style="color:#E6EDF3">    callback_fun, err, http_cli </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> request_chunk</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'POST'</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'/watch'</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                                opts, attr.</span><span style="color:#79C0FF">timeout</span><span style="color:#FF7B72"> or</span><span style="color:#79C0FF"> self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">timeout</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> callback_fun</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> request_chunk</span><span style="color:#E6EDF3">(self, method, path, opts, timeout)</span></span>
+<span class="line"><span style="color:#E6EDF3">    http_cli, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> utils.</span><span style="color:#79C0FF">http</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">new</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#8B949E">    -- 发起 TCP 连接</span></span>
+<span class="line"><span style="color:#E6EDF3">    endpoint, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> http_request_chunk</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">, http_cli)</span></span>
+<span class="line"><span style="color:#8B949E">    -- 发送 HTTP 请求</span></span>
+<span class="line"><span style="color:#E6EDF3">    res, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> http_cli</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">({</span></span>
+<span class="line"><span style="color:#E6EDF3">        method  </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> method,</span></span>
+<span class="line"><span style="color:#E6EDF3">        path    </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> endpoint.</span><span style="color:#79C0FF">api_prefix</span><span style="color:#FF7B72"> ..</span><span style="color:#E6EDF3"> path,</span></span>
+<span class="line"><span style="color:#E6EDF3">        body    </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> body,</span></span>
+<span class="line"><span style="color:#E6EDF3">        query   </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> query,</span></span>
+<span class="line"><span style="color:#E6EDF3">        headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> headers,</span></span>
+<span class="line"><span style="color:#E6EDF3">    })</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> http_request_chunk</span><span style="color:#E6EDF3">(self, http_cli)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> endpoint, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> choose_endpoint</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">self</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">    ok, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> http_cli</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">connect</span><span style="color:#E6EDF3">({</span></span>
+<span class="line"><span style="color:#E6EDF3">        scheme </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> endpoint.</span><span style="color:#79C0FF">scheme</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        host </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> endpoint.</span><span style="color:#79C0FF">host</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        port </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> endpoint.</span><span style="color:#79C0FF">port</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        ssl_verify </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">ssl_verify</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        ssl_cert_path </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">ssl_cert_path</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        ssl_key_path </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> self</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">ssl_key_path</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    })</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> endpoint, err</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>可见，Apache APISIX 在每个 worker 进程中，<strong>通过 <code>ngx.timer.at</code> 和 lua-resty-etcd 库反复请求 etcd，以此保证每个 Worker 进程中都含有最新的配置。</strong></p>
+<h2 id="apisix-配置与插件的远程变更">APISIX 配置与插件的远程变更</h2>
+<p>接下来，我们看看怎样远程修改 etcd 中的配置。</p>
+<p>我们当然可以直接通过 gRPC 接口修改 etcd 中相应 key 的内容，再基于上述的 watch 机制使得 Nginx 集群自动更新配置。然而，这样做的风险很大，因为配置请求没有经过校验，进面导致配置数据与 Nginx 集群不匹配。</p>
+<h3 id="通过-nginx-的-apisixadmin-接口修改配置">通过 Nginx 的 /apisix/admin/ 接口修改配置</h3>
+<p>Apache APISIX 提供了这么一种机制：访问任意 1 个 Nginx 节点，通过其 Worker 进程中的 Lua 代码校验请求成功后，再由 /v3/dv/put 接口写入 etcd 中。下面我们来看看 Apache APISIX 是怎么实现的。</p>
+<p>首先，make run 生成的 nginx.conf 会自动监听 9080 端口（可通过 config.yaml 中 apisix.node_listen 配置修改），当 <code>apisix.enable_admin</code> 设置为 true 时，nginx.conf 就会生成以下配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#A5D6FF">server {</span></span>
+<span class="line"><span style="color:#A5D6FF">    listen 9080 default_server reuseport;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">    location/apisix/admin {</span></span>
+<span class="line"><span style="color:#A5D6FF">        content_by_lua_block {</span></span>
+<span class="line"><span style="color:#A5D6FF">            apisix.http_admin()</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span></code></pre>
+<p>这样，Nginx 接收到的 /apisix/admin 请求将被 <code>http_admin</code> 函数处理：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- /apisix/init.lua 文件</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">http_admin</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> router</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">dispatch</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">get_var</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"uri"</span><span style="color:#E6EDF3">), {method </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> get_method</span><span style="color:#E6EDF3">()})</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>admin 接口能够处理的 API 参见 <a href="https://github.com/apache/apisix/blob/release/2.8/docs/zh/latest/admin-api.md">GitHub</a> 文档，其中，当 method 方法与 URI 不同时，dispatch 会执行不同的处理函数，其依据如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- /apisix/admin/init.lua 文件</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> uri_route </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#E6EDF3">        paths </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> [[/apisix/admin/*]]</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        methods </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"PUT"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"DELETE"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"PATCH"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">        handler </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> run,</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#E6EDF3">        paths </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> [[/apisix/admin/stream_routes/*]]</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        methods </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"PUT"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"DELETE"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"PATCH"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">        handler </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> run_stream,</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#E6EDF3">        paths </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> [[/apisix/admin/plugins/list]]</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        methods </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"GET"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">        handler </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> get_plugins_list,</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#E6EDF3">        paths </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> reload_event,</span></span>
+<span class="line"><span style="color:#E6EDF3">        methods </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span><span style="color:#A5D6FF">"PUT"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">        handler </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> post_reload_plugins,</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>比如，当通过 /apisix/admin/upstreams/1 和 PUT 方法创建 1 个 Upstream 上游时：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/apisix/admin/upstreams/1"</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-API-KEY: edd1c9f034335f136f87ad84b625c8f1"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">> {</span></span>
+<span class="line"><span style="color:#A5D6FF">>   "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">>   "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">>     "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">>   }</span></span>
+<span class="line"><span style="color:#A5D6FF">> }</span></span>
+<span class="line"><span style="color:#A5D6FF">{"action":"set","node":{"key":"\/apisix\/upstreams\/1","value":{"hash_on":"vars","nodes":{"httpbin.org:80":1},"create_time":1627982128,"update_time":1627982128,"scheme":"http","type":"roundrobin","pass_host":"pass","id":"1"}}}'</span></span></code></pre>
+<p>你会在 error.log 中会看到如下日志（想看到这行日志，必须将 config.yaml 中的 nginx_config.error_log_level 设为 INFO）：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">2021/08/03 17:15:28 [info] 16437#16437</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">23572 [</span><span style="color:#A5D6FF">lua</span><span style="color:#E6EDF3">] </span><span style="color:#7EE787">init.lua:130</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">handler()</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">""</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"apisix"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"admin"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"upstreams"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">], </span><span style="color:#7EE787">client</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">127.0.0.1, server</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">_, request</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"PUT /apisix/admin/upstreams/1 HTTP/1.1"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1:9080"</span></span></code></pre>
+<p>这行日志实际是由 /apisix/admin/init.lua 中的 <code>run</code> 函数打印的，它的执行依据是上面的 uri_route 字典。我们看下 run 函数的内容：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- /apisix/admin/init.lua文件</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> run</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> uri_segs </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">utils</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">split_uri</span><span style="color:#E6EDF3">(ngx.</span><span style="color:#79C0FF">var</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">uri</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">info</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"uri: "</span><span style="color:#E6EDF3">, core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">delay_encode</span><span style="color:#E6EDF3">(uri_segs))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> seg_res, seg_id </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> uri_segs[</span><span style="color:#79C0FF">4</span><span style="color:#E6EDF3">], uri_segs[</span><span style="color:#79C0FF">5</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> seg_sub_path </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">table</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">concat</span><span style="color:#E6EDF3">(uri_segs, </span><span style="color:#A5D6FF">"/"</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">6</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> resource </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> resources[seg_res]</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> code, data </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> resource[method](seg_id, req_body, seg_sub_path,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                        uri_args)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>这里 <code>resource[method]</code> 函数又被做了 1 次抽象，它是由 resources 字典决定的：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- /apisix/admin/init.lua文件</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> resources </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    routes          </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.routes"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    services        </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.services"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    upstreams       </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.upstreams"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    consumers       </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.consumers"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema          </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.schema"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    ssl             </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.ssl"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    plugins         </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.plugins"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    proto           </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.proto"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    global_rules    </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.global_rules"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    stream_routes   </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.stream_routes"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    plugin_metadata </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.plugin_metadata"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">    plugin_configs  </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.admin.plugin_config"</span><span style="color:#E6EDF3">),</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>因此，上面的 curl 请求将被 /apisix/admin/upstreams.lua 文件的 <code>put</code> 函数处理，看下 <code>put</code> 函数的实现：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- /apisix/admin/upstreams.lua文件</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">put</span><span style="color:#E6EDF3">(id, conf)</span></span>
+<span class="line"><span style="color:#8B949E">    -- 校验请求数据的合法性</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> id, err </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> check_conf</span><span style="color:#E6EDF3">(id, conf, </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> key </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "/upstreams/" </span><span style="color:#FF7B72">..</span><span style="color:#E6EDF3"> id</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">info</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"key: "</span><span style="color:#E6EDF3">, key)</span></span>
+<span class="line"><span style="color:#8B949E">    -- 生成etcd中的配置数据</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> utils.</span><span style="color:#79C0FF">inject_conf_with_prev_conf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"upstream"</span><span style="color:#E6EDF3">, key, conf)</span></span>
+<span class="line"><span style="color:#8B949E">    -- 写入etcd</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> res, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">etcd</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">set</span><span style="color:#E6EDF3">(key, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- /apisix/core/etcd.lua</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#FF7B72"> function</span><span style="color:#D2A8FF"> set</span><span style="color:#E6EDF3">(key, value, ttl)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> res, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> etcd_cli</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">set</span><span style="color:#E6EDF3">(prefix </span><span style="color:#FF7B72">..</span><span style="color:#E6EDF3"> key, value, {prev_kv </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">, lease </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> data.</span><span style="color:#79C0FF">body</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">ID</span><span style="color:#E6EDF3">})</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>最终新配置被写入 etcd 中。可见，Nginx 会校验数据再写入 etcd，这样其他 Worker 进程、Nginx 节点都将通过 watch 机制接收到正确的配置。上述流程你可以通过 error.log 中的日志验证：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">2021/08/03 17:15:28 [info] 16437#16437</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">23572 [</span><span style="color:#A5D6FF">lua</span><span style="color:#E6EDF3">] </span><span style="color:#7EE787">upstreams.lua:72</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">key</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">/upstreams/1, client</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">127.0.0.1, server</span><span style="color:#E6EDF3">: </span><span style="color:#7EE787">_, request</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"PUT /apisix/admin/upstreams/1 HTTP/1.1"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1:9080"</span></span></code></pre>
+<h3 id="为什么新配置不-reload-就可以生效">为什么新配置不 reload 就可以生效</h3>
+<p>我们再来看 admin 请求执行完 Nginx Worker 进程可以立刻生效的原理。</p>
+<p>开源版 Nginx 的请求匹配是基于 3 种不同的容器进行的：</p>
+<ol>
+<li>
+<p>将静态哈希表中的 <code>server_name</code> 配置与请求的 <code>Host</code> 域名匹配</p>
+</li>
+<li>
+<p>其次将静态 Trie 前缀树中的 location 配置与请求的 URI 匹配</p>
+<p><img src="https://static.apiseven.com/202108/1631170657240-31bb3ff3-ee3b-4831-99ff-77cab1d6e298.png" alt="location 前缀树的匹配流程 2"></p>
+</li>
+<li>
+<p>在上述两个过程中，如果含有正则表达式，则基于数组顺序（在 nginx.conf 中出现的次序）依次匹配。</p>
+</li>
+</ol>
+<p>上述过程虽然执行效率极高，却是写死在 find_config 阶段及 Nginx HTTP 框架中的，一旦变更必须在 nginx -s reload 后才能生效。因此，Apache APISIX 索性完全抛弃了上述流程。</p>
+<p>从 nginx.conf 中可以看到，访问任意域名、URI 的请求都会匹配到 <code>http_access_phase</code> 这个 lua 函数：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#79C0FF">server</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    server_name _;</span></span>
+<span class="line"><span style="color:#E6EDF3">    location </span><span style="color:#FF7B72">/</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">        access_by_lua_block</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            apisix.</span><span style="color:#79C0FF">http_access_phase</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">        proxy_pass      $</span><span style="color:#FFA657">upstream_scheme</span><span style="color:#E6EDF3">:</span><span style="color:#FF7B72">//</span><span style="color:#E6EDF3">apisix_backend$upstream_uri;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>而在 <code>http_access_phase</code> 函数中，将会基于 1 个用 C 语言实现的基数前缀树匹配 Method、域名和 URI（仅支持通配符，不支持正则表达式），这个库就是 <a href="https://github.com/api7/lua-resty-radixtree">lua-resty-radixtree</a>。每当路由规则发生变化，Lua 代码就会重建这棵基数树：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">match</span><span style="color:#E6EDF3">(api_ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> cached_version </span><span style="color:#FF7B72">or</span><span style="color:#E6EDF3"> cached_version </span><span style="color:#FF7B72">~=</span><span style="color:#E6EDF3"> user_routes.</span><span style="color:#79C0FF">conf_version</span><span style="color:#FF7B72"> then</span></span>
+<span class="line"><span style="color:#E6EDF3">        uri_router </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> base_router.</span><span style="color:#79C0FF">create_radixtree_uri_router</span><span style="color:#E6EDF3">(user_routes.</span><span style="color:#79C0FF">values</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                                             uri_routes, </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">        cached_version </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> user_routes.</span><span style="color:#79C0FF">conf_version</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>这样，路由变化后就可以不 reload 而使其生效。Plugin 启用、参数及顺序调整的规则与此类似。</p>
+<p>最后再提下 Script，它与 Plugin 是互斥的。之前的动态调整改的只是配置，事实上 Lua JIT 的及时编译还提供了另外一个杀手锏 loadstring，它可以将字符串转换为 Lua 代码。因此，在 etcd 中存储 Lua 代码并设置为 Script 后，就可以将其传送到 Nginx 上处理请求了。</p>
+<h2 id="总结">总结</h2>
+<p>Nginx 集群的管理必须依赖中心化配置组件，而高可靠又具备 watch 推送机制的 etcd 无疑是最合适的选择！虽然当下 Resty 生态没有 gRPC 客户端，但每个 Worker 进程直接通过 HTTP/1.1 协议同步 etcd 配置仍不失为一个好的方案。</p>
+<p>动态修改 Nginx 配置的关键在于 2 点：Lua 语言的灵活度远高于 nginx.conf 语法，而且 Lua 代码可以通过 loadstring 从外部数据中导入。当然，为了保障路由匹配的执行效率，Apache APISIX 通过 C 语言实现了前缀基数树，基于 Host、Method、URI 进行请求匹配，在保障动态性的基础上提升了性能。</p>
+<p>Apache APISIX 拥有许多优秀的设计，本文仅讨论了 Nginx 集群的动态管理。</p>
+<p><a href="https://www.taohui.tech/2021/08/10/%E5%BC%80%E6%BA%90%E7%BD%91%E5%85%B3APISIX%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/#more">点此查看原文链接</a></p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/08/11/interview-tuzhengsong/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">从新手村出来，我在 Apache APISIX 社区发出了第一个 PR</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/08/09/apache-apisix-in-china-mobile-cloud/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">Apache APISIX 在移动云的应用</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#基于-etcd-watch-机制的配置同步方案">基于 etcd watch 机制的配置同步方案</a></li><li class><a href="#ngxtimerat-定时器">ngx.timer.at 定时器</a></li><li class="d3"><a href="#nginx-的红黑树定时器">Nginx 的红黑树定时器</a></li><li class="d3"><a href="#openresty-的-lua-定时器">OpenResty 的 Lua 定时器</a></li><li class="d3"><a href="#apache-apisix-基于定时器实现的-watch-机制">Apache APISIX 基于定时器实现的 watch 机制</a></li><li class="d3"><a href="#lua-resty-etcd-库的-http11-协议">lua-resty-etcd 库的 HTTP/1.1 协议</a></li><li class><a href="#apisix-配置与插件的远程变更">APISIX 配置与插件的远程变更</a></li><li class="d3"><a href="#通过-nginx-的-apisixadmin-接口修改配置">通过 Nginx 的 /apisix/admin/ 接口修改配置</a></li><li class="d3"><a href="#为什么新配置不-reload-就可以生效">为什么新配置不 reload 就可以生效</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

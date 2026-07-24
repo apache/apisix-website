@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Apache APISIX Blog</title>
+        <link>https://apisix.apache.org/learning-center</link>
+        <description>Apache APISIX Blog</description>
+        <lastBuildDate>Wed, 24 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Apache APISIX vs Apigee: Gateway vs API Management Platform]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-apigee</link>
+            <guid>apisix-vs-apigee</guid>
+            <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-aws-api-gateway</link>
+            <guid>apisix-vs-aws-api-gateway</guid>
+            <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX vs Envoy: API Gateway vs Service Proxy]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-envoy</link>
+            <guid>apisix-vs-envoy</guid>
+            <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Apache APISIX and Envoy: a turnkey API gateway with a built-in control plane vs a high-performance proxy that needs one (Istio, Gloo).]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX vs NGINX: API Gateway vs Reverse Proxy]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-nginx</link>
+            <guid>apisix-vs-nginx</guid>
+            <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Apache APISIX and NGINX as API gateways. APISIX is built on NGINX but adds dynamic config, 100+ plugins, and an Admin API; NGINX Plus too.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX vs Traefik: Performance vs Auto-Discovery]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-traefik</link>
+            <guid>apisix-vs-traefik</guid>
+            <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Apache APISIX and Traefik: APISIX for higher throughput and a larger plugin ecosystem, Traefik for container-native auto-discovery and TLS.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway Authentication: Methods, Best Practices & Implementation]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-authentication</link>
+            <guid>api-gateway-authentication</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway for Microservices: Architecture, Patterns & Best Practices]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-for-microservices</link>
+            <guid>api-gateway-for-microservices</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn why microservices need an API Gateway and how Apache APISIX handles routing, discovery, load balancing, retries, and traffic control.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway Rate Limiting: Algorithms, Strategies & Configuration]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-rate-limiting</link>
+            <guid>api-gateway-rate-limiting</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Understand API rate limiting at the gateway layer. Covers token bucket, sliding window, and leaky bucket algorithms with practical configuration examples.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway Security: Threats, Best Practices & Implementation]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-security</link>
+            <guid>api-gateway-security</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn API Gateway security best practices with Apache APISIX, including authentication, authorization, rate limiting, WAF, mTLS, and zero-trust controls.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Gateway vs Load Balancer: Key Differences Explained]]></title>
+            <link>https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer</link>
+            <guid>api-gateway-vs-load-balancer</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Understand the differences between an API gateway and a load balancer. Learn when to use each, how they complement each other, and where they overlap.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[API Monetization: Models, Strategies & Implementation Guide]]></title>
+            <link>https://apisix.apache.org/learning-center/api-monetization-guide</link>
+            <guid>api-monetization-guide</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to monetize APIs with proven pricing models. Covers freemium, pay-per-call, tiered pricing, and revenue sharing with practical implementation guidance.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks]]></title>
+            <link>https://apisix.apache.org/learning-center/apisix-vs-kong</link>
+            <guid>apisix-vs-kong</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Apache APISIX and Kong API Gateway across architecture, performance, plugin ecosystem, Kubernetes support, and migration tradeoffs.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices]]></title>
+            <link>https://apisix.apache.org/learning-center/kubernetes-api-gateway</link>
+            <guid>kubernetes-api-gateway</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare Kubernetes Gateway API vs Ingress, understand ingress controllers, and learn how to deploy an API gateway on Kubernetes with Apache APISIX.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[MCP Protocol & AI Gateways: Managing AI Agent Traffic at Scale]]></title>
+            <link>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway</link>
+            <guid>mcp-protocol-ai-gateway</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn what Model Context Protocol means for AI agent traffic and how API gateways such as Apache APISIX can secure, observe, and control surrounding LLM API calls.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik]]></title>
+            <link>https://apisix.apache.org/learning-center/open-source-api-gateway-comparison</link>
+            <guid>open-source-api-gateway-comparison</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Compare the leading open-source API gateways. Feature-by-feature analysis of Apache APISIX, Kong, Envoy, and Traefik covering architecture, plugins, Kubernetes support, and community.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[What is an API Gateway? Definition, Benefits & Use Cases]]></title>
+            <link>https://apisix.apache.org/learning-center/what-is-an-api-gateway</link>
+            <guid>what-is-an-api-gateway</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn what an API Gateway is, how it handles routing, authentication, rate limiting, observability, and where Apache APISIX fits.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[What is gRPC? Protocol Buffers, Performance & API Gateway Integration]]></title>
+            <link>https://apisix.apache.org/learning-center/what-is-grpc</link>
+            <guid>what-is-grpc</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn what the gRPC protocol is, how gRPC APIs use Protocol Buffers, streaming, and HTTP/2, and how Apache APISIX proxies and transforms gRPC traffic.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Mutual TLS (mTLS): Authentication and Certificates]]></title>
+            <link>https://apisix.apache.org/learning-center/what-is-mutual-tls</link>
+            <guid>what-is-mutual-tls</guid>
+            <pubDate>Tue, 14 Apr 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how mutual TLS (mTLS) authentication uses client and server certificates, how TLS vs mTLS differs, and how Apache APISIX enforces mTLS.]]></description>
+        </item>
+    </channel>
+</rss>

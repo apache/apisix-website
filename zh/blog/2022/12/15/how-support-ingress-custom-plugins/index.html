@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Ingress 如何支持自定义插件 | Apache APISIX</title><meta name="description" content="本篇主要介绍了 Ingress 资源相关的语义，以及如何对 Ingress 资源进行能力的扩展。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/12/15/how-support-ingress-custom-plugins/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/12/15/how-support-ingress-custom-plugins/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/12/15/how-support-ingress-custom-plugins/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/12/15/how-support-ingress-custom-plugins/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX Ingress 如何支持自定义插件 | Apache APISIX"><meta property="og:description" content="本篇主要介绍了 Ingress 资源相关的语义，以及如何对 Ingress 资源进行能力的扩展。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/12/15/how-support-ingress-custom-plugins/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Ingress 如何支持自定义插件","description":"本篇主要介绍了 Ingress 资源相关的语义，以及如何对 Ingress 资源进行能力的扩展。","datePublished":"2022-12-15","author":{"@type":"Person","name":"张晋涛"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/12/15/how-support-ingress-custom-plugins/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/12/15/how-support-ingress-custom-plugins/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/12/15/how-support-ingress-custom-plugins/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX Ingress 如何支持自定义插件</h1> <p class="article-meta"> <time datetime="2022-12-15">2022年12月15日</time> · 张晋涛  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#ingress-和-ingress-controllers">Ingress 和 Ingress Controllers</a></li><li class><a href="#ingress-nginx-如何支持扩展功能">Ingress-NGINX 如何支持扩展功能</a></li><li class><a href="#在-apisix-ingress-中使用插件">在 APISIX Ingress 中使用插件</a></li><li class="d3"><a href="#方式一纯-crd-模式">方式一：纯 CRD 模式</a></li><li class="d3"><a href="#方式二ingress-annotations-模式">方式二：Ingress Annotations 模式</a></li><li class="d3"><a href="#方式三crd--ingress-annotations-模式">方式三：CRD + Ingress Annotations 模式</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header>  <blockquote>
+<p>本篇主要介绍了 Ingress 资源相关的语义，以及如何对 Ingress 资源进行能力的扩展。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>作者：张晋涛，API7.ai 云原生技术专家，Apache APISIX PMC 成员，Apache APISIX Ingress Controller 项目维护者。</p>
+</blockquote>
+<h2 id="ingress-和-ingress-controllers">Ingress 和 Ingress Controllers</h2>
+<p>Kubernetes 中的 Ingress 是一种资源对象，用于定义如何从 Kubernetes 集群外访问到 Kubernetes 集群内的服务，其中包含了具体的访问规则，通常情况下客户端使用 HTTP/HTTPS 协议进行访问。</p>
+<p>客户端可按照 Ingress 资源定义的规则，将客户端请求路由到 Kubernetes 集群中的服务或具体的 Pod 中。</p>
+<p><img src="https://static.apiseven.com/2022/12/14/63996e81521dc.png" alt="3df3234c-7ae7-48de-8dbb-0449226e4f2e.png"></p>
+<p>以下是一个 Ingress 资源的示例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-gateway</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">    http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-gateway</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">        path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span></code></pre>
+<p>上述示例中包含了以下内容：</p>
+<ul>
+<li><strong>metadata.name</strong>：Ingress 资源的名称</li>
+<li><strong>spec.rules[].host</strong>：外部访问使用的域名</li>
+<li><strong>spec.rules[].http.paths[].backend</strong>：定义了 Kubernetes 集群中服务的相关信息</li>
+<li><strong>spec.rules[].http.paths[].path</strong>：定义了外部服务访问 Kubernetes 集群中服务时使用的路径</li>
+<li><strong>spec.rules[].http.paths[].pathType</strong>：定义了外部服务访问 Kubernetes 集群中服务时路径的匹配规则</li>
+</ul>
+<p>从上述内容可以看到，<strong>Ingress 资源的语义是相对比较简单的。</strong></p>
+<p>Ingress 仅仅是 Kubernetes 中的一种资源定义，它本身不具备任何流量处理能力。要让 Ingress 资源生效，则必须要有 controller 来处理这些 Ingress 资源，通常这样的 controller 我们称之为 Ingress controller。</p>
+<p>Ingress controller 会持续地监控或监听 Kubernetes 集群中 Ingress 资源的变化，并根据 Ingress 资源中定义的规则，转换为其数据面中的代理规则，并由数据面来实际的承载流量。</p>
+<p><strong>在实际的生产环境中，客户端访问的需求是多种多样的。比如最常见的认证、路由重写等能力，通过 Ingress 资源是无法直接进行描述的。那么这些需求要如何满足呢？</strong></p>
+<h2 id="ingress-nginx-如何支持扩展功能">Ingress-NGINX 如何支持扩展功能</h2>
+<p>首先我以 Kubernetes 社区的 Ingress-NGINX controller 为例，介绍如何在其中使用扩展功能。</p>
+<p>在 Ingress-NGINX 项目中，可以为 Ingress 资源增加一些 Annotation 来描述其需要使用的扩展能力。比如使用如下配置便可开启 cors 能力。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    kubernetes.io/ingress.class</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx</span></span>
+<span class="line"><span style="color:#7EE787">    nginx.ingress.kubernetes.io/enable-cors</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    nginx.ingress.kubernetes.io/cors-allow-origin</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://foo.com,https://bar.com</span></span>
+<span class="line"><span style="color:#7EE787">    nginx.ingress.kubernetes.io/cors-allow-headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">x-foo-1,x-foo-2</span></span>
+<span class="line"><span style="color:#7EE787">    nginx.ingress.kubernetes.io/cors-allow-methods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">GET,POST,PUT</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx-ingress</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">kubernetes.github.io</span></span>
+<span class="line"><span style="color:#7EE787">    http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/ingress</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">nginx</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>这种方式仅仅需要为 Ingress 资源添加 Annotations 的配置即可，相对简单。但需要注意，使用这种模式需要 Ingress-NGINX controller 已经完成了对该 Annotations 的完整支持，否则该配置是无效的。</p>
+<p>如果需要其他的一些 Ingress-NGINX controller 尚未实现的能力，则需要对其进行二次开发。</p>
+<h2 id="在-apisix-ingress-中使用插件">在 APISIX Ingress 中使用插件</h2>
+<p>相较于 Ingress-NGINX controller，APISIX Ingress 使用 APISIX 作为数据面，APISIX 是一个高性能的全动态 API 网关。所有的配置变更都是动态进行的，无需重启，所以对业务流量不会造成任何影响。</p>
+<p>在 Apache APISIX Ingress 中可以通过使用插件，来满足用户各种流量处理的需求和具体场景。当前有 80+ 插件开箱即用，当然用户也可以开发自定义插件来进行能力的扩展。</p>
+<p><img src="https://static.apiseven.com/2022/12/14/63996c4d6f23e.png" alt="output.png"></p>
+<p>目前，在 Apache APISIX 中支持多种方式进行自定义插件的开发：</p>
+<ul>
+<li>使用 Lua 进行插件的开发，这类插件会在 APISIX 内部运行；</li>
+<li>使用其他语言进行插件的开发，这种机制叫作 Plugin Runner，利用该机制开发的插件属于 external-plugin。</li>
+</ul>
+<p>关于 APISIX 插件的开发，可参考官方文档：</p>
+<ul>
+<li><a href="https://apisix.apache.org/docs/apisix/plugin-develop/">插件开发</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/external-plugin/">External Plugin 开发</a></li>
+</ul>
+<p>了解了 APISIX 的插件开发模式后，接下来将介绍 3 种在 APISIX Ingress 中使用 Lua 语言开发插件的方式。</p>
+<h3 id="方式一纯-crd-模式">方式一：纯 CRD 模式</h3>
+<p>APISIX Ingress controller 支持自己设计的一套 CRD 规范，你可以直接在路由规则中开启插件（无论是内置插件还是自定义插件），例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2beta3</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787"> name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">httpbin-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787"> http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3"> - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">rule1</span></span>
+<span class="line"><span style="color:#7EE787">   match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">     hosts</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">     - </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">     paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">       - </span><span style="color:#A5D6FF">/apisix-ingress</span></span>
+<span class="line"><span style="color:#7EE787">   backends</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">   - </span><span style="color:#7EE787">serviceName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-gateway</span></span>
+<span class="line"><span style="color:#7EE787">     servicePort</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span>
+<span class="line"><span style="color:#7EE787">   plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">   - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cors</span></span>
+<span class="line"><span style="color:#7EE787">     enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">     config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">       allow_origins</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://foo.bar.org</span></span>
+<span class="line"><span style="color:#7EE787">       allow_methods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET,POST"</span></span>
+<span class="line"><span style="color:#7EE787">       max_age</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3600</span></span>
+<span class="line"><span style="color:#7EE787">       expose_headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">x-foo,x-baz</span></span>
+<span class="line"><span style="color:#7EE787">       allow_headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">x-from-ingress</span></span>
+<span class="line"><span style="color:#7EE787">       allow_credential</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span></code></pre>
+<p>通过上述配置可以创建路由规则，并且在此路由中开启 <code>cors</code> 插件。</p>
+<p><strong>这是 APISIX Ingress 中最原生支持的方式，这种方式也与 APISIX 更加贴合。同时，用户新增自定义插件后，APISIX Ingress 也无需进行任何二次开发，可直接使用。</strong></p>
+<h3 id="方式二ingress-annotations-模式">方式二：Ingress Annotations 模式</h3>
+<p>由于 Ingress 资源的语义有限，所以通常情况下我们可以通过 <code>annotations</code> 为资源对象扩展一些信息，这也是最常见的对 Ingress 能力扩展的方式。例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    kubernetes.io/ingress.class</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/enable-cors</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"true"</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/cors-allow-origin</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">https://foo.com,https://bar.com</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/cors-allow-headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">x-foo-1,x-foo-2</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/cors-allow-methods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">GET,POST,PUT</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-ingress</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">    http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix-ingress</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-gateway</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>上述配置在 Ingress 资源中增加了 <code>cors</code> 相关的一些信息。APISIX Ingress controller 可以识别这些信息，并将这些信息转换为数据面中 <code>cors</code> 的配置，进而完成对 Ingress 资源的扩展。</p>
+<p><strong>但是这种模式下，需要确保在 APISIX Ingress controller 中已经实现了对这些 Annotations 的处理逻辑，如果尚未实现，则需要进行一些二次开发。</strong></p>
+<p>如果需要进行二次开发，可参考<a href="https://apisix.apache.org/docs/ingress-controller/contribute/">如何进行 APISIX Ingress controller 的开发</a>。</p>
+<h3 id="方式三crd--ingress-annotations-模式">方式三：CRD + Ingress Annotations 模式</h3>
+<p>除以上两种方式外，在 APISIX Ingress 中也可以通过 CRD + Ingress Annotations 的方式进行扩展，例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixPluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cors-plugin</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cors</span></span>
+<span class="line"><span style="color:#7EE787">      enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        allow_origins</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://foo.bar.org</span></span>
+<span class="line"><span style="color:#7EE787">        allow_methods</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"GET,POST"</span></span>
+<span class="line"><span style="color:#7EE787">        max_age</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">3600</span></span>
+<span class="line"><span style="color:#7EE787">        expose_headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">x-foo,x-baz</span></span>
+<span class="line"><span style="color:#7EE787">        allow_headers</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">x-from-ingress</span></span>
+<span class="line"><span style="color:#7EE787">        allow_credential</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Ingress</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  annotations</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    kubernetes.io/ingress.class</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">    k8s.apisix.apache.org/plugin-config-name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">cors-plugin</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-ingress</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">    http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/apisix-ingress</span></span>
+<span class="line"><span style="color:#7EE787">        pathType</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">        backend</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          service</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix-gateway</span></span>
+<span class="line"><span style="color:#7EE787">            port</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              number</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">80</span></span></code></pre>
+<p>通过上方的这段配置，可以单独创建名为 <code>cors-plugin</code> 的插件配置，并通过 Ingress 资源的 <code>k8s.apisix.apache.org/plugin-config-name: cors-plugin</code> 对其进行引用。通过这种操作的实际效果与前两个方式基本类似，都会在对应的路由上开启 <code>cors</code> 插件。</p>
+<p>在这种模式下，<strong>用户的插件配置可以作为独立资源，并且可以被多个 Ingress 资源共享。同时，也无需进行任何二次开发。</strong></p>
+<h2 id="总结">总结</h2>
+<p>本篇主要介绍了 Ingress 资源相关的语义，以及如何对 Ingress 资源进行能力的扩展。在 Ingress-NGINX 中可以通过 Annotations 的方式进行能力的扩展，但在 Apache APISIX Ingress 中可以通过三种模式进行配置。且其中两种对于用户自己开发的自定义插件而言，是无需进行任何二次开发的，进而满足用户更多的场景和需求。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/12/16/what-is-graphql/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">马斯克都不懂的 GraphQL，API 网关又能对其如何理解？</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/12/13/seewo-with-apache-apisix/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">聚焦人机交互智能应用领域，APISIX 在希沃网关的应用与实践</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#ingress-和-ingress-controllers">Ingress 和 Ingress Controllers</a></li><li class><a href="#ingress-nginx-如何支持扩展功能">Ingress-NGINX 如何支持扩展功能</a></li><li class><a href="#在-apisix-ingress-中使用插件">在 APISIX Ingress 中使用插件</a></li><li class="d3"><a href="#方式一纯-crd-模式">方式一：纯 CRD 模式</a></li><li class="d3"><a href="#方式二ingress-annotations-模式">方式二：Ingress Annotations 模式</a></li><li class="d3"><a href="#方式三crd--ingress-annotations-模式">方式三：CRD + Ingress Annotations 模式</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>How to Write an Apache APISIX Plugin in Java | Apache APISIX</title><meta name="description" content="Write APISIX plugins in Java and integrate with Spring Cloud. Includes setup steps and plugin runner architecture."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="How to Write an Apache APISIX Plugin in Java | Apache APISIX"><meta property="og:description" content="Write APISIX plugins in Java and integrate with Spring Cloud. Includes setup steps and plugin runner architecture."><meta property="og:url" content="https://apisix.apache.org/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Write an Apache APISIX Plugin in Java","description":"Write APISIX plugins in Java and integrate with Spring Cloud. Includes setup steps and plugin runner architecture.","datePublished":"2021-06-21","author":{"@type":"Person","name":"Zhengsong Tu"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/06/21/use-java-to-write-apache-apisix-plugins/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>How to Write an Apache APISIX Plugin in Java</h1> <p class="article-meta"> <time datetime="2021-06-21">Jun 21, 2021</time> · Zhengsong Tu  · 5 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#why-apache-apisix-supports-writing-plugins-in-multiple-programming-languages">Why Apache APISIX Supports Writing Plugins in Multiple Programming Languages?</a></li><li class="d3"><a href="#multiple-programming-languages-architecture-diagram">Multiple Programming Languages Architecture Diagram</a></li><li class><a href="#building-development-environment">Building Development Environment</a></li><li class><a href="#enabling-debugmode">Enabling Debug Mode</a></li><li class="d3"><a href="#configuring-apache-apisix-into-debugmode">Configuring Apache APISIX into Debug Mode</a></li><li class="d3"><a href="#setting-apisix-java-plugin-runner-to-debugmode">Setting apisix-java-plugin-runner to Debug Mode</a></li><li class><a href="#how-to-develop-a-java-plugin-for-apacheapisix">How to Develop a Java Plugin for Apache APISIX?</a></li><li class="d3"><a href="#scenario">Scenario</a></li><li class="d3"><a href="#configuring-apacheapisix">Configuring Apache APISIX</a></li><li class="d3"><a href="#developing-a-javaplugin">Developing a Java Plugin</a></li><li class="d3"><a href="#testing-theplugin">Testing the Plugin</a></li><li class><a href="#deploying-theplugin">Deploying the Plugin</a></li><li class><a href="#video-tutorial">Video Tutorial</a></li> </ul> </details> </header>  <blockquote>
+<p>Apache APISIX now supports writing plugins in Java! You can now write plugins in a programming language you are familiar with.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="introduction">Introduction</h2>
+<h3 id="why-apache-apisix-supports-writing-plugins-in-multiple-programming-languages">Why Apache APISIX Supports Writing Plugins in Multiple Programming Languages?</h3>
+<p>Apache APISIX has been supporting customized plugins since the day it was born. But it only supported plugins written in Lua. As a result, developers need to have Lua and OpenResty-related development skills to actually write their own plugins. However, Lua and OpenResty are relatively less popular languages with fewer developers compared to Java and Go. Besides, learning Lua and OpenResty from scratch requires a lot of time and effort.</p>
+<p>During technological selection, the most important consideration for the development team is whether the chosen product matches the team’s technology stack. The niche technology stack limits Apache APISIX to become the first choice of API Gateway product in many scenarios.</p>
+<p>Now, Apache APISIX supports multi-language development plugins. More importantly, the development ecosystem where the language is supported, so users can use their familiar technology stack to develop Apache APISIX. With Apache APISIX supporting plugins written in Java, for example, users can not only write plugins in Java but also integrate into the Spring Cloud ecosystem and use a wide range of technical components within the ecosystem.</p>
+<h3 id="multiple-programming-languages-architecture-diagram">Multiple Programming Languages Architecture Diagram</h3>
+<p><img src="https://static.apiseven.com/202108/1639464774923-50cebc94-6344-4ea6-88a6-2b424c5f8567.png" alt="Multiple Programming Languages Architecture Diagram"></p>
+<p>The left side of the diagram shows the workflow of Apache APISIX. The right side of the diagram is the plugin runner, which is a generic term for projects with multiple programming languages support. The apisix-java-plugin-runner is a plugin runner that supports the Java language.</p>
+<p>When you configure a plugin runner in Apache APISIX, Apache APISIX starts a subprocess to run the plugin runner, which belongs to the same user as the Apache APISIX process. When we restart or reload Apache APISIX, the plugin runner will also be restarted.</p>
+<p>If you configure the ext-plugin-* plugin for a given route, a request hitting that route will trigger Apache APISIX to perform an RPC call to the plugin runner via a Unix socket. The call is broken down into two phases:</p>
+<ul>
+<li>ext-plugin-pre-req: Before executing the Apache APISIX built-in plugin (Lua plugin)</li>
+<li>ext-plugin-post-req: After executing the Apache APISIX built-in plugin (Lua plugin)</li>
+</ul>
+<p>Please configure the timing of the plugin runner execution as needed.
+The plugin runner processes the RPC call, creates a simulated request inside it, and then runs the multiple programming languages written a plugin and returns the result to Apache APISIX.</p>
+<p>The order of execution of multiple programming languages plugins is defined in the ext-plugin-* plugin configuration entry. Like other plugins, they can be enabled and redefined on the fly.</p>
+<h2 id="building-development-environment">Building Development Environment</h2>
+<p>First, you need to build the Apache APISIX runtime or development environment, please refer to <a href="https://github.com/apache/apisix/blob/master/docs/en/latest/building-apisix.md">Build Apache APISIX</a>, and <a href="https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/en/latest/development.md">Build apisix-java-plugin-runner</a>.</p>
+<p>Note: Apache APISIX and apisix-java-plugin-runner need to be located on the same instance.</p>
+<h2 id="enabling-debugmode">Enabling Debug Mode</h2>
+<h3 id="configuring-apache-apisix-into-debugmode">Configuring Apache APISIX into Debug Mode</h3>
+<p>When Apache APISIX is configured into debug mode, it is allowed to run external plugins in a debugging manner. Add the following configuration to <code>config.yaml</code> to enable debug mode for Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>ext-plugin:</span></span>
+<span class="line"><span>  path_for_test: /tmp/runner.sock</span></span></code></pre>
+<p>The configuration above means that Apache APISIX acts as the client and listens to the Unix Domain Socket link located at <code>/tmp/runner.sock</code>.</p>
+<h3 id="setting-apisix-java-plugin-runner-to-debugmode">Setting apisix-java-plugin-runner to Debug Mode</h3>
+<p>Before starting the <code>Mainclass(org.apache.apisix.plugin.runner.PluginRunnerApplication)</code>, you need to configure the user-level environment variables <code>APISIX_LISTEN_ADDRESS=unix:/tmp/runner.sock and APISIX_CONF_EXPIRE_TIME=3600</code>.</p>
+<p>If you are using IDEA for development, the configured environment variables are shown below.</p>
+<p><img src="https://static.apiseven.com/202108/1639464890287-ee6bbc3a-3f8b-4de7-9ce4-7670fb0c3f64.png" alt="configured environment"></p>
+<p>apisix-java-plugin-runner is equivalent to the server side and will actively create the <code>/tmp/runner.sock</code> file at startup and communicate with Apache APISIX on this file for Unix Domain Socket.</p>
+<h2 id="how-to-develop-a-java-plugin-for-apacheapisix">How to Develop a Java Plugin for Apache APISIX?</h2>
+<h3 id="scenario">Scenario</h3>
+<p>Let’s say we have a scenario like this: we need to verify the validity of the token in the request header. The way to verify the token is to carry the token as a parameter in the request and access the SSO fixed interface.</p>
+<h3 id="configuring-apacheapisix">Configuring Apache APISIX</h3>
+<p>First, name the plugin <code>TokenValidator</code>, and then design the properties. In order to achieve dynamic configuration as far as possible, the properties are designed as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "validate_header"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"token"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "validate_url"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://www.sso.foo.com/token/validate"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "rejected_code"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"403"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Start Apache APISIX, then add a new route configuration specifying that the route requires a call to apisix-java-plugin-runner’s <code>TokenValidator</code> plugin, as shown in the following example.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "ext-plugin-pre-req":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "conf":[</span></span>
+<span class="line"><span style="color:#A5D6FF">                {</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "name":"TokenValidator",</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "value":"{\"validate_header\":\"token\",\"validate_url\":\"https://www.sso.foo.com/token/validate\",\"rejected_code\":\"403\"}"</span></span>
+<span class="line"><span style="color:#A5D6FF">                }</span></span>
+<span class="line"><span style="color:#A5D6FF">            ]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span></code></pre>
+<p>Note that the properties of <code>TokenValidator</code> need to be escaped by json and configured as string type (the upstream address here is configured as httpbin.org to simplify the debugging process).</p>
+<h3 id="developing-a-javaplugin">Developing a Java Plugin</h3>
+<p>Add <code>TokenValidatr.java</code> with the following initial code skeleton In the <code>runner-plugin/src/main/java/org/apache/apisix/plugin/runner/filter</code> directory.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>package org.apache.apisix.plugin.runner.filter;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>@Component</span></span>
+<span class="line"><span>public class TokenValidator implements PluginFilter {</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    @Override</span></span>
+<span class="line"><span>    public String name() {</span></span>
+<span class="line"><span>        return "TokenValidator";</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    @Override</span></span>
+<span class="line"><span>    public Mono&#x3C;Void> filter(HttpRequest request, HttpResponse response, PluginFilterChain chain) {</span></span>
+<span class="line"><span>        return chain.filter(request, response);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>This plugin inherits the <code>PluginFilter</code> interface and overrides the <code>name</code> and the <code>filter</code> function. Rewrite the return value of <code>name</code> to be consistent with “name” in the route attribute of APISIX configuration earlier. The complete code is as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>package org.apache.apisix.plugin.runner.filter;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>@Component</span></span>
+<span class="line"><span>public class TokenValidator implements PluginFilter {</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    @Override</span></span>
+<span class="line"><span>    public String name() {</span></span>
+<span class="line"><span>        return "TokenValidator";</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    @Override</span></span>
+<span class="line"><span>    public Mono&#x3C;Void> filter(HttpRequest request, HttpResponse response, PluginFilterChain chain) {</span></span>
+<span class="line"><span>        // parse `conf` to json</span></span>
+<span class="line"><span>        String configStr = request.getConfig(this);</span></span>
+<span class="line"><span>        Gson gson = new Gson();</span></span>
+<span class="line"><span>        Map&#x3C;String, Object> conf = new HashMap&#x3C;>();</span></span>
+<span class="line"><span>        conf = gson.fromJson(configStr, conf.getClass());</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // get configuration parameters</span></span>
+<span class="line"><span>        String token = request.getHeader((String) conf.get("validate_header"));</span></span>
+<span class="line"><span>        String validate_url = (String) conf.get("validate_url");</span></span>
+<span class="line"><span>        boolean flag = validate(token, validate_url);</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        // token verification results</span></span>
+<span class="line"><span>        if (!flag) {</span></span>
+<span class="line"><span>            String rejected_code = (String) conf.get("rejected_code");</span></span>
+<span class="line"><span>            response.setStatusCode(Integer.parseInt(rejected_code));</span></span>
+<span class="line"><span>            return chain.filter(request, response);</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        return chain.filter(request, response);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    private Boolean validate(String token, String validate_url) {</span></span>
+<span class="line"><span>        //TODO: improve the validation process</span></span>
+<span class="line"><span>        return true;</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h3 id="testing-theplugin">Testing the Plugin</h3>
+<p>The upstream service configured on Apache APISIX is httpbin.org, which allows you to access Apache APISIX, trigger the route, and have Apache APISIX call apisix-java-plugin-runner to execute the TokenValidator plugin and test the functionality of the Java plugin.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'token: 123456'</span><span style="color:#A5D6FF"> 127.0.0.1:9080/get</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657"> "args"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {},</span></span>
+<span class="line"><span style="color:#FFA657"> "headers"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657"> "Accept"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "/",</span></span>
+<span class="line"><span style="color:#FFA657"> "Host"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "127.0.0.1",</span></span>
+<span class="line"><span style="color:#FFA657"> "Token"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "123456",</span></span>
+<span class="line"><span style="color:#FFA657"> "User-Agent"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "curl/7.71.1",</span></span>
+<span class="line"><span style="color:#FFA657"> "X-Amzn-Trace-Id"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "Root=1-60cb0424-02b5bf804cfeab5252392f96",</span></span>
+<span class="line"><span style="color:#FFA657"> "X-Forwarded-Host"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "127.0.0.1"</span></span>
+<span class="line"><span style="color:#E6EDF3"> },</span></span>
+<span class="line"><span style="color:#FFA657"> "origin"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "127.0.0.1",</span></span>
+<span class="line"><span style="color:#FFA657"> "url"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "http://127.0.0.1/get"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="deploying-theplugin">Deploying the Plugin</h2>
+<p>After the development of the plugin is completed, the deployment operation can be found in referred to <a href="https://github.com/apache/apisix-java-plugin-runner/blob/main/docs/how-it-works.md#run">Deploying apisix-java-plugin-runner</a>.</p>
+<h2 id="video-tutorial">Video Tutorial</h2>
+<iframe height="350" width="600" src="https://api7-website-1301662268.file.myqcloud.com/2021-06-21-use-Java-to-write-Apache-APISIX-plugins.mp4" frameborder="0">
+</iframe>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2021/06/23/deploy-great-open-source-gateway-and-ingress-controller-fast/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Deploy APISIX and APISIX Ingress Controller on Rancher</span> </a> <a class="post-nav-card older" href="/blog/2021/06/18/first-ga-version-v1.0-of-apache-apisix-ingress-controller-released/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">APISIX Ingress Controller 1.0 Release</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#why-apache-apisix-supports-writing-plugins-in-multiple-programming-languages">Why Apache APISIX Supports Writing Plugins in Multiple Programming Languages?</a></li><li class="d3"><a href="#multiple-programming-languages-architecture-diagram">Multiple Programming Languages Architecture Diagram</a></li><li class><a href="#building-development-environment">Building Development Environment</a></li><li class><a href="#enabling-debugmode">Enabling Debug Mode</a></li><li class="d3"><a href="#configuring-apache-apisix-into-debugmode">Configuring Apache APISIX into Debug Mode</a></li><li class="d3"><a href="#setting-apisix-java-plugin-runner-to-debugmode">Setting apisix-java-plugin-runner to Debug Mode</a></li><li class><a href="#how-to-develop-a-java-plugin-for-apacheapisix">How to Develop a Java Plugin for Apache APISIX?</a></li><li class="d3"><a href="#scenario">Scenario</a></li><li class="d3"><a href="#configuring-apacheapisix">Configuring Apache APISIX</a></li><li class="d3"><a href="#developing-a-javaplugin">Developing a Java Plugin</a></li><li class="d3"><a href="#testing-theplugin">Testing the Plugin</a></li><li class><a href="#deploying-theplugin">Deploying the Plugin</a></li><li class><a href="#video-tutorial">Video Tutorial</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

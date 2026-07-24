@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>How to Integrate API Gateway and Consul? | Apache APISIX</title><meta name="description" content="Integrate Consul KV with APISIX for service discovery and registration. Configure upstream resolution with health checks."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/25/consul-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="How to Integrate API Gateway and Consul? | Apache APISIX"><meta property="og:description" content="Integrate Consul KV with APISIX for service discovery and registration. Configure upstream resolution with health checks."><meta property="og:url" content="https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to Integrate API Gateway and Consul?","description":"Integrate Consul KV with APISIX for service discovery and registration. Configure upstream resolution with health checks.","datePublished":"2022-02-25","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png","author":{"@type":"Person","name":"Tao Yang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/02/25/consul-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/02/25/consul-api-gateway/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/02/25/consul-api-gateway/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>How to Integrate API Gateway and Consul?</h1> <p class="article-meta"> <time datetime="2022-02-25">Feb 25, 2022</time> · Tao Yang  · 4 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#background-information">Background Information</a></li><li class><a href="#how-it-works">How It Works</a></li><li class><a href="#how-to-enable-consul-in-apache-apisix">How to Enable Consul in Apache APISIX</a></li><li class="d3"><a href="#create-a-route-and-enable-consul">Create a Route and Enable Consul</a></li><li class="d3"><a href="#add-a-route">Add a Route</a></li><li class="d3"><a href="#test-and-verify-the-result">Test and Verify the Result</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/ecosystem/HashiCorp%20Consul.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Apache APISIX supports the Consul KV-based service discovery registry. This article will walk you through the process of implementing service discovery and service registry in Apache APISIX.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="background-information">Background Information</h2>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway.</p>
+<p>APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.</p>
+<p>Consul is a service mesh solution. One of its cores, Consul KV, is a distributed key-value database whose primary purpose is to store configuration parameters and metadata, while also allowing users to store indexed objects.</p>
+<p>In the microservice architecture model, when the upstream services change due to capacity expansion, hardware failure, etc., the way to maintain the upstream service information by manually writing the configuration can lead to a steep increase in maintenance cost. In response, Apache APISIX provides a service discovery registry to dynamically obtain the latest service instance information to reduce the maintenance cost for users.</p>
+<p>Currently, Apache APISIX supports the Consul KV-based service discovery registry with the <code>consul_kv</code> module contributed by the community.</p>
+<h2 id="how-it-works">How It Works</h2>
+<p>Apache APISIX leverages the <code>consul_kv</code> module of the Consul KV distributed key-value storage capability to decouple the provider and consumer of a service and implement the two core functions of a service discovery registry.</p>
+<ol>
+<li>Service registration: Service providers register their services with the registry.</li>
+<li>Service Discovery: Service consumers find the routing information of service providers through the registry.</li>
+</ol>
+<p>Built on this foundation, Apache APISIX will be more flexible and adaptable to existing microservice architectures to better meet user needs.</p>
+<p><img src="https://static.apiseven.com/202108/1645769130815-f23e9e11-ca57-4262-9083-aab5509aa178.png" alt="APISIX Consul Integration"></p>
+<h2 id="how-to-enable-consul-in-apache-apisix">How to Enable Consul in Apache APISIX</h2>
+<p>The test environments in this article are built in Docker using docker-compose.</p>
+<ol>
+<li>Download Apache APISIX.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Pull the Git repository of apisix-docker</span></span>
+<span class="line"><span style="color:#FFA657">git</span><span style="color:#A5D6FF"> clone</span><span style="color:#A5D6FF"> https://github.com/apache/apisix-docker.git</span></span></code></pre>
+<ol start="2">
+<li>Create Consul folder and configuration files.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Create Consul folder</span></span>
+<span class="line"><span style="color:#FFA657">mkdir</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> ~/docker-things/consul/</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> "</span><span style="color:#79C0FF">$_</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#8B949E"># Create configuration files</span></span>
+<span class="line"><span style="color:#FFA657">touch</span><span style="color:#A5D6FF"> docker-compose.yml</span><span style="color:#A5D6FF"> server1.json</span></span></code></pre>
+<ol start="3">
+<li>Edit the <code>docker-compose.yml</code> file.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">version</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'3.8'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  consul-server1</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">consul:1.9.3</span></span>
+<span class="line"><span style="color:#7EE787">    container_name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">consul-server1</span></span>
+<span class="line"><span style="color:#7EE787">    restart</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">always</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./server1.json:/consul/config/server1.json:ro</span></span>
+<span class="line"><span style="color:#7EE787">    networks</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">'8500:8500'</span></span>
+<span class="line"><span style="color:#7EE787">    command</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">'agent -bootstrap-expect=1'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">networks</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    external</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">    name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">example_apisix</span></span></code></pre>
+<ol start="4">
+<li>Edit the <code>server1.json</code> file.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "node_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"consul-server1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "server"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "addresses"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "http"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"0.0.0.0"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol start="5">
+<li>Add Consul-related configuration information to the Apache APISIX configuration file <code>apisix_conf/config.yaml</code>.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># config.yml</span></span>
+<span class="line"><span style="color:#8B949E"># ...other config</span></span>
+<span class="line"><span style="color:#7EE787">discovery</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  consul_kv</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    servers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"http://consul-server1:8500"</span></span>
+<span class="line"><span style="color:#7EE787">    prefix</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"upstreams"</span></span></code></pre>
+<ol start="6">
+<li>Start Apache APISIX and Consul.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Go to the example, consul folder, start APISIX and Consul</span></span>
+<span class="line"><span style="color:#FFA657">docker-compose</span><span style="color:#A5D6FF"> up</span><span style="color:#79C0FF"> -d</span></span></code></pre>
+<ol start="7">
+<li>Register the test service to Consul. example contains two web services that you can use directly to test.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Check the docker-compose.yml of the example</span></span>
+<span class="line"><span style="color:#8B949E"># You can see two Web services</span></span>
+<span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> cat</span><span style="color:#A5D6FF"> docker-compose.yml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> web</span></span>
+<span class="line"><span style="color:#8B949E"># Outputs</span></span>
+<span class="line"><span style="color:#FFA657">web1:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#A5D6FF"> ./upstream/web1.conf:/etc/nginx/nginx.conf</span></span>
+<span class="line"><span style="color:#FFA657">web2:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span><span style="color:#A5D6FF"> ./upstream/web2.conf:/etc/nginx/nginx.conf</span></span></code></pre>
+<ol start="8">
+<li>Confirm the IP addresses of these Web services.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> sudo</span><span style="color:#A5D6FF"> docker</span><span style="color:#A5D6FF"> inspect</span><span style="color:#79C0FF"> -f=</span><span style="color:#A5D6FF">'{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'</span><span style="color:#E6EDF3"> $(</span><span style="color:#FFA657">sudo</span><span style="color:#A5D6FF"> docker</span><span style="color:#A5D6FF"> ps</span><span style="color:#79C0FF"> -aq</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">|</span><span style="color:#FFA657"> grep</span><span style="color:#A5D6FF"> web</span></span>
+<span class="line"><span style="color:#8B949E"># Outputs</span></span>
+<span class="line"><span style="color:#FFA657">/example-web1-1</span><span style="color:#A5D6FF"> -</span><span style="color:#79C0FF"> 172.26.0.7</span></span>
+<span class="line"><span style="color:#FFA657">/example-web2-1</span><span style="color:#A5D6FF"> -</span><span style="color:#79C0FF"> 172.26.0.2</span></span></code></pre>
+<ol start="9">
+<li>Make a request to Consul’s HTTP API in the terminal to register the test service.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Register with the corresponding IP</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> ' {"weight": 1, "max_fails": 2, "fail_timeout": 1}'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  http://127.0.0.1:8500/v1/kv/upstreams/webpages/172.26.0.7:80</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> ' {"weight": 1, "max_fails": 2, "fail_timeout": 1}'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  http://127.0.0.1:8500/v1/kv/upstreams/webpages/172.26.0.2:80</span></span></code></pre>
+<p>The path after <code>/v1/kv/</code> follows the format <code>{Prefix}/{Service Name}/{IP}:{Port}</code>.</p>
+<p><code>{Prefix}</code> is the prefix written when configuring Consul in APISIX, while <code>{Service Name}</code> and <code>{IP}:{Port}</code> need to be determined by the user according to the upstream service.</p>
+<p>The format of the data is <code>{"weight": &#x3C;Num>, "max_fails": &#x3C;Num>, "fail_timeout": &#x3C;Num>}</code>.</p>
+<ol start="10">
+<li>Check whether the test service is registered successfully.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:8500/v1/kv/upstreams/webpages?keys"</span></span></code></pre>
+<p>The following return message indicates successful registration.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">[</span><span style="color:#A5D6FF">"upstreams/webpages/172.26.0.2:80"</span><span style="color:#E6EDF3">,</span><span style="color:#A5D6FF">"upstreams/webpages/172.26.0.7:80"</span><span style="color:#E6EDF3">]%</span></span></code></pre>
+<h3 id="create-a-route-and-enable-consul">Create a Route and Enable Consul</h3>
+<p>Add Consul to the route using the Admin API provided by Apache APISIX.</p>
+<p>The <code>X-API-KEY</code> and <code>upstream.service_name</code> need to be determined before adding them.</p>
+<ul>
+<li><code>X-API-KEY</code>: For the Admin API access token, in this example, we use the default <code>edd1c9f034335f136f87ad84b625c8f1</code>.</li>
+<li><code>upstream.service_name</code>: The name of the upstream service, which specifies the service in a registry that will be bound to a route, should be set to the URL used to register the test service when using Consul, and the <code>{IP}:{Port}</code> part should be removed at the end. We can also use the Memory Dump API provided by Apache APISIX to get the URL of the service and confirm whether the upstream service is discovered properly.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">$</span><span style="color:#A5D6FF"> curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9092/v1/discovery/consul_kv/dump</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> jq</span></span>
+<span class="line"><span style="color:#8B949E"># Output</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">  "services"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#8B949E">    # This key is the required URL</span></span>
+<span class="line"><span style="color:#FFA657">    "http://consul-server1:8500/v1/kv/upstreams/webpages/"</span><span style="color:#79C0FF">:</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#FFA657">        "port"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> 80,</span></span>
+<span class="line"><span style="color:#FFA657">        "host"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "172.26.0.7",</span></span>
+<span class="line"><span style="color:#FFA657">        "weight"</span><span style="color:#79C0FF">:</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#FFA657">        "port"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> 80,</span></span>
+<span class="line"><span style="color:#FFA657">        "host"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "172.26.0.2",</span></span>
+<span class="line"><span style="color:#FFA657">        "weight"</span><span style="color:#79C0FF">:</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#FFA657">  "config"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#8B949E">    # ...configs</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="add-a-route">Add a Route</h3>
+<p>Here the request with URL <code>/consul/*</code> is routed to <code>http://consul-server1:8500/v1/kv/upstreams/webpages/</code>. Also, the <code>discovery_type</code> must be set to <code>consul_kv</code> to start the corresponding module.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/consul/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {  </span></span>
+<span class="line"><span style="color:#A5D6FF">        "service_name": "http://consul-server1:8500/v1/kv/upstreams/webpages/",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "discovery_type": "consul_kv"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="test-and-verify-the-result">Test and Verify the Result</h3>
+<p>The request results show that the new route in Apache APISIX has been able to find the correct service address through Consul and request it to both nodes based on the load balancing policy.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># the first request</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/consul/</span></span>
+<span class="line"><span style="color:#8B949E"># Output</span></span>
+<span class="line"><span style="color:#FFA657">hello</span><span style="color:#A5D6FF"> web1%</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># the second request</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -s</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/consul/</span></span>
+<span class="line"><span style="color:#8B949E"># Output</span></span>
+<span class="line"><span style="color:#FFA657">hello</span><span style="color:#A5D6FF"> web2%</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># Note: It is also possible that both requests will return</span></span>
+<span class="line"><span style="color:#8B949E">#       the same result as web1 or web2.</span></span>
+<span class="line"><span style="color:#8B949E">#       This is caused by the nature of load balancing and</span></span>
+<span class="line"><span style="color:#8B949E">#       you can try to make more requests.</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>The first half of this article describes how Apache APISIX works with Consul to implement the Consul KV-based service discovery registry to solve the problem of service information management and maintenance. The second half of this article focuses on how to use Apache APISIX in Docker with Consul. Of course, the application in the actual scenario needs to be analyzed according to the business scenario and the existing system architecture.</p>
+<p>More instructions on using the Consul registry in Apache APISIX can be found in the <a href="https://apisix.apache.org/docs/apisix/discovery/consul_kv/">official documentation</a>.</p>
+<p>Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a>, or via the <a href="https://apisix.apache.org/docs/general/join">mailing list</a> to communicate.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">APISIX OpenTelemetry Plugin: Distributed Tracing</span> </a> <a class="post-nav-card older" href="/blog/2022/02/23/csrf-api-gateway/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">API Gateway Enhances Security by CSRF Plugin</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#background-information">Background Information</a></li><li class><a href="#how-it-works">How It Works</a></li><li class><a href="#how-to-enable-consul-in-apache-apisix">How to Enable Consul in Apache APISIX</a></li><li class="d3"><a href="#create-a-route-and-enable-consul">Create a Route and Enable Consul</a></li><li class="d3"><a href="#add-a-route">Add a Route</a></li><li class="d3"><a href="#test-and-verify-the-result">Test and Verify the Result</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

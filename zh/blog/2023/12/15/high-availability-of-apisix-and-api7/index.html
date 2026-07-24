@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>借力 APISIX 的高可用，实现企业亿级流量 | Apache APISIX</title><meta name="description" content="本文整理自 2023 年 11 月王院生在 APISIX 上海 Meetup 的演讲。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/12/15/high-availability-of-apisix-and-api7/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/12/15/high-availability-of-apisix-and-api7/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/12/15/high-availability-of-apisix-and-api7/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/12/15/high-availability-of-apisix-and-api7/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="借力 APISIX 的高可用，实现企业亿级流量 | Apache APISIX"><meta property="og:description" content="本文整理自 2023 年 11 月王院生在 APISIX 上海 Meetup 的演讲。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/12/15/high-availability-of-apisix-and-api7/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"借力 APISIX 的高可用，实现企业亿级流量","description":"本文整理自 2023 年 11 月王院生在 APISIX 上海 Meetup 的演讲。","datePublished":"2023-12-15","image":"https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png","author":{"@type":"Person","name":"王院生"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/12/15/high-availability-of-apisix-and-api7/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/12/15/high-availability-of-apisix-and-api7/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/12/15/high-availability-of-apisix-and-api7/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/case-studies/">Case Studies</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>借力 APISIX 的高可用，实现企业亿级流量</h1> <p class="article-meta"> <time datetime="2023-12-15">2023年12月15日</time> · 王院生  · 约 12 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/case-studies/">Case Studies</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#支流科技简介">支流科技简介</a></li><li class><a href="#为什么高可用对企业-api-如此重要">为什么高可用对企业 API 如此重要</a></li><li class="d3"><a href="#api-管理核心三高">API 管理核心“三高”</a></li><li class="d3"><a href="#api-网关的重要性内外网间的隔离屏障">API 网关的重要性：内外网间的隔离屏障</a></li><li class><a href="#高可用指标及常见--api-网关部署架构">高可用指标及常见  API 网关部署架构</a></li><li class="d3"><a href="#企业服务主流部署架构">企业服务主流部署架构</a></li><li class="d3"><a href="#无状态服务横向扩展系统能力">无状态服务横向扩展系统能力</a></li><li class="d3"><a href="#常见高可用部署架构">常见高可用部署架构</a></li><li class><a href="#高可用架构认知盲区">高可用架构认知盲区</a></li><li class="d3"><a href="#高可用架构从计算机诞生起一直在迭代">高可用架构，从计算机诞生起一直在迭代</a></li><li class="d3"><a href="#高可用架构只能解决架构部分">高可用架构，只能解决架构部分</a></li><li class="d3"><a href="#高可用与安全一样均是全方位立体防护">高可用与安全一样，均是全方位立体“防护”</a></li><li class><a href="#apisix-与-api7-企业版高可用最佳实践">APISIX 与 API7 企业版高可用最佳实践</a></li><li class="d3"><a href="#开源方案-apisix">开源方案 APISIX</a></li><li class="d3"><a href="#商业方案-api7-企业版">商业方案 API7 企业版</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>作者：王院生，支流科技联合创始人兼 CTO，Apache APISIX PMC 成员，《Apache APISIX 实战》作者。本文整理自 2023 年 11 月王院生在 APISIX 上海 Meetup 的演讲。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="支流科技简介">支流科技简介</h2>
+<p>支流科技是一家成立于 2019 年的 API 全生命周期管理公司，致力于提供全面高效的 API 设计、API 开发、API 门户、API 货币化解决方案，服务对象包括 Zoom、爱奇艺、WPS、vivo、OPPO、Airwallex 等众多全球客户。我们曾开源并向 Apache 软件基金会捐赠了 API 网关 APISIX，如今 Apache APISIX 成为了 GitHub 上最活跃的 API 网关项目之一。目前，APISIX 每天处理超过 1 万亿次 API 调用，深受世界各国各行业的用户信赖。</p>
+<p>在 Apache APISIX 基础之上，支流科技提供 API7 企业版及 API7 门户等企业级产品，满足企业用户的核心需求，包括多集群管理、多工作分区、权限管理、版本管理、审计、统计报表等企业级功能。支流科技在亚太地区 API 管理市场排名第一，被评为 2022 年 Gartner API 网关市场指南代表供应商，并荣获了 2022 年红鲱鱼全球百强奖项。</p>
+<h2 id="为什么高可用对企业-api-如此重要">为什么高可用对企业 API 如此重要</h2>
+<p>首先，让我们探讨 API 的重要性。简而言之，在数字世界中，API 实际上扮演着交通工具的角色。就像在现实生活中，如果没有车辆、道路、轮船和飞机，我们将无法正常生活。而 API 实际上就是数字世界的交通工具，其重要性不言而喻。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/12/15/ZKCGwMQG_img_v3_0265_ee1b4bad-ffc4-4fcc-95c1-79b12358780g.jpg" alt="Importance of API"></p>
+<h3 id="api-管理核心三高">API 管理核心“三高”</h3>
+<p>在了解了 API 的重要性之后，再依据重要性排序来了解 API 管理的核心“三高”，即高安全性、高可用性和高性能。</p>
+<ul>
+<li>
+<p><strong>高安全</strong>：安全性是 API 网关产品最重要的基本要求之一。如果一款 API 网关产品在安全方面存在问题，那么无论它在其他方面表现得多么出色，用户也无法选择它。安全性不仅依赖于产品本身，也与其周边生态息息相关。</p>
+</li>
+<li>
+<p><strong>高可用</strong>：高可用性的主要目的是为了保障业务的连续性。API 网关的高可用性是指 API 网关能够在面临故障或者异常情况时，仍然能够提供服务的能力。这通常通过冗余和负载均衡等技术来实现。冗余是指部署多个API网关实例，以防止单点故障。负载均衡则是通过将请求分发到多个 API 网关实例，以确保每个实例的负载都保持在可接受的范围内，从而提高整体的服务质量和可靠性。</p>
+</li>
+<li>
+<p><strong>高性能</strong>：与前两个因素相比，高性能并非影响用户选择的关键因素，更像额外加分项。性能优异的 API 网关，同等资源配置能够提供更大业务吞吐量，从而提升系统整体稳定性或降本增效。</p>
+</li>
+</ul>
+<p><img src="https://static.apiseven.com/uploads/2023/12/15/YQBEykJ1_img_v3_0265_f82609c6-a9f7-4c60-8d28-1e9baa036aag.jpg" alt="Importance of high availability"></p>
+<h3 id="api-网关的重要性内外网间的隔离屏障">API 网关的重要性：内外网间的隔离屏障</h3>
+<p>API 网关位于内部网络和外部网络之间，充当了两者之间的隔离屏障。在上图中，API 网关需要能够接收来自包括人员、机器和车辆等不同终端设备的请求。所有这些请求，既有合法请求，也有非法请求，众多黑客都在外面各种尝试获取企业敏感数据。API 网关的重要安全职责就是流量清洗，把这万分之一甚至亿分之一的恶意请求识别并拦截，保护内部服务和数据。</p>
+<h4 id="私网安全威胁甚于公网">私网安全威胁甚于公网</h4>
+<p>在中国许多企业高度重视内网、外网的隔离位置的安全，内部会采用私有机房、私有云以及专线等配套设施。正因为有了这层网络隔离，企业用户降低内网安全要求。</p>
+<p>我在 2006 年亲身经历了“熊猫烧香”事件，它在局域网内自我传播。比较庆幸的是它当时只感染 Windows 电脑，内部网络中的 Linux 服务器没受影响。不少企业内部还在使用类似“裸奔”的方式，即内部服务直接调用，比如明文 HTTP 请求、无身份认证、无访问权限控制、限流限速等等。</p>
+<h4 id="逃生机制的重要性">逃生机制的重要性</h4>
+<p>API 流量网关所处的位置通常涵盖三个安全产品线：DDoS 流量清洗、Web 应用防火墙（WAF）和 API 安全解决方案。以大家所熟知的 WAF 产品为例，一个请求是否有威胁的判断逻辑，通常这个时间必须要低于 50~100 毫秒内。超过此阈值，调用方将认为 WAF 服务不可用跳过 WAF，这就是逃生的安全策略。</p>
+<p>以 WAF 为代表的所有 API 安全产品，都应当具备一定的逃生机制，无论是私有 WAF 又或是云上 WAF 产品，这是基础要求，避免系统可用性被安全产品限制。</p>
+<h2 id="高可用指标及常见--api-网关部署架构">高可用指标及常见  API 网关部署架构</h2>
+<h3 id="企业服务主流部署架构">企业服务主流部署架构</h3>
+<p>企业服务部署架构有四种：纯私有云、多云、混合云和单朵云。其中单朵云只占不到 5%，而剩余 95% 的企业都选择前三种部署方式。单朵云的部署架构是由单一云服务提供商提供的部署架构，用户只需使用云服务提供商解决方案即可。这类用户体量通常不大，服务简单，无需过多关注架构的细节。</p>
+<p>而纯私有云、多云、混合云这三种架构类型在全球企业中占据了绝对主导地位。在这三种不同部署架构下，企业用户都需要一个可以云中立、允许二次扩展的 API 网关产品。云产品因为不能部署到其他云服务或私有云，所以优先被排除。</p>
+<h4 id="api-网关要求云中立允许二次扩展三高">API 网关要求：云中立、允许二次扩展、“三高”</h4>
+<p>云中立指的是软件具备在不同的云平台上运行的能力，甚至可以在不同虚拟机上使用，也可以称之为全平台运行。网关支持二次开发是一个重要因素，几乎所有企业在 API 网关位置有或多或少的自定义需求，比如个性化监控、告警、安全策略等，这是诸多企业选择 APISIX 的重要因素。最后，高安全性、稳定性和可用性是非常重要的指标。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/12/15/GdcfxEBy_img_v3_0265_bf87a395-d06e-4ce9-9185-4c3b506e97ag.jpg" alt="Popular deployment architectures"></p>
+<p>上图展示了不同的高可用性指标及其出现故障的时间。可用性为“99%” 的情况下，每天可以有 14 分钟的停机时间，即使出现问题第二天处理也来得及，毕竟服务不可能每天都出问题。“99.9999%” 这种情况比较罕见，越高的可用性意味着企业需要承担越昂贵的部署成本。企业服务可用性通常选择 99.9%、99.99%或99.999%，今天我们重点聊聊这几种高可用架构。</p>
+<h3 id="无状态服务横向扩展系统能力">无状态服务横向扩展系统能力</h3>
+<p>有状态服务和无状态服务的主要区别在于两个来自相同发起者的请求在服务器端是否具备上下文关系。</p>
+<p><strong>有状态服务</strong></p>
+<ul>
+<li>服务器端一般都要保存请求的相关信息，每个请求可以默认地使用以前的请求信息。</li>
+<li>有状态服务常常用于实现事务¹。例如，在商城里购买一件商品需要经过放入购物车、确认订单、付款等多个步骤。</li>
+<li>有状态服务可以比较容易地实现事务，在不需要考虑水平扩展时，是比较好的选择。</li>
+</ul>
+<p><strong>无状态服务</strong></p>
+<ul>
+<li>服务器端所能够处理的过程必须全部来自于请求所携带的信息，以及其他服务器端自身所保存的、并且可以被所有请求所使用的公共信息。</li>
+<li>服务要设计为无状态的，这主要是从可伸缩性来考虑的。如果server是无状态的，那么对于客户端来说，就可以将请求发送到任意一台server上，然后就可以通过负载均衡等手段，实现水平扩展。</li>
+<li>无状态服务的优势在于可以很方便地水平伸缩，但是在实现事务时，需要做一些额外的动作。</li>
+</ul>
+<p>总的来说，有状态服务和无状态服务各有优势，选择哪种服务取决于具体的应用场景和需求。近年来，随着信息数量暴增，后端服务架构越来越复杂，企业应尽量减少有状态服务的数量，这可以极大简化软件架构，并提升系统弹性扩缩容能力。更容易理解一些，状态最好只存在于数据库、MQ 等基础服务组件。</p>
+<h3 id="常见高可用部署架构">常见高可用部署架构</h3>
+<p>在互联网行业中，不涉及支付的业务通常采用“99.9%”或“99.99%”的高可用性水平。例如我们日常浏览的视频、购物、评论等。</p>
+<p>部署“99.9%”的可用性相对简单，只需要建立好主、备数据库，确保数据库之间有一个良好的主备关系并能够切换。这个过程可以自动化更好，即使不通过自动化的形式，在出现故障时也有足够的时间进行人工干预处理也可接受，该种部署方式成本较低且相对简单。</p>
+<p>“99.9%”和“99.99%”之间唯一的区别在于“99.9%”是单机房，而“99.99%”是双机房，并且机房之间可以交叉访问。这样即使出现单机房故障，也不影响业务正常服务。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/12/15/dNwgm5Zl_img_v3_0265_f9df3e70-9e6f-4021-96ea-aed3a29a002g.jpg" alt="High availability of 99.9% &#x26; 99.99%"></p>
+<p>下图描述的是高可用性为“99.999%”的“两地三中心”部署架构。图中展示的左侧是华东，右侧是华南，总共有三个中心，分别是可用区 A、B 和 C。图中的 LB、外部服务和应用服务都没有状态，只有 RDS Master 是有状态的。这种架构要求数据库实现三主多活。左侧的服务可以通过在负载均衡器（LB）、网关和服务层之间进行交叉调度，实现不同中心之间的负载均衡。只有应用程序符合无状态的要求，才能轻松地实现高可用性。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/12/15/5mWc2kxZ_img_v3_0265_3af5959b-57c2-4237-9bad-808795d7ecbg.jpg" alt="High availability of 99.999%"></p>
+<p>更多内容可查看文章：<a href="http://kaito-kidd.com/2021/10/15/what-is-the-multi-site-high-availability-design/">《搞懂异地多活，看这篇就够了》</a>。</p>
+<h2 id="高可用架构认知盲区">高可用架构认知盲区</h2>
+<h3 id="高可用架构从计算机诞生起一直在迭代">高可用架构，从计算机诞生起一直在迭代</h3>
+<p>高可用架构并非是最近才出现的，实际上，从计算机诞生的那一天起，它就已经存在了。在没有 DNS 的时代是直接通过 IP 进行访问的。后来人们意识到必须解决单点问题，即一台机器发生故障后需要有应对措施，以免整个互联网崩溃。因此，在设计互联网时，人们逐步引入了对应解决方案，就是 DNS。</p>
+<p>高可用在业务本质上没有为系统增添任何新功能，它只是为了确保投资回报的可能性。但无论是最早的传统单一大应用还是现在，高可用一直都是标配，只是实现方式略有差异。</p>
+<p>以前要实现高可用性，意味着需要购买昂贵的小型机器或专用的硬件设备，成本非常高，并且定制能力差。谷歌在早期也遇到了这些问题，他们通过统一管理廉价服务器，最终实现了专用硬件的效果，最终看到了分布式数据库、K8s 这样的解决方案。</p>
+<h3 id="高可用架构只能解决架构部分">高可用架构，只能解决架构部分</h3>
+<p>高可用架构提供的只是架构方面的解决方案，单纯依靠高可用方案提升整个系统可用性是不切实际的。架构之外的问题仍然需要工程师亲自去提升，比如前面提到的 WAF、DDoS 逃生，企业应用自身的稳定性等。一般来讲，企业应用自身的可用性要比公司最终可用性目标高一个数量级。</p>
+<h3 id="高可用与安全一样均是全方位立体防护">高可用与安全一样，均是全方位立体“防护”</h3>
+<p>安全性不仅仅是 API 网关的问题，不能只看单个点，而应该从整个 API 体系的角度，全面考虑与 API 网关相关的因素。首先要关注自身，然后再考虑外部因素，最后梳理整体部署架构，避免盲区。从内部而言，可以考虑以下几个方面：</p>
+<ul>
+<li>
+<p><strong>通过软件工程规范，拉高质量下限</strong>：先确保自身的高可用与安全，必须通过软件工程的方法，提升自身服务及其相关服务的质量；再认真进行测试和灰度；企业应建立完善的研发、上线流程。</p>
+</li>
+<li>
+<p><strong>如果是非必要流程，考虑建立逃生机制</strong>：WAF 和 DDoS 都是可插拔的，可以根据需求加入或移除它们。对于外部服务，一定要严肃对待异常流程，最好最坏打算。</p>
+</li>
+<li>
+<p><strong>依赖服务均需支持高可用，比如  LB、DNS 服务等</strong>：务必对依赖服务进行排查，比如负载均衡（LB）和域名系统（DNS）。特别是对于 DNS，必须提供备用选项，去除单点依赖。</p>
+</li>
+<li>
+<p><strong>变量因子需支持回滚机制，比如服务发现等</strong>：管理服务最好能支持回滚操作，及时取消错误操作。开源 APISIX，没有直接提供回滚 API，是因为 etcd 本身有 version 历史记录，可以借用这个特性随时回滚。API7 企业版（基于 APISIX 的商业 API 网关解决方案）对此特性做了产品化实现，只需在界面上点击按钮即可一键回滚。</p>
+</li>
+</ul>
+<h2 id="apisix-与-api7-企业版高可用最佳实践">APISIX 与 API7 企业版高可用最佳实践</h2>
+<p>开源 APISIX 和 API7 企业版的高可用解决方案略有不同。开源方案的设计初衷是尽量保持无状态，以便进行横向扩展、缩容和高可用性的调整。无论某单个控制面或数据面发生故障，都不会影响整个网关系统的运行。</p>
+<h3 id="开源方案-apisix">开源方案 APISIX</h3>
+<p>开源方案的早期 0.* 版本存在一些错误和崩溃，但这并没有影响其发展。正是因为 APISIX 本身是无状态的，非常容易支持高可用性。生产环境使用 APISIX，实现高可用性只需专注于 etcd 高可用性即可。而 etcd 的高可用性，官网有非常完整的描述，与传统关系型数据库相比，etcd 高可用方案可以说简单至极。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/12/15/eAz7Qm7X_img_v3_0265_8d146483-702f-4ebf-83c4-25f761cb81dg.jpg" alt="APISIX adopts etcd"></p>
+<h3 id="商业方案-api7-企业版">商业方案 API7 企业版</h3>
+<p>为了满足国家信创要求，并兼顾商业公司成本和风险，API7 企业版最终还是选择了关系型数据库作为配置存储。同时为了保持与开源方案的兼容性，API7 企业版数据面仍然使用 etcd 通信协议，它通过引入一个新的服务，将数据库中的配置翻译成 etcd 通信协议，从而完成配置分发。</p>
+<p><img src="https://static.apiseven.com/uploads/2024/01/03/vRe5zylN_20240103-091409.jpeg" alt="APISIX vs API7"></p>
+<h2 id="总结">总结</h2>
+<p>API 在数字世界中扮演着交通工具的角色，它连接着不同的系统和服务，实现数据和功能的交互。同时，API 也作为内外网之间的隔离屏障，确保系统的安全性。</p>
+<p>APISIX 和 API7 企业版作为 API 网关产品，保证高性能基础上，提供极佳的高可用性和高安全性能力，为企业构建稳定、高效和安全的 API 管理系统提供更好解决方案。有效管理和优化 API，助力企业提升业务创新能力和竞争力，为终端用户提供更卓越数字化服务体验。</p>
+<p>欢迎访问我们商业公司的网站，了解更多关于 API 的用户案例和信息：<a href="https://www.apiseven.com/blog">https://www.apiseven.com/blog</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2023/12/20/bi-weekly-report/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">社区双周报 (12.04 - 12.17)</span> </a> <a class="post-nav-card older" href="/zh/blog/2023/12/08/zhengcaiyun-uses-apisix/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">政采云 APISIX 优化跨网 RPC 性能实践</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#支流科技简介">支流科技简介</a></li><li class><a href="#为什么高可用对企业-api-如此重要">为什么高可用对企业 API 如此重要</a></li><li class="d3"><a href="#api-管理核心三高">API 管理核心“三高”</a></li><li class="d3"><a href="#api-网关的重要性内外网间的隔离屏障">API 网关的重要性：内外网间的隔离屏障</a></li><li class><a href="#高可用指标及常见--api-网关部署架构">高可用指标及常见  API 网关部署架构</a></li><li class="d3"><a href="#企业服务主流部署架构">企业服务主流部署架构</a></li><li class="d3"><a href="#无状态服务横向扩展系统能力">无状态服务横向扩展系统能力</a></li><li class="d3"><a href="#常见高可用部署架构">常见高可用部署架构</a></li><li class><a href="#高可用架构认知盲区">高可用架构认知盲区</a></li><li class="d3"><a href="#高可用架构从计算机诞生起一直在迭代">高可用架构，从计算机诞生起一直在迭代</a></li><li class="d3"><a href="#高可用架构只能解决架构部分">高可用架构，只能解决架构部分</a></li><li class="d3"><a href="#高可用与安全一样均是全方位立体防护">高可用与安全一样，均是全方位立体“防护”</a></li><li class><a href="#apisix-与-api7-企业版高可用最佳实践">APISIX 与 API7 企业版高可用最佳实践</a></li><li class="d3"><a href="#开源方案-apisix">开源方案 APISIX</a></li><li class="d3"><a href="#商业方案-api7-企业版">商业方案 API7 企业版</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2025/09/03/360-built-unified-l7-load-balancer-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-case.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX 在 360 统一七层负载均衡的落地实践</h3> <p class="desc">360 使用 Apache APISIX 统一七层负载均衡，通过其 Admin API 和 etcd 热同步机制，实现了 VPC、云原生能力以及精细化路由的一体化升级。</p> <p class="meta">2025年9月3日 · 360 智汇云</p> </div> </a><a class="post-card" href="/zh/blog/2025/06/04/configure-apisix-in-a-single-command-with-apisix-mcp/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>MCP 智能化管理实践：一句话搞定 APISIX 网关</h3> <p class="desc">作者：林志煌，API7.ai 前端开发、产品经理。本文整理自 2025 年 4 月 12 日林志煌在 APISIX 深圳 Meetup 的演讲。</p> <p class="meta">2025年6月4日 · 林志煌</p> </div> </a><a class="post-card" href="/zh/blog/2025/05/29/apisix-ai-gateway-from-cloud-native-to-ai-native/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从云原生到 AI 原生：Apache APISIX 的 AI 网关架构设计与智能实践</h3> <p class="desc">了解 Apache APISIX 如何从云原生 API 网关扩展到 AI 网关，覆盖 LLM 流量治理、安全、观测和成本控制。</p> <p class="meta">2025年5月29日 · 王院生</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

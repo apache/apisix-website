@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>初探 Kubernetes Service APIs | Apache APISIX</title><meta name="description" content="本文介绍了 Kubernetes Service APIs 的基本概念、主要特点、以及如何管理资源读写权限和主要的扩展点，以及推行会带来的改变。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="初探 Kubernetes Service APIs | Apache APISIX"><meta property="og:description" content="本文介绍了 Kubernetes Service APIs 的基本概念、主要特点、以及如何管理资源读写权限和主要的扩展点，以及推行会带来的改变。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"初探 Kubernetes Service APIs","description":"本文介绍了 Kubernetes Service APIs 的基本概念、主要特点、以及如何管理资源读写权限和主要的扩展点，以及推行会带来的改变。","datePublished":"2020-12-18","author":{"@type":"Person","name":"金卫"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2020/12/18/first-look-at-kubernetes-service-api/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2020/12/18/first-look-at-kubernetes-service-api/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>初探 Kubernetes Service APIs</h1> <p class="article-meta"> <time datetime="2020-12-18">2020年12月18日</time> · 金卫  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#前言">前言</a></li><li class><a href="#主题描述">主题描述</a></li><li class><a href="#介绍">介绍</a></li><li class="d3"><a href="#kubernetes-service-apis-号称第二代-ingress-技术到底在哪些方面优于第一代">Kubernetes Service APIs 号称第二代 Ingress 技术，到底在哪些方面优于第一代</a></li><li class><a href="#kubernetes-service-apis-抽象出了哪些资源对象">Kubernetes Service APIs 抽象出了哪些资源对象</a></li><li class><a href="#kubernetes-service-apis-的推行会带来哪些改变">Kubernetes Service APIs 的推行会带来哪些改变</a></li><li class><a href="#目前有哪些-ingress-实现了-kubernetes-service-apis">目前有哪些 ingress 实现了 Kubernetes Service APIs</a></li><li class><a href="#kubernetes-service-apis-如何管理资源读写权限">Kubernetes Service APIs 如何管理资源读写权限</a></li><li class><a href="#kubernetes-service-apis-有哪些扩展点">Kubernetes Service APIs 有哪些扩展点</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header>  <blockquote>
+<p>本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>Source:</p>
+<ul>
+<li><a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></li>
+<li><a href="https://github.com/apache/apisix-ingress-controller">https://github.com/apache/apisix-ingress-controller</a></li>
+</ul>
+</blockquote>
+<h2 id="前言">前言</h2>
+<p>笔者是 Apache APISIX PMC，也是 Apache APISIX Ingress Controller Founder，通过调研和社区交流，打算在 Apache APISIX Ingress Controller 的后期版本中逐步支持 Kubernetes Service APIs.</p>
+<p>我们知道 Kubernetes 为了将集群内部服务暴露出去，有多种方案实现，其中一个比较受大众推崇的就是 Ingress。Ingress 作为一种对外暴露服务的标准，有相当多的第三方实现，每种实现都有各自的技术栈 和 所依赖的网关的影子，相互之间并不兼容。</p>
+<p>为了统一各种 Ingress 的实现，便于 Kubernetes 上统一管理，<a href="https://github.com/kubernetes/community/tree/master/sig-network">SIG-NETWORK</a> 社区推出了<a href="https://gateway-api.sigs.k8s.io/">Kubernetes Service APIs</a> 一套标准实现，称为第二代 Ingress 。</p>
+<h2 id="主题描述">主题描述</h2>
+<p>本文从几个问题入手，对 Kubernetes Service APIs 的基本概念进行介绍。</p>
+<h2 id="介绍">介绍</h2>
+<h3 id="kubernetes-service-apis-号称第二代-ingress-技术到底在哪些方面优于第一代">Kubernetes Service APIs 号称第二代 Ingress 技术，到底在哪些方面优于第一代</h3>
+<p>Kubernetes Service APIs 设计之初，目标并没有局限在 Ingress， 而是为了增强 service networking，着重通过以下几点来增强：表达性、扩展性、RBAC。</p>
+<ol>
+<li>更强的表达能力，例如 可以根据 header 、weighting 来管理流量</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>kind: HTTPRoute</span></span>
+<span class="line"><span>apiVersion: networking.x-k8s.io/v1alpha1</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>matches:</span></span>
+<span class="line"><span>  - path:</span></span>
+<span class="line"><span>      value: "/foo"</span></span>
+<span class="line"><span>    headers:</span></span>
+<span class="line"><span>      values:</span></span>
+<span class="line"><span>        version: "2"</span></span>
+<span class="line"><span>  - path:</span></span>
+<span class="line"><span>      value: "/v2/foo"</span></span></code></pre>
+<ol start="2">
+<li>增强了扩展能力，Service APIs 提出多层 API 的概念，各层独立暴露接口，方便其他自定义资源与 API 对接，做到更细粒度（API 粒度）的控制。</li>
+</ol>
+<p><img src="https://gateway-api.sigs.k8s.io/images/api-model.png" alt="api-model"></p>
+<ol start="3">
+<li>面向角色 RBAC：多层 API 的实现，其中一个思想就是从使用者的角度去设计资源对象。这些资源最终会与 Kubernetes 上运行应用程序的常见角色进行映射。</li>
+</ol>
+<h2 id="kubernetes-service-apis-抽象出了哪些资源对象">Kubernetes Service APIs 抽象出了哪些资源对象</h2>
+<p>Kubernetes Service APIs 基于使用者角色，将定义了以下几种资源：</p>
+<p>GatewayClass, Gateway, Route</p>
+<ol>
+<li>GatewayClass 定义了一组具有通用配置和行为的网关类型</li>
+</ol>
+<ul>
+<li>
+<p>与 Gateway 的关系，类似 ingress 中的 ingress.class annotation；</p>
+</li>
+<li>
+<p>GatewayClass 定义了一组共享相同配置和行为的网关。每个 GatewayClass 将由单个 controller 处理，controller 与 GatewayClass 是一对多的关系；</p>
+</li>
+<li>
+<p>GatewayClass 是 cluster 资源。必须至少定义一个 GatewayClass 才能具有功能网关。</p>
+</li>
+</ul>
+<ol start="2">
+<li>Gateway 请求一个可以将流量转换为群集内服务的点。</li>
+</ol>
+<ul>
+<li>
+<p>作用：把集群外的流量引入集群内部。这个才是真正的 ingress 实体；</p>
+</li>
+<li>
+<p>它定义了对特定 LB 配置的请求，该配置也是 GatewayClass 的配置和行为的实现；</p>
+</li>
+<li>
+<p>Gateway 资源可以由操作员直接创建，也可以由处理 GatewayClass 的 controller 创建；</p>
+</li>
+<li>
+<p>Gateway 与 Route 是多对多的关系；</p>
+</li>
+</ul>
+<ol start="3">
+<li>Route 描述了通过网关的流量如何映射到服务。</li>
+</ol>
+<p><img src="https://gateway-api.sigs.k8s.io/images/schema-uml.svg" alt="schema-uml"></p>
+<p>另外，Kubernetes Service APIs 为了能够灵活的配置后端服务，特地定义了一个 BackendPolicy 资源对象。</p>
+<p>通过 BackendPolicy 对象，可以配置 TLS、健康检查 以及指定后端服务类型，比如 service 还是 pod。</p>
+<h2 id="kubernetes-service-apis-的推行会带来哪些改变">Kubernetes Service APIs 的推行会带来哪些改变</h2>
+<p>Kubernetes Service APIs 作为一种实现标准，带来了以下改变：</p>
+<ol>
+<li>
+<p>通用性： 可以有多种实现，就像 ingress 有多种实现一样，可以根据网关的特点去自定义 ingress controller，但是他们都有一致的配置结构。一种数据结构，可以配置多种 ingress controller。</p>
+</li>
+<li>
+<p>Class 概念：GatewayClasses 可以配置不同负载均衡实现的类型。这些类 class 使用户可以轻松而明确地了解哪些功能可以用作资源模型本身。</p>
+</li>
+<li>
+<p>共享网关：通过允许独立的路由资源 HTTPRoute 绑定到同一个 GatewayClass，它们可以共享负载平衡器和 VIP。按照使用者分层，这使得团队可以安全地共享基础结构，而无需关心下层 Gateway 的具体实现。</p>
+</li>
+<li>
+<p>带类型的后端引用: 使用带类型的后端引用，路由可以引用 Kubernetes Services，也可以引用任何类型的设计为网关后端的 Kubernetes 资源，比如 pod，又或者是 statefulset 比如 DB， 甚至是可访问的集群外部资源。</p>
+</li>
+<li>
+<p>跨命名空间引用：跨不同命名空间的路由可以绑定到 Gateway。允许跨命名空间的互相访问。同时也可以限制某个 Gateway 下的 Route 可以访问的命名空间范围。</p>
+</li>
+</ol>
+<h2 id="目前有哪些-ingress-实现了-kubernetes-service-apis">目前有哪些 ingress 实现了 Kubernetes Service APIs</h2>
+<p>目前已知的从代码层面能看到对 Kubernetes Service APIs 资源对象支持的 Ingress 有 Contour, ingress-gce。</p>
+<h2 id="kubernetes-service-apis-如何管理资源读写权限">Kubernetes Service APIs 如何管理资源读写权限</h2>
+<p>Kubernetes Service APIs 按照使用者的维度分为 3 个角色</p>
+<ol>
+<li>
+<p>基础设施提供方 GatewayClass</p>
+</li>
+<li>
+<p>集群操作人员 Gateway</p>
+</li>
+<li>
+<p>应用开发者 Route</p>
+</li>
+</ol>
+<p>RBAC（基于角色的访问控制）是用于 Kubernetes 授权的标准。允许用户配置谁可以对特定范围内的资源执行操作。 RBAC 可用于启用上面定义的每个角色。</p>
+<p>在大多数情况下，希望所有角色都可以读取所有资源</p>
+<p>三层模型的写权限如下。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>GatewayClass</th><th>Gateway</th><th>Route</th></tr></thead><tbody><tr><td>Infrastructure Provider</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Cluster Operators</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Application Developers</td><td>No</td><td>No</td><td>Yes</td></tr></tbody></table>
+<h2 id="kubernetes-service-apis-有哪些扩展点">Kubernetes Service APIs 有哪些扩展点</h2>
+<p>网关的需求非常丰富，同一个场景实现的方式多种多样，各有利弊。Kubernetes Service APIs 提炼出 多层 资源对象，同时也预留了一些扩展点。</p>
+<p>目前 Kubernetes Service APIs 的扩展点基本集中在 Route 上：</p>
+<ul>
+<li>
+<p>RouteMatch 可以扩展 Route 匹配规则。</p>
+</li>
+<li>
+<p>specify Backend 可以扩展特定类型的 后端服务， 除了上面提到的 Kubernetes 资源外，还可以扩展比如 文件系统，函数表达式等。</p>
+</li>
+<li>
+<p>Route filter 可以在 Route 的生命周期中增加扩展点，处理 request/response 。</p>
+</li>
+<li>
+<p>Custom Route 以上扩展点都不能满足时，可以完全自定义一个 Route。</p>
+</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>本文通过提问的方式，对 Kubernetes Service APIs 做了一些基本介绍，从整体来看，Kubernetes Service APIs 提炼了很多 ingress 的最佳实践，比如表达能力的增强，其实就是扩展了 Route 的能力，再比如 BackendPolicy 对象，可以为 upstream 指定几乎所有的 Kubernetes 后端资源。当然，项目初期也有不足的地方，目前 Kubernetes Service APIs 虽然已经从大的层面上规定了资源对象，但资源对象内部还有不少细节需要讨论之后再确定，以防止可能出现的冲突场景，结构上存在一定变数。</p>
+<hr>
+<p>参考:</p>
+<ul>
+<li><a href="https://gateway-api.sigs.k8s.io/">https://gateway-api.sigs.k8s.io/</a></li>
+<li><a href="https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api">https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/01/11/interview-apache-apisix-contributor-wang-pengcheng-senior-security-advisor-of-pwc-south-china-data-security-and-privacy-protection-team/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX 贡献者专访 | 普华永道高级安全顾问王鹏诚</span> </a> <a class="post-nav-card older" href="/zh/blog/2020/12/11/beike-how-to-build-gateway-based-on-apache-apisix/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">贝壳找房如何基于 APISIX 搭建网关</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#前言">前言</a></li><li class><a href="#主题描述">主题描述</a></li><li class><a href="#介绍">介绍</a></li><li class="d3"><a href="#kubernetes-service-apis-号称第二代-ingress-技术到底在哪些方面优于第一代">Kubernetes Service APIs 号称第二代 Ingress 技术，到底在哪些方面优于第一代</a></li><li class><a href="#kubernetes-service-apis-抽象出了哪些资源对象">Kubernetes Service APIs 抽象出了哪些资源对象</a></li><li class><a href="#kubernetes-service-apis-的推行会带来哪些改变">Kubernetes Service APIs 的推行会带来哪些改变</a></li><li class><a href="#目前有哪些-ingress-实现了-kubernetes-service-apis">目前有哪些 ingress 实现了 Kubernetes Service APIs</a></li><li class><a href="#kubernetes-service-apis-如何管理资源读写权限">Kubernetes Service APIs 如何管理资源读写权限</a></li><li class><a href="#kubernetes-service-apis-有哪些扩展点">Kubernetes Service APIs 有哪些扩展点</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

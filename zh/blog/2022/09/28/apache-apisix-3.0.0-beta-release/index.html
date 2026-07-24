@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 3.0.0 预览版现已发布！带来丰富功能与迭代细节 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.0.0 预览版现已发布，为你整理了此次预览版上线的一些功能与调整细节。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/09/28/apache-apisix-3.0.0-beta-release/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/09/28/apache-apisix-3.0.0-beta-release/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/09/28/apache-apisix-3.0.0-beta-release/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/09/28/apache-apisix-3.0.0-beta-release/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX 3.0.0 预览版现已发布！带来丰富功能与迭代细节 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.0.0 预览版现已发布，为你整理了此次预览版上线的一些功能与调整细节。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/09/28/apache-apisix-3.0.0-beta-release/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 3.0.0 预览版现已发布！带来丰富功能与迭代细节","description":"Apache APISIX 3.0.0 预览版现已发布，为你整理了此次预览版上线的一些功能与调整细节。","datePublished":"2022-09-28","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/09/28/apache-apisix-3.0.0-beta-release/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/09/28/apache-apisix-3.0.0-beta-release/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/09/28/apache-apisix-3.0.0-beta-release/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX 3.0.0 预览版现已发布！带来丰富功能与迭代细节</h1> <p class="article-meta"> <time datetime="2022-09-28">2022年9月28日</time> · 罗泽轩  · 约 4 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#新变化">新变化</a></li><li class="d3"><a href="#移动-config_centeretcd-和-admin-api-配置到-deployment-中">移动 config_center、etcd 和 Admin API 配置到 deployment 中</a></li><li class="d3"><a href="#移除多个已废弃配置">移除多个已废弃配置</a></li><li class="d3"><a href="#调整-admin-api-响应格式">调整 Admin API 响应格式</a></li><li class="d3"><a href="#其他">其他</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#新玩法直接从-apisix-发起-grpc-请求">新玩法：直接从 APISIX 发起 gRPC 请求</a></li><li class="d3"><a href="#新插件elasticsearch-logger-和-tencent-cloud-cls">新插件：elasticsearch-logger 和 tencent-cloud-cls</a></li><li class="d3"><a href="#现有功能拓展">现有功能拓展</a></li> </ul> </details> </header>  <blockquote>
+<p>Apache APISIX 3.0.0 预览版现已发布，为你整理了此次预览版上线的一些功能与调整细节。</p>
+</blockquote>
+<!--truncate-->
+<p>本次发布的新版本，是 3.0.0 的 Beta 预览版。作为 3.0 正式版的探路先锋，预览版已经包含了 3.0 大版本中带来的多项新功能。如果你想提前感受 APISIX 3.0 版本的功能盛宴，欢迎尝鲜此次预览版，也期待你在使用中向社区反馈相关体验。</p>
+<p>正因为 3.0.0-beta 版本新增了很多不向下兼容的改动，本次发版公告会一一列出这些改动，让各位用户在迁移配置时有所准备。</p>
+<h2 id="新变化">新变化</h2>
+<h3 id="移动-config_centeretcd-和-admin-api-配置到-deployment-中">移动 config_center、etcd 和 Admin API 配置到 deployment 中</h3>
+<p>在 3.0 版本中，调整了静态配置文件中的配置，所以你需要同步更新下 <code>config.yaml</code> 文件内的配置。</p>
+<ul>
+<li><code>config_center</code> 功能改由 <code>deployment</code> 中的 <code>config_provider</code> 实现（<a href="https://github.com/apache/apisix/pull/7901">#7901</a>）</li>
+<li><code>etcd</code> 字段整体搬迁到 <code>deployment</code> 中（<a href="https://github.com/apache/apisix/pull/7860">#7860</a>）</li>
+<li>以下 Admin API 配置移动到 <code>deployment</code> 中的 <code>admin</code> 字段（<a href="https://github.com/apache/apisix/pull/7823">#7823</a>）：
+<ul>
+<li>admin_key</li>
+<li>enable_admin_cors</li>
+<li>allow_admin</li>
+<li>admin_listen</li>
+<li>https_admin</li>
+<li>admin_api_mtls</li>
+<li>admin_api_version</li>
+</ul>
+</li>
+</ul>
+<p>更多详情可参考最新的 <code>[config-default.yaml](https://github.com/apache/apisix/blob/master/conf/config-default.yaml)</code> 文件。</p>
+<h3 id="移除多个已废弃配置">移除多个已废弃配置</h3>
+<p>在 3.0 新版本中，我们把许多之前标记为 <code>deprecated</code> 的配置进行了清理。</p>
+<p>在静态配置中，移除了以下若干字段：</p>
+<ul>
+<li>移除 <code>apisix.ssl</code> 中的 <code>enable_http2</code> 和 <code>listen_port</code>（<a href="https://github.com/apache/apisix/pull/7717">#7717</a>）</li>
+<li>移除 <code>apisix.port_admin</code>（<a href="https://github.com/apache/apisix/pull/7716">#7716</a>）</li>
+<li>移除 <code>etcd.health_check_retry</code>（<a href="https://github.com/apache/apisix/pull/7676">#7676</a>）</li>
+<li>移除 <code>nginx_config.http.lua_shared_dicts</code>（<a href="https://github.com/apache/apisix/pull/7677">#7677</a>）</li>
+<li>移除 <code>nginx_config.http.real_ip_header</code>（<a href="https://github.com/apache/apisix/pull/7696">#7696</a>）</li>
+</ul>
+<p>在动态配置中，进行了以下调整：</p>
+<ul>
+<li>将插件配置的 <code>disable</code> 移到 <code>_meta</code> 中（<a href="https://github.com/apache/apisix/pull/7707">#7707</a>）</li>
+<li>从 Route 中移除了 <code>service_protocol</code>（<a href="https://github.com/apache/apisix/pull/7701">#7701</a>）</li>
+</ul>
+<p>此外还有具体插件级别上的改动：</p>
+<ul>
+<li>authz-keycloak 中移除了 <code>audience</code> 字段（<a href="https://github.com/apache/apisix/pull/7683">#7683</a>）</li>
+<li>mqtt-proxy 中移除了 <code>upstream</code> 字段（<a href="https://github.com/apache/apisix/pull/7694">#7694</a>）</li>
+<li>error-log-logger 中把 TCP 相关配置放到 <code>tcp</code> 字段中（<a href="https://github.com/apache/apisix/pull/7700">#7700</a>）</li>
+<li>syslog 中移除了 <code>max_retry_times</code> 和 <code>retry_interval</code> 字段（<a href="https://github.com/apache/apisix/pull/7699">#7699</a>）</li>
+<li>proxy-rewrite 中移除了 <code>scheme</code> 字段（<a href="https://github.com/apache/apisix/pull/7695">#7695</a>）</li>
+</ul>
+<h3 id="调整-admin-api-响应格式">调整 Admin API 响应格式</h3>
+<p>我们在以下两个 PR 中调整了 Admin API 的响应格式：</p>
+<ul>
+<li><a href="https://github.com/apache/apisix/pull/7630">#7630</a></li>
+<li><a href="https://github.com/apache/apisix/pull/7622">#7622</a></li>
+</ul>
+<p>新的响应格式调整为以下类型。</p>
+<p>返回单个配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2685183</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">  "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  },</span></span>
+<span class="line"><span style="color:#A5D6FF">  "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix/routes/1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">  "createdIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2684956</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>返回多个配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "list"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2685183</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix/routes/1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "createdIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2684956</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "modifiedIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2685163</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "value"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/apisix/routes/2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">      "createdIndex"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2685163</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#A5D6FF">  "total"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h3 id="其他">其他</h3>
+<ul>
+<li>Admin API 的端口改为 9180（<a href="https://github.com/apache/apisix/pull/7806">#7806</a>）</li>
+<li>APISIX 将只支持 OpenResty 1.19.3.2 及以上版本（<a href="https://github.com/apache/apisix/pull/7625">#7625</a>）</li>
+<li>调整了 Plugin Config 对象的优先级，同名插件配置的优先级由 Consumer > Plugin Config > Route > Service 修改为 <strong>Consumer > Route > Plugin Config > Service</strong>（<a href="https://github.com/apache/apisix/pull/7614">#7614</a>）</li>
+</ul>
+<h2 id="新功能">新功能</h2>
+<h3 id="新玩法直接从-apisix-发起-grpc-请求">新玩法：直接从 APISIX 发起 gRPC 请求</h3>
+<p>从 3.0.0-beta 版本开始，APISIX 集成了 <code>grpc-client-nginx-module</code>，这是一个支持在 NGINX 中发起 gRPC 请求的模块。只需寥寥数十行 Lua 代码，即可完成跟 gRPC 服务的直接交互。</p>
+<p>在下方代码中，我们连接了监听 50051 端口的 gRPC 服务，发送一次 <code>{ name = "apisix" }</code> 来创建对应的 stream，然后发送三次请求，最后接收到了五次响应。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#A5D6FF"> "apisix.core"</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> gcli </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">grpc</span></span>
+<span class="line"><span style="color:#79C0FF">assert</span><span style="color:#E6EDF3">(gcli.</span><span style="color:#79C0FF">load</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"t/grpc_server_example/proto/helloworld.proto"</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> conn </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> assert</span><span style="color:#E6EDF3">(gcli.</span><span style="color:#79C0FF">connect</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"127.0.0.1:50051"</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> st, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> conn</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">new_bidirectional_stream</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"helloworld.Greeter"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "SayHelloBidirectionalStream"</span><span style="color:#E6EDF3">, { name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "apisix" </span><span style="color:#E6EDF3">})</span></span>
+<span class="line"><span style="color:#FF7B72">if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> st </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">status</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 503</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(err)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">3</span><span style="color:#FF7B72"> do</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> st</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">send</span><span style="color:#E6EDF3">({ name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "apisix" </span><span style="color:#E6EDF3">})</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        ngx.</span><span style="color:#79C0FF">status</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 503</span></span>
+<span class="line"><span style="color:#E6EDF3">        ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">assert</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">st</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">close_send</span><span style="color:#E6EDF3">())</span></span>
+<span class="line"><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> i </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">5</span><span style="color:#FF7B72"> do</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> res, err </span><span style="color:#FF7B72">=</span><span style="color:#FFA657"> st</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">recv</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> res </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        ngx.</span><span style="color:#79C0FF">status</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> 503</span></span>
+<span class="line"><span style="color:#E6EDF3">        ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(err)</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(res.</span><span style="color:#79C0FF">message</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>更多详细细节可参考<a href="https://github.com/api7/grpc-client-nginx-module">相关文档</a>。</p>
+<p>目前 APISIX 对 <code>grpc-client-nginx-module</code> 的整合只是个开始，后续将会在 APISIX 中进行更多改造工作，比如直接使用 gRPC 来连接 APISIX 的控制面。</p>
+<h3 id="新插件elasticsearch-logger-和-tencent-cloud-cls">新插件：elasticsearch-logger 和 tencent-cloud-cls</h3>
+<p>APISIX 几乎每个新版本的发布都会引入新的日志插件，此次也不例外，引入了两个新的日志插件。</p>
+<p><code>elasticsearch-logger</code> 插件是写入到 Elasticsearch 的日志插件。通过配置该插件，你可以把日志批量传输到 Elasticsearch。如下述配置，会将日志发送到 9200 端口的 Elasticsearch 上：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#A5D6FF">    "plugins"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">        "elasticsearch-logger"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">            "endpoint_addr"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"http://127.0.0.1:9200"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "field"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">                "index"</span><span style="color:#E6EDF3">:</span><span style="color:#A5D6FF">"services"</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    ...</span></span></code></pre>
+<p><code>tencent-cloud-cls</code> 插件则是对接<a href="https://cloud.tencent.com/document/product/614">腾讯云日志服务</a>的插件。</p>
+<p>跟 <code>elasticsearch-logger</code> 类似，也需要配置相关服务器的地址，同时还需要配置用户的身份信息：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#A5D6FF">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "tencent-cloud-cls"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "cls_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"ap-guangzhou.cls.tencentyun.com"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "cls_topic"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"${your CLS topic name}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "global_tag"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">                "module"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cls-logger"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">                "server_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"YourApiGateWay"</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#7EE787">            "include_req_body"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "include_resp_body"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "secret_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"${your secret id}"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">            "secret_key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"${your secret key}"</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        ...</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"></span></code></pre>
+<h3 id="现有功能拓展">现有功能拓展</h3>
+<p>除了上面提到的几个大的新变化外，此次版本发布也包含很多值得一提的特性：</p>
+<ul>
+<li>K8s 服务发现支持配置多个集群；</li>
+<li>log-rotate 时支持限制日志文件的上限大小；</li>
+<li>新增 <code>openfunction</code> 插件，可以调用 OpenFunction 平台的 FaaS 函数；</li>
+<li>新增 <code>workflow</code> 插件，可以灵活执行更多逻辑。</li>
+</ul>
+<p>如果你对此次发版的完整内容感兴趣，请参考 3.0.0-beta 发布的 <a href="https://github.com/apache/apisix/blob/release/2.99/docs/zh/latest/CHANGELOG.md#300-beta">changelog</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/09/30/huanbei-in-apache-apisix/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">放弃 Spring Cloud Gateway！APISIX 在「还呗」的技术实践</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/09/27/why-apache-apisix-is-best-apigateway/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">为什么说 Apache APISIX 是最好的 API 网关？</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#新变化">新变化</a></li><li class="d3"><a href="#移动-config_centeretcd-和-admin-api-配置到-deployment-中">移动 config_center、etcd 和 Admin API 配置到 deployment 中</a></li><li class="d3"><a href="#移除多个已废弃配置">移除多个已废弃配置</a></li><li class="d3"><a href="#调整-admin-api-响应格式">调整 Admin API 响应格式</a></li><li class="d3"><a href="#其他">其他</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#新玩法直接从-apisix-发起-grpc-请求">新玩法：直接从 APISIX 发起 gRPC 请求</a></li><li class="d3"><a href="#新插件elasticsearch-logger-和-tencent-cloud-cls">新插件：elasticsearch-logger 和 tencent-cloud-cls</a></li><li class="d3"><a href="#现有功能拓展">现有功能拓展</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/05/31/2026-may-monthly-report/"> <img class="cover" src="https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (05.01 - 05.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年5月31日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

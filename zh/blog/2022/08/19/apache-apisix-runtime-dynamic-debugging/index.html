@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 运行时动态调试功能详解 | Apache APISIX</title><meta name="description" content="本文详细介绍了云原生 API 网关 Apache APISIX 动态调试功能以及该功能的实现原理，你可以通过该功能更便捷地排查 Bug 并解决相关问题。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 运行时动态调试功能详解 | Apache APISIX"><meta property="og:description" content="本文详细介绍了云原生 API 网关 Apache APISIX 动态调试功能以及该功能的实现原理，你可以通过该功能更便捷地排查 Bug 并解决相关问题。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0817/APISIX.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0817/APISIX.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 运行时动态调试功能详解","description":"本文详细介绍了云原生 API 网关 Apache APISIX 动态调试功能以及该功能的实现原理，你可以通过该功能更便捷地排查 Bug 并解决相关问题。","datePublished":"2022-08-19","image":"https://static.apiseven.com/2022/blog/0817/APISIX.png","author":{"@type":"Person","name":"屠正松"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/08/19/apache-apisix-runtime-dynamic-debugging/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 运行时动态调试功能详解</h1> <p class="article-meta"> <time datetime="2022-08-19">2022年8月19日</time> · 屠正松  · 约 10 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#故障发生">故障发生</a></li><li class><a href="#动态调试详解">动态调试详解</a></li><li class="d3"><a href="#动态调试特性">动态调试特性</a></li><li class="d3"><a href="#配置动态调试">配置动态调试</a></li><li class><a href="#问题排查">问题排查</a></li><li class="d3"><a href="#验证问题">验证问题</a></li><li class="d3"><a href="#大胆推测">大胆推测</a></li><li class="d3"><a href="#小心求证">小心求证</a></li><li class><a href="#功能实现">功能实现</a></li><li class><a href="#最佳实践">最佳实践</a></li><li class><a href="#更多期待">更多期待</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0817/APISIX.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文详细介绍了 Apache APISIX 动态调试功能以及该功能的实现原理，你可以通过该功能更便捷地排查 Bug 并解决相关问题。</p>
+</blockquote>
+<!--truncate-->
+<p>Apache APISIX 是一个动态，实时，高性能的 API 网关，它基于 NGINX 和 Lua 实现，因此天然继承了二者的高性能。动态意味着如果你对它做了任意配置的变更，不需要重启或者热更新，因此也不会产生服务中断或短暂不可用。由于 NGINX 的配置保存在文件中，如果变更配置，就需要重启服务，该操作会涉及到连接断开，占用高达两倍的资源。</p>
+<p>APISIX 通过其动态的优势， 提供了强大的运行时动态调试的能力，但由于该功能对使用者有着略高的技术背景要求，在常规业务需求中也不太会用到这项功能，因此大家对 APISIX 运行时动态调试能力了解不足。本文将通过实际案例为你详细讲解 Apache APISIX 运行时动态调试的功能。</p>
+<h2 id="故障发生">故障发生</h2>
+<p>某年某月某日，一个用户的生产环境出现异常，与用户交流过后并没有发现用户操作有什么异常之处，一切都很合理。而且根据用户的描述，该 Bug 会在 APISIX 重启后消失，然后运行一段时间之后就会随机出现。没有人知道这个 Bug 发生的原因，也不知道如何复现该 Bug。在检查完用户的配置之后，我们也没有发现异常的地方。</p>
+<p>而在用户提供的与异常相关的日志中，我们发现其中最关键的一条日志。这条日志看起来稀松平常，只不过是调用 <code>eval</code> 函数失败。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/1.PNG" alt="network error/log error.png"></p>
+<p>但在正常情况下，在这行日志对应的代码段不应该会抛出这个错误。为什么呢？我们先看下异常日志对应的代码段，下图中倒数第二行是抛出异常的地方：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/2.png" alt="network error/log error.png"></p>
+<p>这段代码的逻辑是：首先对 <code>conf.response_expr</code> 对象做了非空判断，如果不存在，则会创建该对象。对象创建完成，才会调用它的 <code>eval</code> 函数，而在该对象对应的模块中，已经实现了 <code>eval</code> 函数。所以我们认为这个错误是不应该出现的。那么为什么创建了这个对象但是调用它的函数失败呢？</p>
+<h2 id="动态调试详解">动态调试详解</h2>
+<p>从前文描述的已知信息来看，我们已经无法判断 Bug 产生的原因了，因此我们采用动态调试的方式来寻找 Bug 的根本原因。</p>
+<h3 id="动态调试特性">动态调试特性</h3>
+<p>在正式开启寻 Bug 之路前，先为大家介绍下什么是动态调试以及它的特性。</p>
+<p>动态调试功能主要用于在 APISIX 运行过程中通过响应、日志等方式，输出更多的调试信息，用来帮助排查异常，比如缩小排查范围、窥探异常上下文等。其特性有以下三点：</p>
+<ul>
+<li>
+<p>实时关闭&#x26;开启</p>
+<p>动态调试可以在 APISIX 运行时通过修改指定的配置文件开启或关闭，不需要重启 APISIX 或者进行其他操作。</p>
+</li>
+<li>
+<p>打印任何模块级函数</p>
+<p>该功能可以调试和打印任何模块级别函数的入参和出参，不管这个函数是位于 APISIX 的代码中，还是 APISIX 依赖的诸多 <code>lua-resty</code> 第三方库中，或者是 OpenResty 的 <code>lualib</code> 中的模块。只要能通过 <code>require</code> 引用该函数，就可以 <code>hook</code> 该函数。</p>
+</li>
+<li>
+<p>针对指定请求开启</p>
+<p>除了以上两点，该功能也支持针对指定请求开启。通过设置特殊的请求头，对调试请求进行染色，便于追踪和分析。该特性可以通过 <code>curl xxx -H “X-APISIX-Dynamic-Debug”</code> 命令开启，该命令表示只有请求中携带 <code>X-APISIX-Dynamic-Debug</code> 请求头时，才会在日志中输出指定函数的入参和出参。该功能本质上是请求过滤，防止输出太多无意义的日志，也可以借此区分真实请求和调试请求。</p>
+</li>
+</ul>
+<h3 id="配置动态调试">配置动态调试</h3>
+<p>当你需要使用动态调试功能时，可以通过 <code>./conf/debug.yaml</code> 配置文件，开启 APISIX 的动态调试功能。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/3.png" alt="network error/log error.png"></p>
+<p>关于上图配置的具体含义，请参考 <a href="https://apisix.apache.org/zh/docs/apisix/architecture-design/debug-mode/">Debug Mode</a>。</p>
+<p>下图是开启动态调试后对应的日志信息，可以看到该日志包含了指定函数的入参和出参。当调用 dns 解析的函数时，查询的域名为 <code>httpbin.org</code>，返回的结果是该域名解析出的 IP，并且该解析结果是从本地缓存的 DNS 查询结果中命中的，甚至可以看到这个域名在本地的 DNS 缓存中的存活时间等详细信息。但是在没有启用动态调试的时候，日志就没有那么详细了。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/4.png" alt="network error/log error.png"></p>
+<p>了解完相关概念和使用方法后，接下来就可以进行 Bug 的排查了。</p>
+<h2 id="问题排查">问题排查</h2>
+<p>首先采用动态调试的方式 <code>hook</code> 了出现异常的这段代码所在的函数，下图是针对该 Bug 所做的配置：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/5.png" alt="network error/log error.png"></p>
+<h3 id="验证问题">验证问题</h3>
+<p>开启动态调试后，我们在日志中发现了端倪。在函数的入参中，正常情况下，<code>conf.response_expr</code> 对象是存在 <code>eval</code> 函数的，并且这个函数位于 <code>metatable</code> 中，这符合正常认知。当在 <code>conf.response_expr</code> 对象中找不到时，会在 <code>metatable</code> 中寻找 <code>eval</code> 函数并且执行成功。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/6.png" alt="network error/log error.png"></p>
+<p>但是在异常案例中，<code>conf.response_expr</code> 对象的 <code>metatable</code> 对象丢失了，这是导致无法调用 <code>eval</code> 函数的直接原因，与异常日志相互映证。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/7.png" alt="network error/log error.png"></p>
+<p>为什么 <code>conf.response_expr</code> 对象的 <code>metatable</code> 对象丢失了？</p>
+<h3 id="大胆推测">大胆推测</h3>
+<p>基于一个朴素的认知，计算机是不会骗人的，<code>conf.response_expr</code> 对象的 <code>metatable</code> 对象丢失一定会存在非常合理的解释。我们查看了相关代码，并基于已知的信息梳理了代码执行路径，做了以下两点推测：</p>
+<ol>
+<li><code>conf.response_expr</code> 对象可能在其他地方被修改了，导致丢失 <code>metatable</code>；</li>
+<li><code>conf.response_expr</code> 对象被替换了，并在替换时丢失了 <code>metatable</code>。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0820/8.png" alt="network error/log error.png"></p>
+<p>基于第一个推测，分析完函数执行路径后，确定没有任何地方会修改 <code>conf.response_expr</code> 对象，因为这个对象的使用范围很小，也不会泄漏到外面。</p>
+<p>所以我们专注于分析第二点，<code>conf.response_expr</code> 是存在被替换可能性的。比如插件配置合并，该操作涉及到 Consumer、Service、Route 等对象上的插件配置的合并。在这个过程中，会使用核心库中的用户 <code>table</code> 操作的模块中的 <code>deepcopy</code> 函数来复制出新配置。</p>
+<p>因此我们又检查了 <code>deepcopy</code> 函数，发现确实没有对 <code>metatable</code> 进行任何操作。</p>
+<h3 id="小心求证">小心求证</h3>
+<p>基于以上信息，我们又对 <code>deepcopy</code> 函数进行了动态调试，修改后的配置如下：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/9.png" alt="network error/log error.png"></p>
+<p>经过日志分析和提取，果然找到了异常的 <code>case</code>：</p>
+<ul>
+<li>入参</li>
+</ul>
+<p><img src="https://static.apiseven.com/2022/blog/0820/10.png" alt="network error/log error.png"></p>
+<ul>
+<li>出参</li>
+</ul>
+<p><img src="https://static.apiseven.com/2022/blog/0820/11.png" alt="network error/log error.png"></p>
+<p>在 <code>deepcopy</code> 的入参中，是存在 <code>metatable</code> 的，但在出参中，<code>metatable</code> 丢失了。这可以验证关于 <code>metatable</code> 丢失的推测，并说明 <code>metatable</code> 丢失发生在插件配置合并中。</p>
+<p>简单总结一下出现该异常的过程。比如我们创建了一个 Consumer 并且配置了 <code>key-auth</code> 插件，另外创建了一条 URI 为 <code>/hello</code> 的路由，并在该路由上配置了 <code>kafka-logger</code> 插件。</p>
+<p>第一次发送了没有 Consumer header 的请求，该请求命中 <code>/hello</code> 路由后，会被 <code>key-auth</code> 插件拦截，但是该请求并没有完全退出，仍然执行了 <code>kafka-logger</code> 插件的 body_filter 阶段，也就是最开始异常日志对应的函数。这就导致第一次请求生成 <code>response_expr</code> 并存储在 <code>conf</code> 中。此时的 <code>conf.response_expr</code> 对象就不是空值了，并且 <code>conf.response</code> 对象还是有 <code>metatable</code> 的。</p>
+<p>当第二次发送了携带 Consumer header 的请求，继续命中 <code>/hello</code> 路由，但是由于第二次的请求是合法的，所以将 Consumer 和 Route 上的插件合并。在这个过程中 <code>conf.response_expr</code> 对象的 <code>metatable</code> 对象丢失了。那么执行到 <code>kafka-logger</code> 的插件的代码中，就会出现异常日志所显示的 Bug。</p>
+<p>经过大胆推测和小心求证，借助动态调试技术，在非常困难的运行环境中我们完成了 Bug 定位。</p>
+<div class="admonition admonition-note"><p class="admonition-title">注意</p><p>目前该问题已被修复。</p></div>
+<p>相信读到这里，你已经初步了解 APISIX 运行时动态调试强大的能力了，那么 APISIX 是如何实现这个功能呢？</p>
+<h2 id="功能实现">功能实现</h2>
+<p>下图是 APISIX 进行动态调试时的流程图。首先，APISIX 会解析 <code>./conf/debug.yaml</code> 配置文件，并找到需要动态调试的模块，然后替换这些模块中的函数，那么 APISIX 是如何替换函数的呢？请看下图：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0820/12.png" alt="network error/log error.png"></p>
+<p>在静态语言中，如果要修改代码，就需要重新编译代码，但是在动态语言 Lua 中，运行时替换函数是非常简单的。</p>
+<p>在 OpenResty 世界中，每个模块实际上都是一个 <code>table</code>，Lua 中有特殊的 <code>metatable</code>，也就是元表机制，你可以给每个 <code>table</code> 设置 <code>metatable</code>。而 <code>metatable</code> 中有一个特殊的被称为 <code>_call</code> 的元函数，该元函数可以设置模块中函数被调用前后的行为。</p>
+<p>当你需要调试某个模块时，APISIX 就会找到该模块，并且给该模块设置一个 <code>metatable</code>，定义 <code>_call</code> 元函数。通过这种方式，APISIX 就可以控制需要被动态调试的函数，获取这些函数的参数，在调试模块中运行这些函数，然后获得它们的执行结果，输出在日志中，并且返回函数调用结果。以上步骤相当于利用 <code>_call</code> 元函数作为切入点，对被调试的函数进行了切面。更多细节，请参考<a href="https://github.com/apache/apisix/blob/f0f5b48a8fbe78051e7ab97b979cc1632b2c9d2a/apisix/debug.lua">源码</a>。</p>
+<h2 id="最佳实践">最佳实践</h2>
+<p>通过以上内容，相信你对动态调试有了更深刻的理解。以下是在实际使用该功能的过程中总结出来的经验，希望帮助你在使用动态调试功能时更加得心应手：</p>
+<ol>
+<li><code>hook_conf</code> 一次只能配置 1 个模块，可以配置这个模块下的多个函数；</li>
+<li><code>hook_conf</code> 使用的是 Lua 的 <code>package</code> 搜索规则：
+<ul>
+<li>对于 APISIX 内的函数需要加上 <code>apisix</code> 前缀，比如 <code>apisix/core/table.lua</code>，需要配置为 <code>apisix.core.table</code>。</li>
+<li>对于其他依赖模块和 OpenResty 模块，比如 OpenResty 的 <code>dns resolver</code> 模块，配置为 <code>resty.dns.resolver</code>。</li>
+</ul>
+</li>
+<li>动态调试功能只能打印模块级函数（一般是 <code>function _M.xxx</code> 形式），私有函数不能打印；</li>
+<li><code>hook_conf</code>可以配置多份，通过 <code>hook_conf.name</code> 来指定具体的某一份配置；</li>
+<li>积累成熟的 <code>debug.yaml</code>，需要时直接替换。</li>
+</ol>
+<h2 id="更多期待">更多期待</h2>
+<p>最后我们来看一下目前对 APISIX 动态调试能力的设想：</p>
+<ol>
+<li>需要能够动态获取指定函数的参数输出（允许自由执行，自定义代码）
+<ul>
+<li>获取 CPU、内存、磁盘等环境信息</li>
+<li>能够自由打印函数的输入、输出参数</li>
+</ul>
+</li>
+<li>在 <code>privilege agent</code> 上执行特定命令，并获取返回结果</li>
+<li>调试工具具备运行时自身动态更新的能力（拆分 <code>debug</code> 模块为解析器和运行器）</li>
+</ol>
+<p>对于以上设想可能不太容易理解，可以看下通过上述描述模拟出来的配置。它看起来稍显复杂，但是展现的构想效果却是非常惊艳的：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FFA657">hook_conf</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FFA657">  enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#FFA657">  log_level</span><span style="color:#E6EDF3">: warn</span></span>
+<span class="line"><span style="color:#FFA657">  is_print_input_args</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#FFA657">  is_print_return_value</span><span style="color:#E6EDF3">: </span><span style="color:#FFA657">trueenable_modules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FF7B72">    -</span><span style="color:#E6EDF3"> hook_http_access_phase</span></span>
+<span class="line"><span style="color:#FF7B72">    -</span><span style="color:#E6EDF3"> hook_plugin_kafka</span></span>
+<span class="line"><span style="color:#FFA657">  modules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FFA657">    hook_http_access_phase</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FFA657">      lua_code_before</span><span style="color:#E6EDF3">: |</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span><span style="color:#79C0FF"> ...</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(conf))</span></span>
+<span class="line"><span style="color:#FFA657">      apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FF7B72">        -</span><span style="color:#E6EDF3"> http_access_phase</span></span>
+<span class="line"><span style="color:#FFA657">    hook_control_api_status</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FFA657">      lua_code_before</span><span style="color:#E6EDF3">: |</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span><span style="color:#79C0FF"> ...</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">var</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">uri</span><span style="color:#FF7B72"> ==</span><span style="color:#A5D6FF"> " /status" </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#8B949E">            -- CPU\disk\memory</span></span>
+<span class="line"><span style="color:#E6EDF3">            ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">( \ </span><span style="color:#A5D6FF">"cpu : </span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">, ...)</span></span>
+<span class="line"><span style="color:#E6EDF3">            ngx.</span><span style="color:#79C0FF">exit</span><span style="color:#E6EDF3">( </span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">        end</span></span>
+<span class="line"><span style="color:#E6EDF3">      apisix.</span><span style="color:#79C0FF">control</span><span style="color:#FF7B72">-</span><span style="color:#FFA657">api</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FF7B72">      -</span><span style="color:#E6EDF3"> http_access_phase</span></span>
+<span class="line"><span style="color:#FFA657">    hook_plugin_kafka</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FFA657">      lua_code_before</span><span style="color:#E6EDF3">:|</span></span>
+<span class="line"><span style="color:#79C0FF">      ...</span><span style="color:#79C0FF"> ...</span></span>
+<span class="line"><span style="color:#E6EDF3">      core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(core.</span><span style="color:#79C0FF">json</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">encode</span><span style="color:#E6EDF3">(conf))</span></span>
+<span class="line"><span style="color:#E6EDF3">    apisix.</span><span style="color:#79C0FF">plugins</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">kafka</span><span style="color:#FF7B72">-</span><span style="color:#FFA657">logger</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#FF7B72">      -</span><span style="color:#E6EDF3"> access</span></span>
+<span class="line"><span style="color:#FF7B72">      -</span><span style="color:#E6EDF3"> body_filter</span></span>
+<span class="line"><span style="color:#FF7B72">#</span><span style="color:#E6EDF3">END</span></span></code></pre>
+<p>以上代码释义如下：</p>
+<ul>
+<li><code>hook_http_access_phase</code>、 <code>hook_control_api_status</code>、<code>hook_plugin_kafka</code> 是不同配置块的名字，<code>debug</code> 模块根据 <code>hook_conf.enable_modules</code> 来寻找下方的定义好的配置块。
+比如上面 <code>hook_conf.enable_modules</code> 对应的是 <code>hook_plugin_kafka</code>，那么动态调试功能只会关联下方 <code>hook_plugin_kafka</code> 配置块中的内容。
+这样做的好处是我们可以预先在 debug.yaml 中写好一组常用的配置，然后根据需要修改 hook_conf.enable_modules 来切换不同的配置块。</li>
+<li><code>lua_code_before</code>：中表示在需要 <code>hook</code> 的函数之前执行的代码，比如 <code>hook_plugin_kafka</code> 中的配置，表示在执行 <code>kafka-logger</code> 插件的 access 函数之前，先执行<code>core.log.error(core.json.encode(conf))</code> 。当然，也会有 <code>lua_code_after</code>，表示在执行指定 <code>hook</code> 的函数之后执行。</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>本文通过实际案例为大家介绍了如何在 Apache APISIX 中使用动态调试功能，当系统中出现不明 Bug 时，利用动态调试功能可以帮助你快速定位 Bug，从而解决 Bug。如果你对动态调试有更好的设想和建议，欢迎到社区中进行讨论。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/09/15/apache-apisix-integrat-with-elasticsearch-for-logger/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">API 网关 Apache APISIX 集成 Elasticsearch 实现实时日志监控</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/08/12/arm-performance-google-aws-azure-with-apisix/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">GCP、AWS、Azure 和 Oracle ARM 架构服务器性能测试对比</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#故障发生">故障发生</a></li><li class><a href="#动态调试详解">动态调试详解</a></li><li class="d3"><a href="#动态调试特性">动态调试特性</a></li><li class="d3"><a href="#配置动态调试">配置动态调试</a></li><li class><a href="#问题排查">问题排查</a></li><li class="d3"><a href="#验证问题">验证问题</a></li><li class="d3"><a href="#大胆推测">大胆推测</a></li><li class="d3"><a href="#小心求证">小心求证</a></li><li class><a href="#功能实现">功能实现</a></li><li class><a href="#最佳实践">最佳实践</a></li><li class><a href="#更多期待">更多期待</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

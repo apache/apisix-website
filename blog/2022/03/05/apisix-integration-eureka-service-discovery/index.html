@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Integrate API Gateway with Eureka | Apache APISIX</title><meta name="description" content="Learn how to configure Eureka service discovery with Apache APISIX and diagnose gateway-to-service-discovery issues in microservices environments."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Integrate API Gateway with Eureka | Apache APISIX"><meta property="og:description" content="Learn how to configure Eureka service discovery with Apache APISIX and diagnose gateway-to-service-discovery issues in microservices environments."><meta property="og:url" content="https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Integrate API Gateway with Eureka","description":"Learn how to configure Eureka service discovery with Apache APISIX and diagnose gateway-to-service-discovery issues in microservices environments.","datePublished":"2022-03-05","author":{"@type":"Person","name":"Yong Qian"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/03/05/apisix-integration-eureka-service-discovery/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Integrate API Gateway with Eureka</h1> <p class="article-meta"> <time datetime="2022-03-05">Mar 5, 2022</time> · Yong Qian  · 5 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#preparation-phase">Preparation Phase</a></li><li class><a href="#eureka-server">Eureka Server</a></li><li class="d3"><a href="#access-the-http-service-of-eureka-client">Access the HTTP Service of Eureka Client</a></li><li class><a href="#proxying-springcloud-applications-using-apisix">Proxying SpringCloud Applications using APISIX</a></li><li class="d3"><a href="#start-apache-apisix">Start Apache APISIX</a></li><li class="d3"><a href="#create-and-configure-a-route">Create and Configure a Route</a></li><li class="d3"><a href="#request-routing">Request Routing</a></li><li class="d3"><a href="#simulate-instance-downtime">Simulate Instance Downtime</a></li><li class="d3"><a href="#diagnostic-tools">Diagnostic Tools</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header>  <blockquote>
+<p>This article describes how to enable Eureka as a service discovery in the API gateway Apache APISIX and how to use diagnostic tools to find problems in the link.</p>
+</blockquote>
+<!--truncate-->
+<p>In microservices architecture, large and complex systems are vertically divided into smaller subsystems based on function or business requirements, which exist as independently deployed sub-processes that communicate with each other through network calls. How these independently deployed services discover each other is the first problem to be solved, so there is often a centralized registry in microservice architectures.</p>
+<p>As the most core development framework in the Java ecosystem, Spring continues to liberate the productivity of Java developers from Spring MVC to Spring Boot, and Spring Cloud is Spring’s answer to the micro-service architecture in the Cloud native era.</p>
+<p>In Spring Cloud, Eureka acts as a registry. Eureka is an open source Registry service written in the Java language by Netflix that plays a key role in Netflix’s infrastructure.</p>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. As an industry-leading microservice gateway, Apache APISIX provides native support for Eureka. This article will use the Spring Cloud demo project as an example to show you the main functions and features of Apache APISIX docking Eureka service discovery.</p>
+<h2 id="preparation-phase">Preparation Phase</h2>
+<p>This demonstration uses the official <a href="https://spring.io/projects/spring-cloud-netflix#overview"><code>spring-cloud-netflix</code></a> tutorial provided by Spring as an example, which provides the Eureka Server started with SpringBoot as the registration center of Spring Cloud. We also use the same method to start the Eureka server for demonstration. Please visit  <a href="https://github.com/spring-cloud-samples/eureka%EF%BC%8C"><code>spring-cloud-samples/eureka</code></a> for the project address.</p>
+<p>The following will introduce you to the relevant code and startup method.</p>
+<h2 id="eureka-server">Eureka Server</h2>
+<p>Spring Cloud provides an <code>EnableEurekaServer</code> annotation for Eureka, which can directly start an Eureka Server in the way of Spring Boot.</p>
+<p>The code example is as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>@SpringBootApplication</span></span>
+<span class="line"><span>@EnableEurekaServer</span></span>
+<span class="line"><span>public class EurekaApplication {</span></span>
+<span class="line"><span>        public static void main(String[] args) {</span></span>
+<span class="line"><span>                SpringApplication.run(EurekaApplication.class,args);</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>The startup method can directly refer to the following code:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git clone git@github.com:spring-cloud-samples/eureka.git</span></span>
+<span class="line"><span># Execute in the project root directory</span></span>
+<span class="line"><span>./gradlew bootRun</span></span></code></pre>
+<p>The <code>application.yml</code> file in the <code>resources</code> directory defines the Eureka Server listening on port <code>8761</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>server:</span></span>
+<span class="line"><span>  port: 8761</span></span></code></pre>
+<h3 id="access-the-http-service-of-eureka-client">Access the HTTP Service of Eureka Client</h3>
+<p>The client annotation corresponding to <code>EnableEurekaServer</code> is <code>EnableEurekaClient</code>. Using <code>EnableEurekaClient</code> can easily register an HTTP application started with Spring Boot to Eureka.</p>
+<p>The code example is as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>@SpringBootApplication</span></span>
+<span class="line"><span>@EnableEurekaClient</span></span>
+<span class="line"><span>@RestController</span></span>
+<span class="line"><span>public class Application {</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        @Value("${server.port}")</span></span>
+<span class="line"><span>        int serverPort;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        @RequestMapping("/")</span></span>
+<span class="line"><span>        public String home() {</span></span>
+<span class="line"><span>                return String.format("server-%s"，serverPort);</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>        public static void main(String[] args) {</span></span>
+<span class="line"><span>                new SpringApplicationBuilder(Application.class).web(WebApplicationType.SERVLET).run(args);</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>Here we expose an HTTP service on the <code>/</code> path and return the port currently used by Spring Boot, so that we can use different configuration files to start multiple instances to demonstrate the effect of APISIX on load balancing the list of server instances registered with Eureka.</p>
+<p>The configuration file is as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>spring.application.name=a-bootiful-client # will be used as the application name registered in Eureka</span></span>
+<span class="line"><span>server.port=8080 # Modify Modify the listening port to start multiple instances</span></span></code></pre>
+<p>Set the listening ports to <code>8080</code>, <code>8081</code>, and <code>8082</code>, and start three Spring Boot instances. After completion, use a browser to access port <code>8761</code> of Eureka Server to view the results of service registration.</p>
+<p><img src="https://static.apiseven.com/202108/1646350535070-7615a784-df05-4e94-a88e-b039c111de53.png" alt="error/results example.png"></p>
+<p>You can see that three instances are registered under the application <code>A-BOOTIFUL-CLIENT</code>, exposing ports <code>8080</code>, <code>8081</code>, and <code>8082</code>, and they are all in the UP state.</p>
+<h2 id="proxying-springcloud-applications-using-apisix">Proxying SpringCloud Applications using APISIX</h2>
+<p>Next, we will implement the request chain as shown in the following figure:</p>
+<p><img src="https://static.apiseven.com/202108/1646350644536-7b68a4a3-b523-4c82-8e19-822624ff2c95.png" alt="error/request link.png"></p>
+<h3 id="start-apache-apisix">Start Apache APISIX</h3>
+<p>First, you need to find <code>apisix.discovery</code> in the configuration file <code>config.yaml</code> of Apache APISIX, modify the related configuration of Eureka Server connection information, and finally start APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  discovery:                       # service discovery center</span></span>
+<span class="line"><span>      eureka:</span></span>
+<span class="line"><span>        host:                        # it's possible to define multiple eureka hosts addresses of the same eureka cluster.</span></span>
+<span class="line"><span>          - "http://172.23.79.129:8761" # Access address of Eureka Server started by Spring Boot</span></span>
+<span class="line"><span>        prefix: /eureka/</span></span>
+<span class="line"><span>        fetch_interval: 30           # default 30s</span></span>
+<span class="line"><span>        weight: 100                  # default weight for node</span></span>
+<span class="line"><span>        timeout:</span></span>
+<span class="line"><span>          connect: 2000              # default 2000ms</span></span>
+<span class="line"><span>          send: 2000                 # default 2000ms</span></span>
+<span class="line"><span>          read: 5000                 # default 5000ms</span></span>
+<span class="line"><span></span></span></code></pre>
+<h3 id="create-and-configure-a-route">Create and Configure a Route</h3>
+<p>Create a Route and enable the Eureka Service Discovery plugin in Upstream.</p>
+<ul>
+<li><code>upstream.discovery_type</code> is <code>eureka</code>.</li>
+<li><code>upstream.service_name</code> is the application name <code>A-BOOTIFUL-CLIENT</code> registered in Eureka.</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://172.30.45.72:9180/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>    "uri": "/*"，</span></span>
+<span class="line"><span>    "host": "eureka-demo",</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "service_name": "A-BOOTIFUL-CLIENT",</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "discovery_type": "eureka"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h3 id="request-routing">Request Routing</h3>
+<p>Use the <code>curl</code> command to make multiple requests to verify the load balance effect.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$ curl http://172.30.45.72:9080/ -H "Host: eureka-demo"</span></span>
+<span class="line"><span>server-8081%</span></span>
+<span class="line"><span>$ curl http://172.30.45.72:9080/ -H "Host: eureka-demo"</span></span>
+<span class="line"><span>server-8080%</span></span>
+<span class="line"><span>$ curl http://172.30.45.72:9080/ -H "Host: eureka-demo"</span></span>
+<span class="line"><span>server-8082%</span></span>
+<span class="line"><span>$ curl http://172.30.45.72:9080/ -H "Host: eureka-demo"</span></span>
+<span class="line"><span>server-8081%</span></span>
+<span class="line"><span>$ curl http://172.30.45.72:9080/ -H "Host: eureka-demo"</span></span>
+<span class="line"><span>server-8080%</span></span>
+<span class="line"><span>$ curl http://172.30.45.72:9080/ -H "Host: eureka-demo"</span></span>
+<span class="line"><span>server-8082%</span></span></code></pre>
+<p>From the above returned results, you can see that requests are allocated to the three instances registered in Eureka in turn. This is because the load balancing algorithm we use is roundrobin, and all backend instances will be allocated requests in turn.</p>
+<h3 id="simulate-instance-downtime">Simulate Instance Downtime</h3>
+<p>Stop the <code>8081</code> instance, simulate the downtime of the instance, and observe the effect of the request.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$ while true; do curl http://172.30.45.72:9080/ -H "Host: eureka-demo"; echo; sleep 1; done</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>server-8080</span></span>
+<span class="line"><span>server-8082</span></span>
+<span class="line"><span>server-8081</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>server-8080</span></span>
+<span class="line"><span>server-8082</span></span>
+<span class="line"><span>server-8081</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>server-8080</span></span>
+<span class="line"><span>server-8082</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>server-8080</span></span>
+<span class="line"><span>server-8082</span></span></code></pre>
+<p>It can be seen from the above results that after closing the <code>8081</code> instance, Apache APISIX will synchronize to the latest instance list of Eureka in time, and then forward the request to the correct backend.</p>
+<h3 id="diagnostic-tools">Diagnostic Tools</h3>
+<p>In microservice systems, unexpected forwarding problems are often encountered. The reasons for these problems may come from various links in service discovery, such as: client registration exception, registration center data exception, gateway reading registration data exception, etc., diagnostic tools that can be used in the link when an anomaly occurs will be particularly important.</p>
+<p>Therefore, APISIX provides a diagnostic interface in the Service Discovery plugin, which can easily query the list of services currently being used by the gateway. Combined with the console of the registry, we can quickly diagnose the link from the gateway to the registry.</p>
+<p>The diagnostic interface is exposed on port <code>9090</code> of the loopback interface by default, and the access method is <code>GET /v1/discovery/{discovery_type}/dump</code>, for example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://localhost:9090/v1/discovery/eureka/dump</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "services": {</span></span>
+<span class="line"><span>    "A-BOOTIFUL-CLIENT": [</span></span>
+<span class="line"><span>      {</span></span>
+<span class="line"><span>        "weight": 100,</span></span>
+<span class="line"><span>        "metadata": {</span></span>
+<span class="line"><span>          "management.port": "8081"</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        "host": "192.168.50.164",</span></span>
+<span class="line"><span>        "port": 8081</span></span>
+<span class="line"><span>      },</span></span>
+<span class="line"><span>      {</span></span>
+<span class="line"><span>        "weight": 100,</span></span>
+<span class="line"><span>        "metadata": {</span></span>
+<span class="line"><span>          "management.port": "8080"</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        "host": "192.168.50.164",</span></span>
+<span class="line"><span>        "port": 8080</span></span>
+<span class="line"><span>      },</span></span>
+<span class="line"><span>      {</span></span>
+<span class="line"><span>        "weight": 100,</span></span>
+<span class="line"><span>        "metadata": {</span></span>
+<span class="line"><span>          "management.port": "8082"</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        "host": "192.168.50.164",</span></span>
+<span class="line"><span>        "port": 8082</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>    ]</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "config": {</span></span>
+<span class="line"><span>    "prefix": "\/eureka\/",</span></span>
+<span class="line"><span>    "timeout": {</span></span>
+<span class="line"><span>      "connect": 2000,</span></span>
+<span class="line"><span>      "send": 2000,</span></span>
+<span class="line"><span>      "read": 5000</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "fetch_interval": 30,</span></span>
+<span class="line"><span>    "host": [</span></span>
+<span class="line"><span>      "http:\/\/172.23.79.129:8761"</span></span>
+<span class="line"><span>    ],</span></span>
+<span class="line"><span>    "weight": 100</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>In this way, the Eureka data that APISIX is using is queried.</p>
+<h2 id="summary">Summary</h2>
+<p>Spring Cloud is a popular microservice framework, and Apache APISIX provides the ability to handle Spring Cloud application traffic by supporting Eureka Service Discovery. We can see that the close integration of these two ecosystems makes the implementation of the microservice architecture change. It is simpler and more efficient, so that business development can focus more on business value.</p>
+<p>For more instructions and complete configuration information about the <code>eureka</code> plugin, please refer to the <a href="https://apisix.apache.org/docs/apisix/discovery/eureka/">Apache APISIX official documentation</a>.</p>
+<p>Apache APISIX is also currently working on additional plugins to support the integration of additional services, so if you are interested, feel free to start a discussion in <a href="https://github.com/apache/apisix/discussions">GitHub Discussion</a>, or via the <a href="https://apisix.apache.org/docs/general/join">mailing list</a> to communicate.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/03/24/weekly-report-0314/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Biweekly Report (Mar 1st - Mar 14th)</span> </a> <a class="post-nav-card older" href="/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Apache APISIX with CoreDNS enrich service discovery</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#preparation-phase">Preparation Phase</a></li><li class><a href="#eureka-server">Eureka Server</a></li><li class="d3"><a href="#access-the-http-service-of-eureka-client">Access the HTTP Service of Eureka Client</a></li><li class><a href="#proxying-springcloud-applications-using-apisix">Proxying SpringCloud Applications using APISIX</a></li><li class="d3"><a href="#start-apache-apisix">Start Apache APISIX</a></li><li class="d3"><a href="#create-and-configure-a-route">Create and Configure a Route</a></li><li class="d3"><a href="#request-routing">Request Routing</a></li><li class="d3"><a href="#simulate-instance-downtime">Simulate Instance Downtime</a></li><li class="d3"><a href="#diagnostic-tools">Diagnostic Tools</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

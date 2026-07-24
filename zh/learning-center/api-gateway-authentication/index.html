@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Gateway Authentication: Methods, Best Practices &amp; Implementation | Apache APISIX</title><meta name="description" content="Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/learning-center/api-gateway-authentication/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/learning-center/api-gateway-authentication/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/learning-center/api-gateway-authentication/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/learning-center/api-gateway-authentication/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API Gateway Authentication: Methods, Best Practices &#38; Implementation | Apache APISIX"><meta property="og:description" content="Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control."><meta property="og:url" content="https://apisix.apache.org/zh/learning-center/api-gateway-authentication/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"API Gateway Authentication: Methods, Best Practices & Implementation","description":"Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control.","datePublished":"2026-04-14","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/learning-center/api-gateway-authentication/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/learning-center/api-gateway-authentication/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/learning-center/api-gateway-authentication/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/learning-center/tags/authentication/">authentication</a><a class="tag" href="/zh/learning-center/tags/security/">security</a><a class="tag" href="/zh/learning-center/tags/api-gateway/">api-gateway</a> </div>  <a class="cta-link side-back" href="/zh/learning-center/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>API Gateway Authentication: Methods, Best Practices &amp; Implementation</h1> <p class="article-meta"> <time datetime="2026-04-14">2026年4月14日</time>  · 约 8 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/learning-center/tags/authentication/">authentication</a><a class="tag" href="/zh/learning-center/tags/security/">security</a><a class="tag" href="/zh/learning-center/tags/api-gateway/">api-gateway</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#what-is-api-gateway-authentication">What is API Gateway Authentication</a></li><li class><a href="#authentication-methods">Authentication Methods</a></li><li class="d3"><a href="#basic-and-ldap-authentication">Basic and LDAP Authentication</a></li><li class="d3"><a href="#key-auth">Key Auth</a></li><li class="d3"><a href="#jwt-json-web-tokens">JWT (JSON Web Tokens)</a></li><li class="d3"><a href="#oauth-20">OAuth 2.0</a></li><li class="d3"><a href="#openid-connect-oidc">OpenID Connect (OIDC)</a></li><li class="d3"><a href="#mtls-mutual-tls">mTLS (Mutual TLS)</a></li><li class="d3"><a href="#hmac-authentication">HMAC Authentication</a></li><li class><a href="#comparison-table">Comparison Table</a></li><li class><a href="#best-practices">Best Practices</a></li><li class><a href="#how-apache-apisix-handles-authentication">How Apache APISIX Handles Authentication</a></li><li class><a href="#faq">FAQ</a></li><li class="d3"><a href="#should-i-use-jwt-or-oauth-20-for-my-api">Should I use JWT or OAuth 2.0 for my API?</a></li><li class="d3"><a href="#is-api-key-authentication-secure-enough-for-production">Is API key authentication secure enough for production?</a></li><li class="d3"><a href="#how-does-mtls-differ-from-standard-tls-at-the-gateway">How does mTLS differ from standard TLS at the gateway?</a></li><li class="d3"><a href="#can-i-combine-multiple-authentication-methods-on-a-single-route">Can I combine multiple authentication methods on a single route?</a></li><li class><a href="#related">Related</a></li> </ul> </details> </header>  <p>API gateway authentication verifies client identity at a centralized entry point before requests reach backend services. Depending on the client and trust model, credentials can be a username and password, API key, signed token, OAuth access token, or client certificate. Centralized enforcement reduces duplicated authentication logic and creates one control point for access policies.</p>
+<h2 id="what-is-api-gateway-authentication">What is API Gateway Authentication</h2>
+<p>In a distributed architecture, every service that exposes an endpoint must answer a fundamental question: who is making this request? Without a gateway, each service independently implements its own authentication stack. This leads to inconsistent enforcement, duplicated code, and a broader attack surface.</p>
+<p>An API gateway centralizes this concern. It intercepts every inbound request, validates credentials against a configured identity provider or local store, and either forwards the authenticated request downstream or rejects it immediately. Broken authentication consistently ranks among the top API vulnerability categories, making centralized enforcement critical.</p>
+<p>Centralizing authentication at the gateway layer provides three key advantages. First, it significantly reduces per-service authentication code by consolidating auth logic into a single component. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.</p>
+<h2 id="authentication-methods">Authentication Methods</h2>
+<h3 id="basic-and-ldap-authentication">Basic and LDAP Authentication</h3>
+<p>Basic authentication encodes a username and password in the HTTP <code>Authorization</code> header and should be used only over TLS. It is straightforward for controlled integrations but requires strong credential rotation. Apache APISIX supports this method through the <a href="/docs/apisix/plugins/basic-auth/">basic-auth plugin</a>.</p>
+<p>LDAP authentication validates a username and password against an LDAP directory instead of storing credentials in each backend service. The <a href="/docs/apisix/plugins/ldap-auth/">ldap-auth plugin</a> lets a gateway use an existing directory as the credential source while applying route-level access policies centrally.</p>
+<h3 id="key-auth">Key Auth</h3>
+<p>Key authentication is the simplest method. The client includes a static API key in a header or query parameter. The gateway validates the key against a stored registry and maps it to a consumer identity.</p>
+<p>Key Auth works well for server-to-server communication where transport security (TLS) is guaranteed and the client population is small. API keys remain common for machine-to-machine authentication, though their share is declining as organizations move toward token-based methods.</p>
+<p>Apache APISIX supports Key Auth natively through its <a href="/docs/apisix/plugins/key-auth/">key-auth plugin</a>. Configuration requires only defining a consumer and attaching the plugin to a route.</p>
+<h3 id="jwt-json-web-tokens">JWT (JSON Web Tokens)</h3>
+<p>JWT authentication uses digitally signed tokens that carry claims about the client. The gateway validates the token signature, checks expiration, and optionally verifies audience and issuer claims. Because JWTs are self-contained, the gateway does not need to call an external service on every request.</p>
+<p>JWTs dominate modern API authentication. The compact format and stateless verification make JWTs particularly well-suited for high-throughput gateways where microsecond-level latency matters.</p>
+<p>APISIX implements JWT validation through its <a href="/docs/apisix/plugins/jwt-auth/">jwt-auth plugin</a>, supporting both HS256 and RS256 algorithms with configurable claim validation.</p>
+<h3 id="oauth-20">OAuth 2.0</h3>
+<p>OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to an API on behalf of a resource owner. For machine-to-machine access, the client credentials grant issues tokens to an application rather than a user. The gateway validates bearer tokens issued by an authorization server, typically by introspecting the token or verifying a JWT access token locally.</p>
+<p>OAuth 2.0 is widely adopted across enterprises for API integrations. The framework’s delegation model makes it essential for any API exposed to external developers or partner ecosystems.</p>
+<h3 id="openid-connect-oidc">OpenID Connect (OIDC)</h3>
+<p>OpenID Connect extends OAuth 2.0 with a standardized identity layer. It adds an ID token (a JWT) that carries user identity claims alongside the OAuth 2.0 access token. The gateway can validate the ID token to confirm user identity and use the access token for authorization decisions.</p>
+<p>OIDC is the de facto standard for single sign-on in API ecosystems. Major identity providers including Okta, Auth0, Azure AD, and Google Identity all implement OIDC. APISIX provides native OIDC support through its <a href="/docs/apisix/plugins/openid-connect/">openid-connect plugin</a>, which handles the full authorization code flow, token introspection, and token refresh.</p>
+<h3 id="mtls-mutual-tls">mTLS (Mutual TLS)</h3>
+<p>Mutual TLS requires both the client and server to present certificates during the TLS handshake. The gateway validates the client certificate against a trusted certificate authority, establishing strong machine identity without application-layer tokens.</p>
+<p>mTLS adoption has surged alongside zero-trust architecture initiatives. In Kubernetes environments, mTLS between services has become increasingly common. At the gateway level, mTLS is particularly valuable for B2B integrations and internal service-to-service communication where certificate management infrastructure already exists.</p>
+<h3 id="hmac-authentication">HMAC Authentication</h3>
+<p>HMAC authentication requires the client to compute a hash-based message authentication code over the request content using a shared secret. The gateway independently computes the same HMAC and compares the results. This method provides request integrity verification in addition to authentication.</p>
+<p>HMAC is common in financial APIs and webhook verification scenarios where request tampering must be detected. AWS Signature Version 4, used across all AWS API calls, is an HMAC-based scheme processing billions of requests daily.</p>
+<h2 id="comparison-table">Comparison Table</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Method</th><th>Complexity</th><th>Statefulness</th><th>Best For</th><th>Token Expiry</th></tr></thead><tbody><tr><td>Basic Auth</td><td>Low</td><td>Stateless (lookup)</td><td>Controlled integrations, legacy clients</td><td>Manual rotation</td></tr><tr><td>LDAP</td><td>Medium</td><td>Directory lookup</td><td>Enterprise users and existing directories</td><td>Directory policy</td></tr><tr><td>Key Auth</td><td>Low</td><td>Stateless (lookup)</td><td>Internal services, simple integrations</td><td>Manual rotation</td></tr><tr><td>JWT</td><td>Medium</td><td>Stateless</td><td>High-throughput APIs, mobile clients</td><td>Built-in (exp claim)</td></tr><tr><td>OAuth 2.0</td><td>High</td><td>Stateful (auth server)</td><td>Third-party access, delegated auth</td><td>Access token TTL</td></tr><tr><td>OIDC</td><td>High</td><td>Stateful (identity provider)</td><td>SSO, user-facing APIs</td><td>ID + access token TTL</td></tr><tr><td>mTLS</td><td>High</td><td>Stateless (cert validation)</td><td>Zero-trust, B2B, service mesh</td><td>Certificate validity period</td></tr><tr><td>HMAC</td><td>Medium</td><td>Stateless</td><td>Financial APIs, webhook verification</td><td>Per-key rotation policy</td></tr></tbody></table>
+<h2 id="best-practices">Best Practices</h2>
+<p><strong>Layer your authentication.</strong> Use mTLS at the transport layer for service identity and JWT or OAuth 2.0 at the application layer for user identity. Defense in depth reduces the impact of any single credential compromise.</p>
+<p><strong>Enforce short-lived tokens.</strong> Set JWT and OAuth 2.0 access token lifetimes to 15 minutes or less for user-facing flows. Use refresh tokens to obtain new access tokens without re-authentication. Short token lifetimes limit the window of exploitation if a token is leaked.</p>
+<p><strong>Centralize consumer management.</strong> Define consumers at the gateway level with consistent identity attributes. Map every API key, JWT subject, and OAuth 2.0 client ID to a named consumer entity. This enables unified rate limiting, logging, and access control across authentication methods.</p>
+<p><strong>Validate all claims.</strong> Do not trust a JWT solely because its signature is valid. Verify the issuer (iss), audience (aud), expiration (exp), and not-before (nbf) claims. Reject tokens with unexpected or missing claims.</p>
+<p><strong>Log authentication events comprehensively.</strong> Record every authentication success and failure with client identity, timestamp, source IP, and the route accessed. These logs are essential for incident response and compliance audits. NIST SP 800-92 recommends retaining authentication logs for a minimum of 90 days.</p>
+<h2 id="how-apache-apisix-handles-authentication">How Apache APISIX Handles Authentication</h2>
+<p>Apache APISIX provides a plugin-based authentication architecture that supports the methods described above. Each authentication plugin runs in the gateway’s request processing pipeline before the request reaches any upstream service.</p>
+<p>APISIX’s consumer abstraction ties authentication credentials to named entities. A single consumer can have multiple authentication methods attached, enabling gradual migration between methods. For example, an organization migrating from Key Auth to JWT can configure both plugins on the same consumer during the transition period.</p>
+<p>Key plugins include:</p>
+<ul>
+<li><a href="/docs/apisix/plugins/key-auth/">key-auth</a>: Static API key validation with header or query parameter extraction.</li>
+<li><a href="/docs/apisix/plugins/jwt-auth/">jwt-auth</a>: JWT signature verification with configurable algorithms and claim validation.</li>
+<li><a href="/docs/apisix/plugins/openid-connect/">openid-connect</a>: Full OIDC flow support including authorization code, token introspection, and PKCE.</li>
+</ul>
+<p>APISIX also supports chaining authentication plugins with authorization plugins such as consumer-restriction and OPA (Open Policy Agent), enabling fine-grained access control decisions after identity is established.</p>
+<p>Performance benchmarks show APISIX processing authenticated requests with sub-millisecond overhead for Key Auth and JWT validation, and under 5ms for OIDC token introspection with a local identity provider. These numbers hold at sustained loads exceeding 10,000 requests per second on modest hardware.</p>
+<h2 id="faq">FAQ</h2>
+<h3 id="should-i-use-jwt-or-oauth-20-for-my-api">Should I use JWT or OAuth 2.0 for my API?</h3>
+<p>JWT and OAuth 2.0 are not mutually exclusive. OAuth 2.0 is an authorization framework that often uses JWTs as its access token format. If your API serves first-party clients only, standalone JWT authentication may suffice. If third-party developers need delegated access, implement the full OAuth 2.0 framework with JWT access tokens.</p>
+<h3 id="is-api-key-authentication-secure-enough-for-production">Is API key authentication secure enough for production?</h3>
+<p>API key authentication is secure for server-to-server communication over TLS when keys are rotated regularly and scoped to specific consumers. It is not recommended for client-side applications (browsers, mobile apps) because keys cannot be kept secret on end-user devices. For any client-facing API, prefer OAuth 2.0 or OIDC.</p>
+<h3 id="how-does-mtls-differ-from-standard-tls-at-the-gateway">How does mTLS differ from standard TLS at the gateway?</h3>
+<p>Standard TLS authenticates only the server to the client. The client verifies the server’s certificate, but the server accepts any client connection. mTLS adds a second handshake step where the client also presents a certificate that the server validates against a trusted CA. This provides strong machine identity for both parties and is a foundational component of zero-trust network architectures.</p>
+<h3 id="can-i-combine-multiple-authentication-methods-on-a-single-route">Can I combine multiple authentication methods on a single route?</h3>
+<p>Yes. Apache APISIX supports configuring multiple authentication plugins on a single route. The gateway attempts each configured method in order and accepts the request if any method succeeds. This is useful during migration periods or when a route serves clients with different authentication capabilities.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="/learning-center/what-is-an-api-gateway/">What is an API gateway?</a></li>
+<li><a href="/learning-center/api-gateway-security/">API gateway security</a></li>
+<li><a href="/learning-center/what-is-mutual-tls/">What is mutual TLS (mTLS)?</a></li>
+<li><a href="/docs/apisix/getting-started/">Get started with Apache APISIX</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/zh/learning-center/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/learning-center/apisix-vs-kong/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX vs Kong: Feature Comparison &amp; Performance Benchmarks</span> </a> <a class="post-nav-card older" href="/zh/learning-center/api-gateway-for-microservices/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">API Gateway for Microservices: Architecture, Patterns &amp; Best Practices</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#what-is-api-gateway-authentication">What is API Gateway Authentication</a></li><li class><a href="#authentication-methods">Authentication Methods</a></li><li class="d3"><a href="#basic-and-ldap-authentication">Basic and LDAP Authentication</a></li><li class="d3"><a href="#key-auth">Key Auth</a></li><li class="d3"><a href="#jwt-json-web-tokens">JWT (JSON Web Tokens)</a></li><li class="d3"><a href="#oauth-20">OAuth 2.0</a></li><li class="d3"><a href="#openid-connect-oidc">OpenID Connect (OIDC)</a></li><li class="d3"><a href="#mtls-mutual-tls">mTLS (Mutual TLS)</a></li><li class="d3"><a href="#hmac-authentication">HMAC Authentication</a></li><li class><a href="#comparison-table">Comparison Table</a></li><li class><a href="#best-practices">Best Practices</a></li><li class><a href="#how-apache-apisix-handles-authentication">How Apache APISIX Handles Authentication</a></li><li class><a href="#faq">FAQ</a></li><li class="d3"><a href="#should-i-use-jwt-or-oauth-20-for-my-api">Should I use JWT or OAuth 2.0 for my API?</a></li><li class="d3"><a href="#is-api-key-authentication-secure-enough-for-production">Is API key authentication secure enough for production?</a></li><li class="d3"><a href="#how-does-mtls-differ-from-standard-tls-at-the-gateway">How does mTLS differ from standard TLS at the gateway?</a></li><li class="d3"><a href="#can-i-combine-multiple-authentication-methods-on-a-single-route">Can I combine multiple authentication methods on a single route?</a></li><li class><a href="#related">Related</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/learning-center/apisix-vs-apigee/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Apigee: Gateway vs API Management Platform</h3> <p class="desc">Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.</p> <p class="meta">2026年6月24日</p> </div> </a><a class="post-card" href="/zh/learning-center/apisix-vs-aws-api-gateway/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed</h3> <p class="desc">Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance.</p> <p class="meta">2026年6月24日</p> </div> </a><a class="post-card" href="/zh/learning-center/apisix-vs-envoy/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Envoy: API Gateway vs Service Proxy</h3> <p class="desc">Compare Apache APISIX and Envoy: a turnkey API gateway with a built-in control plane vs a high-performance proxy that needs one (Istio, Gloo).</p> <p class="meta">2026年6月24日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

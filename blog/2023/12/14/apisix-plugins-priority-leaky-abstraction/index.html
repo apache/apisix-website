@@ -1,0 +1,930 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Plugin Priority and Execution Phases | Apache APISIX</title><meta name="description" content="Understand how APISIX plugin priority and execution phases interact. Avoid common pitfalls when ordering plugins across rewrite and access phases."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX Plugin Priority and Execution Phases | Apache APISIX"><meta property="og:description" content="Understand how APISIX plugin priority and execution phases interact. Avoid common pitfalls when ordering plugins across rewrite and access phases."><meta property="og:url" content="https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/12/09/acT4tzVw_puzzle-3486885.jpg"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2023/12/09/acT4tzVw_puzzle-3486885.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Plugin Priority and Execution Phases","description":"Understand how APISIX plugin priority and execution phases interact. Avoid common pitfalls when ordering plugins across rewrite and access phases.\n","datePublished":"2023-12-14","image":"https://static.apiseven.com/uploads/2023/12/09/acT4tzVw_puzzle-3486885.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/12/14/apisix-plugins-priority-leaky-abstraction/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX Plugin Priority and Execution Phases</h1> <p class="article-meta"> <time datetime="2023-12-14">Dec 14, 2023</time> · Nicolas Fränkel  · 14 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#apisix-plugins-priority">APISIX plugin’s priority</a></li><li class><a href="#apisix-phases">APISIX phases</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2023/12/09/acT4tzVw_puzzle-3486885.jpg" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> builds upon the <a href="https://openresty.org/en/">OpenResty</a> reverse-proxy to offer a plugin-based architecture. The main benefit of such an architecture is that it brings structure to the configuration of routes. It’s a help at scale, when managing hundreds or thousands of routes.</p>
+<p>In this post, I’d like to describe how plugins, priority, and phases play together and what pitfalls you must be aware of.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="apisix-plugins-priority">APISIX plugin’s priority</h2>
+<p>When you configure a route with multiple plugins, Apache APISIX needs to execute them in a <strong>consistent</strong> order so that the results are the same over time. For this reason, every APISIX plugin has a <em>harcoded</em> <strong>priority</strong>. You can check a plugin priority directly in the code. For example, here’s the relevant code fragment for the <code>basic-auth</code> plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    version </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0.1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 2520</span><span style="color:#E6EDF3">,                                 </span><span style="color:#FF7B72">#</span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> 'auth'</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> schema,</span></span>
+<span class="line"><span style="color:#E6EDF3">    consumer_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> consumer_schema</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<ol>
+<li>Priority is 2520</li>
+</ol>
+<p>For documentation purposes, the <code>default-config.yaml</code> file lists the priority of all out-of-the-box plugins. Here’s an excerpt:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">ldap-auth</span><span style="color:#8B949E">                      # priority: 2540</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">hmac-auth</span><span style="color:#8B949E">                      # priority: 2530</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">basic-auth</span><span style="color:#8B949E">                     # priority: 2520</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">jwt-auth</span><span style="color:#8B949E">                       # priority: 2510</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">key-auth</span><span style="color:#8B949E">                       # priority: 2500</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">consumer-restriction</span><span style="color:#8B949E">           # priority: 2400</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">forward-auth</span><span style="color:#8B949E">                   # priority: 2002</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">opa</span><span style="color:#8B949E">                            # priority: 2001</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">authz-keycloak</span><span style="color:#8B949E">                 # priority: 2000</span></span>
+<span class="line"><span style="color:#8B949E">  #- error-log-logger              # priority: 1091</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-cache</span><span style="color:#8B949E">                    # priority: 1085</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">body-transformer</span><span style="color:#8B949E">               # priority: 1080</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-mirror</span><span style="color:#8B949E">                   # priority: 1010</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-rewrite</span><span style="color:#8B949E">                  # priority: 1008</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">workflow</span><span style="color:#8B949E">                       # priority: 1006</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">api-breaker</span><span style="color:#8B949E">                    # priority: 1005</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-conn</span><span style="color:#8B949E">                     # priority: 1003</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-count</span><span style="color:#8B949E">                    # priority: 1002</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">limit-req</span><span style="color:#8B949E">                      # priority: 1001</span></span></code></pre>
+<p>Imagine a route configured with <code>proxy-mirror</code> and <code>proxy-rewrite</code>. Because of their respective priority, <code>proxy-mirror</code> would run before <code>proxy-rewrite</code>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">upstream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "oldapi:8081"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/v1/hello*"</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-rewrite</span><span style="color:#E6EDF3">:                                 </span><span style="color:#8B949E">#1-3</span></span>
+<span class="line"><span style="color:#7EE787">        regex_uri</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/v1(.*)"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"$1"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-mirror</span><span style="color:#E6EDF3">:                                  </span><span style="color:#8B949E">#2</span></span>
+<span class="line"><span style="color:#7EE787">        host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://new.api:8082</span></span></code></pre>
+<ol>
+<li>The plugin ordering in this file is not relevant</li>
+<li><code>proxy-mirror</code> has priority 1010 and will execute first</li>
+<li><code>proxy-rewrite</code> has priority 1008 and will run second</li>
+</ol>
+<p>The above setup has an issue. For example, if we call <code>localhost:9080/v1/hello</code>, APISIX will first mirror the request, then remove the <code>/v1</code> prefix. Hence, the new API receives <code>/v1/hello</code> instead of <code>/hello</code>. It’s possible to override the default priority to fix it:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/v1/hello*"</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-rewrite</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        _meta</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1020</span><span style="color:#8B949E">                             #1</span></span>
+<span class="line"><span style="color:#7EE787">        regex_uri</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/v1(.*)"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"$1"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#7EE787">      proxy-mirror</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        host</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http://new.api:8082</span></span></code></pre>
+<ol>
+<li>Override the default priority</li>
+</ol>
+<p>Now, <code>proxy-rewrite</code> has higher priority than <code>proxy-mirror</code>: the former runs before the latter.</p>
+<p>In this case, it works flawlessly; in others, it might not. Let’s dive further.</p>
+<h2 id="apisix-phases">APISIX phases</h2>
+<p>APISIX runs plugins not only according to their priorities but also through dedicated phases. Because APISIX builds upon OpenResty, which builds upon ngxinx, the phases are very similar to the phases of these two components.</p>
+<p>nginx defines several <a href="http://nginx.org/en/docs/dev/development_guide.html#http_phases">phases</a> an HTTP request goes through:</p>
+<ol>
+<li><code>NGX_HTTP_POST_READ_PHASE</code></li>
+<li><code>NGX_HTTP_SERVER_REWRITE_PHASE</code></li>
+<li><code>NGX_HTTP_FIND_CONFIG_PHASE</code></li>
+<li><code>NGX_HTTP_REWRITE_PHASE</code></li>
+<li><code>NGX_HTTP_POST_REWRITE_PHASE</code></li>
+<li><code>NGX_HTTP_PREACCESS_PHASE</code></li>
+<li><code>NGX_HTTP_ACCESS_PHASE</code></li>
+<li><code>NGX_HTTP_POST_ACCESS_PHASE</code></li>
+<li><code>NGX_HTTP_PRECONTENT_PHASE</code></li>
+<li><code>NGX_HTTP_CONTENT_PHASE</code></li>
+<li><code>NGX_HTTP_LOG_PHASE</code></li>
+</ol>
+<p>Each phase focuses on a task, <em>i.e.</em>, <code>NGX_HTTP_ACCESS_PHASE</code> verifies that the client is authorized to make the request.</p>
+<p>In turn, OpenResty offers similarly named phases.</p>
+<p><a href="https://openresty-reference.readthedocs.io/en/latest/Directives/">From nginx documentation:</a></p>
+<p><img src="https://cloud.githubusercontent.com/assets/2137369/15272097/77d1c09e-1a37-11e6-97ef-d9767035fc3e.png" alt="Order of Lua Nginx Module Directives"></p>
+<p>image</p><div></div>.png[,840,761]<p></p>
+<p>Finally, here are the phases of Apache APISIX:</p>
+<ol>
+<li><code>rewrite</code></li>
+<li><code>access</code></li>
+<li><code>before_proxy</code></li>
+<li><code>header_filter</code></li>
+<li><code>body_filter</code></li>
+<li><code>log</code></li>
+</ol>
+<p><a href="https://apisix.apache.org/docs/apisix/terminology/plugin/#plugins-execution-lifecycle">From Apache APISIX documentation:</a></p>
+<p><img src="https://static.apiseven.com/uploads/2023/03/09/ZsH5C8Og_plugins-phases.png" alt="Order of Apache APISIX phases"></p>
+<p>We have seen two ways to order plugins: by priority and by phase. Now comes the most important rule: <strong>order by priority only works inside a phase</strong>!</p>
+<p>For example, the <code>redirect</code> plugin has a priority of 900 and runs in phase <code>rewrite</code>; the <code>gzip</code> plugin has a priority of 995 and runs in phase <code>body_filter</code>. Regardless of their respective priorities, <code>redirect</code> will happen before <code>gzip</code>, because <code>rewrite</code> happens before <code>body_filter</code>. Likewise, changing a priority won’t “move” a plugin out of its phase.</p>
+<p>The example above with <code>proxy-mirror</code> and <code>proxy-rewrite</code> worked because both run in the <code>rewrite</code> phase.</p>
+<p>The main issue is that priority is documented in the <a href="https://github.com/apache/apisix/blob/master/conf/config-default.yaml#L438">config-default.yaml</a> file, while the phase is buried in the code. Worse, some plugins run across different phases. For example, let’s check the proxy <code>proxy-rewrite</code> plugin and, more precisely, the functions defined <a href="https://github.com/apache/apisix/blob/master/apisix/plugins/proxy-rewrite.lua">there</a>:</p>
+<ul>
+<li><code>local function is_new_headers_conf(headers)</code></li>
+<li><code>local function check_set_headers(headers)</code></li>
+<li><code>function _M.check_schema(conf)</code></li>
+<li><code>function _M.rewrite(conf, ctx)</code></li>
+</ul>
+<p>The name of the <code>rewrite()</code> function is suspiciously similar to one of the phases above. Looking at other plugins, we see the same pattern repeat. Apache APISIX runs plugin functions with the same name as the phase.</p>
+<p>I took the liberty of summarizing all plugins and their respective phases in a table.</p>
+<table>
+<thead>
+<tr>
+  <th>Plugin</th>
+  <th colspan="6">Phase</th>
+</tr>
+<tr>
+  <th><em>General</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>redirect</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>echo</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>gzip</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>real-ip</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>ext-plugin-pre-req</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>ext-plugin-post-req</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>ext-plugin-post-resp</code></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>workflow</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+<thead>
+<tr>
+  <th><em>Transformation</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>response-rewrite</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>proxy-rewrite</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>grpc-transcode</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>grpc-web</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>fault-injection</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>mocking</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>degraphql</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>body-transformer</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+</tbody>
+<thead>
+<tr>
+  <th><em>Authentication</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>key-auth</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>jwt-auth</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>basic-auth</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>authz-keycloak</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>authz-casdoor</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>wolf-rbac</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>openid-connect</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>cas-auth</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>hmac-auth</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>authz-casbin</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>ldap-auth</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>opa</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>forward-auth</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+<thead>
+<tr>
+  <th><em>Security</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>cors</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>uri-blocker</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>ua-restriction</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>referer-restriction</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>consumer-restriction</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>csrf</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>public-api</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>chaitin-waf</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+<thead>
+<tr>
+  <th><em>Traffic</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>limit-req</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>limit-conn</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>limit-count</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>proxy-cache</code> (init)</td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>proxy-cache</code> (disk)</td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>proxy-cache</code> (memory)</td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>request-validation</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>proxy-mirror</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>api-breaker</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>traffic-split</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>request-id</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>proxy-control</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>client-control</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+<thead>
+<tr>
+  <th><em>Observability</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>zipkin</code></td>
+  <td>X</td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>skywalking</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>opentelemetry</code></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>prometheus</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>node-status</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>datadog</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>http-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>skywalking-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>tcp-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>kafka-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>rocketmq-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>udp-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>clickhouse-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>syslog</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>log-rotate</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>error-log-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sls-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>google-cloud-logging</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>splunk-hec-logging</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>file-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>loggly</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>elasticsearch-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>tencent-cloud-cls</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+<tr>
+  <td><code>loki-logger</code></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>X</td>
+  <td>X</td>
+</tr>
+</tbody>
+<thead>
+<tr>
+  <th><em>Other</em></th>
+  <th><code>rewrite</code></th>
+  <th><code>access</code></th>
+  <th><code>before_proxy</code></th>
+  <th><code>header_filter</code></th>
+  <th><code>body_filter</code></th>
+  <th><code>log</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>serverless</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>openwhisk</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>dubbo-proxy</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>kafka-proxy</code></td>
+  <td></td>
+  <td>X</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="conclusion">Conclusion</h2>
+<p>I’ve detailed Apache APISIX plugin phases and priorities in this post. I’ve explained their relationship with one another. Icing on the cake, I documented each out-of-the-box plugin’s phase(s). I hope it will prove helpful.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://github.com/apache/apisix/blob/master/conf/config-default.yaml#L438">Default plugin priorities</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/terminology/plugin/#plugins-execution-lifecycle">Apache APISIX plugin execution lifecycle</a></li>
+<li><a href="https://github.com/apache/apisix/blob/master/apisix/plugin.lua#L1126-L1193">Plugin execution code</a></li>
+</ul>
+<p><em>Originally published at <a href="https://blog.frankel.ch/apisix-plugins-priority-leaky-abstraction/">A Java Geek</a> on December 10<sup>th</sup>, 2023</em></p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2023/12/19/datavisor-uses-apisix/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">DataVisor Case Study: Custom APISIX Plugins</span> </a> <a class="post-nav-card older" href="/blog/2023/12/14/migu-video-adopts-apisix/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Migu Video: APISIX at Large-Scale Streaming</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#apisix-plugins-priority">APISIX plugin’s priority</a></li><li class><a href="#apisix-phases">APISIX phases</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

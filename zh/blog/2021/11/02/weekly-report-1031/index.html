@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区双周报（10.15-10.31） | Apache APISIX</title><meta name="description" content="“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/11/02/weekly-report-1031/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/02/weekly-report-1031/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/02/weekly-report-1031/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/02/weekly-report-1031/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="社区双周报（10.15-10.31） | Apache APISIX"><meta property="og:description" content="“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/11/02/weekly-report-1031/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区双周报（10.15-10.31）","description":"“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。","datePublished":"2021-11-02","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/11/02/weekly-report-1031/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/11/02/weekly-report-1031/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/11/02/weekly-report-1031/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>社区双周报（10.15-10.31）</h1> <p class="article-meta"> <time datetime="2021-11-02">2021年11月2日</time>  · 约 3 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#导语">导语</a></li><li class><a href="#贡献者统计">贡献者统计</a></li><li class><a href="#good-first-issue">Good first issue</a></li><li class="d3"><a href="#issue-686">Issue #686</a></li><li class="d3"><a href="#issue-5305">Issue #5305</a></li><li class="d3"><a href="#issue-5342">Issue #5342</a></li><li class="d3"><a href="#issue-5343">Issue #5343</a></li><li class><a href="#近期功能特性亮点">近期功能特性亮点</a></li><li class><a href="#近期博文推荐">近期博文推荐</a></li> </ul> </details> </header>  <blockquote>
+<p>从 10.15 到 10.31, 有 31 位开发者为 Apache APISIX 提交了 93 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p>Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。</p>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的每周进展，方便大家参与到 Apache APISIX 社区中来。</p>
+<p>我们还整理了一些适合新来社区的小伙伴们参加的 issue！感兴趣的同学们，走过路过不要错过！</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/202108/1635733917405-d05ace3d-614a-4e82-bc6b-6a941a2d2281.png" alt="本周贡献者名单"></p>
+<p><img src="https://static.apiseven.com/202108/1635733917418-d6571655-be42-4819-a9bd-1440d69f4877.31" alt="本周新晋贡献者"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-686">Issue #686</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix-website/issues/686">https://github.com/apache/apisix-website/issues/686</a></p>
+<p><strong>问题描述</strong>：为了加快 Apache APISIX 官网图片的加载速度，需要将所有图片迁移到 CDN。</p>
+<h3 id="issue-5305">Issue #5305</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/5305">https://github.com/apache/apisix/issues/5305</a></p>
+<p><strong>问题描述</strong>：测试 APISIX 中的 proxy-mirror 插件时，发现这个插件的特性与 nginx 中的 ngx_http_mirror_module 不同。 nginx 的镜像模块可以在 “proxy_pass” 指令中添加主机后面的 uri，例如：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>location / {</span></span>
+<span class="line"><span>mirror /mirror;</span></span>
+<span class="line"><span>proxy_pass http://backend;</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>location = /mirror {</span></span>
+<span class="line"><span>internal;</span></span>
+<span class="line"><span>proxy_pass http://test_backend$request_uri;</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>但是当我在 APISIX Dashboard 中测试 proxy-mirror 插件时，提示不能用 URI 填充空格。是否可以优化 proxy-mirror 插件以支持 URI？</p>
+<p><img src="https://static.apiseven.com/202108/1635734126653-8fe4c1e7-5b9a-4e78-b747-fb30cbae7f36.png" alt="Issue Screenshot"></p>
+<h3 id="issue-5342">Issue #5342</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/5342">https://github.com/apache/apisix/issues/5342</a></p>
+<p><strong>问题描述</strong>: 路由之间的限制计数器：需要在 lrucache 中指定路由对应的 limit-count 的 key，这样同一个limit对象就可以在多个路由中共享。lrucache 的key（以下称为 group，以区别于limit key）目前是自动生成的，确保每个路由的 group 是独立的。对于这一变化，我们需要能够在 limit-count 中指定组：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#A5D6FF">"limit-count"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "group"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"group_id_blah"</span></span>
+<span class="line"><span style="color:#A5D6FF">        "count"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "time_window"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "rejected_code"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">503</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"remote_addr"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>注意，同一 group 的配置需要相同，目前需要调用者保证，否则 group 获得的限制对象将与配置不同。</p>
+<h3 id="issue-5343">Issue #5343</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/5343">https://github.com/apache/apisix/issues/5343</a></p>
+<p><strong>问题描述</strong>: 在模式中添加一个 request_body 开关，每个主体可以被 expr 用来决定是否记录。如果没有这个开关，主体就不会被记录。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#A5D6FF">"kafka-logger"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">   "broker_list"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#7EE787">       "127.0.0.1"</span><span style="color:#E6EDF3">:</span><span style="color:#79C0FF">9092</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">   "kafka_topic"</span><span style="color:#E6EDF3"> : </span><span style="color:#A5D6FF">"test2"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">   "request_body"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">       "expr"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">          [</span><span style="color:#A5D6FF">"request_length"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"&#x3C;"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"1024"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#E6EDF3">       ]</span></span>
+<span class="line"><span style="color:#E6EDF3">   },</span></span>
+<span class="line"><span style="color:#7EE787">   "key"</span><span style="color:#E6EDF3"> : </span><span style="color:#A5D6FF">"key1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">   "batch_max_size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">   "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"kafka logger"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p><code>expr</code> 可以通过 lua-resty-expr 进行评估。请求主体可以通过 core.request.get_body 获取。</p>
+<h2 id="近期功能特性亮点">近期功能特性亮点</h2>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix-ingress-controller/pull/698">APISIX Ingress 中引入 ApisixRoute v2beta2 版本的自定义资源, 废弃 backend 字段</a>（贡献者：<a href="https://github.com/tao12345666333">tao12345666333</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-ingress-controller/pull/697">APISIX Ingress 升级 CRD 资源版本为 v1，以便更好的支持 K8s v1.22 及以上版本</a>（贡献者：<a href="https://github.com/tao12345666333">tao12345666333</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-ingress-controller/pull/699">APISIX Ingress 添加如何使用 gRPC 代理的文档</a>（贡献者：<a href="https://github.com/gxthrj">gxthrj</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2099">APISIX Dashboard 支持 proto 管理 API</a>（贡献者：<a href="https://github.com/bzp2010">bzp2010</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2178">APISIX Dashboard 支持以 gzip 传输 dashboard 静态资源</a>（贡献者：<a href="https://github.com/nic-6443">nic-6443</a>）</p>
+</li>
+</ul>
+<p>Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。</p>
+<h2 id="近期博文推荐">近期博文推荐</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/10/29/Extension-guide/">Apache APISIX 扩展指南</a>：</p>
+<p>本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/10/26/APISIX-Ingress/">从 0 到 1，APISIX Ingress 加入社区后的发展与收获</a>：</p>
+<p>本文描述了 APISIX Ingress 的成长历程，以及 APISIX Ingress 加入社区后的功能提升与社区帮助等多方面细节收获。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2021/10/22/cert-manager-in-ingress/">教程篇：如何在 Apache APISIX Ingress Controller 中使用 Cert Manager 管理证书</a>：</p>
+<p>本文将通过详细的代码步骤为大家介绍如何通过 Cert Manager 在 Apache APISIX Ingress Controller 里进行证书管理。</p>
+</li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/11/03/airwallex-usercase/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX 如何通过网关层为 Airwallex 数据主权保驾护航</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/10/26/extension-guide/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">Apache APISIX 扩展指南</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#导语">导语</a></li><li class><a href="#贡献者统计">贡献者统计</a></li><li class><a href="#good-first-issue">Good first issue</a></li><li class="d3"><a href="#issue-686">Issue #686</a></li><li class="d3"><a href="#issue-5305">Issue #5305</a></li><li class="d3"><a href="#issue-5342">Issue #5342</a></li><li class="d3"><a href="#issue-5343">Issue #5343</a></li><li class><a href="#近期功能特性亮点">近期功能特性亮点</a></li><li class><a href="#近期博文推荐">近期博文推荐</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/05/31/2026-may-monthly-report/"> <img class="cover" src="https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (05.01 - 05.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年5月31日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

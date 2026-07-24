@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.5.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.5.0 版本于 2023 年 9 月 1 日发布。该版本带来了振奋人心的新功能和改进的用户体验。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/09/01/release-apache-apisix-3.5.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/09/01/release-apache-apisix-3.5.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 3.5.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.5.0 版本于 2023 年 9 月 1 日发布。该版本带来了振奋人心的新功能和改进的用户体验。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/09/01/release-apache-apisix-3.5.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.5.0 正式发布","description":"Apache APISIX 3.5.0 版本于 2023 年 9 月 1 日发布。该版本带来了振奋人心的新功能和改进的用户体验。","datePublished":"2023-09-01","author":{"@type":"Person","name":"Xin Rong"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/09/01/release-apache-apisix-3.5.0/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/09/01/release-apache-apisix-3.5.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/09/01/release-apache-apisix-3.5.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 3.5.0 正式发布</h1> <p class="article-meta"> <time datetime="2023-09-01">2023年9月1日</time> · Xin Rong  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#重大变更">重大变更</a></li><li class="d3"><a href="#在-request-id-插件中移除雪花算法支持">在 request-id 插件中移除雪花算法支持</a></li><li class="d3"><a href="#删除对-openresty-119-的支持">删除对 OpenResty 1.19 的支持</a></li><li class="d3"><a href="#改善-l4-和-l7-代理的可用性并删除-apisixstream_proxyonly">改善 L4 和 L7 代理的可用性并删除 apisix.stream_proxy.only</a></li><li class="d3"><a href="#在-ua-restriction-插件中不允许同时使用-allowlist-和-denylist">在 ua-restriction 插件中不允许同时使用 allowlist 和 denylist</a></li><li class="d3"><a href="#重构并改进-admin-api-中的插件接口">重构并改进 Admin API 中的插件接口</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#支持主机级别动态配置tls版本">支持主机级别动态配置TLS版本</a></li><li class="d3"><a href="#支持强制删除资源">支持强制删除资源</a></li><li class="d3"><a href="#支持-apisixyaml-中的环境变量">支持 apisix.yaml 中的环境变量</a></li><li class="d3"><a href="#在-admin-api-中添加架构验证端点">在 Admin API 中添加架构验证端点</a></li><li class="d3"><a href="#通过-chaitin-waf-插件支持与-chaitin-waf-集成">通过 chaitin-waf 插件支持与 Chaitin WAF 集成</a></li><li class><a href="#其他更新">其他更新</a></li><li class><a href="#变更日志">变更日志</a></li> </ul> </details> </header>  <p>我们很高兴地宣布 Apache APISIX 3.5.0 版本已经发布，带来了振奋人心的新功能和改进的用户体验。</p>
+<!--truncate-->
+<p>这个新版本添加了许多新功能，包括在主机级别动态配置TLS版本、与 Chaitin WAF 的集成、强制删除资源、在独立模式下部署 APISIX 时在配置文件中使用环境变量等。</p>
+<p>这个版本包含了一些重要的变化。如果您发现这些变化对您的操作产生影响，强烈建议您进行相应的计划，以实现无缝升级。</p>
+<h2 id="重大变更">重大变更</h2>
+<h3 id="在-request-id-插件中移除雪花算法支持">在 <code>request-id</code> 插件中移除雪花算法支持</h3>
+<p>移除 <code>request-id</code> 插件中的雪花算法支持。该算法引入了对 etcd 的不必要依赖，当 etcd 不可用时，可能会显著影响 APISIX 的性能。请考虑在算法中使用 <code>uuid</code> 选项。</p>
+<p>有关更多背景信息，请参阅邮件列表中的<a href="https://lists.apache.org/thread/p4wwwwmtf024pnbccs5psncxg8yqvh9c">提案</a> 。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9715">#9715</a>。</p>
+<h3 id="删除对-openresty-119-的支持">删除对 OpenResty 1.19 的支持</h3>
+<p>如果您当前正在使用此版本，请计划升级到 OpenResty 版本 1.21 及更高版本。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9913">#9913</a>。</p>
+<h3 id="改善-l4-和-l7-代理的可用性并删除-apisixstream_proxyonly">改善 L4 和 L7 代理的可用性并删除 <code>apisix.stream_proxy.only</code></h3>
+<p>提高 L4 和 L7 代理的可用性。 此更改删除了 <code>apisix.stream_proxy.only</code> 选项，并简化了启用和禁用 L4 和 L7 代理的用法。</p>
+<p>L4 和 L7 代理可在 <code>config.yaml</code> 文件中如下所示启用：</p>
+<ul>
+<li>启用 L7 代理（默认启用）：<code>apisix.proxy_mode: http</code></li>
+<li>启用 L4 代理：<code>apisix.proxy_mode:stream</code></li>
+<li>启用 L7 和 L4 代理：<code>apisix.proxy_mode: http&#x26;stream</code></li>
+</ul>
+<p>有关更改后如何使用 stream 代理的更多信息，请参阅<a href="https://apisix.apache.org/zh/docs/apisix/next/stream-proxy/#%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AF-stream-%E4%BB%A3%E7%90%86">如何启用 stream 代理</a>。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9607">#9607</a>。</p>
+<h3 id="在-ua-restriction-插件中不允许同时使用-allowlist-和-denylist">在 <code>ua-restriction</code> 插件中不允许同时使用 <code>allowlist</code> 和 <code>denylist</code></h3>
+<p>在 <code>ua-restriction</code> 插件中，不再允许同时使用 <code>allowlist</code> 和 <code>denylist</code>。您应该只配置其中之一的选项。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9841">#9841</a>。</p>
+<h3 id="重构并改进-admin-api-中的插件接口">重构并改进 Admin API 中的插件接口</h3>
+<p>通过 <code>/apisix/admin/plugins?all=true</code> 获取所有插件属性的接口即将被弃用。 未来 Admin API 将仅支持一次获取一个插件的属性。 建议您使用以下端点和参数来满足您的要求：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>/apisix/admin/plugins/{plugin_name}?subsystem={subsystem}</span></span></code></pre>
+<p>其中 <code>subsystem</code> 参数为可选。若未配置，则默认为 <code>http</code>。该值可以设置为 <code>http</code>、<code>stream</code> 或 <code>http&#x26;stream</code>，对应于 L7 和/或 L4 上可用的插件。</p>
+<p>或者，您可以使用 <code>/v1/schema</code> 获取并解析 <a href="https://apisix.apache.org/zh/docs/apisix/control-api/#get-v1schema">Control API</a> 中所有插件的架构。</p>
+<p>如果您只想获取插件名称列表，可以使用以下命令：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/apisix/admin/plugins/list?subsystem={subsystem}</span></span></code></pre>
+<p>有关更多详细信息，请参阅管理 API 中的<a href="https://apisix.apache.org/zh/docs/apisix/next/admin-api/#plugin">插件</a>。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9580">#9580</a>。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="支持主机级别动态配置tls版本">支持主机级别动态配置TLS版本</h3>
+<p>支持运行时为各个 SNI 配置 TLS 版本。该配置优先于 <code>config-default.yaml</code> 或 <code>config.yaml</code> 中的 <code>ssl_protocols</code> 静态配置，并且不需要重新加载 APISIX，从而提供了一种更细粒度的方法来与您的基础设施集成。</p>
+<p>例如，您可以使用以下命令将域 <code>test.com</code> 配置为接受 TLS 版本 1.2 和 1.3 的 TLS 连接：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/ssls/1</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "cert": "$cert",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "key": "$key",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "snis": ["test.com"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "ssl_protocols": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "TLSv1.2",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "TLSv1.3"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>有关该功能和示例的更多信息，请参阅 <a href="https://apisix.apache.org/zh/docs/apisix/next/ssl-protocol/">SSL 协议</a>。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9903">#9903</a>。</p>
+<h3 id="支持强制删除资源">支持强制删除资源</h3>
+<p>支持使用 Admin API 强制删除资源。 默认情况下，管理 API 检查资源之间的引用，并且不允许删除正在使用的资源。</p>
+<p>借助此新功能，您可以通过发送带有 URL 参数 <code>force=true</code> 的 DELETE 请求来强制删除，如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/upstreams/1?force=true"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> DELETE</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span></span></code></pre>
+<p>有关该功能和示例的更多信息，请参阅<a href="https://apisix.apache.org/zh/docs/apisix/next/admin-api/#force-delete">强制删除</a>。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9810">#9810</a>。</p>
+<h3 id="支持-apisixyaml-中的环境变量">支持 <code>apisix.yaml</code> 中的环境变量</h3>
+<p>支持在 <code>apisix.yaml</code> 中使用环境变量。</p>
+<p>例如，您可以将上游服务的主机 IP 和端口设置为环境变量，并使用 <code>apisix.yaml</code> 中的变量，如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">routes:</span></span>
+<span class="line"><span style="color:#FFA657">  -</span></span>
+<span class="line"><span style="color:#FFA657">    uri:</span><span style="color:#A5D6FF"> "/test"</span></span>
+<span class="line"><span style="color:#FFA657">    upstream:</span></span>
+<span class="line"><span style="color:#FFA657">      nodes:</span></span>
+<span class="line"><span style="color:#FFA657">        "${{</span><span style="color:#E6EDF3">HOST_IP</span><span style="color:#FFA657">}}:${{</span><span style="color:#E6EDF3">PORT</span><span style="color:#FFA657">}}"</span><span style="color:#79C0FF">:</span><span style="color:#79C0FF"> 1</span></span>
+<span class="line"><span style="color:#79C0FF">      type</span><span style="color:#A5D6FF">:</span><span style="color:#A5D6FF"> roundrobin</span></span>
+<span class="line"><span style="color:#8B949E">#END</span></span></code></pre>
+<p>有关该功能和示例的更多信息，请参阅管理 API 中的<a href="https://apisix.apache.org/zh/docs/apisix/next/admin-api/#using-environment-variables">使用环境变量</a>。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9855">#9855</a>。</p>
+<h3 id="在-admin-api-中添加架构验证端点">在 Admin API 中添加架构验证端点</h3>
+<p>将 <code>/apisix/admin/schema/validate/{resource}</code> 端点添加到 Admin API 以验证配置的架构。 您现在可以验证配置的正确性，而无需向端点发送资源创建请求。</p>
+<p>例如，您可以使用以下命令验证路由的架构：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/schema/validate/routes</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": 1980,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "scheme": "https",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "nghttp2.org": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>由于此架构不正确，您应该会看到类似于以下内容的响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>HTTP/1.1 400 Bad Request</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>{"error_msg":"property \"uri\" validation failed: wrong type: expected string, got number"}</span></span></code></pre>
+<p>有关该功能和示例的更多信息，请参阅 Admin API 中的<a href="https://apisix.apache.org/docs/apisix/next/admin-api/#schema-validation">架构验证</a>。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/10065">#10065</a>。</p>
+<h3 id="通过-chaitin-waf-插件支持与-chaitin-waf-集成">通过 <code>chaitin-waf</code> 插件支持与 Chaitin WAF 集成</h3>
+<p>通过 <code>chaitin-waf</code> 插件支持与长亭 WAF 集成，将网关流量转发到长亭 WAF 进行恶意流量的检查和检测。</p>
+<p>例如，您可以在插件元数据上配置长亭 WAF 的地址，所有 <code>chaitin-waf</code> 插件实例都会引用该地址。 配置 <code>host</code> 为长亭 SafeLine WAF 检测服务主机、unix 域套接字、IP 或域； 以及 <code>port</code>，如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/plugin_metadata/chaitin-waf</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">  "nodes":[</span></span>
+<span class="line"><span style="color:#A5D6FF">      {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "host": "unix:/path/to/safeline/resources/detector/snserver.sock",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "port": 8000</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>然后，您可以在路由上启用该插件，并仅将符合指定条件的流量转发到 WAF：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">ADMIN_API_KEY</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">   "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">   "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "chaitin-waf": {</span></span>
+<span class="line"><span style="color:#A5D6FF">           "match": [</span></span>
+<span class="line"><span style="color:#A5D6FF">                {</span></span>
+<span class="line"><span style="color:#A5D6FF">                  "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">                    ["http_waf","==","true"]</span></span>
+<span class="line"><span style="color:#A5D6FF">                  ]</span></span>
+<span class="line"><span style="color:#A5D6FF">                }</span></span>
+<span class="line"><span style="color:#A5D6FF">            ]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">   "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">       "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">       "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "httpbun.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">     }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>如果检测到潜在的恶意请求，例如以下请求，它会尝试注入攻击：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/getid=1%20AND%201=1"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Host: httpbun.org"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "waf: true"</span></span></code></pre>
+<p>您应该看到类似于以下内容的响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>HTTP/1.1 403 Forbidden</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>X-APISIX-CHAITIN-WAF: yes</span></span>
+<span class="line"><span>X-APISIX-CHAITIN-WAF-TIME: 2</span></span>
+<span class="line"><span>X-APISIX-CHAITIN-WAF-ACTION: reject</span></span>
+<span class="line"><span>X-APISIX-CHAITIN-WAF-STATUS: 403</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>{"code": 403, "success":false, "message": "blocked by Chaitin SafeLine Web Application Firewall", "event_id": "51a268653f2c4189bfa3ec66afbcb26d"}</span></span></code></pre>
+<p>有关该功能和示例的更多信息，请参阅 <a href="https://apisix.apache.org/zh/docs/apisix/next/plugins/chaitin-waf/"><code>chaitin-waf</code></a> 插件文档。</p>
+<p>相关 PR 请见 <a href="https://github.com/apache/apisix/pull/9838">#9838</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<ul>
+<li>支持在 <code>openid-connect</code> 插件中配置代理服务器（<a href="https://github.com/apache/apisix/pull/9948">PR #9948</a>）</li>
+<li>支持将响应标头从 OPA 服务器发送到 <code>opa</code> 插件中的上游服务 (<a href="https://github.com/apache/apisix/pull/9710">PR #9710</a>)</li>
+<li>支持在 <code>file-logger</code> 插件中使用变量以允许条件日志记录（<a href="https://github.com/apache/apisix/pull/9712">PR #9712</a>）</li>
+<li>支持 <code>mocking</code> 插件中响应头的配置（<a href="https://github.com/apache/apisix/pull/9720">PR #9720</a>）</li>
+</ul>
+<h2 id="变更日志">变更日志</h2>
+<p>有关此版本中更改的完整列表，请参阅 <a href="https://github.com/apache/apisix/blob/release/3.5/CHANGELOG.md#350">CHANGELOG</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2023/09/08/apisix-integrates-with-coraza/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">APISIX 新特性之 WAF 解决方案：Coraza</span> </a> <a class="post-nav-card older" href="/zh/blog/2023/08/30/weekly-report/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">社区双周报 (8.14 - 8.27)</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#重大变更">重大变更</a></li><li class="d3"><a href="#在-request-id-插件中移除雪花算法支持">在 request-id 插件中移除雪花算法支持</a></li><li class="d3"><a href="#删除对-openresty-119-的支持">删除对 OpenResty 1.19 的支持</a></li><li class="d3"><a href="#改善-l4-和-l7-代理的可用性并删除-apisixstream_proxyonly">改善 L4 和 L7 代理的可用性并删除 apisix.stream_proxy.only</a></li><li class="d3"><a href="#在-ua-restriction-插件中不允许同时使用-allowlist-和-denylist">在 ua-restriction 插件中不允许同时使用 allowlist 和 denylist</a></li><li class="d3"><a href="#重构并改进-admin-api-中的插件接口">重构并改进 Admin API 中的插件接口</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#支持主机级别动态配置tls版本">支持主机级别动态配置TLS版本</a></li><li class="d3"><a href="#支持强制删除资源">支持强制删除资源</a></li><li class="d3"><a href="#支持-apisixyaml-中的环境变量">支持 apisix.yaml 中的环境变量</a></li><li class="d3"><a href="#在-admin-api-中添加架构验证端点">在 Admin API 中添加架构验证端点</a></li><li class="d3"><a href="#通过-chaitin-waf-插件支持与-chaitin-waf-集成">通过 chaitin-waf 插件支持与 Chaitin WAF 集成</a></li><li class><a href="#其他更新">其他更新</a></li><li class><a href="#变更日志">变更日志</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/05/31/2026-may-monthly-report/"> <img class="cover" src="https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (05.01 - 05.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年5月31日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

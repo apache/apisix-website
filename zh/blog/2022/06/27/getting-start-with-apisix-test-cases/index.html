@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>助力开发者，全方位解读 APISIX 测试案例 | Apache APISIX</title><meta name="description" content="本文主要介绍了 APISIX 的测试案例和如何编写 API 网关 Apache APISIX 的测试案例，并从本地和 GitHub 层面展示了实际运行效果。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/06/27/getting-start-with-apisix-test-cases/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/06/27/getting-start-with-apisix-test-cases/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/06/27/getting-start-with-apisix-test-cases/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/06/27/getting-start-with-apisix-test-cases/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="助力开发者，全方位解读 APISIX 测试案例 | Apache APISIX"><meta property="og:description" content="本文主要介绍了 APISIX 的测试案例和如何编写 API 网关 Apache APISIX 的测试案例，并从本地和 GitHub 层面展示了实际运行效果。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/06/27/getting-start-with-apisix-test-cases/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"助力开发者，全方位解读 APISIX 测试案例","description":"本文主要介绍了 APISIX 的测试案例和如何编写 API 网关 Apache APISIX 的测试案例，并从本地和 GitHub 层面展示了实际运行效果。","datePublished":"2022-06-27","author":{"@type":"Person","name":"白泽平"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/06/27/getting-start-with-apisix-test-cases/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/06/27/getting-start-with-apisix-test-cases/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/06/27/getting-start-with-apisix-test-cases/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a><a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>助力开发者，全方位解读 APISIX 测试案例</h1> <p class="article-meta"> <time datetime="2022-06-27">2022年6月27日</time> · 白泽平  · 约 9 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a><a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#背景信息">背景信息</a></li><li class><a href="#apisix-测试案例简介">APISIX 测试案例简介</a></li><li class><a href="#编写测试案例">编写测试案例</a></li><li class><a href="#运行测试案例">运行测试案例</a></li><li class="d3"><a href="#本地运行">本地运行</a></li><li class="d3"><a href="#github-运行">Github 运行</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header>  <blockquote>
+<p>本文主要介绍了 APISIX 的测试案例和如何编写 API 网关 Apache APISIX 的测试案例，并从本地和 GitHub 层面展示了实际运行效果。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>Apache APISIX 是 Apache 软件基金会下的云原生 API 网关，它兼具动态、实时、高性能等特点，提供了负载均衡、动态上游、灰度发布（金丝雀发布）、服务熔断、身份认证、可观测性等丰富的流量管理功能。你可以使用 APISIX 来处理传统的南北向流量，也可以处理服务间的东西向流量。同时，它也支持作为 K8s Ingress Controller 来使用。</p>
+<p>通常情况下，想要保证软件正常运行，在软件上线前我们一般会使用各种技术和方法，通过手动或自动的方式对软件的功能进行检查以确保其运行正常。该操作我们称之为 QA（测试）。测试一般分为单元测试、E2E 测试以及混沌测试。</p>
+<p>单元测试是用来检查单一模块的正确性（比如检查某个 RPC 的序列化/反序列化、数据加解密是否正常），但是该测试缺乏对系统的全局视角。而 E2E 测试（即端到端测试），可以补足单元测试的不足，该测试将整个系统和外部依赖服务跑起来，通过真实的软件调用方式检查本系统与其他系统的集成情况；混沌测试则通过在系统各组件间制造突发情况，如 OOM Kill、网络中断等，测试整个系统错误错误的容忍程度与能力。APISIX 的测试更加偏向于 E2E 测试，保证自身功能和与其他系统集成的正确性。</p>
+<h2 id="apisix-测试案例简介">APISIX 测试案例简介</h2>
+<p>APISIX 作为全球最活跃的 API 网关，其稳定性及服务的健壮性需要得到一定的保障，那么如何避免 APISIX 中潜在的错误呢？这里就需要通过测试用例来实现了。</p>
+<p>测试脚本并不仅仅是一个被测试机器执行的程序文件，对于开发者来讲，可以通过测试脚本完成软件所有功能的测试，包括不同配置、不同输入参数等情况下程序的运行状况。而对于用户来说测试提供了某一个功能模块的具体使用示例，例如：程序可以接受的配置和输入，想要得到怎样的输出结果。用户在参考使用文档时遇到不懂的地方，完全可以参考现有的测试用例，寻找是否有类似的使用场景。</p>
+<p>在 APISIX 项目中，通常使用 Github Action 运行 CI 测试，执行下图展示的测试脚本。许多 APISIX 的开发者在编写测试用例时，会遇到各种各样的问题。希望通过本文，可以减少你在编写 APISIX 测试案例时出现的错误。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0627/1.png" alt="network error/apisix test case"></p>
+<h2 id="编写测试案例">编写测试案例</h2>
+<p>APISIX 的测试用例基于 <code>TEST::NGINX</code> 测试框架编写，该测试框架是在 Perl 语言基础上实现的测试环境，可以提供基于脚本的自动化测试能力，为 APISIX 当前如此大规模的测试与质量保证工作提供了支持。当然你不会使用 Perl 也没有关系，因为大部分场景中是不需要编写 Perl 代码的，仅使用 <code>TEST::NGINX</code> 封装的能力即可，如果有特殊需求可以结合 Lua 代码的方式进行增强。</p>
+<p>APISIX 的测试用例均存放在 <code>./apisix/t</code> 目录下面，接下来将以添加 <code>opa</code> 插件为例为你介绍如何编写测试案例。</p>
+<ol>
+<li>
+<p>你需要创建一个 <code>.t</code> 结尾的测试文件，例如 <code>./t/plugin/opa.t</code>。如果你是在已有功能上添加特性，可以直接在对应的测试文件中添加测试用例。并在文件中添加固定格式的 ASF 2.0 协议。</p>
+</li>
+<li>
+<p>该部分主要作用是给 <code>opa.t</code> 这个文件中所有的测试用例自动添加 <code>no_error_log</code>，这样就不需要在每个代码下添加 <code>error_log</code> 相关的代码了，你可以直接复制使用这段代码。通过这种方式，可以减少一些重复的代码。</p>
+</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#E6EDF3">add_block_preprocessor(</span><span style="color:#FF7B72">sub</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">    my</span><span style="color:#E6EDF3"> ($block) = @_;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> ((!</span><span style="color:#79C0FF">defined</span><span style="color:#E6EDF3"> $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">error_log) &#x26;&#x26; (!</span><span style="color:#79C0FF">defined</span><span style="color:#E6EDF3"> $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">no_error_log)) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">set_value(</span><span style="color:#A5D6FF">"no_error_log"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"[error]"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (!</span><span style="color:#79C0FF">defined</span><span style="color:#E6EDF3"> $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">request) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        $block</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">set_value(</span><span style="color:#A5D6FF">"request"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"GET /t"</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">run_tests();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">DATA</span></span></code></pre>
+<ol start="3">
+<li>每个测试用例都有固定的开头，一般格式如下。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#E6EDF3">=== TEST 1: sanity</span></span></code></pre>
+<p><code>===</code>是测试用例起始的固定语法结构，<code>TEST 1</code> 则代表是本文件的第一个测试用例。<code>sanity</code> 则为该测试的名称，一般以测试用例的具体目的命名。</p>
+<ol start="4">
+<li>接下来就是测试用例的正文部分了。在 APISIX 中几乎每个插件都会定义一些参数和属性，并且会预先定义 JSON schema，因此我们需要先检查该插件的输入参数是否能够正常地校验，通过这种方式就可以检查我们输入的数据是否可以正确地被 JSON schema 的规则去校验。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#E6EDF3">--- config</span></span>
+<span class="line"><span style="color:#E6EDF3">    location /t {</span></span>
+<span class="line"><span style="color:#E6EDF3">        content_by_lua_block {</span></span>
+<span class="line"><span style="color:#FF7B72">            local</span><span style="color:#E6EDF3"> test_cases = {</span></span>
+<span class="line"><span style="color:#E6EDF3">                {host = </span><span style="color:#A5D6FF">"http://127.0.0.1:8181"</span><span style="color:#E6EDF3">, policy = </span><span style="color:#A5D6FF">"example/allow"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">                {host = </span><span style="color:#A5D6FF">"http://127.0.0.1:8181"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">                {host = 3233, policy = </span><span style="color:#A5D6FF">"example/allow"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">            }</span></span>
+<span class="line"><span style="color:#FF7B72">            local</span><span style="color:#E6EDF3"> plugin = </span><span style="color:#FF7B72">require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.plugins.opa"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">            for</span><span style="color:#E6EDF3"> _, </span><span style="color:#FF7B72">case</span><span style="color:#E6EDF3"> in ipairs(test_cases) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#FF7B72">                local</span><span style="color:#E6EDF3"> ok, err = plugin.check_schema(</span><span style="color:#FF7B72">case</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">                ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(ok </span><span style="color:#FF7B72">and</span><span style="color:#A5D6FF"> "done"</span><span style="color:#FF7B72"> or</span><span style="color:#E6EDF3"> err)</span></span>
+<span class="line"><span style="color:#E6EDF3">            end</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">--- response_body</span></span>
+<span class="line"><span style="color:#E6EDF3">done</span></span>
+<span class="line"><span style="color:#E6EDF3">property </span><span style="color:#A5D6FF">"policy"</span><span style="color:#E6EDF3"> is required</span></span>
+<span class="line"><span style="color:#E6EDF3">property </span><span style="color:#A5D6FF">"host"</span><span style="color:#E6EDF3"> validation failed: wrong type: expected string, got number</span></span></code></pre>
+<p>通过阅读 <code>opa</code> 插件的源码，可以看到 <code>opa</code> 插件要求 <code>host</code> 和 <code>policy</code> 必须同时存在，因此这里需要定义三个规则。</p>
+<ul>
+<li>输入正确的参数，包括 <code>host</code> 和 <code>policy</code>。因此返回结果将是 <code>done</code>；</li>
+<li>仅输入 <code>host</code> 参数。不符合 <code>host</code>、<code>policy</code> 同时存在的要求，所以该测试预期返回结果将是 <code>property "policy" is required</code>；</li>
+<li>输入类型错误（整数）的 <code>host</code> 值。因为在源码中设置了 <code>host</code> 参数必须是字符串类型，所以返回结果将是 <code>property "host" validation failed: wrong type</code>。</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#E6EDF3">--- config</span></span>
+<span class="line"><span style="color:#E6EDF3">    location /t {</span></span>
+<span class="line"><span style="color:#E6EDF3">        content_by_lua_block {</span></span>
+<span class="line"><span style="color:#E6EDF3">...</span></span>
+<span class="line"><span style="color:#E6EDF3">                ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(ok </span><span style="color:#FF7B72">and</span><span style="color:#A5D6FF"> "done"</span><span style="color:#FF7B72"> or</span><span style="color:#E6EDF3"> err)</span></span>
+<span class="line"><span style="color:#E6EDF3">            end</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">--- response_body</span></span>
+<span class="line"><span style="color:#E6EDF3">done</span></span>
+<span class="line"><span style="color:#E6EDF3">...</span></span></code></pre>
+<p>一般情况下，每个测试案例中需要使用 <code>/t</code> 的函数，比如说需要调用 Lua 代码，定义 <code>location</code>。你也可以使用 <code>content_by_lua_block</code> 的方式调用一些代码辅助测试，最后将响应信息以 <code>ngx.say</code> 的方式打印出来，然后再通过 <code>--- response_body</code> 的方式检查上面程序运行的是否正确。无需手动输入 <code>request</code> 和 <code>error</code>，因为我们已经通过脚本自动添加了。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> plugin = </span><span style="color:#FF7B72">require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.plugins.opa"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> _, </span><span style="color:#FF7B72">case</span><span style="color:#E6EDF3"> in ipairs(test_cases) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> ok, err = plugin.check_schema(</span><span style="color:#FF7B72">case</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">        ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(ok </span><span style="color:#FF7B72">and</span><span style="color:#A5D6FF"> "done"</span><span style="color:#FF7B72"> or</span><span style="color:#E6EDF3"> err)</span></span></code></pre>
+<p>以上代码表示导入 APISIX Plugin <code>opa</code> 插件的模块，并且调用 <code>plugin.check_schema</code> 函数。然后通过 <code>for</code> 循环，以此调用参数，并且根据测试情况返回对应的结果。</p>
+<ol start="5">
+<li>接下来，我们需要配置一个测试时使用的环境。对于插件来说，就是创建一个路由，然后把插件关联到该路由上。创建完成后，我们就可以通过发送请求校验插件的内部逻辑实现是否正确。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#E6EDF3">=== TEST 2: setup route with plugin</span></span>
+<span class="line"><span style="color:#E6EDF3">--- config</span></span>
+<span class="line"><span style="color:#E6EDF3">    location /t {</span></span>
+<span class="line"><span style="color:#E6EDF3">        content_by_lua_block {</span></span>
+<span class="line"><span style="color:#FF7B72">            local</span><span style="color:#E6EDF3"> t = </span><span style="color:#FF7B72">require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"lib.test_admin"</span><span style="color:#E6EDF3">).test</span></span>
+<span class="line"><span style="color:#FF7B72">            local</span><span style="color:#E6EDF3"> code, body = t(</span><span style="color:#A5D6FF">'/apisix/admin/routes/1'</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                 ngx.HTTP_PUT,</span></span>
+<span class="line"><span style="color:#E6EDF3">                 [[{</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">                            "opa"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"http://127.0.0.1:8181"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "policy"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"example"</span></span>
+<span class="line"><span style="color:#E6EDF3">                            }</span></span>
+<span class="line"><span style="color:#E6EDF3">                        },</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "upstream"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">                            "nodes"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">                                "127.0.0.1:1980"</span><span style="color:#E6EDF3">: 1</span></span>
+<span class="line"><span style="color:#E6EDF3">                            },</span></span>
+<span class="line"><span style="color:#A5D6FF">                            "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"roundrobin"</span></span>
+<span class="line"><span style="color:#E6EDF3">                        },</span></span>
+<span class="line"><span style="color:#A5D6FF">                        "uris"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"/hello"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"/test"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">                }]]</span></span>
+<span class="line"><span style="color:#E6EDF3">                )</span></span>
+<span class="line"><span style="color:#FF7B72">            if</span><span style="color:#E6EDF3"> code >= 300 then</span></span>
+<span class="line"><span style="color:#E6EDF3">                ngx.status = code</span></span>
+<span class="line"><span style="color:#E6EDF3">            end</span></span>
+<span class="line"><span style="color:#E6EDF3">            ngx.</span><span style="color:#79C0FF">say</span><span style="color:#E6EDF3">(body)</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">--- response_body</span></span>
+<span class="line"><span style="color:#E6EDF3">passed</span></span></code></pre>
+<p>在以上示例中，使用了 <code>lib_test_admin</code> 导入到 <code>t</code> 函数，创建一个 <code>id</code> 为 <code>1</code> 的路由，然后使用 <code>PUT</code> 的方法，传入这些数据。在该测试中，我们并没有对数据格式进行检验，因为该测试用例只要保证使用 Admin API 可以正常创建路由就可以了，当然我们也需要对异常进行判断，如果状态码大于或者等于 <code>300</code> 就会打印出具体的信息。</p>
+<p>在 APISIX 的测试案例中，你会发现很多测试中都包含了以下代码：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> t = </span><span style="color:#FF7B72">require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"lib.test_admin"</span><span style="color:#E6EDF3">).test</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> code, body = t(</span><span style="color:#A5D6FF">'/apisix/admin/routes/1'</span><span style="color:#E6EDF3">, ngx.HTTP_PUT)</span></span></code></pre>
+<p>以上代码表示导入 <code>lib.test_admin</code> 模块并使用其中 <code>test</code> 函数封装来发送请求，它减少了我们调用 APISIX Admin API 等 HTTP 接口时的重复代码，只需简单调用并检查返回结果即可。</p>
+<ol start="6">
+<li>在第三个测试中，我们不需要再重复创建路由，因为在第二个测试中已经创建了。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="perl"><code><span class="line"><span style="color:#E6EDF3">=== TEST 3: hit route (with correct request)</span></span>
+<span class="line"><span style="color:#E6EDF3">--- request</span></span>
+<span class="line"><span style="color:#E6EDF3">GET /hello?test=1234&#x26;user=none</span></span>
+<span class="line"><span style="color:#E6EDF3">--- more_headers</span></span>
+<span class="line"><span style="color:#E6EDF3">test-header: only-</span><span style="color:#FF7B72">for</span><span style="color:#E6EDF3">-test</span></span>
+<span class="line"><span style="color:#E6EDF3">--- response_body</span></span>
+<span class="line"><span style="color:#E6EDF3">hello world</span></span></code></pre>
+<p>上述示例定义了 <code>request</code>。因为我们在上一个测试中定义了 <code>/hello</code> 和 <code>/test</code> 的路径，所以我们可以通过 <code>GET</code> 的方法向 <code>/hello</code> 发送请求，并然后它会发送一个 <code>test=1234</code> 和 <code>user=none</code> 的 <code>query</code> 参数。你也可以通过 <code>more_headers</code> 的方式添加响应头，比如给发送到 <code>hello</code> 的请求添加一个叫 <code>test-header</code> 的响应头。</p>
+<p>以上测试是为了测试添加正确的请求头是否可以成功。你也可以在后续的测试示例中添加错误头，并验证结果。如果你需要使用 <code>POST</code> 请求，也可以把上述代码中的 <code>GET /hello</code> 修改为 <code>POST /hello</code>。</p>
+<p>在有些测试中，你可能需要创建多个上游或者路由，此时你就可以定义一个数组，然后在数组中定义这些对应的值，并通过 <code>for</code> 方式循环地调用 <code>t</code> 函数，然后让它把这个东西正常地通过 <code>put</code> 的方式来调用 APISIX 的 Admin API 接口来正常创建路由或者上游。该方式也是测试比较常见的方式，称为：<code>Table driving test</code>，是一种通过表的方式驱动测试的方法，该方法减少部分重复出现的代码。详细介绍，请参考APISIX测试案例快速入门视频和opa2.t测试用例。</p>
+<h2 id="运行测试案例">运行测试案例</h2>
+<p>测试案例需要源码安装 APISIX，具体安装方法请参考<a href="https://apisix.apache.org/zh/docs/apisix/next/installation-guide">如何构建 Apache APISIX</a>。接下来将重点介绍如何运行测试案例及报错检查。</p>
+<h3 id="本地运行">本地运行</h3>
+<p>通常情况下，你可以在本地使用以下指令来运行测试案例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#E6EDF3">PATH</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">/usr/local/openresty/nginx/sbin:/usr/bin</span><span style="color:#E6EDF3"> PERL5LIB</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">.:</span><span style="color:#E6EDF3">$PERL5LIB FLUSH_ETCD</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">1</span><span style="color:#FFA657"> prove</span><span style="color:#79C0FF"> -Itest-nginx/lib</span><span style="color:#79C0FF"> -r</span><span style="color:#A5D6FF"> t/admin</span></span></code></pre>
+<p>以上命令的释义如下：</p>
+<ul>
+<li><code>PATH</code> 指定了 <code>openresty/nginx</code> 所在的目录，可以避免部分环境配置错误时引起的冲突问题，如果环境中的 OpenResty 安装在其他位置，则也可以通过这个命令进行指定。</li>
+<li><code>PERL5LIB</code> 指定了使用 Perl 导入到本地。导入本路径中存在的以及部分通过环境变量附加的 <code>PERL</code> 库。</li>
+<li><code>FLUSH_ETCD</code> 指定了在每个测试文件执行完成后，则清空所有数据，它需要调用 <code>etcdctl</code> 函数，需要确保在 <code>PATH</code> 中可以找到 <code>etcdctl</code> 可执行文件。</li>
+<li><code>prove</code> 调用测试程序开始执行测试。</li>
+<li><code>-Itest-nginx/lib</code> 表示导入 <code>Itest-nginx/lib</code> 这个库。</li>
+<li><code>-r</code> 表示自动寻找测试文件。如果指定的是一个路径，则会寻找这个路径下所有的测试文件。</li>
+<li><code>t/admin</code> 表示指定测试用例搜索路径，此处也可以指定到唯一一个 <code>.t</code> 文件上进行限定。</li>
+</ul>
+<p>以下为上述命令的正常执行结果。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0627/5.png" alt="network error/normal return result"></p>
+<p>如果测试失败，则会出现以下信息：</p>
+<p><img src="https://static.apiseven.com/2022/blog/0627/2.png" alt="network error/fail return result"></p>
+<p>以上信息则会告诉你具体是哪个测试文件中的哪个测试用例执行失败了。</p>
+<h3 id="github-运行">Github 运行</h3>
+<p>一般情况在 Github 中提交代码时，输出的结果和在本地测试相似。</p>
+<p>首先选择错误的执行工作流，主要的测试用例均在 build 系列 CI 中。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0627/3.png" alt="network error/Github CI example"></p>
+<p>我们可以看到，在该示例中，<code>416</code> 行出现了报错。通过错误信息，我们可以得到在某个测试文件中的某个测试用例出现错误，开发者定向查看修正即可。需要注意的是，CI 中可能存在一些奇怪的报错，它们可能是因为 CI 环境的临时异常导致的，如果未修改过对应模块中的代码，可以忽略这些错误。</p>
+<p><img src="https://static.apiseven.com/2022/blog/0627/4.png" alt="network error/Github CI error example"></p>
+<h2 id="总结">总结</h2>
+<p>本文主要为大家介绍了测试的相关流程，以及在 APISIX 测试案例的构成和如何进行测试案例的编写，希望通过本文你可以对 APISIX 的测试案例有一个大致的认识。</p>
+<p>然而本文只提到了 APISIX 测试框架中的一些核心内容，未能覆盖 <code>TEST::NGINX</code> 框架中的全部内容，实际上 <code>TEST::NGINX</code> 中还有很多强大的能力，我们可以通过 <a href="https://metacpan.org/pod/Test::Nginx::Socket"><code>Test::Nginx::Socket</code> 的文档</a>了解更多用法。如果你想学习更多编写测试案例的知识，可以观看<a href="https://www.bilibili.com/video/BV1qF411G78j?spm_id_from=333.1007.top_right_bar_window_history.content.click&#x26;vd_source=d427acb1117c07aeea8968e15736e375">APISIX 测试案例快速入门视频</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/07/04/apisix-integrates-with-hydra/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">APISIX 与 Ory Hydra 集成丰富身份认证方式</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/06/21/weekly-report-0621/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">社区双周报（6.01 - 6.15）</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#背景信息">背景信息</a></li><li class><a href="#apisix-测试案例简介">APISIX 测试案例简介</a></li><li class><a href="#编写测试案例">编写测试案例</a></li><li class><a href="#运行测试案例">运行测试案例</a></li><li class="d3"><a href="#本地运行">本地运行</a></li><li class="d3"><a href="#github-运行">Github 运行</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/05/31/2026-may-monthly-report/"> <img class="cover" src="https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (05.01 - 05.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年5月31日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

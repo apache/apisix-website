@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 与 Ory Hydra 集成丰富身份认证方式 | Apache APISIX</title><meta name="description" content="本文介绍了 API 网关 Apache APISIX 通过 OpenID Connect 插件与 Ory Hydra 集成实现集中式身份认证，并且介绍了关于 Ory Hydra 的应用场景及 OpenID 相关知识。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/07/04/apisix-integrates-with-hydra/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX 与 Ory Hydra 集成丰富身份认证方式 | Apache APISIX"><meta property="og:description" content="本文介绍了 API 网关 Apache APISIX 通过 OpenID Connect 插件与 Ory Hydra 集成实现集中式身份认证，并且介绍了关于 Ory Hydra 的应用场景及 OpenID 相关知识。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/07/04/apisix-integrates-with-hydra/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/ory.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/ory.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 与 Ory Hydra 集成丰富身份认证方式","description":"本文介绍了 API 网关 Apache APISIX 通过 OpenID Connect 插件与 Ory Hydra 集成实现集中式身份认证，并且介绍了关于 Ory Hydra 的应用场景及 OpenID 相关知识。","datePublished":"2022-07-04","image":"https://static.apiseven.com/2022/blog/0818/plugins/ory.png","author":{"@type":"Person","name":"Fei Han"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/07/04/apisix-integrates-with-hydra/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/07/04/apisix-integrates-with-hydra/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/07/04/apisix-integrates-with-hydra/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/authentication/">Authentication</a><a class="tag" href="/zh/blog/tags/plugins/">Plugins</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX 与 Ory Hydra 集成丰富身份认证方式</h1> <p class="article-meta"> <time datetime="2022-07-04">2022年7月4日</time> · Fei Han  · 约 6 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/authentication/">Authentication</a><a class="tag" href="/zh/blog/tags/plugins/">Plugins</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#背景介绍">背景介绍</a></li><li class="d3"><a href="#apache-apisix">Apache APISIX</a></li><li class="d3"><a href="#ory-hydra">ORY Hydra</a></li><li class><a href="#简介">简介</a></li><li class><a href="#操作步骤">操作步骤</a></li><li class="d3"><a href="#步骤一创建并部署数据库">步骤一：创建并部署数据库</a></li><li class="d3"><a href="#步骤二部署-hydra">步骤二：部署 Hydra</a></li><li class="d3"><a href="#步骤三部署登录和验证程序">步骤三：部署登录和验证程序</a></li><li class="d3"><a href="#步骤四执行-oauth-20-授权代码流程">步骤四：执行 OAuth 2.0 授权代码流程</a></li><li class="d3"><a href="#步骤五启动-apisix-并配置路由">步骤五：启动 APISIX 并配置路由</a></li><li class="d3"><a href="#步骤六访问-apisix">步骤六：访问 APISIX</a></li><li class><a href="#总结">总结</a></li><li class><a href="#相关阅读">相关阅读</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/ory.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文介绍了 Apache APISIX 如何与 Ory Hydra 集成实现集中式身份认证。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景介绍">背景介绍</h2>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> 是一个开源的云原生 API 网关，作为 API 网关，它兼具动态、实时、高性能等特点，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。你可以使用 APISIX 来处理传统的南北向流量，以及服务间的东西向流量，也可以当做 K8s Ingress controller 来使用。</p>
+<p>APISIX 的 <code>openid-connect</code> 插件支持 OpenID Connect 协议，用户可以使用该插件让 APISIX 对接众多认证鉴权软件，作为集中式认证网关部署于企业中。</p>
+<h3 id="ory-hydra">ORY Hydra</h3>
+<p><a href="https://github.com/ory/hydra">Ory Hydra</a> 是支持 OAuth 2.0 和 OpenID Connect 协议的身份提供商之一，基于 OAuth 2.0 授权框架以及 Open ID Connect Core 1.0 框架实现，兼具开源与云原生特性。它可以与任何登录系统集成，通过 OAuth 2.0 Acces、Refresh 和 ID Tokens，使得第三方能够轻松访问你的 API，实现用户随时随地与任何应用程序的交互。</p>
+<p>Ory Hydra 采用 Go 语言开发，为几乎所有开发语言都提供了 SDK，包括 Dart、.NET、Go、Java、PHP、Python、Ruby、Rust 和 Typescript。它适用于任何登录系统，并且可以轻松自定义登录体验。</p>
+<h2 id="简介">简介</h2>
+<p>OpenID 是一种集中认证模式，它是一个去中心化的身份认证系统。使用 OpenID 的好处是：用户只需要在一个 OpenID 身份提供方的网站上注册和登录，使用一份账户密码信息即可访问不同应用。</p>
+<p>通过 APISIX 支持的 <code>openid-connect</code> 插件，我们可以与支持 OpenID Connect 协议的认证程序集成。比如 Ory Hydra。更多信息请参考：<a href="https://apisix.apache.org/zh/blog/2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication">集中身份认证</a>。</p>
+<p>Ory Hydra 的最大优势之一是：它实现了 OAuth 和 OpenID Connect 标准，而不是强制你使用 “Hydra 用户管理”（登录、注销、配置文件管理、注册）、特定模板引擎或者预定义的前端。</p>
+<p>它允许使用你的程序所需的身份验证机制（基于令牌的 2FA、SMS 2FA 等），并且在你的业务系统中实现用户管理和登录。当然你也可以使用现有的解决方案，例如 <a href="https://github.com/go-authboss/authboss">authboss</a>，并为你提供 OAuth 2.0 和 OpenID Connect 的所有优势功能，同时对业务逻辑和技术栈的侵入性最小。</p>
+<p>OAuth 2.0 适用于多种环境和多用途场景。以下信息可能会帮助你确定 OAuth 2.0 和 Hydra 是否适合某个场景：</p>
+<ol>
+<li>允许第三方的合作方访问你的 API。</li>
+<li>成为像 Google、Facebook 或 Microsoft 这样的身份认证提供者。</li>
+<li>使浏览器、移动设备或可穿戴应用程序能够访问你的 API：运行 OAuth2 提供程序可以很好地实现这一点。你不必在设备上存储密码，并且可以随时撤销访问令牌。</li>
+<li>想要限制后端服务可以相互读取的信息类型。例如，只允许评论服务获取用户配置文件更新，但不能读取用户密码。</li>
+</ol>
+<h2 id="操作步骤">操作步骤</h2>
+<p>接下来，将使用真实示例为你展示 APISIX 如何与 Hydra 集成。在该示例中将使用 Docker 部署所需的环境，请在执行本操作前安装完成 <a href="https://docs.docker.com/engine/install/">Docker</a>。</p>
+<h3 id="步骤一创建并部署数据库">步骤一：创建并部署数据库</h3>
+<p>为了快速部署测试环境，我们将使用 Docker 运行 PostgreSQL 作为 Hydra 的数据库。建议不要在生产环境使用 Docker 运行数据库。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> network</span><span style="color:#A5D6FF"> create</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> ory-hydra-example--postgres</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> POSTGRES_USER=hydra</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> POSTGRES_PASSWORD=secret</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> POSTGRES_DB=hydra</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> postgres:9.6</span></span></code></pre>
+<p>上述命令将创建一个名称为 <code>hydraguide</code> 的网络，并且启动一个名称为 <code>ory-hydra-example--postgres</code> 的 Postgres 实例，该实例创建了数据库 <code>hydra</code>，用户 <code>hydra</code> 和用户密码 <code>secret</code>。</p>
+<h3 id="步骤二部署-hydra">步骤二：部署 Hydra</h3>
+<p>该步骤中会分别将 <code>4444</code> 和 <code>4445</code> 映射到 <code>5444</code> 和 <code>5445</code> 端口，请确保这些端口未被占用。</p>
+<ol>
+<li>系统密钥只能针对新数据库设置，不支持密钥轮换。 此密钥用于加密数据库，每次进程（重新）启动时都需要设置为相同的值。 你可以使用 <code>/dev/urandom</code> 生成密钥。但请确保在你定义它的时候，该密钥都必须相同。例如，你可以将值存储在某处:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> SECRETS_SYSTEM</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(e</span><span style="color:#A5D6FF">xport</span><span style="color:#A5D6FF"> LC_CTYPE=C</span><span style="color:#E6EDF3">; </span><span style="color:#FFA657">cat</span><span style="color:#A5D6FF"> /dev/urandom</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> tr</span><span style="color:#79C0FF"> -dc</span><span style="color:#A5D6FF"> 'a-zA-Z0-9'</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> fold</span><span style="color:#79C0FF"> -w</span><span style="color:#79C0FF"> 32</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> head</span><span style="color:#79C0FF"> -n</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>通过配置环境变量，设置 Hydra 的数据库 URL 指向 Postgres 实例。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> DSN</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">postgres://hydra:secret@ory-hydra-example--postgres:5432/hydra</span><span style="color:#FF7B72">?</span><span style="color:#E6EDF3">sslmode</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">disable</span></span></code></pre>
+<ol start="2">
+<li>Ory Hydra 没有自动迁移数据库，因此你需要手动执行迁移数据库的操作。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> pull</span><span style="color:#A5D6FF"> oryd/hydra:v1.10.6</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -it</span><span style="color:#79C0FF"> --rm</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  migrate</span><span style="color:#A5D6FF"> sql</span><span style="color:#79C0FF"> --yes</span><span style="color:#E6EDF3"> $DSN</span></span></code></pre>
+<ol start="3">
+<li>通过以下命令运行 Hydra 服务器。更多信息，请参考 <a href="https://www.ory.sh/docs/hydra/configure-deploy#deploy-ory-hydra">deploy-ory-hydra</a>。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> ory-hydra-example--hydra</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 5444:4444</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 5445:4445</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> SECRETS_SYSTEM=</span><span style="color:#E6EDF3">$SECRETS_SYSTEM </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> DSN=</span><span style="color:#E6EDF3">$DSN </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> URLS_SELF_ISSUER=https://localhost:5444/</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> URLS_CONSENT=http://localhost:9020/consent</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> URLS_LOGIN=http://localhost:9020/login</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#A5D6FF"> serve</span><span style="color:#A5D6FF"> all</span></span></code></pre>
+<p>你可以使用如下命令查看 Hydra 的日志：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> logs</span><span style="color:#A5D6FF"> ory-hydra-example--hydra</span></span></code></pre>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>如果未指定 Hydra 的密码，你可以在日志中查到密码信息。如果忘记密码将无法重新启动 Hydra。</p></div>
+<p>你也可以使用以下命令查看 Hydra 相关介绍及操作命令。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -it</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> --entrypoint</span><span style="color:#A5D6FF"> hydra</span><span style="color:#A5D6FF"> oryd/hydra:v1.10.6</span><span style="color:#A5D6FF"> help</span><span style="color:#A5D6FF"> serve</span></span></code></pre>
+<h3 id="步骤三部署登录和验证程序">步骤三：部署登录和验证程序</h3>
+<p>Login Provider 和 Consent Provider 可以是两个独立的 Web 服务。 Hydra 提供了示例程序，它在一个应用程序中结合了这两个功能。 接下来。我们将使用 Docker 部署该应用程序。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> pull</span><span style="color:#A5D6FF"> oryd/hydra-login-consent-node:v1.10.6</span><span style="color:#E6EDF3"> &#x26;&#x26; </span><span style="color:#FF7B72">\</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --name</span><span style="color:#A5D6FF"> ory-hydra-example--consent</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 9020:3000</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> HYDRA_ADMIN_URL=https://ory-hydra-example--hydra:4445</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> NODE_TLS_REJECT_UNAUTHORIZED=</span><span style="color:#79C0FF">0</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra-login-consent-node:v1.10.6</span></span></code></pre>
+<p>你可以使用以下命令检查程序是否运行正常：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> logs</span><span style="color:#A5D6FF"> ory-hydra-example--consent</span></span></code></pre>
+<p>正常返回结果：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> hydra-login-consent-logout@0.0.0 serve /usr/src/app</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> node lib/app.js</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Listening</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> http://0.0.0.0:3000</span></span></code></pre>
+<h3 id="步骤四执行-oauth-20-授权代码流程">步骤四：执行 OAuth 2.0 授权代码流程</h3>
+<p>Hydra 支持通过 CLI 设置 OAuth 2.0 使用者和 OAuth 2.0 回调 URL 的功能，这是一个请求访问服务器上的用户资源的第三方应用程序。</p>
+<p>配置 APISIX <code>openid-connect</code> 插件时需要提供这些信息：</p>
+<ul>
+<li><code>id</code> 对应的是下述路由中插件配置的 <code>client_id</code>。</li>
+<li><code>secret</code> 对应的是下述路由中插件配置的 <code>client_secret</code>。</li>
+<li><code>scope</code> 对应的是下述路由中插件配置的 <code>scope</code>。</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> -it</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -e</span><span style="color:#A5D6FF"> HYDRA_ADMIN_URL=https://ory-hydra-example--hydra:4445</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --</span><span style="color:#A5D6FF"> network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  clients</span><span style="color:#A5D6FF"> create</span><span style="color:#79C0FF"> --skip-tls-verify</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --id</span><span style="color:#A5D6FF"> facebook-photo-backup</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --secret</span><span style="color:#A5D6FF"> some-secret</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --grant-types</span><span style="color:#A5D6FF"> authorization_code,refresh_token,client_credentials,implicit</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --response-types</span><span style="color:#A5D6FF"> token,code,id_token</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --scope</span><span style="color:#A5D6FF"> openid,offline,photos.read</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --callbacks</span><span style="color:#A5D6FF"> http://127.0.0.1:9010/callback</span></span></code></pre>
+<p>以下示例将执行一个 OAuth 2.0 授权流程。为简化此操作，Hydra CLI 提供了一个名为 <code>hydra token user</code> 的辅助命令。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657"> docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> --rm</span><span style="color:#79C0FF"> -it</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --network</span><span style="color:#A5D6FF"> hydraguide</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -p</span><span style="color:#A5D6FF"> 9010:9010</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  oryd/hydra:v1.10.6</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#A5D6FF">  token</span><span style="color:#A5D6FF"> user</span><span style="color:#79C0FF"> --skip-tls-verify</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --port</span><span style="color:#79C0FF"> 9010</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --auth-url</span><span style="color:#A5D6FF"> https://localhost:5444/oauth2/auth</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --token-url</span><span style="color:#A5D6FF"> https://localhost:5444/oauth2/token</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --client-id</span><span style="color:#A5D6FF"> facebook-photo-backup</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --client-secret</span><span style="color:#A5D6FF"> some-secret</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --scope</span><span style="color:#A5D6FF"> openid,offline,photos.read</span></span></code></pre>
+<p>返回结果如下则表示配置正常：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">Setting</span><span style="color:#A5D6FF"> up</span><span style="color:#A5D6FF"> home</span><span style="color:#A5D6FF"> route</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> http://127.0.0.1:9010/</span></span>
+<span class="line"><span style="color:#FFA657">Setting</span><span style="color:#A5D6FF"> up</span><span style="color:#A5D6FF"> callback</span><span style="color:#A5D6FF"> listener</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> http://127.0.0.1:9010/callback</span></span>
+<span class="line"><span style="color:#FFA657">Press</span><span style="color:#A5D6FF"> ctrl</span><span style="color:#A5D6FF"> +</span><span style="color:#A5D6FF"> c</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> Linux</span><span style="color:#A5D6FF"> /</span><span style="color:#A5D6FF"> Windows</span><span style="color:#A5D6FF"> or</span><span style="color:#A5D6FF"> cmd</span><span style="color:#A5D6FF"> +</span><span style="color:#A5D6FF"> c</span><span style="color:#A5D6FF"> on</span><span style="color:#A5D6FF"> OSX</span><span style="color:#A5D6FF"> to</span><span style="color:#A5D6FF"> end</span><span style="color:#A5D6FF"> the</span><span style="color:#A5D6FF"> process.</span></span>
+<span class="line"><span style="color:#FFA657">If</span><span style="color:#A5D6FF"> your</span><span style="color:#A5D6FF"> browser</span><span style="color:#A5D6FF"> doesn't open automatically, navigate to:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">        http://127.0.0.1:9010/</span></span></code></pre>
+<p>该步骤将会启动一个用户登录程序，我们将在下面的步骤中使用该程序。</p>
+<h3 id="步骤五启动-apisix-并配置路由">步骤五：启动 APISIX 并配置路由</h3>
+<p>如果你还没有安装 APISIX，请参考：<a href="https://apisix.apache.org/zh/docs/apisix/next/installation-guide">安装 APISIX</a>。</p>
+<p>安装完成后，仅需创建路由并配置 <code>openid-connect</code> 插件即可。为了更直观地验证效果，我们还需要启动了一个 NGINX 服务当做上游，你也可以使用已有的上游服务。</p>
+<div class="admonition admonition-note"><p class="admonition-title">注意</p><p>本示例中的 APISIX 是安装在宿主机上，如果是使用 Docker 启动的 APISIX，可能会出现网络问题。</p></div>
+<ol>
+<li>首先使用 Docker 创建一个 NGINX 上游。</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> test-nginx</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8083:80</span><span style="color:#A5D6FF"> nginx</span></span></code></pre>
+<ol start="2">
+<li>通过以下命令创建路由，并配置 <code>openid-connect</code> 插件。</li>
+</ol>
+<p>其中 <code>client_id</code> 和 <code>client_secret</code> 和 <code>scope</code> 是步骤四中设置的 ID。你可以参考 <a href="https://www.ory.sh/docs/hydra/production#exposing-administrative-and-public-api-endpoints">Preparing for Production</a> 获取其他信息。从上述链接的内容中，我们可以看到 <code>discovery</code> 的地址为 <code>https://{IP:Port}/.well-known/openid-configuration</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "openid-connect":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_id":"facebook-photo-backup",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_secret":"some-secret",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "discovery":"https://127.0.0.1:5444/.well-known/openid-configuration",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "scope":"openid",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "token_endpoint_auth_method": "client_secret_basic",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "bearer_only": false,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "redirect_uri":"http://127.0.0.1:9080/callback"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:8083":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="步骤六访问-apisix">步骤六：访问 APISIX</h3>
+<ol>
+<li>在浏览器中输入 <code>http://127.0.0.1:9080/index.html</code>，由于已经开启了 <code>openid-connect</code> 插件，所以页面被重定向到登录页面。在此页面输入用户验证程序中默认的账号密码。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0704/1.png" alt="网络错误/认证页面"></p>
+<ol start="2">
+<li>选择认证协议，并单击 <code>Allow Access</code>。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0704/2.png" alt="网络错误/选择页面"></p>
+<ol start="3">
+<li>验证成功之后，就可以访问到上游服务的页面。</li>
+</ol>
+<p><img src="https://static.apiseven.com/2022/blog/0704/3.png" alt="网络错误/上游页面"></p>
+<h2 id="总结">总结</h2>
+<p>本文主要介绍了 Hydra 如何与 APISIX 进行集成以及 Hydra 的应用场景。你只需要在服务器上安装 Hydra 相关的程序，就可以直接使用它作为你的身份认证程序。</p>
+<h2 id="相关阅读">相关阅读</h2>
+<ul>
+<li><a href="https://apisix.apache.org/zh/blog/2021/08/25/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication">使用 APISIX openid-connect 插件进行集中身份认证</a></li>
+<li><a href="https://apisix.apache.org/zh/blog/2021/08/16/using-the-apache-apisix-openid-connect-plugin-for-centralized-authentication">Using the Apache APISIX OpenID Connect Plugin for Okta Centralized Authentication</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/07/05/use-dataant-to-monitor-apisix/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">如何使用 DataAnt 监控 Apache APISIX</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/06/27/getting-start-with-apisix-test-cases/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">助力开发者，全方位解读 APISIX 测试案例</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#背景介绍">背景介绍</a></li><li class="d3"><a href="#apache-apisix">Apache APISIX</a></li><li class="d3"><a href="#ory-hydra">ORY Hydra</a></li><li class><a href="#简介">简介</a></li><li class><a href="#操作步骤">操作步骤</a></li><li class="d3"><a href="#步骤一创建并部署数据库">步骤一：创建并部署数据库</a></li><li class="d3"><a href="#步骤二部署-hydra">步骤二：部署 Hydra</a></li><li class="d3"><a href="#步骤三部署登录和验证程序">步骤三：部署登录和验证程序</a></li><li class="d3"><a href="#步骤四执行-oauth-20-授权代码流程">步骤四：执行 OAuth 2.0 授权代码流程</a></li><li class="d3"><a href="#步骤五启动-apisix-并配置路由">步骤五：启动 APISIX 并配置路由</a></li><li class="d3"><a href="#步骤六访问-apisix">步骤六：访问 APISIX</a></li><li class><a href="#总结">总结</a></li><li class><a href="#相关阅读">相关阅读</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>使用 Keycloak 与 API 网关保护你的 API</h3> <p class="desc">本篇文章将一步一步引导你如何使用 API 网关 Apache APISIX 与 Keycloak 保护你的 API，并且介绍了 OpenID Connect 相关概念以及交互流程和相关术语。</p> <p class="meta">2022年7月6日 · 朱欣欣</p> </div> </a><a class="post-card" href="/zh/blog/2022/01/26/apisix-integrate-forward-auth-plugin/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Authentication</span> </div> <div class="body"> <h3>新插件 forward-auth 已上线，认证功能又多一项选择</h3> <p class="desc">本文将介绍 Apache APISIX 中新增插件 `forward-auth` 的使用方法，为大家详细说明如何使用这款设计简洁的认证模型。</p> <p class="meta">2022年1月26日 · 白泽平</p> </div> </a><a class="post-card" href="/zh/blog/2022/01/21/apisix-hashicorp-vault-integration/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/plugins/vault.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Apache APISIX 集成 HashiCorp Vault，生态系统再添一员</h3> <p class="desc">本文为大家带来了 Apache APISIX 即将发布的 Vault 插件以及相关使用细节。在为服务提供高并发低延迟的卓越性能的同时，为服务的安全保驾护航。</p> <p class="meta">2022年1月21日 · Bisakh Mondal</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Five ways to pass parameters to Apache APISIX | Apache APISIX</title><meta name="description" content="I recently read 6 Ways To Pass Parameters to Spring REST API. Though the title is a bit misleading, as it's unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it's beneficial when you write a custom plugin."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2024/05/02/pass-parameters-apisix/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2024/05/02/pass-parameters-apisix/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2024/05/02/pass-parameters-apisix/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2024/05/02/pass-parameters-apisix/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Five ways to pass parameters to Apache APISIX | Apache APISIX"><meta property="og:description" content="I recently read 6 Ways To Pass Parameters to Spring REST API. Though the title is a bit misleading, as it's unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it's beneficial when you write a custom plugin."><meta property="og:url" content="https://apisix.apache.org/blog/2024/05/02/pass-parameters-apisix/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2024/04/25/V05nSV5W_american-football-63109.jpg"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2024/04/25/V05nSV5W_american-football-63109.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Five ways to pass parameters to Apache APISIX","description":"I recently read 6 Ways To Pass Parameters to Spring REST API. Though the title is a bit misleading, as it's unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it's beneficial when you write a custom plugin.\n","datePublished":"2024-05-02","image":"https://static.apiseven.com/uploads/2024/04/25/V05nSV5W_american-football-63109.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2024/05/02/pass-parameters-apisix/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2024/05/02/pass-parameters-apisix/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2024/05/02/pass-parameters-apisix/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Five ways to pass parameters to Apache APISIX</h1> <p class="article-meta"> <time datetime="2024-05-02">May 2, 2024</time> · Nicolas Fränkel  · 4 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#general-setup">General setup</a></li><li class><a href="#path-variables">Path variables</a></li><li class><a href="#query-parameters">Query parameters</a></li><li class><a href="#request-headers">Request headers</a></li><li class><a href="#request-body">Request body</a></li><li class><a href="#cookies">Cookies</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2024/04/25/V05nSV5W_american-football-63109.jpg" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>I recently read <a href="https://javabulletin.substack.com/p/6-ways-to-pass-parameters-to-spring">6 Ways To Pass Parameters to Spring REST API</a>. Though the title is a bit misleading, as it’s unrelated to REST, it does an excellent job listing all ways to send parameters to a Spring application. I want to do the same for Apache APISIX; it’s beneficial when you write a custom plugin.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="general-setup">General setup</h2>
+<p>The general setup uses Docker Compose and static configuration.
+I’ll have one plugin per way to pass parameters.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  httpbin</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">kennethreitz/httpbin</span><span style="color:#8B949E">                                         #1</span></span>
+<span class="line"><span style="color:#7EE787">  apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    image</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apache/apisix:3.9.0-debian</span></span>
+<span class="line"><span style="color:#7EE787">    volumes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/conf/config.yml:/usr/local/apisix/conf/config.yaml:ro</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/conf/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro</span><span style="color:#8B949E">  #2</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">./apisix/plugins:/opt/apisix/plugins:ro</span><span style="color:#8B949E">                         #3</span></span>
+<span class="line"><span style="color:#7EE787">    ports</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">"9080:9080"</span></span></code></pre>
+<ol>
+<li>Local httpbin for more reliable results and less outbound network traffic</li>
+<li>Static configuration file</li>
+<li>Plugins folder, one file per plugin</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">deployment</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  role</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">data_plane</span></span>
+<span class="line"><span style="color:#7EE787">  role_data_plane</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    config_provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">yaml</span><span style="color:#8B949E">                                              #1</span></span>
+<span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  extra_lua_path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/opt/?.lua</span><span style="color:#8B949E">                                           #2</span></span>
+<span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">proxy-rewrite</span><span style="color:#8B949E">                                                      #3</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">path-variables</span><span style="color:#8B949E">                                                     #4</span></span>
+<span class="line"><span style="color:#8B949E"># ...  </span></span></code></pre>
+<ol>
+<li>Set static configuration</li>
+<li>Use every Lua file under <code>/opt/apisix/plugins</code> as a plugin</li>
+<li>Regular plugin</li>
+<li>Custom plugin, one per alternative</li>
+</ol>
+<h2 id="path-variables">Path variables</h2>
+<p>Path variables are a straightforward way to pass data. Their main issue is that they are limited to simple values, <em>e.g.</em>, <code>/links/{n}/{offset}</code>. The naive approach is to write the following Lua code:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> captures, _ </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">re</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">match</span><span style="color:#E6EDF3">(ctx.</span><span style="color:#79C0FF">var</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">uri</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">'/path/(.*)/(.*)'</span><span style="color:#E6EDF3">)  </span><span style="color:#8B949E">--1-2</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> k, v </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> pairs</span><span style="color:#E6EDF3">(captures) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Order-Value pair: '</span><span style="color:#E6EDF3">, k, </span><span style="color:#A5D6FF">'='</span><span style="color:#E6EDF3">, v)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>APISIX stores the URI in <code>ctx.var.uri</code></li>
+<li>Nginx offers a regular expression API</li>
+</ol>
+<p>Let’s try:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/path/15/3</span></span></code></pre>
+<p>The log displays:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Order-Value pair: 0=/path/15/3</span></span>
+<span class="line"><span>Order-Value pair: 1=15</span></span>
+<span class="line"><span>Order-Value pair: 2=3</span></span></code></pre>
+<p>I didn’t manage errors, though. Alternatively, we can rely on Apache APISIX features: a specific <a href="https://apisix.apache.org/docs/apisix/terminology/router/">router</a>. The default router, <code>radixtree_host_uri</code>, uses both the host and the URI to match requests. <code>radixtree_uri_with_parameter</code> lets go of the host part but also matches parameters.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  extra_lua_path</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/opt/?.lua</span></span>
+<span class="line"><span style="color:#7EE787">  router</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    http</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">radixtree_uri_with_parameter</span></span></code></pre>
+<p>We need to update the route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">path-variables</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/path/:n/:offset</span><span style="color:#8B949E">                                              #1</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      path-variables</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">~</span></span></code></pre>
+<ol>
+<li>Store <code>n</code> and <code>offset</code> in the context, under <code>ctx.curr_req_matched</code></li>
+</ol>
+<p>We keep the plugin just to log the path variables:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, ctx)</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'n: '</span><span style="color:#E6EDF3">, ctx.</span><span style="color:#79C0FF">curr_req_matched</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">n</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">', offset: '</span><span style="color:#E6EDF3">, ctx.</span><span style="color:#79C0FF">curr_req_matched</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">offset</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>The result is as expected with the same request as above:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>n: 15, offset: 3</span></span></code></pre>
+<h2 id="query-parameters">Query parameters</h2>
+<p>Query parameters are another regular way to pass data. Like path variables, you can only pass simple values, <em>e.g.</em>, <code>/?foo=bar</code>. The Lua code doesn’t require regular expressions:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, _)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> args, _ </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">req</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">get_uri_args</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> k, v </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> pairs</span><span style="color:#E6EDF3">(args) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Order-Value pair: '</span><span style="color:#E6EDF3">, k, </span><span style="color:#A5D6FF">'='</span><span style="color:#E6EDF3">, v)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>Let’s try:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> localhost:9080/query</span><span style="color:#FF7B72">\?</span><span style="color:#A5D6FF">foo=one</span><span style="color:#FF7B72">\&#x26;</span><span style="color:#A5D6FF">bar=three</span></span></code></pre>
+<p>The log displays:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Key-Value pair: bar=three</span></span>
+<span class="line"><span>Key-Value pair: foo=one</span></span></code></pre>
+<p>Remember that query parameters have no order.</p>
+<p>Our code contains an issue, though. The <code>ngx.req.get_uri_args()</code> accepts <a href="https://github.com/openresty/lua-nginx-module/#ngxreqget_uri_args">parameters</a>. Remember that the client can pass a query parameter multiple times with different values, <em>e.g.</em>, <code>?foo=one&#x26;foo=two</code>? The first parameter is the maximum number of values returned for a single query parameter. To avoid ignoring value, we should set it to 0, <em>i.e.</em>, unbounded.</p>
+<p>Since every plugin designer must remember it, we can add the result to the context for other plugins down the chain. The updated code looks like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">get_uri_args</span><span style="color:#E6EDF3">(ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ctx </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        ctx </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">ctx</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">api_ctx</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ctx.</span><span style="color:#79C0FF">req_uri_args</span><span style="color:#FF7B72"> then</span></span>
+<span class="line"><span style="color:#FF7B72">        local</span><span style="color:#E6EDF3"> args, _ </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">req</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">get_uri_args</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">        ctx.</span><span style="color:#79C0FF">req_uri_args</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> args</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> ctx.</span><span style="color:#79C0FF">req_uri_args</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> k, v </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> pairs</span><span style="color:#E6EDF3">(ctx.</span><span style="color:#79C0FF">req_uri_args</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Key-Value pair: '</span><span style="color:#E6EDF3">, k, </span><span style="color:#A5D6FF">'='</span><span style="color:#E6EDF3">, v)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<h2 id="request-headers">Request headers</h2>
+<p>Request headers are another way to pass parameters. While they generally only contain simple values, you can also use them to send structured values, <em>e.g.</em>, JSON. Depending on your requirement, APISIX can list all request headers or a specific one. Here, I get all of them:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, _)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> headers </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">headers</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> k, v </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> pairs</span><span style="color:#E6EDF3">(headers) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">        core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Key-Value pair: '</span><span style="color:#E6EDF3">, k, </span><span style="color:#A5D6FF">'='</span><span style="color:#E6EDF3">, v)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>We test with a simple request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'foo: 1'</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'bar: two'</span><span style="color:#A5D6FF">  localhost:9080/headers</span></span></code></pre>
+<p>And we got more than we expected because curl added default headers:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Key-Value pair: user-agent=curl/8.4.0</span></span>
+<span class="line"><span>Key-Value pair: bar=two</span></span>
+<span class="line"><span>Key-Value pair: foo=1</span></span>
+<span class="line"><span>Key-Value pair: host=localhost:9080</span></span>
+<span class="line"><span>Key-Value pair: accept=*/*</span></span></code></pre>
+<h2 id="request-body">Request body</h2>
+<p>Setting a request body is the usual way to send structured data, <em>e.g</em>, JSON. Nginx offers a simple API to collect such data.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, _)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> args </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">request</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">get_post_args</span><span style="color:#E6EDF3">()                          </span><span style="color:#8B949E">--1</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> next</span><span style="color:#E6EDF3">(args, </span><span style="color:#79C0FF">nil</span><span style="color:#E6EDF3">)                                       </span><span style="color:#8B949E">--2</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Body: '</span><span style="color:#E6EDF3">, body)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>Access the body as a regular Lua table</li>
+<li>A table is necessary in case of multipart payloads, <em>e.g.</em>, file uploads. Here, we assume there’s a single arg, the content body.</li>
+</ol>
+<p>It’s time to test:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF">  localhost:9080/body</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{ "foo": 1, "bar": { "baz": "two" } }'</span></span></code></pre>
+<p>The result is as expected:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Body: { "foo": 1, "bar": { "baz": "two" } }</span></span></code></pre>
+<h2 id="cookies">Cookies</h2>
+<p>Last but not least, we can send parameters via cookies. The difference with previous alternatives is that cookies persist on the client side, and the browser sends them with each request. On the Lua side, we need to know the cookie name instead of listing all query parameters or headers.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">access</span><span style="color:#E6EDF3">(_, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> foo </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ctx.</span><span style="color:#79C0FF">var</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">cookie_foo</span><span style="color:#8B949E">                                     --1</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">warn</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'Cookie value: '</span><span style="color:#E6EDF3">, foo)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<ol>
+<li>The cookie is named <code>foo</code> and is case-insensitive</li>
+</ol>
+<p>Let’s test:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --cookie</span><span style="color:#A5D6FF"> "foo=Bar"</span><span style="color:#A5D6FF">  localhost:9080/cookies</span></span></code></pre>
+<p>The result is correct:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Cookie value: Bar</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>In this post, we listed five alternatives to pass parameters server-side and explained how to access them on Apache APISIX. Here’s the API summary:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Alternative</th><th>Source</th><th>API</th></tr></thead><tbody><tr><td>Path variable</td><td>APISIX Router</td><td>Use the <code>radixtree_uri_with_parameter</code> router</td></tr><tr><td>Query parameter</td><td>Nginx</td><td><code>ngx.req.get_uri_args(0)</code></td></tr><tr><td>Request header</td><td>APISIX core lib</td><td><code>core.request.headers()</code></td></tr><tr><td>Request body</td><td>APISIX core lib</td><td><code>core.request.get_post_args()</code></td></tr><tr><td>Cookie</td><td>Method context parameter</td><td><code>ctx.var.cookie_&#x3C;name></code></td></tr></tbody></table>
+<p>Thanks a lot to <a href="https://github.com/bzp2010">Zeping Bai</a> for his review and explanations.</p>
+<p>The complete source code for this post can be found on <a href="https://github.com/ajavageek/apisix-pass-parameters">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://javabulletin.substack.com/p/6-ways-to-pass-parameters-to-spring">6 Ways To Pass Parameters to Spring REST API</a></li>
+<li><a href="https://api7.ai/blog/how-to-build-an-apache-apisix-plugin-from-0-to-1">How to Build an Apache APISIX Plugin From 0 to 1?</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2024/05/02/cve-2024-32638/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">CVE-2024-32638: APISIX forward-auth Smuggling</span> </a> <a class="post-nav-card older" href="/blog/2024/04/30/monthly-report/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Monthly Report (April 01 - April 30)</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#general-setup">General setup</a></li><li class><a href="#path-variables">Path variables</a></li><li class><a href="#query-parameters">Query parameters</a></li><li class><a href="#request-headers">Request headers</a></li><li class><a href="#request-body">Request body</a></li><li class><a href="#cookies">Cookies</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

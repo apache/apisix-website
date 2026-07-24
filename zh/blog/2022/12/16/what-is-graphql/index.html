@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>马斯克都不懂的 GraphQL，API 网关又能对其如何理解？ | Apache APISIX</title><meta name="description" content="本文介绍了什么是 GraphQL，以及 APISIX 是如何支持 GraphQL 的。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/12/16/what-is-graphql/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/12/16/what-is-graphql/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/12/16/what-is-graphql/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/12/16/what-is-graphql/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="马斯克都不懂的 GraphQL，API 网关又能对其如何理解？ | Apache APISIX"><meta property="og:description" content="本文介绍了什么是 GraphQL，以及 APISIX 是如何支持 GraphQL 的。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/12/16/what-is-graphql/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"马斯克都不懂的 GraphQL，API 网关又能对其如何理解？","description":"本文介绍了什么是 GraphQL，以及 APISIX 是如何支持 GraphQL 的。","datePublished":"2022-12-16","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/12/16/what-is-graphql/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/12/16/what-is-graphql/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/12/16/what-is-graphql/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>马斯克都不懂的 GraphQL，API 网关又能对其如何理解？</h1> <p class="article-meta"> <time datetime="2022-12-16">2022年12月16日</time> · 罗泽轩  · 约 6 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#什么是-graphql它有多流行">什么是 GraphQL？它有多流行？</a></li><li class><a href="#graphql-的一些真实场景和挑战">GraphQL 的一些真实场景和挑战</a></li><li class><a href="#apisix-现在对-graphql-的支持">APISIX 现在对 GraphQL 的支持</a></li><li class><a href="#展望-apisix-未来对-graphql-的支持">展望 APISIX 未来对 GraphQL 的支持</a></li> </ul> </details> </header>  <blockquote>
+<p>本文介绍了什么是 GraphQL，以及 APISIX 是如何支持 GraphQL 的。</p>
+</blockquote>
+<!--truncate-->
+<p>上个月马斯克评论 Twitter App 滥用 RPC 后，与一些 Twitter 的技术主管发生了矛盾 —— 直言马斯克不懂技术。那这个马斯克都不懂的 GraphQL 到底是什么？</p>
+<p><img src="https://static.apiseven.com/2022/12/16/639c101d512e2.png" alt="image (3).png"></p>
+<h2 id="什么是-graphql它有多流行">什么是 GraphQL？它有多流行？</h2>
+<p>GraphQL 是一套由 Facebook 在 2015 年发布的一套面向 API 的查询操作语言。相比于其他的 API 设计方式，GraphQL 允许客户端根据事先约定的数据结构组建查询语句，由服务端解析这一语句并只返回所需的内容。这么一来，GraphQL 在提供丰富性和灵活性的同时，避免了冗余数据带来的性能损耗。</p>
+<p>GraphQL 的这一特性，让它在需要跟许多复杂数据对象打交道的应用场景里大行其道，成为该环境下的不二之选。</p>
+<p>2018 年 GraphQL 完成了规范的制定工作，并推出了稳定版本。同年，Facebook 将 GraphQL 项目捐献给了 Linux 基金会下属的 GraphQL 基金会。自那以后，GraphQL 已经在许许多多的开源项目和商业机构中落地。到目前为止，市面上已经有了多个 GraphQL 的主流客户端实现。而服务端的实现遍布各大服务端编程语言，甚至连一些小众编程语言如 D 和 R 都有对应的实现。</p>
+<h2 id="graphql-的一些真实场景和挑战">GraphQL 的一些真实场景和挑战</h2>
+<p>最为知名的采用 GraphQL 的例子，莫过于 GitHub 的 GraphQL API 了。</p>
+<p>在拥抱 GraphQL 之前，GitHub 提供了 REST API 来暴露千千万万托管项目所产生的丰富数据。GitHub 的 REST API 是如此的成功，以致于它成为了人们设计 REST API 时竞相模仿的典范。</p>
+<p>然而随着数据对象的变多和对象内字段的变大，REST API 开始暴露出越来越多的弊端。在服务端，由于每次调用都会产生大量的数据，GitHub 为了降低成本不得不对调用频率设置严格的限制。</p>
+<p>而在开发者这边，他们则不得不与这一限制做斗争。因为虽然单次调用会返回繁多的数据，但是绝大部分都是无用的。开发者要想获取某一特定的信息，往往需要发起多个查询，然后编写许多胶水代码把查询结果中有意义的数据拼接成所需的内容。在这一过程中，他们还不得不带上“调用次数”的镣铐。</p>
+<p>所以 GraphQL 的出现，立刻就让 GitHub <a href="https://docs.github.com/en/graphql/overview/about-the-graphql-api#why-github-is-using-graphql">皈依</a>了。GitHub 成为了 GraphQL 的使者保罗，为万千开发者传递福音。目前 GraphQL API 已经是 GitHub API 的首选。从<a href="https://github.blog/2016-09-14-the-github-graphql-api/">第一次宣布对 GraphQL 的支持</a>之后，GitHub 每一年都会<a href="https://github.blog/?s=graphQL">发几篇关于 GraphQL 的文章</a>。为了让开发者能够迁移到 GraphQL 上来，GitHub 专门写了个交互式查询应用，<a href="https://docs.github.com/en/graphql/overview/explorer%E3%80%82%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E8%BF%99%E4%B8%AA%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E6%80%8E%E4%B9%88%E7%BC%96%E5%86%99">开发者可以通过这个应用学习怎么编写</a> GraphQL。</p>
+<p>然而 GraphQL 并非灵丹妙药。就在最近，<a href="https://github.blog/changelog/2022-08-18-deprecation-notice-graphql-for-packages/">GitHub 废弃自己 package API 的 GraphQL 实现</a>。许多人也开始<a href="https://honest.engineering/posts/why-use-graphql-good-and-bad-reasons">热议 GraphQL 的一些缺点</a>。</p>
+<p>GraphQL 的许多问题源自于它跟 HTTP 标准的结构差别较大，没办法简单地将 GraphQL 的一些概念映射到诸如 HTTP path/header 这样的结构中。把 GraphQL 当作普通的 HTTP API 来处理，需要额外的开发工作。如此一来，开发者如果要管理自己的 GraphQL API，就必须采用支持 GraphQL 的 API 网关才行。</p>
+<h2 id="apisix-现在对-graphql-的支持">APISIX 现在对 GraphQL 的支持</h2>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、精细化路由、限流限速、服务降级、服务熔断、身份认证、可观测性等数百项功能。作为 Apache 的顶级项目，APISIX 一直致力于周边生态的扩展与跟进。</p>
+<p>APISIX 目前支持通过 GraphQL 的一些属性进行动态路由。通过该能力，我们可以只接受特定的 GraphQL 请求，或者让不同的 GraphQL 转发到不同的上游。</p>
+<p>以下面的 GraphQL 语句为例：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="graphql"><code><span class="line"><span style="color:#FF7B72">  query</span><span style="color:#D2A8FF"> getRepo</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">      owner</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">          name</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#FFA657">      repo</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA657">          created</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span></code></pre>
+<p>APISIX 会提取 GraphQL 以下三个属性，用在路由当中：</p>
+<ul>
+<li>graphql_operation</li>
+<li>graphql_name</li>
+<li>graphql_root_fields</li>
+</ul>
+<p>在上面的 GraphQL 语句中：</p>
+<ul>
+<li><code>graphql_operation</code> 对应 <code>query</code></li>
+<li><code>graphql_name</code> 对应 <code>getRepo</code></li>
+<li><code>graphql_root_fields</code> 对应 <code>["owner", "repo"]</code></li>
+</ul>
+<p>让我们来创建一个路由，展示下 APISIX 对 GraphQL 的精细化路由能力。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">  {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">      "uri": "/graphql",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          ["graphql_operation", "==", "query"],</span></span>
+<span class="line"><span style="color:#A5D6FF">          ["graphql_name", "==", "getRepo"],</span></span>
+<span class="line"><span style="color:#A5D6FF">          ["graphql_root_fields", "has", "owner"]</span></span>
+<span class="line"><span style="color:#A5D6FF">      ],</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "127.0.0.1:2022": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>接下来使用带有 GraphQL 语句的请求去访问：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'content-type: application/graphql'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-X </span><span style="color:#A5D6FF">POST</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/graphql</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">query getRepo {</span></span>
+<span class="line"><span style="color:#A5D6FF">    owner {</span></span>
+<span class="line"><span style="color:#A5D6FF">        name</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">    repo {</span></span>
+<span class="line"><span style="color:#A5D6FF">        created</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span></code></pre>
+<p>我们可以看到请求到达了上游，这是因为查询语句匹配了全部三个条件。 反之，如果我们使用不匹配的语句来访问，比如不包含 <code>owner</code> 字段：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'content-type: application/graphql'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-X </span><span style="color:#A5D6FF">POST</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/graphql</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">query getRepo {</span></span>
+<span class="line"><span style="color:#A5D6FF">    repo {</span></span>
+<span class="line"><span style="color:#A5D6FF">        created</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 404</span><span style="color:#A5D6FF"> Not</span><span style="color:#A5D6FF"> Found</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span></code></pre>
+<p>则不会匹配对应的路由规则。</p>
+<p>接下来，我们可以另外创建一个路由，让不包含 <code>owner</code> 字段的语句路由到别的上游：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9180/apisix/admin/routes/2</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">  {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">      "uri": "/graphql",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "vars": [</span></span>
+<span class="line"><span style="color:#A5D6FF">          ["graphql_operation", "==", "query"],</span></span>
+<span class="line"><span style="color:#A5D6FF">          ["graphql_name", "==", "getRepo"],</span></span>
+<span class="line"><span style="color:#A5D6FF">          ["graphql_root_fields", "!", "has", "owner"]</span></span>
+<span class="line"><span style="color:#A5D6FF">      ],</span></span>
+<span class="line"><span style="color:#A5D6FF">      "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">          "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "192.168.0.1:2022": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'content-type: application/graphql'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-X </span><span style="color:#A5D6FF">POST</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/graphql</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">query getRepo {</span></span>
+<span class="line"><span style="color:#A5D6FF">    repo {</span></span>
+<span class="line"><span style="color:#A5D6FF">        created</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#79C0FF">..</span></span></code></pre>
+<h2 id="展望-apisix-未来对-graphql-的支持">展望 APISIX 未来对 GraphQL 的支持</h2>
+<p>除了动态路由之外，APISIX 在未来也可能会根据 GraphQL 的具体字段推出更多的操作。比如说，GitHub 的 GraphQL API 有<a href="https://docs.github.com/en/graphql/overview/resource-limitations#rate-limit">专门一套针对限流的计算公式</a>，我们也可以应用类似的规则来把单个 GraphQL 请求转成相应的“虚拟调用”次数，来完成 GraphQL 专属的限流工作。</p>
+<p>当然，我们也可以换个思路解决问题。即应用自身还是提供 REST API，由网关在最外层把 GraphQL 请求转成 REST 请求，把 REST 响应转成 GraphQL 响应。这种方式提供的 GraphQL API 无需开发专门的插件，就可以完成诸如 RBAC、限流、缓存等功能。</p>
+<p>从插件角度来看，它就是个平平无奇的 REST API。从技术角度上讲，这个思路并不难实现。毕竟在 2022 年的现在，REST API 也会提供 OpenAPI spec 来作为 schema，无非是 GraphQL schema 和 OpenAPI schema 之间的互转，外加 GraphQL 特有的字段筛选罢了（当然，我必须承认，我并没有亲自实践过，或者在一些细节上存在尚待克服的挑战）。</p>
+<p>细心的读者会发现，这种方式转换得来的 GraphQL API，每次只能操作一个模型，显然无法满足 GraphQL 灵活性的要求，无非是披着 GraphQL 外衣的 REST API。**且慢，我还没有把话说完呢！**GraphQL 有一个叫 <a href="https://www.apollographql.com/blog/backend/graphql-schema-stitching/">schema stitch</a> 的概念，允许实现者把多个 schema 组合在一起。</p>
+<p>举个例子，现在有两个 API。一个叫 GetEvent，另一个叫 GetLocation。他们返回的类型分别是 Event 和 Location。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>type Event {</span></span>
+<span class="line"><span>  id: string</span></span>
+<span class="line"><span>  location_id: string</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>type Location {</span></span>
+<span class="line"><span>  id: string</span></span>
+<span class="line"><span>  city: string</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>type Query {</span></span>
+<span class="line"><span>    GetEvent(id: string): Event</span></span>
+<span class="line"><span>    GetLocation(id: string): Location</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>我们可以加一个配置，由这两个 API 组合成新的 API 叫 <code>GetEventWithLocation</code>。新的 API 是这样的：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>type EventWithLocation {</span></span>
+<span class="line"><span>  id: string</span></span>
+<span class="line"><span>  location: Location</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>type Query {</span></span>
+<span class="line"><span>    GetEventWithLocation(id: string): EventWithLocation</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>整体 schema stitch 的过程都由网关来完成。在上面的例子中，网关会把 API 拆分成两个，先调用 GetEvent 得到 <code>location_id</code>，再调用 GetLocation 得到组合后的数据。</p>
+<p>总而言之，通过 REST 转 GraphQL，每个 REST API 可以变成对应的 GraphQL 模型；再借助 schema stitch，可以把多个模型组合成一个 GraphQL API。</p>
+<p>这样一来，我们就能在现有的 REST API 上构建起丰富灵活的 GraphQL API，且在 REST API 的粒度上完成具体的插件管理。这一设计顺带解决了部分 API 编排的问题。就像上面的例子中，我们把一个 API 的输出（Event.location_id）作为另一个 API 的输入（Location.id）。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/12/16/amazonlambda-with-apisix/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">当 Amazon Lambda 遇上 Apache APISIX 可以擦出什么火花？</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/12/15/how-support-ingress-custom-plugins/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">APISIX Ingress 如何支持自定义插件</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#什么是-graphql它有多流行">什么是 GraphQL？它有多流行？</a></li><li class><a href="#graphql-的一些真实场景和挑战">GraphQL 的一些真实场景和挑战</a></li><li class><a href="#apisix-现在对-graphql-的支持">APISIX 现在对 GraphQL 的支持</a></li><li class><a href="#展望-apisix-未来对-graphql-的支持">展望 APISIX 未来对 GraphQL 的支持</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

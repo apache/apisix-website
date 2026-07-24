@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Gateway Practice in Tencent with APISIX | Apache APISIX</title><meta name="description" content="This article introduces what a gateway is and its improvement to the traditional service architecture, and the implementation of APISIX within Tencent."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/05/24/tencent-games/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/05/24/tencent-games/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/05/24/tencent-games/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/05/24/tencent-games/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API Gateway Practice in Tencent with APISIX | Apache APISIX"><meta property="og:description" content="This article introduces what a gateway is and its improvement to the traditional service architecture, and the implementation of APISIX within Tencent."><meta property="og:url" content="https://apisix.apache.org/blog/2021/05/24/tencent-games/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0817/%E8%85%BE%E8%AE%AF.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0817/%E8%85%BE%E8%AE%AF.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API Gateway Practice in Tencent with APISIX","description":"This article introduces what a gateway is and its improvement to the traditional service architecture, and the implementation of APISIX within Tencent.","datePublished":"2021-05-24","image":"https://static.apiseven.com/2022/blog/0817/%E8%85%BE%E8%AE%AF.png","author":{"@type":"Person","name":"Xin Xu"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/05/24/tencent-games/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/05/24/tencent-games/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/05/24/tencent-games/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/case-studies/">Case Studies</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>API Gateway Practice in Tencent with APISIX</h1> <p class="article-meta"> <time datetime="2021-05-24">May 24, 2021</time> · Xin Xu  · 8 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/case-studies/">Case Studies</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#what-is-an-api-gateway">What is an API Gateway?</a></li><li class="d3"><a href="#traditional-architecture">Traditional architecture</a></li><li class="d3"><a href="#gateway-mode">Gateway mode</a></li><li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#oteam">OTeam</a></li><li class="d3"><a href="#apache-apisix">Apache APISIX</a></li><li class><a href="#tencent-oteams-operational-strategy">Tencent OTeam’s operational strategy</a></li><li class><a href="#oteam-trend">OTeam Trend</a></li><li class><a href="#oteam-internal-features">OTeam Internal Features</a></li><li class="d3"><a href="#internal-pain-points">Internal pain points</a></li><li class="d3"><a href="#problem-solving">Problem-solving</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0817/%E8%85%BE%E8%AE%AF.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>This article is a lecture note from the speech given by Xin Xu, an engineer in charge of internal container platform of Tencent Games, at the Apache APISIX Meetup - Shenzhen. By reading this article, you can not only learn what a gateway is and how the gateway model improves the traditional service architecture, but also understand the reasons for the birth of Tencent OTeam and how Apache APISIX is implemented inside Tencent.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="what-is-an-api-gateway">What is an API Gateway?</h2>
+<h3 id="traditional-architecture">Traditional architecture</h3>
+<p>Before integrating with API Gateway, we have few ways to reuse some general functionalities, such as:</p>
+<ul>
+<li>
+<p>Security: authentication, authorization, anti-replay, anti-tampering, anti-DDoS, etc.</p>
+</li>
+<li>
+<p>Reliability: service degradation, fusing, traffic limiting, and so on.</p>
+</li>
+</ul>
+<p>Under the traditional architecture, the most common way to deal with this case is to put them into a service framework and implement them through AOP, similar to the following architecture diagram:</p>
+<p><img src="https://static.apiseven.com/202108/1630640321175-ee272ad4-d8ee-45f3-8b67-9630fb534a82.png" alt="Traditional architecture"></p>
+<p>The traditional architecture diagram has the following modules.</p>
+<ul>
+<li>
+<p>Backend: Backend services</p>
+</li>
+<li>
+<p>AOP: AOP layering carried by the framework;</p>
+</li>
+<li>
+<p>SD: Service Center, used for internal service discovery. In cloud-native technologies, we often use Service to replace this component;</p>
+</li>
+<li>
+<p>LB: Load balancer, we use it on the network boundary as an entry point for external traffic.</p>
+</li>
+</ul>
+<p>This kind of architecture was widespread in the design of the early years, which gave birth to many extensive and comprehensive service frameworks, such as Dubbo, SpringCloud, etc., and we will find that most of them have many similar features.</p>
+<p>The advantage of this architecture is that the upstream and downstream relationships are more accessible and more apparent, and it reduces one forwarding in the network transmission. But their disadvantages are also obvious:</p>
+<ul>
+<li>
+<p>Standard features force business service updates: since code references are used, we have to recompile business services to make the features effective. Some teams that do not achieve rolling release have to release during the idle of the business.</p>
+</li>
+<li>
+<p>Hard to manage versions: Since we cannot upgrade all services to the latest version every time we release, after a period, the performance of various services will be inconsistent.</p>
+</li>
+</ul>
+<p>Why not put those same functions in a standalone service, which can upgrade or maintain separately?</p>
+<h3 id="gateway-mode">Gateway mode</h3>
+<p><img src="https://static.apiseven.com/202108/1630640321180-bd19ad6c-6116-4982-98e8-3b626285ed03.png" alt="Gateway mode"></p>
+<p>Compared with traditional architecture, We can see an additional component between the backend services and the LB: Gateway.</p>
+<p>A gateway usually contains many standard and reusable features, such as Authentication, Traffic Management, etc. The following are the benefits we could get:</p>
+<ul>
+<li>
+<p>Gateway is a dependent component on the systems, and we could have a better maintain experience.</p>
+</li>
+<li>
+<p>Gateway is language-independent.</p>
+</li>
+</ul>
+<p>However, the gateway mode also has its disadvantages:</p>
+<ul>
+<li>
+<p>Because we proxy traffic to the gateway first, we have one more forwarding and higher latency. It will cause a higher complexity of troubleshooting problems.</p>
+</li>
+<li>
+<p>If the gateway does not work correctly, it may become a bottleneck for the entire system.</p>
+</li>
+</ul>
+<p>How to balance the benefits and disadvantages of the gateway model is a challenge for the technical team. Let’s see how the Tencent OTeam works with Apache APISIX.</p>
+<h2 id="introduction">Introduction</h2>
+<h3 id="oteam">OTeam</h3>
+<p>Tencent’s OTeam is a group of teams, and every team maintains one or several technical products. They aim to build a stable but robust mid-platform for internal systems. One of the OTeam supports Tencent’s internal Apache APISIX customization distribution.</p>
+<p>In order to integrate the duplicate wheels within the company and sink the technical middle ground. Tencent put several technical products of the same nature into the same Oteam, integrating the maintenance staff and firing them all together, so that they could gradually merge into one big and comprehensive product, which is Oteam.</p>
+<p>Some Oteams have as many as a dozen products under them, while others have only one. For example, the Oteam where Apache APISIX is located has only one product, Apache APISIX. The original purpose of this Oteam is to maintain the customization features of Apache APISIX within Tencent.</p>
+<h3 id="apache-apisix">Apache APISIX</h3>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> is a Top-Level Project from the Apache Software Foundation, and here are some key points:</p>
+<ul>
+<li>
+<p>Apache APISIX is a cloud-native, dynamic API gateway based on OpenResty, with a higher routing performance than Kong.</p>
+</li>
+<li>
+<p>Apache APISIX provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more.</p>
+</li>
+<li>
+<p>Apache APISIX is good at handling traditional north-south traffic, as well as east-west traffic between services. It can also be used as a k8s ingress controller.</p>
+</li>
+<li>
+<p>Apache APISIX default uses ETCD as the configuration center, which can update the configuration in seconds.</p>
+</li>
+<li>
+<p>Apache APISIX graduates from Apache Software Foundation and only takes a few months.</p>
+</li>
+</ul>
+<h2 id="tencent-oteams-operational-strategy">Tencent OTeam’s operational strategy</h2>
+<p><img src="https://static.apiseven.com/202108/1646831516782-bd2d1b56-0e63-4dc8-a53a-c891c6a11d6d.png" alt="OTeam operational strategy"></p>
+<p>The above diagram shows how the OTeam works with Apache APISIX’s community:</p>
+<ul>
+<li>
+<p>Users give feedback or requirements via GitHub Issue.</p>
+</li>
+<li>
+<p>OTeam members discuss solutions at weekly meetings or reply directly in Issue.</p>
+</li>
+<li>
+<p>Implement features or fix bugs according to discussion.</p>
+</li>
+<li>
+<p>Code Review and CI check, then release if necessary.</p>
+</li>
+</ul>
+<p>This process is just like other Open Source projects. Here are some key points:</p>
+<ul>
+<li>
+<p>After solving the Issue, Tencent engineers will determine whether the problem is also a common problem for the community. If so, they will file a PR to the community.</p>
+</li>
+<li>
+<p>Tencent OTeam will regularly review Apache APISIX’s new features to determine whether it is stable and whether it is also a pain point for Tencent. If the answer is yes, pick the relevant codes.</p>
+</li>
+</ul>
+<p>In the beginning, OTeam would sync codes with Apache APISIX every 12 hours so that we could follow up Apache APISIX quickly, but this approach brought some problems:</p>
+<ul>
+<li>
+<p>After syncing codes with Apache APISIX, we could make sure regulations are correct but couldn’t ensure the codes are stable. Some occasional errors happened in concurrency cases.</p>
+</li>
+<li>
+<p>The merged codes sometimes cause multiple PR upstream conflicts logically, but Apache APISIX and OTeam’s CI cannot detect this case. Only when we merge PRs to the master branch could we find something wrong happened.</p>
+</li>
+</ul>
+<p>For these reasons, OTeam is now moving to pick codes for required features after internal reviews.</p>
+<h2 id="oteam-trend">OTeam Trend</h2>
+<p>As of May 2021, OTeam has landed Apache APISIX for more than ten teams within Tencent, with the enormous daily business request traffic exceeding one billion. At the same time, OTeam has also developed more than ten features for Apache APISIX, including Service Discovery, RPC Protocol Conversion, and connect with the monitoring platform.</p>
+<p>At the same time, OTeam has also contributed some standard features to Apache APISIX’s community. At present, two members of the OTeam team are also PMCs of the Apache APISIX, and OTeam has contributed more than 50 PRs to the community. We believe that OTeam will keep cooperating with the Apache APISIX community in the future.</p>
+<h2 id="oteam-internal-features">OTeam Internal Features</h2>
+<h3 id="internal-pain-points">Internal pain points</h3>
+<p>OTeam’s primary responsibility is to maintain Apache APISIX’s features for Tencent. Let’s take a look at what pain points OTeam met.</p>
+<ul>
+<li>
+<p>The RPC framework is not friendly to the frontend: there are many legacy projects within Tencent that use the TARS framework, it does not directly support the HTTP protocol like TRPC, it only supports the most traditional TCP protocol of the RPC framework, and the transport content uses a specific binary protocol. We need to maintain an intermediate service to convert these interfaces into a frontend-friendly HTTP + JSON form.</p>
+</li>
+<li>
+<p>Diversification of service centers: There are many Service Centers in Tencent’s internal services, such as CL5, L5, Polaris, etc. Although we will gradually use the same Service Center, we will use multiple service centers simultaneously during this extended period. The initial Apache APISIX does not support this.</p>
+</li>
+<li>
+<p>Alarm: As a gateway, the alarm is not a direction it should pay attention to, but as a fundamental component, the alarm must be a required component to the team. How to solve the alarm problem is also a pain point.</p>
+</li>
+<li>
+<p>Security: Tencent has a large amount of traffic and security requirements. A log of toC products are using OTeam, and they have to face a large number of users’ misuse and attacks from the network. The most typical cases are DDos, replay, tampering requests, etc. Can we solve these issues at the gateway layer?</p>
+</li>
+</ul>
+<h3 id="problem-solving">Problem-solving</h3>
+<p><img src="https://static.apiseven.com/202108/1646831157962-78e0d276-37d9-4bf7-a841-b9600b0ce1f9.png" alt="OTeam arichitecture"></p>
+<p>The above diagram comes from a simplification of a landing case within Tencent. We can see several problems just raised have been solved in OTeam:</p>
+<ul>
+<li>
+<p>Protocol Conversion: based on Apache APISIX, OTeam achieves TRPC and TARS protocol conversion. Those who do not perform HTTP legacy services can directly use the conversion plugin in the gateway to attaining HTTP and RPC transfer requirements without writing intermediate services.</p>
+</li>
+<li>
+<p>Multiple Service Centers: We have contributed this feature to the community.
+Report to monitoring platform: Tencent OTeam uses plugins to connect with monitoring platforms. Users only need to do some configurations, and then the system will automatically report metrics, logs. By the way, users can configure alarm policies on the monitoring platform.</p>
+</li>
+<li>
+<p>Anti-replay and anti-tampering: OTeam implements anti-replay and anti-tampering plugins, allowing external businesses that need these capabilities to use them directly out of the box to protect their APIs security.</p>
+</li>
+</ul>
+<p>We hope that these examples can help you explore more Apache APISIX usage scenarios and better use it as a helpful platform. For example, someone used the gateway to implement some API specifications mandatory according to Tencent Cloud policies.</p>
+<h2 id="summary">Summary</h2>
+<p>OTeam helped the business team solve their pain points and continuously improved the features of Apache APISIX within Tencent, and move forward with the development of the community.</p>
+<p>If your team does not have a gateway, you can search and learn more about Apache APISIX and are welcome to participate in the Apache APISIX community.</p>
+<p>For more videos about Apache APISIX, please visit <a href="https://www.bilibili.com/video/BV1yK4y1G7CP/">https://www.bilibili.com/video/BV1yK4y1G7CP/</a> .</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2021/05/25/apache-apisix-2.6.0-release/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Apache APISIX Release 2.6.0</span> </a> <a class="post-nav-card older" href="/blog/2021/03/02/get-front-end-test-coverage-with-cypress/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Get E2E Test Coverage with Cypress</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#what-is-an-api-gateway">What is an API Gateway?</a></li><li class="d3"><a href="#traditional-architecture">Traditional architecture</a></li><li class="d3"><a href="#gateway-mode">Gateway mode</a></li><li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#oteam">OTeam</a></li><li class="d3"><a href="#apache-apisix">Apache APISIX</a></li><li class><a href="#tencent-oteams-operational-strategy">Tencent OTeam’s operational strategy</a></li><li class><a href="#oteam-trend">OTeam Trend</a></li><li class><a href="#oteam-internal-features">OTeam Internal Features</a></li><li class="d3"><a href="#internal-pain-points">Internal pain points</a></li><li class="d3"><a href="#problem-solving">Problem-solving</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2025/09/03/360-built-unified-l7-load-balancer-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-case.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>360 Built Unified L7 Load Balancer Using Apache APISIX</h3> <p class="desc">360 unifies Layer 7 load balancing using APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.</p> <p class="meta">Sep 3, 2025 · 360 ZYUN Cloud</p> </div> </a><a class="post-card" href="/blog/2025/06/04/configure-apisix-in-a-single-command-with-apisix-mcp/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Configure APISIX in a Single Command with APISIX-MCP</h3> <p class="desc">This article is based on Zhihuang Lin&#39;s presentation at the APISIX Shenzhen Meetup on April 12, 2025.</p> <p class="meta">Jun 4, 2025 · Zhihuang Lin</p> </div> </a><a class="post-card" href="/blog/2025/05/29/apisix-ai-gateway-from-cloud-native-to-ai-native/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI Gateway: From Cloud-Native to AI-Native</h3> <p class="desc">Learn how Apache APISIX evolves from cloud-native API Gateway to AI Gateway for LLM traffic management, security, observability, and token governance.</p> <p class="meta">May 29, 2025 · Yuansheng Wang</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

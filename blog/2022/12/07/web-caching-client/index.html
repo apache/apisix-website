@@ -1,0 +1,228 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Web Caching: Client-Side HTTP Cache Guide | Apache APISIX</title><meta name="description" content="Master client-side HTTP caching: Cache-Control, ETag, Last-Modified, and freshness strategies. A complete guide to browser caching."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/12/07/web-caching-client/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/12/07/web-caching-client/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/12/07/web-caching-client/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/12/07/web-caching-client/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Web Caching: Client-Side HTTP Cache Guide | Apache APISIX"><meta property="og:description" content="Master client-side HTTP caching: Cache-Control, ETag, Last-Modified, and freshness strategies. A complete guide to browser caching."><meta property="og:url" content="https://apisix.apache.org/blog/2022/12/07/web-caching-client/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/12/13/63981dcbe4b0c.jpg"><meta name="twitter:image" content="https://static.apiseven.com/2022/12/13/63981dcbe4b0c.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Web Caching: Client-Side HTTP Cache Guide","description":"Master client-side HTTP caching: Cache-Control, ETag, Last-Modified, and freshness strategies. A complete guide to browser caching.","datePublished":"2022-12-07","image":"https://static.apiseven.com/2022/12/13/63981dcbe4b0c.jpg","author":{"@type":"Person","name":"Nicolas Fränkel"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/12/07/web-caching-client/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/12/07/web-caching-client/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/12/07/web-caching-client/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Web Caching: Client-Side HTTP Cache Guide</h1> <p class="article-meta"> <time datetime="2022-12-07">Dec 7, 2022</time> · Nicolas Fränkel  · 11 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#caching-101">Caching 101</a></li><li class><a href="#early-web-resource-caching">Early Web resource caching</a></li><li class><a href="#cache-control-to-the-rescue">Cache-Control to the rescue</a></li><li class><a href="#last-modified-and-etag">Last-Modified and ETag</a></li><li class><a href="#the-cache-api">The Cache API</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#a-bit-of-practice">A bit of practice</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/12/13/63981dcbe4b0c.jpg" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>The subject of Web resource caching is as old as the World Wide Web itself. However, I’d like to offer an as-exhaustive-as-possible catalog of how one can improve performance by caching. Web resource caching can happen in two different places: client-side - on the browser and server-side. This post is dedicated to the former; the next post will focus on the latter.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="caching-101">Caching 101</h2>
+<p>The idea behind caching is simple: if a resource is a time- or resource-consuming to compute, do it once and store the result. When somebody requests the resource afterward, return the stored result instead of computing it a second time. It looks simple - and it is, but the devil is in the detail, as they say.</p>
+<p>The problem is that a “computation” is not a mathematical one. In mathematics, the result of a computation is constant over time. On the Web, the resource you requested yesterday may be different if you request it today. Think about the weather forecast, for example. It all boils down to two related concepts: <strong>freshness</strong> and <strong>staleness</strong>.</p>
+<blockquote>
+<p>A fresh response is one whose age has not yet exceeded its freshness lifetime. Conversely, a stale response is one where it has.</p>
+<p>A response’s freshness lifetime is the length of time between its generation by the origin server and its expiration time. An explicit expiration time is the time at which the origin server intends that a stored response can no longer be used by a <code>Cache</code> without further validation, whereas a heuristic expiration time is assigned by a <code>Cache</code> when no explicit expiration time is available. A response’s age is the time that has passed since it was generated by, or successfully validated with, the origin server.</p>
+<p>When a response is “fresh” in the cache, it can be used to satisfy subsequent requests without contacting the origin server, thereby improving efficiency.</p>
+<p>— <a href="https://www.rfc-editor.org/rfc/rfc7234#section-4.2">RFC 7234 - 4.2. Freshness</a></p>
+</blockquote>
+<h2 id="early-web-resource-caching">Early Web resource caching</h2>
+<p>Remember that the WWW was relatively simple at its beginning compared to nowadays. The client would send a request, and the server would return the requested resource. When the resource was a page, whether it was a static page or a server-rendered page was unimportant. Hence, early client-side caching was pretty “rustic”.</p>
+<p>The first specification of Web caching is defined in <a href="https://www.rfc-editor.org/rfc/rfc7234">RFC 7234</a>, <em>aka</em> HTTP/1.1 Caching, in 2014. Note that it has been superseded by <a href="https://www.rfc-editor.org/rfc/rfc9111">RFC 9111</a> since 2022.</p>
+<p>I won’t talk here about the <code>Pragma</code> HTTP header since it’s deprecated. The most straightforward cache management is through the <code>Expire</code> response header. When the server returns the resource, it specifies after which timestamp the cache is stale. The browser has two options when a cached resource is requested:</p>
+<ul>
+<li>Either the current time is <em>before</em> the expiry timestamp: the resource is considered fresh, and the browser serves it from the local cache</li>
+<li>Or it’s <em>after</em>: the resource is considered stale, and the browser requires the resource from the server as it was not cached</li>
+</ul>
+<p>The benefit of <code>Expire</code> is that it’s a purely local decision. It doesn’t need to send a request to the server. However, it has two main issues:</p>
+<ul>
+<li>The decision to use the locally cached resource (or not) is based on heuristics. The resource may have changed server-side despite the <code>Expiry</code> value being in the future, so the browser serves an out-of-date resource. Conversely, the browser may send a request because the time has expired, but the resource hasn’t changed.</li>
+<li>Moreover, <code>Expire</code> is pretty basic. A resource is either fresh or stale; either return it from the <code>Cache</code> or send the request again. We may want to have more control.</li>
+</ul>
+<h2 id="cache-control-to-the-rescue">Cache-Control to the rescue</h2>
+<p>The <code>Cache-Control</code> header aims to address the following requirements:</p>
+<ul>
+<li>Never cache a resource at all</li>
+<li>Validate if a resource should be served from the cache before serving it</li>
+<li>Can intermediate caches (proxies) cache the resource?</li>
+</ul>
+<p><code>Cache-Control</code> is an HTTP header used on the request <strong>and</strong> the response. The header can contain different directives separated by commas. Exact directives vary depending on whether they’re part of the request or the response.</p>
+<p>All in all, <code>Cache-Control</code> is quite complex. It might be well the subject of a dedicated post; I won’t paraphrase the <a href="https://www.rfc-editor.org/rfc/rfc9111#name-cache-control">specification</a>.</p>
+<p>However, here’s a visual help on how to configure <code>Cache-Control</code> response headers.</p>
+<p><img src="https://blog.frankel.ch/assets/generated/web-caching/cache-control-flow.svg" alt="Cache Control flow"></p>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#use_cases">Cache Control</a> page of Mozilla Developer Network has some significant use cases of <code>Cache-Control</code>, complete with configuration.</p>
+<p>As <code>Expire</code>, <code>Cache-Control</code> is also <strong>local</strong>: the browser serves the resource from its cache, if needed, without any request to the server.</p>
+<h2 id="last-modified-and-etag">Last-Modified and ETag</h2>
+<p>To avoid the risk of serving an out-of-date resource, the browser <strong>must</strong> send a request to the server. Enters the <code>Last-Modified</code> response header. <code>Last-Modified</code> works in conjunction with the <code>If-Modified-Since</code> <em>request</em> header:</p>
+<blockquote>
+<p>The <code>If-Modified-Since</code> request HTTP header makes the request conditional: the server sends back the requested resource, with a <code>200</code> status, only if it has been last modified after the given date. If the resource has not been modified since, the response is a <code>304</code> without any body; the <code>Last-Modified</code> response header of a previous request contains the date of last modification. Unlike <code>If-Unmodified-Since</code>, <code>If-Modified-Since</code> can only be used with a <code>GET</code> or <code>HEAD</code>.</p>
+<p>— <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since">If-Modified-Since</a></p>
+</blockquote>
+<p>Let’s use a diagram to make clear how they interact:</p>
+<p><img src="https://blog.frankel.ch/assets/generated/web-caching/last-modified-sequence.svg" alt="Last-Modified sequence diagram"></p>
+<p>Note: the <code>If-Unmodified-Since</code> has the opposite function for <code>POST</code> and other non-idempotent methods. It returns a <code>412 Precondition Failed</code> HTTP error to avoid overwriting resources that have changed.</p>
+<p>A resource’s last modified timestamp correlates well with whether it has changed. It still needs improvement. For example, a batch job could update the resource with the same content but change the last modified timestamp.</p>
+<p>Etags are an alternative to timestamps to avoid the above issue. The server computes the hash of the served resource and sends the <code>ETag</code> header containing the value along with the resource. When a new request comes in with the <code>If-None-Match</code> containing the hash value, the server compares it with the current hash. If they match, it returns a <code>304</code> as above.</p>
+<p>It has the slight overhead of computing the hash vs. just handing the timestamp, but it’s nowadays considered a good practice.</p>
+<h2 id="the-cache-api">The Cache API</h2>
+<p>The most recent way to cache on the client side is via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Cache">Cache API</a>. It offers a general cache interface: you can think of it as a local key-value provided by the browser.</p>
+<p>Here are the provided methods:</p>
+<table>
+<tbody>
+  <tr>
+    <td><code>Cache.match(request, options)</code></td>
+    <td>Returns a <code>Promise</code> that resolves to the response associated with the first matching request in the <code>Cache</code> object.</td>
+  </tr>
+  <tr>
+    <td><code>Cache.matchAll(request, options)</code></td>
+    <td>Returns a <code>Promise</code> that resolves to an array of all matching responses in the <code>Cache</code> object.</td>
+  </tr>
+  <tr>
+    <td><code>Cache.add(request)</code></td>
+    <td>Takes a URL, retrieves it and adds the resulting response object to the given cache. This is functionally equivalent to calling <code>fetch()</code>, then using <code>put()</code> to add the results to the cache.</td>
+  </tr>
+  <tr>
+    <td><code>Cache.addAll(requests)</code></td>
+    <td>Takes an array of URLs, retrieves them, and adds the resulting response objects to the given cache.</td>
+  </tr>
+  <tr>
+    <td><code>Cache.put(request, response)</code></td>
+    <td>Takes both a request and its response and adds it to the given cache.</td>
+  </tr>
+  <tr>
+    <td><code>Cache.delete(request, options)</code></td>
+    <td>Finds the <code>Cache</code> entry whose key is the request, returning a <code>Promise</code> that resolves to <code>true</code> if a matching <code>Cache</code> entry is found and deleted. If no <code>Cache</code> entry is found, the <code>Promise</code> resolves to <code>false</code>.</td>
+  </tr>
+  <tr>
+    <td><code>Cache.keys(request, options)</code></td>
+    <td>Returns a <code>Promise</code> that resolves to an array of <code>Cache</code> keys.</td>
+  </tr>
+</tbody>
+</table>
+<p>The Cache API works in conjunction with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers">Service Workers</a>. The flow is simple:</p>
+<ol>
+<li>You register a service worker on a URL</li>
+<li>The browser calls the worker before the URL fetch call</li>
+<li>From the worker, you can return resources from the cache and avoid <strong>any</strong> request to the server</li>
+</ol>
+<p>It allows us to put resources in the cache after the initial load so that the client can work offline - depending on the use case.</p>
+<h2 id="summary">Summary</h2>
+<p>Here’s a summary of the above alternatives to cache resources client-side.</p>
+<table>
+<thead>
+  <tr>
+    <th>Order</th>
+    <th>Alternative</th>
+    <th>Managed by</th>
+    <th>Local</th>
+    <th>Pros</th>
+    <th>Cons</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>1</td>
+    <td>Service worker + Cache API</td>
+    <td>You</td>
+    <td>Yes</td>
+    <td>Flexible</td>
+    <td>
+      <ul>
+        <li>Requires JavaScript coding skills</li>
+        <li>Coding and maintenance time</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="2">2</td>
+    <td><code>Expire</code></td>
+    <td>Browser</td>
+    <td>Yes</td>
+    <td>Easy configuration</td>
+    <td>
+      <ul>
+        <li>Guess-based</li>
+        <li>Simplistic</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><code>Cache-Control</code></td>
+    <td>Browser</td>
+    <td>Yes</td>
+    <td>Fine-grained control</td>
+    <td>
+      <ul>
+        <li>Guess-based</li>
+        <li>Complex configuration</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="2">3</td>
+    <td><code>Last-Modified</code></td>
+    <td>Browser</td>
+    <td>No</td>
+    <td>Just works</td>
+    <td>Mishandle unchanged resources with a different timestamp</td>
+  </tr>
+  <tr>
+    <td><code>ETag</code></td>
+    <td>Browser</td>
+    <td>No</td>
+    <td>Just works</td>
+    <td>Slightly more resource-sensitive to compute the hash</td>
+  </tr>
+</tbody>
+</table>
+<p>Note that those alternatives aren’t exclusive. You may have a short <code>Expire</code> header and rely on <code>ETag</code>. You should probably use both a level 2 alternative and a level 3.</p>
+<h2 id="a-bit-of-practice">A bit of practice</h2>
+<p>Let’s put the theory that we have seen above into practice. I’ll set up a two-tiered HTTP cache:</p>
+<ul>
+<li>The first tier caches resources locally for 10 seconds using <code>Cache-Control</code></li>
+<li>The second tier uses <code>ETag</code> to avoid optimizing the data load over the network</li>
+</ul>
+<p>I’ll use <a href="https://apisix.apache.org/">Apache APISIX</a>. APISIX sits on the shoulder of giants, namely NGINX. NGINX adds <code>ETag</code> response headers <em>by default</em>.</p>
+<p>We only need to add the <code>Cache-Control</code> response header.
+We achieve it with the <code>response-rewrite</code> plugin:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">upstreams</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">roundrobin</span></span>
+<span class="line"><span style="color:#7EE787">    nodes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#A5D6FF">      "content:8080"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">uri</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/*</span></span>
+<span class="line"><span style="color:#7EE787">    upstream_id</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#7EE787">    plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">      response-rewrite</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        headers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          set</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            Cache-Control</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"max-age=10"</span></span></code></pre>
+<p>Let’s do it <em>without a browser</em> first.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -v</span><span style="color:#A5D6FF"> localhost:9080</span></span></code></pre>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span>Content-Length: 147</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span>Date: Thu, 24 Nov 2022 08:21:36 GMT</span></span>
+<span class="line"><span>Accept-Ranges: bytes</span></span>
+<span class="line"><span>Last-Modified: Wed, 23 Nov 2022 13:58:55 GMT</span></span>
+<span class="line"><span>ETag: "637e271f-93"</span></span>
+<span class="line"><span>Server: APISIX/3.0.0</span></span>
+<span class="line"><span>Cache-Control: max-age=10</span></span></code></pre>
+<p>To prevent the server from sending the same resource, we can use the <code>ETag</code> value in an <code>If-None-Match</code> request header:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'If-None-Match: "637e271f-93"'</span><span style="color:#79C0FF"> -v</span><span style="color:#A5D6FF"> localhost:9080</span></span></code></pre>
+<p>The result is a <code>304 Not Modified</code> as expected:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 304 Not Modified</span></span>
+<span class="line"><span>Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span>Content-Length: 147</span></span>
+<span class="line"><span>Connection: keep-alive</span></span>
+<span class="line"><span>Date: Thu, 24 Nov 2022 08:26:17 GMT</span></span>
+<span class="line"><span>Accept-Ranges: bytes</span></span>
+<span class="line"><span>Last-Modified: Wed, 23 Nov 2022 13:58:55 GMT</span></span>
+<span class="line"><span>ETag: "637e271f-93"</span></span>
+<span class="line"><span>Server: APISIX/3.0.0</span></span>
+<span class="line"><span>Cache-Control: max-age=10</span></span></code></pre>
+<p>Now, we can do the same inside a browser. If we use the <em>resend</em>  feature a second time before 10 seconds have passed, the browser returns the resource from the cache without sending the request to the server.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, I described several alternatives to cache web resources: <code>Expiry</code> and <code>Cache-Control</code>, <code>Last-Modified</code> and <code>ETag</code>, and the Cache API and web workers.</p>
+<p>You can easily set the HTTP response headers via a reverse proxy or an API Gateway. With Apache APISIX, ETags are enabled by default, and other headers are easily set up.</p>
+<p>In the next post, I will describe caching server-side.</p>
+<p>You can find the source code for this post on <a href="https://github.com/ajavageek/web-caching">GitHub</a>.</p>
+<p><strong>To go further:</strong></p>
+<ul>
+<li><a href="https://www.rfc-editor.org/rfc/rfc7234">RFC 7234: HTTP/1.1: Caching (obsolete)</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc9111">RFC 9111: HTTP Caching</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching">HTTP caching</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">Cache-Control</a></li>
+<li><a href="https://web.dev/http-cache/">Prevent unnecessary network requests with the HTTP Cache</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Cache">Cache API</a></li>
+<li><a href="https://web.dev/service-worker-caching-and-http-caching/">Service worker caching and HTTP caching</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/12/14/web-caching-server/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Web Caching: Server-Side Cache Strategies</span> </a> <a class="post-nav-card older" href="/blog/2022/12/06/choose-the-right-api-style-technology/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">How to choose the right API Style and Technology</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#caching-101">Caching 101</a></li><li class><a href="#early-web-resource-caching">Early Web resource caching</a></li><li class><a href="#cache-control-to-the-rescue">Cache-Control to the rescue</a></li><li class><a href="#last-modified-and-etag">Last-Modified and ETag</a></li><li class><a href="#the-cache-api">The Cache API</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#a-bit-of-practice">A bit of practice</a></li><li class><a href="#conclusion">Conclusion</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Use APISIX and Authing to implement authentication | Apache APISIX</title><meta name="description" content="This article shows the details of centralized authentication and how to use Authing in Apache APISIX."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/01/04/authing/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/01/04/authing/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/01/04/authing/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/01/04/authing/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Use APISIX and Authing to implement authentication | Apache APISIX"><meta property="og:description" content="This article shows the details of centralized authentication and how to use Authing in Apache APISIX."><meta property="og:url" content="https://apisix.apache.org/blog/2022/01/04/authing/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/Authing.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/Authing.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Use APISIX and Authing to implement authentication","description":"This article shows the details of centralized authentication and how to use Authing in Apache APISIX.","datePublished":"2022-01-04","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/Authing.png","author":{"@type":"Person","name":"Xinxin Zhu"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/01/04/authing/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/01/04/authing/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/01/04/authing/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/authentication/">Authentication</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Use APISIX and Authing to implement authentication</h1> <p class="article-meta"> <time datetime="2022-01-04">Jan 4, 2022</time> · Xinxin Zhu  · 10 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/authentication/">Authentication</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#about-apache-apisix">About Apache APISIX</a></li><li class="d3"><a href="#about-authing">About Authing</a></li><li class><a href="#what-is-centralized-authentication">What is Centralized Authentication</a></li><li class="d3"><a href="#traditional-authentication-mode">Traditional Authentication Mode</a></li><li class="d3"><a href="#centralized-identity-authentication-mode">Centralized Identity Authentication Mode</a></li><li class="d3"><a href="#advantages-of-centralized-identity-authentication-mode">Advantages of Centralized Identity Authentication Mode</a></li><li class><a href="#how-to-implement-centralized-identity-authentication-using-apache-apisix-and-authing">How to implement Centralized Identity Authentication using Apache APISIX and Authing</a></li><li class="d3"><a href="#step-1-configure-authing">Step 1: Configure Authing</a></li><li class="d3"><a href="#step-2-install-apache-apisix">Step 2: Install Apache APISIX</a></li><li class="d3"><a href="#step-3-start-apache-apisix-and-configure-route">Step 3: Start Apache APISIX and configure route</a></li><li class="d3"><a href="#step-4-access-apache-apisix">Step 4: Access Apache APISIX</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/ecosystem/Authing.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>This article shows the details of centralized authentication and how to use Authing in Apache APISIX.</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1641346620900-ece258db-b9fe-44bf-9857-4ea5c0151138.png" alt="APISIX-Authing Cover"></p>
+<h2 id="introduction">Introduction</h2>
+<h3 id="about-apache-apisix">About Apache APISIX</h3>
+<p><a href="https://github.com/apache/apisix">Apache APISIX</a> is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, service meltdown, authentication, observability, etc. Apache APISIX not only supports dynamic plug-in changes and hot-plugging, but also has a number of useful plug-ins.OpenID Connect Plug-in for Apache APISIX With support for the OpenID Connect protocol, users can use this plug-in to enable Apache APISIX to interface with Authing services and be deployed as a centralized authentication gateway in the enterprise.</p>
+<h3 id="about-authing">About Authing</h3>
+<p><a href="https://www.authing.cn/">Authing</a> is the first developer-centered full-scene identity cloud product in China, integrating all mainstream identity protocols and providing complete and secure user authentication and access management services for enterprises and developers. With “API First” as the cornerstone of the product, all common functions in the identity field are modularly encapsulated, and all capabilities are APIed to developers through a full-scene programming language SDK. At the same time, users can flexibly use Authing’s open RESTful APIs for functional expansion to meet the identity management needs of different enterprises in different business scenarios.</p>
+<h2 id="what-is-centralized-authentication">What is Centralized Authentication</h2>
+<h3 id="traditional-authentication-mode">Traditional Authentication Mode</h3>
+<p>In the traditional authentication mode, each back-end application service needs to develop separate functions to support the authentication function, such as interacting with the identity provider and obtaining the user’s identity information.</p>
+<p><img src="https://static.apiseven.com/202108/1639467045776-715e1805-540b-4cef-87c5-6166e2af43a8.png" alt="traditional authentication work flow"></p>
+<h3 id="centralized-identity-authentication-mode">Centralized Identity Authentication Mode</h3>
+<p>Unlike the traditional authentication mode, the centralized authentication mode takes the user authentication out of the application service. Take Apache APISIX as an example, the process of centralized authentication is shown in the figure above: first, the user initiates a request, and then the front gateway is responsible for the user authentication process, interfacing with the identity provider and sending an authorization request to the identity provider. The identity provider returns the user information. After the gateway completes user identification, it forwards the user identity information to the back-end application in the form of a request header.</p>
+<p><img src="https://static.apiseven.com/202108/1641346655710-3b9b2ebf-cc86-4335-a87a-913724e0300a.png" alt="centralized authentication mode work flow"></p>
+<h3 id="advantages-of-centralized-identity-authentication-mode">Advantages of Centralized Identity Authentication Mode</h3>
+<p>Compared with the traditional authentication mode, the centralized authentication mode has the following advantages.</p>
+<ol>
+<li>Simplify the application development process, reduce the development of application workload and maintenance costs, and avoid repeated development of authentication logic for each application.</li>
+<li>Improve business security, centralized authentication mode at the gateway level can intercept unauthenticated requests in time to protect back-end applications.</li>
+</ol>
+<p>At the same time, combined with Authing’s powerful authentication management functions, the following functions can be achieved.</p>
+<ol>
+<li>Lifecycle management of authentication services through the console, including creation, enablement, disablement, etc.</li>
+<li>Real-time, visual application monitoring, including: the number of interface requests, interface call latency and interface error information, and real-time alarm notification.</li>
+<li>Centralized logging to easily view user login, logout, and information about adjustments and modifications to the application.</li>
+</ol>
+<p>More details can be found in <a href="https://www.authing.cn/gateway-integration">Authing Access Gateway</a>.</p>
+<h2 id="how-to-implement-centralized-identity-authentication-using-apache-apisix-and-authing">How to implement Centralized Identity Authentication using Apache APISIX and Authing</h2>
+<h3 id="step-1-configure-authing">Step 1: Configure Authing</h3>
+<ol>
+<li>
+<p>Login to your Authing account, select Build your own app and fill in the app name and authentication address. If you do not have an Authing account, please visit <a href="https://www.authing.cn/">Authing</a>, click on “Login/Register” in the upper right corner to register an Authing account.
+<img src="https://static.apiseven.com/202108/1641346693124-65b10c31-99e3-4e0c-85e2-85653656e0cc.png" alt="Configure Authing"></p>
+</li>
+<li>
+<p>Click Create to create an Authing application.
+<img src="https://static.apiseven.com/202108/1641346725153-4159407e-2706-4178-b793-7c99973ef95f.png" alt="Creating an Authing Application"></p>
+</li>
+<li>
+<p>During the authentication process, Authing will reject callback URLs other than the configured ones. Since this is a local test, the login callback URL and the logout callback URL are both set to the APISIX access address <a href="http://127.0.0.1:9080/">http://127.0.0.1:9080/</a>.
+<img src="https://static.apiseven.com/202108/1641346772276-6bd879ad-0047-496e-9868-b46bfe3e596d.png" alt="Set the URL for login and logout"></p>
+</li>
+<li>
+<p>Create user (optional). On the user list page, create a user with the account password user1/user1, and you can set whether to allow access to the application in the “User Information - Authorization Management” page (the default is to allow).
+<img src="https://static.apiseven.com/202108/1641346792309-01e1d853-247f-4691-bd56-55d899849331.png" alt="Create User">
+<img src="https://static.apiseven.com/202108/1641346815891-ff43a29e-2994-4680-bec5-f2553e520d31.png" alt="Setting Access Permissions"></p>
+</li>
+<li>
+<p>Visit the application page for the following configuration, which is required when configuring Apache APISIX OpenID Connect.</p>
+<ol>
+<li>App ID: OAuth client ID, i.e. the ID of the application, corresponding to <code>client_id</code> and <code>{YOUR_CLIENT_ID}</code> below.</li>
+<li>App secret: OAuth client secret, i.e. the application key. Corresponds to <code>client_secret</code> and <code>{YOUR_CLIENT_SECRET}</code> below.</li>
+<li>Service_discovery_address: The address of the application service discovery. Corresponds to <code>{YOUR_DISCOVERY}</code> below.
+<img src="https://static.apiseven.com/202108/1641347262557-04949c02-e4bc-4a74-b100-4668e85087ee.png" alt="configurations"></li>
+</ol>
+</li>
+</ol>
+<h3 id="step-2-install-apache-apisix">Step 2: Install Apache APISIX</h3>
+<p>You can install Apache APISIX in a variety of ways including source packages, Docker, Helm Chart, etc.</p>
+<h4 id="install-dependencies">Install dependencies</h4>
+<p>The Apache APISIX runtime environment requires dependencies on NGINX and etcd.</p>
+<p>Before installing Apache APISIX, please install dependencies according to the operating system you are using. We provide the dependencies installation instructions for CentOS7, Fedora 31 and 32, Ubuntu 16.04 and 18.04, Debian 9 and 10, and macOS. Please refer to <a href="https://apisix.apache.org/docs/apisix/install-dependencies/">Install Dependencies</a> for more details.</p>
+<h4 id="installation-via-rpm-package-centos-7">Installation via RPM Package (CentOS 7)</h4>
+<p>This installation method is suitable for CentOS 7; please run the following command to install Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">sudo</span><span style="color:#A5D6FF"> yum</span><span style="color:#A5D6FF"> install</span><span style="color:#79C0FF"> -y</span><span style="color:#A5D6FF"> https://github.com/apache/apisix/releases/download/2.7/apisix-2.7-0.x86_64.rpm</span></span></code></pre>
+<h4 id="installation-via-docker">Installation via Docker</h4>
+<p>Please refer to <a href="https://hub.docker.com/r/apache/apisix">Installing Apache APISIX with Docker</a>.</p>
+<h4 id="installation-via-helm-chart">Installation via Helm Chart</h4>
+<p>Please refer to <a href="https://github.com/apache/apisix-helm-chart">Installing Apache APISIX with Helm Chart</a>.</p>
+<h4 id="installation-via-source-release">Installation via source release</h4>
+<ol>
+<li>Create a directory named <code>apisix-2.7</code>.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">mkdir</span><span style="color:#A5D6FF"> apisix-2.7</span></span></code></pre>
+<ol start="2">
+<li>Download Apache APISIX Release source package.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">wget</span><span style="color:#A5D6FF"> https://downloads.apache.org/apisix/2.7/apache-apisix-2.7-src.tgz</span></span></code></pre>
+<p>You can also download the Apache APISIX release source package from the Apache APISIX website. The <a href="https://apisix.apache.org/downloads/">Apache APISIX Official Website - Download Page</a> also provides source packages for Apache APISIX, APISIX Dashboard, and APISIX Ingress Controller.</p>
+<ol start="3">
+<li>Unzip the Apache APISIX Release source package.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">tar</span><span style="color:#A5D6FF"> zxvf</span><span style="color:#A5D6FF"> apache-apisix-2.7-src.tgz</span><span style="color:#79C0FF"> -C</span><span style="color:#A5D6FF"> apisix-2.7</span></span></code></pre>
+<ol start="4">
+<li>Install the runtime-dependent Lua libraries.</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># Switch to the apisix-2.7 directory</span></span>
+<span class="line"><span style="color:#79C0FF">cd</span><span style="color:#A5D6FF"> apisix-2.7</span></span>
+<span class="line"><span style="color:#8B949E"># Create dependencies</span></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> deps</span></span></code></pre>
+<h4 id="initializing-dependencies">Initializing Dependencies</h4>
+<p>Run the following command to initialize the NGINX configuration file and etcd.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># initialize NGINX config file and etcd</span></span>
+<span class="line"><span style="color:#FFA657">make</span><span style="color:#A5D6FF"> init</span></span></code></pre>
+<h3 id="step-3-start-apache-apisix-and-configure-route">Step 3: Start Apache APISIX and configure route</h3>
+<ol>
+<li>
+<p>Run the following command to start Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">apisix</span><span style="color:#A5D6FF"> start</span></span></code></pre>
+</li>
+<li>
+<p>Create routes and configure the OpenID Connect plug-in. the OpenID Connect configuration list is as follows.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Field</th><th align="left">Default Value</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">client_id</td><td align="left">N/A</td><td align="left">OAuth client ID</td></tr><tr><td align="left">client_secret</td><td align="left">N/A</td><td align="left">OAuth client secret key</td></tr><tr><td align="left">discovery</td><td align="left">N/A</td><td align="left">Service discovery endpoints for identity providers</td></tr><tr><td align="left">scope</td><td align="left">openid</td><td align="left">Need to access resource scope</td></tr><tr><td align="left">relm</td><td align="left">apisix</td><td align="left">Specify the WWW-Authenticate response header authentication information</td></tr><tr><td align="left">bearer_only</td><td align="left">false</td><td align="left">Whether to check the token in the request header</td></tr><tr><td align="left">logout_path</td><td align="left">/logout</td><td align="left">Logout URI</td></tr><tr><td align="left">redirect_uri</td><td align="left">request_uri</td><td align="left">The URI that the identity provider bounces back to, defaulting to the request address</td></tr><tr><td align="left">timeout</td><td align="left">3</td><td align="left">Request timeout time in seconds</td></tr><tr><td align="left">ssl_verify</td><td align="left">false</td><td align="left">Whether the identity provider’s checksum ssl certificate</td></tr><tr><td align="left">introspection_endpoint</td><td align="left">N/A</td><td align="left">The URL of the identity provider’s token authentication endpoint, which will be extracted from the discovery response if left blank.</td></tr><tr><td align="left">introspection_endpoint_auth_method</td><td align="left">client_secret_basic</td><td align="left">Name of the authentication method for token introspection</td></tr><tr><td align="left">public_key</td><td align="left">N/A</td><td align="left">Public key for authentication token</td></tr><tr><td align="left">token_signing_alg_values_expected</td><td align="left">N/A</td><td align="left">Algorithm for authentication tokens</td></tr><tr><td align="left">set_access_token_header</td><td align="left">true</td><td align="left">Whether to carry the access token in the request header</td></tr><tr><td align="left">access_token_in_authorization_header</td><td align="left">false</td><td align="left">The access token is placed in the Authorization header when true, and in the X-Access-Token header when false.</td></tr><tr><td align="left">set_id_token_header</td><td align="left">false</td><td align="left">No to carry the ID token to the X-ID-Token request header</td></tr><tr><td align="left">set_userinfo_header</td><td align="left">false</td><td align="left">Whether to carry user information in the X-Userinfo request header</td></tr></tbody></table>
+<p>The following code example creates a route through the Apache APISIX Admin API, setting the route upstream to <a href="http://httpbin.org">httpbin.org</a>. <code>httpbin.org</code> is a simple backend service for receiving and responding to requests, the <code>get</code> page of <code>httpbin.org</code> will be used below, refer to <a href="http://httpbin.org/#/HTTP_Methods/get_get">http bin get</a>.</p>
+<p>For specific configuration items, please refer to <a href="https://apisix.apache.org/zh/docs/apisix/plugins/openid-connect/">Apache APISIX OpenID Connect Plugin</a>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF">  -XPOST</span><span style="color:#A5D6FF"> 127.0.0.1:9080/apisix/admin/routes</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> "X-Api-Key: edd1c9f034335f136f87ad84b625c8f1"</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "openid-connect":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_id":"{YOUR_CLIENT_ID}",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "client_secret":"{YOUR_CLIENT_SECRET}",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "discovery":"https://{YOUR_DISCOVERY}",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "scope":"openid profile",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "bearer_only":false,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "realm":"apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "introspection_endpoint_auth_method":"client_secret_post",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "redirect_uri":"http://127.0.0.1:9080/"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="step-4-access-apache-apisix">Step 4: Access Apache APISIX</h3>
+<ol>
+<li>
+<p>Visit “<a href="http://127.0.0.1:9080/get">http://127.0.0.1:9080/get</a>” and the page is redirected to the Authing login page as the OpenID Connect plugin is already enabled (this page can be customized in the Authing console under “Applications - Branding”).
+<img src="https://static.apiseven.com/202108/1641347039112-252cadee-7766-48e8-b33c-b7aa0769bb22.png" alt=" Access Apache APISIX"></p>
+</li>
+<li>
+<p>Enter the password for the user’s account registered with Authing, or the user user1/user1 created in Step 1, and click Login to log in to the Authing account.</p>
+</li>
+<li>
+<p>After a successful login, you can successfully access the get page in httpbin.org. The httpbin.org/get page will return the requested data as follows.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#FFA657">"X-Access-Token"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InFqeU55aVdVd2NhbUFxdEdVRUNCeFNsTWxQSWtTR2N1NmkyZzhEUk1OSGsifQ.eyJqdGkiOiJjTy16a0pCS0NSRFlHR2kyWkJhY0oiLCJzdWIiOiI2MWM5OGFmOTg0MjI4YWU0OTYyMDU4NTIiLCJpYXQiOjE2NDA1OTg4NTgsImV4cCI6MTY0MTgwODQ1OCwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSIsImlzcyI6Imh0dHBzOi8vYXBpc2l4LmF1dGhpbmcuY24vb2lkYyIsImF1ZCI6IjYxYzk4M2M0YjI4NzdkNDg2OWRkOGFjYiJ9.l2V8vDWcCObB1LjIhKs2ARG4J7WuB-0c-bnYZG2GP2zcpl6PMAPcId2B76CaXCU58ajGcfRmOlWJ67UaHrfWKv8IM4vcYN1gwhKdokSyrhEM31gQE-MzNEsEbPaVIGXdpR1N2JnAJK5-tKIjopDAXSwArfO6fQKTpjLhCi3COIA169WGRR4CKCwNzzpFAYP2ilNc18D_HRTBLS6UjxZSNUtWE5dbx7uBjblhwIwn5e1fxiEQcknVK8Dxf8NUliFECvr02HX2hNvmuCECkvA_mZYlshAeqidK8tSEXirAWsWS5jlXFqLiBJkhSHFrbxRyqeOSfJCJR_YcCwk9AzgZGg",</span></span>
+<span class="line"><span style="color:#FFA657">"X-Id-Token"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "eyJhdF9oYXNoIjoiRl8tRjZaUVgtWVRDNEh0TldmcHJmUSIsImJpcnRoZGF0ZSI6bnVsbCwiZmFtaWx5X25hbWUiOm51bGwsImdlbmRlciI6IlUiLCJnaXZlbl9uYW1lIjpudWxsLCJpc3MiOiJodHRwczpcL1wvYXBpc2l4LmF1dGhpbmcuY25cL29pZGMiLCJwaWN0dXJlIjoiaHR0cHM6XC9cL2ZpbGVzLmF1dGhpbmcuY29cL2F1dGhpbmctY29uc29sZVwvZGVmYXVsdC11c2VyLWF2YXRhci5wbmciLCJwcmVmZXJyZWRfdXNlcm5hbWUiOm51bGwsInVwZGF0ZWRfYXQiOiIyMDIxLTEyLTI3VDA5OjU0OjE3Ljc3M1oiLCJ3ZWJzaXRlIjpudWxsLCJ6b25laW5mbyI6bnVsbCwibmFtZSI6bnVsbCwiaWF0IjoxNjQwNTk4ODU4LCJuaWNrbmFtZSI6bnVsbCwibm9uY2UiOiJmMTlmZjhjODM5NzdmZjNlMDczMzZmMzg3Y2QxM2EzMSIsIm1pZGRsZV9uYW1lIjpudWxsLCJleHAiOjE2NDE4MDg0NTgsInN1YiI6IjYxYzk4YWY5ODQyMjhhZTQ5NjIwNTg1MiIsImxvY2FsZSI6bnVsbCwiYXVkIjoiNjFjOTgzYzRiMjg3N2Q0ODY5ZGQ4YWNiIiwicHJvZmlsZSI6bnVsbH0=",</span></span>
+<span class="line"><span style="color:#FFA657">"X-Userinfo"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "eyJ3ZWJzaXRlIjpudWxsLCJ6b25laW5mbyI6bnVsbCwibmFtZSI6bnVsbCwicHJvZmlsZSI6bnVsbCwibmlja25hbWUiOm51bGwsInN1YiI6IjYxYzk4YWY5ODQyMjhhZTQ5NjIwNTg1MiIsImxvY2FsZSI6bnVsbCwiYmlydGhkYXRlIjpudWxsLCJmYW1pbHlfbmFtZSI6bnVsbCwiZ2VuZGVyIjoiVSIsImdpdmVuX25hbWUiOm51bGwsIm1pZGRsZV9uYW1lIjpudWxsLCJwaWN0dXJlIjoiaHR0cHM6XC9cL2ZpbGVzLmF1dGhpbmcuY29cL2F1dGhpbmctY29uc29sZVwvZGVmYXVsdC11c2VyLWF2YXRhci5wbmciLCJwcmVmZXJyZWRfdXNlcm5hbWUiOm51bGwsInVwZGF0ZWRfYXQiOiIyMDIxLTEyLTI3VDA5OjU0OjE3Ljc3M1oifQ=="</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span></code></pre>
+<p><strong>X-Access-Token</strong>: Apache APISIX puts the access token obtained from the user provider into the <code>X-Access-Token</code> request header, optionally in the Authorization request header via <code>access_token_in_authorization_header</code> in the plugin configuration.</p>
+<p><img src="https://static.apiseven.com/202108/1641278494765-139b6ffc-227b-4f02-8b2a-45d762422e15.png" alt="X-Access-Token"></p>
+<p><strong>X-Id-Token</strong>: Apache APISIX puts the ID token obtained from the user provider into the X-Id-Token request header after base64 encoding, which can be enabled or disabled by <code>set_id_token_header</code> in the plugin configuration.</p>
+<p><img src="https://static.apiseven.com/202108/1641278494768-867dadf3-8ecd-4376-af03-d86b6a7aa698.png" alt="X-Id-Token"></p>
+<p><strong>X-Userinfo</strong>: Apache APISIX puts the user information obtained from the user provider into X-Userinfo after encoding it in base64. You can choose whether to enable this feature by using <code>set_userinfo_header</code> in the plugin configuration.</p>
+<p><img src="https://static.apiseven.com/202108/1641278494771-42567d0c-8424-46e2-9c5b-a12cf1af6bc8.png" alt="X-Userinfo"></p>
+<p>As you can see, Apache APISIX will carry <code>X-Access-Token</code>, <code>X-Id-Token</code> and <code>X-Userinfo</code> request headers to the upstream. The upstream can parse these headers to get the user ID information and the user metadata.</p>
+</li>
+<li>
+<p>In the “Audit Log - User Behavior Log” in the Authing console, you can observe that user1 login information.
+<img src="https://static.apiseven.com/202108/1641347080382-c769eba0-d7f3-490a-bf56-66189f2026a3.png" alt="Login Information"></p>
+</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>This article describes the detailed steps for interfacing Apache APISIX with Authing.</p>
+<p>Apache APISIX is not only committed to maintaining its own high performance, but also has always attached great importance to the construction of open source ecology. At present, Apache APISIX has 10+ authentication authorization-related plug-ins that support interfacing with mainstream authentication authorization services in the industry.</p>
+<p>If you have a need to interface to other authentication authorities, visit Apache APISIX’s <a href="https://github.com/apache/apisix/issues">GitHub</a> and leave your suggestions via issue; or subscribe to Apache APISIX’s <a href="https://apisix.apache.org/zh/docs/general/join">mailing list</a> to express your thoughts via email.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/01/05/weekly-report-1231/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Biweekly Report (Dec 16 - Dec 31)</span> </a> <a class="post-nav-card older" href="/blog/2021/12/30/apisix-proxy-grpc-service/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Use API gateway to proxy gRPC service</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#about-apache-apisix">About Apache APISIX</a></li><li class="d3"><a href="#about-authing">About Authing</a></li><li class><a href="#what-is-centralized-authentication">What is Centralized Authentication</a></li><li class="d3"><a href="#traditional-authentication-mode">Traditional Authentication Mode</a></li><li class="d3"><a href="#centralized-identity-authentication-mode">Centralized Identity Authentication Mode</a></li><li class="d3"><a href="#advantages-of-centralized-identity-authentication-mode">Advantages of Centralized Identity Authentication Mode</a></li><li class><a href="#how-to-implement-centralized-identity-authentication-using-apache-apisix-and-authing">How to implement Centralized Identity Authentication using Apache APISIX and Authing</a></li><li class="d3"><a href="#step-1-configure-authing">Step 1: Configure Authing</a></li><li class="d3"><a href="#step-2-install-apache-apisix">Step 2: Install Apache APISIX</a></li><li class="d3"><a href="#step-3-start-apache-apisix-and-configure-route">Step 3: Start Apache APISIX and configure route</a></li><li class="d3"><a href="#step-4-access-apache-apisix">Step 4: Access Apache APISIX</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2023/08/14/rate-limit/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Rate Limit Your APIs With Apache APISIX</h3> <p class="desc">A guide to using the rate limit plugins in Apache APISIX with some practical examples.</p> <p class="meta">Aug 14, 2023 · Navendu Pottekkat</p> </div> </a><a class="post-card" href="/blog/2023/07/20/data-mask-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Creating a Custom Data Mask Plugin</h3> <p class="desc">A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case.</p> <p class="meta">Jul 20, 2023 · Zeping Bai</p> </div> </a><a class="post-card" href="/blog/2023/07/07/tiny-apisix-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>A &quot;Tiny&quot; APISIX Plugin</h3> <p class="desc">A &quot;tiny&quot; example to demonstrate how Apache APISIX supports Wasm plugins.</p> <p class="meta">Jul 7, 2023 · Navendu Pottekkat</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 集成 Open Policy Agent | Apache APISIX</title><meta name="description" content="本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 API 网关 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/12/24/open-policy-agent/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/24/open-policy-agent/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/24/open-policy-agent/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 集成 Open Policy Agent | Apache APISIX"><meta property="og:description" content="本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 API 网关 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/12/24/open-policy-agent/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/opa.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/opa.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 集成 Open Policy Agent","description":"本文以 HTTP API 为例为大家介绍 `opa` 插件，并详细说明如何将 API 网关 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。","datePublished":"2021-12-24","image":"https://static.apiseven.com/2022/blog/0818/plugins/opa.png","author":{"@type":"Person","name":"白泽平"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/12/24/open-policy-agent/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/12/24/open-policy-agent/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/12/24/open-policy-agent/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/plugins/">Plugins</a><a class="tag" href="/zh/blog/tags/authentication/">Authentication</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 集成 Open Policy Agent</h1> <p class="article-meta"> <time datetime="2021-12-24">2021年12月24日</time> · 白泽平  · 约 2 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/plugins/">Plugins</a><a class="tag" href="/zh/blog/tags/authentication/">Authentication</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#插件介绍">插件介绍</a></li><li class><a href="#如何使用">如何使用</a></li><li class="d3"><a href="#搭建测试环境">搭建测试环境</a></li><li class="d3"><a href="#创建路由并启用插件">创建路由并启用插件</a></li><li class="d3"><a href="#测试请求">测试请求</a></li><li class="d3"><a href="#关闭插件">关闭插件</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/opa.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文以 HTTP API 为例为大家介绍 <code>opa</code> 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1640333490845-38542a3e-5d3a-4960-b11f-69ce3a61f7fc.png" alt="APISIX-OPA cover"></p>
+<p>Open Policy Agent（OPA）是一个开源的轻量级通用策略引擎，可以代替软件中内置的策略功能模块，帮助用户实现服务与策略引擎的解耦。得益于 <a href="https://www.openpolicyagent.org/docs/latest/ecosystem/">OPA 完善的生态系统</a>，用户可以很容易地集成 OPA 和其他服务，例如程序库、HTTP API 等。</p>
+<p>如下图所示，OPA 首先通过策略语言 Rego 描述策略；然后通过 JSON 存储策略数据，之后用户就可以发送查询请求。收到查询请求后，OPA 将结合策略、数据和用户输入的查询请求内容生成策略决策，并将决策发送至服务。</p>
+<p><img src="https://static.apiseven.com/202108/1640332208554-40f574e3-0582-48f3-8e07-eb49fbd37ac7.png" alt="OPA Workflow"></p>
+<h2 id="插件介绍">插件介绍</h2>
+<p>Apache APISIX 提供了一个 <code>opa</code> 插件，用户可以使用这个插件，便捷地将 OPA 提供的策略能力引入到 Apache APISIX，实现灵活的身份认证与准入控制功能。</p>
+<p>将 <code>opa</code> 插件配置在路由上后，Apache APISIX 会在处理响应请求时，将请求信息、连接信息等组装成 JSON 数据，并将其发送到策略决策 API 地址。只要在 OPA 中部署的策略符合 Apache APISIX 设定的数据规范，就可以实现如通过请求、拒绝请求、自定义状态码、自定义响应头、自定义响应头等功能。</p>
+<p>本文以 HTTP API 为例为大家介绍 <code>opa</code> 插件，并详细说明如何将 Apache APISIX 与 OPA 进行集成，实现后端服务的认证授权解耦。</p>
+<h2 id="如何使用">如何使用</h2>
+<h3 id="搭建测试环境">搭建测试环境</h3>
+<ol>
+<li>
+<p>使用 Docker 构建 OPA 服务。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 使用 Docker 运行 OPA</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> opa</span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8181:8181</span><span style="color:#A5D6FF"> openpolicyagent/opa:0.35.0</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -s</span></span></code></pre>
+</li>
+<li>
+<p>创建 <code>example</code> 策略。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 创建策略</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XPUT</span><span style="color:#A5D6FF"> 'localhost:8181/v1/policies/example'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: text/plain'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data-raw </span><span style="color:#A5D6FF">'package example</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">import input.request</span></span>
+<span class="line"><span style="color:#A5D6FF">import data.users</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">default allow = false</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">allow {</span></span>
+<span class="line"><span style="color:#A5D6FF">    # 具有名为 test-header 值为 only-for-test请求头</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.headers["test-header"] == "only-for-test"</span></span>
+<span class="line"><span style="color:#A5D6FF">    # 请求方法为 GET</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.method == "GET"</span></span>
+<span class="line"><span style="color:#A5D6FF">    # 请求路径以 /get 开头</span></span>
+<span class="line"><span style="color:#A5D6FF">    startswith(request.path, "/get")</span></span>
+<span class="line"><span style="color:#A5D6FF">    # GET 参数 test 存在且不等于 abcd</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["test"] != "abcd"</span></span>
+<span class="line"><span style="color:#A5D6FF">    # GET 参数 user 存在</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">reason = users[request.query["user"]].reason {</span></span>
+<span class="line"><span style="color:#A5D6FF">    not allow</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">headers = users[request.query["user"]].headers {</span></span>
+<span class="line"><span style="color:#A5D6FF">    not allow</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">status_code = users[request.query["user"]].status_code {</span></span>
+<span class="line"><span style="color:#A5D6FF">    not allow</span></span>
+<span class="line"><span style="color:#A5D6FF">    request.query["user"]</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+</li>
+<li>
+<p>创建 <code>users</code> 数据。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 创建测试用户数据</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XPUT</span><span style="color:#A5D6FF"> 'localhost:8181/v1/data/users'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data-raw </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "alice": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Location": "http://example.com/auth"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "status_code": 302</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "bob": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "test": "abcd",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "abce": "test"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "carla": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "reason": "Give you a string reason"</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "dylon": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Content-Type": "application/json"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "reason": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "code": 40001,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "desc": "Give you a object reason"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+</li>
+</ol>
+<h3 id="创建路由并启用插件">创建路由并启用插件</h3>
+<p>运行以下命令，创建路由，并启用 <code>opa</code> 插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XPUT</span><span style="color:#A5D6FF"> 'http://127.0.0.1:9080/apisix/admin/routes/r1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'X-API-KEY: &#x3C;api-key>'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--header </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data-raw </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "GET",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "POST",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "PUT",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "DELETE"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "opa": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "host": "http://127.0.0.1:8181",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "policy": "example"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h3 id="测试请求">测试请求</h3>
+<p>接下来，请运行以下命令，向 <code>opa</code> 插件发送请求，测试插件运行状态。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># 允许请求</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=none&#x26;user=dylon'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">    "args"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">        "test"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "abcd1",</span></span>
+<span class="line"><span style="color:#FFA657">        "user"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "dylon"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#FFA657">    "headers"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> {</span></span>
+<span class="line"><span style="color:#FFA657">        "Test-Header"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "only-for-test",</span></span>
+<span class="line"><span style="color:#FFA657">        "with"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "more"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#FFA657">    "origin"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "127.0.0.1",</span></span>
+<span class="line"><span style="color:#FFA657">    "url"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "http://127.0.0.1/get?test=abcd1&#x26;user=dylon"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 拒绝请求并重写状态码和响应头</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=alice'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 302</span><span style="color:#A5D6FF"> Moved</span><span style="color:#A5D6FF"> Temporarily</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:37:35</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/html</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 142</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Location:</span><span style="color:#A5D6FF"> http://example.com/auth</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 拒绝请求并返回自定义响应头</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=bob'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> Forbidden</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:38:27</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/html</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Content-Length:</span><span style="color:#79C0FF"> 150</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">abce:</span><span style="color:#A5D6FF"> test</span></span>
+<span class="line"><span style="color:#79C0FF">test</span><span style="color:#A5D6FF">:</span><span style="color:#A5D6FF"> abcd</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 拒绝请求并返回自定义响应（字符串）</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=carla'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> Forbidden</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:38:58</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Give</span><span style="color:#A5D6FF"> you</span><span style="color:#A5D6FF"> a</span><span style="color:#A5D6FF"> string</span><span style="color:#A5D6FF"> reason</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E"># 拒绝请求并返回自定义响应（JSON）</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> '127.0.0.1:9080/get?test=abcd&#x26;user=dylon'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">    --header</span><span style="color:#A5D6FF"> 'test-header: only-for-test'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 403</span><span style="color:#A5D6FF"> Forbidden</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Mon,</span><span style="color:#79C0FF"> 20</span><span style="color:#A5D6FF"> Dec</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 09:42:12</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> application/json</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.11.0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span><span style="color:#FFA657">"code"</span><span style="color:#FFA657">:40001,</span><span style="color:#FFA657">"desc"</span><span style="color:#79C0FF">:</span><span style="color:#FFA657">"Give you a object reason"</span><span style="color:#FFA657">}</span></span></code></pre>
+<h3 id="关闭插件">关闭插件</h3>
+<p>得益于 Apache APISIX 的动态化特性，只需要移除路由配置中 <code>opa</code> 插件相关配置并保存，即可关闭路由上的 OPA 插件。</p>
+<h2 id="总结">总结</h2>
+<p>本文为大家描述了 Apache APISIX 和 Open Policy Agent 对接的详细操作步骤，希望通过本文可以让大家对于在 Apache APISIX 中使用 Open Policy Agent 有了更清晰的理解，方便后续进行上手实操。</p>
+<p>Apache APISIX 不仅致力于保持自身的高性能，也一直非常重视开源生态的建设。目前 Apache APISIX 已经拥有了 10+ 个认证授权相关的插件，支持与业界主流的认证授权服务对接。</p>
+<p>如果你有对接其他认证授权的需求，不妨访问 Apache APISIX 的 <a href="https://github.com/apache/apisix/issues">GitHub</a>，通过 issue 留下你的建议；或订阅 Apache APISIX 的<a href="https://apisix.apache.org/zh/docs/general/join">邮件列表</a>，通过邮件表达你的想法。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/12/28/dashboard-cve-2021-45232/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX Dashboard 未授权访问漏洞公告（CVE-2021-45232)</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/12/24/apisix-integrate-openwhisk-plugin/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">API 网关 APISIX 集成 OpenWhisk 丰富认证场景</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#插件介绍">插件介绍</a></li><li class><a href="#如何使用">如何使用</a></li><li class="d3"><a href="#搭建测试环境">搭建测试环境</a></li><li class="d3"><a href="#创建路由并启用插件">创建路由并启用插件</a></li><li class="d3"><a href="#测试请求">测试请求</a></li><li class="d3"><a href="#关闭插件">关闭插件</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2022/09/20/apisix-integrate-cncf-openfunction/"> <img class="cover" src="https://static.apiseven.com/2022/09/20/63296a9c05e59.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>API 网关 Apache APISIX 集成 CNCF OpenFunction</h3> <p class="desc">本文介绍了 Apache APISIX openfunction 插件的功能与使用步骤，为 APISIX 的无服务领域功能再添一员。</p> <p class="meta">2022年9月20日 · 李从旺</p> </div> </a><a class="post-card" href="/zh/blog/2022/09/15/apache-apisix-integrat-with-elasticsearch-for-logger/"> <img class="cover" src="https://static.apiseven.com/2022/09/20/63296a9ba9a7d.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>API 网关 Apache APISIX 集成 Elasticsearch 实现实时日志监控</h3> <p class="desc">本文将为你介绍 Apache APISIX 的 elasticsearch-logger 插件的相关信息，以及如何通过此插件获取 APISIX 的实时日志。</p> <p class="meta">2022年9月15日 · 王程程</p> </div> </a><a class="post-card" href="/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>使用 Prometheus 监控云原生 API 网关 APISIX</h3> <p class="desc">本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。</p> <p class="meta">2022年7月13日 · 韩飞</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

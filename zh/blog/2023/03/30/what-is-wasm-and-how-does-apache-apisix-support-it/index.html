@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WebAssembly 助力云原生：APISIX 如何借助 Wasm 插件实现扩展功能？ | Apache APISIX</title><meta name="description" content="本文将介绍 Wasm，以及 Apache APISIX 如何实现 Wasm 功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="WebAssembly 助力云原生：APISIX 如何借助 Wasm 插件实现扩展功能？ | Apache APISIX"><meta property="og:description" content="本文将介绍 Wasm，以及 Apache APISIX 如何实现 Wasm 功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"WebAssembly 助力云原生：APISIX 如何借助 Wasm 插件实现扩展功能？","description":"本文将介绍 Wasm，以及 Apache APISIX 如何实现 Wasm 功能。","datePublished":"2023-03-30","author":{"@type":"Person","name":"朱欣欣"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>WebAssembly 助力云原生：APISIX 如何借助 Wasm 插件实现扩展功能？</h1> <p class="article-meta"> <time datetime="2023-03-30">2023年3月30日</time> · 朱欣欣  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#什么是-wasm">什么是 Wasm</a></li><li class><a href="#为什么-apisix-要支持-wasm-插件">为什么 APISIX 要支持 Wasm 插件</a></li><li class><a href="#apisix-如何支持-wasm">APISIX 如何支持 Wasm</a></li><li class="d3"><a href="#apisix-wasm-插件">APISIX Wasm 插件</a></li><li class="d3"><a href="#wasm-nginx-module">Wasm-nginx-module</a></li><li class="d3"><a href="#wasm-vm">Wasm VM</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header>  <blockquote>
+<p>本文将介绍 Wasm，以及 Apache APISIX 如何实现 Wasm 功能。</p>
+</blockquote>
+<!--truncate-->
+<blockquote>
+<p>作者<a href="https://github.com/starsz">朱欣欣</a>，API7.ai 技术工程师。</p>
+</blockquote>
+<h2 id="什么是-wasm">什么是 Wasm</h2>
+<p><a href="http://webassembly.org">Wasm</a> 是 WebAssembly 的缩写。WebAssembly/Wasm 是一个基于堆栈的虚拟机设计的指令格式。
+在 Wasm 未出现之前，浏览器中只能支持运行 Javascript 语言。当 Wasm 出现之后，使得高级语言例如 C/C++/Golang 能够在浏览器中运行。当前，主流的浏览器包括 Chrome、Firefox、Safari 等浏览器都已完成对 Wasm 的支持。并且得益于 WASI 项目的推进，服务端也已经能够支持运行 Wasm 指令。
+如今在网关侧，Apache APISIX 也已完成对 Wasm 的支持，开发者可以通过高级语言 C/C++/Go/Rust 并按照 <a href="https://github.com/proxy-wasm/spec">proxy-wasm</a> 规范来完成 Wasm 插件的开发。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/03/10/6ZI9czxe_whiteboard_exported_image.jpeg" alt="wasm"></p>
+<h2 id="为什么-apisix-要支持-wasm-插件">为什么 APISIX 要支持 Wasm 插件</h2>
+<p>相比较原生的 Lua 插件，Wasm 插件存在如下优势：</p>
+<ul>
+<li>
+<p>可扩展性：APISIX 通过支持 Wasm，我们可以结合 <code>proxy-wasm</code> 提供的 SDK，使用 C++/Golang/Rust 等语言进行插件开发。由于高级语言往往拥有更加丰富的生态，所以我们可以依托于这些生态来实现支持更多功能丰富的插件。</p>
+</li>
+<li>
+<p>安全性：由于 APISIX 和 Wasm 之前的调用依托于 <code>proxy-wasm</code> 提供的 ABI（二进制应用接口），这部分的访问调用更为安全。Wasm 插件只允许对请求进行特定的修改。另外，由于 Wasm 插件运行在特定的 VM 中，所以即使插件运行出现崩溃也不会影响 APISIX 主进程的运行。</p>
+</li>
+</ul>
+<h2 id="apisix-如何支持-wasm">APISIX 如何支持 Wasm</h2>
+<p>了解完 Wasm，现在我们将从自顶向下的角度来看 APISIX 是如何支持 Wasm 插件功能的。</p>
+<p><img src="https://static.apiseven.com/uploads/2023/03/10/5t9ZpK7P_apisx-wasm.jpeg" alt="apisix-wasm"></p>
+<h3 id="apisix-wasm-插件">APISIX Wasm 插件</h3>
+<p>在 APISIX 中，我们可以使用高级语言 C/C++/Go/Rust 来按照 <code>proxy-wasm</code> 规范以及对应的 SDK 来编写插件。</p>
+<blockquote>
+<p><code>proxy-wasm</code> 是 Envoy 推出的在 L4/L7 代理之间的 ABI 的规范与标准。
+在该规范中定义了包含内存管理、四层代理、七层代理扩展等 ABI。
+例如在七层代理中，<code>proxy-wasm</code> 规范定义了 proxy_on_http_request_headers，proxy_on_http_request_body，proxy_on_http_request_trailers，proxy_on_http_response_headers 等 ABI，使得模块能够在各个阶段对请求内容进行获取与修改。</p>
+</blockquote>
+<p>例如，我们使用 Golang 结合 <a href="https://github.com/tetratelabs/proxy-wasm-go-sdk">proxy-wasm-go-sdk</a>, 编写如下插件：</p>
+<blockquote>
+<p><code>proxy-wasm-go-sdk</code> 正是上述 <code>proxy-wasm</code> 规范的 SDK，它帮助开发者更好的使用 Golang 编写 proxy-wasm 插件。</p>
+</blockquote>
+<p>不过需要注意的是，由于原生 Golang 在支持 WASI 时存在一些问题，因此该 SDK 基于 TinyGo 实现，更多内容可以<a href="https://github.com/tetratelabs/proxy-wasm-go-sdk/blob/main/doc/OVERVIEW.md#tinygo-vs-the-official-go-compiler">点击</a>进行查看。</p>
+<p>该插件的主要功能用于将 HTTP 修改请求的响应状态码与响应体，引用自 APISIX <a href="https://github.com/apache/apisix/blob/master/t/wasm/fault-injection/main.go">链接</a>，</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="go"><code><span class="line"><span style="color:#FF7B72">...</span></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">ctx </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">pluginContext</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">OnPluginStart</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">pluginConfigurationSize</span><span style="color:#FF7B72"> int</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">OnPluginStartStatus</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        data, err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> proxywasm.</span><span style="color:#D2A8FF">GetPluginConfiguration</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                proxywasm.</span><span style="color:#D2A8FF">LogErrorf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"error reading plugin configuration: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusFailed</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        var</span><span style="color:#E6EDF3"> p </span><span style="color:#FFA657">fastjson</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">Parser</span></span>
+<span class="line"><span style="color:#E6EDF3">        v, err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> p.</span><span style="color:#D2A8FF">ParseBytes</span><span style="color:#E6EDF3">(data)</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                proxywasm.</span><span style="color:#D2A8FF">LogErrorf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"error decoding plugin configuration: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusFailed</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">        ctx.Body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> v.</span><span style="color:#D2A8FF">GetStringBytes</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"body"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">        ctx.HttpStatus </span><span style="color:#FF7B72">=</span><span style="color:#FF7B72"> uint32</span><span style="color:#E6EDF3">(v.</span><span style="color:#D2A8FF">GetUint</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"http_status"</span><span style="color:#E6EDF3">))</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> v.</span><span style="color:#D2A8FF">Exists</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"percentage"</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">                ctx.Percentage </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> v.</span><span style="color:#D2A8FF">GetInt</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"percentage"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                ctx.Percentage </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 100</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">        // schema check</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> ctx.HttpStatus </span><span style="color:#FF7B72">&#x3C;</span><span style="color:#79C0FF"> 200</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                proxywasm.</span><span style="color:#D2A8FF">LogError</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"bad http_status"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusFailed</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> ctx.Percentage </span><span style="color:#FF7B72">&#x3C;</span><span style="color:#79C0FF"> 0</span><span style="color:#FF7B72"> ||</span><span style="color:#E6EDF3"> ctx.Percentage </span><span style="color:#FF7B72">></span><span style="color:#79C0FF"> 100</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                proxywasm.</span><span style="color:#D2A8FF">LogError</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"bad percentage"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusFailed</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> types.OnPluginStartStatusOK</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">func</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">ctx </span><span style="color:#FF7B72">*</span><span style="color:#FFA657">httpLifecycle</span><span style="color:#E6EDF3">) </span><span style="color:#D2A8FF">OnHttpRequestHeaders</span><span style="color:#E6EDF3">(</span><span style="color:#FFA657">numHeaders</span><span style="color:#FF7B72"> int</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">endOfStream</span><span style="color:#FF7B72"> bool</span><span style="color:#E6EDF3">) </span><span style="color:#FFA657">types</span><span style="color:#E6EDF3">.</span><span style="color:#FFA657">Action</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        plugin </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> ctx.parent</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#FF7B72"> !</span><span style="color:#D2A8FF">sampleHit</span><span style="color:#E6EDF3">(plugin.Percentage) {</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> types.ActionContinue</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">        err </span><span style="color:#FF7B72">:=</span><span style="color:#E6EDF3"> proxywasm.</span><span style="color:#D2A8FF">SendHttpResponse</span><span style="color:#E6EDF3">(plugin.HttpStatus, </span><span style="color:#79C0FF">nil</span><span style="color:#E6EDF3">, plugin.Body, </span><span style="color:#FF7B72">-</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> err </span><span style="color:#FF7B72">!=</span><span style="color:#79C0FF"> nil</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                proxywasm.</span><span style="color:#D2A8FF">LogErrorf</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"failed to send local response: </span><span style="color:#FF7B72">%v</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">                return</span><span style="color:#E6EDF3"> types.ActionContinue</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span><span style="color:#E6EDF3"> types.ActionPause</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#FF7B72">...</span></span></code></pre>
+<p>之后，我们通过 <code>tiny-go</code> 将上述的 Golang 代码编译生成 <code>.wasm</code> 文件</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">tinygo</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -o</span><span style="color:#A5D6FF"> wasm_fault_injection.go.wasm</span><span style="color:#79C0FF"> -scheduler=none</span><span style="color:#79C0FF"> -target=wasi</span><span style="color:#A5D6FF"> ./main.go</span></span></code></pre>
+<p>完成编译之后，我们得到了 <code>fault_injection.go.wasm</code> 文件</p>
+<blockquote>
+<p>如果对 wasm 文件内容感兴趣的话，我们可以使用 <a href="https://github.com/bytecodealliance/wasm-tools">wasm-tool</a> 工具来查看该 wasm 文件的具体内容。
+<code>wasm-tools dump hello.go.wasm</code></p>
+</blockquote>
+<p>将 <code>wasm_fault_injection.go.wasm</code> 配置到 APISIX 到 <code>config.yaml</code>，并将该插件命名为 <code>wasm_fault_injection</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">        ...</span></span>
+<span class="line"><span style="color:#7EE787">wasm</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">wasm_fault_injection</span></span>
+<span class="line"><span style="color:#7EE787">      priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">7997</span></span>
+<span class="line"><span style="color:#7EE787">      file</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">wasm_fault_injection.go.wasm</span></span></code></pre>
+<p>之后，我们启动 APISIX ，并创建一条路由引用该 Wasm 插件：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF">  http://127.0.0.1:9180/apisix/admin/routes/1</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri":"/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type":"roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "timeout":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "connect":1,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "read":1,</span></span>
+<span class="line"><span style="color:#A5D6FF">            "send":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80":1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins":{</span></span>
+<span class="line"><span style="color:#A5D6FF">        "wasm_fault_injection":{</span></span>
+<span class="line"><span style="color:#A5D6FF">            "conf":"{\"http_status\":200, \"body\":\"Hello WebAssembly!\n\"}"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "name":"wasm_fault_injection"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span>
+<span class="line"></span></code></pre>
+<p>进行访问测试，发现响应体已被修改为 “Hello WebAssembly”，由此 Wasm 插件已经生效。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> 127.0.0.1:9080/get</span><span style="color:#79C0FF"> -v</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">   Trying 127.0.0.1:9080...</span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Connected to 127.0.0.1 (</span><span style="color:#FFA657">127.0.0.1</span><span style="color:#E6EDF3">) port 9080 (#0)</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#FFA657"> GET</span><span style="color:#A5D6FF"> /get</span><span style="color:#A5D6FF"> HTTP/1.1</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> Host: 127.0.0.1:9080</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> User-Agent: curl/7.81.0</span></span>
+<span class="line"><span style="color:#FF7B72">></span><span style="color:#E6EDF3"> Accept: </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">/</span><span style="color:#FF7B72">*</span></span>
+<span class="line"><span style="color:#FF7B72">></span></span>
+<span class="line"><span style="color:#FF7B72">*</span><span style="color:#E6EDF3"> Mark bundle as not supporting multiuse</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> HTTP/1.1 200 OK</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Date: Thu, 09 Feb 2023 07:46:50 GMT</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Content-Type: text/plain; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Transfer-Encoding: chunked</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Connection: keep-alive</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span><span style="color:#E6EDF3"> Server: APISIX/3.1.0</span></span>
+<span class="line"><span style="color:#FF7B72">&#x3C;</span></span>
+<span class="line"><span style="color:#FFA657">Hello</span><span style="color:#A5D6FF"> WebAssembly!</span></span></code></pre>
+<h3 id="wasm-nginx-module">Wasm-nginx-module</h3>
+<p>了解完 Apache APISIX 如何使用 Wasm 插件，现在我们更进一步来了解 “为什么我们能在 Wasm 插件中获取到请求的内容并修改请求？” 。
+由于 APISIX 选用 Openresty 作为底层框架，因此 Wasm 插件中想要能够获取到请求内容和修改请求内容，就需要和 openResty 或者 NGINX 提供的 API 进行交互。<code>wasm-nginx-module</code> 正是提供了这部分能力。</p>
+<blockquote>
+<p><code>wasm-nginx-module</code> 是由 <a href="https://api7.ai/">API7</a> 研发的支持 Wasm 的 NGINX 模块。
+该模块尝试在 NGINX 的基础上实现 <code>proxy-wasm-abi</code>，并且向上封装了 Lua API，使得我们能够在 Lua 层面完成 <code>proxy-wasm-abi</code> 的调用。
+更多内容可参考 <a href="https://github.com/api7/wasm-nginx-module">wasm-nginx-module</a>。</p>
+</blockquote>
+<p>例如，当我们的 APISIX 运行到 “access” 阶段时，会调用 <code>wasm-nginx-module</code> 中提供的 Lua 方法
+on_http_request_headers。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- apisix/wasm.lua</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> ok, err </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> wasm.</span><span style="color:#79C0FF">on_http_request_headers</span><span style="color:#E6EDF3">(plugin_ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">   if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> ok </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">       core.</span><span style="color:#79C0FF">log</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">error</span><span style="color:#E6EDF3">(name, </span><span style="color:#A5D6FF">": failed to run wasm plugin: "</span><span style="color:#E6EDF3">, err)</span></span>
+<span class="line"><span style="color:#FF7B72">       return</span><span style="color:#79C0FF"> 503</span></span>
+<span class="line"><span style="color:#FF7B72">   end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"><span style="color:#79C0FF">...</span></span>
+<span class="line"></span></code></pre>
+<p>之后在该方法中，将调用 <code>wasm-nginx-module</code> 中 <code>ngx_http_wasm_on_http</code> 方法，</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">ngx_int_t</span></span>
+<span class="line"><span style="color:#79C0FF">ngx_http_wasm_on_http</span><span style="color:#E6EDF3">(ngx_http_wasm_plugin_ctx_t </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">hwp_ctx, ngx_http_request_t </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">r,</span></span>
+<span class="line"><span style="color:#E6EDF3">                      ngx_http_wasm_phase_t </span><span style="color:#79C0FF">type</span><span style="color:#E6EDF3">, const u_char </span><span style="color:#FF7B72">*</span><span style="color:#E6EDF3">body, size_t size,</span></span>
+<span class="line"><span style="color:#E6EDF3">                      int end_of_body)</span></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#79C0FF">    ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    ctx </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> ngx_http_wasm_get_module_ctx</span><span style="color:#E6EDF3">(r);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> ==</span><span style="color:#E6EDF3"> HTTP_REQUEST_HEADERS) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        cb_name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> &#x26;proxy_on_request_headers;</span></span>
+<span class="line"><span style="color:#E6EDF3">    } </span><span style="color:#FF7B72">else</span><span style="color:#FF7B72"> if</span><span style="color:#E6EDF3"> (</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> ==</span><span style="color:#E6EDF3"> HTTP_REQUEST_BODY) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        cb_name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> &#x26;proxy_on_request_body;</span></span>
+<span class="line"><span style="color:#E6EDF3">    } </span><span style="color:#FF7B72">else</span><span style="color:#FF7B72"> if</span><span style="color:#E6EDF3"> (</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> ==</span><span style="color:#E6EDF3"> HTTP_RESPONSE_HEADERS) {</span></span>
+<span class="line"><span style="color:#E6EDF3">        cb_name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> &#x26;proxy_on_response_headers;</span></span>
+<span class="line"><span style="color:#E6EDF3">    } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        cb_name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> &#x26;proxy_on_response_body;</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> (</span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> ==</span><span style="color:#E6EDF3"> HTTP_REQUEST_HEADERS || </span><span style="color:#79C0FF">type</span><span style="color:#FF7B72"> ==</span><span style="color:#E6EDF3"> HTTP_RESPONSE_HEADERS) {</span></span>
+<span class="line"><span style="color:#FF7B72">        if</span><span style="color:#E6EDF3"> (hwp_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">hw_plugin</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">abi_version </span><span style="color:#FF7B72">==</span><span style="color:#E6EDF3"> PROXY_WASM_ABI_VER_010) {</span></span>
+<span class="line"><span style="color:#E6EDF3">            rc </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx_wasm_vm</span><span style="color:#FF7B72">-></span><span style="color:#79C0FF">call</span><span style="color:#E6EDF3">(hwp_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">hw_plugin</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">plugin,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                   cb_name,</span></span>
+<span class="line"><span style="color:#79C0FF">                                   true</span><span style="color:#E6EDF3">, NGX_WASM_PARAM_I32_I32, http_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">id, </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">        } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            rc </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx_wasm_vm</span><span style="color:#FF7B72">-></span><span style="color:#79C0FF">call</span><span style="color:#E6EDF3">(hwp_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">hw_plugin</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">plugin,</span></span>
+<span class="line"><span style="color:#E6EDF3">                                   cb_name,</span></span>
+<span class="line"><span style="color:#79C0FF">                                   true</span><span style="color:#E6EDF3">, NGX_WASM_PARAM_I32_I32_I32, http_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">id,</span></span>
+<span class="line"><span style="color:#79C0FF">                                   0</span><span style="color:#E6EDF3">, </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    } </span><span style="color:#FF7B72">else</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        rc </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx_wasm_vm</span><span style="color:#FF7B72">-></span><span style="color:#79C0FF">call</span><span style="color:#E6EDF3">(hwp_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">hw_plugin</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">plugin,</span></span>
+<span class="line"><span style="color:#E6EDF3">                              cb_name,</span></span>
+<span class="line"><span style="color:#79C0FF">                              true</span><span style="color:#E6EDF3">, NGX_WASM_PARAM_I32_I32_I32, http_ctx</span><span style="color:#FF7B72">-></span><span style="color:#E6EDF3">id,</span></span>
+<span class="line"><span style="color:#E6EDF3">                              size, end_of_body);</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#79C0FF">    ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>在 <code>wasm-nginx-module</code> 中，我们将根据不同的阶段，设置 <code>cb_name</code>，例如：<code>HTTP_REQUEST_HEADERS</code> 对应 <code>proxy_on_request_headers</code>，之后将在 <code>ngx_wasm_vm->call</code>  中调用 vm 中的方法也就是我们在上文中提到的 wasm 插件 <code>OnHttpRequestHeaders</code> 的方法。</p>
+<p>至此，整个 APISIX 调用 wasm 插件，运行 Golang 的调用链便梳理完成，调用链如下：</p>
+<p><img src="https://static.apiseven.com/uploads/2023/03/10/fzwAEDi4_call.png" alt="wasm-call"></p>
+<h3 id="wasm-vm">Wasm VM</h3>
+<p>Wasm VM 用于真正执行 Wasm 代码的虚拟机，在 <code>wasm-nginx-module</code> 中实现了对两种虚拟机 “wasmtime” 和 “wasmedge” 两种虚拟机，在 APISIX 中默认选择使用 “wasmtime” 作为 Wasm 代码的运行虚拟机。</p>
+<blockquote>
+<p>Wasmtime
+<a href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a> 是由 bytecodealliance 开源的 WebAssembly 和 WASI 的小型高效运行时。它能够在 Web 外部运行 WebAssembly 代码，即可以用作命令行使用，也可以作为 WebAssembly 运行引擎嵌入到其他程序作为库使用。
+Wasmedge
+<a href="https://wasmedge.org/">Wasmedge</a> 是为边缘计算优化的轻量级、高性能、可扩展的 WebAssembly (Wasm) 虚拟机，可用于云原生、边缘和去中心化的应用。</p>
+</blockquote>
+<p>在 Wasm vm 中首先通过 <code>load</code> 方法将 <code>.wasm</code> 文件加载到内存，之后我们便可以通过 VM 的 call 方法来调用这些方法。VM 底层依托于 WASI 的接口实现，使得 Wasm 代码不仅能够运行在浏览器端，同时也支持能够在服务端进行。</p>
+<h2 id="总结">总结</h2>
+<p>通过本文我们了解到 Wasm 是什么以及 APISIX 如何支持 Wasm 插件。APISIX 通过支持 Wasm 插件，不但可以扩充对多语言的支持，例如通过 C++, Rust, Golang, AssemblyScript 等进行插件开发，而且由于 WebAssembly 正在从浏览器走向云原生拥有了更加丰富的生态与使用场景，因此 APISIX 也可以借助 Wasm 完成在 API 网关侧更多的扩展功能，解决更多使用场景。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2023/04/03/10-api-management-trends/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">2023 年十大 API 管理趋势</span> </a> <a class="post-nav-card older" href="/zh/blog/2023/03/30/weekly-report-0330/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">社区双周报 (3.13 - 3.26)</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#什么是-wasm">什么是 Wasm</a></li><li class><a href="#为什么-apisix-要支持-wasm-插件">为什么 APISIX 要支持 Wasm 插件</a></li><li class><a href="#apisix-如何支持-wasm">APISIX 如何支持 Wasm</a></li><li class="d3"><a href="#apisix-wasm-插件">APISIX Wasm 插件</a></li><li class="d3"><a href="#wasm-nginx-module">Wasm-nginx-module</a></li><li class="d3"><a href="#wasm-vm">Wasm VM</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

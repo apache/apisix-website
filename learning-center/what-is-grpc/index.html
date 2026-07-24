@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>What is gRPC? Protocol Buffers, Performance &amp; API Gateway Integration | Apache APISIX</title><meta name="description" content="Learn what the gRPC protocol is, how gRPC APIs use Protocol Buffers, streaming, and HTTP/2, and how Apache APISIX proxies and transforms gRPC traffic."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/learning-center/what-is-grpc/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/learning-center/what-is-grpc/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/learning-center/what-is-grpc/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/learning-center/what-is-grpc/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="What is gRPC? Protocol Buffers, Performance &#38; API Gateway Integration | Apache APISIX"><meta property="og:description" content="Learn what the gRPC protocol is, how gRPC APIs use Protocol Buffers, streaming, and HTTP/2, and how Apache APISIX proxies and transforms gRPC traffic."><meta property="og:url" content="https://apisix.apache.org/learning-center/what-is-grpc/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"What is gRPC? Protocol Buffers, Performance & API Gateway Integration","description":"Learn what the gRPC protocol is, how gRPC APIs use Protocol Buffers, streaming, and HTTP/2, and how Apache APISIX proxies and transforms gRPC traffic.","datePublished":"2026-04-14","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/what-is-grpc/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/learning-center/what-is-grpc/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/learning-center/what-is-grpc/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/learning-center/tags/grpc/">grpc</a><a class="tag" href="/learning-center/tags/protocols/">protocols</a><a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a> </div>  <a class="cta-link side-back" href="/learning-center/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>What is gRPC? Protocol Buffers, Performance &amp; API Gateway Integration</h1> <p class="article-meta"> <time datetime="2026-04-14">Apr 14, 2026</time>  · 9 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/learning-center/tags/grpc/">grpc</a><a class="tag" href="/learning-center/tags/protocols/">protocols</a><a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#why-grpc-exists">Why gRPC Exists</a></li><li class><a href="#how-grpc-works">How gRPC Works</a></li><li class="d3"><a href="#protocol-buffers-protobuf">Protocol Buffers (Protobuf)</a></li><li class="d3"><a href="#http2-transport">HTTP/2 Transport</a></li><li class="d3"><a href="#streaming-modes">Streaming Modes</a></li><li class><a href="#grpc-vs-rest-comparison">gRPC vs REST Comparison</a></li><li class><a href="#when-to-use-grpc">When to Use gRPC</a></li><li class><a href="#grpc-and-api-gateways">gRPC and API Gateways</a></li><li class="d3"><a href="#grpc-proxying">gRPC Proxying</a></li><li class="d3"><a href="#grpc-web-translation">gRPC-Web Translation</a></li><li class="d3"><a href="#httpjson-to-grpc-transcoding">HTTP/JSON to gRPC Transcoding</a></li><li class><a href="#how-apache-apisix-handles-grpc">How Apache APISIX Handles gRPC</a></li><li class="d3"><a href="#native-grpc-proxying">Native gRPC Proxying</a></li><li class="d3"><a href="#grpc-web-support">gRPC-Web Support</a></li><li class="d3"><a href="#httpjson-to-grpc-transcoding-1">HTTP/JSON to gRPC Transcoding</a></li><li class><a href="#grpc-best-practices">gRPC Best Practices</a></li><li class><a href="#faq">FAQ</a></li><li class="d3"><a href="#can-grpc-completely-replace-rest">Can gRPC completely replace REST?</a></li><li class="d3"><a href="#how-do-i-debug-grpc-calls-if-the-payloads-are-binary">How do I debug gRPC calls if the payloads are binary?</a></li><li class="d3"><a href="#what-is-the-performance-difference-between-grpc-and-rest-in-practice">What is the performance difference between gRPC and REST in practice?</a></li><li class="d3"><a href="#does-grpc-work-with-webassembly-or-edge-computing">Does gRPC work with WebAssembly or edge computing?</a></li><li class="d3"><a href="#when-should-teams-use-grpc-instead-of-rest">When should teams use gRPC instead of REST?</a></li><li class="d3"><a href="#can-apache-apisix-proxy-grpc-traffic">Can Apache APISIX proxy gRPC traffic?</a></li><li class><a href="#related">Related</a></li> </ul> </details> </header>  <p>gRPC is a high-performance, open-source remote procedure call (RPC) framework originally developed by Google. The gRPC protocol uses Protocol Buffers for binary serialization and HTTP/2 for transport, enabling strongly typed gRPC APIs, bidirectional streaming, and smaller payloads than equivalent JSON over REST.</p>
+<h2 id="why-grpc-exists">Why gRPC Exists</h2>
+<p>REST has dominated API design for over fifteen years, and it remains an excellent choice for public-facing, resource-oriented APIs. However, as microservices architectures scaled into hundreds or thousands of inter-service calls per request, the limitations of REST became measurable: text-based JSON serialization consumes CPU cycles, HTTP/1.1 head-of-line blocking limits concurrency, and the lack of a formal contract language leads to integration drift.</p>
+<p>Google developed gRPC internally (as Stubby) and open-sourced it in 2015. Adoption has grown steadily, and gRPC has become a common choice for latency-sensitive internal APIs in performance-critical systems.</p>
+<h2 id="how-grpc-works">How gRPC Works</h2>
+<h3 id="protocol-buffers-protobuf">Protocol Buffers (Protobuf)</h3>
+<p>Protocol Buffers are gRPC’s interface definition language (IDL) and serialization format. A <code>.proto</code> file defines the service contract, including methods, request types, and response types:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="protobuf"><code><span class="line"><span style="color:#FF7B72">syntax</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "proto3"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">service</span><span style="color:#FFA657"> OrderService</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">  rpc</span><span style="color:#D2A8FF"> GetOrder</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">OrderRequest</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">returns</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">OrderResponse</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#FF7B72">  rpc</span><span style="color:#D2A8FF"> StreamOrders</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">OrderFilter</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">returns</span><span style="color:#E6EDF3"> (</span><span style="color:#FF7B72">stream</span><span style="color:#FFA657"> OrderResponse</span><span style="color:#E6EDF3">);</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">message</span><span style="color:#FFA657"> OrderRequest</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">  string</span><span style="color:#E6EDF3"> order_id </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">message</span><span style="color:#FFA657"> OrderResponse</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FF7B72">  string</span><span style="color:#E6EDF3"> order_id </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  string</span><span style="color:#E6EDF3"> status </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 2</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#FF7B72">  double</span><span style="color:#E6EDF3"> total </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 3</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>The <code>protoc</code> compiler generates client and server code in many languages from this single definition. Binary serialization produces payloads that are substantially smaller than equivalent JSON representations. This size reduction directly translates to lower network bandwidth consumption and faster serialization/deserialization.</p>
+<h3 id="http2-transport">HTTP/2 Transport</h3>
+<p>gRPC runs exclusively on HTTP/2, which provides several performance advantages over HTTP/1.1:</p>
+<ul>
+<li><strong>Multiplexing.</strong> Multiple RPC calls share a single TCP connection without head-of-line blocking. A service making 50 concurrent calls to another service needs only one connection, not 50.</li>
+<li><strong>Header compression.</strong> HPACK compression significantly reduces header overhead for repeated headers.</li>
+<li><strong>Binary framing.</strong> HTTP/2 frames are binary, eliminating the text parsing overhead of HTTP/1.1.</li>
+</ul>
+<p>These transport-level improvements compound with Protobuf serialization to deliver measurably lower latency in service-to-service communication.</p>
+<h3 id="streaming-modes">Streaming Modes</h3>
+<p>gRPC supports four communication patterns:</p>
+<ol>
+<li><strong>Unary RPC.</strong> Single request, single response. Equivalent to a REST call.</li>
+<li><strong>Server streaming.</strong> Client sends one request, server returns a stream of responses. Useful for real-time feeds or large result sets.</li>
+<li><strong>Client streaming.</strong> Client sends a stream of messages, server returns one response. Useful for batched uploads or telemetry ingestion.</li>
+<li><strong>Bidirectional streaming.</strong> Both sides send streams of messages concurrently. Useful for chat, collaborative editing, or real-time synchronization.</li>
+</ol>
+<p>In practice, unary calls represent the majority of gRPC usage, with server streaming being the next most common pattern. The streaming capabilities differentiate gRPC from REST most sharply in real-time and high-throughput scenarios.</p>
+<h2 id="grpc-vs-rest-comparison">gRPC vs REST Comparison</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Aspect</th><th>gRPC</th><th>REST</th></tr></thead><tbody><tr><td>Serialization</td><td>Protocol Buffers (binary)</td><td>JSON (text)</td></tr><tr><td>Transport</td><td>HTTP/2 only</td><td>HTTP/1.1 or HTTP/2</td></tr><tr><td>Contract</td><td><code>.proto</code> file (strict)</td><td>OpenAPI/Swagger (optional)</td></tr><tr><td>Streaming</td><td>Native (4 modes)</td><td>Limited (SSE, WebSocket)</td></tr><tr><td>Code Generation</td><td>Built-in (<code>protoc</code>)</td><td>Third-party tools</td></tr><tr><td>Browser Support</td><td>Requires proxy (gRPC-Web)</td><td>Native</td></tr><tr><td>Payload Size</td><td>Significantly smaller</td><td>Baseline</td></tr><tr><td>Latency (typical)</td><td>Lower inter-service</td><td>Higher inter-service</td></tr><tr><td>Human Readability</td><td>Binary (needs tooling)</td><td>JSON is human-readable</td></tr><tr><td>Caching</td><td>Not HTTP-cacheable by default</td><td>HTTP caching built-in</td></tr><tr><td>Tooling Maturity</td><td>Growing</td><td>Extensive</td></tr></tbody></table>
+<p>REST remains the dominant choice for public-facing APIs, while gRPC is increasingly preferred for internal microservices communication at larger organizations. The two protocols serve complementary roles rather than competing directly.</p>
+<h2 id="when-to-use-grpc">When to Use gRPC</h2>
+<p><strong>Use gRPC when:</strong></p>
+<ul>
+<li>Services communicate with high frequency and low latency requirements (trading systems, real-time analytics, game backends).</li>
+<li>Payload efficiency matters because of bandwidth constraints or high message volumes.</li>
+<li>Strong typing and contract-first development are priorities. The <code>.proto</code> file becomes the single source of truth.</li>
+<li>Streaming is a core requirement (live data feeds, event-driven architectures, IoT telemetry).</li>
+<li>Polyglot environments need consistent client/server code generation across multiple languages.</li>
+</ul>
+<p><strong>Stick with REST when:</strong></p>
+<ul>
+<li>The API is public-facing and must be browser-accessible without additional proxying.</li>
+<li>Human readability and debuggability with standard HTTP tools (curl, Postman) are important for developer experience.</li>
+<li>HTTP caching semantics are essential for performance.</li>
+<li>The team’s existing tooling and expertise are REST-centric, and migration cost outweighs the performance gain.</li>
+</ul>
+<p>Many organizations adopting gRPC maintain REST for external APIs and use gRPC exclusively for internal communication, creating a dual-protocol architecture that leverages each protocol’s strengths.</p>
+<h2 id="grpc-and-api-gateways">gRPC and API Gateways</h2>
+<p>API gateways play a critical role in gRPC architectures by solving three problems: protocol translation, traffic management, and observability.</p>
+<h3 id="grpc-proxying">gRPC Proxying</h3>
+<p>A gateway that natively supports HTTP/2 can proxy gRPC traffic directly, applying authentication, rate limiting, and logging without protocol translation. The gateway terminates the client’s gRPC connection, applies policies, and forwards the call to the upstream gRPC service. This is the simplest integration model and preserves full gRPC semantics including streaming.</p>
+<h3 id="grpc-web-translation">gRPC-Web Translation</h3>
+<p>Browsers cannot make native gRPC calls because browser-based JavaScript does not expose the HTTP/2 framing layer required by gRPC. The gRPC-Web protocol bridges this gap: the browser sends gRPC-Web requests (HTTP/1.1 or HTTP/2 with modified framing), and the gateway translates them into native gRPC for the upstream service. This eliminates the need for a separate REST API layer for browser clients.</p>
+<h3 id="httpjson-to-grpc-transcoding">HTTP/JSON to gRPC Transcoding</h3>
+<p>Many organizations need to expose gRPC services to clients that can only consume REST/JSON. An API gateway with transcoding capabilities automatically maps HTTP verbs and JSON payloads to gRPC methods and Protobuf messages based on annotations in the <code>.proto</code> file. This enables a single gRPC backend to serve both gRPC and REST clients without maintaining two codebases.</p>
+<p>In practice, gRPC deployments behind an API gateway typically use a mix of pure gRPC proxying, gRPC-Web for browser access, and transcoding to serve REST clients.</p>
+<h2 id="how-apache-apisix-handles-grpc">How Apache APISIX Handles gRPC</h2>
+<p>Apache APISIX provides native gRPC support across all three integration patterns described above.</p>
+<h3 id="native-grpc-proxying">Native gRPC Proxying</h3>
+<p>APISIX proxies gRPC traffic natively over HTTP/2, supporting unary and streaming calls. Routes can be configured with gRPC-specific upstream settings, and the full <a href="/plugins/">plugin ecosystem</a> applies to gRPC routes: authentication (JWT, key-auth), rate limiting, circuit breaking, and observability all work transparently on gRPC traffic.</p>
+<h3 id="grpc-web-support">gRPC-Web Support</h3>
+<p>The <a href="/docs/apisix/plugins/grpc-web/">grpc-web plugin</a> enables browser clients to communicate with gRPC backends through APISIX. The plugin handles the protocol translation between gRPC-Web and native gRPC, allowing frontend teams to consume gRPC services directly without building a REST translation layer. This reduces the API surface area and eliminates a class of contract synchronization bugs.</p>
+<h3 id="httpjson-to-grpc-transcoding-1">HTTP/JSON to gRPC Transcoding</h3>
+<p>The <a href="/docs/apisix/plugins/grpc-transcode/">grpc-transcode plugin</a> maps REST endpoints to gRPC methods using the Protobuf descriptor. After uploading the <code>.proto</code> file to APISIX, the plugin automatically exposes each gRPC method as an HTTP endpoint, translating JSON request bodies to Protobuf messages and Protobuf responses back to JSON. This is particularly valuable for organizations migrating from REST to gRPC incrementally, as existing REST clients continue working while backends are rewritten.</p>
+<p>APISIX’s gRPC performance is notable: internal benchmarks show gRPC proxying at approximately 15,000 RPS per CPU core with 0.3 milliseconds of added latency, comparable to its HTTP/1.1 proxying performance. The <a href="/docs/apisix/getting-started/">getting started guide</a> includes gRPC configuration examples.</p>
+<h2 id="grpc-best-practices">gRPC Best Practices</h2>
+<ol>
+<li>
+<p><strong>Version your <code>.proto</code> files carefully.</strong> Protobuf supports backward-compatible field additions, but removing or renaming fields breaks clients. Use reserved field numbers for deleted fields.</p>
+</li>
+<li>
+<p><strong>Set deadlines on every RPC.</strong> Without a deadline, a hung upstream can hold client resources indefinitely. Missing or overly generous RPC deadlines are a common cause of cascading failures in distributed systems.</p>
+</li>
+<li>
+<p><strong>Use load balancing at the connection level.</strong> Because HTTP/2 multiplexes many RPCs over one connection, TCP-level load balancing (L4) is insufficient. Use L7 load balancing or client-side balancing to distribute RPCs across backend instances.</p>
+</li>
+<li>
+<p><strong>Implement health checking.</strong> gRPC defines a standard health checking protocol (<code>grpc.health.v1.Health</code>). Use it for readiness probes and load balancer health checks.</p>
+</li>
+<li>
+<p><strong>Monitor per-method metrics.</strong> Track latency, error rate, and throughput per gRPC method, not just per service. A slow <code>GetOrder</code> method is invisible if aggregated with a fast <code>ListOrders</code> method.</p>
+</li>
+</ol>
+<h2 id="faq">FAQ</h2>
+<h3 id="can-grpc-completely-replace-rest">Can gRPC completely replace REST?</h3>
+<p>Not in most architectures. gRPC excels at internal service-to-service communication where performance, type safety, and streaming matter. REST remains superior for public APIs due to native browser support, human-readable payloads, HTTP caching, and broader tooling familiarity. The most common pattern is gRPC internally with REST or GraphQL at the edge, using an API gateway for protocol translation.</p>
+<h3 id="how-do-i-debug-grpc-calls-if-the-payloads-are-binary">How do I debug gRPC calls if the payloads are binary?</h3>
+<p>Tools like <code>grpcurl</code> (a curl equivalent for gRPC), Postman (which added gRPC support in 2023), and BloomRPC provide human-readable interaction with gRPC services. For production debugging, structured logging at the gateway layer that decodes Protobuf messages into JSON is the most effective approach. APISIX’s logging plugins can capture gRPC request and response metadata for observability.</p>
+<h3 id="what-is-the-performance-difference-between-grpc-and-rest-in-practice">What is the performance difference between gRPC and REST in practice?</h3>
+<p>In controlled benchmarks, gRPC typically delivers significantly higher throughput and lower latency than REST/JSON for equivalent workloads. The gains come from binary serialization (smaller payloads, faster encoding), HTTP/2 multiplexing (fewer connections, no head-of-line blocking), and code-generated clients (no reflection or manual parsing). The exact improvement depends on payload size, call frequency, and network conditions. Organizations migrating from REST to gRPC commonly report meaningful reductions in inter-service latency in production.</p>
+<h3 id="does-grpc-work-with-webassembly-or-edge-computing">Does gRPC work with WebAssembly or edge computing?</h3>
+<p>Yes. Protobuf serialization libraries exist for languages targeting WebAssembly, and gRPC-Web enables browser-based Wasm applications to call gRPC backends. For edge computing, gRPC’s compact payloads and efficient serialization are advantageous on bandwidth-constrained links. Several CDN providers, including Cloudflare and Fastly, now support gRPC proxying at the edge as of 2025.</p>
+<h3 id="when-should-teams-use-grpc-instead-of-rest">When should teams use gRPC instead of REST?</h3>
+<p>gRPC is a strong fit for internal service-to-service communication that needs efficient serialization, strict contracts, streaming, or low-latency calls. REST is often simpler for public APIs and browser-facing use cases.</p>
+<h3 id="can-apache-apisix-proxy-grpc-traffic">Can Apache APISIX proxy gRPC traffic?</h3>
+<p>Yes. Apache APISIX can proxy gRPC traffic and support related gateway patterns such as routing, load balancing, and protocol-aware traffic management.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="/learning-center/what-is-an-api-gateway/">What is an API gateway?</a></li>
+<li><a href="/learning-center/api-gateway-for-microservices/">API gateway for microservices</a></li>
+<li><a href="/docs/apisix/getting-started/">Get started with Apache APISIX</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/learning-center/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/learning-center/what-is-an-api-gateway/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">What is an API Gateway? Definition, Benefits &amp; Use Cases</span> </a>  </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#why-grpc-exists">Why gRPC Exists</a></li><li class><a href="#how-grpc-works">How gRPC Works</a></li><li class="d3"><a href="#protocol-buffers-protobuf">Protocol Buffers (Protobuf)</a></li><li class="d3"><a href="#http2-transport">HTTP/2 Transport</a></li><li class="d3"><a href="#streaming-modes">Streaming Modes</a></li><li class><a href="#grpc-vs-rest-comparison">gRPC vs REST Comparison</a></li><li class><a href="#when-to-use-grpc">When to Use gRPC</a></li><li class><a href="#grpc-and-api-gateways">gRPC and API Gateways</a></li><li class="d3"><a href="#grpc-proxying">gRPC Proxying</a></li><li class="d3"><a href="#grpc-web-translation">gRPC-Web Translation</a></li><li class="d3"><a href="#httpjson-to-grpc-transcoding">HTTP/JSON to gRPC Transcoding</a></li><li class><a href="#how-apache-apisix-handles-grpc">How Apache APISIX Handles gRPC</a></li><li class="d3"><a href="#native-grpc-proxying">Native gRPC Proxying</a></li><li class="d3"><a href="#grpc-web-support">gRPC-Web Support</a></li><li class="d3"><a href="#httpjson-to-grpc-transcoding-1">HTTP/JSON to gRPC Transcoding</a></li><li class><a href="#grpc-best-practices">gRPC Best Practices</a></li><li class><a href="#faq">FAQ</a></li><li class="d3"><a href="#can-grpc-completely-replace-rest">Can gRPC completely replace REST?</a></li><li class="d3"><a href="#how-do-i-debug-grpc-calls-if-the-payloads-are-binary">How do I debug gRPC calls if the payloads are binary?</a></li><li class="d3"><a href="#what-is-the-performance-difference-between-grpc-and-rest-in-practice">What is the performance difference between gRPC and REST in practice?</a></li><li class="d3"><a href="#does-grpc-work-with-webassembly-or-edge-computing">Does gRPC work with WebAssembly or edge computing?</a></li><li class="d3"><a href="#when-should-teams-use-grpc-instead-of-rest">When should teams use gRPC instead of REST?</a></li><li class="d3"><a href="#can-apache-apisix-proxy-grpc-traffic">Can Apache APISIX proxy gRPC traffic?</a></li><li class><a href="#related">Related</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/learning-center/apisix-vs-apigee/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Apigee: Gateway vs API Management Platform</h3> <p class="desc">Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-aws-api-gateway/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed</h3> <p class="desc">Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-envoy/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Envoy: API Gateway vs Service Proxy</h3> <p class="desc">Compare Apache APISIX and Envoy: a turnkey API gateway with a built-in control plane vs a high-performance proxy that needs one (Istio, Gloo).</p> <p class="meta">Jun 24, 2026</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

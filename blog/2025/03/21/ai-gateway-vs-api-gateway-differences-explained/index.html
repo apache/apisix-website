@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>What Is an AI Gateway: Differences from API Gateway | Apache APISIX</title><meta name="description" content="Compare AI Gateways and traditional API Gateways, including LLM traffic patterns, token controls, model routing, and where Apache APISIX fits."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="What Is an AI Gateway: Differences from API Gateway | Apache APISIX"><meta property="og:description" content="Compare AI Gateways and traditional API Gateways, including LLM traffic patterns, token controls, model routing, and where Apache APISIX fits."><meta property="og:url" content="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"What Is an AI Gateway: Differences from API Gateway","description":"Compare AI Gateways and traditional API Gateways, including LLM traffic patterns, token controls, model routing, and where Apache APISIX fits.","datePublished":"2025-03-21","image":"https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp","author":{"@type":"Person","name":"Yilia Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>What Is an AI Gateway: Differences from API Gateway</h1> <p class="article-meta"> <time datetime="2025-03-21">Mar 21, 2025</time> · Yilia Lin  · 6 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#what-is-an-ai-gateway-why-did-it-arise-in-the-ai-era">What Is an AI Gateway? Why Did It Arise in the AI Era?</a></li><li class><a href="#the-rise-of-ai-gateways">The Rise of AI Gateways</a></li><li class><a href="#ai-agents-vs-traditional-devices-why-stream-type-requests-demand-specialized-handling">AI Agents vs. Traditional Devices: Why Stream-Type Requests Demand Specialized Handling</a></li><li class="d3"><a href="#the-stream-type-challenge">The Stream-Type Challenge</a></li><li class><a href="#two-types-of-ai-gateways-purpose-built-vs-api-gateway-evolutions">Two Types of AI Gateways: Purpose-Built vs. API Gateway Evolutions</a></li><li class="d3"><a href="#specific-purpose-built-ai-gateways">Specific Purpose-Built AI Gateways</a></li><li class="d3"><a href="#evolved-ai-gateways-from-api-gateways">Evolved AI Gateways from API Gateways</a></li><li class><a href="#why-teams-extend-existing-api-gateways-for-ai-traffic">Why Teams Extend Existing API Gateways for AI Traffic</a></li><li class><a href="#model-context-protocol-mcp-bridging-ai-assistants-and-external-tools">Model Context Protocol (MCP): Bridging AI Assistants and External Tools</a></li><li class="d3"><a href="#how-mcp-works">How MCP Works</a></li><li class="d3"><a href="#mcp-and-api-gateway-responsibilities">MCP and API Gateway Responsibilities</a></li><li class><a href="#future-of-ai-gateways-convergence-with-api-management">Future of AI Gateways: Convergence with API Management</a></li><li class="d3"><a href="#trend-1-convergence-between-ai-and-api-gateways">Trend 1: Convergence Between AI and API Gateways</a></li><li class="d3"><a href="#trend-2-more-ai-aware-traffic-controls">Trend 2: More AI-Aware Traffic Controls</a></li><li class="d3"><a href="#the-bottom-line">The Bottom Line</a></li><li class><a href="#conclusion-embracing-ai-api-convergence">Conclusion: Embracing AI-API Convergence</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <p>An AI gateway manages LLM and model traffic, while a traditional API gateway manages general API traffic. This article compares their traffic patterns, controls, and architecture, and explains how the <a href="/ai-gateway/">Apache APISIX AI Gateway</a> extends an API gateway for AI workloads.</p>
+<!--truncate-->
+<h2 id="what-is-an-ai-gateway-why-did-it-arise-in-the-ai-era">What Is an AI Gateway? Why Did It Arise in the AI Era?</h2>
+<p>The AI era has ushered in unprecedented complexity in deploying and managing artificial intelligence (AI) models. Organizations now juggle multiple models—from computer vision to large language models (LLMs)—across diverse environments (cloud, edge, hybrid). Traditional API gateways, designed for general-purpose data traffic, often fall short in addressing the unique challenges posed by AI workloads. This is where <strong>AI gateways</strong> emerge as critical middleware, acting as a unified control plane for routing, securing, and optimizing AI workloads.</p>
+<h2 id="the-rise-of-ai-gateways">The Rise of AI Gateways</h2>
+<p>The proliferation of <strong>generative AI and LLMs (Large Language Models)</strong> has introduced unique challenges:</p>
+<ul>
+<li><strong>Token Consumption</strong>: LLMs process requests in tokens, requiring granular tracking for cost and performance optimization.</li>
+<li><strong>Stream-Type Requests</strong>: AI agents often generate real-time, streaming responses (e.g., ChatGPT’s incremental output), demanding low-latency handling.</li>
+<li><strong>Tool Integration</strong>: AI systems increasingly rely on external data sources and APIs (e.g., retrieving live weather data or CRM records).</li>
+</ul>
+<p>As organizations deploy more LLM-powered applications, token accounting, streaming responses, model routing, and tool access introduce requirements beyond ordinary request routing. An <a href="/blog/2025/03/06/what-is-an-ai-gateway/">AI gateway</a> centralizes these controls for AI-native traffic.</p>
+<h2 id="ai-agents-vs-traditional-devices-why-stream-type-requests-demand-specialized-handling">AI Agents vs. Traditional Devices: Why Stream-Type Requests Demand Specialized Handling</h2>
+<p>AI agents (e.g., chatbots, coding assistants) generate fundamentally different traffic patterns than traditional clients:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric</th><th>Traditional API Requests</th><th>AI Agent Requests</th></tr></thead><tbody><tr><td><strong>Request Type</strong></td><td>Synchronous (HTTP GET/POST)</td><td>Asynchronous, streaming (SSE)</td></tr><tr><td><strong>Latency</strong></td><td>Milliseconds</td><td>Seconds-minutes (for chunks)</td></tr><tr><td><strong>Billing</strong></td><td>Per API call</td><td>Per token or compute time</td></tr><tr><td><strong>Failure Modes</strong></td><td>Timeouts, HTTP errors</td><td>Partial completions, hallucinations</td></tr></tbody></table>
+<h3 id="the-stream-type-challenge">The Stream-Type Challenge</h3>
+<p>When an AI agent requests generated content, the response may be streamed incrementally. Gateways handling this traffic need to account for:</p>
+<ul>
+<li><strong>Partial Responses</strong>: Aggregating chunks into a coherent audit log.</li>
+<li><strong>Token Accounting</strong>: Accurately counting tokens across streaming chunks.</li>
+<li><strong>Real-Time Observability</strong>: Monitoring latency per token or detecting drift in response quality.</li>
+</ul>
+<p>AI gateways vary in how they expose tracing and usage metrics. API gateways like <a href="https://github.com/apache/apisix">Apache APISIX</a> integrate with Prometheus and Grafana, allowing teams to combine established gateway observability with LLM usage data emitted through AI plugins and logs.</p>
+<h2 id="two-types-of-ai-gateways-purpose-built-vs-api-gateway-evolutions">Two Types of AI Gateways: Purpose-Built vs. API Gateway Evolutions</h2>
+<p>Today’s AI gateways fall into two categories:</p>
+<h3 id="specific-purpose-built-ai-gateways">Specific Purpose-Built AI Gateways</h3>
+<p>These are built from the ground up to address AI use cases. AI-focused platforms and gateways commonly provide capabilities such as:</p>
+<ul>
+<li><strong>Token-Based Rate Limiting</strong>: Enforcing usage quotas based on tokens instead of API calls.</li>
+<li><strong>Prompt Engineering Tools</strong>: Allowing developers to test and optimize prompts.</li>
+<li><strong>AI-Specific Analytics</strong>: Tracking metrics like response hallucination rates or token costs.</li>
+</ul>
+<p><strong>Example</strong>: LLM providers commonly meter input and output by tokens, so a gateway can use token counters for usage tracking and throttling without depending on a provider’s current price.</p>
+<p>The available observability, deployment, and policy controls vary by product. Teams should evaluate whether an AI-focused gateway integrates with their existing tracing, logging, and access-control systems.</p>
+<h3 id="evolved-ai-gateways-from-api-gateways">Evolved AI Gateways from API Gateways</h3>
+<p>Established API gateway projects such as <strong><a href="https://apisix.apache.org/">Apache APISIX</a></strong> are also adapting to AI workloads by adding:</p>
+<ul>
+<li><strong>Streaming Support</strong>: Handling Server-Sent Events (SSE) and WebSockets for real-time AI responses.</li>
+<li><strong>Token-Aware Plugins</strong>: Extending rate-limiting plugins to track tokens.</li>
+<li><strong>LLM Orchestration</strong>: Managing multiple AI models (e.g., routing requests to cost-effective models like Mistral-7B for simple tasks).</li>
+</ul>
+<p>Mature API gateways bring established security, load-balancing, and usage-control capabilities into the comparison.</p>
+<h2 id="why-teams-extend-existing-api-gateways-for-ai-traffic">Why Teams Extend Existing API Gateways for AI Traffic</h2>
+<p>For teams that already operate an API gateway, extending the existing traffic-management layer can offer three practical benefits:</p>
+<ol>
+<li><strong>Operational Efficiency</strong>: A shared gateway can reduce duplicated policy, deployment, and observability stacks for API and AI traffic.</li>
+<li><strong>Flexibility</strong>: Platforms like Apache APISIX can connect to multiple LLM providers without coupling applications to one model endpoint.</li>
+<li><strong>Consistent Governance</strong>: Existing authentication, traffic control, logging, and security policies can also be applied to AI workloads.</li>
+</ol>
+<h2 id="model-context-protocol-mcp-bridging-ai-assistants-and-external-tools">Model Context Protocol (MCP): Bridging AI Assistants and External Tools</h2>
+<p>To connect AI applications with external data and tools, the <strong><a href="https://modelcontextprotocol.io/">Model Context Protocol (MCP)</a></strong> defines a client-server protocol for discovering and invoking capabilities, such as:</p>
+<ul>
+<li><strong>Data Sources</strong>: SQL databases, vector stores (e.g., Pinecone).</li>
+<li><strong>APIs</strong>: CRM systems, payment gateways.</li>
+<li><strong>Tools</strong>: Code interpreters, and image generators.</li>
+</ul>
+<h3 id="how-mcp-works">How MCP Works</h3>
+<ol>
+<li><strong>Capability Discovery</strong>: An MCP client connects to an MCP server and discovers the tools, resources, or prompts it exposes.</li>
+<li><strong>Tool Invocation</strong>: When an application selects a tool, the client sends a structured request to the MCP server.</li>
+<li><strong>Result Handling</strong>: The MCP server returns the result to the client, and the host application decides how to use it in the model interaction.</li>
+</ol>
+<p>An API gateway can secure and observe HTTP traffic to remote MCP servers or to APIs used by those servers. Tool selection and response synthesis remain responsibilities of the host application rather than requirements imposed by MCP.</p>
+<p><img src="https://static.api7.ai/uploads/2025/08/01/zHkQ4hM0_how-mcp-works.webp" alt="How MCP Works"></p>
+<p><strong>Example</strong>: A user asks, “Email our top client in NYC about today’s weather.” The host application uses its MCP client to:</p>
+<ul>
+<li>Discover and call a tool that retrieves the top client from Salesforce.</li>
+<li>Call a weather tool for the current conditions in NYC.</li>
+<li>Return the tool results to the host application, which can provide them to the selected model to draft the email.</li>
+</ul>
+<h3 id="mcp-and-api-gateway-responsibilities">MCP and API Gateway Responsibilities</h3>
+<ul>
+<li><strong>Interoperability</strong>: MCP standardizes how host applications communicate with servers that expose tools and resources.</li>
+<li><strong>Gateway Security</strong>: API gateway policies can protect and observe HTTP services used by an MCP deployment.</li>
+<li><strong>Application Orchestration</strong>: The host application remains responsible for choosing tools, combining results, and managing the model interaction.</li>
+</ul>
+<h2 id="future-of-ai-gateways-convergence-with-api-management">Future of AI Gateways: Convergence with API Management</h2>
+<p>As AI adoption matures, two trends will shape AI gateways:</p>
+<h3 id="trend-1-convergence-between-ai-and-api-gateways">Trend 1: Convergence Between AI and API Gateways</h3>
+<p>AI-focused and general-purpose gateways increasingly overlap in the capabilities they offer:</p>
+<ul>
+<li><strong>Unified Governance</strong>: One platform for REST, GraphQL, and AI APIs.</li>
+<li><strong>Usage Controls</strong>: Token-aware limits and metering signals for external billing systems.</li>
+<li><strong>Enterprise Features</strong>: Role-based access control (RBAC), audit logging.</li>
+</ul>
+<p>The appropriate architecture depends on whether a team needs a dedicated AI control plane, an extension of its existing gateway, or both.</p>
+<h3 id="trend-2-more-ai-aware-traffic-controls">Trend 2: More AI-Aware Traffic Controls</h3>
+<p>AI gateways and AI-aware API gateways are adding controls for:</p>
+<ul>
+<li><strong>Model Routing</strong>: Directing requests to optimal models based on cost, latency, or accuracy.</li>
+<li><strong>Hybrid Workflows</strong>: Blending AI and non-AI services (e.g., validating a model response against a database).</li>
+<li><strong>Token Analytics</strong>: Real-time dashboards showing token spend by team or project.</li>
+</ul>
+<h3 id="the-bottom-line">The Bottom Line</h3>
+<p>The line between “AI gateway” and “API gateway” is becoming less rigid as both product categories add model routing, token controls, security, and observability. Teams can evaluate these capabilities against their requirements for scale, cost control, security, and operational consistency.</p>
+<h2 id="conclusion-embracing-ai-api-convergence">Conclusion: Embracing AI-API Convergence</h2>
+<p>AI gateways and API gateways address overlapping but distinct concerns. Purpose-built products may offer specialized model tooling, while established API gateways can extend existing routing, security, and observability controls to AI traffic.</p>
+<p>Solutions like <strong><a href="/blog/2025/02/24/apisix-ai-gateway-features/">Apache APISIX AI Gateway</a></strong> combine AI-specific traffic controls with general API management. The right approach depends on a team’s model providers, existing infrastructure, governance requirements, and operational preferences.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2025/03/24/6-essential-ai-gateway-use-cases/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">6 Essential AI Gateway Use Cases</span> </a> <a class="post-nav-card older" href="/blog/2025/03/06/what-is-an-ai-gateway/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">What Is an AI Gateway? Concept and Core Features</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#what-is-an-ai-gateway-why-did-it-arise-in-the-ai-era">What Is an AI Gateway? Why Did It Arise in the AI Era?</a></li><li class><a href="#the-rise-of-ai-gateways">The Rise of AI Gateways</a></li><li class><a href="#ai-agents-vs-traditional-devices-why-stream-type-requests-demand-specialized-handling">AI Agents vs. Traditional Devices: Why Stream-Type Requests Demand Specialized Handling</a></li><li class="d3"><a href="#the-stream-type-challenge">The Stream-Type Challenge</a></li><li class><a href="#two-types-of-ai-gateways-purpose-built-vs-api-gateway-evolutions">Two Types of AI Gateways: Purpose-Built vs. API Gateway Evolutions</a></li><li class="d3"><a href="#specific-purpose-built-ai-gateways">Specific Purpose-Built AI Gateways</a></li><li class="d3"><a href="#evolved-ai-gateways-from-api-gateways">Evolved AI Gateways from API Gateways</a></li><li class><a href="#why-teams-extend-existing-api-gateways-for-ai-traffic">Why Teams Extend Existing API Gateways for AI Traffic</a></li><li class><a href="#model-context-protocol-mcp-bridging-ai-assistants-and-external-tools">Model Context Protocol (MCP): Bridging AI Assistants and External Tools</a></li><li class="d3"><a href="#how-mcp-works">How MCP Works</a></li><li class="d3"><a href="#mcp-and-api-gateway-responsibilities">MCP and API Gateway Responsibilities</a></li><li class><a href="#future-of-ai-gateways-convergence-with-api-management">Future of AI Gateways: Convergence with API Management</a></li><li class="d3"><a href="#trend-1-convergence-between-ai-and-api-gateways">Trend 1: Convergence Between AI and API Gateways</a></li><li class="d3"><a href="#trend-2-more-ai-aware-traffic-controls">Trend 2: More AI-Aware Traffic Controls</a></li><li class="d3"><a href="#the-bottom-line">The Bottom Line</a></li><li class><a href="#conclusion-embracing-ai-api-convergence">Conclusion: Embracing AI-API Convergence</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

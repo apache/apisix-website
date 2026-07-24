@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API 网关集成 SkyWalking 打造全方位日志处理 | Apache APISIX</title><meta name="description" content="本文主要介绍云原生 API 网关 Apache APISIX 集成 SkyWalking 的日志插件，为之后用户在 Apache APISIX 中进行日志处理提供更方便的操作与环境。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/07/apisix-integrate-skywalking-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API 网关集成 SkyWalking 打造全方位日志处理 | Apache APISIX"><meta property="og:description" content="本文主要介绍云原生 API 网关 Apache APISIX 集成 SkyWalking 的日志插件，为之后用户在 Apache APISIX 中进行日志处理提供更方便的操作与环境。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API 网关集成 SkyWalking 打造全方位日志处理","description":"本文主要介绍云原生 API 网关 Apache APISIX 集成 SkyWalking 的日志插件，为之后用户在 Apache APISIX 中进行日志处理提供更方便的操作与环境。","datePublished":"2021-12-07","image":"https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png","author":{"@type":"Person","name":"庄浩潮"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/12/07/apisix-integrate-skywalking-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/12/07/apisix-integrate-skywalking-plugin/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/12/07/apisix-integrate-skywalking-plugin/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/plugins/">Plugins</a><a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>API 网关集成 SkyWalking 打造全方位日志处理</h1> <p class="article-meta"> <time datetime="2021-12-07">2021年12月7日</time> · 庄浩潮  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/plugins/">Plugins</a><a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#功能开发背景">功能开发背景</a></li><li class><a href="#全新日志插件介绍">全新日志插件介绍</a></li><li class="d3"><a href="#skywalking-logger-插件">SkyWalking Logger 插件</a></li><li class="d3"><a href="#skywalking-error-logger-插件">SkyWalking Error Logger 插件</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/skywalking.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。</p>
+</blockquote>
+<!--truncate-->
+<p>在可观测性领域，通常采用 Metrics、Logger 与 Tracing 三大方向的数据收集与分析，以达到洞察应用运行状态的目的，Apache SkyWalking 的日志处理正好具备了以上三方面。</p>
+<p>Apache APISIX 早在 1.4 版本就已经集成 Apache SkyWaling Tracing 能力，并在后续版本中加入了错误日志和访问日志收集等功能。如今随着 Apache SkyWalking 对 Metrics 的支持，能够帮助 Apache APISIX 在集成模式下实现一站式可观测方案，同时覆盖到日志、度量和调用追踪。</p>
+<h2 id="功能开发背景">功能开发背景</h2>
+<p>熟悉 Apache APISIX 的小伙伴应该知道，Apache APISIX 在运行中会产出两种日志，即访问日志和错误日志。</p>
+<p>访问日志记录着每个请求的详细信息，属于<strong>请求范围</strong>内产生的日志，因此可以直接与 Tracing 关联。而错误日志则是 Apache APISIX <strong>运行时</strong>产出日志信息，是整个应用级别日志，但无法确保能百分百关联到请求上。</p>
+<p>目前 Apache APISIX 提供了非常丰富的日志处理插件，包括 TCP/HTTP/Kafka 等收集上报插件，但它们与 Tracing 关联都比较弱。以 Apache SkyWalking 为例，提取 Apache APISIX 端日志记录中的 SkyWalking Tracing Conetxt Header 并输出到文件系统，之后利用日志处理框架（fluentbit）将日志转成 SkyWalking 可接受的日志格式。后续从中解析提取 Tracing Context，从而获得 Tracing ID 进而与 Trace 建立联系。</p>
+<p>显然，上述方式处理流程比较繁琐复杂，还需要额外转换日志格式。为此，在 <a href="https://github.com/apache/apisix/pull/5550">PR#5500</a> 中我们实现了将 Apache SkyWalking 访问日志接入 Apache APISIX 插件生态，方便用户在使用 Apache APISIX 中更方便地利用 Apache SkyWalking 进行收集和处理相关日志。</p>
+<h2 id="全新日志插件介绍">全新日志插件介绍</h2>
+<h3 id="skywalking-logger-插件">SkyWalking Logger 插件</h3>
+<p>SkyWalking Logger 插件能够解析 SkyWalking Tracing Context Header，并将相关 Tracing Context 信息打印到日志中，从而实现日志与调用链建立关联。</p>
+<p>通过使用此插件，可以实现在下游已经集成 Apache SkyWalking 的情况下，Apache APISIX 即便没有打开 SkyWalking Tracing 插件也能获取到 SkyWalking Tracing Context 并实现与 Tracing 关联。</p>
+<p><img src="https://static.apiseven.com/202108/1638781626018-da50a39d-da16-4914-b4f5-8ac9b4312e19.png" alt="日志内容"></p>
+<blockquote>
+<p>上图 Content 为日志内容，这里使用了 Apache APISIX metadata 配置来收集 Request 相关信息。后续可通过 Plugin Metadata 修改 Log Format 定制日志内容，具体可以参考<a href="https://apisix.apache.org/docs/apisix/plugins/skywalking-logger#metadata">官方文档</a>。</p>
+</blockquote>
+<h4 id="使用方法">使用方法</h4>
+<p>在使用该插件时，由于 SkyWalking 插件默认为「不开启」，所以需要手动修改 <code>conf/default-apisix.yaml</code> 文件中 <code>plugins</code> 章节来解开SkyWalking 注释从而启用插件。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">skywalking</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span></code></pre>
+<p>之后便可使用 SkyWalking Tracing 插件直接得到 Tracing 数据，以便接下来验证 Logging 插件相关功能是否能够正常开启与工作。</p>
+<h5 id="步骤一创建路由">步骤一：创建路由</h5>
+<p>接下来创建一个路由，并绑定 SkyWalking Tracing 插件和 SkyWalking Logging 插件。关于插件具体配置细节可以参考 <a href="https://apisix.apache.org/docs/apisix/plugins/skywalking-logger">Apache APISIX 官方文档</a>，这里不再赘述。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> 'http://192.168.0.108:9080/apisix/admin/routes/1001'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-d </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/get",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "skywalking": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "sample_ratio": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "skywalking-logger": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "endpoint_addr": "http://127.0.0.1:12800"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h5 id="步骤二日志处理">步骤二：日志处理</h5>
+<p>在 Apache SkyWalking 侧，可以使用 LAL（Logger Analysis Language）脚本进行日志处理，比如 Tag 提取、SkyWalking 元数据修正等。</p>
+<p>这里进行 Tag 提取主要是为了后续检索方便，以及在 Metrics 统计时添加相关依赖。可使用如下代码进行 SkyWalking LAL 脚本配置来完成 Tag 提取，更多关于 SkyWalking LAL 脚本使用方法可以参考 <a href="https://skywalking.apache.org/docs/main/latest/en/concepts-and-designs/lal/">Apache SkyWalking 官方文档</a>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#8B949E"># The default LAL script to save all logs, behaving like the versions before 8.5.0.</span></span>
+<span class="line"><span style="color:#7EE787">rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">default</span></span>
+<span class="line"><span style="color:#7EE787">    dsl</span><span style="color:#E6EDF3">: </span><span style="color:#FF7B72">|</span></span>
+<span class="line"><span style="color:#A5D6FF">      filter {</span></span>
+<span class="line"><span style="color:#A5D6FF">        json {</span></span>
+<span class="line"><span style="color:#A5D6FF">          abortOnFailure false</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">        extractor {</span></span>
+<span class="line"><span style="color:#A5D6FF">          tag routeId: parsed.route_id</span></span>
+<span class="line"><span style="color:#A5D6FF">          tag upstream: parsed.upstream</span></span>
+<span class="line"><span style="color:#A5D6FF">          tag clientIp: parsed.client_ip</span></span>
+<span class="line"><span style="color:#A5D6FF">          tag latency: parsed.latency</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#A5D6FF">        sink {</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span></code></pre>
+<p>在 SkyWalking OAP Server 配置上述 LAL 脚本后将显示如下日志：</p>
+<p><img src="https://static.apiseven.com/202108/1638781696137-6ba3a486-08c0-49e1-bc57-e144f95918a2.png" alt="LAL 脚本日志显示"></p>
+<p>展开日志详情如下：</p>
+<p><img src="https://static.apiseven.com/202108/1638781751540-d597ace7-1de1-4baf-b361-1c136dfe5e05.png" alt="展开日志详情"></p>
+<p>通过上述操作可以看到，将 <code>routeId</code>，<code>upstream</code> 和 <code>clientIp</code> 以键值对形式展示，比在日志正文中直接查找要方便许多，还能用于 MAL 统计生成相关的度量指标。</p>
+<h3 id="skywalking-error-logger-插件">SkyWalking Error Logger 插件</h3>
+<p>目前 error-log-logger 插件已支持 SkyWalking 日志格式，现在可以使用 error-log-logger 插件将 Apache APISIX 错误日志快捷接入到 Apache SkyWalking 中。目前，错误日志还无法获取 SkyWalking Tracing Context 信息，因此无法直接与 SkyWalking Tracing 产生关联。</p>
+<p>关于 Error Log 接入 SkyWalking 主要是为了能集中管理 Apache APISIX 的日志数据，同时也方便在 SkyWalking 内查看所有可观测性数据。</p>
+<p><img src="https://static.apiseven.com/202108/1638781827612-f7d88e0e-0159-44ba-bc1e-b718695bc3b8.png" alt="SkyWalking 面板查看"></p>
+<h4 id="使用方法-1">使用方法</h4>
+<p>由于 error-log-logger 插件默认「不开启」，所以仍需要上文中提到的方法进行插件开启。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">error-log-logger</span></span>
+<span class="line"><span style="color:#79C0FF">  ...</span></span></code></pre>
+<h5 id="步骤一绑定路由">步骤一：绑定路由</h5>
+<p>启用之后，需要将插件绑定到路由或者 <code>global rules</code> 上，这里我们以「绑定路由」为例。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> 'http://192.168.0.108:9080/apisix/admin/plugin_metadata/error-log-logger'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-d </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "inactive_timeout": 10,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "level": "ERROR",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "skywalking": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "endpoint_addr": "http://127.0.0.1:12800/v3/logs"</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<blockquote>
+<p>注意这里 <code>endpoint_addr</code> 是 SkyWalking OAP Server 地址，需要带上 URI（即 <code>/v3/logs</code>)。</p>
+</blockquote>
+<h5 id="步骤二lal-处理">步骤二：LAL 处理</h5>
+<p>与 Access Log 处理方式基本一样，日志在送达 SkyWalking OAP Server 时，同样会经过 LAL 处理。因此，我们依然可以使用 SkyWalking LAL 脚本来分析处理日志信息。</p>
+<p>需要注意的是，Error Log 日志消息体使用文本格式。如果进行 Tags 提取，则需要使用正则表达式来完成。与 Access Log 处理消息正文的方式略有不同，Acces Log 使用 JSON 格式，可以直接使用 JSON 解析后引用 JSON 对象的字段，其他处理流程则大体一致。</p>
+<p>同时也可以利用 Tags 来优化显示效果与检索，方便后续使用 SkyWalking MAL 进行 Metrics 计算。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">rules:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - name: apisix-errlog</span></span>
+<span class="line"><span style="color:#E6EDF3">    dsl: |</span></span>
+<span class="line"><span style="color:#E6EDF3">      filter {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">        text</span><span style="color:#FFA198;font-style:italic"> {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">          regexp</span><span style="color:#7EE787"> "(?&#x3C;datetime></span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d{4}/</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d{2}/</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d{2} </span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d{2}:</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d{2}:</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d{2}) </span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">[(?&#x3C;level></span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">w+)</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">] </span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d+</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">#</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d+:( </span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">*</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d+ </span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">[(?&#x3C;module></span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">w+)</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">] (?&#x3C;position>.*</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">.lua:</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">d+): (?&#x3C;function></span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">w+</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">(</span><span style="color:#FF7B72">\\</span><span style="color:#7EE787">)):)* (?&#x3C;msg>.+)"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">        extractor {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">          tag</span><span style="color:#FFA198;font-style:italic"> level</span><span style="color:#E6EDF3">: </span><span style="color:#FFA198;font-style:italic">parsed.level</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">          if</span><span style="color:#FFA198;font-style:italic"> (parsed?.module)</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">            tag</span><span style="color:#FFA198;font-style:italic"> module</span><span style="color:#E6EDF3">: </span><span style="color:#FFA198;font-style:italic">parsed.module</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">            tag</span><span style="color:#FFA198;font-style:italic"> position:</span><span style="color:#FFA198;font-style:italic"> parsed.position</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">            tag</span><span style="color:#FFA198;font-style:italic"> function:</span><span style="color:#FFA198;font-style:italic"> parsed.function</span></span>
+<span class="line"><span style="color:#E6EDF3">          }</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">        sink {</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span></code></pre>
+<p>在 SkyWalking OAP Server 使用的 LAL 脚本之后，将会在日志中提取部分 Tags，效果如下图。</p>
+<p><img src="https://static.apiseven.com/202108/1638781886771-b98c80de-4ea2-4cf3-ad1c-26250da231f7.png" alt="提取 Tags"></p>
+<h2 id="总结">总结</h2>
+<p>本文主要介绍了两款 Apache APISIX 集成 SkyWalking 的日志插件，为之后大家在 Apache APISIX 中进行日志处理提供更方便的操作与环境。希望通过本篇内容，大家可以对新功能有了更充分的理解，后续可以更方便地利用 Apache APISIX 进行可观测数据的集中管理。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/12/08/apisix-integrate-rocketmq-logger-plugin/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">API 网关 APISIX 集成 RocketMQ 扩展日志监控功能</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/12/02/weekly-report-1130/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">社区双周报（11.15-11.30）</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#功能开发背景">功能开发背景</a></li><li class><a href="#全新日志插件介绍">全新日志插件介绍</a></li><li class="d3"><a href="#skywalking-logger-插件">SkyWalking Logger 插件</a></li><li class="d3"><a href="#skywalking-error-logger-插件">SkyWalking Error Logger 插件</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2022/09/20/apisix-integrate-cncf-openfunction/"> <img class="cover" src="https://static.apiseven.com/2022/09/20/63296a9c05e59.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>API 网关 Apache APISIX 集成 CNCF OpenFunction</h3> <p class="desc">本文介绍了 Apache APISIX openfunction 插件的功能与使用步骤，为 APISIX 的无服务领域功能再添一员。</p> <p class="meta">2022年9月20日 · 李从旺</p> </div> </a><a class="post-card" href="/zh/blog/2022/09/15/apache-apisix-integrat-with-elasticsearch-for-logger/"> <img class="cover" src="https://static.apiseven.com/2022/09/20/63296a9ba9a7d.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>API 网关 Apache APISIX 集成 Elasticsearch 实现实时日志监控</h3> <p class="desc">本文将为你介绍 Apache APISIX 的 elasticsearch-logger 插件的相关信息，以及如何通过此插件获取 APISIX 的实时日志。</p> <p class="meta">2022年9月15日 · 王程程</p> </div> </a><a class="post-card" href="/zh/blog/2022/07/13/monitor-api-gateway-apisix-with-prometheus/"> <img class="cover" src="https://static.apiseven.com/2022/blog/0818/ecosystem/prometheus.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>使用 Prometheus 监控云原生 API 网关 APISIX</h3> <p class="desc">本文将为你介绍云原生 API 网关 Apache APISIX 的 prometheus 插件的相关信息，并通过此插件监控 APISIX，也为你演示了如何在 APISIX Dashboard 中配置 Grafana。</p> <p class="meta">2022年7月13日 · 韩飞</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

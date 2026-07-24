@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[2653],{7083(a){a.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/aws-api-gateway","name":"aws-api-gateway","count":1,"permalink":"/learning-center/tags/aws-api-gateway"}')}}]);

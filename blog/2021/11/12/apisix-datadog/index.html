@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cloud Monitoring with Datadog in Apache APISIX | Apache APISIX</title><meta name="description" content="Integrate APISIX with Datadog for real-time API monitoring. Configure the datadog plugin for metrics collection and dashboard visualization."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/11/12/apisix-datadog/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Cloud Monitoring with Datadog in Apache APISIX | Apache APISIX"><meta property="og:description" content="Integrate APISIX with Datadog for real-time API monitoring. Configure the datadog plugin for metrics collection and dashboard visualization."><meta property="og:url" content="https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Cloud Monitoring with Datadog in Apache APISIX","description":"Integrate APISIX with Datadog for real-time API monitoring. Configure the datadog plugin for metrics collection and dashboard visualization.","datePublished":"2021-11-12","image":"https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png","author":{"@type":"Person","name":"Bisakh Mondal"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/11/12/apisix-datadog/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/11/12/apisix-datadog/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/11/12/apisix-datadog/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Cloud Monitoring with Datadog in Apache APISIX</h1> <p class="article-meta"> <time datetime="2021-11-12">Nov 12, 2021</time> · Bisakh Mondal  · 6 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#how-apisix-datadog-plugin-works">How APISIX-Datadog plugin works</a></li><li class><a href="#steps-to-run-datadog-agent">Steps to Run Datadog Agent</a></li><li class><a href="#how-to-use-datadog-with-apache-apisix">How to Use Datadog with Apache APISIX</a></li><li class="d3"><a href="#activate-the-apisix-datadog-plugin">Activate the APISIX-Datadog plugin</a></li><li class="d3"><a href="#custom-configuration">Custom Configuration</a></li><li class="d3"><a href="#deactivate-the-apisix-datadog-plugin">Deactivate the APISIX-Datadog plugin</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/Datadog.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Apache APISIX recently released a new plugin: <a href="http://apisix.apache.org/docs/apisix/next/plugins/datadog">APISIX-Datadog</a>, to provide a deeper integration with Datadog. This article introduces the APISIX-Datadog Plugin and its capabilities.</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1636955062917-28911d71-0d56-48ec-85e5-a7908195da2f.png" alt="cover picture"></p>
+<p>As the complexity of IT products and consumer-facing application development increases, monitoring becomes an integral part of any application delivery. Additionally, to meet the endless demand of rapid upgrade cycles while ensuring stability, streamlined performance and keeping a perfect balance between service level indicators (SLI) with Service-level objectives (SLO) and Service-level agreement (SLA) - effective monitoring is immensely important.</p>
+<p>As a Cloud API Management Product, <a href="http://apisix.apache.org/">Apache APISIX</a> decouples observability concerns from the application, which gives the developers an advantage of building applications focusing just on the business logic while Apache APISIX will take care of observability for the platform of their choice.</p>
+<p>Apache APISIX recently released a new plugin: <a href="http://apisix.apache.org/docs/apisix/next/plugins/datadog">APISIX-Datadog</a>, to provide a deeper integration with Datadog. This article introduces the APISIX-Datadog Plugin and its capabilities.</p>
+<h2 id="how-apisix-datadog-plugin-works">How APISIX-Datadog plugin works</h2>
+<p><img src="https://static.apiseven.com/202108/1636685752757-d02d8305-2a68-4b3e-b2cc-9e5410c8bf11.png" alt="APISIX-Datadog plugin Architecture"></p>
+<p>The APISIX-Datadog plugin pushes its custom metrics to the DogStatsD server, comes bundled with Datadog agent over the UDP connection. DogStatsD basically is an implementation of StatsD protocol. It collects the custom metrics for Apache APISIX agent, aggregates it into a single data point and sends it to the configured Datadog server. To learn more about DogStatsD, please visit <a href="https://docs.datadoghq.com/developers/dogstatsd/?tab=hostagent">DogStatsD documentation</a>.</p>
+<p>When APISIX-Datadog is activated, Apache APISIX agent exports the following metrics to DogStatsD server for every request response cycle:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric Name</th><th>StatsD Type</th><th>Description</th></tr></thead><tbody><tr><td>Request Counter</td><td>Counter</td><td>Number of requests received.</td></tr><tr><td>Request Latency</td><td>Histogram</td><td>Time taken to process the request (in milliseconds).</td></tr><tr><td>Upstream latency</td><td>Histogram</td><td>Time taken since proxying the request to the upstream server till a response is received (in milliseconds).</td></tr><tr><td>APISIX Latency</td><td>Histogram</td><td>Time taken by APISIX agent to process the request (in milliseconds).</td></tr><tr><td>Ingress Size</td><td>Timer</td><td>Request body size in bytes.</td></tr><tr><td>Egress Size</td><td>Timer</td><td>Response body size in bytes.</td></tr></tbody></table>
+<p>The metrics will be sent to the DogStatsD agent with the following tags. If there is no suitable value for any particular tag, the tag will simply be omitted.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric Name</th><th>Description</th></tr></thead><tbody><tr><td>route_name</td><td>Name specified in the route schema definition. If not present, it will fall back to the route id value.</td></tr><tr><td>service_id</td><td>If a route has been created with the abstraction of service, the particular service id will be used.</td></tr><tr><td>consumer</td><td>If the route has a linked consumer, the consumer Username will be added as a tag.</td></tr><tr><td>balancer_ip</td><td>IP of the Upstream balancer that has processed the current request.</td></tr><tr><td>response_status</td><td>HTTP response status code.</td></tr><tr><td>scheme</td><td>Scheme that has been used to make requests, such as HTTP, gRPC, gRPCs etc.</td></tr></tbody></table>
+<p>The plugin maintains a buffer with a timer. When the timer expires, APISIX-Datadog plugin flashes the buffered metrics as a batch to the locally run dogstatsd server. This approach is less resource-hungry (though it might be insignificant as UDP sockets are very lightweight) by reusing the same UDP socket and doesn’t overload the network all the time as the timer can be configured.</p>
+<h2 id="steps-to-run-datadog-agent">Steps to Run Datadog Agent</h2>
+<ol>
+<li>If you are already using Datadog inside your infrastructure, you must have a datadog agent installed in your systems. It may either be a docker container, pod or binary for a respective package manager. In this case, you are good to go. Just make sure port 8125/udp is allowed through the firewall (if any) i.e more specifically, the Apache APISIX agent can reach port 8125 of the datadog agent. You may skip this subsection.</li>
+</ol>
+<blockquote>
+<p>To learn more about how to install a full-fledged datadog agent, visit <a href="https://docs.datadoghq.com/agent/">here</a>.</p>
+</blockquote>
+<ol start="2">
+<li>
+<p>If you are new to Datadog</p>
+<ol>
+<li>First create an account by visiting <a href="http://www.datadoghq.com">www.datadoghq.com</a>.</li>
+<li>Generate an API Key.
+<img src="https://static.apiseven.com/202108/1636685007445-05f134fd-e80a-4173-b1d7-f0a118087998.png" alt="Generate an API Key"></li>
+</ol>
+</li>
+<li>
+<p>APISIX-Datadog plugin requires only the dogstatsd component of <code>datadog/agent</code> as the plugin asynchronously send metrics to the dogstatsd server following the statsd protocol over standard UDP socket. That’s why APISIX recommends using the standalone <code>datadog/dogstatsd</code> image instead of using the full agent. It’s extremely lightweight (only ~11 MB in size) compared to ~2.8GB of <code>datadog/agent</code> image.</p>
+</li>
+</ol>
+<p>To run it as a container:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># pull the latest image</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> pull</span><span style="color:#A5D6FF"> datadog/dogstatsd:latest</span></span>
+<span class="line"><span style="color:#8B949E"># run a detached container</span></span>
+<span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> run</span><span style="color:#79C0FF"> -d</span><span style="color:#79C0FF"> --name</span><span style="color:#A5D6FF"> dogstatsd-agent</span><span style="color:#79C0FF"> -e</span><span style="color:#A5D6FF"> DD_API_KEY=</span><span style="color:#FF7B72">&#x3C;</span><span style="color:#A5D6FF">Your</span><span style="color:#A5D6FF"> API</span><span style="color:#A5D6FF"> Key</span><span style="color:#A5D6FF"> from</span><span style="color:#A5D6FF"> step</span><span style="color:#FF7B72"> 2></span><span style="color:#79C0FF"> -p</span><span style="color:#A5D6FF"> 8125:8125/udp</span><span style="color:#A5D6FF">  datadog/dogstatsd</span></span></code></pre>
+<p>If you are using Kubernetes in your production environment, you can deploy <code>dogstatsd</code> as a <code>Daemonset</code> or as a <code>Multi-Container Pod</code> alongside Apache APISIX agent.</p>
+<h2 id="how-to-use-datadog-with-apache-apisix">How to Use Datadog with Apache APISIX</h2>
+<h3 id="activate-the-apisix-datadog-plugin">Activate the APISIX-Datadog plugin</h3>
+<p>The following is an example on how to activate the datadog plugin for a specific route. We are assuming your <code>dogstatsd</code> agent is already up an running.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># enable plugin for a specific route</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "datadog": {}</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Now any requests to endpoint uri <code>/hello</code> will generate the above metrics and push it to local DogStatsD server of the datadog agent.</p>
+<h3 id="custom-configuration">Custom Configuration</h3>
+<p>In default configuration, the plugin expects the dogstatsd service to be available at <code>127.0.0.1:8125</code>. If you wish to update the config, please update the plugin metadata:</p>
+<h4 id="metadata-schema">Metadata Schema</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>hosts</td><td>string</td><td>optional</td><td>”127.0.0.1”</td><td>The DogStatsD server host address</td></tr><tr><td>port</td><td>integer</td><td>optional</td><td>8125</td><td>The DogStatsD server host port</td></tr><tr><td>namespace</td><td>string</td><td>optional</td><td>”apisix”</td><td>Prefix for all the custom metrics sent by APISIX agent. Useful for finding entities for metric graph. e.g. (apisix.request.counter)</td></tr><tr><td>constant_tags</td><td>array</td><td>optional</td><td>[“source<div></div>”]</td><td>Static tags embedded into generated metrics. Useful for grouping metric over certain signals.</td></tr></tbody></table>
+<p>To know more about how to effectively write tags, please visit <a href="https://docs.datadoghq.com/getting_started/tagging/#defining-tags">here</a></p>
+<p>Make a request to /apisix/admin/plugin_metadata endpoint with the updated metadata as following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/plugin_metadata/datadog</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "port": 8125,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "constant_tags": [</span></span>
+<span class="line"><span style="color:#A5D6FF">        "source:apisix",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "service:custom"</span></span>
+<span class="line"><span style="color:#A5D6FF">    ],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "namespace": "apisix"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h4 id="plugin-schema">Plugin Schema</h4>
+<p>Similarly, there are few attributes that can be tweaked while enabling the plugin.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Valid</th><th>Description</th></tr></thead><tbody><tr><td>batch_max_size</td><td>integer</td><td>optional</td><td>5000</td><td>[1,…]</td><td>Max buffer size of each batch</td></tr><tr><td>inactive_timeout</td><td>integer</td><td>optional</td><td>5</td><td>[1,…]</td><td>Maximum age in seconds when the buffer will be flushed if inactive</td></tr><tr><td>buffer_duration</td><td>integer</td><td>optional</td><td>60</td><td>[1,…]</td><td>Maximum age in seconds of the oldest entry in a batch before the batch must be processed</td></tr><tr><td>max_retry_count</td><td>integer</td><td>optional</td><td>1</td><td>[1,…]</td><td>Maximum number of retries if one entry fails to reach dogstatsd server</td></tr></tbody></table>
+<p>As all the fields are optional and if no attributes are set, the datadog plugin gets instantiated with the default values. To update any attribute, just update the required route, service or consumer with the updated attribute value. For example, the code below modifies the maximum buffer size of each batch:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">'{</span></span>
+<span class="line"><span style="color:#FFA657">...</span></span>
+<span class="line"><span style="color:#FFA657">"plugins": {</span></span>
+<span class="line"><span style="color:#FFA657">    "datadog": {</span></span>
+<span class="line"><span style="color:#FFA657">        "batch_max_size": 10</span></span>
+<span class="line"><span style="color:#FFA657">    }</span></span>
+<span class="line"><span style="color:#FFA657">}</span></span>
+<span class="line"><span style="color:#FFA657">... }'</span></span></code></pre>
+<h3 id="deactivate-the-apisix-datadog-plugin">Deactivate the APISIX-Datadog plugin</h3>
+<p>Now, to deactivate the plugin, simply remove the corresponding json configuration in the plugin configuration to disable the <code>datadog</code>. APISIX plugins are hot-reloaded, therefore no need to restart APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># disable plugin for a route</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/hello",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2021/11/16/weekly-report-1114/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Weekly Report (Sep 1 - Sep 14)</span> </a> <a class="post-nav-card older" href="/blog/2021/11/04/skywalking/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">APISIX Observability with SkyWalking</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#how-apisix-datadog-plugin-works">How APISIX-Datadog plugin works</a></li><li class><a href="#steps-to-run-datadog-agent">Steps to Run Datadog Agent</a></li><li class><a href="#how-to-use-datadog-with-apache-apisix">How to Use Datadog with Apache APISIX</a></li><li class="d3"><a href="#activate-the-apisix-datadog-plugin">Activate the APISIX-Datadog plugin</a></li><li class="d3"><a href="#custom-configuration">Custom Configuration</a></li><li class="d3"><a href="#deactivate-the-apisix-datadog-plugin">Deactivate the APISIX-Datadog plugin</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2023/08/14/rate-limit/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Rate Limit Your APIs With Apache APISIX</h3> <p class="desc">A guide to using the rate limit plugins in Apache APISIX with some practical examples.</p> <p class="meta">Aug 14, 2023 · Navendu Pottekkat</p> </div> </a><a class="post-card" href="/blog/2023/07/20/data-mask-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Creating a Custom Data Mask Plugin</h3> <p class="desc">A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case.</p> <p class="meta">Jul 20, 2023 · Zeping Bai</p> </div> </a><a class="post-card" href="/blog/2023/07/07/tiny-apisix-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>A &quot;Tiny&quot; APISIX Plugin</h3> <p class="desc">A &quot;tiny&quot; example to demonstrate how Apache APISIX supports Wasm plugins.</p> <p class="meta">Jul 7, 2023 · Navendu Pottekkat</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

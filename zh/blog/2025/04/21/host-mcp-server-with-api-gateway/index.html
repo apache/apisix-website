@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server | Apache APISIX</title><meta name="description" content="探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/04/21/host-mcp-server-with-api-gateway/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/04/21/host-mcp-server-with-api-gateway/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server | Apache APISIX"><meta property="og:description" content="探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server","description":"探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。","datePublished":"2025-04-21","image":"https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp","author":{"@type":"Person","name":"Ming Wen"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2025/04/21/host-mcp-server-with-api-gateway/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2025/04/21/host-mcp-server-with-api-gateway/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h1> <p class="article-meta"> <time datetime="2025-04-21">2025年4月21日</time> · Ming Wen  · 约 4 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#引言">引言</a></li><li class><a href="#model-context-protocol-mcp-协议介绍">Model Context Protocol (MCP) 协议介绍</a></li><li class><a href="#mcp-bridge-插件是什么">mcp-bridge 插件是什么</a></li><li class><a href="#工作机制与架构图">工作机制与架构图</a></li><li class><a href="#应用场景与优势">应用场景与优势</a></li><li class><a href="#使用-apache-apisix-的身份认证与限流限速插件">使用 Apache APISIX 的身份认证与限流限速插件</a></li><li class="d3"><a href="#身份认证插件">身份认证插件</a></li><li class="d3"><a href="#限流限速插件">限流限速插件</a></li><li class><a href="#为-mcp-server-增加身份认证与限流限速">为 MCP Server 增加身份认证与限流限速</a></li><li class><a href="#路线图">路线图</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="引言">引言</h2>
+<p>在现代 API 基础设施中，HTTP 协议和流式通信（如 SSE、WebSocket）已成为构建实时、交互式应用的主流方式。最近几个月， Model Context Protocol (MCP) 变得越来越流行，不过大部分 MCP Server 都是通过 stdio 实现，用于本地环境使用，不能让外部服务和开发者调用。</p>
+<p>为了打通这类服务与现代 API 架构的桥梁，Apache APISIX 新推出了 <code>mcp-bridge</code> 插件，助你将 基于 stdio 的 MCP 服务无缝转换为基于 HTTP SSE 流式接口，并通过 API 网关进行托管、路由和流量管理。</p>
+<h2 id="model-context-protocol-mcp-协议介绍">Model Context Protocol (MCP) 协议介绍</h2>
+<p>MCP 是一种开放的协议，旨在标准化 AI 应用如何为大语言模型（LLMs）提供上下文信息。它允许开发者在不同 LLM 提供商之间进行切换，同时确保数据安全，便于与本地或远程数据源进行集成。MCP 支持客户端-服务器架构，MCP Server 暴露特定功能，客户端可以通过它访问所需的数据源。</p>
+<h2 id="mcp-bridge-插件是什么"><code>mcp-bridge</code> 插件是什么</h2>
+<p>Apache APISIX <code>mcp-bridge</code> 插件通过启动子进程托管 MCP Server，接管其 stdio 通道，将客户端 HTTP SSE 请求转化为 MCP 协议调用，再将响应通过 SSE 推送给客户端。</p>
+<p><strong>核心功能：</strong></p>
+<ul>
+<li>📡 将 MCP RPC 调用包装成 SSE 消息流</li>
+<li>🔄 子进程 stdio 生命周期与队列式 RPC 调度</li>
+<li>🗂️ 轻量 MCP Session 管理（含 session id、ping 保活、队列）</li>
+<li>🧰 支持多 worker 间共享 session，保障 APISIX 多 worker 环境稳定</li>
+</ul>
+<h2 id="工作机制与架构图">工作机制与架构图</h2>
+<p>以下是 <code>mcp-bridge</code> 插件工作机制的顺序图，帮助理解 stdio 到 SSE 的数据流转过程：</p>
+<p><img src="https://static.api7.ai/uploads/2025/04/21/7gnb0QrW_1-mcp-bridge-sequence-diagram.webp" alt="MCP-Bridge Architecture Diagram"></p>
+<p><strong>✅ 亮点：</strong></p>
+<ul>
+<li>APISIX 托管 SSE 长连接</li>
+<li><code>mcp-bridge</code> 插件管理子进程 + stdio + 调度队列</li>
+<li>客户端实时接收子进程输出，构成流式 SSE 响应</li>
+</ul>
+<h2 id="应用场景与优势">应用场景与优势</h2>
+<p><strong>✅ 典型应用场景</strong></p>
+<ul>
+<li>🛠️ 旧有 MCP / stdio 服务接入 Web 平台</li>
+<li>🖥️ 跨语言、跨平台子进程服务托管</li>
+</ul>
+<p><strong>✅ 优势</strong></p>
+<ul>
+<li>🌐 现代化： stdio 服务秒变 HTTP SSE API</li>
+<li>🕹️ 托管式： 子进程启动、IO 生命周期统一托管</li>
+<li>📈 扩展性： 多 worker 环境 session 共享，支持大规模部署</li>
+<li>🔄 流控集成： 配合 APISIX 流量控制、认证、限速插件，无缝融入 API 管理体系</li>
+</ul>
+<h2 id="使用-apache-apisix-的身份认证与限流限速插件">使用 Apache APISIX 的身份认证与限流限速插件</h2>
+<p>Apache APISIX 提供了强大的身份认证插件（如 OAuth 2.0、JWT 和 OIDC）和限流限速插件（如速率限制和熔断机制），可以进一步增强 <code>mcp-bridge</code> 插件的功能。使用这些插件，您可以确保对接的 MCP 服务得到安全认证并控制流量，保证系统的可靠性和稳定性。</p>
+<h3 id="身份认证插件">身份认证插件</h3>
+<ul>
+<li>OAuth 2.0、JWT 和 OIDC 插件支持，帮助保护 API 和 MCP 服务。</li>
+<li>在请求通过 API 网关时自动验证客户端身份，防止未经授权的访问。</li>
+</ul>
+<h3 id="限流限速插件">限流限速插件</h3>
+<ul>
+<li>速率限制：限制每个客户端的请求速率，避免系统过载。</li>
+<li>熔断器：自动切换或返回错误，当流量过大或系统出现故障时避免系统崩溃。</li>
+</ul>
+<h2 id="为-mcp-server-增加身份认证与限流限速">为 MCP Server 增加身份认证与限流限速</h2>
+<p><img src="https://static.api7.ai/uploads/2025/04/21/ffwep58W_2-add-auth-and-rate-limiting-to-mcp-server.webp" alt="Add Authentication and Rate Limiting to MCP Servers"></p>
+<p>通过将身份认证和限流限速插件与 <code>mcp-bridge</code> 插件结合，您可以增强 API 安全性，并确保高并发环境下的系统稳定性。</p>
+<h2 id="路线图">路线图</h2>
+<p>当前版本仍是 prototype，未来将新增以下功能：</p>
+<ul>
+<li>
+<p>现在，MCP 会话不会在多个 APISIX 实例之间共享，如果你的 APISIX 集群由多个节点组成，你必须在前端 LB 上正确配置会话粘性，以确保来自同一客户端的请求始终转发到同一个 APISIX 实例，只有这样它才能正常工作。</p>
+</li>
+<li>
+<p>当前的 MCP SSE 连接是循环驱动的，虽然循环不会占用太多资源（读取和写入 stdio 将是同步的非阻塞调用），但这效率不高，我们需要连接到一些消息队列，使其以集群的方式由事件驱动和可扩展。</p>
+</li>
+<li>
+<p>MCP 会话管理模块只是一个原型，我们还应该抽象出另一个 MCP 代理服务器模块，以支持在 APISIX 内启动 MCP Server，以支持高级场景。代理服务器模块应该是事件驱动的，而不是循环驱动的。</p>
+</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>Apache APISIX <code>mcp-bridge</code> 插件极大简化了 Model Context Protocol (MCP) 服务与 HTTP API 世界的对接，为传统服务提供了现代流式接口托管方式。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">APISIX 在荣耀海量业务下的网关实践</span> </a> <a class="post-nav-card older" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">APISIX AI 网关介绍</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#引言">引言</a></li><li class><a href="#model-context-protocol-mcp-协议介绍">Model Context Protocol (MCP) 协议介绍</a></li><li class><a href="#mcp-bridge-插件是什么">mcp-bridge 插件是什么</a></li><li class><a href="#工作机制与架构图">工作机制与架构图</a></li><li class><a href="#应用场景与优势">应用场景与优势</a></li><li class><a href="#使用-apache-apisix-的身份认证与限流限速插件">使用 Apache APISIX 的身份认证与限流限速插件</a></li><li class="d3"><a href="#身份认证插件">身份认证插件</a></li><li class="d3"><a href="#限流限速插件">限流限速插件</a></li><li class><a href="#为-mcp-server-增加身份认证与限流限速">为 MCP Server 增加身份认证与限流限速</a></li><li class><a href="#路线图">路线图</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/01/embrace-intelligent-api-management-with-ai-and-mcp/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/01/b53YPObN_apisix-mcp.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX-MCP：利用 AI + MCP 拥抱 API 智能化管理</h3> <p class="desc">了解 AI 与 MCP 场景下的 API 管理需求，以及 Apache APISIX 如何用于 LLM 流量路由、安全、审计和成本控制。</p> <p class="meta">2025年4月1日 · Zhihuang Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

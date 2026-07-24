@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>社区双周报（3.1-3.14） | Apache APISIX</title><meta name="description" content="API 网关 Apache APISIX 社区近两周新增了 authz-keycloak 插件支持重定向非授权用户、csrf 插件支持检查令牌是否过期、proxy-mirror 插件支持设置超时时间等功能。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/03/24/weekly-report-0314/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/24/weekly-report-0314/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/24/weekly-report-0314/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="社区双周报（3.1-3.14） | Apache APISIX"><meta property="og:description" content="API 网关 Apache APISIX 社区近两周新增了 authz-keycloak 插件支持重定向非授权用户、csrf 插件支持检查令牌是否过期、proxy-mirror 插件支持设置超时时间等功能。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/03/24/weekly-report-0314/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社区双周报（3.1-3.14）","description":"API 网关 Apache APISIX 社区近两周新增了 authz-keycloak 插件支持重定向非授权用户、csrf 插件支持检查令牌是否过期、proxy-mirror 插件支持设置超时时间等功能。","datePublished":"2022-03-24","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/03/24/weekly-report-0314/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/03/24/weekly-report-0314/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/03/24/weekly-report-0314/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>社区双周报（3.1-3.14）</h1> <p class="article-meta"> <time datetime="2022-03-24">2022年3月24日</time>  · 约 4 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#导语">导语</a></li><li class><a href="#贡献者统计">贡献者统计</a></li><li class><a href="#good-first-issue">Good first issue</a></li><li class="d3"><a href="#issue-6344">Issue #6344</a></li><li class="d3"><a href="#issue-6197">Issue #6197</a></li><li class><a href="#近期功能特性亮点">近期功能特性亮点</a></li><li class><a href="#近期博文推荐">近期博文推荐</a></li> </ul> </details> </header>  <blockquote>
+<p>从 3.1 到 3.14， 有 44 位开发者为 Apache APISIX 提交了 131 个 commits。感谢这些小伙伴为 Apache APISIX 添砖加瓦，是你们的无私付出，让 Apache APISIX 项目变得更好！</p>
+</blockquote>
+<!--truncate-->
+<h2 id="导语">导语</h2>
+<p>Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界最活跃的开源 API 网关项目。这些成就，离不开社区小伙伴们的共同奋斗。</p>
+<p>“独行者速，众行者远”。Apache APISIX 社区周报希望可以帮助社区小伙伴们更好地掌握 Apache APISIX 社区的进展，方便大家参与到 Apache APISIX 社区中来。</p>
+<p>我们还整理了一些适合新来社区的小伙伴们参加的 issue！感兴趣的同学们，走过路过不要错过！</p>
+<h2 id="贡献者统计">贡献者统计</h2>
+<p><img src="https://static.apiseven.com/202108/1647397912423-73900fe5-8155-4a3f-b609-79bf224ad7e1.jpg" alt="本周贡献者名单"></p>
+<p><img src="https://static.apiseven.com/202108/1647397912442-b726a867-fc81-45a6-bea1-c45beb71068f.png" alt="本周新晋贡献者"></p>
+<h2 id="good-first-issue">Good first issue</h2>
+<h3 id="issue-6344">Issue #6344</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/6344">https://github.com/apache/apisix/issues/6344</a></p>
+<p><strong>问题描述</strong>：作为一个用户，我想使用 <code>forward-auth</code> 插件，但该插件不支持将请求体发送到授权服务器上的认证表单请求体，有办法支持吗？</p>
+<h3 id="issue-6197">Issue #6197</h3>
+<p><strong>链接</strong>: <a href="https://github.com/apache/apisix/issues/6197">https://github.com/apache/apisix/issues/6197</a></p>
+<p><strong>问题描述</strong>：目前，<code>limit-count</code> 插件只设置了一种流量限制模式：秒或分钟。但是，该插件不支持同时设置秒和分钟，因为用户后面设置的内容会覆盖前面设置的内容，是否有办法可以解决这个问题？</p>
+<h2 id="近期功能特性亮点">近期功能特性亮点</h2>
+<ul>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6455"><code>open-connect</code> 插件支持调用登出接口后想要跳转的地址</a>（贡献者：<a href="https://github.com/starsz">starsz</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6426"><code>ext-plugin</code> 支持重写 response headers</a>（贡献者：<a href="https://github.com/rampagecong">rampagecong</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6506"><code>proxy-mirror</code> 插件支持自定义路径</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6514">WASM 支持获取 response body</a>（贡献者：<a href="https://github.com/spacewander">spacewander</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6502">支持运行绑定在 cousumer 上插件的 rewrite 阶段</a>（贡献者：<a href="https://github.com/tzssangglass">tzssangglass</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6505">支持从 <code>yaml</code> 配置文件中读取环境变量</a>（贡献者：<a href="https://github.com/wilson-1024">wilson-1024</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6485"><code>authz-keycloak</code> 插件支持重定向非授权用户</a>（贡献者：<a href="https://github.com/oil-oil">oil-oil</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6546"><code>cors</code> 插件支持设置在 plugin metadata 中设置 allow origins</a>（贡献者：<a href="https://github.com/Gary-Airwallex">Gary-Airwallex</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6201"><code>csrf</code> 插件支持检查令牌是否过期</a>（贡献者：<a href="https://github.com/Baoyuantop">Baoyuantop</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6561"><code>jwt-auth</code> 插件支持指定获取 token 的位置</a>（贡献者：<a href="https://github.com/liangliang4ward">liangliang4ward</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix/pull/6562"><code>proxy-mirror</code> 插件支持设置超时时间</a>（贡献者：<a href="https://github.com/Gerrard-YNWA">Gerrard-YNWA</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2293">APISIX Dashboard 支持通过环境变量加载指定配置文件</a>（贡献者：<a href="https://github.com/bzp2010">bzp2010</a> 和 <a href="https://github.com/kevinw66">kevinw66</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2312">APISIX Dashboard <code>limit</code> 系列插件 UI 添加欠缺字段</a>（贡献者：<a href="https://github.com/oil-oil">oil-oil</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2320">APISIX Dashboard 支持 UI 配置 Protocol Buffers</a>（贡献者：<a href="https://github.com/oil-oil">oil-oil</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2364">APISIX Dashboard 路由高级匹配支持处理 “!” 取反操作符</a>（贡献者：<a href="https://github.com/SkyeYoung">SkyeYoung</a>）</p>
+</li>
+<li>
+<p><a href="https://github.com/apache/apisix-dashboard/pull/2341">APISIX Dashboard 支持 cors 详细配置</a>（贡献者：<a href="https://github.com/zaunist">zaunist</a>）</p>
+</li>
+</ul>
+<p>Apache APISIX 的项目官网和 Github 上的 issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 issue 中搜索，也可以参与 issue 上的讨论，提出自己的想法和实践经验。</p>
+<h2 id="近期博文推荐">近期博文推荐</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery/">API 网关 Apache APISIX 集成 Eureka 作为服务发现</a>：</p>
+<p>本文介绍了如何在 API 网关 Apache APISIX 中启用 Eureka 作为服务发现以及如何使用诊断工具发现链路中出现的问题。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2022/03/04/apigateway-clickhouse-makes-logging-easier">化繁为简，Apache APISIX 集成 ClickHouse 插件提升全链路日志效率</a>：</p>
+<p>本文讲述了社区贡献者祁振东为 Apache APISIX 贡献 <code>clickhouse-logger</code> 的历程，以及如何使用该插件简化业务架构，提升全链路日志效率。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery">API 网关 Apache APISIX 携手 CoreDNS 打开服务发现新大门</a>：</p>
+<p>作为云原生 API 网关，Apache APISIX 也集成了多种服务发现的能力，本文将为您展示在 Apache APISIX 中如何配置 CoreDNS。</p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/zh/blog/2022/03/03/develop-apisix-with-gitpod">开源云 IDE 产品新宠儿，如何使用 Gitpod 开发 API 网关 Apache APISIX？</a>：</p>
+<p>本文介绍了开源的云原生 API 网关 Apache APISIX 和云 IDE 产品 Gitpod，并为大家演示了如何使用 Gitpod 对 API 网关 Apache APISIX 进行开发及常见问题的解决方案。</p>
+</li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/03/28/release-apache-apisix-2.13/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX 2.13.0 正式发布</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">API 网关 Apache APISIX 集成 Eureka 作为服务发现</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#导语">导语</a></li><li class><a href="#贡献者统计">贡献者统计</a></li><li class><a href="#good-first-issue">Good first issue</a></li><li class="d3"><a href="#issue-6344">Issue #6344</a></li><li class="d3"><a href="#issue-6197">Issue #6197</a></li><li class><a href="#近期功能特性亮点">近期功能特性亮点</a></li><li class><a href="#近期博文推荐">近期博文推荐</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/05/31/2026-may-monthly-report/"> <img class="cover" src="https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (05.01 - 05.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年5月31日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

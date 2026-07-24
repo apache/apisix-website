@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>A First Look at Kubernetes Service APIs | Apache APISIX</title><meta name="description" content="This article introduces the basic concepts of Kubernetes Service APIs, their main features, and the changes brought about by their implementation."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="A First Look at Kubernetes Service APIs | Apache APISIX"><meta property="og:description" content="This article introduces the basic concepts of Kubernetes Service APIs, their main features, and the changes brought about by their implementation."><meta property="og:url" content="https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"A First Look at Kubernetes Service APIs","description":"This article introduces the basic concepts of Kubernetes Service APIs, their main features, and the changes brought about by their implementation.","datePublished":"2020-12-18","author":{"@type":"Person","name":"Wei Jin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2020/12/18/first-look-at-kubernetes-service-api/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2020/12/18/first-look-at-kubernetes-service-api/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>A First Look at Kubernetes Service APIs</h1> <p class="article-meta"> <time datetime="2020-12-18">Dec 18, 2020</time> · Wei Jin  · 6 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#preface">Preface</a></li><li class><a href="#topic-description">Topic Description</a></li><li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#kubernetes-service-apis-is-called-the-second-generation-of-ingress-technology-in-what-ways-is-it-better-than-the-first-generation">Kubernetes Service APIs is called the second generation of Ingress technology, in what ways is it better than the first generation</a></li><li class><a href="#what-resource-objects-are-abstracted-by-the-kubernetes-service-apis">What resource objects are abstracted by the Kubernetes Service APIs</a></li><li class><a href="#what-changes-will-come-with-the-implementation-of-kubernetes-service-apis">What changes will come with the implementation of Kubernetes Service APIs</a></li><li class><a href="#what-ingress-implementations-of-kubernetes-service-apis-are-currently-available">What ingress implementations of Kubernetes Service APIs are currently available</a></li><li class><a href="#how-kubernetes-service-apis-manage-resource-read-and-write-permissions">How Kubernetes Service APIs manage resource read and write permissions</a></li><li class><a href="#what-are-the-extension-points-for-kubernetes-service-apis">What are the extension points for Kubernetes Service APIs</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header>  <blockquote>
+<p>This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine many ingress best practices, such as expression enhancements that actually extend the capabilities of Route, and BackendPolicy objects that can specify almost any Kubernetes backend resource for upstream.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="preface">Preface</h2>
+<p>The author is an Apache APISIX PMC and Apache APISIX Ingress Controller Founder. Through research and community communication, I plan to gradually support Kubernetes Service APIs in later versions of Apache APISIX Ingress Controller.</p>
+<p>As we know, Kubernetes has a variety of solutions for exposing services inside the cluster, one of which is Ingress, a standard for exposing services to the public, and there are many third-party implementations of Ingress, each with its own technology stack and dependency on gateways that are not compatible with each other.</p>
+<p>To unify the various Ingress implementations and facilitate unified management on Kubernetes, the <a href="https://github.com/kubernetes/community/tree/master/sig-network">SIG-NETWORK</a> community has launched the <a href="https://gateway-api.sigs.k8s.io/">Kubernetes Service APIs</a>, a set of standard implementations called second-generation Ingress.</p>
+<h2 id="topic-description">Topic Description</h2>
+<p>This article provides an introduction to the basic concepts of Kubernetes Service APIs, starting with a few questions.</p>
+<h2 id="introduction">Introduction</h2>
+<h3 id="kubernetes-service-apis-is-called-the-second-generation-of-ingress-technology-in-what-ways-is-it-better-than-the-first-generation">Kubernetes Service APIs is called the second generation of Ingress technology, in what ways is it better than the first generation</h3>
+<p>The Kubernetes Service APIs were designed not to be limited to Ingress, but to enhance service networking by focusing on the following points: expressiveness, scalability, and RBAC.</p>
+<p>For example, traffic can be managed based on header, weighting</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>kind: HTTPRoute</span></span>
+<span class="line"><span>apiVersion: networking.x-k8s.io/v1alpha1</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>matches:</span></span>
+<span class="line"><span>  - path:</span></span>
+<span class="line"><span>      value: "/foo"</span></span>
+<span class="line"><span>    headers:</span></span>
+<span class="line"><span>      values:</span></span>
+<span class="line"><span>        version: "2"</span></span>
+<span class="line"><span>  - path:</span></span>
+<span class="line"><span>      value: "/v2/foo"</span></span></code></pre>
+<ol start="2">
+<li>The Service APIs propose the concept of multi-layer APIs, each layer exposes its interface independently to facilitate other custom resources to interface with the APIs and achieve finer granularity (API granularity) control.</li>
+</ol>
+<p><img src="https://gateway-api.sigs.k8s.io/images/api-model.png" alt="api-model"></p>
+<ol start="3">
+<li>Role-oriented RBAC: One of the ideas behind the multi-tier API implementation is to design resource objects from the user’s perspective. These resources are ultimately mapped to common roles for running applications on Kubernetes.</li>
+</ol>
+<h2 id="what-resource-objects-are-abstracted-by-the-kubernetes-service-apis">What resource objects are abstracted by the Kubernetes Service APIs</h2>
+<p>The Kubernetes Service APIs will define the following kinds of resources based on user roles.</p>
+<p>GatewayClass, Gateway, Route</p>
+<ol>
+<li>GatewayClass defines a set of gateway types with common configuration and behavior</li>
+</ol>
+<ul>
+<li>
+<p>relationship to the Gateway, similar to the ingress.class annotation in ingress.</p>
+</li>
+<li>
+<p>A GatewayClass defines a set of gateways that share the same configuration and behavior. Each GatewayClass will be handled by a single controller, and controllers have a one-to-many relationship with GatewayClass.</p>
+</li>
+<li>
+<p>A GatewayClass is a cluster resource. At least one GatewayClass must be defined to have a functional gateway.</p>
+</li>
+</ul>
+<ol start="2">
+<li>Gateway requests a point at which traffic can be converted to services within the cluster.</li>
+</ol>
+<ul>
+<li>
+<p>Role: Bringing traffic from outside the cluster inside the cluster. This is the true ingress entity.</p>
+</li>
+<li>
+<p>It defines a request for a specific LB configuration that is also the implementation of the GatewayClass configuration and behavior.</p>
+</li>
+<li>
+<p>Gateway resources can be created either directly by the operator or by the controller handling the GatewayClass.</p>
+</li>
+<li>
+<p>Gateway and Route are in a many-to-many relationship.</p>
+</li>
+</ul>
+<ol start="3">
+<li>the Route describes how traffic passing through the gateway is mapped to a service.</li>
+</ol>
+<p><img src="https://gateway-api.sigs.k8s.io/images/schema-uml.svg" alt="schema-uml"></p>
+<p>In addition, the Kubernetes Service APIs define a BackendPolicy resource object in order to enable flexible configuration of backend services.</p>
+<p>The BackendPolicy object allows you to configure TLS, health checks, and specify the type of backend service, such as service or pod.</p>
+<h2 id="what-changes-will-come-with-the-implementation-of-kubernetes-service-apis">What changes will come with the implementation of Kubernetes Service APIs</h2>
+<p>Kubernetes Service APIs, as an implementation standard, brings the following changes.</p>
+<ol>
+<li>
+<p>generality: there can be multiple implementations, just like there are multiple implementations of ingress. ingress controllers can be customized based on the characteristics of the gateway, but they all have a consistent configuration structure. A data structure, you can configure a variety of ingress controller.</p>
+</li>
+<li>
+<p>Class concept: GatewayClasses can be configured for different types of load balancing implementations. These class classes allow the user to easily and explicitly understand what functionality can be used as the resource model itself.</p>
+</li>
+<li>
+<p>By allowing independent routing resources HTTPRoute to be bound to the same GatewayClass, they can share load balancers and VIPs. layered by user, this allows teams to safely share infrastructure without having to care about the specific implementation of the lower level Gateway. 4.</p>
+</li>
+<li>
+<p>backend references with types: With backend references with types, routes can reference Kubernetes Services, or any type of Kubernetes resource designed as a gateway backend, such as a pod, or a statefulset such as a DB, or even an accessible cluster external resource.</p>
+</li>
+</ol>
+<p>Cross-namespace references: Routes across different namespaces can be bound to a Gateway, allowing access to each other across namespaces. It is also possible to restrict the range of namespaces that a Route under a Gateway can access.</p>
+<h2 id="what-ingress-implementations-of-kubernetes-service-apis-are-currently-available">What ingress implementations of Kubernetes Service APIs are currently available</h2>
+<p>The Ingress that are known to support Kubernetes Service APIs resource objects at the code level are Contour, ingress-gce.</p>
+<h2 id="how-kubernetes-service-apis-manage-resource-read-and-write-permissions">How Kubernetes Service APIs manage resource read and write permissions</h2>
+<p>The Kubernetes Service APIs are divided into 3 roles based on the user dimension</p>
+<ol>
+<li>
+<p>infrastructure provider GatewayClass</p>
+</li>
+<li>
+<p>cluster operator Gateway</p>
+</li>
+<li>
+<p>application developer Route</p>
+</li>
+</ol>
+<p>RBAC (Role Based Access Control) is the standard used for Kubernetes authorization. It allows users to configure who can perform operations on a specific range of resources. RBAC can be used to enable each of the roles defined above.</p>
+<p>In most cases, all roles are expected to be able to read all resources</p>
+<p>The three-tier model has the following write permissions.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>GatewayClass</th><th>Gateway</th><th>Route</th></tr></thead><tbody><tr><td>Infrastructure Provider</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Cluster Operators</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>The Kubernetes Service Provider is a service provider that provides a variety of services to the Kubernetes community.</td><td></td><td></td><td></td></tr></tbody></table>
+<h2 id="what-are-the-extension-points-for-kubernetes-service-apis">What are the extension points for Kubernetes Service APIs</h2>
+<p>The Kubernetes Service APIs refine the multi-tier resource object, but also leave some extension points open.</p>
+<p>Currently, the Kubernetes Service APIs are focused on Route.</p>
+<ul>
+<li>
+<p>RouteMatch extends Route matching rules.</p>
+</li>
+<li>
+<p>Specify Backend extends specific types of backend services, such as file systems, function expressions, etc., in addition to the Kubernetes resources mentioned above.</p>
+</li>
+<li>
+<p>Route filter adds extensions to the Route lifecycle to handle requests/response.</p>
+</li>
+<li>
+<p>Custom Route can be fully customized if none of the above extensions are met.</p>
+</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>This article provides a basic introduction to the Kubernetes Service APIs by asking questions. As a whole, the Kubernetes Service APIs refine a lot of ingress best practices, such as the enhancement of expression capabilities, which actually extends the capabilities of the Route, and the BackendPolicy object The Kubernetes Service APIs as a whole refine a lot of ingress best practices, such as the enhanced expressiveness, which actually extends the capabilities of Route, and the BackendPolicy object, which can specify almost all Kubernetes backend resources for upstream. Of course, there are also shortcomings in the early stage of the project. Although the Kubernetes Service APIs have specified the resource objects at a broad level, there are still a lot of details within the resource objects that need to be discussed and then determined to prevent possible conflict scenarios, and there are certain variables in the structure.</p>
+<p>Reference:</p>
+<ul>
+<li><a href="https://gateway-api.sigs.k8s.io/">https://gateway-api.sigs.k8s.io/</a></li>
+<li><a href="https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api">https://www.apiseven.com/zh/blog/a-first-look-at-kubernetes-service-api</a></li>
+<li><a href="https://github.com/apache/apisix">https://github.com/apache/apisix</a></li>
+<li><a href="https://github.com/apache/apisix-ingress-controller">https://github.com/apache/apisix-ingress-controller</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2021/01/11/interview-apache-apisix-contributor-wang-pengcheng-senior-security-advisor-of-pwc-south-china-data-security-and-privacy-protection-team/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">APISIX CVE-2020-13945: Admin API Token Flaw</span> </a> <a class="post-nav-card older" href="/blog/2020/12/16/another-way-to-implement-envoy-filter/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Run APISIX Plugins in Envoy as Filters</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#preface">Preface</a></li><li class><a href="#topic-description">Topic Description</a></li><li class><a href="#introduction">Introduction</a></li><li class="d3"><a href="#kubernetes-service-apis-is-called-the-second-generation-of-ingress-technology-in-what-ways-is-it-better-than-the-first-generation">Kubernetes Service APIs is called the second generation of Ingress technology, in what ways is it better than the first generation</a></li><li class><a href="#what-resource-objects-are-abstracted-by-the-kubernetes-service-apis">What resource objects are abstracted by the Kubernetes Service APIs</a></li><li class><a href="#what-changes-will-come-with-the-implementation-of-kubernetes-service-apis">What changes will come with the implementation of Kubernetes Service APIs</a></li><li class><a href="#what-ingress-implementations-of-kubernetes-service-apis-are-currently-available">What ingress implementations of Kubernetes Service APIs are currently available</a></li><li class><a href="#how-kubernetes-service-apis-manage-resource-read-and-write-permissions">How Kubernetes Service APIs manage resource read and write permissions</a></li><li class><a href="#what-are-the-extension-points-for-kubernetes-service-apis">What are the extension points for Kubernetes Service APIs</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

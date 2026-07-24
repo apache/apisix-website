@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX vs Kong: Feature Comparison &amp; Performance Benchmarks | Apache APISIX</title><meta name="description" content="Compare Apache APISIX and Kong API Gateway across architecture, performance, plugin ecosystem, Kubernetes support, and migration tradeoffs."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/learning-center/apisix-vs-kong/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/learning-center/apisix-vs-kong/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/learning-center/apisix-vs-kong/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/learning-center/apisix-vs-kong/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX vs Kong: Feature Comparison &#38; Performance Benchmarks | Apache APISIX"><meta property="og:description" content="Compare Apache APISIX and Kong API Gateway across architecture, performance, plugin ecosystem, Kubernetes support, and migration tradeoffs."><meta property="og:url" content="https://apisix.apache.org/learning-center/apisix-vs-kong/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks","description":"Compare Apache APISIX and Kong API Gateway across architecture, performance, plugin ecosystem, Kubernetes support, and migration tradeoffs.","datePublished":"2026-04-14","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/apisix-vs-kong/"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can APISIX and Kong run side by side during a migration?","acceptedAnswer":{"@type":"Answer","text":"Yes. Both gateways can operate in parallel by splitting traffic at the load balancer level. A common migration strategy routes new services through APISIX while existing services continue running through Kong. Gradual traffic shifting with health checks ensures zero-downtime migration. The timeline depends on the number of routes, custom plugins, and testing requirements."}},{"@type":"Question","name":"Is APISIX harder to operate because it requires etcd?","acceptedAnswer":{"@type":"Answer","text":"etcd adds a dependency compared to Kong's DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong's DB-mode."}},{"@type":"Question","name":"How do the two gateways compare on gRPC and streaming support?","acceptedAnswer":{"@type":"Answer","text":"APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX's broader built-in protocol support reduces the need for custom plugins or sidecars."}}]}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/learning-center/apisix-vs-kong/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/learning-center/apisix-vs-kong/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/learning-center/tags/comparison/">comparison</a><a class="tag" href="/learning-center/tags/apisix/">apisix</a><a class="tag" href="/learning-center/tags/kong/">kong</a><a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a> </div>  <a class="cta-link side-back" href="/learning-center/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX vs Kong: Feature Comparison &amp; Performance Benchmarks</h1> <p class="article-meta"> <time datetime="2026-04-14">Apr 14, 2026</time>  · 8 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/learning-center/tags/comparison/">comparison</a><a class="tag" href="/learning-center/tags/apisix/">apisix</a><a class="tag" href="/learning-center/tags/kong/">kong</a><a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#overview">Overview</a></li><li class><a href="#architecture-comparison">Architecture Comparison</a></li><li class="d3"><a href="#apache-apisix-architecture">Apache APISIX Architecture</a></li><li class="d3"><a href="#kong-architecture">Kong Architecture</a></li><li class><a href="#performance-benchmarks">Performance Benchmarks</a></li><li class><a href="#feature-comparison">Feature Comparison</a></li><li class><a href="#plugin-ecosystem">Plugin Ecosystem</a></li><li class><a href="#kubernetes-integration">Kubernetes Integration</a></li><li class><a href="#community-and-ecosystem">Community and Ecosystem</a></li><li class><a href="#when-to-choose-apache-apisix">When to Choose Apache APISIX</a></li><li class><a href="#when-to-choose-kong">When to Choose Kong</a></li><li class><a href="#faq">FAQ</a></li><li class="d3"><a href="#can-apisix-and-kong-run-side-by-side-during-a-migration">Can APISIX and Kong run side by side during a migration?</a></li><li class="d3"><a href="#is-apisix-harder-to-operate-because-it-requires-etcd">Is APISIX harder to operate because it requires etcd?</a></li><li class="d3"><a href="#how-do-the-two-gateways-compare-on-grpc-and-streaming-support">How do the two gateways compare on gRPC and streaming support?</a></li><li class><a href="#related">Related</a></li> </ul> </details> </header>  <p>Apache APISIX and Kong are the two most widely adopted open-source API gateways, both built on NGINX and Lua. APISIX differentiates itself with a fully dynamic architecture powered by etcd, higher single-core throughput, and a broader protocol support matrix, while Kong offers a mature enterprise ecosystem with extensive third-party integrations and a large plugin marketplace.</p>
+<h2 id="overview">Overview</h2>
+<p>Both projects serve as high-performance, extensible API gateways for microservices architectures. Kong was open-sourced in 2015 and has built a substantial commercial ecosystem around Kong Gateway Enterprise, Kong Konnect, and the Kong Plugin Hub. Apache APISIX entered the Apache Software Foundation incubator in 2019 and graduated as a top-level project in 2020, with rapid community growth.</p>
+<p>Both projects are recognized as production-grade gateways and see active production deployments worldwide.</p>
+<h2 id="architecture-comparison">Architecture Comparison</h2>
+<p>The architectural differences between APISIX and Kong are fundamental and affect day-to-day operations, scalability, and deployment complexity.</p>
+<h3 id="apache-apisix-architecture">Apache APISIX Architecture</h3>
+<p>APISIX uses NGINX as its data plane with Lua plugins running in the request lifecycle. Configuration is stored in <strong>etcd</strong>, a distributed key-value store that pushes changes to all gateway nodes in real time via watch mechanisms. This architecture means that route changes, plugin updates, and upstream modifications take effect within milliseconds without requiring restarts or reloads. There is no relational database dependency.</p>
+<p>The etcd-based design gives APISIX a stateless data plane: any node can be added or removed without migration steps or database schema changes. This makes horizontal scaling straightforward and reduces operational overhead significantly in Kubernetes environments where pods are ephemeral.</p>
+<h3 id="kong-architecture">Kong Architecture</h3>
+<p>Kong also uses NGINX and Lua for its data plane. Configuration is stored in <strong>PostgreSQL</strong> or <strong>Cassandra</strong> (though Cassandra support has been deprecated in newer versions). Kong’s DB-mode requires database migrations when upgrading, and configuration changes propagate through a polling mechanism with a configurable cache TTL, which introduces a delay between API calls to the Admin API and actual enforcement at the proxy layer.</p>
+<p>Kong also offers a DB-less mode where configuration is loaded from a declarative YAML file, which eliminates the database dependency but sacrifices the ability to modify configuration dynamically through the Admin API at runtime. Kong’s commercial offering, Konnect, provides a managed control plane that addresses many of these operational concerns.</p>
+<h2 id="performance-benchmarks">Performance Benchmarks</h2>
+<p>Performance characteristics matter at scale, where even small per-request overhead compounds into significant infrastructure costs.</p>
+<p>Key architectural differences that affect performance:</p>
+<ul>
+<li><strong>Route matching</strong>: APISIX uses a radix tree-based routing algorithm. Kong uses a different matching approach. The routing algorithm affects lookup time as the number of routes grows.</li>
+<li><strong>Configuration propagation</strong>: APISIX pushes configuration changes from etcd to all nodes in real time. Kong’s DB-mode polls the database on a configurable interval, introducing a delay between configuration changes and enforcement.</li>
+<li><strong>Memory model</strong>: Both use NGINX’s event-driven architecture, but their plugin execution models differ in per-request allocation patterns.</li>
+</ul>
+<p>We recommend benchmarking both gateways with your actual workload, plugin chain, and hardware to get meaningful performance comparisons. Vendor-published benchmarks often test under ideal conditions that may not reflect your production environment.</p>
+<p>For many production deployments, both gateways provide sufficient throughput, and the choice often depends on factors beyond raw performance such as ecosystem maturity, plugin availability, and operational familiarity.</p>
+<h2 id="feature-comparison">Feature Comparison</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Apache APISIX</th><th>Kong (OSS)</th></tr></thead><tbody><tr><td>Plugin count (built-in)</td><td>80+</td><td>40+ (OSS), 200+ (Enterprise)</td></tr><tr><td>Protocol support</td><td>HTTP/1.1, HTTP/2, HTTP/3, gRPC, WebSocket, TCP/UDP, MQTT, Dubbo</td><td>HTTP/1.1, HTTP/2, gRPC, WebSocket, TCP/UDP</td></tr><tr><td>Dashboard</td><td>Apache APISIX Dashboard (OSS)</td><td>Kong Manager (Enterprise only)</td></tr><tr><td>Admin API</td><td>Full REST API, fully dynamic</td><td>REST API, DB-mode or DB-less</td></tr><tr><td>Service discovery</td><td>Nacos, Consul, Eureka, DNS, Kubernetes</td><td>DNS, Consul (others via plugins)</td></tr><tr><td>Kubernetes ingress</td><td>APISIX Ingress Controller (CRD-based)</td><td>Kong Ingress Controller (KIC)</td></tr><tr><td>Multi-language plugin support</td><td>Go, Java, Python, Wasm, Lua</td><td>Go, JavaScript, Python (PDK)</td></tr><tr><td>Configuration storage</td><td>etcd (distributed, real-time)</td><td>PostgreSQL (requires migrations)</td></tr><tr><td>Canary/traffic splitting</td><td>Built-in traffic-split plugin</td><td>Canary plugin (Enterprise)</td></tr></tbody></table>
+<p>Both gateways support core functionality like rate limiting, authentication (JWT, OAuth 2.0, API key, LDAP), load balancing, health checks, and circuit breaking. The primary differences lie in the breadth of built-in features available in the open-source edition versus features gated behind enterprise licensing.</p>
+<h2 id="plugin-ecosystem">Plugin Ecosystem</h2>
+<p>APISIX ships with over 80 built-in plugins covering authentication, security, traffic management, observability, and protocol transformation. Notably, plugins for serverless functions (running custom Lua, Java, or Go code inline) and advanced traffic management are available in the open-source edition.</p>
+<p>Kong’s open-source edition includes approximately 40 built-in plugins, with a substantial number of additional plugins available through Kong Plugin Hub and the enterprise edition. Kong’s plugin marketplace includes many third-party and partner-contributed plugins, giving it a broader ecosystem for specific vendor integrations like Datadog, PagerDuty, and Moesif.</p>
+<p>For custom plugin development, APISIX supports external plugins via gRPC-based plugin runners in Go, Java, and Python, as well as Wasm-based plugins that run in a sandboxed environment. Kong offers a Plugin Development Kit (PDK) supporting Go, JavaScript, and Python alongside native Lua plugins. Both projects accept community-contributed plugins, and their ecosystems continue to grow.</p>
+<h2 id="kubernetes-integration">Kubernetes Integration</h2>
+<p>Both gateways offer mature Kubernetes ingress controllers, though they differ in design philosophy.</p>
+<p>The <strong>APISIX Ingress Controller</strong> supports both custom resource definitions (CRDs) specific to APISIX and standard Kubernetes Ingress resources. It communicates with the APISIX data plane through the Admin API and supports Gateway API, the emerging Kubernetes standard for traffic management. Configuration changes propagate instantly through etcd.</p>
+<p>The <strong>Kong Ingress Controller (KIC)</strong> also supports CRDs and standard Kubernetes Ingress resources, with Kong-specific annotations for extended functionality. KIC translates Kubernetes resources into Kong configuration, applying them through the Admin API. KIC has a longer track record in production Kubernetes environments and benefits from extensive documentation and community resources.</p>
+<p>Both controllers are actively maintained and see regular releases aligned with Kubernetes version updates.</p>
+<h2 id="community-and-ecosystem">Community and Ecosystem</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric</th><th>Apache APISIX</th><th>Kong</th></tr></thead><tbody><tr><td>License</td><td>Apache 2.0</td><td>Apache 2.0 (OSS)</td></tr><tr><td>Governance</td><td>Apache Software Foundation</td><td>Kong Inc.</td></tr><tr><td>First release</td><td>2019</td><td>2015</td></tr></tbody></table>
+<p>APISIX benefits from Apache Software Foundation governance, which ensures vendor-neutral development and community-driven roadmap decisions. Kong benefits from the backing of Kong Inc., which provides dedicated engineering resources, enterprise support, and a commercial ecosystem that many large organizations value.</p>
+<p>Both projects maintain active community forums, Slack channels, and regular release cadences. Kong’s longer market presence gives it an advantage in terms of available tutorials, third-party integrations, and consultant familiarity.</p>
+<h2 id="when-to-choose-apache-apisix">When to Choose Apache APISIX</h2>
+<p>APISIX is the stronger choice when your requirements include:</p>
+<ul>
+<li><strong>Dynamic configuration at scale:</strong> Environments where routes and plugins change frequently benefit from etcd-based instant propagation without restarts.</li>
+<li><strong>Maximum open-source functionality:</strong> Teams that need advanced features like traffic splitting and multi-protocol support without enterprise licensing.</li>
+<li><strong>High-performance requirements:</strong> Workloads where per-request latency and single-core throughput directly impact infrastructure costs.</li>
+<li><strong>Kubernetes-native deployments:</strong> Organizations adopting Gateway API and wanting tight integration with cloud-native service discovery (Nacos, Consul, Eureka).</li>
+<li><strong>Vendor-neutral governance:</strong> Teams that prefer Apache Software Foundation stewardship over single-vendor control.</li>
+</ul>
+<h2 id="when-to-choose-kong">When to Choose Kong</h2>
+<p>Kong is the stronger choice when your requirements include:</p>
+<ul>
+<li><strong>Mature enterprise ecosystem:</strong> Organizations that need commercial support, SLA guarantees, and a proven enterprise deployment track record.</li>
+<li><strong>Extensive third-party integrations:</strong> Environments with specific vendor integration needs covered by Kong’s plugin marketplace.</li>
+<li><strong>Existing Kong investment:</strong> Teams already running Kong in production where migration cost outweighs technical advantages.</li>
+<li><strong>Managed control plane:</strong> Organizations that prefer a SaaS-managed control plane (Kong Konnect) to reduce operational burden.</li>
+<li><strong>Broad hiring market:</strong> Teams that can more easily find engineers with Kong experience due to its longer market presence.</li>
+</ul>
+<h2 id="faq">FAQ</h2>
+<h3 id="can-apisix-and-kong-run-side-by-side-during-a-migration">Can APISIX and Kong run side by side during a migration?</h3>
+<p>Yes. Both gateways can operate in parallel by splitting traffic at the load balancer level. A common migration strategy routes new services through APISIX while existing services continue running through Kong. Gradual traffic shifting with health checks ensures zero-downtime migration. The timeline depends on the number of routes, custom plugins, and testing requirements.</p>
+<h3 id="is-apisix-harder-to-operate-because-it-requires-etcd">Is APISIX harder to operate because it requires etcd?</h3>
+<p>etcd adds a dependency compared to Kong’s DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong’s DB-mode.</p>
+<h3 id="how-do-the-two-gateways-compare-on-grpc-and-streaming-support">How do the two gateways compare on gRPC and streaming support?</h3>
+<p>APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX’s broader built-in protocol support reduces the need for custom plugins or sidecars.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="/comparisons/">All API gateway comparisons</a></li>
+<li><a href="/learning-center/what-is-an-api-gateway/">What is an API gateway?</a></li>
+<li><a href="/learning-center/apisix-vs-nginx/">Apache APISIX vs NGINX</a></li>
+<li><a href="/learning-center/apisix-vs-aws-api-gateway/">Apache APISIX vs AWS API Gateway</a></li>
+<li><a href="/docs/apisix/getting-started/">Get started with Apache APISIX</a></li>
+</ul> <section class="faq"> <h2>Frequently asked questions</h2> <details> <summary>Can APISIX and Kong run side by side during a migration?</summary> <p>Yes. Both gateways can operate in parallel by splitting traffic at the load balancer level. A common migration strategy routes new services through APISIX while existing services continue running through Kong. Gradual traffic shifting with health checks ensures zero-downtime migration. The timeline depends on the number of routes, custom plugins, and testing requirements.</p> </details><details> <summary>Is APISIX harder to operate because it requires etcd?</summary> <p>etcd adds a dependency compared to Kong&#39;s DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong&#39;s DB-mode.</p> </details><details> <summary>How do the two gateways compare on gRPC and streaming support?</summary> <p>APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX&#39;s broader built-in protocol support reduces the need for custom plugins or sidecars.</p> </details> </section> <footer class="article-footer"> <a class="cta-link" href="/learning-center/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/learning-center/apisix-vs-traefik/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Apache APISIX vs Traefik: Performance vs Auto-Discovery</span> </a> <a class="post-nav-card older" href="/learning-center/api-gateway-authentication/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">API Gateway Authentication: Methods, Best Practices &amp; Implementation</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#overview">Overview</a></li><li class><a href="#architecture-comparison">Architecture Comparison</a></li><li class="d3"><a href="#apache-apisix-architecture">Apache APISIX Architecture</a></li><li class="d3"><a href="#kong-architecture">Kong Architecture</a></li><li class><a href="#performance-benchmarks">Performance Benchmarks</a></li><li class><a href="#feature-comparison">Feature Comparison</a></li><li class><a href="#plugin-ecosystem">Plugin Ecosystem</a></li><li class><a href="#kubernetes-integration">Kubernetes Integration</a></li><li class><a href="#community-and-ecosystem">Community and Ecosystem</a></li><li class><a href="#when-to-choose-apache-apisix">When to Choose Apache APISIX</a></li><li class><a href="#when-to-choose-kong">When to Choose Kong</a></li><li class><a href="#faq">FAQ</a></li><li class="d3"><a href="#can-apisix-and-kong-run-side-by-side-during-a-migration">Can APISIX and Kong run side by side during a migration?</a></li><li class="d3"><a href="#is-apisix-harder-to-operate-because-it-requires-etcd">Is APISIX harder to operate because it requires etcd?</a></li><li class="d3"><a href="#how-do-the-two-gateways-compare-on-grpc-and-streaming-support">How do the two gateways compare on gRPC and streaming support?</a></li><li class><a href="#related">Related</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/learning-center/apisix-vs-apigee/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Apigee: Gateway vs API Management Platform</h3> <p class="desc">Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-aws-api-gateway/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed</h3> <p class="desc">Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-envoy/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Envoy: API Gateway vs Service Proxy</h3> <p class="desc">Compare Apache APISIX and Envoy: a turnkey API gateway with a built-in control plane vs a high-performance proxy that needs one (Istio, Gloo).</p> <p class="meta">Jun 24, 2026</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

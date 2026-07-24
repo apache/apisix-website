@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX 新特性之 WAF 解决方案：Coraza | Apache APISIX</title><meta name="description" content="APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/09/08/apisix-integrates-with-coraza/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/09/08/apisix-integrates-with-coraza/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX 新特性之 WAF 解决方案：Coraza | Apache APISIX"><meta property="og:description" content="APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX 新特性之 WAF 解决方案：Coraza","description":"APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。","datePublished":"2023-09-08","image":"https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp","author":{"@type":"Person","name":"Guohao Wang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2023/09/08/apisix-integrates-with-coraza/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2023/09/08/apisix-integrates-with-coraza/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX 新特性之 WAF 解决方案：Coraza</h1> <p class="article-meta"> <time datetime="2023-09-08">2023年9月8日</time> · Guohao Wang  · 约 6 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#apache-apisix">Apache APISIX</a></li><li class><a href="#coraza">Coraza</a></li><li class><a href="#coraza-waf--apisix-为什么优先选择它">Coraza-WAF:  APISIX 为什么优先选择它</a></li><li class="d3"><a href="#开源社区支持">开源社区支持</a></li><li class="d3"><a href="#wasm-插件的支持">Wasm 插件的支持</a></li><li class="d3"><a href="#core-rule-set-规则集的支持">Core Rule Set 规则集的支持</a></li><li class="d3"><a href="#易于安装部署">易于安装部署</a></li><li class><a href="#如何在-apisix-中使用-coraza">如何在 APISIX 中使用 Coraza</a></li><li class="d3"><a href="#配置-apisix-集成-coraza-proxy-wasm">配置 APISIX 集成 coraza-proxy-wasm</a></li><li class="d3"><a href="#配置--anything-路由集成-coraza-waf-规则">配置  /anything 路由集成 Coraza WAF 规则</a></li><li class><a href="#写在最后">写在最后</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。</p>
+</blockquote>
+<!--truncate-->
+<p>随着云原生技术的飞速发展，保障 API 的安全性变得至关重要。<a href="https://github.com/apache/apisix">Apache APISIX</a> 推出了一系列的前沿特性，其中值得称赞的是 APISIX 集成了 <a href="https://github.com/corazawaf/coraza-proxy-wasm">coraza-proxy-wasm</a> 插件。我们将深入探讨 APISIX 全新的 WAF 功能，探索 Coraza 如何强化应用程序，使其抵御各类 Web 攻击。</p>
+<h2 id="apache-apisix">Apache APISIX</h2>
+<p><a href="https://apisix.apache.org/">Apache APISIX</a> 是一个动态、实时、高性能的开源 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 基于 NGINX 和 LuaJIT 构建，具有超高性能，单核 QPS 高达 23000，平均延迟仅为 0.2 毫秒。它不仅解决传统架构中的一些问题，同时适应了云原生时代的需求。Apache APISIX 目前是 GitHub 上最活跃的 API 网关项目之一，每天处理超过 1 万亿次的 API 调用，并且该数字仍在增长。</p>
+<p>作为 API 网关，Apache APISIX 的应用场景非常广泛，可应用于网关、Kubernetes Ingress 和服务网格等场景，可以帮助企业快速、安全地处理 API 和微服务流量。目前已获得 Amber Group、<a href="https://apisix.apache.org/zh/blog/2021/11/03/airwallex-usercase/">Airwallex</a>、Lotus Cars、<a href="https://apisix.apache.org/zh/blog/2022/11/13/vivo-with-apache-apisix/">vivo</a>、European Factory Platform 等全球企业和组织的测试和高度认可。</p>
+<h2 id="coraza">Coraza</h2>
+<p><a href="https://en.wikipedia.org/wiki/Web_application_firewall">WAF</a>（Web Application Firewall），或 Web 应用程序防火墙，是一种网络安全工具，用于保护 Web 应用程序免受各种网络攻击。它通过过滤和监视 Web 应用程序与互联网之间的 HTTP 通信来帮助确保 Web 应用程序的安全性。</p>
+<p><a href="https://coraza.io/">Coraza</a> 是非常著名的开源 WAF 实现，将 Coraza 与 APISIX 集成能大大提高 APISIX 对上游服务的保护能力。</p>
+<p><strong>它在以下方面提供具体优势：</strong></p>
+<ol>
+<li>
+<p>攻击检测和阻止：Coraza 通过实时分析和监控 HTTP 和 HTTPS 流量，可以检测和阻止常见的 Web 攻击，如 SQL 注入、跨站脚本（XSS）、跨站请求伪造（CSRF）等。</p>
+</li>
+<li>
+<p>日志记录和报告功能： Coraza 提供高级的日志记录和报告功能，允许管理员跟踪和分析系统的安全事件。这有助于及时发现潜在的威胁并采取适当的措施来应对安全问题。</p>
+</li>
+<li>
+<p>灵活性和可扩展性：Coraza 提供了灵活的配置选项，使管理员可以根据特定的应用程序需求进行定制。它支持自定义规则和策略，可以根据具体的安全需求进行配置。它还可以与其他安全工具和系统进行集成，提供更全面的安全解决方案。</p>
+</li>
+</ol>
+<h2 id="coraza-waf--apisix-为什么优先选择它">Coraza-WAF:  APISIX 为什么优先选择它</h2>
+<h3 id="开源社区支持">开源社区支持</h3>
+<p>APISIX 在选择新的 WAF 方案时非常重视其对<a href="https://apisix.apache.org/zh/blog/tags/community/">开源社区</a>的支持。Coraza 和 APISIX 一样，拥有一个活跃的开发者社区，开源社区的支持让 Coraza 能够及时获取更新和寻求支持。社区成员积极地参与到 Coraza 的开发和维护中，不断改进和优化代码，修复 bug 和安全问题。APISIX 通过使用 Coraza，让用户也可以从这些更新中受益，保证了应用程序的安全性和稳定性。</p>
+<p>Coraza 开源社区与 APISIX 的发展和演进相协调。作为 APISIX 的 WAF 解决方案，Coraza 可以与 APISIX 的功能和特性紧密集成，以满足用户对安全性的需求。开源社区的合作和反馈有助于推动解决方案的进一步发展，并确保其与APISIX的兼容性和一致性。</p>
+<h3 id="wasm-插件的支持">Wasm 插件的支持</h3>
+<p>APISIX 支持 <a href="https://apisix.apache.org/zh/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/#%E4%B8%BA%E4%BB%80%E4%B9%88-apisix-%E8%A6%81%E6%94%AF%E6%8C%81-wasm-%E6%8F%92%E4%BB%B6">Wasm（WebAssembly）</a>开发插件，Coraza 也提供了 Wasm 插件可供选择，因而 APISIX 集成 Coraza 的成本相对较低。Wasm 的跨平台特性使得 APISIX 和 Coraza 可以无缝协同工作，免除了大规模修改代码并进行适配的工作。</p>
+<p><strong>这种低成本集成的好处包括：</strong></p>
+<ol>
+<li>被验证过的方案：尽管 Coraza wasm 插件并非专为 APISIX 开发，但其已在 Istio 平台上经过验证。该插件在功能上能够提供与 Istio 相一致的保障。</li>
+<li>低开发和维护成本：Coraza wasm 插件实质上是一个与平台无关的二进制文件，其发布和开发过程异常便捷。扩展 Coraza wasm 插件可借助 proxy-wasm-go-sdk 实现，其发布仅需更新二进制文件即可，进一步简化了流程。</li>
+</ol>
+<p>Wasm 实际上是一项非常新颖的技术，目前其生态系统仍在迅速发展之中。对于 APISIX 来说，对于 Wasm 的支持需要经过更长时间的验证，并吸引更多用户参与，以确保其充分验证其可行性和稳定性。</p>
+<h3 id="core-rule-set-规则集的支持">Core Rule Set 规则集的支持</h3>
+<p>传统的 WAF 解决方案通常需要在 Web 服务器（如 NGINX）上安装和配置特定的模块，以便与 WAF 引擎进行集成和通信。这种集成对于维护人员来说可能比较繁琐，需要处理繁重的配置和版本兼容性问题。</p>
+<p>然而，Coraza 使用 Core Rule Set（CRS）作为其规则集，CRS 是一个广泛使用和经过验证的开源规则集，用于检测和防御 Web 应用程序中的常见攻击。与传统的 WAF 解决方案不同的是，Coraza 直接解析和执行 CRS 规则，无需额外编译 NGINX。CRS 规则集的使用能为 APISIX 提供增强的安全性保护和 CRS 社区的支持。</p>
+<p><strong>这种设计决策带来了几个重要的好处：</strong></p>
+<ul>
+<li>维护更加简化。由于不需要 nginx_module 的支持，维护人员无需处理复杂的模块安装和配置过程。相反，他们只需要专注于维护和更新 CRS 规则集，确保其中包含最新的安全规则和修复。</li>
+<li>解决方案稳定可靠。CRS 作为一个成熟的规则集，经过了长期的实践和改进，已经被广泛采纳并得到了社区的支持。这意味着 Coraza 用户可以从 CRS 社区的集体智慧中受益，并获得及时的安全更新和修复。</li>
+</ul>
+<h3 id="易于安装部署">易于安装部署</h3>
+<p>Coraza 不需要 nginx_module 级别的支持，容易维护，这是因为 Coraza 是一个独立的 WAF，它不依赖于 NGINX 或其他 Web 服务器的模块级别支持，可以与不同的 Web 服务器集成。</p>
+<p>这种独立性使得 Coraza 的维护更加容易，因为它不需要依赖于特定的 Web 服务器配置或模块安装。管理员可以单独配置和管理 Coraza，而不必担心与其他服务器组件的兼容性问题。</p>
+<h2 id="如何在-apisix-中使用-coraza">如何在 APISIX 中使用 Coraza</h2>
+<p>请注意，要使用 Coraza 功能，您需要从源代码安装 APISIX master 版本。目前，该功能还处于预览版阶段，预期  3.6.0 版本将正式支持该功能。</p>
+<h3 id="配置-apisix-集成-coraza-proxy-wasm">配置 APISIX 集成 coraza-proxy-wasm</h3>
+<p>进入 <code>APISIX</code> 的目录</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cd /home/ubuntu/apisix-master</span></span></code></pre>
+<p>修改配置文件conf/config-default.yaml，取消原来 wasm 配置中的注释符</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>wasm:</span></span>
+<span class="line"><span>  plugins:</span></span>
+<span class="line"><span>    - name: coraza-filter</span></span>
+<span class="line"><span>      priority: 7999</span></span>
+<span class="line"><span>      file: /home/ubuntu/coraza-proxy-wasm/build/main.wasm # 要写绝对路径</span></span></code></pre>
+<h3 id="配置--anything-路由集成-coraza-waf-规则">配置  /anything 路由集成 Coraza WAF 规则</h3>
+<p>重新配置路由, 启用 <code>coraza-filter</code> 插件</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '{</span></span>
+<span class="line"><span>  "uri": "/anything",</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>    "coraza-filter": {</span></span>
+<span class="line"><span>      "conf": {</span></span>
+<span class="line"><span>        "directives_map": {</span></span>
+<span class="line"><span>          "default": [</span></span>
+<span class="line"><span>            "SecDebugLogLevel 9",</span></span>
+<span class="line"><span>            "SecRuleEngine On",</span></span>
+<span class="line"><span>            "SecRule REQUEST_URI \"@beginsWith /anything\" \"id:101,phase:1,t:lowercase,deny\""</span></span>
+<span class="line"><span>          ]</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        "default_directives": "default"</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "upstream": {</span></span>
+<span class="line"><span>    "type": "roundrobin",</span></span>
+<span class="line"><span>    "nodes": {</span></span>
+<span class="line"><span>      "httpbin.org:80": 1</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>测试 WAF 规则，的确看到了 403</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://localhost:9080/anything -v</span></span>
+<span class="line"><span>*   Trying 127.0.0.1:9080...</span></span>
+<span class="line"><span>* TCP_NODELAY set</span></span>
+<span class="line"><span>* Connected to localhost (127.0.0.1) port 9080 (#0)</span></span>
+<span class="line"><span>> GET /anything HTTP/1.1</span></span>
+<span class="line"><span>> Host: localhost:9080</span></span>
+<span class="line"><span>> User-Agent: curl/7.68.0</span></span>
+<span class="line"><span>> Accept: */*</span></span>
+<span class="line"><span>></span></span>
+<span class="line"><span>* Mark bundle as not supporting multiuse</span></span>
+<span class="line"><span>&#x3C; HTTP/1.1 403 Forbidden</span></span>
+<span class="line"><span>&#x3C; Date: Thu, 31 Aug 2023 09:09:18 GMT</span></span>
+<span class="line"><span>&#x3C; Content-Type: text/html; charset=utf-8</span></span>
+<span class="line"><span>&#x3C; Content-Length: 225</span></span>
+<span class="line"><span>&#x3C; Connection: keep-alive</span></span>
+<span class="line"><span>&#x3C; Server: APISIX/3.4.0</span></span>
+<span class="line"><span>&#x3C;</span></span>
+<span class="line"><span>&#x3C;html></span></span>
+<span class="line"><span>&#x3C;head>&#x3C;title>403 Forbidden&#x3C;/title>&#x3C;/head></span></span>
+<span class="line"><span>&#x3C;body></span></span>
+<span class="line"><span>&#x3C;center>&#x3C;h1>403 Forbidden&#x3C;/h1>&#x3C;/center></span></span>
+<span class="line"><span>&#x3C;hr>&#x3C;center>openresty&#x3C;/center></span></span>
+<span class="line"><span>&#x3C;p>&#x3C;em>Powered by &#x3C;a href="https://apisix.apache.org/">APISIX&#x3C;/a>.&#x3C;/em>&#x3C;/p>&#x3C;/body></span></span>
+<span class="line"><span>&#x3C;/html></span></span>
+<span class="line"><span>* Connection #0 to host localhost left intact</span></span></code></pre>
+<p>查看日志 <code>logs/error.log</code></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>2023/08/31 09:20:39 [info] 126240#126240: *23933 Transaction interrupted tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 action="deny" phase="http_request_headers", client: 127.0.0.1, server: _, request: "GET /anything HTTP/1.1", host: "localhost:9080"</span></span>
+<span class="line"><span>2023/08/31 09:20:39 [debug] 126240#126240: *23933 Interruption already handled, sending downstream the local response tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 interruption_handled_phase="http_request_headers"</span></span></code></pre>
+<h2 id="写在最后">写在最后</h2>
+<p>Coraza 是一个功能强大的 Web 应用程序防火墙框架，提供了广泛的安全功能和灵活的配置选项，适用于保护企业级Web应用程序免受各种威胁。APISIX 与 Coraza 的集成是 APISIX 的一个重要新特性，Coraza 作为易于维护的解决方案，与 APISIX 的集成为企业提供了强大的 API 管理和安全功能。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2023/09/13/biweekly-report/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">社区双周报 (8.28 - 9.10)</span> </a> <a class="post-nav-card older" href="/zh/blog/2023/09/01/release-apache-apisix-3.5.0/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">Apache APISIX 3.5.0 正式发布</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#apache-apisix">Apache APISIX</a></li><li class><a href="#coraza">Coraza</a></li><li class><a href="#coraza-waf--apisix-为什么优先选择它">Coraza-WAF:  APISIX 为什么优先选择它</a></li><li class="d3"><a href="#开源社区支持">开源社区支持</a></li><li class="d3"><a href="#wasm-插件的支持">Wasm 插件的支持</a></li><li class="d3"><a href="#core-rule-set-规则集的支持">Core Rule Set 规则集的支持</a></li><li class="d3"><a href="#易于安装部署">易于安装部署</a></li><li class><a href="#如何在-apisix-中使用-coraza">如何在 APISIX 中使用 Coraza</a></li><li class="d3"><a href="#配置-apisix-集成-coraza-proxy-wasm">配置 APISIX 集成 coraza-proxy-wasm</a></li><li class="d3"><a href="#配置--anything-路由集成-coraza-waf-规则">配置  /anything 路由集成 Coraza WAF 规则</a></li><li class><a href="#写在最后">写在最后</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Creating a Custom Data Mask Plugin | Apache APISIX</title><meta name="description" content="A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2023/07/20/data-mask-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/07/20/data-mask-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/07/20/data-mask-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/07/20/data-mask-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Creating a Custom Data Mask Plugin | Apache APISIX"><meta property="og:description" content="A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case."><meta property="og:url" content="https://apisix.apache.org/blog/2023/07/20/data-mask-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png"><meta name="twitter:image" content="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Creating a Custom Data Mask Plugin","description":"A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case.","datePublished":"2023-07-20","image":"https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png","author":{"@type":"Person","name":"Zeping Bai"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2023/07/20/data-mask-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2023/07/20/data-mask-plugin/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2023/07/20/data-mask-plugin/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/plugins/">Plugins</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Creating a Custom Data Mask Plugin</h1> <p class="article-meta"> <time datetime="2023-07-20">Jul 20, 2023</time> · Zeping Bai  · 7 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/plugins/">Plugins</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#setting-things-up">Setting Things Up</a></li><li class><a href="#designing-the-plugin">Designing the Plugin</a></li><li class><a href="#lets-write-some-code">Let’s Write Some Code!</a></li><li class><a href="#testing-the-plugin">Testing the Plugin</a></li><li class><a href="#using-in-production">Using in Production</a></li><li class><a href="#learn-more">Learn More</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Creating a custom plugin for APISIX in Lua might be trivial or daunting, depending on your level of expertise in APISIX+OpenResty+Nginx. In this article, we will look at how you can create and run a custom plugin from the ground up while learning some basics of APISIX plugin development.</p>
+</blockquote>
+<!--truncate-->
+<p>When talking to one of our users from the fintech industry during the <a href="https://www.youtube.com/watch?v=vRwAuvfZIgE">Apache APISIX Community Meetup in Malaysia</a>, we came across a peculiar feature request: mask confidential data in responses.</p>
+<p>For example, a response from the upstream might contain sensitive data like credit card numbers, and APISIX should be able to replace it with <code>*******</code> based on some predefined rules.</p>
+<p>Creating such a plugin in Lua might be trivial or daunting, depending on your level of expertise in APISIX+OpenResty+Nginx. So in this article, we will look at how you can create and run this plugin from the ground up while learning some basics of APISIX plugin development in Lua.</p>
+<h2 id="setting-things-up">Setting Things Up</h2>
+<p>You can start with the template plugin from <a href="https://github.com/api7/apisix-plugin-template">apisix-plugin-template</a>. This contains <a href="https://github.com/api7/apisix-plugin-template/blob/main/apisix/plugins/demo.lua">boilerplate code</a> for creating custom Lua plugins for APISIX.</p>
+<p>To use the template, go to the repository and click “<a href="https://github.com/new?template_name=apisix-plugin-template&#x26;template_owner=api7">Use this template</a>.” You can then clone it to your local machine for modification.</p>
+<p>Under the <a href="https://github.com/api7/apisix-plugin-template/tree/main/apisix/plugins">apisix/plugins</a> directory, you will find a file named <code>demo.lua</code>. You can rename this to <code>data-mask.lua</code>. This will be the starting point for our custom plugin.</p>
+<p>Initially, the main parts of the file will look like this containing some boilerplate code which includes some imports and variable definitions:</p>
+<div class="code-title">data-mask.lua</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- local common libs</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> require </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core    </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module define</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "data-mask"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- plugin schema</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {},</span></span>
+<span class="line"><span style="color:#E6EDF3">    required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {},</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    version  </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0.1</span><span style="color:#E6EDF3">,            </span><span style="color:#8B949E">-- plugin version</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">,              </span><span style="color:#8B949E">-- the priority of this plugin will be 0</span></span>
+<span class="line"><span style="color:#E6EDF3">    name     </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,    </span><span style="color:#8B949E">-- plugin name</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema   </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_schema,  </span><span style="color:#8B949E">-- plugin schema</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module interface for schema check</span></span>
+<span class="line"><span style="color:#8B949E">-- @</span><span style="color:#FF7B72">param</span><span style="color:#8B949E"> `conf` user defined conf data</span></span>
+<span class="line"><span style="color:#8B949E">-- @</span><span style="color:#FF7B72">param</span><span style="color:#8B949E"> `schema_type` defined in `apisix/core/schema.lua`</span></span>
+<span class="line"><span style="color:#8B949E">-- @</span><span style="color:#FF7B72">return</span><span style="color:#8B949E"> &#x3C;boolean></span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">check_schema</span><span style="color:#E6EDF3">(conf, schema_type)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(plugin_schema, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module interface for header_filter phase</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">header_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module interface for body_filter phase</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">body_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> _M</span></span></code></pre>
+<p>There are three functions (interfaces for the plugin) declared on the structure <code>_M</code>:</p>
+<ol>
+<li><code>check_schema</code>: used for validating the plugin configuration and is called when this plugin is enabled on a route.</li>
+<li><code>header_filter</code> and</li>
+<li><code>body_filter</code>: for modifying the response header and body, respectively, before sending it to the client.</li>
+</ol>
+<p>In the end, this returns <code>_M</code>, and the APISIX can use the data from this to get the metadata and functions from the plugin.</p>
+<h2 id="designing-the-plugin">Designing the Plugin</h2>
+<p>Like every sound engineer, let’s first design the plugin before we start writing code.</p>
+<p>The goal of this plugin is simple:</p>
+<ol>
+<li>The user should be able to define what sensitive data would look like in the plugin configuration (maybe RegEx?).</li>
+<li>They should be able to define what sensitive data should be replaced with (like <code>*******</code>).</li>
+<li>APISIX should then modify requests and responses based on these configurations.</li>
+</ol>
+<p>So each rule can contain a regular expression and a replacement string. This rule will be applied to the response, and the masked data will be returned to the client:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "rules"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "regex"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">".*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "replace"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"******"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "regex"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">".*"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "replace"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"**"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>We can now define the JSON schema to validate the plugin configuration. This can help avoid issues with improper plugin configurations during runtime:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        rules </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "array"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            items </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                    regex </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                        type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                        minLength </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                    },</span></span>
+<span class="line"><span style="color:#E6EDF3">                    replace </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                        type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                    },</span></span>
+<span class="line"><span style="color:#E6EDF3">                },</span></span>
+<span class="line"><span style="color:#E6EDF3">                required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "regex"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "replace"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                },</span></span>
+<span class="line"><span style="color:#E6EDF3">                additionalProperties </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#E6EDF3">            minItems </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "rules"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>The <code>rules</code> here is an array of objects meaning you can have multiple rules for defining what sensitive data should look like and what it should be replaced with. Each object in the array contains two required string fields, <code>regex</code> and <code>replace</code>, just like we designed.</p>
+<h2 id="lets-write-some-code">Let’s Write Some Code!</h2>
+<p>We have now decided what the plugin’s functionality would look like and added some JSON schema to validate the plugin’s configuration.</p>
+<p>We will first modify the <code>_M.header_filter</code> function, which is called before the response header is sent to the client. But why are we changing this? Isn’t our plugin supposed to modify the response body?</p>
+<p>Well, yes. But when we modify the data in the response body (from <code>2378-4531-5789-1369</code> to <code>2378-\***\*-\*\***-1369</code>), the <code>Content-Length</code> header will no longer be accurate. This can cause the client to interpret that the data returned by the server is abnormal and fail to complete the request.</p>
+<p>Since we haven’t modified the request body yet, we cannot calculate the new, accurate value for the <code>Content-Length</code> header.  So we need to delete this header value, modify the response body, recalculate the new header value, and set it to the response. To do this in a single sweep, APISIX provides the <code>core.response.clear_header_as_body_modified</code> function:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">header_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">clear_header_as_body_modified</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>We can now work on modifying the response body to mask the data. To do this, we must modify the <code>_M.body_filter</code> function.</p>
+<p>Sometimes, the upstream response will be sent in chunks (<code>Content-Encoding: chunked</code>), and the <code>body_filter</code> function will be called multiple times. Since each of these chunks are incomplete in itself, we need to cache the data passed each time and call the <code>body_filter</code> function only when all blocks are received and spliced together. And like before, APISIX provides a function, <code>core.response.hold_body_chunk</code> to handle this scenario:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">hold_body_chunk</span><span style="color:#E6EDF3">(ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>Now to mask the response data, we can use the <code>ngx.re.gsub</code> function, which takes in a regular expression and a replacement string and replaces matching strings with the replacement string.</p>
+<p>The RegEx conforms to the PCRE specification. For example, when the expression is <code>(.*)-(.*)-(.*)-(.*)</code>, it will extract the four variables separated by <code>-</code>, and you can use <code>$1</code>, <code>$2</code>, <code>$3</code>, and <code>$4</code> in the replacement string to refer to the four variables:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> _, rule </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> ipairs</span><span style="color:#E6EDF3">(conf.</span><span style="color:#79C0FF">rules</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">    body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">re</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">gsub</span><span style="color:#E6EDF3">(body, rule.</span><span style="color:#79C0FF">regex</span><span style="color:#E6EDF3">, rule.</span><span style="color:#79C0FF">replace</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"jo"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>Finally, to set this as the new response body, we will modify the value of <code>ngx.arg[1]</code> as mentioned in the <a href="https://github.com/openresty/lua-nginx-module/#body_filter_by_lua_block">OpenResty docs</a>. Once we set the value of <code>ngx.arg[2]</code> to <code>true</code>, APISIX will send the new response body to the client:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#E6EDF3">ngx.</span><span style="color:#79C0FF">arg</span><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> body</span></span>
+<span class="line"><span style="color:#E6EDF3">ngx.</span><span style="color:#79C0FF">arg</span><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> true</span></span></code></pre>
+<p>Combining all these, the <code>body_filter</code> function will look like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">body_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">hold_body_chunk</span><span style="color:#E6EDF3">(ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> _, rule </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> ipairs</span><span style="color:#E6EDF3">(conf.</span><span style="color:#79C0FF">rules</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">        body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">re</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">gsub</span><span style="color:#E6EDF3">(body, rule.</span><span style="color:#79C0FF">regex</span><span style="color:#E6EDF3">, rule.</span><span style="color:#79C0FF">replace</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"jo"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">arg</span><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> body</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">arg</span><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> true</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>Now the only thing left to do is glue everything together. The entire plugin code will look like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- local common libs</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> require     </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> ipairs      </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> ipairs</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> ngx_re_gsub </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> ngx.</span><span style="color:#79C0FF">re</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">gsub</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> core        </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module define</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_name </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "data-mask"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- plugin schema</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> plugin_schema </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">        rules </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">            type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "array"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            items </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "object"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                properties </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                    regex </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                        type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                        minLength </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                    },</span></span>
+<span class="line"><span style="color:#E6EDF3">                    replace </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">                        type </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "string"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                    },</span></span>
+<span class="line"><span style="color:#E6EDF3">                },</span></span>
+<span class="line"><span style="color:#E6EDF3">                required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "regex"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "replace"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">                },</span></span>
+<span class="line"><span style="color:#E6EDF3">                additionalProperties </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">            },</span></span>
+<span class="line"><span style="color:#E6EDF3">            minItems </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">    required </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "rules"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> _M </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#E6EDF3">    version  </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0.1</span><span style="color:#E6EDF3">,            </span><span style="color:#8B949E">-- plugin version</span></span>
+<span class="line"><span style="color:#E6EDF3">    priority </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> 0</span><span style="color:#E6EDF3">,              </span><span style="color:#8B949E">-- the priority of this plugin will be 0</span></span>
+<span class="line"><span style="color:#E6EDF3">    name     </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_name,    </span><span style="color:#8B949E">-- plugin name</span></span>
+<span class="line"><span style="color:#E6EDF3">    schema   </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_schema,  </span><span style="color:#8B949E">-- plugin schema</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module interface for schema check</span></span>
+<span class="line"><span style="color:#8B949E">-- @</span><span style="color:#FF7B72">param</span><span style="color:#8B949E"> `conf` user defined conf data</span></span>
+<span class="line"><span style="color:#8B949E">-- @</span><span style="color:#FF7B72">param</span><span style="color:#8B949E"> `schema_type` defined in `apisix/core/schema.lua`</span></span>
+<span class="line"><span style="color:#8B949E">-- @</span><span style="color:#FF7B72">return</span><span style="color:#8B949E"> &#x3C;boolean></span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">check_schema</span><span style="color:#E6EDF3">(conf, schema_type)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">schema</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">check</span><span style="color:#E6EDF3">(plugin_schema, conf)</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module interface for header_filter phase</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">header_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#E6EDF3">    core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">clear_header_as_body_modified</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">-- module interface for body_filter phase</span></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#D2A8FF"> _M</span><span style="color:#E6EDF3">.</span><span style="color:#D2A8FF">body_filter</span><span style="color:#E6EDF3">(conf, ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> core.</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">hold_body_chunk</span><span style="color:#E6EDF3">(ctx)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#FF7B72"> not</span><span style="color:#E6EDF3"> body </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">        return</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">    for</span><span style="color:#E6EDF3"> _, rule </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> ipairs</span><span style="color:#E6EDF3">(conf.</span><span style="color:#79C0FF">rules</span><span style="color:#E6EDF3">) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#E6EDF3">        body </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> ngx_re_gsub</span><span style="color:#E6EDF3">(body, rule.</span><span style="color:#79C0FF">regex</span><span style="color:#E6EDF3">, rule.</span><span style="color:#79C0FF">replace</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"jo"</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">arg</span><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> body</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">arg</span><span style="color:#E6EDF3">[</span><span style="color:#79C0FF">2</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> true</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">return</span><span style="color:#E6EDF3"> _M</span></span></code></pre>
+<h2 id="testing-the-plugin">Testing the Plugin</h2>
+<p>Let’s assume our upstream will return a response like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "username"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"jack"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "credit_number"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"2378-4531-5789-1369"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>It contains the username and the credit card number, which is far from ideal. We can use the <code>data-mask</code> plugin to rewrite it to <code>2378-****-****-1369</code>. The configuration would look like this:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "rules"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "regex"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">credit_number</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">(.*)-(.*)-(.*)-(.*)</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "replace"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">credit_number</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">$1-****-****-$4</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ]</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>A common way the APISIX plugin developers debug plugins by mocking upstream response is through the <a href="https://apisix.apache.org/docs/apisix/plugins/serverless/">serverless-pre-function</a> plugin. Through this plugin, you can run custom Lua code, in our case, to send back a response with un-masked credit card numbers:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#FF7B72">return</span><span style="color:#FF7B72"> function</span><span style="color:#E6EDF3">()</span></span>
+<span class="line"><span style="color:#E6EDF3">    ngx.</span><span style="color:#79C0FF">header</span><span style="color:#E6EDF3">[</span><span style="color:#A5D6FF">"Content-Type"</span><span style="color:#E6EDF3">] </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "application/json"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">    require</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">"apisix.core"</span><span style="color:#E6EDF3">).</span><span style="color:#79C0FF">response</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exit</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">200</span><span style="color:#E6EDF3">, {</span></span>
+<span class="line"><span style="color:#E6EDF3">        credit_number </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "1234-5678-8765-4321"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">        username </span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF"> "jack"</span></span>
+<span class="line"><span style="color:#E6EDF3">    })</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>We can configure both our custom plugin and the <code>serverless-pre-function</code> plugin on the same route as shown below:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#A5D6FF"> 'http://localhost:9180/apisix/admin/routes/data-mask'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'Content-Type: application/json'</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">--data </span><span style="color:#A5D6FF">'{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/data-mask",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "serverless-pre-function": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "phase": "access",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "functions": [</span></span>
+<span class="line"><span style="color:#A5D6FF">                "return function() ngx.header[\"Content-Type\"] = \"application/json\"; require(\"apisix.core\").response.exit(200, {credit_number = \"1234-5678-8765-4321\", username = \"jack\"}) end"</span></span>
+<span class="line"><span style="color:#A5D6FF">            ]</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "data-mask": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "rules": [</span></span>
+<span class="line"><span style="color:#A5D6FF">                {</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "regex":"\"credit_number\":\"(.*)-(.*)-(.*)-(.*)\"",</span></span>
+<span class="line"><span style="color:#A5D6FF">                    "replace": "\"credit_number\":\"$1-****-****-$4\""</span></span>
+<span class="line"><span style="color:#A5D6FF">                }</span></span>
+<span class="line"><span style="color:#A5D6FF">            ]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Now if you send a request to the route, you will get back the masked credit card numbers in the response:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> GET</span><span style="color:#A5D6FF"> 'http://localhost:9080/data-mask'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA657">  "username"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "jack",</span></span>
+<span class="line"><span style="color:#FFA657">  "credit_number"</span><span style="color:#79C0FF">:</span><span style="color:#A5D6FF"> "1234-****-****-4321"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="using-in-production">Using in Production</h2>
+<p>You can directly build your own APISIX image with this plugin included for using it in production:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#FF7B72">FROM</span><span style="color:#E6EDF3"> apache/apisix:3.3.0-debian</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">COPY</span><span style="color:#E6EDF3"> ./data-mask.lua /usr/local/apisix/apisix/plugins/data-mask.lua</span></span></code></pre>
+<p>Then run <code>docker build</code>:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">docker</span><span style="color:#A5D6FF"> build</span><span style="color:#79C0FF"> -t</span><span style="color:#A5D6FF"> your-own-registry.com/apisix:3.3.0-data-mask</span><span style="color:#A5D6FF"> .</span></span></code></pre>
+<p>Next, in the configuration file (<code>config.yaml</code>) you can add your plugin to the list:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#8B949E">  # any other plugins from config-default.yaml</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">xxxx</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#A5D6FF">data-mask</span></span></code></pre>
+<p>Note: The values in <code>plugins</code> in the <code>config.yaml</code> file override those in the <code>config-default.yaml</code> file. If you want to use other plugins, copy it to the <code>config.yaml</code> file.</p>
+<p>Once you add it to the configuration file, you should be able to use the plugin on your routes.</p>
+<h2 id="learn-more">Learn More</h2>
+<p>All the sample code from this article can be found <a href="https://github.com/bzp2010/apisix-plugin-data-mask/blob/main/apisix/plugins/data-mask.lua">here</a>. You can also use the <a href="https://github.com/api7/apisix-plugin-template">plugin template</a> to create your own plugins easily.</p>
+<p>APISIX comes with many in-built plugins; you can refer to its <a href="https://github.com/apache/apisix/tree/master/apisix/plugins">source code</a> for more details on how you can create your own plugins. You can also refer to the <a href="https://github.com/openresty/lua-nginx-module">lua-nginx-module</a> and this <a href="https://api7.ai/learning-center/openresty">series of OpenResty tutorials</a> to learn more.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2023/07/21/release-apache-apisix-3.4.1/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Release Apache APISIX 3.4.1</span> </a> <a class="post-nav-card older" href="/blog/2023/07/18/weekly-report/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Biweekly Report (July 03 - July 16)</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#setting-things-up">Setting Things Up</a></li><li class><a href="#designing-the-plugin">Designing the Plugin</a></li><li class><a href="#lets-write-some-code">Let’s Write Some Code!</a></li><li class><a href="#testing-the-plugin">Testing the Plugin</a></li><li class><a href="#using-in-production">Using in Production</a></li><li class><a href="#learn-more">Learn More</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2023/08/14/rate-limit/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Rate Limit Your APIs With Apache APISIX</h3> <p class="desc">A guide to using the rate limit plugins in Apache APISIX with some practical examples.</p> <p class="meta">Aug 14, 2023 · Navendu Pottekkat</p> </div> </a><a class="post-card" href="/blog/2023/07/07/tiny-apisix-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>A &quot;Tiny&quot; APISIX Plugin</h3> <p class="desc">A &quot;tiny&quot; example to demonstrate how Apache APISIX supports Wasm plugins.</p> <p class="meta">Jul 7, 2023 · Navendu Pottekkat</p> </div> </a><a class="post-card" href="/blog/2023/06/30/apisix-mqtt-proxy/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/06/23/kdd9TigM_mqtt-apisix-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX as an MQTT Proxy for IoT Devices</h3> <p class="desc">Use APISIX as an MQTT proxy to connect IoT devices to the cloud. Configure stream routes, TLS, and load balancing for MQTT traffic.</p> <p class="meta">Jun 30, 2023 · Navendu Pottekkat</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

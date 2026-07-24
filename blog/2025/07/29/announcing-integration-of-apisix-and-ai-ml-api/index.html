@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Integrates AI/ML API: 300+ LLMs | Apache APISIX</title><meta name="description" content="APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX Integrates AI/ML API: 300+ LLMs | Apache APISIX"><meta property="og:description" content="APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint."><meta property="og:url" content="https://apisix.apache.org/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Integrates AI/ML API: 300+ LLMs","description":"APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.","datePublished":"2025-07-29","image":"https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp","author":{"@type":"Person","name":"Yilia Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX Integrates AI/ML API: 300+ LLMs</h1> <p class="article-meta"> <time datetime="2025-07-29">Jul 29, 2025</time> · Yilia Lin  · 3 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#introduction">Introduction</a></li><li class><a href="#proxy-to-openai-via-aiml-api">Proxy to OpenAI via AI/ML API</a></li><li class="d3"><a href="#prerequisites">Prerequisites</a></li><li class="d3"><a href="#configure-the-route">Configure the Route</a></li><li class="d3"><a href="#test-the-integration">Test the Integration</a></li><li class="d3"><a href="#verify-response">Verify Response</a></li><li class><a href="#core-use-cases">Core Use Cases</a></li><li class><a href="#conclusion">Conclusion</a></li><li class="d3"><a href="#more-resources">More Resources</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>We’re thrilled to announce that <strong>AI/ML API</strong> has become a supported provider to the <code>ai-proxy</code>, <code>ai-proxy-multi</code>, and <code>ai-request-rewrite</code> plugins in <strong>Apache APISIX</strong>. All the AI/ML APIs will be supported in the next APISIX version.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="introduction">Introduction</h2>
+<p><a href="https://aimlapi.com/">AI/ML API</a> is a single endpoint that gives you access to more than 300 ready-to-use AI models—large language models, embeddings, image and audio tools—through one standard REST interface. It is used by over 150,000 developers and organizations as a centralized LLM API gateway.</p>
+<p>We’re thrilled to announce that <strong>AI/ML API</strong> has become a supported provider to the <code>ai-proxy</code>, <code>ai-proxy-multi</code>, and <code>ai-request-rewrite</code> plugins in <strong>Apache APISIX</strong>.</p>
+<p>AI/ML API provides a unified OpenAI-compatible API with access to <strong>300+ LLMs</strong> such as GPT-4, Claude, Gemini, DeepSeek, and others. This integration bridges the gap between your API infrastructure and leading AI services, enabling you to deploy intelligent features—like chatbots, real-time translations, and data analysis—faster than ever.</p>
+<h2 id="proxy-to-openai-via-aiml-api">Proxy to OpenAI via AI/ML API</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ol>
+<li><a href="https://apisix.apache.org/docs/apisix/installation-guide/">Install APISIX</a>.</li>
+<li>Generate your API key on <a href="https://aimlapi.com/app/keys/">AI/ML API dashboard</a>.
+<img src="https://static.api7.ai/uploads/2025/07/30/dGXA7d0r_ai-ml-api-key.webp" alt="Generate AI/ML API Key"></li>
+</ol>
+<h3 id="configure-the-route">Configure the Route</h3>
+<p>Create a route and configure the <code>ai-proxy</code> plugin as such:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#A5D6FF">curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \</span></span>
+<span class="line"><span style="color:#7EE787">  -H "X-API-KEY</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">${ADMIN_API_KEY}" \</span></span>
+<span class="line"><span style="color:#A5D6FF">  -d '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"ai-proxy-route"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/anything"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-proxy"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "provider"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"aimlapi"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#A5D6FF">        "auth"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "header"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer '"$OPENAI_API_KEY"'"</span><span style="color:#8B949E"> # Generated openai key from AI/ML API dashboard</span></span>
+<span class="line"><span style="color:#E6EDF3">          }</span></span>
+<span class="line"><span style="color:#E6EDF3">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "options"</span><span style="color:#E6EDF3">:{</span></span>
+<span class="line"><span style="color:#A5D6FF">          "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"gpt-4"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span><span style="color:#A5D6FF">'</span></span></code></pre>
+<h3 id="test-the-integration">Test the Integration</h3>
+<p>Send a POST request to the route with a system prompt and a sample user question in the request body:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Host: api.openai.com"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "messages": [</span></span>
+<span class="line"><span style="color:#A5D6FF">      { "role": "system", "content": "You are a mathematician" },</span></span>
+<span class="line"><span style="color:#A5D6FF">      { "role": "user", "content": "What is 1+1?" }</span></span>
+<span class="line"><span style="color:#A5D6FF">    ]</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<h3 id="verify-response">Verify Response</h3>
+<p>You should receive a response similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...,</span></span>
+<span class="line"><span style="color:#7EE787">  "choices"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "index"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "finish_reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"stop"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "logprobs"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "message"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "role"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"assistant"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "content"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"1 + 1 equals 2."</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "refusal"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">null</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "annotations"</span><span style="color:#E6EDF3">: []</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "created"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1753845968</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"gpt-4-0613"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "usage"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "prompt_tokens"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1449</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "completion_tokens"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1008</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "total_tokens"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">2457</span></span>
+<span class="line"><span style="color:#FFA198;font-style:italic">  ...</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="core-use-cases">Core Use Cases</h2>
+<ol>
+<li>
+<p><strong>Unified AI Service Management</strong></p>
+<ul>
+<li><strong>Multi-Model Proxy and Load Balancing</strong>: Replace hardcoded vendor endpoints with a single APISIX interface, dynamically routing requests to models from OpenAI, Claude, DeepSeek, Gemini, Mistral, etc., based on cost, latency, or performance needs.</li>
+<li><strong>Vendor-Agnostic Workflows</strong>: Seamlessly switch between models (e.g., GPT-4 for creative tasks, Claude for document analysis) without code changes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cost-Optimized Token Governance</strong></p>
+<ul>
+<li><strong>Token-Based Budget Enforcement</strong>: Set per-team/monthly spending limits; auto-throttle requests when thresholds are exceeded.</li>
+<li><strong>Caching &#x26; Fallbacks</strong>: Cache frequent LLM responses (e.g., FAQ answers) or reroute to cheaper models during provider outages.</li>
+</ul>
+</li>
+<li>
+<p><strong>Real-Time AI Application Scaling</strong></p>
+<ul>
+<li><strong>Chatbots &#x26; Virtual Agents</strong>: Power low-latency conversational interfaces with streaming support for token-by-token responses.</li>
+<li><strong>Data Enrichment Pipelines</strong>: Augment APIs with AI—e.g., auto-summarize user reviews or translate product descriptions on-the-fly.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hybrid/Multi-Cloud AI Deployment</strong></p>
+<ul>
+<li><strong>Unified Control Plane</strong>: Manage on-prem LLMs (e.g., Llama 3) alongside cloud APIs (OpenAI, Azure) with consistent policy enforcement.</li>
+<li><strong>High Availability &#x26; Fault Tolerance</strong>: Built-in health-checks, automatic retries and failover; if one LLM fails, traffic is rerouted within seconds to keep services alive.</li>
+</ul>
+</li>
+<li>
+<p><strong>Enterprise AI Security &#x26; Compliance</strong></p>
+<ul>
+<li><strong>Data Security and Compliance</strong>: Prompt Guard, content moderation, PII redaction and full audit logs in a single place.</li>
+<li><strong>One Auth Layer for 300+ LLMs</strong>: Unified authentication (JWT/OAuth2/OIDC) and authorization for 300+ LLM keys and policies.</li>
+</ul>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>With AI/ML API now natively supported in Apache APISIX, you no longer have to choose between <strong>speed</strong>, <strong>security</strong>, or <strong>scale</strong>—you get all three.</p>
+<ul>
+<li><strong>One line of YAML</strong> turns your gateway into a 300-model AI powerhouse.</li>
+<li><strong>Zero code changes</strong> let you hot-swap GPT-4 for Claude, or route 10 % of traffic to a cheaper model for instant cost savings.</li>
+<li><strong>Built-in guardrails</strong> (PII redaction, token budgets, content moderation) keep compliance teams happy while your product team ships faster.</li>
+</ul>
+<h3 id="more-resources">More Resources</h3>
+<ul>
+<li>Related APISIX AI Plugins
+<ul>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/ai-proxy/">ai-proxy</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/ai-proxy-multi/">ai-proxy-multi</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/plugins/ai-request-rewrite/">ai-request-rewrite</a></li>
+</ul>
+</li>
+<li><a href="https://aimlapi.com/community">AI/ML API Community</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Load Balancing AI/ML API with Apache APISIX</span> </a> <a class="post-nav-card older" href="/blog/2025/06/30/2025-june-monthly-report/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">2025 Monthly Report (June 01 - June 30)</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#introduction">Introduction</a></li><li class><a href="#proxy-to-openai-via-aiml-api">Proxy to OpenAI via AI/ML API</a></li><li class="d3"><a href="#prerequisites">Prerequisites</a></li><li class="d3"><a href="#configure-the-route">Configure the Route</a></li><li class="d3"><a href="#test-the-integration">Test the Integration</a></li><li class="d3"><a href="#verify-response">Verify Response</a></li><li class><a href="#core-use-cases">Core Use Cases</a></li><li class><a href="#conclusion">Conclusion</a></li><li class="d3"><a href="#more-resources">More Resources</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>AI Gateways: The Future Trend of AI Infrastructure</h3> <p class="desc">Explore AI Gateway infrastructure trends and how Apache APISIX can help manage LLM traffic, model routing, token limits, and AI application security.</p> <p class="meta">Jun 18, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

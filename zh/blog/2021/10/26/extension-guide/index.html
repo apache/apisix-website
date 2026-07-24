@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 扩展指南 | Apache APISIX</title><meta name="description" content="本文提供了 Apache APISIX 的拓展指南，并且介绍了 Rewrite 还是 Access、配置服务发现、配置负载均衡、处理响应以及上报日志和监控参数等六个拓展方向。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2021/10/26/extension-guide/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/10/26/extension-guide/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/10/26/extension-guide/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/10/26/extension-guide/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 扩展指南 | Apache APISIX"><meta property="og:description" content="本文提供了 Apache APISIX 的拓展指南，并且介绍了 Rewrite 还是 Access、配置服务发现、配置负载均衡、处理响应以及上报日志和监控参数等六个拓展方向。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2021/10/26/extension-guide/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 扩展指南","description":"本文提供了 Apache APISIX 的拓展指南，并且介绍了 Rewrite 还是 Access、配置服务发现、配置负载均衡、处理响应以及上报日志和监控参数等六个拓展方向。","datePublished":"2021-10-29","author":{"@type":"Person","name":"罗泽轩"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2021/10/26/extension-guide/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2021/10/26/extension-guide/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2021/10/26/extension-guide/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 扩展指南</h1> <p class="article-meta"> <time datetime="2021-10-29">2021年10月29日</time> · 罗泽轩  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#扩展方向1rewrite-还是-access">扩展方向1：Rewrite 还是 Access？</a></li><li class><a href="#扩展方向2配置服务发现">扩展方向2：配置服务发现</a></li><li class><a href="#扩展方向3配置负载均衡">扩展方向3：配置负载均衡</a></li><li class><a href="#扩展方向4处理响应">扩展方向4：处理响应</a></li><li class><a href="#扩展方向5上报日志和监控参数">扩展方向5：上报日志和监控参数</a></li> </ul> </details> </header>  <blockquote>
+<p>本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。</p>
+</blockquote>
+<!--truncate-->
+<p>Apache APISIX 提供了 50 多个插件、常用的几个负载均衡选择器，以及对主流服务发现（如 Nacos 和 DNS）的支持。API 网关和企业内部的业务紧密相关，为了满足企业的业务需求，用户通常需要在 Apache APISIX 的基础上添加一些代码，以实现业务所需的功能。如何拓展 Apache APISIX 成了许多用户的共同痛点：在保证 Apache APISIX 平稳运行的前提下，如何添加业务代码，满足实际需求？</p>
+<p>本文提供了 Apache APISIX 的拓展指南，旨在为用户提供拓展 Apache APISIX 的一些思路。由于 Apache APISIX 处于高速发展阶段，版本迭代的频率比较高，所以本文会以 Apache APISIX 的首个 LTS 版本 v2.10.0 为基础进行说明。如果你使用的 Apache APISIX 版本低于 2.10.0，可能需要结合实际情况做一些变通。另外，虽然本文只讲解了 HTTP 相关的逻辑，但是 TCP 相关的部分，大体上也较为相似。</p>
+<h2 id="扩展方向1rewrite-还是-access">扩展方向1：Rewrite 还是 Access？</h2>
+<p>我们从请求的生命周期说起：当一个请求进入到 Apache APISIX 时，首先会由 <code>http_access_phase</code> 这个方法进行处理。熟悉 OpenResty phases 概念的读者可能会有些疑惑：OpenResty 一共有 6 个 phases，按照执行的先后顺序排列，分别是： <code>rewrite</code>、 <code>access</code>、 <code>before_proxy</code>、 <code>header_filter</code>、 <code>body_filter</code> 和 <code>log</code>，为什么一上来就是 <code>access</code>，<code>rewrite</code> 怎么不见了？</p>
+<p>Apache APISIX 插件的 phases 概念和 OpenResty 的 phases 概念略有不同。为了提升 Apache APISIX 的性能，APISIX 插件的 rewrite 方法会在 OpenResty 的 access 阶段中运行。用户依然能够在插件层面自定义 <code>rewrite</code> 的逻辑，但是在代码层面，<code>rewrite</code> 实际上也是在 <code>access</code> 里面执行。</p>
+<p>虽然说 <code>rewrite</code> 的逻辑和 <code>access</code> 的逻辑都在 access phase 里面运行，但是 <code>rewrite</code> 的逻辑还是会比 <code>access</code> 的逻辑先执行。为了避免后续插件执行 <code>rewrite</code> 失败后，没有继续执行 <code>access</code>，导致 trace 遗漏的问题，必须在<code>rewrite</code>里面添加 trace 的逻辑。</p>
+<p>除了执行的先后顺序外，<code>rewrite</code> 和 <code>access</code> 之间还有一个差别，就是它们之间有一个处理 <code>consumer</code> 的逻辑：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span> plugin.run_plugin("rewrite", plugins, api_ctx)</span></span>
+<span class="line"><span>        if api_ctx.consumer then</span></span>
+<span class="line"><span>            ...</span></span>
+<span class="line"><span>        end</span></span>
+<span class="line"><span>        plugin.run_plugin("access", plugins, api_ctx)</span></span></code></pre>
+<p><code>consumer</code> 代表一种身份。你可以针对不同的 <code>consumer</code> 进行权限控制，比如使用 <code>consumer-restriction</code> 这个插件实现基于角色的权限控制，也就是大家所说的 RBAC。另外，你也可以给不同的 <code>consumer</code> 设置对应的限流策略。</p>
+<p>Apache APISIX 里面的鉴权插件（在插件定义里面有 <code>type = "auth"</code>），需要在 <code>rewrite</code> 阶段选好 <code>consumer</code>。这里我们用 <code>key-auth</code> 插件举个例子：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>local _M = {</span></span>
+<span class="line"><span>    version = 0.1,</span></span>
+<span class="line"><span>    priority = 2500,</span></span>
+<span class="line"><span>    type = 'auth',</span></span>
+<span class="line"><span>    name = plugin_name,</span></span>
+<span class="line"><span>    schema = schema,</span></span>
+<span class="line"><span>    consumer_schema = consumer_schema,</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>function _M.rewrite(conf, ctx)</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>    local consumer_conf = consumer_mod.plugin(plugin_name)</span></span>
+<span class="line"><span>    if not consumer_conf then</span></span>
+<span class="line"><span>        return 401, {message = "Missing related consumer"}</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    local consumers = lrucache("consumers_key", consumer_conf.conf_version,</span></span>
+<span class="line"><span>        create_consume_cache, consumer_conf)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    local consumer = consumers[key]</span></span>
+<span class="line"><span>    if not consumer then</span></span>
+<span class="line"><span>        return 401, {message = "Invalid API key in request"}</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    consumer_mod.attach_consumer(ctx, consumer, consumer_conf)</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>鉴权插件的执行逻辑都是相似的：首先从用户输入中获取某组参数，然后根据参数查找对应的 <code>consumer</code>，最后连同该插件对应的 <code>consumer_conf</code> 附加到 <code>ctx</code> 中。</p>
+<p>综上，对于无需在请求早期阶段执行，且不需要查找 <code>consumer</code> 的插件，建议把逻辑写到 <code>access</code> 里面。</p>
+<h2 id="扩展方向2配置服务发现">扩展方向2：配置服务发现</h2>
+<p>在执行完 <code>access</code> 之后，我们就要跟上游（Upstream）打交道了。通常情况下，上游节点是写死在 Upstream 配置上的。不过也可以从服务发现上获取节点来实现 discovery。</p>
+<p>接下来我们会以 Nacos 为例，讲讲怎么实现。</p>
+<p>一个动态获取 Nacos 管理的节点的 Upstream 配置如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    "service_name": "APISIX-NACOS",</span></span>
+<span class="line"><span>    "type": "roundrobin",</span></span>
+<span class="line"><span>    "discovery_type": "nacos",</span></span>
+<span class="line"><span>    "discovery_args": {</span></span>
+<span class="line"><span>        "namespace_id": "test_ns",</span></span>
+<span class="line"><span>        "group_name": "test_group"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>我们可以看到其中三个重要的变量：</p>
+<ol>
+<li><code>discovery_type</code>: 服务发现的类型，<code>"discovery_type": "nacos"</code>表示使用 Nacos 实现服务发现。</li>
+<li><code>service_name</code>: 服务名称。</li>
+<li><code>discovery_args</code>: 不同的 discovery 特定的参数，Nacos 的特定参数包括：<code>namespace_id</code> 和  <code>group_name</code>。</li>
+</ol>
+<p>Nacos discovery 对应的 Lua 代码位于 <code>discovery/nacos.lua</code>。打开 <code>nacos.lua</code> 这个文件，我们可以看到它里面实现了几个所需的方法。</p>
+<p>一个 discovery 需要实现至少两个方法：<code>nodes</code> 和 <code>init_worker</code> 。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>function _M.nodes(service_name, discovery_args)</span></span>
+<span class="line"><span>    local namespace_id = discovery_args and</span></span>
+<span class="line"><span>            discovery_args.namespace_id or default_namespace_id</span></span>
+<span class="line"><span>    local group_name = discovery_args</span></span>
+<span class="line"><span>            and discovery_args.group_name or default_group_name</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function _M.init_worker()</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>其中 <code>nodes</code> 的函数签名已经明了地展示获取新节点所用的查询参数：<code>service_name</code> 和 <code>discovery_args</code>。每次请求时，Apache APISIX 都会用这一组查询最新的节点。该方法返回的是一个数组：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>{</span></span>
+<span class="line"><span>    {host = "xxx", port = 12100, weight = 100, priority = 0, metadata = ...},</span></span>
+<span class="line"><span>    # priority 和 metadata 是可选的</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p>而 <code>init_worker</code> 负责在后台启动一个 timer，确保本地的节点数据能跟服务发现的数据保持一致。</p>
+<h2 id="扩展方向3配置负载均衡">扩展方向3：配置负载均衡</h2>
+<p>获取到一组节点后，我们要按照负载均衡的规则来决定接下来要先尝试哪个节点。如果常用的几种负载均衡算法满足不了需求，你也可以自己实现一个负载均衡。</p>
+<p>让我们以最少连接数负载均衡为例。对应的 Lua 代码位于 <code>balancer/least_conn.lua</code>。打开<code>least_conn.lua</code> 这个文件，我们可以看到它里面实现了几个所需的方法：<code>new</code>、<code>get</code>、<code>after_balance</code> 和 <code>before_retry_next_priority</code>。</p>
+<ul>
+<li>
+<p><code>new</code> 负责做一些初始化工作。</p>
+</li>
+<li>
+<p><code>get</code> 负责执行选中节点的逻辑。</p>
+</li>
+<li>
+<p><code>after_balance</code> 在下面两种情况下会运行：</p>
+<ul>
+<li>每次重试之前（此时 before_retry 为 true）</li>
+<li>最后一次尝试之后</li>
+</ul>
+</li>
+<li>
+<p><code>before_retry_next_priority</code> 则是在每次尝试完当前一组同 priority 的节点，准备尝试下一组之前运行。</p>
+</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>function _M.new(up_nodes, upstream)</span></span>
+<span class="line"><span>    ...</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    return {</span></span>
+<span class="line"><span>        upstream = upstream,</span></span>
+<span class="line"><span>        get = function (ctx)</span></span>
+<span class="line"><span>            ...</span></span>
+<span class="line"><span>        end,</span></span>
+<span class="line"><span>        after_balance = function (ctx, before_retry)</span></span>
+<span class="line"><span>            ...</span></span>
+<span class="line"><span>            if not before_retry then</span></span>
+<span class="line"><span>                if ctx.balancer_tried_servers then</span></span>
+<span class="line"><span>                    core.tablepool.release("balancer_tried_servers", ctx.balancer_tried_servers)</span></span>
+<span class="line"><span>                    ctx.balancer_tried_servers = nil</span></span>
+<span class="line"><span>                end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>                return nil</span></span>
+<span class="line"><span>            end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>            if not ctx.balancer_tried_servers then</span></span>
+<span class="line"><span>                ctx.balancer_tried_servers = core.tablepool.fetch("balancer_tried_servers", 0, 2)</span></span>
+<span class="line"><span>            end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>            ctx.balancer_tried_servers[server] = true</span></span>
+<span class="line"><span>        end,</span></span>
+<span class="line"><span>        before_retry_next_priority = function (ctx)</span></span>
+<span class="line"><span>            if ctx.balancer_tried_servers then</span></span>
+<span class="line"><span>                core.tablepool.release("balancer_tried_servers", ctx.balancer_tried_servers)</span></span>
+<span class="line"><span>                ctx.balancer_tried_servers = nil</span></span>
+<span class="line"><span>            end</span></span>
+<span class="line"><span>        end,</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>end</span></span></code></pre>
+<p>如果没有内部状态需要维护，可以直接借用固定的模板代码（上述代码中，位于省略号以外的内容）来填充 <code>after_balance</code> 和 <code>before_retry_next_priority</code> 这两个方法。</p>
+<p>选中节点之后，我们也可以通过插件的形式添加额外的逻辑。插件可以实现 <code>before_proxy</code> 方法。该方法会在选中节点之后调用，我们可以在该方法里面记录当前选中的节点信息，这在 trace 里面会有用。</p>
+<h2 id="扩展方向4处理响应">扩展方向4：处理响应</h2>
+<p>我们可以通过 <code>response-rewrite</code> 插件，在 <code>header_filter</code> 和 <code>body_filter</code> 处理上游返回的响应。前一个方法是修改响应头，后一个方法修改响应体。注意 Apache APISIX 的响应处理是流式的，如果<code>header_filter</code>里面没有修改响应头，响应头就会被先发送出去，到了<code>body_filter</code>就没办法修改响应体了。</p>
+<p>这意味着如果你后续想要修改body，但是 header 里面又有 Content-Length 之类跟 body 相关的响应头，那么就要提前在 <code>header_filter</code> 里面把这些头改掉。我们提供了一个辅助方法：<code>core.response.clear_header_as_body_modified</code>，只需要在 <code>header_filter</code> 调用它就行。</p>
+<p><code>body_filter</code> 也是流式的，而且还会被多次调用。所以如果你想要获取完整的响应体，你需要把每次 <code>body_filter</code> 提供的部分响应体给拼起来。在 Apache APISIX master 分支上，我们提供了一个叫做 <code>core.response.hold_body_chunk</code> 的方法来简化操作，感兴趣的读者可以看看代码。</p>
+<h2 id="扩展方向5上报日志和监控参数">扩展方向5：上报日志和监控参数</h2>
+<p>在请求结束之后，我们还可以通过 <code>log</code> 方法来做一些清场工作。这一类工作可以分成两类：</p>
+<ol>
+<li>记录 metrics 指标，比如 <code>prometheus</code> 插件。</li>
+<li>记录 access log，然后定期上报，比如 <code>http-logger</code> 插件。</li>
+</ol>
+<p>如果你感兴趣的话，可以看看这两个插件的 <code>log</code> 方法是怎么实现的：</p>
+<ul>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/"><code>prometheus</code> 插件文档</a></li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/http-logger/"><code>http-logger</code> 插件文档</a></li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2021/11/02/weekly-report-1031/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">社区双周报（10.15-10.31）</span> </a> <a class="post-nav-card older" href="/zh/blog/2021/10/26/apisix-ingress/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">APISIX Ingress 项目从 0 到 1 的发展历程</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#扩展方向1rewrite-还是-access">扩展方向1：Rewrite 还是 Access？</a></li><li class><a href="#扩展方向2配置服务发现">扩展方向2：配置服务发现</a></li><li class><a href="#扩展方向3配置负载均衡">扩展方向3：配置负载均衡</a></li><li class><a href="#扩展方向4处理响应">扩展方向4：处理响应</a></li><li class><a href="#扩展方向5上报日志和监控参数">扩展方向5：上报日志和监控参数</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

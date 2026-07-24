@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GraphQL 碰撞 API 网关 Apache APISIX，提升 API 领域的安全与性能 | Apache APISIX</title><meta name="description" content="本文介绍了云原生 API 网关 Apache APISIX 和 GraphQL 的特性，以及如何使用 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/03/02/apisix-integration-graphql/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/02/apisix-integration-graphql/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/02/apisix-integration-graphql/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/02/apisix-integration-graphql/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="GraphQL 碰撞 API 网关 Apache APISIX，提升 API 领域的安全与性能 | Apache APISIX"><meta property="og:description" content="本文介绍了云原生 API 网关 Apache APISIX 和 GraphQL 的特性，以及如何使用 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/03/02/apisix-integration-graphql/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/GraphQL.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/GraphQL.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"GraphQL 碰撞 API 网关 Apache APISIX，提升 API 领域的安全与性能","description":"本文介绍了云原生 API 网关 Apache APISIX 和 GraphQL 的特性，以及如何使用 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。","datePublished":"2022-03-02","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/GraphQL.png","author":{"@type":"Person","name":"江晨炜"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/03/02/apisix-integration-graphql/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/03/02/apisix-integration-graphql/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/03/02/apisix-integration-graphql/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>GraphQL 碰撞 API 网关 Apache APISIX，提升 API 领域的安全与性能</h1> <p class="article-meta"> <time datetime="2022-03-02">2022年3月2日</time> · 江晨炜  · 约 6 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#背景信息">背景信息</a></li><li class="d3"><a href="#场景解析">场景解析</a></li><li class="d3"><a href="#实际场景中遇到的问题">实际场景中遇到的问题</a></li><li class="d3"><a href="#解决方案">解决方案</a></li><li class><a href="#graphql-在-apache-apisix-中的应用">GraphQL 在 Apache APISIX 中的应用</a></li><li class="d3"><a href="#基本逻辑">基本逻辑</a></li><li class="d3"><a href="#具体配置">具体配置</a></li><li class><a href="#进阶操作">进阶操作</a></li><li class="d3"><a href="#使用-graphql_name-匹配-upstream">使用 graphql_name 匹配 Upstream</a></li><li class="d3"><a href="#使用-graphql_operation-进行不同的权限校验">使用 graphql_operation 进行不同的权限校验</a></li><li class><a href="#搭配插件">搭配插件</a></li><li class="d3"><a href="#limit-count-速度插件">limit-count 速度插件</a></li><li class="d3"><a href="#可观测性插件">可观测性插件</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/ecosystem/GraphQL.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>本文介绍了 Apache APISIX 和 GraphQL 的特性，以及如何使用 API 网关 Apache APISIX 代理 GraphQL 请求，并提出解决实际场景痛点的方案。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>GraphQL 是一个开源的、面向 API 而创造出来的数据查询操作语言以及相应的运行环境。最初由 Facebook 于 2012 年内部开发，2015 年公开发布。2018 年 11 月 7 日，Facebook 将 GraphQL 项目转移到新成立的 GraphQL 基金会。</p>
+<p>您可以把 GraphQL 类比为 SQL 查询语句来理解，与 SQL 查询语句相比，GraphQL 对 API 中的数据提供了一套易于理解的完整描述，让客户端能够通过自定义的描述来准确获得其所需要的数据。这也让 API 能够从容面对日益复杂的接口发展，并避免最终成为一个令人望而生畏的复杂接口。</p>
+<p>Apache APISIX 是一个动态、实时、高性能的 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。</p>
+<p>Apache APISIX 作为云原生 API 网关，在设计之初就已经具备识别 GraphQL 语法的匹配能力。通过对请求中携带的 GraphQL 语句进行高效匹配，筛除异常流量，进一步保证安全性和提高系统性能。</p>
+<h3 id="场景解析">场景解析</h3>
+<p>我们正处于大数据大流量的时代，Apache APISIX 和  GraphQL 可以通过结合的方式，形成共赢的局面。接下来举一个场景具体说明。</p>
+<p>本文将会讨论微服务架构场景下的 Apache APISIX 和 GraphQL 的实际应用。</p>
+<h3 id="实际场景中遇到的问题">实际场景中遇到的问题</h3>
+<p>在项目进行到后期时，往往会出现业务复杂化、团队人员流动性高等问题，而微服务架构已经成为解决这类问题的常见解决方案。在微服务架构中，GraphQL 暴露出的接口分为分散式和集中式两种，然而只有集中式接口设计才能够最大化体现 GraphQL 的优势，但是在集中式接口设计中，所有的微服务对外暴露的是同一个接口，<strong>因此处理流量的路由就不能简单地根据 URL 进行转发，而是应该根据请求中包含的不同字段进行转发</strong>。</p>
+<p>由于 NGINX 处理请求时仅会处理 URL 以及一些参数，但是只有解析请求参数中的查询信息才可以知道客户端访问的资源，从而进行路由转发，因此这种路由转发方式通过传统的 NGINX 是无法完成的。在实际应用场景中，将 GraphQL 接口直接对外暴露非常危险，因此需要一个专业的高性能 API 网关保护 GraphQL 的接口。</p>
+<h3 id="解决方案">解决方案</h3>
+<p>基于 Apache APISIX 安全、稳定、高性能的特性，增加 GraphQL 灵活的路由匹配规则是解决 GraphQL 集中式接口设计问题的最佳方案。</p>
+<p><img src="https://static.apiseven.com/202108/1646200966179-1d649ab0-8d49-49f5-a8fa-a1a30af0519d.png" alt="error/graphql architecture.png"></p>
+<p>在此方案中，Apache APISIX 作为 API 网关部署在 GraphQL Server 之前，为整个后端系统提供了安全保障，并且 Apache APISIX 根据自身所具备的 GraphQL 匹配功能，筛选一部分请求之后再由 GraphQL Server 进行处理，使整个请求资源过程变得更高效。</p>
+<p>得益于 Apache APISIX 的动态特性，您可以启用限流限速、身份认证、可观测性等插件，无需重启服务，进一步提高此方案的运行效率，方便运维工作。</p>
+<p>此外，Apache APISIX 还可以针对不同的 <code>graphql_operation</code> 进行不同的权限校验、针对不同的 <code>graphql_name</code> 转发到不同的 Upstream，具体细节将会在下文中进行描述。</p>
+<p><strong>综上所述，Apache APISIX + GraphQL 的解决方案，在充分利用 GraphQL 搜索优势的同时也能拥有 Apache APISIX 作为 API 网关所具备的安全性和稳定性。</strong></p>
+<h2 id="graphql-在-apache-apisix-中的应用">GraphQL 在 Apache APISIX 中的应用</h2>
+<h3 id="基本逻辑">基本逻辑</h3>
+<p><img src="https://static.apiseven.com/202108/1646201215532-f5965158-7456-443a-84a7-cadadb95fc1f.png" alt="error/GraphQL principle.png"></p>
+<p>目前 GraphQL 在 Apache APISIX 中的执行逻辑如下：</p>
+<ol>
+<li>Clients 向 Apache APISIX 发起带有 GraphQL 语句的请求；</li>
+<li>Apache APISIX 匹配路由并提取预设的 GraphQL 数据；</li>
+<li>Apache APISIX 通过预设 GraphQL 数据对请求数据进行匹配；</li>
+</ol>
+<ul>
+<li>匹配成功，Apache APISIX 将继续转发请求；</li>
+<li>匹配失败，Apache APISIX 将立刻终止请求。</li>
+</ul>
+<ol start="4">
+<li>是否存在插件；</li>
+</ol>
+<ul>
+<li>如果存在插件，请求将继续被插件处理，处理完成后，继续转发到 GraphQL Server；</li>
+<li>如果不存在插件，请求将直接转发到 GraphQL Server。</li>
+</ul>
+<p>在 APISIX core 里内部匹配中，Apache APISIX 通过 <a href="https://github.com/bjornbytes/graphql-lua"><code>graphql-lua</code></a> 库实现对 GraphQL 的支持。Apache APISIX GraphQL 解析库会先对携带 GraphQL 语法的请求进行解析，之后将解析后的请求与预设在 Apache APISIX 数据库里的配置数据进行匹配。如果匹配成功 Apache APISIX 会放行并转发请求，反之则终止请求</p>
+<h3 id="具体配置">具体配置</h3>
+<p>Apache APISIX 目前支持通过 GraphQL 的一些属性过滤路由：</p>
+<ul>
+<li>graphql_operation</li>
+<li>graphql_name</li>
+<li>graphql_root_fields</li>
+</ul>
+<p>GraphQL 的属性与下面的所展示 GraphQL query 语句一一对应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  query getRepo {</span></span>
+<span class="line"><span>      owner {</span></span>
+<span class="line"><span>          name</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>      repo {</span></span>
+<span class="line"><span>          created</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span></code></pre>
+<ul>
+<li><code>graphql_operation</code> 对应 <code>query</code></li>
+<li><code>graphql_name</code> 对应 <code>getRepo</code></li>
+<li><code>graphql_root_fields</code> 对应 <code>["owner", "repo"]</code></li>
+</ul>
+<p>您可以通过如下示例为 Apache APISIX 设置一条路由来验证对 GraphQL 的匹配能力：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "methods": ["POST"],</span></span>
+<span class="line"><span>      "uri": "/graphql",</span></span>
+<span class="line"><span>      "vars": [</span></span>
+<span class="line"><span>          ["graphql_operation", "==", "query"],</span></span>
+<span class="line"><span>          ["graphql_name", "==", "getRepo"],</span></span>
+<span class="line"><span>          ["graphql_root_fields", "has", "owner"]</span></span>
+<span class="line"><span>      ],</span></span>
+<span class="line"><span>      "upstream": {</span></span>
+<span class="line"><span>          "type": "roundrobin",</span></span>
+<span class="line"><span>          "nodes": {</span></span>
+<span class="line"><span>              "192.168.1.200:4000": 1</span></span>
+<span class="line"><span>          }</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<p>接下来使用带有 GraphQL 语句的请求去访问：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -H 'content-type: application/graphql' \</span></span>
+<span class="line"><span>-X POST http://127.0.0.1:9080/graphql -d '</span></span>
+<span class="line"><span>query getRepo {</span></span>
+<span class="line"><span>    owner {</span></span>
+<span class="line"><span>        name</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    repo {</span></span>
+<span class="line"><span>        created</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>如果匹配成功，则 Apache APISIX 继续进行请求转发。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 200 OK</span></span></code></pre>
+<p>反之，则终止请求。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 404 Not Found</span></span></code></pre>
+<h2 id="进阶操作">进阶操作</h2>
+<p>Apache APISIX 可以根据不同的 <code>graphql_name</code> 转发到不同的 Upstream，以及根据不同 <code>graphql_operation</code> 进行不同的权限校验。下文将为您展示此特性的代码配置。</p>
+<h3 id="使用-graphql_name-匹配-upstream">使用 <code>graphql_name</code> 匹配 Upstream</h3>
+<ol>
+<li>创建第一个上游服务：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl http://192.168.1.200:9080/apisix/admin/upstreams/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "type": "chash",</span></span>
+<span class="line"><span>      "key": "remote_addr",</span></span>
+<span class="line"><span>      "nodes": {</span></span>
+<span class="line"><span>          "192.168.1.200:1980": 1</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<ol start="2">
+<li>创建与第一个上游服务绑定的 GraphQL 路由，<code>graphql_name</code> 设置为 <code>getRepo111</code>：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl http://192.168.1.200:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "methods": ["POST"],</span></span>
+<span class="line"><span>      "uri": "/graphql",</span></span>
+<span class="line"><span>      "vars": [</span></span>
+<span class="line"><span>          ["graphql_operation", "==", "query"],</span></span>
+<span class="line"><span>          ["graphql_name", "==", "getRepo111"],</span></span>
+<span class="line"><span>          ["graphql_root_fields", "has", "owner"]</span></span>
+<span class="line"><span>      ],</span></span>
+<span class="line"><span>      "upstream_id": "1"</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<ol start="3">
+<li>创建第二个上游服务：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl http://192.168.1.200:9080/apisix/admin/upstreams/2 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "type": "chash",</span></span>
+<span class="line"><span>      "key": "remote_addr",</span></span>
+<span class="line"><span>      "nodes": {</span></span>
+<span class="line"><span>          "192.168.1.200:1981": 1</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<ol start="4">
+<li>创建与第二个上游服务绑定的 GraphQL 路由，<code>graphql_name</code> 设置为 <code>getRepo222</code>：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl http://192.168.1.200:9080/apisix/admin/routes/2 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -i -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "methods": ["POST"],</span></span>
+<span class="line"><span>      "uri": "/graphql",</span></span>
+<span class="line"><span>      "vars": [</span></span>
+<span class="line"><span>          ["graphql_operation", "==", "query"],</span></span>
+<span class="line"><span>          ["graphql_name", "==", "getRepo222"],</span></span>
+<span class="line"><span>          ["graphql_root_fields", "has", "owner"]</span></span>
+<span class="line"><span>      ],</span></span>
+<span class="line"><span>      "upstream_id": 2</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<ol start="5">
+<li>测试示例</li>
+</ol>
+<p>使用之前所创建的两个 <code>graphql_name</code> 服务进行测试，您可以发现 Apache APISIX 可以根据请求中不同的 <code>graphql_name</code> 自动选择转发的 Upstream。</p>
+<ul>
+<li>如果请求是此示例：</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl -i -H 'content-type: application/graphql' \</span></span>
+<span class="line"><span>  -X POST http://192.168.1.200:9080/graphql -d '</span></span>
+<span class="line"><span>  query getRepo111 {</span></span>
+<span class="line"><span>      owner {</span></span>
+<span class="line"><span>          name</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>      repo {</span></span>
+<span class="line"><span>          created</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<p>则会返回来自上游 <code>192.168.1.200:1980</code> 的响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  ---URI</span></span>
+<span class="line"><span>  /graphql</span></span>
+<span class="line"><span>  ---Service Node</span></span>
+<span class="line"><span>  Centos-port: 1980</span></span></code></pre>
+<ul>
+<li>如果请求是这个示例：</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl -i -H 'content-type: application/graphql' \</span></span>
+<span class="line"><span>  -X POST http://192.168.1.200:9080/graphql -d '</span></span>
+<span class="line"><span>  query getRepo222 {</span></span>
+<span class="line"><span>      owner {</span></span>
+<span class="line"><span>          name</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>      repo {</span></span>
+<span class="line"><span>          created</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<p>则会返回来自上游 <code>192.168.1.200:1981</code> 的响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  ---URI</span></span>
+<span class="line"><span>  /graphql</span></span>
+<span class="line"><span>  ---Service Node</span></span>
+<span class="line"><span>  Centos-port: 1981</span></span></code></pre>
+<h3 id="使用-graphql_operation-进行不同的权限校验">使用 <code>graphql_operation</code> 进行不同的权限校验</h3>
+<p>上述示例提供了 <code>graphql_operation</code> 为 <code>query</code> 的匹配规则，现在使用 <code>mutation</code> 形式的 GraphQL 请求。</p>
+<ol>
+<li>配置 Apache APISIX：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://192.168.1.200:9080/apisix/admin/routes/11 \</span></span>
+<span class="line"><span>-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "methods": ["POST"],</span></span>
+<span class="line"><span>    "uri": "/hello",</span></span>
+<span class="line"><span>    "vars": [</span></span>
+<span class="line"><span>        ["graphql_operation", "==", "mutation"],</span></span>
+<span class="line"><span>        ["graphql_name", "==", "repo"]</span></span>
+<span class="line"><span>    ],</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "nodes": {</span></span>
+<span class="line"><span>            "192.168.1.200:1982": 1</span></span>
+<span class="line"><span>        },</span></span>
+<span class="line"><span>        "type": "roundrobin"</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<ol start="2">
+<li>发起 <code>mutation</code> 请求用来验证 Apache APISIX 的配置：</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -i -H 'content-type: application/graphql' \</span></span>
+<span class="line"><span>-X POST http://192.168.1.200:9080/hello -d '</span></span>
+<span class="line"><span>mutation repo($ep: Episode!, $review: ReviewInput!) {</span></span>
+<span class="line"><span>  createReview(episode: $ep, review: $review) {</span></span>
+<span class="line"><span>    stars</span></span>
+<span class="line"><span>    commentary</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<p>返回结果如下所示：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>HTTP/1.1 200 OK</span></span>
+<span class="line"><span>---URI</span></span>
+<span class="line"><span>/hello</span></span>
+<span class="line"><span>---Service Node</span></span>
+<span class="line"><span>Centos-port: 1982</span></span></code></pre>
+<h2 id="搭配插件">搭配插件</h2>
+<p>Apache APISIX 拥有丰富的插件生态以应对不同的使用场景，如果在使用 Apache APISIX + GraphQL 时添加适合的插件，就可以使方案应用的场景变得更多。</p>
+<p>本文仅选取了以下两种类型的插件进行举例。</p>
+<h3 id="limit-count-速度插件"><code>limit-count</code> 速度插件</h3>
+<p>搭配使用 <code>limit-count</code> 插件，流量经过 GraphQL 匹配规则得到转发之后进一步被限制。得益于 Apache APISIX 的特性，可以达到动态、精细化、分布式的限流限速。详情请参考 <a href="https://apisix.apache.org/zh/docs/apisix/plugins/limit-count">Apache APISIX 官方文档</a>。</p>
+<h3 id="可观测性插件">可观测性插件</h3>
+<p>Apache APISIX 提供了包括但不仅限于 <a href="https://apisix.apache.org/zh/docs/apisix/plugins/prometheus"><code>prometheus</code></a>、<a href="https://apisix.apache.org/zh/docs/apisix/plugins/skywalking"><code>skywalking</code></a> 等可观测性插件，能够为系统提供更多监控指标数据，方便系统后续的运营维护等实现。</p>
+<h2 id="总结">总结</h2>
+<p>本文为大家初步介绍了 GraphQL 在 Apache APISIX 中的应用，并且使用实际代码，为您展示了Apache APISIX 与 GraphQL 两项技术的结合，用户可以根据自身的业务需求和实际场景在 Apache APISIX 中使用 GraphQL。</p>
+<p>关于 GraphQL 的更多说明和完整配置信息，可参考 <a href="https://apisix.apache.org/zh/docs/apisix/router-radixtree/#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87-graphql-%E5%B1%9E%E6%80%A7%E8%BF%87%E6%BB%A4%E8%B7%AF%E7%94%B1">Apache APISIX官方文档</a>。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流.</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/03/02/zhongan-usercase-with-apache-apisix/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">APISIX 在众安保险的应用实践</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/03/01/apisix-integration-public-api-plugin/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">API 网关 APISIX Public API 处理能力再增强</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#背景信息">背景信息</a></li><li class="d3"><a href="#场景解析">场景解析</a></li><li class="d3"><a href="#实际场景中遇到的问题">实际场景中遇到的问题</a></li><li class="d3"><a href="#解决方案">解决方案</a></li><li class><a href="#graphql-在-apache-apisix-中的应用">GraphQL 在 Apache APISIX 中的应用</a></li><li class="d3"><a href="#基本逻辑">基本逻辑</a></li><li class="d3"><a href="#具体配置">具体配置</a></li><li class><a href="#进阶操作">进阶操作</a></li><li class="d3"><a href="#使用-graphql_name-匹配-upstream">使用 graphql_name 匹配 Upstream</a></li><li class="d3"><a href="#使用-graphql_operation-进行不同的权限校验">使用 graphql_operation 进行不同的权限校验</a></li><li class><a href="#搭配插件">搭配插件</a></li><li class="d3"><a href="#limit-count-速度插件">limit-count 速度插件</a></li><li class="d3"><a href="#可观测性插件">可观测性插件</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

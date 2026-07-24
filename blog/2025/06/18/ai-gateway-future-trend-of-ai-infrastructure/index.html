@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI Gateways: The Future Trend of AI Infrastructure | Apache APISIX</title><meta name="description" content="Explore AI Gateway infrastructure trends and how Apache APISIX can help manage LLM traffic, model routing, token limits, and AI application security."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="AI Gateways: The Future Trend of AI Infrastructure | Apache APISIX"><meta property="og:description" content="Explore AI Gateway infrastructure trends and how Apache APISIX can help manage LLM traffic, model routing, token limits, and AI application security."><meta property="og:url" content="https://apisix.apache.org/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI Gateways: The Future Trend of AI Infrastructure","description":"Explore AI Gateway infrastructure trends and how Apache APISIX can help manage LLM traffic, model routing, token limits, and AI application security.","datePublished":"2025-06-18","image":"https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp","author":{"@type":"Person","name":"Yilia Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/06/18/ai-gateway-future-trend-of-ai-infrastructure/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>AI Gateways: The Future Trend of AI Infrastructure</h1> <p class="article-meta"> <time datetime="2025-06-18">Jun 18, 2025</time> · Yilia Lin  · 8 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#ai-infrastructure-revolution">AI Infrastructure Revolution</a></li><li class><a href="#what-is-an-ai-gateway">What Is an AI Gateway</a></li><li class><a href="#ai-gateway-vs-api-gateway-critical-differences">AI Gateway vs API Gateway: Critical Differences</a></li><li class><a href="#why-ai-gateways-are-essential-for-enterprises">Why AI Gateways Are Essential for Enterprises?</a></li><li class="d3"><a href="#1-centralized-control-for-ai-services">1. Centralized Control for AI Services</a></li><li class="d3"><a href="#2-security-and-compliance">2. Security and Compliance</a></li><li class="d3"><a href="#3-observability-and-monitoring">3. Observability and Monitoring</a></li><li class="d3"><a href="#4-performance-optimization">4. Performance Optimization</a></li><li class="d3"><a href="#5-cost-control-and-governance">5. Cost Control and Governance</a></li><li class="d3"><a href="#6-flexibility-for-hybridmulti-cloud-ai">6. Flexibility for Hybrid/Multi-Cloud AI</a></li><li class="d3"><a href="#7-plugin-ecosystem-for-ai-use-cases">7. Plugin Ecosystem for AI Use Cases</a></li><li class><a href="#trends-shaping-ai-gateways">Trends Shaping AI Gateways</a></li><li class="d3"><a href="#1-multi-model-routing-and-federation">1. Multi-Model Routing and Federation</a></li><li class="d3"><a href="#2-token-aware-cost-governance">2. Token-Aware Cost Governance</a></li><li class="d3"><a href="#3-prompt-and-output-moderation-pipelines">3. Prompt and Output Moderation Pipelines</a></li><li class="d3"><a href="#4-llmops-integration">4. LLMOps Integration</a></li><li class="d3"><a href="#5-hybrid-and-multi-cloud-ai-infrastructure">5. Hybrid and Multi-Cloud AI Infrastructure</a></li><li class="d3"><a href="#6-open-standards-and-ecosystem-interoperability">6. Open Standards and Ecosystem Interoperability</a></li><li class><a href="#conclusion-the-strategic-imperative">Conclusion: The Strategic Imperative</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Discover how AI gateways are revolutionizing enterprise AI infrastructure, offering centralized control, security, cost management, and governance for AI models and services.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="ai-infrastructure-revolution">AI Infrastructure Revolution</h2>
+<p>The enterprise AI landscape has exploded into fragmented chaos. Marketing teams deploy GPT-4 for content generation, developers fine-tune Llama 3 for coding assistants, while legal departments rely on Claude 3 for contract analysis. This siloed adoption creates three critical pain points:</p>
+<ol>
+<li><strong>Security Vulnerabilities</strong>: 68% of enterprises report unauthorized AI tool usage leading to PII leaks (Gartner 2025)</li>
+<li><strong>Cost Overruns</strong>: Unmonitored token consumption causes 41% of companies to exceed AI budgets by 200%+ (McKinsey)</li>
+<li><strong>Governance Failure</strong>: 83% of compliance violations trace to inconsistent AI policy enforcement (Deloitte Audit Report)</li>
+</ol>
+<p>Enter <strong>AI gateways</strong>—the middleware revolution transforming enterprise AI from experimental tools to production-grade infrastructure. These systems consolidate fragmented AI interactions through a unified control layer, much like Kubernetes did for container orchestration. An AI gateway is a specialized middleware layer that manages and secures interactions between your applications and AI models, such as <strong>OpenAI</strong>’s offerings. This technology, akin to an <strong>API gateway</strong>, provides visibility and control over your AI applications. The future of AI infrastructure is increasingly modular, enabling flexible and robust machine learning teams.</p>
+<h2 id="what-is-an-ai-gateway">What Is an AI Gateway</h2>
+<p>An <a href="https://apisix.apache.org/blog/2025/03/06/what-is-an-ai-gateway/">AI gateway</a> is a middleware platform designed to manage and facilitate the integration and deployment of artificial intelligence models and services, such as OpenAI, Anthropic, Gemini, etc. It acts as a bridge between AI models and the applications that use them, simplifying integration and deployment, especially for large language models. Essentially, an AI gateway serves as a crucial control point for managing AI services within an organization. It also plays a vital role in security by inspecting inbound prompts and outbound responses to prevent data leaks and mitigate risks within the AI application workflow.</p>
+<p><img src="https://static.api7.ai/uploads/2025/06/18/9qDk6nbs_1-ai-gateway-architecture.webp" alt="AI Gateway Architecture"></p>
+<h2 id="ai-gateway-vs-api-gateway-critical-differences">AI Gateway vs API Gateway: Critical Differences</h2>
+<p>While <a href="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/">AI gateways and API gateways</a> share some infrastructure-level similarities, they differ significantly in purpose, functionality, and optimization.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>AI Gateway</th><th>API Gateway</th></tr></thead><tbody><tr><td>Primary Use Case</td><td>Managing, securing, and optimizing traffic to AI/LLM services (e.g., OpenAI, Anthropic, custom models)</td><td>Routing and securing general-purpose REST/gRPC APIs for web, mobile, and microservices</td></tr><tr><td>Request Characteristics</td><td>Often large payloads (e.g., prompts), streaming input/output, expensive per-call</td><td>Lightweight, transactional HTTP/gRPC requests</td></tr><tr><td>Cost Awareness</td><td>Tracks tokens, usage costs, and budget limits per user/app</td><td>Generally unaware of downstream compute or pricing costs</td></tr><tr><td>Observability Needs</td><td>Input/output tracing, latency + token logging, hallucination detection</td><td>Standard request logs, metrics (latency, throughput, error rate)</td></tr><tr><td>Security Features</td><td>PII redaction, prompt inspection, AI-specific abuse filters</td><td>OAuth, JWT, IP allowlists, rate limiting</td></tr><tr><td>Optimization Techniques</td><td>Caching AI responses, model fallback, prompt standardization, and dynamic routing by cost or latency</td><td>Load balancing, circuit breaking, and service discovery</td></tr><tr><td>Plugin Support</td><td>AI-specific (e.g., pre-/post-processing, moderation, reranking)</td><td>General plugins (e.g., auth, logging, CORS)</td></tr><tr><td>Streaming Support</td><td>Critical: supports real-time token streaming from LLMs</td><td>Optional: typically used for HTTP/2 or WebSocket</td></tr><tr><td>Governance Controls</td><td>Usage quotas, cost controls, and team-level restrictions for AI services</td><td>API-level access controls, usage policies per role/team</td></tr><tr><td>Integration Targets</td><td>LLM APIs (e.g., OpenAI, Anthropic, local models like Llama), AI agents, RAG systems</td><td>Microservices, internal APIs, public-facing APIs</td></tr></tbody></table>
+<p><strong>Summary of Key Distinctions</strong>:</p>
+<ul>
+<li><strong>Focus</strong>: AI gateways specialize in <strong>intelligent traffic management for AI models</strong>, while AI gateways focus on standard API traffic orchestration.</li>
+<li><strong>Observability</strong>: AI gateways require <strong>fine-grained monitoring</strong>, including cost and token-level visibility.</li>
+<li><strong>Security</strong>: AI gateways offer <strong>general web security</strong>, whereas AI gateways need <strong>content-level protections</strong> (e.g., for prompt injection).</li>
+<li><strong>Optimization</strong>: AI gateways can <strong>route based on AI-specific metrics</strong> (e.g., model latency, accuracy, cost), unlike traditional AI gateways.</li>
+</ul>
+<p><img src="https://static.api7.ai/uploads/2025/06/18/ek1HZbV5_2-connections-of-api-gateway-and-ai-gateway.webp" alt="AI Gateway and API Gateway"></p>
+<h2 id="why-ai-gateways-are-essential-for-enterprises">Why AI Gateways Are Essential for Enterprises?</h2>
+<p>In a world where AI adoption is accelerating, AI gateways offer a <strong>critical layer of control, visibility, and governance</strong>. They enable enterprises to confidently integrate AI into their systems securely, scalably, and sustainably.</p>
+<p><strong>You need an AI gateway when:</strong></p>
+<ul>
+<li>You’re using LLMs or AI APIs in production (e.g., OpenAI, Claude, Gemini).</li>
+<li>You want <strong>centralized governance and cost control</strong> over AI usage.</li>
+<li>You need <strong>security and content moderation</strong> for AI prompts/responses.</li>
+<li>You must <strong>support multiple models</strong> with fallback or dynamic routing.</li>
+</ul>
+<p>Here’s a breakdown of <strong>why AI gateways are crucial</strong> for modern enterprises:</p>
+<h3 id="1-centralized-control-for-ai-services">1. Centralized Control for AI Services</h3>
+<p>Enterprises today adopt multiple AI models (e.g., OpenAI, Hugging Face, internal LLMs) across cloud and on-prem environments. An AI gateway provides:</p>
+<ul>
+<li><strong>Routing logic</strong> based on cost, latency, or use case.</li>
+<li><strong>Model versioning</strong> to avoid breaking downstream systems.</li>
+<li><strong>Fallback mechanisms</strong> (e.g., if GPT-4 fails, fall back to Claude).</li>
+</ul>
+<p><img src="https://static.api7.ai/uploads/2025/06/18/buodC1KT_3-centralized-control-for-ai-services.webp" alt="Centralized Control for AI Services"></p>
+<h3 id="2-security-and-compliance">2. Security and Compliance</h3>
+<p>AI gateways serve as security enforcement layers:</p>
+<ul>
+<li><strong>Rate limiting and quota management</strong> to control the usage of costly LLM APIs.</li>
+<li><strong>Authentication &#x26; Authorization</strong> for internal and external consumers.</li>
+<li><strong>PII masking and data redaction</strong> to ensure data privacy before reaching LLMs.</li>
+<li><strong>Audit logs</strong> to support compliance (e.g., GDPR, SOC 2).</li>
+</ul>
+<h3 id="3-observability-and-monitoring">3. Observability and Monitoring</h3>
+<p>Visibility is critical when running generative AI workloads:</p>
+<ul>
+<li><strong>Logging inputs/outputs and response times</strong> for debugging.</li>
+<li><strong>Tracing</strong> to understand latency bottlenecks.</li>
+<li><strong>Monitoring token usage and cost</strong> for budget optimization.</li>
+</ul>
+<h3 id="4-performance-optimization">4. Performance Optimization</h3>
+<p>AI gateways can significantly improve efficiency:</p>
+<ul>
+<li><strong>Caching responses</strong> to avoid redundant LLM calls.</li>
+<li><strong>Load balancing</strong> across multiple AI model endpoints.</li>
+<li><strong>Streaming support</strong> for faster UX in chat applications.</li>
+</ul>
+<h3 id="5-cost-control-and-governance">5. Cost Control and Governance</h3>
+<p>With AI APIs costing per-token or per-call, an AI gateway enables:</p>
+<ul>
+<li><strong>Usage policies per team or app</strong> to prevent budget overages.</li>
+<li><strong>Token counting and cost attribution</strong> for internal chargebacks.</li>
+<li><strong>Auto-throttling</strong> or alerting based on budget thresholds.</li>
+</ul>
+<h3 id="6-flexibility-for-hybridmulti-cloud-ai">6. Flexibility for Hybrid/Multi-Cloud AI</h3>
+<p>AI workloads are often hybrid (cloud + on-prem) or multi-cloud. An AI gateway:</p>
+<ul>
+<li>Supports <strong>traffic routing across environments</strong>.</li>
+<li>Helps abstract away vendor-specific endpoints.</li>
+<li>Allows <strong>easy swapping of model providers</strong> without rewriting client code.</li>
+</ul>
+<h3 id="7-plugin-ecosystem-for-ai-use-cases">7. Plugin Ecosystem for AI Use Cases</h3>
+<p>Advanced AI gateways support plugins for:</p>
+<ul>
+<li><strong>Prompt templating and standardization</strong></li>
+<li><strong>Content moderation (e.g., toxicity detection)</strong></li>
+<li><strong>Custom pre- and post-processing</strong></li>
+</ul>
+<h2 id="trends-shaping-ai-gateways">Trends Shaping AI Gateways</h2>
+<p>Here’s a comprehensive look at the <strong>trends shaping AI gateways</strong> in 2025 and beyond, driven by advancements in large language models (LLMs), multi-model architectures, enterprise governance demands, and the need for scalable, secure AI infrastructure.</p>
+<h3 id="1-multi-model-routing-and-federation">1. Multi-Model Routing and Federation</h3>
+<p>Modern AI apps increasingly call multiple models—OpenAI for coding, Claude for summarization, open-source LLMs for privacy.</p>
+<ul>
+<li><strong>AI gateways are evolving to support multi-model orchestration</strong>: routing requests based on latency, accuracy, cost, or trust.</li>
+<li><strong>Federated AI inference</strong> across local, edge, and cloud-hosted models is becoming common.</li>
+</ul>
+<h3 id="2-token-aware-cost-governance">2. Token-Aware Cost Governance</h3>
+<p>Cost-first LLMOps with budget capping and per-call spend limits. LLM APIs are priced by token, making cost tracking critical.</p>
+<ul>
+<li><strong>AI gateways now include token accounting, quota enforcement, and cost attribution per user/team.</strong></li>
+<li>Enterprises want <strong>real-time dashboards</strong> and budget guardrails to avoid unexpected bills.</li>
+</ul>
+<h3 id="3-prompt-and-output-moderation-pipelines">3. Prompt and Output Moderation Pipelines</h3>
+<p><strong>Built-in security layers</strong> are becoming standard for enterprise-grade LLM access. Prompt injection, jailbreaks, and hallucinations are real risks.</p>
+<ul>
+<li>AI gateways increasingly support <strong>pre-processing filters (for prompt safety) and post-processing checks (for toxic/hallucinated content).</strong></li>
+<li>Expect <strong>pluggable moderation</strong>, e.g., connecting to third-party content filters or in-house classifiers.</li>
+</ul>
+<p><img src="https://static.api7.ai/uploads/2025/06/18/Vx6Fn7Nc_4-prompt-and-output-moderation-pipeline.webp" alt="Prompt and Output Moderation Pipelines"></p>
+<h3 id="4-llmops-integration">4. LLMOps Integration</h3>
+<p>Gateways now help <strong>manage deployment lifecycle, usage policies, and routing across model updates</strong>. AI gateways are becoming <strong>key components of the LLMOps stack</strong>, sitting between orchestrators, vector stores, and foundation models.</p>
+<ul>
+<li>Seamless integration with <strong>vector databases, RAG pipelines, fine-tuning services, and agent frameworks</strong>.</li>
+<li><strong>Unified config and telemetry</strong> across dev/test/prod environments.</li>
+</ul>
+<h3 id="5-hybrid-and-multi-cloud-ai-infrastructure">5. Hybrid and Multi-Cloud AI Infrastructure</h3>
+<p>A gateway becomes the <strong>unifying control plane</strong> in a fragmented AI ecosystem. AI workloads are distributed across <strong>SaaS APIs, private clusters, edge devices, and cloud VMs</strong>.</p>
+<ul>
+<li>AI gateways act as <strong>cross-environment brokers</strong>, abstracting model locations and offering <strong>location-aware routing</strong>.</li>
+<li>They ensure <strong>policy compliance and telemetry collection</strong> across all inference points.</li>
+</ul>
+<h3 id="6-open-standards-and-ecosystem-interoperability">6. Open Standards and Ecosystem Interoperability</h3>
+<p>The ecosystem is trending toward <strong>vendor-agnostic, modular AI infrastructure</strong>. Avoiding lock-in is a top concern.</p>
+<ul>
+<li>Movement toward <strong>standardized APIs (e.g., OpenLLM, OpenAI-compatible APIs)</strong>.</li>
+<li>Gateways support <strong>pluggable backends</strong>, open telemetry, and policy engines.</li>
+</ul>
+<h2 id="conclusion-the-strategic-imperative">Conclusion: The Strategic Imperative</h2>
+<p>AI gateways are <strong>security enforcers, policy engines, observability hubs, and optimization layers</strong> for enterprise AI. As AI adoption deepens, the gateway becomes the enterprise’s trust boundary for AI. Enterprises implementing them now gain: <strong>risk reduction, cost control, and velocity acceleration</strong>.</p>
+<p>As Anthropic CEO Dario Amodei notes: <em>“The next AI competitive advantage won’t come from larger models, but from smarter orchestration</em>.”* Organizations delaying adoption face irreversible technical debt, while early adopters already attribute revenue growth to AI gateway-optimized personalization systems.</p>
+<p>The future is clear: AI gateways are becoming the <strong>central nervous system</strong> of intelligent enterprises. Those who architect this layer today will dominate the AI-driven economy of tomorrow.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2025/06/27/release-apache-apisix-3.13.0/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Release Apache APISIX 3.13.0</span> </a> <a class="post-nav-card older" href="/blog/2025/06/18/mcp-monetization-navigating-ai-economy/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">MCP Monetization: Navigating the AI Economy</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#ai-infrastructure-revolution">AI Infrastructure Revolution</a></li><li class><a href="#what-is-an-ai-gateway">What Is an AI Gateway</a></li><li class><a href="#ai-gateway-vs-api-gateway-critical-differences">AI Gateway vs API Gateway: Critical Differences</a></li><li class><a href="#why-ai-gateways-are-essential-for-enterprises">Why AI Gateways Are Essential for Enterprises?</a></li><li class="d3"><a href="#1-centralized-control-for-ai-services">1. Centralized Control for AI Services</a></li><li class="d3"><a href="#2-security-and-compliance">2. Security and Compliance</a></li><li class="d3"><a href="#3-observability-and-monitoring">3. Observability and Monitoring</a></li><li class="d3"><a href="#4-performance-optimization">4. Performance Optimization</a></li><li class="d3"><a href="#5-cost-control-and-governance">5. Cost Control and Governance</a></li><li class="d3"><a href="#6-flexibility-for-hybridmulti-cloud-ai">6. Flexibility for Hybrid/Multi-Cloud AI</a></li><li class="d3"><a href="#7-plugin-ecosystem-for-ai-use-cases">7. Plugin Ecosystem for AI Use Cases</a></li><li class><a href="#trends-shaping-ai-gateways">Trends Shaping AI Gateways</a></li><li class="d3"><a href="#1-multi-model-routing-and-federation">1. Multi-Model Routing and Federation</a></li><li class="d3"><a href="#2-token-aware-cost-governance">2. Token-Aware Cost Governance</a></li><li class="d3"><a href="#3-prompt-and-output-moderation-pipelines">3. Prompt and Output Moderation Pipelines</a></li><li class="d3"><a href="#4-llmops-integration">4. LLMOps Integration</a></li><li class="d3"><a href="#5-hybrid-and-multi-cloud-ai-infrastructure">5. Hybrid and Multi-Cloud AI Infrastructure</a></li><li class="d3"><a href="#6-open-standards-and-ecosystem-interoperability">6. Open Standards and Ecosystem Interoperability</a></li><li class><a href="#conclusion-the-strategic-imperative">Conclusion: The Strategic Imperative</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

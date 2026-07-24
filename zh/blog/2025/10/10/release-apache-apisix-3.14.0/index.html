@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.14.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.14.0 版本于 2025 年 10 月 10 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/10/10/release-apache-apisix-3.14.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 3.14.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.14.0 版本于 2025 年 10 月 10 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2025/10/10/release-apache-apisix-3.14.0/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.14.0 正式发布","description":"Apache APISIX 3.14.0 版本于 2025 年 10 月 10 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。","datePublished":"2025-10-10","author":{"@type":"Person","name":"Ashish Tiwari"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2025/10/10/release-apache-apisix-3.14.0/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2025/10/10/release-apache-apisix-3.14.0/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2025/10/10/release-apache-apisix-3.14.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 3.14.0 正式发布</h1> <p class="article-meta"> <time datetime="2025-10-10">2025年10月10日</time> · Ashish Tiwari  · 约 10 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#重大变更">重大变更</a></li><li class="d3"><a href="#jwt-auth-插件需要为非-rses-算法提供-secret">jwt-auth 插件需要为非 RS/ES 算法提供 secret</a></li><li class="d3"><a href="#openid-connect-插件需要显式配置会话密钥">openid-connect 插件需要显式配置会话密钥</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#支持基于请求体匹配路由">支持基于请求体匹配路由</a></li><li class="d3"><a href="#添加全局开关以禁用所有上游健康检查">添加全局开关以禁用所有上游健康检查</a></li><li class="d3"><a href="#支持单个日志中的多个对象">支持单个日志中的多个对象</a></li><li class="d3"><a href="#在-openid-connect-插件中添加自定义声明验证">在 openid-connect 插件中添加自定义声明验证</a></li><li class="d3"><a href="#在-openid-connect-插件中支持环境变量">在 openid-connect 插件中支持环境变量</a></li><li class="d3"><a href="#为-stream-路由引入-traffic-split-插件">为 stream 路由引入 traffic-split 插件</a></li><li class="d3"><a href="#在-request-id-插件中添加-ksuid-算法">在 request-id 插件中添加 KSUID 算法</a></li><li class="d3"><a href="#在-ai-proxy-multi-插件中引入回退机制">在 ai-proxy-multi 插件中引入回退机制</a></li><li class="d3"><a href="#在独立-api-中支持元数据标头和-head-方法">在独立 API 中支持元数据标头和 HEAD 方法</a></li><li class="d3"><a href="#添加新的-ai-代理变量用于日志记录">添加新的 AI 代理变量用于日志记录</a></li><li class="d3"><a href="#新增-ai-aliyun-content-moderation-插件">新增 ai-aliyun-content-moderation 插件</a></li><li class="d3"><a href="#将-azure-ai-和-aiml-api-提供程序添加到-ai-插件">将 Azure AI 和 AI/ML API 提供程序添加到 AI 插件</a></li><li class="d3"><a href="#在-ai-proxy-multi-插件中支持健康检查">在 ai-proxy-multi 插件中支持健康检查</a></li><li class="d3"><a href="#在-workflow-插件规则中支持-limit-conn">在 workflow 插件规则中支持 limit-conn</a></li><li class="d3"><a href="#改进-datadog-插件标签">改进 datadog 插件标签</a></li><li class="d3"><a href="#在-forward-auth-插件中添加对-extra_headers-的支持">在 forward-auth 插件中添加对 extra_headers 的支持</a></li><li class><a href="#其他更新">其他更新</a></li><li class><a href="#变更日志">变更日志</a></li> </ul> </details> </header>  <p>我们很高兴地宣布 Apache APISIX 3.14.0 版本已经发布，带来了一系列新功能、修复、以及相关用户体验优化。</p>
+<!--truncate-->
+<p>此版本引入了多项新功能，包括用于日志记录的新 AI 插件变量、AI 插件中对 AI/ML API 提供程序的支持、基于请求正文的路由匹配、<code>request-id</code> 插件中对 KSUID 算法的支持等等。</p>
+<p>此外，该版本还包含了一些重要的变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。</p>
+<h2 id="重大变更">重大变更</h2>
+<h3 id="jwt-auth-插件需要为非-rses-算法提供-secret"><code>jwt-auth</code> 插件需要为非 RS/ES 算法提供 <code>secret</code></h3>
+<p>如果未为 RS256 和 ES256 以外的算法提供密钥，<code>jwt-auth</code> 插件将不再自动生成密钥值。以前，如果用户配置 <code>jwt-auth</code> 插件时未为 HS256 或 HS512 等算法提供密钥，APISIX 会自动生成一个密钥。</p>
+<p>现在，当用户使用 RS256 和 ES256 以外的算法时，必须明确配置密钥字段。如果未提供密钥，插件将返回错误消息，要求用户手动设置此值。</p>
+<p>此更改提高了配置透明度，并避免了自动生成的值可能造成的混淆。用户应检查其 <code>jwt-auth</code> 插件配置，并确保在需要时明确设置密钥字段。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12611">PR #12611</a>。</p>
+<h3 id="openid-connect-插件需要显式配置会话密钥"><code>openid-connect</code> 插件需要显式配置会话密钥</h3>
+<p>在此版本中，当 <code>bearer_only</code> 设置为 <code>false</code> 且未提供 <code>session.secret</code> 时，<code>openid-connect</code> 插件不再自动生成 <code>session.secret</code>。相反，当 <code>bearer_only</code> 设置为 <code>false</code> 时，用户必须显式指定 <code>session.secret</code>。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12609">PR #12609</a>。</p>
+<h2 id="新功能">新功能</h2>
+<h3 id="支持基于请求体匹配路由">支持基于请求体匹配路由</h3>
+<p>现在，您可以在路由的 <code>vars</code> 中使用 <code>post_arg.*</code>，根据请求体值匹配请求。<code>post_arg</code> 支持 JSON、multipart 和 URL 编码的请求体，从而实现基于消息负载的灵活动态路由逻辑。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12388">PR #12388</a>。</p>
+<h3 id="添加全局开关以禁用所有上游健康检查">添加全局开关以禁用所有上游健康检查</h3>
+<p>此版本在 <code>config.yaml</code> 中引入了一个新的配置选项 <code>apisix.disable_upstream_healthcheck</code>，允许您一次性关闭所有上游健康检查。这在紧急情况下非常有用，因为健康检查可能会干扰路由回退。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12407">PR #12407</a>。</p>
+<h3 id="支持单个日志中的多个对象">支持单个日志中的多个对象</h3>
+<p>此版本增强了 <code>json.delay_encode</code> 日志功能的灵活性：现在单个日志条目中最多可以包含 16 个不同的 <code>delay_encode</code> 对象。这可以更精细地控制日志负载的延迟或编码方式以及部分内容。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12395">PR #12395</a>。</p>
+<h3 id="在-openid-connect-插件中添加自定义声明验证">在 <code>openid-connect</code> 插件中添加自定义声明验证</h3>
+<p>此版本引入了在 <code>openid-connect</code> 插件中配置自定义声明验证的功能。此增强功能允许用户为特定声明定义验证规则，例如确保声明与一组预定义值中的某个值匹配。如果声明未通过验证，则请求将被拒绝。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/11824">PR #11824</a>。</p>
+<h3 id="在-openid-connect-插件中支持环境变量">在 <code>openid-connect</code> 插件中支持环境变量</h3>
+<p>此版本在 <code>openid-connect</code> 插件的配置中添加了对环境变量的支持。用户现在可以将敏感字段（例如 <code>client_secret</code>）存储在环境变量中，从而增强部署期间的安全性和灵活性。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/11451">PR #11451</a>。</p>
+<h3 id="为-stream-路由引入-traffic-split-插件">为 stream 路由引入 <code>traffic-split</code> 插件</h3>
+<p>此版本为 stream 路由 (L4) 引入了 <code>traffic-split</code> 插件，支持跨多个上游的加权流量分配。此增强功能允许在基于流的应用程序中更精细地控制流量路由。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12630">PR #12630</a>。</p>
+<h3 id="在-request-id-插件中添加-ksuid-算法">在 <code>request-id</code> 插件中添加 KSUID 算法</h3>
+<p>此版本支持在 <code>request-id</code> 插件中使用 KSUID（K 排序全局唯一标识符）算法生成请求 ID。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12573">PR #12573</a>。</p>
+<h3 id="在-ai-proxy-multi-插件中引入回退机制">在 <code>ai-proxy-multi</code> 插件中引入回退机制</h3>
+<p>此版本增强了 <code>ai-proxy-multi</code> 插件的功能，添加了针对特定错误代码的回退机制。此改进允许在满足特定错误条件时执行预定义的回退行为，从而确保 AI 代理更具弹性。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12571">PR #12571</a>。</p>
+<h3 id="在独立-api-中支持元数据标头和-head-方法">在独立 API 中支持元数据标头和 HEAD 方法</h3>
+<p>独立 API 新增了两个响应元数据标头：<code>X-Last-Modified</code> 和 <code>X-Digest</code>，它们允许客户端检测哪个实例的最后更新，并检查客户端传递的配置摘要。</p>
+<p>此外，现在支持 HEAD 请求（仅返回元数据，不返回完整配置），从而可以进行轻量级轮询或元数据检查。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12526">PR #12526</a>。</p>
+<h3 id="添加新的-ai-代理变量用于日志记录">添加新的 AI 代理变量用于日志记录</h3>
+<p>此版本在 <code>ai-proxy</code> 和 <code>ai-proxy-multi</code> 插件中添加了以下变量：</p>
+<ul>
+<li><code>apisix_upstream_response_time</code>：APISIX 将请求发送到上游服务并接收完整响应所需的时间。</li>
+<li><code>request_type</code>：请求类型，其值可以是 <code>traditional_http</code>、<code>ai_chat</code> 或 <code>ai_stream</code>。</li>
+<li><code>llm_time_to_first_token</code>：从请求发送到从 LLM 服务收到第一个令牌的时长，以毫秒为单位。</li>
+<li><code>llm_model</code>：转发到上游 LLM 服务的 LLM 模型名称。</li>
+<li><code>request_llm_model</code>：请求中指定的 LLM 模型名称。</li>
+<li><code>llm_prompt_tokens</code>：提示中的令牌数量。</li>
+<li><code>llm_completion_tokens</code>：提示中的聊天完成令牌数量。</li>
+</ul>
+<p>这些变量可以记录在访问日志中，与日志插件一起使用，或导出为 Prometheus 指标。此增强功能通过提供 AI 代理期间上游服务响应时间的洞察，改进了监控和调试功能。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12555">PR #12555</a>、<a href="https://github.com/apache/apisix/pull/12554">PR #12554</a>、<a href="https://github.com/apache/apisix/pull/12515">PR #12515</a> 和 <a href="https://github.com/apache/apisix/pull/12518">PR #12518</a>。</p>
+<h3 id="新增-ai-aliyun-content-moderation-插件">新增 <code>ai-aliyun-content-moderation</code> 插件</h3>
+<p>此版本引入了全新的 <code>ai-aliyun-content-moderation</code> 插件，可与阿里云的 Machine-Assisted Moderation Plus 集成，进行内容审核。该插件会评估请求主体中是否存在亵渎、仇恨言论、侮辱、骚扰、暴力等内容。任何超过指定阈值的请求都将被拒绝。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12530">PR #12530</a>。</p>
+<h3 id="将-azure-ai-和-aiml-api-提供程序添加到-ai-插件">将 Azure AI 和 AI/ML API 提供程序添加到 AI 插件</h3>
+<p><code>ai-proxy</code>、<code>ai-proxy-multi</code> 和 <code>ai-request-rewrite</code> 插件现在支持 Azure AI 和 AI/ML API 作为提供程序。</p>
+<p>当 <code>provider</code> 设置为 <code>azure-openai</code> 时，该插件会将请求代理到 <code>override</code> 中配置的自定义端点，并从用户请求中移除模型参数。</p>
+<p>AI/ML API 提供统一的 OpenAI 兼容 API，可访问 300 多个 LLM，例如 GPT-4、Claude、Gemini、DeepSeek 等。当 <code>provider</code> 设置为 <code>aimlapi</code> 时，该插件允许用户将 AI 请求路由到兼容 AIMLAPI 的端点，从而扩大了 APISIX 生态系统中可使用的 AI 提供程序范围。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12565">PR #12565</a> 和 <a href="https://github.com/apache/apisix/pull/12379">PR #12379</a>。</p>
+<h3 id="在-ai-proxy-multi-插件中支持健康检查">在 <code>ai-proxy-multi</code> 插件中支持健康检查</h3>
+<p><code>ai-proxy-multi</code> 插件现在支持对上游 AI 服务的健康检查。每个后端端点的可用性都可以监控，并且请求可以动态路由到健康的端点。这确保了高可用性，并防止请求发送到响应迟钝的 AI 服务器，从而提高了生产环境中的可靠性。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12509">PR #12509</a>。</p>
+<h3 id="在-workflow-插件规则中支持-limit-conn">在 <code>workflow</code> 插件规则中支持 <code>limit-conn</code></h3>
+<p>此版本增强了 <code>workflow</code> 插件的功能，允许其将 <code>limit-conn</code> 插件作为 <code>workflow</code> 规则的一部分。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12465">PR #12465</a>。</p>
+<h3 id="改进-datadog-插件标签">改进 <code>datadog</code> 插件标签</h3>
+<p><code>datadog</code> 插件现在提供增强的指标和标签，以支持更广泛的可观察性需求。此更新引入了几个新标签：</p>
+<ul>
+<li><code>response_status_class</code>：HTTP 响应状态代码的类别（例如，“2xx”、“4xx”、“5xx”）。</li>
+<li><code>path</code>：HTTP 路径模式，仅当 <code>include_path</code> 属性设置为 <code>true</code> 时可用。</li>
+<li><code>method</code>：HTTP 方法，仅当 <code>include_method</code> 属性设置为 <code>true</code> 时可用。</li>
+</ul>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/11943">PR #11943</a>。</p>
+<h3 id="在-forward-auth-插件中添加对-extra_headers-的支持">在 <code>forward-auth</code> 插件中添加对 <code>extra_headers</code> 的支持</h3>
+<p><code>forward-auth</code> 插件现在可以从请求正文中提取字段，并使用 <code>extra_headers</code> 和 <code>$post_arg.*</code> 将它们作为标头注入上游服务。例如，如果身份验证在响应正文中返回用户角色或令牌，您现在可以将该正文的一部分映射到下游服务可以使用的标头中。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/12405">PR #12405</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<ul>
+<li>Admin API 不再填充默认值 (PR <a href="https://github.com/apache/apisix/pull/12603">#12603</a>)</li>
+<li>添加健康检查管理器以解耦上游 (PR <a href="https://github.com/apache/apisix/pull/12426">#12426</a>)</li>
+<li>解耦 Prometheus 导出器的计算和输出 (PR <a href="https://github.com/apache/apisix/pull/12383">#12383</a>)</li>
+<li>删除错误日志中的加密字段，以防止敏感数据泄露 (PR <a href="https://github.com/apache/apisix/pull/12629">#12629</a>)</li>
+<li>修复 <code>ai-proxy-multi</code> 插件中健康检查解析节点不一致的问题 (PR <a href="https://github.com/apache/apisix/pull/12594">#12594</a>)</li>
+<li>仅信任已配置 <code>trusted_addresses</code> 中的 <code>X-Forwarded-*</code> 标头 (PR <a href="https://github.com/apache/apisix/pull/12551">#12551</a>)</li>
+<li>确保当协议不是 HTTPS 时重定向能够正常工作 (PR <a href="https://github.com/apache/apisix/pull/12561">#12561</a>)</li>
+<li>修复在代理后运行时 UI 重定向错误 (PR <a href="https://github.com/apache/apisix/pull/12566">#12566</a>)</li>
+<li>在后台刷新过期的 LRU 缓存项以获取机密信息 (PR <a href="https://github.com/apache/apisix/pull/12614">#12614</a>)</li>
+<li>恢复健康检查管理器中丢失的运行时信息 (PR <a href="https://github.com/apache/apisix/pull/12607">#12607</a>)</li>
+<li>支持在独立管理 API 模式下配置 stream 路由 (PR <a href="https://github.com/apache/apisix/pull/12604">#12604</a>)</li>
+<li>仅在启用 <code>include_resp_body</code> 时记录响应正文 (PR <a href="https://github.com/apache/apisix/pull/12599">#12599</a>)</li>
+<li>更正 <code>get_healthcheck_events_module</code> 函数名称的拼写 (PR <a href="https://github.com/apache/apisix/pull/12587">#12587</a>)</li>
+<li>防止 <code>ai-proxy-multi</code> 实例缺少自定义端点时出现崩溃 (PR <a href="https://github.com/apache/apisix/pull/12584">#12584</a>)</li>
+<li>防止 AI Prompt Decorator 插件中跨请求的消息累积 (PR <a href="https://github.com/apache/apisix/pull/12582">#12582</a>)</li>
+<li>删除过时的消息Docker 入口点中的 <code>stream_worker_events.sock</code> 文件 (PR <a href="https://github.com/apache/apisix/pull/12546">#12546</a>)</li>
+<li>为 EWMA 共享字典项添加过期时间 (<code>exptime</code>) (PR <a href="https://github.com/apache/apisix/pull/12557">#12557</a>)</li>
+<li>在 <code>ai-proxy</code> 模式验证中捕获格式错误的覆盖端点 (PR <a href="https://github.com/apache/apisix/pull/12563">#12563</a>)</li>
+<li>修复非 stream 模式下缺失 <code>ctx.llm_raw_usage</code> 值的问题 (PR <a href="https://github.com/apache/apisix/pull/12564">#12564</a>)</li>
+<li>使用前检查 <code>ai-proxy</code> 中 <code>choices</code>、<code>usage</code> 和 <code>content</code> 字段的类型 (PR <a href="https://github.com/apache/apisix/pull/12548">#12548</a>)</li>
+<li>调整 Kubernetes 服务发现的 ID 长度 (PR <a href="https://github.com/apache/apisix/pull/12536">#12536</a>)</li>
+<li>使 <code>basic-auth</code> 方案不区分大小写 (PR <a href="https://github.com/apache/apisix/pull/12539">#12539</a>)</li>
+<li>仅配置 <code>tls.verify</code> 时跳过客户端证书验证 (PR <a href="https://github.com/apache/apisix/pull/12527">#12527</a>)</li>
+<li>工作进程重启时从 etcd 加载完整数据 (PR <a href="https://github.com/apache/apisix/pull/12523">#12523</a>)</li>
+<li>升级 etcd 版本以应对监视请求超时问题 (PR <a href="https://github.com/apache/apisix/pull/12514">#12514</a>)</li>
+<li>为 Kubernetes 发现启用 EndpointSlices 支持 (PR <a href="https://github.com/apache/apisix/pull/11654">#11654</a>)</li>
+<li>即使 <code>grpc-web</code> 中的响应正文为空，也包含 gRPC 尾部 (PR <a href="https://github.com/apache/apisix/pull/12490">#12490</a>)</li>
+<li>修复 Red Hat 系统上的主机名检索问题 (PR <a href="https://github.com/apache/apisix/pull/12267">#12267</a>)</li>
+<li>修复在服务级别配置插件时批处理器缓存不工作的问题 (PR <a href="https://github.com/apache/apisix/pull/12474">#12474</a>)</li>
+<li>解析 <code>$post_arg</code> 中的变量引用Forward Auth 插件的 <code>extra_headers</code> (PR <a href="https://github.com/apache/apisix/pull/12435">#12435</a>)</li>
+<li>修复 <code>api-breaker</code> 插件中 <code>breaker_time</code> 过早递增导致的熔断不一致问题 (PR <a href="https://github.com/apache/apisix/pull/12451">#12451</a>)</li>
+<li>为 Standalone Admin API 模式添加缺失的配置验证 (PR <a href="https://github.com/apache/apisix/pull/12424">#12424</a>)</li>
+<li>当 <code>enable_access_log</code> 设置为 false 时，跳过写入访问日志 (PR <a href="https://github.com/apache/apisix/pull/11310">#11310</a>)</li>
+<li>从 OpenTelemetry 插件中移除未使用的 <code>set_ngx_var</code> 属性 (PR <a href="https://github.com/apache/apisix/pull/12411">#12411</a>)</li>
+<li>在请求验证插件中，支持 URL 编码数据的 <code>Content-Type</code> 标头及其字符集 (PR <a href="https://github.com/apache/apisix/pull/12406">#12406</a>)</li>
+<li>修复 Zipkin 在 <code>ngx_var</code> 中 <code>trace_id</code> 和 <code>span_id</code> 格式的问题 (PR <a href="https://github.com/apache/apisix/pull/12403">#12403</a>)</li>
+<li>修复由于缓存版本控制不正确导致的消费者更新丢失问题 (PR <a href="https://github.com/apache/apisix/pull/12413">#12413</a>)</li>
+<li>确保 <code>get_keys</code> 返回共享字典中超出默认 1024 个限制的所有项 (PR <a href="https://github.com/apache/apisix/pull/12380">#12380</a>)</li>
+</ul>
+<h2 id="变更日志">变更日志</h2>
+<p>有关此版本的完整变更列表，请参阅 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#3140">CHANGELOG</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2025/10/17/release-apache-apisix-3.14.1/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">Apache APISIX 3.14.1 正式发布</span> </a> <a class="post-nav-card older" href="/zh/blog/2025/09/30/2025-sep-monthly-report/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">2025 社区月报 (09.01 - 09.30)</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#重大变更">重大变更</a></li><li class="d3"><a href="#jwt-auth-插件需要为非-rses-算法提供-secret">jwt-auth 插件需要为非 RS/ES 算法提供 secret</a></li><li class="d3"><a href="#openid-connect-插件需要显式配置会话密钥">openid-connect 插件需要显式配置会话密钥</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#支持基于请求体匹配路由">支持基于请求体匹配路由</a></li><li class="d3"><a href="#添加全局开关以禁用所有上游健康检查">添加全局开关以禁用所有上游健康检查</a></li><li class="d3"><a href="#支持单个日志中的多个对象">支持单个日志中的多个对象</a></li><li class="d3"><a href="#在-openid-connect-插件中添加自定义声明验证">在 openid-connect 插件中添加自定义声明验证</a></li><li class="d3"><a href="#在-openid-connect-插件中支持环境变量">在 openid-connect 插件中支持环境变量</a></li><li class="d3"><a href="#为-stream-路由引入-traffic-split-插件">为 stream 路由引入 traffic-split 插件</a></li><li class="d3"><a href="#在-request-id-插件中添加-ksuid-算法">在 request-id 插件中添加 KSUID 算法</a></li><li class="d3"><a href="#在-ai-proxy-multi-插件中引入回退机制">在 ai-proxy-multi 插件中引入回退机制</a></li><li class="d3"><a href="#在独立-api-中支持元数据标头和-head-方法">在独立 API 中支持元数据标头和 HEAD 方法</a></li><li class="d3"><a href="#添加新的-ai-代理变量用于日志记录">添加新的 AI 代理变量用于日志记录</a></li><li class="d3"><a href="#新增-ai-aliyun-content-moderation-插件">新增 ai-aliyun-content-moderation 插件</a></li><li class="d3"><a href="#将-azure-ai-和-aiml-api-提供程序添加到-ai-插件">将 Azure AI 和 AI/ML API 提供程序添加到 AI 插件</a></li><li class="d3"><a href="#在-ai-proxy-multi-插件中支持健康检查">在 ai-proxy-multi 插件中支持健康检查</a></li><li class="d3"><a href="#在-workflow-插件规则中支持-limit-conn">在 workflow 插件规则中支持 limit-conn</a></li><li class="d3"><a href="#改进-datadog-插件标签">改进 datadog 插件标签</a></li><li class="d3"><a href="#在-forward-auth-插件中添加对-extra_headers-的支持">在 forward-auth 插件中添加对 extra_headers 的支持</a></li><li class><a href="#其他更新">其他更新</a></li><li class><a href="#变更日志">变更日志</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/05/31/2026-may-monthly-report/"> <img class="cover" src="https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (05.01 - 05.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年5月31日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

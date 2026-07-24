@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX&#39;s integration with Azure Serverless | Apache APISIX</title><meta name="description" content="This article  gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2021/12/01/apisix-supports-azure-functions/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX's integration with Azure Serverless | Apache APISIX"><meta property="og:description" content="This article  gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite."><meta property="og:url" content="https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions/"><meta property="og:site_name" content="Apache APISIX"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX's integration with Azure Serverless","description":"This article  gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.","datePublished":"2021-12-01","author":{"@type":"Person","name":"Bisakh Mondal"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2021/12/01/apisix-supports-azure-functions/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2021/12/01/apisix-supports-azure-functions/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2021/12/01/apisix-supports-azure-functions/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX&#39;s integration with Azure Serverless</h1> <p class="article-meta"> <time datetime="2021-12-01">Dec 1, 2021</time> · Bisakh Mondal  · 7 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#how-azure-functions-plugin-works">How azure-functions plugin works</a></li><li class><a href="#how-to-use-azure-functions-with-apache-apisix">How to Use Azure Functions with Apache APISIX</a></li><li class="d3"><a href="#activate-the-azure-functions-plugin">Activate the azure-functions plugin</a></li><li class="d3"><a href="#deactivate-the-azure-functions-plugin">Deactivate the azure-functions plugin</a></li><li class><a href="#custom-configuration">Custom Configuration</a></li><li class="d3"><a href="#plugin-schema">Plugin Schema</a></li><li class="d3"><a href="#metadata-schema">Metadata Schema</a></li><li class><a href="#summary">Summary</a></li> </ul> </details> </header>  <blockquote>
+<p>This article talks about the recent addition of a new plugin <code>azure-functions</code>, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.</p>
+</blockquote>
+<!--truncate-->
+<p><img src="https://static.apiseven.com/202108/1638431191799-e1202fc7-d3b5-48db-a222-0c70a8b70da0.png" alt="Apache APISIX&#x27;s integration with Azure Serverless"></p>
+<p>Apache APISIX provides support for serverless frameworks for popular cloud vendors (more coming on the way). Instead of hardcoding the function URL into the application, Apache APISIX suggests defining a route with the serverless plugin enabled. It gives the developers the flexibility to hot update the function URI along with completely changing the faas vendor to a different cloud provider with zero hassle. Also, this approach mitigates authorization and authentication concerns from application logic as Apache APISIX has very strong authentication support that could be used to identify and authorize client consumers to access the particular route with the faas. This article talks about the recent addition of a new plugin <code>azure-functions</code>, and gives detailed instructions on how to integrate Azure Functions, which is a widely used serverless solution, into the Apache APISIX serverless suite.</p>
+<h2 id="how-azure-functions-plugin-works">How azure-functions plugin works</h2>
+<p>The <code>azure-functions</code> plugin lets the users define an upstream to the azure <code>HTTP Trigger</code> serverless function for a gateway URI. If enabled, this plugin terminates the ongoing request to that particular URI and initiates a new request to the azure faas (the new upstream) on behalf of the client with the suitable authorization details set by the users, request headers, request body, params(all these three components are passed from the original request) and returns the response body, status code and the headers back to the original client that has invoked the request to the Apache APISIX agent.</p>
+<p>The plugin supports authorization to azure faas service via API keys and azure active directory.</p>
+<h2 id="how-to-use-azure-functions-with-apache-apisix">How to Use Azure Functions with Apache APISIX</h2>
+<p>The primary goal of the plugin is to proxy the gateway route specified in the route configuration to the azure functions URI. This section gives you a hands-on how to configure and create a serverless HTTP Trigger on the azure cloud.</p>
+<ol>
+<li>
+<p>First sign up/in to Microsoft Azure and sets up a trial plan. Azure Functions are forever free up to 1 million invocations. To know more about how the pricing, visit <a href="https://azure.microsoft.com/en-us/services/functions/#pricing">here</a>.</p>
+</li>
+<li>
+<p>Visit the <a href="https://portal.azure.com/#home">Azure Portal</a> (FYI, azure services can be accessed via the web portal, CLI &#x26; VSCode. for user-friendliness we are using the web).</p>
+<ol>
+<li>First, create a resource group to logically partition your faas that’s you are going to create.
+<img src="https://static.apiseven.com/202108/1638349069240-911b8640-2de6-4f82-b75b-fb937b0bad40.png" alt="create a resource group"></li>
+<li>Create a function app with the URL of your choice (I am going to pick test-apisix).
+<img src="https://static.apiseven.com/202108/1638349121520-01abe8e6-bc09-4be7-b010-f7baec59f89a.png" alt="create a function app"></li>
+</ol>
+</li>
+<li>
+<p>Install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions">Azure Functions extension</a> into VSCode editor. Upon installation, authenticate via extension and install the azure function core tool for local development with:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">npm</span><span style="color:#A5D6FF"> install</span><span style="color:#79C0FF"> -g</span><span style="color:#A5D6FF"> azure-functions-core-tools@3</span><span style="color:#79C0FF"> --unsafe-perm</span><span style="color:#79C0FF"> true</span></span></code></pre>
+</li>
+<li>
+<p>Deploy the following snippet to the same function app that we just created via the Azure Functions extension panel in VSCode:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#79C0FF">module</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">exports</span><span style="color:#FF7B72"> =</span><span style="color:#FF7B72"> async</span><span style="color:#FF7B72"> function</span><span style="color:#E6EDF3"> (</span><span style="color:#FFA657">context</span><span style="color:#E6EDF3">, </span><span style="color:#FFA657">req</span><span style="color:#E6EDF3">) {</span></span>
+<span class="line"><span style="color:#E6EDF3">context.</span><span style="color:#D2A8FF">log</span><span style="color:#E6EDF3">(</span><span style="color:#A5D6FF">'HTTP trigger invoked on Test-APISIX.'</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> name</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> req.query.name </span><span style="color:#FF7B72">||</span><span style="color:#E6EDF3"> (req.body </span><span style="color:#FF7B72">&#x26;&#x26;</span><span style="color:#E6EDF3"> req.body.name)</span></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#79C0FF"> responseMessage</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> name</span></span>
+<span class="line"><span style="color:#FF7B72">    ?</span><span style="color:#A5D6FF"> 'Hello, '</span><span style="color:#FF7B72"> +</span><span style="color:#E6EDF3"> name</span></span>
+<span class="line"><span style="color:#FF7B72">    :</span><span style="color:#A5D6FF"> 'This HTTP triggered function executed successfully. Pass a name in the query string or in the request body to generate a personalized response.'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">context.res </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#8B949E">    // status: 200, /* Defaults to 200 */</span></span>
+<span class="line"><span style="color:#E6EDF3">    body: responseMessage,</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+</li>
+</ol>
+<blockquote>
+<p>This snippet takes the name from query parameters (if present, else from the request body) and greets the user.</p>
+</blockquote>
+<h3 id="activate-the-azure-functions-plugin">Activate the azure-functions plugin</h3>
+<p>The following is an example of how to enable the azure-functions plugin for a specific route. We are assuming your HTTP Trigger is deployed and ready to be served.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#8B949E"># enable plugin for a specific route</span></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "azure-functions": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "function_uri": "http://test-apisix.azurewebsites.net/api/HttpTrigger",</span></span>
+<span class="line"><span style="color:#A5D6FF">            "authorization": {</span></span>
+<span class="line"><span style="color:#A5D6FF">                "apikey": "&#x3C;Generated API key to access the Azure-Function>"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/azure"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<p>Now any requests (HTTP/1.1, HTTPS, HTTP2) to URI <code>/azure</code> on the Apache APISIX gateway will trigger an HTTP invocation to the aforesaid function URI and response body along with the response headers and response code will be proxied back to the client. For example ( here azure cloud function just take the <code>name</code> query param and returns <code>Hello $name</code>):</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -XGET</span><span style="color:#A5D6FF"> http://localhost:9080/azure</span><span style="color:#FF7B72">\?</span><span style="color:#A5D6FF">name=Bisakh</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/1.1</span><span style="color:#79C0FF"> 200</span><span style="color:#A5D6FF"> OK</span></span>
+<span class="line"><span style="color:#FFA657">Content-Type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">Transfer-Encoding:</span><span style="color:#A5D6FF"> chunked</span></span>
+<span class="line"><span style="color:#FFA657">Connection:</span><span style="color:#A5D6FF"> keep-alive</span></span>
+<span class="line"><span style="color:#FFA657">Request-Context:</span><span style="color:#A5D6FF"> appId=cid-v1:38aae829-293b-43c2-82c6-fa94aec0a071</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Wed,</span><span style="color:#79C0FF"> 19</span><span style="color:#A5D6FF"> Nov</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 18:46:55</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">Server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Hello,</span><span style="color:#A5D6FF"> Bisakh</span></span></code></pre>
+<p>Considering, Apache APISIX is also running with <code>enable_http2: true</code> on <a href="https://github.com/apache/apisix/blob/master/conf/config-default.yaml#L26">config-default.yaml</a> for port 9081 (say), any <code>HTTP/2</code> communication between client and APISIX agent will be proxied to the azure faas similar to HTTP/1.1 and responses will be proxied back to the client with proper headers. For example:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#79C0FF"> -XGET</span><span style="color:#79C0FF"> --http2</span><span style="color:#79C0FF"> --http2-prior-knowledge</span><span style="color:#A5D6FF"> http://localhost:9081/azure</span><span style="color:#FF7B72">\?</span><span style="color:#A5D6FF">name=Bisakh</span></span>
+<span class="line"><span style="color:#FFA657">HTTP/2</span><span style="color:#79C0FF"> 200</span></span>
+<span class="line"><span style="color:#FFA657">content-type:</span><span style="color:#A5D6FF"> text/plain</span><span style="color:#E6EDF3">; charset</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">utf-8</span></span>
+<span class="line"><span style="color:#FFA657">request-context:</span><span style="color:#A5D6FF"> appId=cid-v1:38aae829-293b-43c2-82c6-fa94aec0a071</span></span>
+<span class="line"><span style="color:#FFA657">Date:</span><span style="color:#A5D6FF"> Wed,</span><span style="color:#79C0FF"> 19</span><span style="color:#A5D6FF"> Nov</span><span style="color:#79C0FF"> 2021</span><span style="color:#A5D6FF"> 18:46:56</span><span style="color:#A5D6FF"> GMT</span></span>
+<span class="line"><span style="color:#FFA657">server:</span><span style="color:#A5D6FF"> APISIX/2.10.2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">Hello,</span><span style="color:#A5D6FF"> Bisakh</span></span></code></pre>
+<h3 id="deactivate-the-azure-functions-plugin">Deactivate the azure-functions plugin</h3>
+<p>Now, to disable the plugin simply remove the corresponding JSON configuration in the plugin configuration to disable the <code>azure-functions</code> plugin and add the suitable upstream configuration. Apache APISIX plugins are hot-reloaded, therefore is no need to restart Apache APISIX.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/routes/1</span><span style="color:#79C0FF"> -H</span><span style="color:#A5D6FF"> 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/azure",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {},</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "127.0.0.1:1980": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="custom-configuration">Custom Configuration</h2>
+<p>In a minimal configuration while creating a new route with the <code>azure-functions</code> plugin enabled, <code>function_uri</code> is the mandatory attribute of the plugin config that points to the function URL. There is a lot of additional options that can be tweaked with plugin schema and metadata schema.</p>
+<h3 id="plugin-schema">Plugin Schema</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Valid</th><th>Description</th></tr></thead><tbody><tr><td>function_uri</td><td>string</td><td>required</td><td>n/a</td><td>n/a</td><td>The azure function endpoint which triggers the serverless function code (eg. <a href="http://test-apisix.azurewebsites.net/api/HttpTrigger">http://test-apisix.azurewebsites.net/api/HttpTrigger</a>).</td></tr><tr><td>authorization</td><td>object</td><td>optional</td><td>n/a</td><td>n/a</td><td>Authorization credentials to access the cloud function.</td></tr><tr><td>authorization.apikey</td><td>string</td><td>optional</td><td>n/a</td><td>n/a</td><td>Field inside authorization. The generate API Key to authorize requests to that endpoint.</td></tr><tr><td>authorization.clientid</td><td>string</td><td>optional</td><td>n/a</td><td>n/a</td><td>Field inside authorization. The Client ID ( azure active directory ) to authorize requests to that endpoint.</td></tr><tr><td>timeout</td><td>integer</td><td>optional</td><td>3000</td><td>[100,…]</td><td>Proxy request timeout in milliseconds.</td></tr><tr><td>ssl_verify</td><td>boolean</td><td>optional</td><td>true</td><td>true/false</td><td>Whether enabled performs SSL verification of the server.</td></tr><tr><td>keepalive</td><td>boolean</td><td>optional</td><td>true</td><td>true/false</td><td>To reuse the same proxy connection in near future. Set to false to disable keepalives and immediately close the connection.</td></tr><tr><td>keepalive_pool</td><td>integer</td><td>optional</td><td>5</td><td>[1,…]</td><td>The maximum number of connections in the pool.</td></tr><tr><td>keepalive_timeout</td><td>integer</td><td>optional</td><td>60000</td><td>[1000,…]</td><td>The maximal idle timeout (ms).</td></tr></tbody></table>
+<p>This gives a whole lot of flexibility to tightly bind the behaviour of the azure faas - from configuring the timeout to the keepalive pool and validating the SSL certificate of the serverless faas. To be honest, this actually means a lot when it comes to serverless as the services are event-driven and resources are being allocated by the cloud provider on the fly.</p>
+<h3 id="metadata-schema">Metadata Schema</h3>
+<p>Similarly, there are a few attributes that can be tweaked by using the metadata.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Name</th><th>Type</th><th>Required</th><th>Default</th><th>Valid</th><th>Description</th></tr></thead><tbody><tr><td>master_apikey</td><td>string</td><td>optional</td><td>""</td><td>n/a</td><td>The API KEY secret that could be used to access the azure function URI.</td></tr><tr><td>master_clientid</td><td>string</td><td>optional</td><td>""</td><td>n/a</td><td>The Client ID (active directory) that could be used the authorize the function URI.</td></tr></tbody></table>
+<p>Metadata for <code>azure-functions</code> plugin provides the functionality for authorization fallback. It defines <code>master_apikey</code> and <code>master_clientid</code>(azure active directory client id) where users (optionally) can define the master API key or Client ID for mission-critical application deployment. So if there are no authorization details found inside the plugin attribute the authorization details present in the metadata kicks in.</p>
+<p>The relative priority ordering is as follows:</p>
+<ul>
+<li>
+<p>First, the plugin looks for <code>x-functions-key</code> or <code>x-functions-clientid</code> keys inside the request header to the Apache APISIX agent.</p>
+</li>
+<li>
+<p>If they are not found, the azure-functions plugin checks for the authorization details inside plugin attributes. If present, it adds the respective header to the request sent to the Azure cloud function.</p>
+</li>
+<li>
+<p>If no authorization details are found inside plugin attributes, Apache APISIX fetches the metadata config for this plugin and uses the master keys.</p>
+</li>
+</ul>
+<p>To add a new Master APIKEY, make a request to /apisix/admin/plugin_metadata endpoint with the updated metadata as follows:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> http://127.0.0.1:9080/apisix/admin/plugin_metadata/azure-functions</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#E6EDF3">-H </span><span style="color:#A5D6FF">'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1'</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#79C0FF"> -d</span><span style="color:#A5D6FF"> '</span></span>
+<span class="line"><span style="color:#A5D6FF">{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "master_apikey" : "&#x3C;Your azure master access key>"</span></span>
+<span class="line"><span style="color:#A5D6FF">}'</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>The <code>azure-functions</code> plugin is Apache APISIX’s second plugin designed for serverless. We are developing other serverless plugins and will feature them with the upcoming Apache APISIX releases. If you are interested, please don’t hesitate to <a href="https://github.com/apache/apisix/issues/new/choose">file an issue</a> to share your opinions. You can talk about your proposals for developing a new plugin in our <a href="https://apisix.apache.org/docs/general/join">mailing list</a> as well!</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2021/12/02/weekly-report-1130/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">Biweekly Report (Nov.15 - Nov.30)</span> </a> <a class="post-nav-card older" href="/blog/2021/12/01/release-apache-apisix-2.11/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Release Apache APISIX 2.11.0</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#how-azure-functions-plugin-works">How azure-functions plugin works</a></li><li class><a href="#how-to-use-azure-functions-with-apache-apisix">How to Use Azure Functions with Apache APISIX</a></li><li class="d3"><a href="#activate-the-azure-functions-plugin">Activate the azure-functions plugin</a></li><li class="d3"><a href="#deactivate-the-azure-functions-plugin">Deactivate the azure-functions plugin</a></li><li class><a href="#custom-configuration">Custom Configuration</a></li><li class="d3"><a href="#plugin-schema">Plugin Schema</a></li><li class="d3"><a href="#metadata-schema">Metadata Schema</a></li><li class><a href="#summary">Summary</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>Manage Apache APISIX with AI Coding Agents</h3> <p class="desc">A walkthrough of managing Apache APISIX from your AI coding agent using open-source Agent Skills — describe the outcome you want, and the agent runs the real gateway commands.</p> <p class="meta">Jul 10, 2026 · Ming Wen</p> </div> </a><a class="post-card" href="/blog/2025/07/31/load-balancing-between-ai-ml-api-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Load Balancing AI/ML API with Apache APISIX</h3> <p class="desc">Step-by-step guide to configure APISIX for AI traffic splitting and load balancing between API versions with canary testing.</p> <p class="meta">Jul 31, 2025 · Sergey Nuzhnyy</p> </div> </a><a class="post-card" href="/blog/2025/07/29/announcing-integration-of-apisix-and-ai-ml-api/"> <img class="cover" src="https://static.api7.ai/uploads/2025/07/23/d1O3mllW_apisix-ai-ml-api.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX Integrates AI/ML API: 300+ LLMs</h3> <p class="desc">APISIX now supports 300+ LLMs via AI/ML API integration. Access GPT-4, Claude, and more through a single secure endpoint.</p> <p class="meta">Jul 29, 2025 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

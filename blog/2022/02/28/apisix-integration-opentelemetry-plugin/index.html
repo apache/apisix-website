@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX OpenTelemetry Plugin: Distributed Tracing | Apache APISIX</title><meta name="description" content="Enable distributed tracing in APISIX with the OpenTelemetry plugin. Learn setup, configuration, and deployment steps."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX OpenTelemetry Plugin: Distributed Tracing | Apache APISIX"><meta property="og:description" content="Enable distributed tracing in APISIX with the OpenTelemetry plugin. Learn setup, configuration, and deployment steps."><meta property="og:url" content="https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX OpenTelemetry Plugin: Distributed Tracing","description":"Enable distributed tracing in APISIX with the OpenTelemetry plugin. Learn setup, configuration, and deployment steps.","datePublished":"2022-02-28","image":"https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png","author":{"@type":"Person","name":"Haochao Zhuang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2022/02/28/apisix-integration-opentelemetry-plugin/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2022/02/28/apisix-integration-opentelemetry-plugin/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX OpenTelemetry Plugin: Distributed Tracing</h1> <p class="article-meta"> <time datetime="2022-02-28">Feb 28, 2022</time> · Haochao Zhuang  · 7 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/plugins/">Plugins</a><a class="tag" href="/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#background-information">Background Information</a></li><li class><a href="#plugin-introduction">Plugin Introduction</a></li><li class><a href="#how-to-use">How to Use</a></li><li class="d3"><a href="#enable-plugin">Enable Plugin</a></li><li class="d3"><a href="#test-example">Test Example</a></li><li class="d3"><a href="#scenario-example">Scenario Example</a></li><li class><a href="#disable-plugin">Disable Plugin</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#related-articles">Related articles</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/plugins/opentelemetry.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>This article introduces you to the Apache APISIX <code>opentelemetry</code> plugin concept and how to enable and deploy the <code>opentelemetry</code> plugin.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="background-information">Background Information</h2>
+<p>Apache APISIX is a dynamic, real-time, high-performance API gateway that provides rich traffic management features such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. It not only has many useful plugins, but also supports plugin dynamic change and hot swap.</p>
+<p>OpenTelemetry is an open source telemetry data acquisition and processing system. It not only provides various SDKS for application side telemetry data collection and reporting, but also data collection side for data receiving, processing and exporting. Export to any or more OpenTelemetry backends, such as Jaeger, Zipkin, and OpenCensus, by configuration. You can view the list of plug-ins that have adapted the OpenTelemetry Collector in the opentelemetry collector contrib  library.</p>
+<p><img src="https://static.apiseven.com/202108/1646037628714-f542841e-ac27-4c13-a4c8-4cdef79ee501.png" alt="error/OpenTelemetry"></p>
+<h2 id="plugin-introduction">Plugin Introduction</h2>
+<p>The <code>opentelemetry</code> plugin of Apache APISIX implements Tracing data collection based on OpenTelemetry native standard (<a href="https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp-request">OTLP/HTTP</a>), and sends it to OpenTelemetry Collector through HTTP protocol. This feature will be supported online in Apache APISIX 2.13.0.</p>
+<p>Since the Agent/SDK of OpenTelemetry has nothing to do with the back-end implementation, when the application integrates the Agent/SDK of OpenTelemetry, the user can easily and freely change the observability backend service without any perception on the application side, such as switching from Zipkin into Jaeger.</p>
+<p>The <code>opentelemetry</code>plug-in integrates the OpenTelemetry Agent/SDK in Apache APISIX, which can collect traced requests, generate trace and forward them to the OpenTelemetry Collector.</p>
+<p>The <code>opentelemetry</code> plugin is located on the Agent side in the above figure, but currently only supports the <code>trace</code> part, and does not support the <code>logs</code> and <code>metrics</code> protocols of OpenTelemetry.</p>
+<h2 id="how-to-use">How to Use</h2>
+<h3 id="enable-plugin">Enable Plugin</h3>
+<p>You need to enable <code>opentelemetry</code> plugin and modify collector configuration in <code>conf/config.yaml</code> configuration file.</p>
+<p>It is assumed that you have already deployed the OpenTelemetry Collector and enabled the <a href="https://github.com/open-telemetry/opentelemetry-collector/blob/main/receiver/otlpreceiver/README.md">OTLP HTTP Receiver</a>.</p>
+<blockquote>
+<p>If you have not completed the deployment, you can refer to the Scenario Example section in the next section to complete the deployment of OpenTelemetry Collector.</p>
+</blockquote>
+<p>The default port of the OTLP HTTP Receiver is <code>4318</code>, and the address of <code>collector</code> is the HTTP Receiver address of the OpenTelemetry Collector. For related fields, please refer to the <a href="https://apisix.apache.org/zh/docs/apisix/next/plugins/opentelemetry/">Apache APISIX official documentation</a>.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>plugins</span></span>
+<span class="line"><span>... # Other plugins that have been enabled</span></span>
+<span class="line"><span>- opentelemetry</span></span>
+<span class="line"><span>plugin_attr:</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>opentelemetry:</span></span>
+<span class="line"><span>  trace_id_source: x-request-id</span></span>
+<span class="line"><span>  resource:</span></span>
+<span class="line"><span>    service.name: APISIX</span></span>
+<span class="line"><span>  collector:</span></span>
+<span class="line"><span>    address: 127.0.0.1:4318 # OTLP HTTP Receiver address</span></span>
+<span class="line"><span>    request_timeout: 3</span></span></code></pre>
+<h4 id="method-1-bind-the-plugin-to-the-specified-route">Method 1: Bind the plugin to the specified route</h4>
+<p>In order to show the test effect more conveniently, <code>sampler</code> is temporarily set to full sampling in the example to ensure that <code>trace</code> data is generated after each request is traced, so that you can view <code>trace</code> related data on the Web UI. You can also set relevant parameters according to the actual situation.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>-X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "uri": "/get",</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>      "opentelemetry": {</span></span>
+<span class="line"><span>          "sampler": {</span></span>
+<span class="line"><span>              "name": "always_on"</span></span>
+<span class="line"><span>          }</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "upstream": {</span></span>
+<span class="line"><span>      "type": "roundrobin",</span></span>
+<span class="line"><span>      "nodes": {</span></span>
+<span class="line"><span>          "httpbin.org:80": 1</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h4 id="method-2-set-global-rules">Method 2: Set Global Rules</h4>
+<p>You can also enable <code>opentelemetry</code> plugin through the Apache APISIX Plugins feature. After the global configuration is complete, you still need to create the route, otherwise it will not be possible to test.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl 'http://127.0.0.1:9080/apisix/admin/global_rules/1' \</span></span>
+<span class="line"><span>-H 'X-API-KEY:  edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>-X PUT -d '{</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>      "opentelemetry": {</span></span>
+<span class="line"><span>          "sampler": {</span></span>
+<span class="line"><span>              "name": "always_on"</span></span>
+<span class="line"><span>          }</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h4 id="method-3-customize-labels-for-span-through-additional_attributes">Method 3: Customize labels for Span through <code>additional_attributes</code></h4>
+<p>For the configuration of <code>sampler</code> and <code>additional_attributes</code>, you can refer to the <a href="https://apisix.apache.org/docs/apisix/next/plugins/opentelemetry/#attributes">Apache APISIX official documentation</a>, where <code>additional_attributes</code> is a series of <code>Key:Value</code> key value pairs, you can use it to customize the label for Span, and can follow Span to display on the Web UI. Add <code>route_id</code> and <code>http_x-custom-ot-key</code> to the span of a route through <code>additional_attributes</code>, you can refer to the following configuration:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1001 \</span></span>
+<span class="line"><span>-H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>-X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  "uri": "/put",</span></span>
+<span class="line"><span>  "plugins": {</span></span>
+<span class="line"><span>      "opentelemetry": {</span></span>
+<span class="line"><span>          "sampler": {</span></span>
+<span class="line"><span>              "name": "always_on"</span></span>
+<span class="line"><span>          },</span></span>
+<span class="line"><span>          "additional_attributes":[</span></span>
+<span class="line"><span>              "route_id",</span></span>
+<span class="line"><span>              "http_x-custom-ot-key"</span></span>
+<span class="line"><span>          ]</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  },</span></span>
+<span class="line"><span>  "upstream": {</span></span>
+<span class="line"><span>      "type": "roundrobin",</span></span>
+<span class="line"><span>      "nodes": {</span></span>
+<span class="line"><span>          "httpbin.org:80": 1</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<h3 id="test-example">Test Example</h3>
+<p>You can enable <code>opentelemetry</code> plugin in any of the above three methods. The following example uses the example of method three to create a route. After the creation is successful, you can refer to the following commands to access the route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl -X PUT -H `x-custom-ot-key: test-ot-val` http://127.0.0.1:9080/put</span></span></code></pre>
+<p>After the access is successful, you can see the details of the span similar to <code>/put</code> in the Jaeger UI, and you can see that the custom tags in the route are displayed in the Tags list: <code>http_x-custom-ot-key</code> and <code>route_id</code>.</p>
+<p><img src="https://static.apiseven.com/202108/1646039676695-a346734b-0498-4ff6-8882-789a61008544.png" alt="error/Span details.png"></p>
+<p>You need to note that the <code>additional_attributes</code> configuration is set to take values from Apache APISIX and Nginx variables as <code>attribute</code> values, so <code>additional_attributes</code> must be a valid Apache APISIX or Nginx variable. It also includes HTTP Header, but when fetching <code>http_header</code>, you need to add <code>http_</code> as the prefix of the variable name. If the variable does not exist, the <code>tag</code> will not be displayed.</p>
+<h3 id="scenario-example">Scenario Example</h3>
+<p>This scenario example deploys Collector, Jaeger, and Zipkin as backend services by simply modifying the official example of OpenTelemetry Collector, and starts two sample applications (Client and Server), where Server provides an HTTP service, and Client will cyclically call the server provided by the server. HTTP interface, resulting in a call chain consisting of two spans.</p>
+<h4 id="step-1-deploy-opentelemetry">Step 1: Deploy OpenTelemetry</h4>
+<p>The following uses <code>docker-compose</code> as an example. For other deployments, please refer to the <a href="https://opentelemetry.io/docs/collector/getting-started/">OpenTelemetry official documentation</a>.</p>
+<p>You can refer to the following command to deploy:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>git clone https://github.com/open-telemetry/opentelemetry-collector-contrib.git</span></span>
+<span class="line"><span>cd opentelemetry-collector-contrib/examples/demo</span></span>
+<span class="line"><span>docker-compose up -d</span></span></code></pre>
+<p>Enter <code>http://127.0.0.1:16886</code> (Jaeger UI) or <code>http://127.0.0.1:9411/zipkin</code> (Zipkin UI) in the browser. If it can be accessed normally, the deployment is successful.</p>
+<p>The following figure shows an example of successful access:</p>
+<p><img src="https://static.apiseven.com/202108/1646039980335-71bbb6f7-39d5-4153-b6e7-0305f52112f3.png" alt="error/Jaeger example.png"></p>
+<p><img src="https://static.apiseven.com/202108/1646040117233-7a18f85f-4037-43e3-bc63-0ff6d1dbe5c1.png" alt="error/Zipkin example.png"></p>
+<h4 id="step-2-configure-the-test-environment">Step 2: Configure the Test Environment</h4>
+<p>The Apache APISIX service is introduced, and the topology of the final application is shown in the following figure:</p>
+<p><img src="https://static.apiseven.com/202108/1646040225319-819f10ab-9643-4bd7-8f99-07f9a6c84bf8.png" alt="error/Architecture diagram.png"></p>
+<p>The Trace data reporting process is as follows. Among them, since Apache APISIX is deployed separately and not in the network of docker-compose, Apache APISIX accesses the OTLP HTTP Receiver of OpenTelemetry Collector through the locally mapped port (<code>127.0.0.1:4138</code>).</p>
+<p><img src="https://static.apiseven.com/202108/1646040470172-4d44c6ca-b890-4245-9c87-3a42d8b59f47.png" alt="error/Trace data reporting process.png"></p>
+<p>You need to make sure you have enabled the <code>opentelemetry</code> plugin and reload Apache APISIX.</p>
+<ol>
+<li>You can refer to the following example to create a route and enable the <code>opentelemetry</code> plugin for sampling:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' \</span></span>
+<span class="line"><span>  -X PUT -d '</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>    "uri": "/hello",</span></span>
+<span class="line"><span>    "plugins": {</span></span>
+<span class="line"><span>        "opentelemetry": {</span></span>
+<span class="line"><span>            "sampler": {</span></span>
+<span class="line"><span>                "name": "always_on",</span></span>
+<span class="line"><span>            }</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    },</span></span>
+<span class="line"><span>    "upstream": {</span></span>
+<span class="line"><span>        "type": "roundrobin",</span></span>
+<span class="line"><span>        "nodes": {</span></span>
+<span class="line"><span>            "127.0.0.1:7080": 1</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}'</span></span></code></pre>
+<ol start="2">
+<li>Modify the <code>./examples/demo/otel-collector-config.yaml</code> file and add the OTLP HTTP Receiver as follows:</li>
+</ol>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>receivers:</span></span>
+<span class="line"><span>  otlp:</span></span>
+<span class="line"><span>    protocols:</span></span>
+<span class="line"><span>      grpc:</span></span>
+<span class="line"><span>      http:${ip:port}   # add OTLP HTTP Receiver，default port is 4318</span></span></code></pre>
+<ol start="3">
+<li>Modify <code>docker-compose.yaml</code>.</li>
+</ol>
+<p>You need to modify the configuration file, change the interface address of Client calling Server to the address of Apache APISIX, and map the ports of OTLP HTTP Receiver and Server services to local.</p>
+<p>The following example is the complete docker-compose.yaml after the configuration is modified:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>version: "2"</span></span>
+<span class="line"><span>services:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Jaeger</span></span>
+<span class="line"><span>jaeger-all-in-one:</span></span>
+<span class="line"><span>  image: jaegertracing/all-in-one:latest</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "16686:16686" # jaeger ui port</span></span>
+<span class="line"><span>    - "14268"</span></span>
+<span class="line"><span>    - "14250"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Zipkin</span></span>
+<span class="line"><span>zipkin-all-in-one:</span></span>
+<span class="line"><span>  image: openzipkin/zipkin:latest</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "9411:9411"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Collector</span></span>
+<span class="line"><span>otel-collector:</span></span>
+<span class="line"><span>  image: ${OTELCOL_IMG}</span></span>
+<span class="line"><span>  command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]</span></span>
+<span class="line"><span>  volumes:</span></span>
+<span class="line"><span>    - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "1888:1888"   # pprof extension</span></span>
+<span class="line"><span>    - "8888:8888"   # Prometheus metrics exposed by the collector</span></span>
+<span class="line"><span>    - "8889:8889"   # Prometheus exporter metrics</span></span>
+<span class="line"><span>    - "13133:13133" # health_check extension</span></span>
+<span class="line"><span>    - "4317"        # OTLP gRPC receiver</span></span>
+<span class="line"><span>    - "4318:4318"   # Add OTLP HTTP Receiver port mapping</span></span>
+<span class="line"><span>    - "55670:55679" # zpages extension</span></span>
+<span class="line"><span>  depends_on:</span></span>
+<span class="line"><span>    - jaeger-all-in-one</span></span>
+<span class="line"><span>    - zipkin-all-in-one</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>demo-client:</span></span>
+<span class="line"><span>  build:</span></span>
+<span class="line"><span>    dockerfile: Dockerfile</span></span>
+<span class="line"><span>    context: ./client</span></span>
+<span class="line"><span>  environment:</span></span>
+<span class="line"><span>    - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317</span></span>
+<span class="line"><span>    - DEMO_SERVER_ENDPOINT=http://172.17.0.1:9080/hello # APISIX address</span></span>
+<span class="line"><span>  depends_on:</span></span>
+<span class="line"><span>    - demo-server</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>demo-server:</span></span>
+<span class="line"><span>  build:</span></span>
+<span class="line"><span>    dockerfile: Dockerfile</span></span>
+<span class="line"><span>    context: ./server</span></span>
+<span class="line"><span>  environment:</span></span>
+<span class="line"><span>    - OTEL_EXPORTER_OTLP_ENDPOINT=otel-collector:4317</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "7080:7080" # Map the Server port to the host</span></span>
+<span class="line"><span>  depends_on:</span></span>
+<span class="line"><span>    - otel-collector</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>prometheus:</span></span>
+<span class="line"><span>  container_name: prometheus</span></span>
+<span class="line"><span>  image: prom/prometheus:latest</span></span>
+<span class="line"><span>  volumes:</span></span>
+<span class="line"><span>    - ./prometheus.yaml:/etc/prometheus/prometheus.yml</span></span>
+<span class="line"><span>  ports:</span></span>
+<span class="line"><span>    - "9090:9090"</span></span></code></pre>
+<p>It should be noted that demo-client.environment.DEMO_SERVER_ENDPOINT needs to be changed to your Apache APISIX address, and ensure that it can be accessed normally in the container.</p>
+<p>Of course, you can also deploy Apache APISIX through <code>docker-compose.yaml</code>. For details, please refer to the <a href="https://github.com/apache/apisix-docker/blob/master/docs/en/latest/example.md">Apache APISIX official documentation</a>.</p>
+<h4 id="step-3-test">Step 3: Test</h4>
+<p>After the redeployment is completed, you can access the Jaeger UI or Zipkin UI to see that the Span of APISIX is included in the Trace, as shown below:</p>
+<p><img src="https://static.apiseven.com/202108/1646045290844-acfa071b-5a0d-4f7a-aa77-55838a3cb9f6.png" alt="error/Jaeger example.png"></p>
+<p><img src="https://static.apiseven.com/202108/1646045376329-e1344754-58b4-4a73-8aea-50e6a04f3b70.png" alt="error/Zipkin example.png"></p>
+<h2 id="disable-plugin">Disable Plugin</h2>
+<p>If you do not need trace collection of a route temporarily, you only need to modify the route configuration and delete the related configuration of <code>opentelemetry</code> under <code>plugins</code> in the configuration.</p>
+<p>You can only remove the configuration of the <code>opentelemetry</code> global plugin if you enabled it globally by binding Global Rules.</p>
+<h2 id="summary">Summary</h2>
+<p>After Apache APISIX integrates OpenTelemetry, it can easily connect with most mainstream Trace systems on the market with the help of OpenTelemetry’s rich plug-ins. In addition, Apache APISIX has also implemented SkyWalking and Zipkin native standard protocol plug-ins, and is also actively cooperating with major communities to create a more powerful ecosystem.</p>
+<p>Apache APISIX is also currently working on additional plugins to support integration with more services, so if you’re interested, feel free to start a discussion thread in our GitHub Discussion or communicate via the mailing list.</p>
+<h2 id="related-articles">Related articles</h2>
+<ul>
+<li>
+<p><a href="https://apisix.apache.org/blog/2021/11/04/skywalking/">The observability of Apache APISIX</a></p>
+</li>
+<li>
+<p><a href="https://apisix.apache.org/blog/2022/02/10/apisix-splunk-integration/">Integrating Splunk HTTP Event Collector with API Gateway</a></p>
+</li>
+</ul>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2022/03/01/apisix-integration-public-api-plugin/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">APISIX public-api Plugin: Protect Internal APIs</span> </a> <a class="post-nav-card older" href="/blog/2022/02/25/consul-api-gateway/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">How to Integrate API Gateway and Consul?</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#background-information">Background Information</a></li><li class><a href="#plugin-introduction">Plugin Introduction</a></li><li class><a href="#how-to-use">How to Use</a></li><li class="d3"><a href="#enable-plugin">Enable Plugin</a></li><li class="d3"><a href="#test-example">Test Example</a></li><li class="d3"><a href="#scenario-example">Scenario Example</a></li><li class><a href="#disable-plugin">Disable Plugin</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#related-articles">Related articles</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2023/08/14/rate-limit/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/08/07/jIphRpzX_rate-limit.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Rate Limit Your APIs With Apache APISIX</h3> <p class="desc">A guide to using the rate limit plugins in Apache APISIX with some practical examples.</p> <p class="meta">Aug 14, 2023 · Navendu Pottekkat</p> </div> </a><a class="post-card" href="/blog/2023/07/20/data-mask-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/07/13/p0iSJGOY_data-mask-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Creating a Custom Data Mask Plugin</h3> <p class="desc">A tutorial on creating a custom Apache APISIX plugin in Lua through a real use case.</p> <p class="meta">Jul 20, 2023 · Zeping Bai</p> </div> </a><a class="post-card" href="/blog/2023/07/07/tiny-apisix-plugin/"> <img class="cover" src="https://static.apiseven.com/uploads/2023/06/27/Z8CkI8kj_wasm-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>A &quot;Tiny&quot; APISIX Plugin</h3> <p class="desc">A &quot;tiny&quot; example to demonstrate how Apache APISIX supports Wasm plugins.</p> <p class="meta">Jul 7, 2023 · Navendu Pottekkat</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

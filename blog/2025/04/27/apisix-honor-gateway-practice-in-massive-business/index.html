@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>APISIX Gateway Practices in Honor&#39;s Massive Business | Apache APISIX</title><meta name="description" content="Explore Honor's API gateway journey using APISIX, featuring traffic scheduling, rate limiting, circuit breaking, and observability enhancements."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="APISIX Gateway Practices in Honor's Massive Business | Apache APISIX"><meta property="og:description" content="Explore Honor's API gateway journey using APISIX, featuring traffic scheduling, rate limiting, circuit breaking, and observability enhancements."><meta property="og:url" content="https://apisix.apache.org/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"APISIX Gateway Practices in Honor's Massive Business","description":"Explore Honor's API gateway journey using APISIX, featuring traffic scheduling, rate limiting, circuit breaking, and observability enhancements.","datePublished":"2025-04-27","image":"https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp","author":{"@type":"Person","name":"Jiahao Fu"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/" title="简体中文">中</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/blog/2025/04/27/apisix-honor-gateway-practice-in-massive-business/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/blog/tags/case-studies/">Case Studies</a> </div>  <a class="cta-link side-back" href="/blog/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>APISIX Gateway Practices in Honor&#39;s Massive Business</h1> <p class="article-meta"> <time datetime="2025-04-27">Apr 27, 2025</time> · Jiahao Fu  · 20 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/blog/tags/case-studies/">Case Studies</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#about-honor">About Honor</a></li><li class><a href="#evolution-and-architecture-of-honors-gateway">Evolution and Architecture of Honor’s Gateway</a></li><li class="d3"><a href="#evolution">Evolution</a></li><li class="d3"><a href="#honor-gateway-architecture">Honor Gateway Architecture</a></li><li class><a href="#gateway-practice-in-honors-massive-business">Gateway Practice in Honor’s Massive Business</a></li><li class="d3"><a href="#1-observability-traffic-mirroring">1. Observability: Traffic Mirroring</a></li><li class="d3"><a href="#2-traffic-scheduling-canary-release-plugin">2. Traffic Scheduling: Canary Release Plugin</a></li><li class="d3"><a href="#3-rate-limiting-and-security">3. Rate Limiting and Security</a></li><li class><a href="#performance-and-cost-optimization">Performance and Cost Optimization</a></li><li class="d3"><a href="#performance-optimization">Performance Optimization</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#future-outlook">Future Outlook</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/04/27/qq0YIAxK_honor-case-study.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Authors: Jiahao Fu, Weichuan Xu, Engineers from the PAAS Department at Honor. This article is based on the presentation given by the two engineers at the APISIX Shenzhen Meetup on April 12, 2025.</p>
+</blockquote>
+<!--truncate-->
+<h2 id="about-honor">About Honor</h2>
+<p>Established in 2013, <a href="https://www.honor.com/global/">Honor</a> is a global leader in smart terminal solutions. Its products are sold in over 100 countries and regions worldwide, with partnerships established with more than 200 operators. Honor operates over 52,000 experience stores and dedicated counters globally, with over 250 million active devices in use.</p>
+<p>As a world-class AI terminal ecosystem company, Honor is dedicated to revolutionizing human-machine interaction. Leveraging its diversified innovative product portfolio, including smartphones, personal computers, tablets, and wearable devices, Honor aims to empower every user to effortlessly enter and enjoy the new intelligent world.</p>
+<h2 id="evolution-and-architecture-of-honors-gateway">Evolution and Architecture of Honor’s Gateway</h2>
+<h3 id="evolution">Evolution</h3>
+<ul>
+<li>
+<p>Honor began exploring traffic gateway products in 2021, conducting preliminary research on APISIX in Q3, and officially introduced APISIX in Q4 to initiate the construction of its internal traffic gateway platform.</p>
+</li>
+<li>
+<p>In 2022, APISIX was officially deployed in Honor’s production environment. In Q1, pilot promotion of traffic access for consumer-facing (To C) business began; in Q2, APIs were open and available for deployment platforms, supporting traffic scheduling and container instance reporting. Furthermore, even when the deployment platform was not yet fully built, traffic access and scheduling can be performed by invoking APIs through scripts.</p>
+</li>
+<li>
+<p>In 2023, Q1 saw the completion of APISIX-CP containerization, followed by the launch of APISIX-DP elastic scaling in Q3. By Q4, a single cluster supported over ten million connections, and by year-end, full coverage of cloud services for To C business was achieved.</p>
+</li>
+<li>
+<p>In 2024, APISIX-DP containerization was completed in Q1, the runtime architecture was optimized to version 2.0 in Q2, and in Q4, Honor reached a throughput of 1 million QPS (queries per second) in a single cluster. By year-end, Honor’s API gateway, built on Apache APISIX, supported all of Honor’s business projects.</p>
+</li>
+<li>
+<p>To date, the APISIX-based gateway platform within Honor has achieved peak traffic volumes of millions of QPS. Leveraging APISIX’s extensibility, nearly 100 custom plugins have been developed.</p>
+</li>
+<li>
+<p>Moving forward, Honor’s technical team will explore the integration of AI with gateways and investigate how to enable automatic service reporting of gateways to Kubernetes.</p>
+</li>
+</ul>
+<h3 id="honor-gateway-architecture">Honor Gateway Architecture</h3>
+<p><img src="https://static.api7.ai/uploads/2025/05/13/TZKlAQ73_1-honor-gateway-architecture-2.webp" alt="Honor Gateway Architecture"></p>
+<h4 id="gateway-architecture">Gateway Architecture</h4>
+<ol>
+<li>
+<p><strong>Protocols Supported for Internal and External Networks</strong></p>
+<p>Honor’s gateway architecture is divided into internal and external network access:</p>
+<p>a. <strong>Protocols supported for external network</strong>: QUIC and HTTPS.</p>
+<p>b. <strong>Protocols supported for internal network</strong>: HTTP, HTTPS, and gRPC. Among these, gRPC primarily handles AI-related traffic, with its QPS showing significant growth over the past year.</p>
+</li>
+<li>
+<p><strong>Load Balancer and Proxy Selection</strong></p>
+<p>a. A <strong>load balancer</strong> (LB) is deployed in front of APISIX to connect with both layer 4 and layer 7 traffic in the public clouds.</p>
+<p>b. <strong>Layer 4 proxy</strong>: Initially used to publish all routes, but due to business launch issues that layer 4 proxy could not resolve, the setup was switched to layer 7 proxy.</p>
+</li>
+<li>
+<p><strong>API Clusters and Plugin Marketplace</strong></p>
+<p>a. <strong>API clusters</strong>: Multiple clusters share an etcd instance.</p>
+<p>b. <strong>Plugin marketplace</strong>: Lists common plugins such as authentication, rate limiting, WAF, and traffic labeling.</p>
+<p>c. <strong>Upstream deployment</strong>: Primarily based on containers, with a small number of virtual machines. Containers are connected to the deployment platform, which calls APIs to report traffic and instance information after container deployment.</p>
+</li>
+<li>
+<p><strong>Log Collection and Analysis</strong></p>
+<p>The Prometheus plugin is not used. Instead, logs are collected via Kafka and combined with Elastic Stack for metric analysis and alerting.</p>
+</li>
+<li>
+<p><strong>etcd Load Balancing Optimization</strong></p>
+<p>An additional layer of LB is added in front of etcd to address load imbalance issues when directly connecting to etcd nodes (e.g., excessively high node connection counts).</p>
+</li>
+</ol>
+<h4 id="gateway-features">Gateway Features</h4>
+<ul>
+<li>
+<p><strong>User Workflow Management</strong>: Covers domain management, certificate management, route registration, and canary release.</p>
+</li>
+<li>
+<p><strong>Plugin Management</strong>: Users upload plugins via the plugin marketplace, and the gateway platform conducts reviews and deployments.</p>
+</li>
+<li>
+<p><strong>Intelligent Deployment</strong>: Shields underlying cloud differences, supporting automated deployment and public cloud adaptation.</p>
+</li>
+</ul>
+<h4 id="low-loss-upgrades">Low-Loss Upgrades</h4>
+<p>Frequent plugin changes during regular operations raise concerns about downtime. By detaching APISIX nodes via LB to ensure all traffic is fully offline before upgrading, automated low-loss upgrades is achieved.</p>
+<h4 id="elastic-scaling">Elastic Scaling</h4>
+<p>To handle high-traffic scenarios, the gateway can be rapidly scaled out and promptly recovered via virtual machines, supporting automatic scaling. For example, when CPU usage exceeds a threshold, machines are automatically scaled out and attached to the load balancer.</p>
+<h4 id="plugin-deployment-and-automation">Plugin Deployment and Automation</h4>
+<ul>
+<li>
+<p><strong>Plugin Deployment</strong>: The management plane is connected to the runtime plane, with configurations pushed to CP for containerized deployment.</p>
+</li>
+<li>
+<p><strong>CP and DP Isolation</strong>: CP and DP connect to the etcd cluster, achieving isolation between the management and runtime planes.</p>
+</li>
+</ul>
+<h2 id="gateway-practice-in-honors-massive-business">Gateway Practice in Honor’s Massive Business</h2>
+<p>Initially, we utilized APISIX’s native plugins. As business grew and requirements evolved, native plugins became insufficient. Consequently, we expanded plugins based on the platform or user-specific needs, resulting in over 100 plugins to date.</p>
+<p align="center">
+  <img width="550" alt="Honor Plugin Ecosystem" src="https://static.api7.ai/uploads/2025/05/13/Pk221A8e_2-honor-plugins-2.webp">
+</p>
+<p>Plugins are categorized into four groups: traffic control, authentication, security, and observability. Since our clusters are predominantly deployed across dual Availability Zones (AZs) to ensure reliability, this setup introduces cross-AZ latency issues. To address this, the gateway facilitates local routing within the same AZ, ensuring traffic is forwarded to the nearest node.</p>
+<h3 id="1-observability-traffic-mirroring">1. Observability: Traffic Mirroring</h3>
+<p align="center">
+  <img width="700" alt="Honor Traffic Mirroring" src="https://static.api7.ai/uploads/2025/05/13/1wt6a77m_3-traffic-mirror-2.webp">
+</p>
+<h4 id="request-processing-and-traffic-mirroring">Request Processing and Traffic Mirroring</h4>
+<p>After a request reaches APISIX, the traffic is forwarded to the upstream service. During this process, the request is mirrored to a third-party asset platform. However, this mirroring operation is blocking, meaning that if the recording platform does not return a response, the client’s request is blocked. If the recording platform experiences a failure, it can severely impact the stability of production traffic. Therefore, instead of using the built-in mirroring features of NGINX or APISIX, we implemented asynchronous processing through a custom plugin.</p>
+<h4 id="asynchronous-traffic-processing-via-custom-plugin">Asynchronous Traffic Processing via Custom Plugin</h4>
+<ol>
+<li>
+<p>When a request arrives: The request is asynchronously saved to a queue.</p>
+</li>
+<li>
+<p>Upstream processing: APISIX forwards the request to the upstream server. Once the upstream response is returned, the client request process concludes.</p>
+</li>
+<li>
+<p>Asynchronous recording: Asynchronous threads extract requests from the queue and send them to the analytics platform for data recording. Since recording requests include timestamps, asynchronous operations do not affect production traffic.</p>
+</li>
+</ol>
+<p align="center">
+  <img width="700" alt="Custom Plugin Implementation" src="https://static.api7.ai/uploads/2025/05/13/7jNxZpWR_4-custom-plugin-2.webp">
+</p>
+<h4 id="recording-platform-features">Recording Platform Features</h4>
+<p>The recording platform is responsible for data collection and supports the following functionalities:</p>
+<ul>
+<li>
+<p>Allowing scaling of the traffic up or down during playback.</p>
+</li>
+<li>
+<p>Adding specific headers to replayed requests, thus facilitating end-to-end stress testing.</p>
+</li>
+</ul>
+<h4 id="queue-and-thread-optimization">Queue and Thread Optimization</h4>
+<p>To ensure system performance, we support configuring queue sizes and thread performance parameters. Although asynchronous forwarding does not directly impact formal requests, excessive asynchronous traffic can still increase APISIX’s CPU load. Therefore, it is recommended to select optimal parameters based on business requirements to balance performance and recording efficiency.</p>
+<h3 id="2-traffic-scheduling-canary-release-plugin">2. Traffic Scheduling: Canary Release Plugin</h3>
+<p>We have platformized the canary release feature and optimized the canary release plugin.</p>
+<h4 id="optimized-canary-release-plugin">Optimized Canary Release Plugin</h4>
+<p>Traditionally, canary release plugins support traffic distribution based on predefined rules or percentage-based allocations. However, percentage-based routing can lead to inconsistent traffic assignments; for instance, the same request might be routed to different environments at different times, potentially impacting stability in 2C scenarios.</p>
+<p>To address this, a <code>key-hash</code> plugin is introduced in front of the canary release plugin, combining with the canary release plugin to achieve stable traffic percentage allocation. The specific implementation is as follows:</p>
+<ol>
+<li>
+<p>Supports hash calculation based on specific request headers or Cookies.</p>
+</li>
+<li>
+<p>Uses the hash result as input for the canary release plugin to determine traffic allocation percentages.</p>
+</li>
+</ol>
+<p>This ensures consistent and stable traffic allocation, meeting the business requirements of To C scenarios.</p>
+<h4 id="transformed-end-to-end-canary-release-plugin">Transformed End-to-End Canary Release Plugin</h4>
+<p>In the end-to-end canary release scenario, we have transformed the canary release plugin to achieve precise traffic scheduling. As shown in the diagram below, Service A is in a canary state, while Services B and C are in the production environment. To maintain the current traffic flow from Service A to B while directing the traffic of Service C to the canary environment, this goal is achieved through an API gateway. The specific implementation is as follows:</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/13/HhJNflQZ_5-canary-plugin-2.webp" alt="End-to-End Canary Release Plugin Transformation"></p>
+<ol>
+<li>
+<p><strong>Tag Traffic and Insert Request Header</strong></p>
+<p>a. When traffic passes through the APISIX API gateway, it is tagged based on canary release policies.</p>
+<p>b. If the traffic is canary traffic, the gateway inserts a specific request header (e.g., honor-tag</p><div></div>) into the request to indicate it as canary traffic.<p></p>
+</li>
+<li>
+<p><strong>Register and Tag Service</strong></p>
+<p>a. When Service A registers with the registration center, it also registers its canary tag (e.g., gray).</p>
+<p>b. The registration center maintains the mapping between service canary tags and instances.</p>
+</li>
+<li>
+<p><strong>Service-to-Service Scheduling</strong></p>
+<p>a. Service A calling Service B:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span> i. After receiving a request, Service A first checks if the request contains a canary tag (e.g., honor-tag:gray).</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> ii. If the request includes a canary tag, Service A retrieves Service B's canary instances from the registration center based on the tag and prioritizes scheduling to canary instances.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> iii. If Service B has no canary instances, it falls back to scheduling production instances.</span></span></code></pre>
+<p>b. Service B calling Service C:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span> i. After receiving the canary tag (e.g., honor-tag:gray) passed from Service A, Service B retrieves Service C's canary instances from the registration center based on the tag.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span> ii. If Service C has canary instances, the request is scheduled to the canary instance; otherwise, it is scheduled to a production instance.</span></span></code></pre>
+</li>
+<li>
+<p><strong>End-to-End Canary Release</strong></p>
+<p>a. Through the transparent transmission of request headers (e.g., honor-tag</p><div></div>), the canary tag remains consistent throughout the service chain.<p></p>
+<p>b. Each node in the service chain makes scheduling decisions based on the canary tag, enabling end-to-end canary release.</p>
+</li>
+</ol>
+<p>Through these transformations, we have achieved precise traffic scheduling for end-to-end canary releases, ensuring consistency and stability of canary traffic across the entire service chain.</p>
+<h3 id="3-rate-limiting-and-security">3. Rate Limiting and Security</h3>
+<p>APISIX offers rich plugins covering single-node rate limiting and distributed rate limiting solutions. Below are optimization practices for the single-node rate-limiting solution.</p>
+<h4 id="31-rate-limiting">3.1 Rate Limiting</h4>
+<h5 id="single-node-rate-limiting">Single-Node Rate Limiting</h5>
+<p><strong>Background and Challenges</strong></p>
+<p>Initially, when adopting the single-node rate limiting solution, we encountered several challenges.</p>
+<ol>
+<li>
+<p>If users needed to set a global rate limit (e.g., 4,000 QPS), they had to manually coordinate with platform administrators to confirm the number of gateway nodes and allocate the rate limit value accordingly (e.g., 2,000 QPS per node for two nodes). This process was cumbersome and error-prone.</p>
+</li>
+<li>
+<p>In the elastic scaling scenario, when the gateway triggers scaling up or down, there may be a mismatch in the throttling values. For example, the CPU usage reached 80%, triggering an automatic scale-out. Assume each node was initially configured with a 2000 QPS limit; increasing the node count to three would inadvertently raise the total rate limit to 6000 QPS. This could overwhelm backend services, leading to potential system anomalies.</p>
+</li>
+</ol>
+<p align="center">
+  <img width="500" alt="Single-Node Rate Limiting" src="https://static.api7.ai/uploads/2025/05/13/GzaePNL2_6-rate-limiting-2.webp">
+</p>
+<p><strong>Solution</strong></p>
+<p>To address these issues, we implemented the following solutions:</p>
+<p align="center">
+  <img width="500" alt="Upgraded Single-Node Rate Limiting Solution" src="https://static.api7.ai/uploads/2025/05/13/9egDM2V0_7-rate-limiting-upgrade-2.webp">
+</p>
+<ol>
+<li>
+<p><strong>Node Reporting and Maintenance</strong></p>
+<p>a. Implementation: Utilizing the <code>server-info</code> plugin of APISIX, each DP node’s information, such as hostname, is written to etcd as a leased key at regular intervals.</p>
+<p>b. “Heartbeat Mechanism”: By periodically updating (similar to a heartbeat mechanism), etcd consistently maintains all active DP node information in the API gateway.</p>
+</li>
+<li>
+<p><strong>Dynamic Rate Limiting Calculation</strong></p>
+<p>a. Plugin Development: A new plugin periodically retrieves all the node information from etcd to determine the total number of gateway nodes.</p>
+<p>b. Excluding CP Nodes: Due to control plane nodes do not handle traffic, only count the number of DP nodes.</p>
+<p>c. Dynamic Rate Limit Adjustment: During rate limiting, the plugin dynamically calculates the base rate limit each node should handle, ensuring the rate limit aligns with the actual number of nodes.</p>
+</li>
+<li>
+<p><strong>Performance Optimization</strong></p>
+<p>a. Privileged Process Pulling: Only privileged processes are allowed to periodically retrieve gateway information from etcd, reducing etcd load and minimizing APISIX overhead.</p>
+<p>b. Shared Memory Mechanism: Privileged processes write retrieved data to shared memory, and other processes periodically query shared memory to obtain node information.</p>
+</li>
+<li>
+<p><strong>Plugin Abstraction and Reuse</strong></p>
+<p>a. Common Plugin Abstraction: The dynamic rate limiting optimization capability is abstracted into a common plugin, providing a unified interface.</p>
+<p>b. Plugin Reuse: Many internal plugins (e.g., fixed window rate limiting, custom performance plugins) can query the number of nodes from shared memory and dynamically adjust configurations to meet optimization requirements.</p>
+</li>
+</ol>
+<h5 id="distributed-rate-limiting">Distributed Rate Limiting</h5>
+<p>The open-source APISIX community also provides a distributed rate-limiting solution.</p>
+<p><strong>Background and Challenges</strong></p>
+<p>When applying the open-source distributed rate limiting solution, we encountered the following key issues:</p>
+<ol>
+<li>
+<p><strong>Redis Performance Bottleneck</strong>: In scenarios where rate limiting is applied using a single key, particularly when the rate limit rule targets an entire route rather than specific route characteristics, the Redis key becomes overly singular. This leads to all requests being directed to the same Redis shard, preventing effective load balancing through horizontal scaling.</p>
+</li>
+<li>
+<p><strong>Network Performance Overhead</strong>: Frequent Redis requests result in a significant increase in CPU usage, with utilization rising by over 50%.</p>
+</li>
+<li>
+<p><strong>Increased Request Latency</strong>: Open-source distributed rate limiting solutions typically require accessing Redis to complete counting before forwarding the request upstream. This process adds 2–3 milliseconds to the latency of business requests.</p>
+</li>
+</ol>
+<p align="center">
+  <img width="500" alt="Distributed Rate Limiting" src="https://static.api7.ai/uploads/2025/05/13/XLwUO4Gc_8-distributed-rate-limiting-2.webp">
+</p>
+<p><strong>Solution</strong></p>
+<p>To address these issues, we designed the following optimizations:</p>
+<p align="center">
+  <img width="500" alt="Upgraded Distributed Rate Limiting Solution" src="https://static.api7.ai/uploads/2025/05/13/J4Ie3Hkg_9-distributed-rate-limiting-upgrade-2.webp">
+</p>
+<ol>
+<li>
+<p><strong>Introducing Local Counting Cache</strong>:</p>
+<p>a. <strong>Local Counting Mechanism</strong>: When a request arrives, a count is first deducted from the local counting cache. If the count does not reach zero, the request is allowed to proceed.</p>
+<p>b. <strong>Asynchronous Synchronization Mechanism</strong>: The local count is periodically synchronized with Redis asynchronously. The number of requests between two synchronization periods is counted and deducted from Redis. After synchronization, the Redis count overrides the local cache, ensuring consistency in distributed rate limiting.</p>
+</li>
+<li>
+<p><strong>Error Control</strong>: By applying reasonable formulas and parameter configurations, the error rate is controlled within 3–4%, ensuring rate limiting accuracy meets business requirements.</p>
+</li>
+</ol>
+<p><strong>Applicable Scenarios</strong></p>
+<ul>
+<li>
+<p><strong>High QPS Applications</strong>: This solution is suitable for high QPS applications, significantly reducing Redis performance bottlenecks and network overhead.</p>
+</li>
+<li>
+<p><strong>Low QPS Applications</strong>: For low QPS applications (e.g., a few hundred QPS), the existing distributed rate limiting solution generally meets requirements without additional optimization.</p>
+</li>
+</ul>
+<h4 id="32-high-reliable-circuit-breaker-plugin">3.2 High-Reliable Circuit Breaker Plugin</h4>
+<p><strong>Background and Challenges</strong></p>
+<p>Although the open-source community provides a circuit breaker plugin, evaluation revealed it does not meet internal requirements in two aspects:</p>
+<ol>
+<li>
+<p><strong>Lack of Failure Rate Support</strong>: The open-source circuit breaker plugin strategy does not support circuit breaking based on failure rates.</p>
+</li>
+<li>
+<p><strong>State Transition</strong>: The circuit breaker plugin has only on/off states, which may allow a large number of requests to pass during state transitions, exacerbating upstream service degradation and potentially collapsing the gateway due to upstream response timeouts.</p>
+</li>
+</ol>
+<p><strong>Custom Circuit Breaker Plugin</strong></p>
+<p>To address these issues, Honor developed a new circuit breaker plugin based on APISIX. Its design features include:</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/13/OtD0QeE2_10-circuit-breaking-plugin-2.webp" alt="Custom Circuit Breaker Plugin"></p>
+<ol>
+<li>
+<p><strong>Percentage-Based Circuit Breaking Strategy</strong>: Supports circuit breaking based on percentages, offering finer control.</p>
+</li>
+<li>
+<p><strong>Three-State Control Mechanism</strong>:</p>
+<p>a. Closed State: All requests are allowed to pass.</p>
+<p>b. Open State: All requests are rejected until the circuit breaker time expires.</p>
+<p>c. Half-Open State: A limited number of requests are allowed to pass to assess whether upstream services have recovered.</p>
+</li>
+<li>
+<p><strong>Silent Count Mechanism</strong>: The concept of a silent count is introduced to prevent state transitions triggered by a small number of requests. Only when the request count reaches the silent count and the failure rate exceeds the threshold does the state transition to open.</p>
+</li>
+</ol>
+<p><strong>State Transition Process</strong></p>
+<ul>
+<li>
+<p><strong>Closed to Open</strong>: When the request count reaches the silent count and the failure rate exceeds the threshold, the circuit breaker transitions to the open state.</p>
+</li>
+<li>
+<p><strong>Open to Half-Open</strong>: After the circuit break time expires, the state transitions to half-open.</p>
+</li>
+<li>
+<p><strong>Half-Open to Closed</strong>: In the half-open state, if the number of allowed requests reaches the configured value and upstream services recover, the state transitions to closed; if the failure rate remains high or there is no response, it reverts to the open state.</p>
+</li>
+</ul>
+<p><strong>Design Updates Based on Sentinel</strong></p>
+<ul>
+<li>
+<p><strong>Window Mechanism</strong>: Unlike Sentinel’s sliding window, we adopted a fixed window focused on failure rates within a time period, simplifying implementation and reducing performance overhead.</p>
+</li>
+<li>
+<p><strong>Architecture Adaptation</strong>: To accommodate NGINX’s multi-process architecture, shared memory was introduced to store state, ensuring consistent behavior across workers and avoiding the complexity and performance costs associated with sliding windows.</p>
+</li>
+</ul>
+<h4 id="33-enhance-reliability-with-bypass-waf">3.3 Enhance Reliability with Bypass WAF</h4>
+<p><strong>Limitations of Inline WAF</strong></p>
+<p>As shown in the left architecture diagram, traditional WAFs require modifying DNS records to route traffic to the WAF. After inspecting and filtering the traffic, WAFs forward it back to the origin server. However, this architecture is prone to single points of failure. If the WAF itself encounters a malfunction, it can disrupt the entire traffic flow, adversely affecting business operations.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/13/RQXL4gUx_11-waf-2.webp" alt="Upgraded Bypass WAF Solution"></p>
+<p><strong>Bypass WAF</strong></p>
+<p>To resolve this issue, Honor, in collaboration with <a href="https://api7.ai/">API7.ai</a> and Tencent Cloud, implemented a bypass WAF architecture:</p>
+<ol>
+<li>
+<p><strong>Optimized Traffic Path</strong>: Traffic no longer needs to pass through the WAF; instead, it is directed straight to the APISIX cluster.</p>
+</li>
+<li>
+<p><strong>Traffic Splitting for Detection</strong>: Within the APISIX cluster, a portion of the traffic is forwarded to the WAF for inspection to determine whether it is normal or contains malicious attacks (e.g., egress attacks and command egress attacks).</p>
+</li>
+<li>
+<p><strong>Status Code Response Mechanism</strong>:</p>
+<p>a. If the WAF detects normal traffic, it returns a <code>200</code> status code, allowing the request to pass through to the upstream server.</p>
+<p>b. If the WAF detects malicious attacks, it returns a status code similar to <code>403</code>, rejecting the request.</p>
+</li>
+<li>
+<p><strong>Fault Tolerance</strong>: If the WAF fails, traffic can be directly forwarded to the backend, preventing link interruption due to WAF failure and enhancing overall link reliability.</p>
+</li>
+</ol>
+<h2 id="performance-and-cost-optimization">Performance and Cost Optimization</h2>
+<h3 id="performance-optimization">Performance Optimization</h3>
+<h4 id="health-checker-optimization">Health Checker Optimization</h4>
+<p><strong>Background and Challenges</strong></p>
+<p>In high-traffic internal business scenarios, with over a thousand upstream nodes, frequent rolling updates triggered the destruction and creation of health checkers. This led to significant CPU usage spikes.</p>
+<ol>
+<li>
+<p>Upstream Destruction and Creation: Upon upstream updates, health checkers were destroyed. Health checkers are only probed when client requests arrive; if they do not exist, they are immediately created.</p>
+</li>
+<li>
+<p>Node-by-Node Addition: During creation, all nodes had to be traversed and individually added to the health checker’s shared memory. This process involved extensive locking operations and memory writes, resulting in significant performance degradation.</p>
+</li>
+</ol>
+<p><strong>Solutions</strong></p>
+<ol>
+<li>
+<p><strong>Delayed Destruction</strong>: During upstream updates, health checkers are temporarily not destroyed but merely lose their references, reducing performance overhead from frequent destruction and creation.</p>
+</li>
+<li>
+<p><strong>Caching Mechanism</strong>: When creating health checkers, they are cached with their creation time recorded. Subsequent requests first check if the health checker exists. If not, the cache is replenished. If not expired, it is directly returned; if expired, it is recreated.</p>
+</li>
+<li>
+<p><strong>Batch Updates</strong>: All upstream nodes are batch-updated to the health checker’s shared memory, reducing the overhead of node-by-node operations.</p>
+</li>
+<li>
+<p><strong>Concurrency Control</strong>: A concurrency control mechanism is introduced to ensure only one worker is responsible for creating health checkers at any given time, preventing multiple workers from performing the same operation simultaneously and significantly reducing CPU consumption.</p>
+</li>
+</ol>
+<p><strong>Results</strong></p>
+<p>In scenarios involving frequent updates of 2,000 upstream nodes, the optimized approach resulted in only a ~2% increase in CPU usage, a substantial improvement compared to the previous 20% increase. This demonstrates a significant reduction in performance overhead and highlights the effectiveness of the optimization.</p>
+<p><img src="https://static.api7.ai/uploads/2025/05/14/Y80U5dQy_optimized-health-checker-2.webp" alt="Health Checker Optimization"></p>
+<h4 id="cost-optimization">Cost Optimization</h4>
+<p>Cost optimization primarily focuses on three aspects: traffic compression, static single-line EIP transformation, and gateway scaling.</p>
+<h4 id="traffic-compression">Traffic Compression</h4>
+<p><strong>Background</strong></p>
+<p>Through statistics on gateway costs, approximately three-quarters of the total cost is attributed to traffic costs. Therefore, our optimization efforts first target traffic reduction.</p>
+<p><strong>Solutions</strong></p>
+<p>Honor provides compression plugins such as br and gzip, supporting dynamic compression. These plugins are user-friendly; businesses only need to include a compression identifier in the request, and clients and browsers typically support decompression.</p>
+<p><strong>Results</strong></p>
+<p>In cloud providers’ LB billing models, traffic volume is the primary billing factor. By using compression plugins, LB costs and EIP bandwidth costs can be reduced, with a maximum compression rate exceeding 70%, significantly lowering traffic costs.</p>
+<h4 id="static-single-line-eip-transformation">Static Single-Line EIP Transformation</h4>
+<p><strong>Background</strong></p>
+<p>BGP EIP bandwidth costs are prohibitively high.</p>
+<p><strong>Solutions</strong></p>
+<ol>
+<li>
+<p>Configure a static single-line EIP for gateway clusters, supplemented by a backup BGP EIP.</p>
+</li>
+<li>
+<p>Use DNS intelligent resolution to direct mainstream carrier routes to corresponding single-line EIPs.</p>
+</li>
+</ol>
+<p><strong>Results</strong></p>
+<p>Single-line EIP costs are one-third of BGP EIP costs, saving approximately two-thirds of public network bandwidth expenses.</p>
+<h4 id="gateway-scaling">Gateway Scaling</h4>
+<p><strong>Optimization</strong></p>
+<p>Implement elastic gateway scaling based on CPU and memory utilization.</p>
+<p><strong>Results</strong></p>
+<p>Ensure resource utilization remains within a reasonable range to avoid resource waste or insufficiency.</p>
+<h2 id="summary">Summary</h2>
+<p>Since adopting APISIX in 2021, Honor has developed a high-performance, scalable, and reliable API gateway to support the rapid growth of its extensive business through continuous optimization and expansion. The following are the achievements of Honor using Apache APISIX:</p>
+<ul>
+<li>
+<p><strong>Traffic Handling</strong>: Honor’s API gateway has evolved from pilot deployments to comprehensive coverage, handling peak traffic volumes reaching millions of QPS.</p>
+</li>
+<li>
+<p><strong>Plugins</strong>: To meet diverse business requirements, Honor has developed nearly 100 custom plugins.</p>
+</li>
+<li>
+<p><strong>Architecture Stability and Scalability</strong>: Through optimizations such as internal and external network protocol supports, load balancer upgrades, and plugin marketplace development, the platform’s stability and scalability have been enhanced.</p>
+</li>
+<li>
+<p><strong>Features</strong>: optimizations such as canary releases, rate limiting, circuit breaking, and bypass WAF architecture ensure precise traffic scheduling and enhance reliability.</p>
+</li>
+<li>
+<p><strong>Performance</strong>: Health checker optimizations and concurrency control significantly lower CPU usage.</p>
+</li>
+<li>
+<p><strong>Cost</strong>: Strategies like traffic compression, EIP transformation, and scaling techniques substantially reduce expenses.</p>
+</li>
+</ul>
+<h2 id="future-outlook">Future Outlook</h2>
+<p>Moving forward, Honor plans to integrate artificial intelligence into its API gateway platform to enhance intelligent traffic management and decision-making processes. Additionally, through innovative approaches such as containerized auto-reporting mechanisms, Honor aims to help internal teams achieve efficient resource management and business deployment in Kubernetes environments.</p>  <footer class="article-footer"> <a class="cta-link" href="/blog/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/blog/2025/04/30/2025-april-monthly-report/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">2025 Monthly Report (April 01 - April 30)</span> </a> <a class="post-nav-card older" href="/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Host MCP Servers via HTTP SSE with APISIX</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#about-honor">About Honor</a></li><li class><a href="#evolution-and-architecture-of-honors-gateway">Evolution and Architecture of Honor’s Gateway</a></li><li class="d3"><a href="#evolution">Evolution</a></li><li class="d3"><a href="#honor-gateway-architecture">Honor Gateway Architecture</a></li><li class><a href="#gateway-practice-in-honors-massive-business">Gateway Practice in Honor’s Massive Business</a></li><li class="d3"><a href="#1-observability-traffic-mirroring">1. Observability: Traffic Mirroring</a></li><li class="d3"><a href="#2-traffic-scheduling-canary-release-plugin">2. Traffic Scheduling: Canary Release Plugin</a></li><li class="d3"><a href="#3-rate-limiting-and-security">3. Rate Limiting and Security</a></li><li class><a href="#performance-and-cost-optimization">Performance and Cost Optimization</a></li><li class="d3"><a href="#performance-optimization">Performance Optimization</a></li><li class><a href="#summary">Summary</a></li><li class><a href="#future-outlook">Future Outlook</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/blog/2025/09/03/360-built-unified-l7-load-balancer-with-apisix/"> <img class="cover" src="https://static.api7.ai/uploads/2025/09/05/SWaSLAns_360-zyun-cloud-use-case.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>360 Built Unified L7 Load Balancer Using Apache APISIX</h3> <p class="desc">360 unifies Layer 7 load balancing using APISIX, gaining VPC, cloud-native, and fine-grained routing in one seamless upgrade.</p> <p class="meta">Sep 3, 2025 · 360 ZYUN Cloud</p> </div> </a><a class="post-card" href="/blog/2025/06/04/configure-apisix-in-a-single-command-with-apisix-mcp/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>Configure APISIX in a Single Command with APISIX-MCP</h3> <p class="desc">This article is based on Zhihuang Lin&#39;s presentation at the APISIX Shenzhen Meetup on April 12, 2025.</p> <p class="meta">Jun 4, 2025 · Zhihuang Lin</p> </div> </a><a class="post-card" href="/blog/2025/05/29/apisix-ai-gateway-from-cloud-native-to-ai-native/"> <img class="cover" src="https://static.apiseven.com/uploads/2024/12/25/dxrwyegf_api7-cover.png" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI Gateway: From Cloud-Native to AI-Native</h3> <p class="desc">Learn how Apache APISIX evolves from cloud-native API Gateway to AI Gateway for LLM traffic management, security, observability, and token governance.</p> <p class="meta">May 29, 2025 · Yuansheng Wang</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/plugins/">Plugin Hub</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

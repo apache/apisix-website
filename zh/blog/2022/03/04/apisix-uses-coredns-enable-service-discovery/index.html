@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API 网关 APISIX 携手 CoreDNS 打开服务发现新大门 | Apache APISIX</title><meta name="description" content="云原生 API 网关 Apache APISIX 集成了多种服务发现的能力，本文将为您展示如何在 APISIX 中配置 CoreDNS 并且为你介绍了服务发现的模式以及使用 CoreDNS 的优势。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API 网关 APISIX 携手 CoreDNS 打开服务发现新大门 | Apache APISIX"><meta property="og:description" content="云原生 API 网关 Apache APISIX 集成了多种服务发现的能力，本文将为您展示如何在 APISIX 中配置 CoreDNS 并且为你介绍了服务发现的模式以及使用 CoreDNS 的优势。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/CoreDNS.png"><meta name="twitter:image" content="https://static.apiseven.com/2022/blog/0818/ecosystem/CoreDNS.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"API 网关 APISIX 携手 CoreDNS 打开服务发现新大门","description":"云原生 API 网关 Apache APISIX 集成了多种服务发现的能力，本文将为您展示如何在 APISIX 中配置 CoreDNS 并且为你介绍了服务发现的模式以及使用 CoreDNS 的优势。","datePublished":"2022-03-04","image":"https://static.apiseven.com/2022/blog/0818/ecosystem/CoreDNS.png","author":{"@type":"Person","name":"陈梓杰"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/"}]</script><link rel="stylesheet" href="/_astro/Base.CIk6yEJ-.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/" title="English">EN</a> </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2022/03/04/apisix-uses-coredns-enable-service-discovery/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>API 网关 APISIX 携手 CoreDNS 打开服务发现新大门</h1> <p class="article-meta"> <time datetime="2022-03-04">2022年3月4日</time> · 陈梓杰  · 约 6 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#背景信息">背景信息</a></li><li class><a href="#服务发现简介">服务发现简介</a></li><li class="d3"><a href="#客户端服务发现模式">客户端服务发现模式</a></li><li class="d3"><a href="#服务端服务发现模式">服务端服务发现模式</a></li><li class><a href="#使用-coredns-的优势">使用 CoreDNS 的优势</a></li><li class><a href="#原理架构">原理架构</a></li><li class><a href="#如何使用">如何使用</a></li><li class="d3"><a href="#前提条件">前提条件</a></li><li class="d3"><a href="#操作步骤">操作步骤</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.apiseven.com/2022/blog/0818/ecosystem/CoreDNS.png" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Apache APISIX 是一个动态、实时、高性能的云原生 API 网关，提供了负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。作为云原生 API 网关，Apache APISIX 也集成了多种服务发现的能力，本文将为您展示在 Apache APISIX 中如何配置 CoreDNS。</p>
+</blockquote>
+<!--truncate-->
+<h2 id="背景信息">背景信息</h2>
+<p>在传统的物理机和虚拟机部署中，各个服务之间的调用可以通过固定 <strong>IP + 端口</strong>的方式进行。随着云原生时代的到来，企业业务的部署更倾向于云原生容器化。但是在容器化环境中，服务实例的启动和销毁是非常频繁的，如果通过运维人员手动维护不仅工作量大，而且效果也欠佳。因此需要一种机制可以自动检测服务状态，当服务地址出现变更时，动态绑定新的地址。服务发现机制应运而生。</p>
+<h2 id="服务发现简介">服务发现简介</h2>
+<p>服务发现机制可以分为两部分：</p>
+<ul>
+<li>服务注册中心：存储服务的主机和端口信息。</li>
+</ul>
+<p>假如某个容器对外提供计算平均值的服务，我们使用 <code>average</code> 的服务名作为唯一标识符，那么在服务注册中心就会以键值对（<code>average:192.168.1.21</code>）的方式存储。</p>
+<ul>
+<li>服务发现：允许其他用户发现服务注册阶段存储的信息。分为客户端发现模式和服务端发现模式。</li>
+</ul>
+<h3 id="客户端服务发现模式">客户端服务发现模式</h3>
+<p>在使用客户端发现模式时，客户端通过查询服务注册中心的存储信息，获取可用服务的实际网络地址后，通过负载均衡算法选择一个可用的服务实例，并将请求发送至该服务。</p>
+<ul>
+<li>优点：架构简单，扩展灵活，方便实现负载均衡功能。</li>
+<li>缺点：重客户端，强耦合，有一定开发成本。</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1646299482001-9bba7b28-1780-44c8-869d-b75bc993c021.png" alt="error/client service discovery.png"></p>
+<p>客户端发现模式实现逻辑如下：</p>
+<ol>
+<li>新服务启动时，主动向注册中心注册，服务注册中心会存储新服务的服务名和地址；</li>
+<li>当客户端需要这个服务时，会使用服务名向服务注册中心发起查询；</li>
+<li>服务注册中心返回可用的地址，客户端再根据具体的算法选择其中一个发起调用。</li>
+</ol>
+<p>在这个过程中，除了服务注册，服务发现的工作基本由客户端独立完成，注册中心和服务端的地址对客户端也是完全可见的。</p>
+<h3 id="服务端服务发现模式">服务端服务发现模式</h3>
+<p>客户端向 Load Balancer 发送请求，Load Balancer 根据客户端的请求查询服务注册中心，找到可用的服务后转发请求到该服务上，和客户端服务发现模式一样，服务都需要在注册中心进行服务注册和注销。</p>
+<ul>
+<li>优点：服务的发现逻辑对客户端是透明的。</li>
+<li>缺点：需要额外部署和维护负载均衡器。</li>
+</ul>
+<p><img src="https://static.apiseven.com/202108/1646299531288-3ff99279-3ab6-49d7-8abf-68461f50c5c0.png" alt="error/server service discovery.png"></p>
+<p>服务端发现模式实现逻辑如下：</p>
+<ol>
+<li>新服务启动时，主动向注册中心注册，服务注册中心会存储新服务的服务名和地址；</li>
+<li>当客户端需要某个服务时，会使用服务名向负载均衡器发起查询；</li>
+<li>负载均衡器根据客户端请求的服务名，代理客户端向服务注册中心发起请求；</li>
+<li>负载均衡器获得返回的地址后，根据具体的算法选择其中一个发起调用。</li>
+</ol>
+<h2 id="使用-coredns-的优势">使用 CoreDNS 的优势</h2>
+<p>CoreDNS 是一个用 <code>Go</code> 语言编写的开源 DNS 服务器，由于它的灵活性和可扩展性，常用于多容器环境中的 DNS 服务和服务发现。CoreDNS 建立在 Caddy 这个 HTTP/2 Web 服务器之上，实现了一个插件链的架构，将很多 DNS 相关的逻辑都抽象成了一层一层的插件，实现起来更灵活和易扩展，用户选择的插件会被编译到最终的可执行文件中，运行效率也非常高。CoreDNS 是首批加入 CNCF（云原生计算基金会）并且是已经毕业的云原生开源项目，也是 Kuberneters 中默认的 DNS 服务。</p>
+<p>相比于常见的服务发现框架（Apache ZooKeeper 和 Consul），CoreDNS 实现服务发现有哪些优势呢？</p>
+<p>服务发现的原理和计算机网络中重要的基础设施—— DNS 域名系统比较相似，DNS 域名系统把很少变动的域名与经常变动的服务器 IP 地址进行绑定，而服务发现机制则是把很少变动的服务名与服务地址绑定。由此我们可以借由 DNS 实现类似服务注册中心的功能，只需要将 DNS 中存储的域名转换为服务名即可。由于许多计算机内置了 DNS 功能，所以我们只需要在原有 DNS 系统上修改配置就可以了，不需要做太多额外的事情。</p>
+<h2 id="原理架构">原理架构</h2>
+<p>整体架构如下：</p>
+<ol>
+<li>客户端向 APISIX 发起请求调用服务。</li>
+<li>APISIX 根据设置好的路由来访问上游服务节点（具体配置可见下文），在 APISIX 中可以设置上游信息通过 DNS 方式获取，只要正确设置了 DNS 服务器的 IP 地址，APISIX 会自动向该地址发起请求，获取 DNS 中对应服务的地址。</li>
+<li>CoreDNS 根据请求的服务名返回可用的地址列表。</li>
+<li>APISIX 根据可用地址和配置的算法，从其中选择一个发起调用。</li>
+</ol>
+<p><img src="https://static.apiseven.com/202108/1646299586044-3b44e6a8-b7a9-4ba6-a69c-8d08772b6065.png" alt="error/architecture.png"></p>
+<h2 id="如何使用">如何使用</h2>
+<h3 id="前提条件">前提条件</h3>
+<p>本文操作基于以下环境进行。</p>
+<ul>
+<li>操作系统 Centos 7.9。</li>
+<li>Apache APISIX 2.12.1，详情请参考：<a href="https://apisix.apache.org/zh/docs/apisix/how-to-build">如何构建 Apache APISIX</a>。</li>
+<li>CoreDNS 1.9.0，详情请参考：<a href="https://coredns.io/manual/toc/#installation">CoreDNS 安装指南</a>。</li>
+<li>Node.js 10.15.0，详情请参考：<a href="https://github.com/nodejs/help/wiki/Installation">Node.js 安装指南</a>。</li>
+</ul>
+<h3 id="操作步骤">操作步骤</h3>
+<ol>
+<li>使用 Node.js 的 <code>Koa</code> 框架在 <code>3005</code> 端口启动一个简单的测试服务。</li>
+</ol>
+<p>访问此服务会返回 <code>Hello World</code> 的字串，稍后我们将通过 CoreDNS 获取这个服务的地址。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  // 使用 Koa 框架搭建服务</span></span>
+<span class="line"><span>  const Koa = require('koa');</span></span>
+<span class="line"><span>  const app = new Koa();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  app.use(async ctx => {</span></span>
+<span class="line"><span>    ctx.body = 'Hello World';</span></span>
+<span class="line"><span>  });</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  app.listen(3005);</span></span></code></pre>
+<ol start="2">
+<li>配置 CoreDNS。</li>
+</ol>
+<p>CoreDNS 默认监听 <code>53</code> 端口，并且会读取在相同目录中的 <code>Corefile</code> 配置文件。初始条件下，同目录中并没有 <code>Corefile</code> 文件，因此我们需要创建并完成配置。</p>
+<p><code>Corefile</code> 主要是通过配置插件来实现功能，因此我们需要配置三个插件：</p>
+<ul>
+<li><code>hosts</code>：可以通过此参数将服务名和 IP 地址绑定，<code>fallthrough</code> 表示在当前插件无法返回正常数据时可以把请求转发给下一个插件处理（如果存在）。</li>
+<li><code>forward</code>：表示将请求代理到指定的地址，一般是权威 DNS 服务器地址。</li>
+<li><code>log</code>：不配置任何参数代表将日志信息打印到控制台界面，以便进行调试。</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  .:1053 {              # 监听在1053端口</span></span>
+<span class="line"><span>      hosts {</span></span>
+<span class="line"><span>          10.10.10.10 hello</span></span>
+<span class="line"><span>          # 将服务名 “coredns” 和IP地址绑定</span></span>
+<span class="line"><span>          fallthrough</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>      forward . 114.114.114.114:53</span></span>
+<span class="line"><span>      log</span></span>
+<span class="line"><span>  }</span></span></code></pre>
+<ol start="3">
+<li>配置 Apache APISIX。</li>
+</ol>
+<p>在 <code>conf/config.yaml</code> 文件中添加相关配置并重新加载 Apache APISIX。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  # config.yml</span></span>
+<span class="line"><span>  # ...other config</span></span>
+<span class="line"><span>  discovery:</span></span>
+<span class="line"><span>     dns:</span></span>
+<span class="line"><span>       servers:</span></span>
+<span class="line"><span>          - "127.0.0.1:1053"  # 使用 DNS 服务器的真实地址</span></span>
+<span class="line"><span>                              # 此处为本机的1053端口</span></span></code></pre>
+<ol start="4">
+<li>配置 Apache APISIX 中的路由信息。</li>
+</ol>
+<p>接下来我们通过请求 <code>Admin API</code> 配置相关路由信息</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl http://127.0.0.1:9080/apisix/admin/routes/1 \</span></span>
+<span class="line"><span>  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>      "uri": "/core/*",</span></span>
+<span class="line"><span>      "upstream": {</span></span>
+<span class="line"><span>          "service_name": "hello:3005",</span></span>
+<span class="line"><span>          # 将服务名命名为coredns，与CoreDNS中hosts插件的配置保持一致</span></span>
+<span class="line"><span>          "type": "roundrobin",</span></span>
+<span class="line"><span>          "discovery_type": "dns" # 将服务发现类型设置为DNS</span></span>
+<span class="line"><span>      }</span></span>
+<span class="line"><span>  }'</span></span></code></pre>
+<ol start="5">
+<li>验证。</li>
+</ol>
+<ul>
+<li>在本机上验证</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl 127.0.0.1:9080/core/hello -i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>  Content-Length: 11</span></span>
+<span class="line"><span>  Connection: keep-alive</span></span>
+<span class="line"><span>  Date: Wed, 16 Feb 2022 08:44:08 GMT</span></span>
+<span class="line"><span>  Server: APISIX/2.12.1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  Hello World</span></span></code></pre>
+<ul>
+<li>在其他主机上验证</li>
+</ul>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl 10.10.10.10:9080/core/hello -i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>  Content-Length: 11</span></span>
+<span class="line"><span>  Connection: keep-alive</span></span>
+<span class="line"><span>  Date: Wed, 16 Feb 2022 08:43:32 GMT</span></span>
+<span class="line"><span>  Server: APISIX/2.12.0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  Hello World</span></span></code></pre>
+<p>通过上述返回结果可以看到，服务是可以正常运行的。</p>
+<ol start="6">
+<li>模拟容器因各种原因无法提供服务，导致 IP 地址发生变更。</li>
+</ol>
+<p>我们需要在另一台服务器上搭建相同的服务，同样运行在 <code>3005</code> 端口，但是 IP 地址发生变化，返回字符串改为 <code>Hello, Apache APISIX</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>// 使用 Koa 框架搭建服务</span></span>
+<span class="line"><span>const Koa = require('koa');</span></span>
+<span class="line"><span>const app = new Koa();</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.use(async ctx => {</span></span>
+<span class="line"><span>  ctx.body = 'Hello, Apache APISIX';</span></span>
+<span class="line"><span>});</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>app.listen(3005);</span></span></code></pre>
+<p>修改 <code>Corefile</code> 配置并重启 CoreDNS，其他配置不作修改。配置示例如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>.:1053 {                           # 监听在1053端口</span></span>
+<span class="line"><span>    hosts {</span></span>
+<span class="line"><span>        10.10.10.11 hello        # 修改服务IP地址</span></span>
+<span class="line"><span>        # 将服务名 “coredns” 和IP地址绑定</span></span>
+<span class="line"><span>        fallthrough</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    forward . 114.114.114.114:53  </span></span>
+<span class="line"><span>    log</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<blockquote>
+<p>DNS 存在缓存机制，当我们用 <code>dig</code> 命令请求解析新的域名时，在返回的 <code>DNS record</code> 中会看到一个数字字段，即 <code>TTL</code> 字段，一般是 <code>3600</code>，即一个小时。在 <code>TTL</code> 时间段内发往该域名的请求不会再向 DNS 服务器请求解析地址，而是直接在本地缓存中获取该域名对应的地址。</p>
+</blockquote>
+<p>通过验证我们可以发现，请求已经重新指向新的地址。验证如下：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  curl 127.0.0.1:9080/core/hello -i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  HTTP/1.1 200 OK</span></span>
+<span class="line"><span>  Content-Type: text/plain; charset=utf-8</span></span>
+<span class="line"><span>  Content-Length: 11</span></span>
+<span class="line"><span>  Connection: keep-alive</span></span>
+<span class="line"><span>  Date: Wed, 16 Feb 2022 08:44:08 GMT</span></span>
+<span class="line"><span>  Server: APISIX/2.12.0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  Hello, Apache APISIX</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>本文主要介绍了服务发现的类型以及在 Apache APISIX 中如何使用 CoreDNS。您可以根据自身的业务需求和过往技术架构使用 Apache APISIX 与 CoreDNS。</p>
+<p>Apache APISIX 项目目前正在开发其他插件以支持集成更多服务，如果您对此有兴趣，您可以通过 <a href="https://github.com/apache/apisix/discussions">GitHub Discussions</a> 发起讨论，或通过<a href="https://apisix.apache.org/docs/general/join">邮件列表</a>进行交流。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2022/03/05/apisix-integration-eureka-service-discovery/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">API 网关 Apache APISIX 集成 Eureka 作为服务发现</span> </a> <a class="post-nav-card older" href="/zh/blog/2022/03/04/apigateway-clickhouse-makes-logging-easier/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">API 网关集成 ClickHouse 插件提升全链路日志效率</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#背景信息">背景信息</a></li><li class><a href="#服务发现简介">服务发现简介</a></li><li class="d3"><a href="#客户端服务发现模式">客户端服务发现模式</a></li><li class="d3"><a href="#服务端服务发现模式">服务端服务发现模式</a></li><li class><a href="#使用-coredns-的优势">使用 CoreDNS 的优势</a></li><li class><a href="#原理架构">原理架构</a></li><li class><a href="#如何使用">如何使用</a></li><li class="d3"><a href="#前提条件">前提条件</a></li><li class="d3"><a href="#操作步骤">操作步骤</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
