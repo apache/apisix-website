@@ -64,7 +64,10 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   <meta property="og:type" content={ogType} />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
-  <meta property="og:url" content={canonical} />
+  {/* og:url stays on this page even when the canonical points off-site
+      (upstream docs that canonicalise to docs.api7.ai) — matching production,
+      so shares of a plugin doc still resolve to apisix.apache.org. */}
+  <meta property="og:url" content={locale === 'zh' ? zhUrl : enUrl} />
   <meta property="og:site_name" content="Apache APISIX" />
   {image && <meta property="og:image" content={image} />}
   {image && <meta name="twitter:image" content={image} />}

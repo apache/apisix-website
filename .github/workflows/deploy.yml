@@ -165,18 +165,67 @@ jobs:
         working-directory: next
         run: |
           npm ci
-          # Project docs live in the upstream Apache repos. Sparse, depth-1
-          # clones of just docs/ keep this to a few seconds each; the sync
-          # script reads .sync/<repo>/docs/{en,zh}/latest and skips any repo
-          # that is absent, so a fetch failure degrades to "no pages for that
-          # project" — which the parity gate below then catches.
+          # Project docs live in the upstream Apache repos. Clone the SAME ref
+          # Docusaurus does (scripts/sync-docs.js): the newest *release* branch,
+          # never the default branch — master is what production publishes at
+          # /docs/<project>/next/, and shipping it at the version-less URLs
+          # would document unreleased behaviour as if it were the current
+          # release. Version lists come from config/, so bumping a release
+          # there moves both builds together.
+          # Sparse, depth-1 clones of just docs/ keep this to seconds each; the
+          # sync script skips any repo that is absent, so a fetch failure
+          # degrades to "no pages for that project" — which the parity gate
+          # below then catches.
           mkdir -p .sync
+          # config/docs.js is the same source scripts/sync-docs.js reads, and
+          # the ref shape matches it too: ingress-controller tags releases as
+          # v<version>, everything else branches them as release/<version>.
+          # Resolve each project's newest release ref the same way
+          # scripts/sync-docs.js does: apisix takes the newest series from
+          # config/apisix-versions.js; every sub-project has its release refs
+          # DETECTED from the remote (ingress-controller tags them v<ver>,
+          # the rest branch them release/<ver>) and keeps the newest. A
+          # sub-project with no release refs falls back to its default branch,
+          # which is what Docusaurus publishes for it today.
+          # Version ordering goes through semver (the same library and compare
+          # that sync-docs.js uses) — `sort -V` picks the wrong ref here, e.g.
+          # ingress-controller v1.8.4 over v2.1.0.
+          pick_ref() {  # $1 = repo, $2/$3 = ref globs, $4 = sed expr stripping the prefix
+            git ls-remote --refs "https://github.com/apache/$1.git" "$2" "$3" 2>/dev/null \
+              | sed "$4" \
+              | node -e "
+                  const semver = require('semver');
+                  const all = require('fs').readFileSync(0,'utf8').split('\n')
+                    .map(s=>s.trim()).filter(s=>semver.valid(semver.coerce(s)));
+                  all.sort((a,b)=>semver.compare(semver.coerce(a),semver.coerce(b)));
+                  if (all.length) console.log(all[all.length-1]);
+                "
+          }
+          APISIX_SERIES=$(node -e "const v=require('$GITHUB_WORKSPACE/config/apisix-versions.js').versions;console.log(v[v.length-1])")
           for repo in apisix apisix-ingress-controller apisix-helm-chart \
                       apisix-docker apisix-java-plugin-runner \
                       apisix-go-plugin-runner apisix-python-plugin-runner; do
-            git clone --depth 1 --filter=blob:none --sparse -q \
-              "https://github.com/apache/$repo.git" ".sync/$repo" || continue
-            (cd ".sync/$repo" && git sparse-checkout set docs) || true
+            url="https://github.com/apache/$repo.git"
+            case "$repo" in
+              apisix) ref="release/$APISIX_SERIES" ;;
+              apisix-ingress-controller)
+                # Releases are v<ver> — branches today, historically also tags.
+                v=$(pick_ref "$repo" 'refs/heads/v*' 'refs/tags/v*' 's|.*refs/[a-z]*/v||')
+                ref=${v:+v$v} ;;
+              *)
+                v=$(pick_ref "$repo" 'refs/heads/release/*' 'refs/tags/release/*' 's|.*refs/[a-z]*/release/||')
+                ref=${v:+release/$v} ;;
+            esac
+            if [ -n "$ref" ]; then
+              echo "$repo -> $ref"
+              git clone --depth 1 --filter=blob:none --sparse -q -b "$ref" "$url" ".sync/$repo" \
+                || echo "::warning::clone of apache/$repo@$ref failed"
+            else
+              echo "$repo -> (default branch: no release refs)"
+              git clone --depth 1 --filter=blob:none --sparse -q "$url" ".sync/$repo" \
+                || echo "::warning::clone of apache/$repo failed"
+            fi
+            [ -d ".sync/$repo" ] && (cd ".sync/$repo" && git sparse-checkout set docs) || true
           done
           # Blog/learning-center/articles markdown is synced from this very
           # checkout (WEBSITE_REPO); project docs come from .sync/ above.
@@ -288,6 +337,43 @@ jobs:
           # …and the latest-version pages must now be the Astro build.
           grep -q '/_astro/' website/build/docs/apisix/plugins/cors/index.html
           grep -q '/_astro/' website/build/zh/docs/apisix/plugins/cors/index.html
+          # The archives are still a Docusaurus SPA, and their version dropdown
+          # and "older version" banner link to the version-less URLs we just
+          # replaced. Without a real navigation, React would client-route to
+          # its own stale render of those URLs instead of fetching the Astro
+          # page. target="_self" forces a document load (same trick the repo
+          # already uses for pathname:// links in the locale dropdown).
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const roots = ["website/build/docs", "website/build/zh/docs"];
+            // /docs/<project>/<page…>/ with no version segment right after the
+            // project — i.e. exactly the URLs the Astro build now owns.
+            const re = /(<a\b[^>]*?\bhref="\/(?:zh\/)?docs\/[a-z0-9-]+\/(?!(?:[0-9]+\.[0-9]+|next|v[0-9])\/)[^"]*")/g;
+            let patched = 0;
+            const walk = (d) => fs.existsSync(d) && fs.readdirSync(d, { withFileTypes: true }).forEach((e) => {
+              const p = path.join(d, e.name);
+              if (e.isDirectory()) return walk(p);
+              if (e.name !== "index.html") return;
+              // Only the archived pages need this; the Astro pages are not a SPA.
+              const html = fs.readFileSync(p, "utf8");
+              if (!html.includes("docusaurus")) return;
+              const out = html.replace(re, (m) => (m.includes("target=") ? m : `${m} target="_self"`));
+              if (out !== html) { fs.writeFileSync(p, out); patched += 1; }
+            });
+            roots.forEach(walk);
+            console.log(`archive pages patched for real navigation: ${patched}`);
+          '
+          # An archive page must now hard-navigate to the migrated URL.
+          grep -q 'href="/docs/apisix/plugins/cors/" target="_self"' website/build/docs/apisix/3.16/plugins/cors/index.html
+          # The cross-site canonical contract asserted earlier in this job runs
+          # against the Docusaurus build; re-assert it on what actually ships.
+          for f in website/build/docs/apisix/plugins/cors/index.html \
+                   website/build/zh/docs/apisix/plugins/cors/index.html; do
+            test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+            grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' "$f"
+          done
+          grep -q 'property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/cors/"' \
+            website/build/docs/apisix/plugins/cors/index.html
           # Fail the deploy if the landing pages are not the Astro build, or
           # if the homepage lost its stylesheet link.
           grep -q 'The same gateway, now for your LLM traffic' website/build/index.html

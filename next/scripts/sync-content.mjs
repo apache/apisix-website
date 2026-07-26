@@ -42,7 +42,9 @@ function flattenTabs(src) {
     .replace(/<\/TabItem>/g, '');
 }
 
-function transform(src, { docBase, blogBase, ghProject, ghRef = 'master' } = {}) {
+function transform(src, {
+  docBase, blogBase, ghProject, ghRef = 'master', relPath = '',
+} = {}) {
   let out = src;
   let canonicalUrl = null;
   // MDX imports cannot exist in plain markdown.
@@ -86,11 +88,27 @@ function transform(src, { docBase, blogBase, ghProject, ghRef = 'master' } = {})
       `(https://raw.githubusercontent.com/apache/${ghProject}/${ghRef}/docs/assets/$2$3)`);
   }
   if (docBase) {
-    // Relative .md links -> absolute pretty URLs (mirrors current site behavior).
-    out = out.replace(/\]\((\.{1,2}\/)?([\w\-./]+)\.md(#[^)]*)?\)/g, (_m, _dot, p, hash) => {
-      const clean = p.replace(/^\.\//, '');
-      return `](${docBase}/${clean}/${hash || ''})`;
-    });
+    // Relative .md links -> absolute pretty URLs (mirrors current site
+    // behavior). Docusaurus resolves these against the linking document's own
+    // directory, so `../foo.md` from plugins/bar.md is /docs/<project>/foo/,
+    // while `foo.md` from the same file is /docs/<project>/plugins/foo/.
+    // A stray slash before the anchor (`../x.md/#y`) appears upstream too.
+    const dir = path.posix.dirname(relPath.split(path.sep).join('/'));
+    out = out.replace(
+      /\]\((\.{0,2}\/?[\w\-./]+)\.md\/?(#[^)]*)?\)/g,
+      (_m, p, hash) => {
+        const joined = p.startsWith('/')
+          ? p.replace(/^\//, '')
+          : path.posix.join(dir === '.' ? '' : dir, p);
+        // Some upstream links climb past the docs root and re-enter it, e.g.
+        // `../../../en/latest/plugins/x.md` — Docusaurus normalises that back
+        // to the project root, so drop any leading ../ and <locale>/latest/.
+        const clean = path.posix.normalize(joined)
+          .replace(/^(\.\.\/)+/, '')
+          .replace(/^(?:en|zh)\/latest\//, '');
+        return `](${docBase}/${clean}/${hash || ''})`;
+      },
+    );
   }
   if (blogBase) {
     // Blog cross-references: Docusaurus resolves `./YYYY-MM-DD-name.md` by
@@ -107,7 +125,7 @@ function copyTree(srcDir, outDir, opts = {}, filter = () => true) {
     const rel = path.relative(srcDir, f);
     const dest = path.join(outDir, rel);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(dest, transform(fs.readFileSync(f, 'utf8'), opts));
+    fs.writeFileSync(dest, transform(fs.readFileSync(f, 'utf8'), { ...opts, relPath: rel }));
     stats.copied += 1;
   }
 }
