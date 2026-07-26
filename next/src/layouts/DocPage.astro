@@ -37,6 +37,7 @@ const renderable = (node: SidebarNode): boolean => !!node.id || !!(node.items &&
   path={path}
   jsonLd={jsonLd}
   canonicalOverride={entry.mod.frontmatter.canonical}
+  search
 >
   <div class="container docs-layout">
     {sidebar.length > 0 && (

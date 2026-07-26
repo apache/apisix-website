@@ -428,3 +428,10 @@ section.endcta.alt { background: transparent; padding: 4rem 1rem 0; }
 .anchor-link { opacity: 0; margin-left: .35rem; font-size: .8em; }
 h2:hover .anchor-link, h3:hover .anchor-link, .anchor-link:focus-visible { opacity: 1; }
 @media (hover: none) { .anchor-link { opacity: .55; } }
+
+/* ---------- docs search (Algolia DocSearch, docs pages only) ---------- */
+.docsearch-slot { margin-left: .5rem; }
+.docsearch-slot .DocSearch-Button { height: 36px; margin: 0; border-radius: 8px; background: var(--color-surface-alt); }
+.docsearch-slot .DocSearch-Button:hover { box-shadow: none; border-color: var(--color-hover-border); }
+:root { --docsearch-primary-color: var(--color-primary); --docsearch-highlight-color: var(--color-primary); }
+@media (max-width: 996px) { .docsearch-slot { display: none; } }

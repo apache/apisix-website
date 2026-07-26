@@ -165,8 +165,21 @@ jobs:
         working-directory: next
         run: |
           npm ci
+          # Project docs live in the upstream Apache repos. Sparse, depth-1
+          # clones of just docs/ keep this to a few seconds each; the sync
+          # script reads .sync/<repo>/docs/{en,zh}/latest and skips any repo
+          # that is absent, so a fetch failure degrades to "no pages for that
+          # project" — which the parity gate below then catches.
+          mkdir -p .sync
+          for repo in apisix apisix-ingress-controller apisix-helm-chart \
+                      apisix-docker apisix-java-plugin-runner \
+                      apisix-go-plugin-runner apisix-python-plugin-runner; do
+            git clone --depth 1 --filter=blob:none --sparse -q \
+              "https://github.com/apache/$repo.git" ".sync/$repo" || continue
+            (cd ".sync/$repo" && git sparse-checkout set docs) || true
+          done
           # Blog/learning-center/articles markdown is synced from this very
-          # checkout (WEBSITE_REPO); project docs stay un-synced until wave 3.
+          # checkout (WEBSITE_REPO); project docs come from .sync/ above.
           WEBSITE_REPO="$GITHUB_WORKSPACE" node scripts/sync-content.mjs
           npx astro build
 
@@ -200,6 +213,26 @@ jobs:
               echo "NON-HTML files not in the Astro tree and not in the feed-carry list:"; echo "$unhandled"; fail=1
             fi
           done
+          # Latest-version docs: every version-less page Docusaurus produced
+          # must exist in the Astro build, or the swap would leave a stale
+          # Docusaurus page behind a URL we claim to own. Versioned dirs are
+          # excluded — they stay Docusaurus by design. So are docs/*/tags/
+          # index pages: Docusaurus emits them empty (one self-link, absent
+          # from the sitemap, linked from no doc page). The per-page swap
+          # leaves them in place, so the URLs keep resolving.
+          for docs_root in docs zh/docs; do
+            [ -d "website/build/$docs_root" ] || continue
+            missing=$(cd "website/build/$docs_root" && find . -name index.html \
+              | sed 's|^\./||' \
+              | grep -vE '(^|/)([0-9]+\.[0-9]+|next|v[0-9][^/]*)/' \
+              | grep -vE '(^|/)tags/index\.html$' \
+              | sort | while read -r f; do
+                [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
+              done)
+            if [ -n "$missing" ]; then
+              echo "MISSING latest-version docs in the Astro build:"; echo "$missing"; fail=1
+            fi
+          done
           exit $fail
 
       - name: Carry the Docusaurus RSS/atom feeds into the Astro tree
@@ -229,6 +262,32 @@ jobs:
             mkdir -p "website/build/$(dirname "$path")"
             cp -R "next/dist/$path" "website/build/$path"
           done
+          # Latest-version docs come from Astro; every versioned directory
+          # (3.16/, next/, v1.6/, …) stays exactly as Docusaurus built it.
+          # Replacement is per-page, not per-subtree: under docs/<project>/ the
+          # version dirs and the latest-version pages sit side by side, so a
+          # subtree swap would delete the archive. Only paths the Astro build
+          # actually produced are touched.
+          for locale_prefix in "" "zh/"; do
+            src="next/dist/${locale_prefix}docs"
+            [ -d "$src" ] || continue
+            (cd "$src" && find . -name index.html) | sed 's|^\./||' | while read -r rel; do
+              case "$rel" in
+                # Never touch an archived version directory.
+                */[0-9].[0-9]*/*|*/next/*|*/v[0-9]*/*) continue ;;
+              esac
+              dest="website/build/${locale_prefix}docs/$rel"
+              mkdir -p "$(dirname "$dest")"
+              cp "$src/$rel" "$dest"
+            done
+          done
+          # The version archives must survive untouched.
+          test -f website/build/docs/apisix/3.16/plugins/cors/index.html
+          test -f website/build/docs/apisix/next/plugins/cors/index.html
+          grep -q 'docusaurus' website/build/docs/apisix/3.16/plugins/cors/index.html
+          # …and the latest-version pages must now be the Astro build.
+          grep -q '/_astro/' website/build/docs/apisix/plugins/cors/index.html
+          grep -q '/_astro/' website/build/zh/docs/apisix/plugins/cors/index.html
           # Fail the deploy if the landing pages are not the Astro build, or
           # if the homepage lost its stylesheet link.
           grep -q 'The same gateway, now for your LLM traffic' website/build/index.html

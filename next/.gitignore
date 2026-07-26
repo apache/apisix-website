@@ -3,3 +3,4 @@ dist/
 .sync/
 content/
 .astro/
+.sync/

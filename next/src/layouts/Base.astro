@@ -17,6 +17,8 @@ interface Props {
   /** Open Graph object type; article pages pass "article". */
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  /** Load Algolia DocSearch (docs pages only — every other page stays zero-JS). */
+  search?: boolean;
   /** Cross-site canonical embedded in upstream docs (docs.api7.ai hub pages). */
   canonicalOverride?: string;
   /** Set false when the title is already the complete tag (homepage). */
@@ -35,6 +37,7 @@ const {
   canonicalOverride,
   titleSuffix = true,
   ogType = 'website',
+  search = false,
 } = Astro.props;
 
 const enUrl = `${SITE}${path}`;
@@ -68,9 +71,15 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
   <meta name="twitter:site" content="@apacheapisix" />
   <script type="application/ld+json" set:html={JSON.stringify(allJsonLd)} />
+  {search && (
+    <>
+      <link rel="preconnect" href="https://38VC84A2WJ-dsn.algolia.net" crossorigin />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+    </>
+  )}
 </head>
 <body>
-  <Header locale={locale} path={path} />
+  <Header locale={locale} path={path} search={search} />
   <main>
     <slot />
   </main>
