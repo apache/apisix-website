@@ -266,24 +266,26 @@ jobs:
               echo "NON-HTML files not in the Astro tree and not in the feed-carry list:"; echo "$unhandled"; fail=1
             fi
           done
-          # Latest-version docs: every version-less page Docusaurus produced
-          # must exist in the Astro build, or the swap would leave a stale
-          # Docusaurus page behind a URL we claim to own. Versioned dirs are
-          # excluded — they stay Docusaurus by design. So are docs/*/tags/
-          # index pages: Docusaurus emits them empty (one self-link, absent
-          # from the sitemap, linked from no doc page). The per-page swap
-          # leaves them in place, so the URLs keep resolving.
+          # Latest-version docs: Docusaurus no longer builds them (see
+          # onlyIncludeVersions in doc/docusaurus.config.js), so the reference
+          # is the LIVE SITE. Every version-less docs URL currently published
+          # must exist in the Astro build, or this deploy would 404 a page that
+          # works today. Versioned dirs are excluded — they stay Docusaurus by
+          # design — as are docs/*/tags/ index pages, which Docusaurus emits
+          # empty (one self-link, absent from the sitemap, linked from no doc
+          # page) and which the per-page swap leaves in place.
+          git fetch --depth 1 origin asf-site
           for docs_root in docs zh/docs; do
-            [ -d "website/build/$docs_root" ] || continue
-            missing=$(cd "website/build/$docs_root" && find . -name index.html \
-              | sed 's|^\./||' \
+            missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
+              | grep '/index\.html$' \
+              | sed "s|^$docs_root/||" \
               | grep -vE '(^|/)([0-9]+\.[0-9]+|next|v[0-9][^/]*)/' \
               | grep -vE '(^|/)tags/index\.html$' \
               | sort | while read -r f; do
                 [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
               done)
             if [ -n "$missing" ]; then
-              echo "MISSING latest-version docs in the Astro build:"; echo "$missing"; fail=1
+              echo "Published docs URLs missing from the Astro build:"; echo "$missing"; fail=1
             fi
           done
           exit $fail
@@ -344,34 +346,31 @@ jobs:
           # …and the latest-version pages must now be the Astro build.
           grep -q '/_astro/' website/build/docs/apisix/plugins/cors/index.html
           grep -q '/_astro/' website/build/zh/docs/apisix/plugins/cors/index.html
-          # The archives are still a Docusaurus SPA, and their version dropdown
-          # and "older version" banner link to the version-less URLs we just
-          # replaced. Without a real navigation, React would client-route to
-          # its own stale render of those URLs instead of fetching the Astro
-          # page. target="_self" forces a document load (same trick the repo
-          # already uses for pathname:// links in the locale dropdown).
-          node -e '
+          # The archives remain a Docusaurus SPA whose version dropdown and
+          # "older version" banner point at the version-less URLs. Docusaurus
+          # is configured (doc/docusaurus.config.js, onlyIncludeVersions) to
+          # stop building the newest version, so those URLs are no longer in
+          # its route manifest and a click leaves the SPA for the Astro page.
+          # Assert that manifest property directly — patching the serialized
+          # HTML would not help, because React Router intercepts clicks after
+          # hydration regardless of the anchor's target.
+          if ! node -e '
             const fs = require("fs"), path = require("path");
-            const roots = ["website/build/docs", "website/build/zh/docs"];
-            // /docs/<project>/<page…>/ with no version segment right after the
-            // project — i.e. exactly the URLs the Astro build now owns.
-            const re = /(<a\b[^>]*?\bhref="\/(?:zh\/)?docs\/[a-z0-9-]+\/(?!(?:[0-9]+\.[0-9]+|next|v[0-9])\/)[^"]*")/g;
-            let patched = 0;
-            const walk = (d) => fs.existsSync(d) && fs.readdirSync(d, { withFileTypes: true }).forEach((e) => {
-              const p = path.join(d, e.name);
-              if (e.isDirectory()) return walk(p);
-              if (e.name !== "index.html") return;
-              // Only the archived pages need this; the Astro pages are not a SPA.
-              const html = fs.readFileSync(p, "utf8");
-              if (!html.includes("docusaurus")) return;
-              const out = html.replace(re, (m) => (m.includes("target=") ? m : `${m} target="_self"`));
-              if (out !== html) { fs.writeFileSync(p, out); patched += 1; }
-            });
-            roots.forEach(walk);
-            console.log(`archive pages patched for real navigation: ${patched}`);
-          '
-          # An archive page must now hard-navigate to the migrated URL.
-          grep -q 'href="/docs/apisix/plugins/cors/" target="_self"' website/build/docs/apisix/3.16/plugins/cors/index.html
+            const dir = "website/build/assets/js";
+            const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => /^main\..*\.js$/.test(f)) : [];
+            if (!files.length) { console.error("no main bundle found"); process.exit(1); }
+            const bundle = fs.readFileSync(path.join(dir, files[0]), "utf8");
+            const claimed = ["/docs/apisix/plugins/cors/", "/docs/apisix/getting-started/"]
+              .filter((u) => bundle.includes(`"${u}"`));
+            if (claimed.length) {
+              console.error("Docusaurus still owns migrated routes:", claimed.join(", "));
+              process.exit(1);
+            }
+            console.log("route manifest: no version-less docs routes — archive links hard-navigate");
+          '; then
+            echo "The Docusaurus SPA still routes the migrated docs URLs client-side."
+            exit 1
+          fi
           # The cross-site canonical contract asserted earlier in this job runs
           # against the Docusaurus build; re-assert it on what actually ships.
           for f in website/build/docs/apisix/plugins/cors/index.html \

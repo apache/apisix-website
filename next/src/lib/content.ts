@@ -95,6 +95,22 @@ const docsPythonEn = import.meta.glob('/content/docs-python-plugin-runner-en/**/
 
 const sidebarConfigs = import.meta.glob('/content/docs-*/config.json', { eager: true }) as Record<string, any>;
 
+/** Git ref each project's docs were synced from (written by sync-content.mjs). */
+const docRefs = (Object.values(
+  import.meta.glob('/content/doc-refs.json', { eager: true }) as Record<string, any>,
+)[0]?.default ?? {}) as Record<string, string>;
+
+/**
+ * "Edit this page" URL for an upstream project doc. Uses the ref the content
+ * was actually synced from — sub-projects are cloned at a release tag, and
+ * default branches differ (master vs main) — and `pathId`, the source-relative
+ * path, since a frontmatter slug can move the URL away from the filename.
+ */
+export function docEditUrl(project: string, repo: string, pathId: string, locale: Locale): string {
+  const ref = docRefs[project] ?? 'master';
+  return `https://github.com/apache/${repo}/edit/${ref}/docs/${locale}/latest/${pathId}.md`;
+}
+
 /** Sub-projects served under /docs/<key>/ via the generic route. */
 export const SUBPROJECTS: Record<string, { en: MdMap; zh?: MdMap; repo: string }> = {
   'ingress-controller': { en: docsIngressEn, zh: docsIngressZh, repo: 'apisix-ingress-controller' },
@@ -327,3 +343,14 @@ export function getApisixSidebar(): SidebarNode[] {
 }
 
 export const APISIX_DOCS_VERSION: string = apisixCfg.version ?? 'current';
+
+/**
+ * Archived APISIX versions, newest first. These stay on the Docusaurus build
+ * under /docs/apisix/<version>/; listing them keeps the archive reachable from
+ * the migrated current-version pages.
+ */
+export const APISIX_ARCHIVED_VERSIONS: string[] = (() => {
+  const cur = APISIX_DOCS_VERSION.replace(/^v/, '').split('.').slice(0, 2).join('.');
+  const known = ['3.16', '3.15', '3.14', '3.13', '3.12', '3.11', '3.10'];
+  return known.filter((v) => v !== cur);
+})();

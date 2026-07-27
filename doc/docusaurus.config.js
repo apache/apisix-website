@@ -1,4 +1,31 @@
+const fs = require('fs');
+const path = require('path');
 const { ssrTemplate } = require('../config/ssrTemplate');
+
+/**
+ * Versions to build for a project, excluding the newest one.
+ *
+ * The newest version is served at version-less URLs (/docs/apisix/plugins/cors/)
+ * and those pages are now produced by the Astro build. Docusaurus must stop
+ * emitting them: otherwise its route manifest still owns those URLs, and a
+ * click from an archive page client-side-routes to the stale React render
+ * instead of fetching the Astro page. (Patching the serialized HTML does not
+ * help — React Router intercepts the click after hydration regardless of
+ * target.) Archive URLs are unaffected: they carry their version prefix.
+ *
+ * Returns undefined when the versions file is absent (nothing built yet) or
+ * holds a single version, letting Docusaurus fall back to its default.
+ */
+const archivedVersionsOnly = (projectName) => {
+  const file = path.join(__dirname, `docs-${projectName}_versions.json`);
+  if (!fs.existsSync(file)) return undefined;
+  try {
+    const all = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return Array.isArray(all) && all.length > 1 ? all.slice(1) : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 const getEditUrl = (props) => {
   const {
@@ -79,6 +106,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix',
+        onlyIncludeVersions: archivedVersionsOnly('apisix'),
         path: 'docs/apisix',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -96,6 +124,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-ingress-controller',
+        onlyIncludeVersions: archivedVersionsOnly('apisix-ingress-controller'),
         path: 'docs/apisix-ingress-controller',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -115,6 +144,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-helm-chart',
+        onlyIncludeVersions: archivedVersionsOnly('apisix-helm-chart'),
         path: 'docs/apisix-helm-chart',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -132,6 +162,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-docker',
+        onlyIncludeVersions: archivedVersionsOnly('apisix-docker'),
         path: 'docs/apisix-docker',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -149,6 +180,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-java-plugin-runner',
+        onlyIncludeVersions: archivedVersionsOnly('apisix-java-plugin-runner'),
         path: 'docs/apisix-java-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -169,6 +201,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-go-plugin-runner',
+        onlyIncludeVersions: archivedVersionsOnly('apisix-go-plugin-runner'),
         path: 'docs/apisix-go-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -188,6 +221,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-python-plugin-runner',
+        onlyIncludeVersions: archivedVersionsOnly('apisix-python-plugin-runner'),
         path: 'docs/apisix-python-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,

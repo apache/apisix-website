@@ -34,7 +34,12 @@ const COLLECTIONS = [
   ['learning-center', ['/learning-center', '/zh/learning-center']],
   ['articles', ['/articles', '/zh/articles']],
   ['docs-general', ['/docs/general', '/zh/docs/general']],
-  ['docs-apisix-en', ['/docs/apisix']],
+  // The zh APISIX docs fall back to the English source where no translation
+  // exists, so the English collection must also be offered the zh prefix —
+  // resolveUrl only writes where a page was actually built, and the zh
+  // collection is processed after, overwriting the fallback where a real
+  // translation exists.
+  ['docs-apisix-en', ['/docs/apisix', '/zh/docs/apisix']],
   ['docs-apisix-zh', ['/zh/docs/apisix']],
 ];
 for (const p of ['ingress-controller', 'helm-chart', 'docker', 'java-plugin-runner', 'go-plugin-runner', 'python-plugin-runner']) {
@@ -152,9 +157,43 @@ const llms = [
   ...section('中文文档', group(zh, '/docs/')),
   ...section('中文学习中心', group(zh, '/learning-center/')),
   ...section('中文博客', group(zh, '/blog/')),
+  ...section('中文技术文章', group(zh, '/articles/')),
 ].join('\n');
 
 fs.writeFileSync(path.join(dist, 'llms.txt'), `${llms}\n`);
 
 console.log(`markdown twins: ${written.length} written, ${skipped} source files had no built page`);
 console.log(`llms.txt: ${en.length} en + ${zh.length} zh pages indexed`);
+
+// Every content page must have a twin, and every twin must be indexed —
+// otherwise the "append index.md to any page URL" promise is a lie for some
+// subset of pages. Fail the build rather than shipping a partial surface.
+const indexed = new Set(written.map((p) => p.url));
+const CONTENT_PREFIXES = ['/blog/', '/learning-center/', '/articles/', '/docs/',
+  '/zh/blog/', '/zh/learning-center/', '/zh/articles/', '/zh/docs/'];
+// Section landing pages (/blog/, /docs/, …) are component-rendered indexes
+// with no markdown source, as are listing, tag, and archive pages.
+const SECTION_INDEX = new Set([...CONTENT_PREFIXES,
+  '/docs/general/events/', '/zh/docs/general/events/']);
+const isContentPage = (url) => CONTENT_PREFIXES.some((p) => url.startsWith(p))
+  && !SECTION_INDEX.has(url)
+  && !/\/(page|tags|archive)\//.test(url) && !/\/(tags|archive)\/$/.test(url);
+
+const missing = [];
+(function scan(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) { scan(p); continue; }
+    if (e.name !== 'index.html') continue;
+    const url = `/${path.relative(dist, dir).split(path.sep).join('/')}/`;
+    if (isContentPage(url) && !indexed.has(url)) missing.push(url);
+  }
+})(dist);
+
+if (missing.length) {
+  console.error(`\n${missing.length} content pages have no Markdown twin:`);
+  for (const u of missing.slice(0, 20)) console.error(`  ${u}`);
+  if (missing.length > 20) console.error(`  … and ${missing.length - 20} more`);
+  process.exit(1);
+}
+console.log('parity: every content page has a twin, and every twin is indexed');

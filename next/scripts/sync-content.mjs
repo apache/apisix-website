@@ -13,6 +13,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -168,4 +169,21 @@ for (const { key, repo } of PROJECTS) {
   }
 }
 
+// Record the ref each project was synced from, so "Edit this page" links point
+// at the revision the reader is actually looking at rather than a guessed
+// branch. Sub-projects are cloned at their newest release tag/branch, and the
+// default branch differs across repos (some `master`, some `main`).
+const refs = {};
+for (const { key, repo } of PROJECTS) {
+  const checkout = path.join(root, '.sync', repo);
+  if (!fs.existsSync(checkout)) continue;
+  try {
+    const head = execSync('git symbolic-ref --short -q HEAD || git describe --tags --exact-match 2>/dev/null || git rev-parse HEAD',
+      { cwd: checkout, encoding: 'utf8', shell: '/bin/bash' }).trim();
+    if (head) refs[key] = head;
+  } catch { /* leave unset; the page falls back to the default branch */ }
+}
+fs.writeFileSync(path.join(OUT, 'doc-refs.json'), `${JSON.stringify(refs, null, 2)}\n`);
+
 console.log('sync-content done:', JSON.stringify(stats));
+console.log('doc refs:', JSON.stringify(refs));

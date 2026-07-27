@@ -1,0 +1,32 @@
+---
+/**
+ * Renders a docs sidebar to any depth. The upstream config.json nests four
+ * levels in places (APISIX: Plugins > Observability > Loggers > 19 docs), so a
+ * fixed-depth renderer silently drops whole categories.
+ */
+import type { SidebarNode } from '../lib/content';
+
+interface Props {
+  nodes: SidebarNode[];
+  active?: string;
+  titleById?: Map<string, string>;
+  urlById: (id: string) => string;
+}
+const { nodes, active, titleById, urlById } = Astro.props;
+
+/** Keep anything that links somewhere or that still has renderable children. */
+const renderable = (n: SidebarNode): boolean =>
+  Boolean(n.id) || (Array.isArray(n.items) && n.items.some(renderable));
+---
+<ul>
+  {nodes.filter(renderable).map((node) => (
+    <li class={node.items ? 'cat' : ''}>
+      {node.id
+        ? <a href={urlById(node.id)} class={node.id === active ? 'active' : ''}>{titleById?.get(node.id) ?? node.id}</a>
+        : <span>{node.label}</span>}
+      {node.items && node.items.some(renderable) && (
+        <Astro.self nodes={node.items} active={active} titleById={titleById} urlById={urlById} />
+      )}
+    </li>
+  ))}
+</ul>

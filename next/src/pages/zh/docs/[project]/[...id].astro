@@ -1,6 +1,6 @@
 ---
 import DocPage from '../../../../layouts/DocPage.astro';
-import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar } from '../../../../lib/content';
+import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar, docEditUrl } from '../../../../lib/content';
 
 export function getStaticPaths() {
   return Object.keys(SUBPROJECTS).flatMap((project) => {
@@ -27,5 +27,5 @@ const repo = SUBPROJECTS[project].repo;
   sidebar={sidebar}
   titleById={titleById}
   urlById={urlById}
-  editUrl={`https://github.com/apache/${repo}/edit/master/docs/zh/latest/${entry.id}.md`}
+  editUrl={docEditUrl(project, repo, entry.pathId, 'zh')}
 />
