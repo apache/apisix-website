@@ -35,10 +35,9 @@ const COLLECTIONS = [
   ['articles', ['/articles', '/zh/articles']],
   ['docs-general', ['/docs/general', '/zh/docs/general']],
   // The zh APISIX docs fall back to the English source where no translation
-  // exists, so the English collection must also be offered the zh prefix —
-  // resolveUrl only writes where a page was actually built, and the zh
-  // collection is processed after, overwriting the fallback where a real
-  // translation exists.
+  // exists, so the English collection is also offered the zh prefix. The zh
+  // collection is processed after and wins for pages that are translated —
+  // both the file and, because the index is keyed by URL, the index entry.
   ['docs-apisix-en', ['/docs/apisix', '/zh/docs/apisix']],
   ['docs-apisix-zh', ['/zh/docs/apisix']],
 ];
@@ -97,7 +96,10 @@ function resolveUrl(file, collectionDir, urlPrefix) {
   return null;
 }
 
-const written = [];
+// Keyed by URL: a page can be reached by more than one collection (the zh docs
+// fall back to the English source), and the last write wins for the file, so
+// the index must record the same winner rather than one entry per attempt.
+const written = new Map();
 let skipped = 0;
 
 for (const [dir, urlPrefixes] of COLLECTIONS) {
@@ -126,22 +128,27 @@ for (const [dir, urlPrefixes] of COLLECTIONS) {
         '',
       ].filter((l) => l !== null).join('\n');
       fs.writeFileSync(path.join(dist, url, 'index.md'), doc);
-      written.push({ url, title, description: fm.description || '' });
+      written.set(url, { url, title, description: fm.description || '' });
     }
     if (!matched) skipped += 1;
   }
 }
 
 // /llms.txt — the index agents fetch first.
-written.sort((a, b) => a.url.localeCompare(b.url));
+const pages = [...written.values()].sort((a, b) => a.url.localeCompare(b.url));
 const section = (label, items) => (items.length
   ? [`## ${label}`, '', ...items.map((p) => `- [${p.title}](${SITE}${p.url}index.md)${p.description ? ` — ${p.description}` : ''}`), '']
   : []);
 
 const isZh = (p) => p.url.startsWith('/zh/');
-const en = written.filter((p) => !isZh(p));
-const zh = written.filter(isZh);
-const group = (items, frag) => items.filter((p) => p.url.includes(frag));
+const en = pages.filter((p) => !isZh(p));
+const zh = pages.filter(isZh);
+// Match on the section prefix, not anywhere in the URL: /docs/general/blog/ is
+// a docs page, and a substring test would file it under both docs and blog.
+const group = (items, frag) => {
+  const prefix = frag === '/docs/' ? /^(\/zh)?\/docs\// : new RegExp(`^(\\/zh)?${frag.replace(/\//g, '\\/')}`);
+  return items.filter((p) => prefix.test(p.url));
+};
 
 const llms = [
   '# Apache APISIX',
@@ -162,13 +169,22 @@ const llms = [
 
 fs.writeFileSync(path.join(dist, 'llms.txt'), `${llms}\n`);
 
-console.log(`markdown twins: ${written.length} written, ${skipped} source files had no built page`);
+console.log(`markdown twins: ${written.size} written, ${skipped} source files had no built page`);
 console.log(`llms.txt: ${en.length} en + ${zh.length} zh pages indexed`);
 
 // Every content page must have a twin, and every twin must be indexed —
 // otherwise the "append index.md to any page URL" promise is a lie for some
 // subset of pages. Fail the build rather than shipping a partial surface.
-const indexed = new Set(written.map((p) => p.url));
+const llmsText = fs.readFileSync(path.join(dist, 'llms.txt'), 'utf8');
+const indexedUrls = [...llmsText.matchAll(/\]\(https:\/\/apisix\.apache\.org([^)]*?)index\.md\)/g)].map((m) => m[1]);
+const indexed = new Set(indexedUrls);
+if (indexedUrls.length !== indexed.size) {
+  const seen = new Set();
+  const dupes = [...new Set(indexedUrls.filter((u) => (seen.has(u) ? true : (seen.add(u), false))))];
+  console.error(`\n/llms.txt lists ${indexedUrls.length - indexed.size} duplicate entries:`);
+  for (const u of dupes.slice(0, 10)) console.error(`  ${u}`);
+  process.exit(1);
+}
 const CONTENT_PREFIXES = ['/blog/', '/learning-center/', '/articles/', '/docs/',
   '/zh/blog/', '/zh/learning-center/', '/zh/articles/', '/zh/docs/'];
 // Section landing pages (/blog/, /docs/, …) are component-rendered indexes

@@ -3,25 +3,29 @@ const path = require('path');
 const { ssrTemplate } = require('../config/ssrTemplate');
 
 /**
- * Versions to build for a project, excluding the newest one.
+ * Give the newest release an explicit versioned path so it stops owning the
+ * version-less URLs (/docs/apisix/plugins/cors/), which the Astro build now
+ * produces. Every version keeps building — this only moves the newest one from
+ * "" to "<version>/".
  *
- * The newest version is served at version-less URLs (/docs/apisix/plugins/cors/)
- * and those pages are now produced by the Astro build. Docusaurus must stop
- * emitting them: otherwise its route manifest still owns those URLs, and a
- * click from an archive page client-side-routes to the stale React render
- * instead of fetching the Astro page. (Patching the serialized HTML does not
- * help — React Router intercepts the click after hydration regardless of
- * target.) Archive URLs are unaffected: they carry their version prefix.
+ * Docusaurus assigns the empty path to whichever version is `lastVersion`, and
+ * defaults that to the first non-`current` entry of versions.json. Dropping the
+ * newest release from the build instead would just promote the next one into
+ * the same empty path, so the URLs would still be owned by Docusaurus — with
+ * older content — and the archive would lose a version.
  *
- * Returns undefined when the versions file is absent (nothing built yet) or
- * holds a single version, letting Docusaurus fall back to its default.
+ * Returns undefined when the versions file is absent (nothing synced yet),
+ * leaving the default behaviour untouched.
  */
-const archivedVersionsOnly = (projectName) => {
+const pinNewestVersionPath = (projectName) => {
   const file = path.join(__dirname, `docs-${projectName}_versions.json`);
   if (!fs.existsSync(file)) return undefined;
   try {
     const all = JSON.parse(fs.readFileSync(file, 'utf8'));
-    return Array.isArray(all) && all.length > 1 ? all.slice(1) : undefined;
+    const newest = Array.isArray(all) ? all.find((v) => v !== 'current') : undefined;
+    // path: '<newest>' keeps it reachable at its own URL; banner 'none' avoids
+    // telling readers the current release is an unmaintained old version.
+    return newest ? { [newest]: { path: newest, banner: 'none' } } : undefined;
   } catch {
     return undefined;
   }
@@ -106,7 +110,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix',
-        onlyIncludeVersions: archivedVersionsOnly('apisix'),
+        versions: pinNewestVersionPath('apisix'),
         path: 'docs/apisix',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -124,7 +128,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-ingress-controller',
-        onlyIncludeVersions: archivedVersionsOnly('apisix-ingress-controller'),
+        versions: pinNewestVersionPath('apisix-ingress-controller'),
         path: 'docs/apisix-ingress-controller',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -144,7 +148,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-helm-chart',
-        onlyIncludeVersions: archivedVersionsOnly('apisix-helm-chart'),
+        versions: pinNewestVersionPath('apisix-helm-chart'),
         path: 'docs/apisix-helm-chart',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -162,7 +166,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-docker',
-        onlyIncludeVersions: archivedVersionsOnly('apisix-docker'),
+        versions: pinNewestVersionPath('apisix-docker'),
         path: 'docs/apisix-docker',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -180,7 +184,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-java-plugin-runner',
-        onlyIncludeVersions: archivedVersionsOnly('apisix-java-plugin-runner'),
+        versions: pinNewestVersionPath('apisix-java-plugin-runner'),
         path: 'docs/apisix-java-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -201,7 +205,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-go-plugin-runner',
-        onlyIncludeVersions: archivedVersionsOnly('apisix-go-plugin-runner'),
+        versions: pinNewestVersionPath('apisix-go-plugin-runner'),
         path: 'docs/apisix-go-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -221,7 +225,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-python-plugin-runner',
-        onlyIncludeVersions: archivedVersionsOnly('apisix-python-plugin-runner'),
+        versions: pinNewestVersionPath('apisix-python-plugin-runner'),
         path: 'docs/apisix-python-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,

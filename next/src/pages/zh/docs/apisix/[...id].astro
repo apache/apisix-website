@@ -15,7 +15,7 @@ export function getStaticPaths() {
 const { entry, titleById, urlByPathId } = Astro.props;
 const sidebar = getApisixSidebar();
 const urlById = (id: string) => urlByPathId.get(id) ?? `/zh/docs/apisix/${id}/`;
-const editUrl = docEditUrl('apisix', 'apisix', entry.pathId, 'zh');
+const editUrl = docEditUrl('apisix', 'apisix', entry);
 ---
 <DocPage
   entry={entry}

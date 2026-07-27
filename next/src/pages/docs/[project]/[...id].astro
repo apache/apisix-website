@@ -1,6 +1,6 @@
 ---
 import DocPage from '../../../layouts/DocPage.astro';
-import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar, docEditUrl } from '../../../lib/content';
+import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar, docEditUrl, subprojectVersion } from '../../../lib/content';
 
 export function getStaticPaths() {
   return Object.keys(SUBPROJECTS).flatMap((project) => {
@@ -18,6 +18,7 @@ const { entry, titleById, urlByPathId, project } = Astro.props;
 const sidebar = getSubprojectSidebar(project);
 const urlById = (id: string) => urlByPathId.get(id) ?? `/docs/${project}/${id}/`;
 const repo = SUBPROJECTS[project].repo;
+const version = subprojectVersion(project);
 ---
 <DocPage
   entry={entry}
@@ -27,5 +28,8 @@ const repo = SUBPROJECTS[project].repo;
   sidebar={sidebar}
   titleById={titleById}
   urlById={urlById}
-  editUrl={docEditUrl(project, repo, entry.pathId, 'en')}
+  editUrl={docEditUrl(project, repo, entry)}
+  versionLabel={version ? `v${version}` : undefined}
+  archivedVersions={[]}
+  nextUrl={`/docs/${project}/next/`}
 />

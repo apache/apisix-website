@@ -17,13 +17,16 @@ interface Props {
   archivedVersions?: string[];
   /** URL prefix the version dirs hang off, e.g. "/docs/apisix/". */
   versionBase?: string;
+  /** Explicit link to the unreleased docs, for projects with no archives. */
+  nextUrl?: string;
   /** Sidebar id of the current page (path-derived); defaults to entry.id. */
   activeId?: string;
 }
 const {
   entry, locale, path, sidebar = [], titleById, urlById, editUrl, versionLabel,
-  archivedVersions = [], versionBase = '',
+  archivedVersions = [], versionBase = '', nextUrl,
 } = Astro.props;
+const nextHref = nextUrl ?? (versionBase ? `${versionBase}next/` : undefined);
 const active = Astro.props.activeId ?? entry.id;
 const { Content } = entry.mod;
 
@@ -50,14 +53,14 @@ const jsonLd = [{
     {sidebar.length > 0 && (
       <nav class="docs-sidebar" aria-label="Docs sidebar">
         {versionLabel && (
-          archivedVersions.length > 0
+          (archivedVersions.length > 0 || nextHref)
             ? (
               <details class="version-picker">
                 <summary>{versionLabel}</summary>
                 <ul>
-                  <li><a href={versionBase} aria-current="page">{versionLabel}</a></li>
+                  {versionBase && <li><a href={versionBase} aria-current="page">{versionLabel}</a></li>}
                   {archivedVersions.map((v) => <li><a href={`${versionBase}${v}/`}>{v}</a></li>)}
-                  <li><a href={`${versionBase}next/`}>{locale === 'zh' ? '开发版 (next)' : 'Next (unreleased)'}</a></li>
+                  {nextHref && <li><a href={nextHref}>{locale === 'zh' ? '开发版 (next)' : 'Next (unreleased)'}</a></li>}
                 </ul>
               </details>
             )

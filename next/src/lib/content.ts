@@ -106,9 +106,9 @@ const docRefs = (Object.values(
  * default branches differ (master vs main) — and `pathId`, the source-relative
  * path, since a frontmatter slug can move the URL away from the filename.
  */
-export function docEditUrl(project: string, repo: string, pathId: string, locale: Locale): string {
+export function docEditUrl(project: string, repo: string, entry: DocEntry): string {
   const ref = docRefs[project] ?? 'master';
-  return `https://github.com/apache/${repo}/edit/${ref}/docs/${locale}/latest/${pathId}.md`;
+  return `https://github.com/apache/${repo}/edit/${ref}/docs/${entry.sourceLocale}/latest/${entry.pathId}.md`;
 }
 
 /** Sub-projects served under /docs/<key>/ via the generic route. */
@@ -230,6 +230,13 @@ export interface DocEntry {
   id: string; // URL id after frontmatter slug/id overrides (e.g. "FAQ", "plugins/limit-count")
   /** Pure path-derived id — the key sidebar config.json entries refer to. */
   pathId: string;
+  /**
+   * Locale of the file this page was actually rendered from. A zh page falls
+   * back to the English source when no translation exists, and an "Edit this
+   * page" link built from the rendered locale would then point at a file that
+   * does not exist upstream.
+   */
+  sourceLocale: Locale;
   url: string;
   title: string;
   description: string;
@@ -261,6 +268,8 @@ export function getGeneralDocs(locale: Locale): DocEntry[] {
       return {
         id,
         pathId: docId(p, 'docs-general'),
+        // docs/general lives in this repo and has no per-locale source split.
+        sourceLocale: 'en' as Locale,
         url: `${localePrefix(locale)}/docs/general/${id}/`,
         title: docTitle(mod, id),
         description: mod.frontmatter.description ?? excerpt(mod),
@@ -274,10 +283,12 @@ export function getApisixDocs(locale: Locale): DocEntry[] {
   const zh = new Map(Object.entries(docsApisixZh).map(([p, mod]) => [docId(p, 'docs-apisix-zh'), mod]));
   return Object.entries(docsApisixEn).map(([p, mod]) => {
     const id = docId(p, 'docs-apisix-en');
-    const effective = locale === 'zh' ? (zh.get(id) ?? mod) : mod;
+    const translated = locale === 'zh' ? zh.get(id) : undefined;
+    const effective = translated ?? mod;
     return {
       id,
       pathId: docId(p, 'docs-apisix-en'),
+      sourceLocale: translated ? 'zh' : 'en',
       url: `${localePrefix(locale)}/docs/apisix/${id}/`,
       title: docTitle(effective, id),
       description: effective.frontmatter.description ?? excerpt(effective),
@@ -296,10 +307,12 @@ export function getSubprojectDocs(project: string, locale: Locale): DocEntry[] {
     .filter(([p]) => !p.endsWith('config.json'))
     .map(([p, mod]) => {
       const id = docId(p, `${rootName}en`, mod.frontmatter);
-      const effective = locale === 'zh' ? (zhMap.get(id) ?? mod) : mod;
+      const translated = locale === 'zh' ? zhMap.get(id) : undefined;
+      const effective = translated ?? mod;
       return {
         id,
         pathId: docId(p, `${rootName}en`),
+        sourceLocale: (translated ? 'zh' : 'en') as Locale,
         url: `${localePrefix(locale)}/docs/${project}/${id}/`,
         title: docTitle(effective, id),
         description: effective.frontmatter.description ?? excerpt(effective),
@@ -318,6 +331,12 @@ export function getSubprojectSidebar(project: string): SidebarNode[] {
     return { label: item.label, items: (item.items ?? []).map(normalize) };
   };
   return sidebar.map(normalize);
+}
+
+/** Version label a sub-project's docs were synced at, e.g. "0.5". */
+export function subprojectVersion(project: string): string | undefined {
+  const cfg = Object.entries(sidebarConfigs).find(([p]) => p.includes(`docs-${project}-en/config.json`))?.[1];
+  return (cfg?.default?.version ?? cfg?.version) as string | undefined;
 }
 
 export interface SidebarNode {
