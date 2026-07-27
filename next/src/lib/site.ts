@@ -41,6 +41,7 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: 'Learning Center', labelZh: '学习中心', href: '/learning-center/' },
+  { label: 'Comparisons', labelZh: '对比', href: '/comparisons/' },
   { label: 'AI Gateway', href: '/ai-gateway/' },
   { label: 'Blog', labelZh: '博客', href: '/blog/' },
   { label: 'Plugin Hub', labelZh: '插件中心', href: '/plugins/' },
@@ -71,11 +72,22 @@ export const FOOTER = {
       ],
     },
     {
-      title: 'More',
+      title: 'Resources',
       links: [
         { label: 'Blog', href: '/blog/' },
-        { label: 'Plugin Hub', href: '/plugins/' },
         { label: 'Learning Center', href: '/learning-center/' },
+        { label: 'Comparisons', href: '/comparisons/' },
+        { label: 'Events', href: '/events/' },
+        { label: 'Case Studies', href: '/blog/tags/case-studies/' },
+        { label: 'User Stories', href: '/user-stories/' },
+      ],
+    },
+    {
+      title: 'More',
+      links: [
+        { label: 'Plugin Hub', href: '/plugins/' },
+        { label: 'Downloads', href: '/downloads/' },
+        { label: 'Team', href: '/team/' },
         { label: 'Contribute', href: '/contribute/' },
       ],
     },

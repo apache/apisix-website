@@ -224,7 +224,8 @@ jobs:
           # is left as Docusaurus produced it, so those URLs stay byte-identical.
           for path in index.html zh/index.html _astro \
                       blog zh/blog learning-center zh/learning-center \
-                      articles zh/articles events zh/events; do
+                      articles zh/articles events zh/events \
+                      comparisons zh/comparisons; do
             rm -rf "website/build/$path"
             mkdir -p "website/build/$(dirname "$path")"
             cp -R "next/dist/$path" "website/build/$path"
@@ -244,6 +245,9 @@ jobs:
           test -f website/build/articles/index.html
           test -f website/build/zh/articles/rss.xml
           test -f website/build/events/archive/index.html
+          # The comparisons hub (a single index.html in both locales) is Astro's.
+          grep -q '/_astro/' website/build/comparisons/index.html
+          grep -q '/_astro/' website/build/zh/comparisons/index.html
           # Merge the homepage's image assets (integration brand icons, feature
           # infographics, architecture diagram) into the Docusaurus img tree.
           # cp merges: it adds the new files and overwrites only same-named
