@@ -14,6 +14,12 @@ const distFlag = args.indexOf('--dist');
 const dist = distFlag !== -1 ? path.resolve(args[distFlag + 1]) : path.join(root, 'dist');
 const SITE = 'https://apisix.apache.org';
 const today = new Date().toISOString().slice(0, 10);
+const excludePatterns = [
+  /^\/404\/$/,
+  /\/blog\/(?:tags|page|archive)\//,
+  /\/learning-center\/(?:tags|page|archive)\//,
+  /\/(?:articles|events)\/(?:page|archive)\//,
+];
 
 function pagesUnder(dir) {
   const out = [];
@@ -29,7 +35,7 @@ function pagesUnder(dir) {
   return out.map((u) => (u === '//' ? '/' : u)).sort();
 }
 
-const all = pagesUnder(dist).filter((u) => u !== '/404/');
+const all = pagesUnder(dist).filter((u) => !excludePatterns.some((pattern) => pattern.test(u)));
 const zh = all.filter((u) => u === '/zh/' || u.startsWith('/zh/'));
 const en = all.filter((u) => !zh.includes(u));
 
