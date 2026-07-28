@@ -150,6 +150,20 @@ const group = (items, frag) => {
   return items.filter((p) => prefix.test(p.url));
 };
 
+/**
+ * The site ships a hand-curated llms.txt (website/static/llms.txt): ~48 entries
+ * grouped by topic, each with a sentence on what it is for. That editorial
+ * judgement is worth more to an agent than a flat list, so it stays at the top
+ * — trimmed of its own heading — and the generated full index follows it.
+ */
+const curatedFile = path.join(root, '..', 'website', 'static', 'llms.txt');
+const curated = fs.existsSync(curatedFile)
+  ? fs.readFileSync(curatedFile, 'utf8')
+    .replace(/^#[^\n]*\n+/, '')            // drop its H1; ours is the page title
+    .replace(/^>.*\n+/m, '')               // and its blurb; ours carries one
+    .trim()
+  : '';
+
 const llms = [
   '# Apache APISIX',
   '',
@@ -157,6 +171,8 @@ const llms = [
   '',
   'Every page below is available as Markdown — append `index.md` to any page URL.',
   '',
+  ...(curated ? [curated, ''] : []),
+  ...(curated ? ['# Full index', ''] : []),
   ...section('Documentation', group(en, '/docs/')),
   ...section('Learning center', group(en, '/learning-center/')),
   ...section('Blog', group(en, '/blog/')),
