@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import SidebarNodes from '../components/SidebarNodes.astro';
 import { SITE, type Locale } from '../lib/site';
 import type { DocEntry, SidebarNode } from '../lib/content';
 
@@ -12,10 +13,20 @@ interface Props {
   urlById?: (id: string) => string;
   editUrl?: string;
   versionLabel?: string;
+  /** Archived versions to offer alongside the current one, newest first. */
+  archivedVersions?: string[];
+  /** URL prefix the version dirs hang off, e.g. "/docs/apisix/". */
+  versionBase?: string;
+  /** Explicit link to the unreleased docs, for projects with no archives. */
+  nextUrl?: string;
   /** Sidebar id of the current page (path-derived); defaults to entry.id. */
   activeId?: string;
 }
-const { entry, locale, path, sidebar = [], titleById, urlById, editUrl, versionLabel } = Astro.props;
+const {
+  entry, locale, path, sidebar = [], titleById, urlById, editUrl, versionLabel,
+  archivedVersions = [], versionBase = '', nextUrl,
+} = Astro.props;
+const nextHref = nextUrl ?? (versionBase ? `${versionBase}next/` : undefined);
 const active = Astro.props.activeId ?? entry.id;
 const { Content } = entry.mod;
 
@@ -28,7 +39,6 @@ const jsonLd = [{
   mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
 }];
 
-const renderable = (node: SidebarNode): boolean => !!node.id || !!(node.items && node.items.length);
 ---
 <Base
   title={entry.title}
@@ -37,38 +47,26 @@ const renderable = (node: SidebarNode): boolean => !!node.id || !!(node.items &&
   path={path}
   jsonLd={jsonLd}
   canonicalOverride={entry.mod.frontmatter.canonical}
+  search
 >
   <div class="container docs-layout">
     {sidebar.length > 0 && (
       <nav class="docs-sidebar" aria-label="Docs sidebar">
-        {versionLabel && <p style="font-weight:700;padding:.2rem .5rem;margin:0">{versionLabel}</p>}
-        <ul>
-          {sidebar.filter(renderable).map((node) => (
-            <li class={node.items ? 'cat' : ''}>
-              {node.id
-                ? <a href={urlById!(node.id)} class={node.id === active ? 'active' : ''}>{titleById?.get(node.id) ?? node.id}</a>
-                : <span>{node.label}</span>}
-              {node.items && (
+        {versionLabel && (
+          (archivedVersions.length > 0 || nextHref)
+            ? (
+              <details class="version-picker">
+                <summary>{versionLabel}</summary>
                 <ul>
-                  {node.items.filter(renderable).map((child) => (
-                    <li>
-                      {child.id
-                        ? <a href={urlById!(child.id)} class={child.id === active ? 'active' : ''}>{titleById?.get(child.id) ?? child.id}</a>
-                        : <span>{child.label}</span>}
-                      {child.items && (
-                        <ul>
-                          {child.items.filter((n) => n.id).map((g) => (
-                            <li><a href={urlById!(g.id!)} class={g.id === active ? 'active' : ''}>{titleById?.get(g.id!) ?? g.id}</a></li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
+                  {versionBase && <li><a href={versionBase} aria-current="page">{versionLabel}</a></li>}
+                  {archivedVersions.map((v) => <li><a href={`${versionBase}${v}/`}>{v}</a></li>)}
+                  {nextHref && <li><a href={nextHref}>{locale === 'zh' ? '开发版 (next)' : 'Next (unreleased)'}</a></li>}
                 </ul>
-              )}
-            </li>
-          ))}
-        </ul>
+              </details>
+            )
+            : <p style="font-weight:700;padding:.2rem .5rem;margin:0">{versionLabel}</p>
+        )}
+        <SidebarNodes nodes={sidebar} active={active} titleById={titleById} urlById={urlById!} />
       </nav>
     )}
     <article class="docs-content prose">

@@ -1,8 +1,8 @@
 ---
 import { NAV, LOGO, localePrefix, type Locale } from '../lib/site';
 
-interface Props { locale: Locale; path: string }
-const { locale, path } = Astro.props;
+interface Props { locale: Locale; path: string; search?: boolean }
+const { locale, path, search = false } = Astro.props;
 const prefix = localePrefix(locale);
 const label = (item: { label: string; labelZh?: string }) =>
   locale === 'zh' && item.labelZh ? item.labelZh : item.label;
@@ -31,6 +31,18 @@ const switchUrl = locale === 'zh' ? path : `/zh${path}`;
       ))}
       <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a>
       <a href={switchUrl} title={locale === 'zh' ? 'English' : '简体中文'}>{locale === 'zh' ? 'EN' : '中'}</a>
+      {search && <div id="docsearch" class="docsearch-slot" />}
+      {search && (
+        <script
+          src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"
+          data-appid="38VC84A2WJ"
+          data-apikey="73248b6e5908d49bb7986c4aef5fd30d"
+          data-indexname="apache_apisix"
+          is:inline
+          defer
+          onload="docsearch({container:'#docsearch',appId:this.dataset.appid,apiKey:this.dataset.apikey,indexName:this.dataset.indexname})"
+        />
+      )}
     </nav>
     <details class="mobile-toggle">
       <summary aria-label="Menu">☰</summary>

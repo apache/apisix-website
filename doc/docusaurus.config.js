@@ -1,4 +1,35 @@
+const fs = require('fs');
+const path = require('path');
 const { ssrTemplate } = require('../config/ssrTemplate');
+
+/**
+ * Give the newest release an explicit versioned path so it stops owning the
+ * version-less URLs (/docs/apisix/plugins/cors/), which the Astro build now
+ * produces. Every version keeps building — this only moves the newest one from
+ * "" to "<version>/".
+ *
+ * Docusaurus assigns the empty path to whichever version is `lastVersion`, and
+ * defaults that to the first non-`current` entry of versions.json. Dropping the
+ * newest release from the build instead would just promote the next one into
+ * the same empty path, so the URLs would still be owned by Docusaurus — with
+ * older content — and the archive would lose a version.
+ *
+ * Returns undefined when the versions file is absent (nothing synced yet),
+ * leaving the default behaviour untouched.
+ */
+const pinNewestVersionPath = (projectName) => {
+  const file = path.join(__dirname, `docs-${projectName}_versions.json`);
+  if (!fs.existsSync(file)) return undefined;
+  try {
+    const all = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const newest = Array.isArray(all) ? all.find((v) => v !== 'current') : undefined;
+    // path: '<newest>' keeps it reachable at its own URL; banner 'none' avoids
+    // telling readers the current release is an unmaintained old version.
+    return newest ? { [newest]: { path: newest, banner: 'none' } } : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 const getEditUrl = (props) => {
   const {
@@ -79,6 +110,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix',
+        versions: pinNewestVersionPath('apisix'),
         path: 'docs/apisix',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -96,6 +128,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-ingress-controller',
+        versions: pinNewestVersionPath('apisix-ingress-controller'),
         path: 'docs/apisix-ingress-controller',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -115,6 +148,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-helm-chart',
+        versions: pinNewestVersionPath('apisix-helm-chart'),
         path: 'docs/apisix-helm-chart',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -132,6 +166,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-docker',
+        versions: pinNewestVersionPath('apisix-docker'),
         path: 'docs/apisix-docker',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -149,6 +184,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-java-plugin-runner',
+        versions: pinNewestVersionPath('apisix-java-plugin-runner'),
         path: 'docs/apisix-java-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -169,6 +205,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-go-plugin-runner',
+        versions: pinNewestVersionPath('apisix-go-plugin-runner'),
         path: 'docs/apisix-go-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,
@@ -188,6 +225,7 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'docs-apisix-python-plugin-runner',
+        versions: pinNewestVersionPath('apisix-python-plugin-runner'),
         path: 'docs/apisix-python-plugin-runner',
         showLastUpdateAuthor: true,
         showLastUpdateTime: true,

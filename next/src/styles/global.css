@@ -428,3 +428,24 @@ section.endcta.alt { background: transparent; padding: 4rem 1rem 0; }
 .anchor-link { opacity: 0; margin-left: .35rem; font-size: .8em; }
 h2:hover .anchor-link, h3:hover .anchor-link, .anchor-link:focus-visible { opacity: 1; }
 @media (hover: none) { .anchor-link { opacity: .55; } }
+
+/* ---------- docs search (Algolia DocSearch, docs pages only) ---------- */
+.docsearch-slot { margin-left: .5rem; }
+.docsearch-slot .DocSearch-Button { height: 36px; margin: 0; border-radius: 8px; background: var(--color-surface-alt); }
+.docsearch-slot .DocSearch-Button:hover { box-shadow: none; border-color: var(--color-hover-border); }
+:root { --docsearch-primary-color: var(--color-primary); --docsearch-highlight-color: var(--color-primary); }
+@media (max-width: 996px) { .docsearch-slot { display: none; } }
+
+/* ---------- docs version picker ---------- */
+.version-picker { margin: 0 0 .5rem; }
+.version-picker > summary {
+  cursor: pointer; font-weight: 700; padding: .35rem .5rem; border-radius: 6px;
+  list-style: none; display: flex; align-items: center; gap: .35rem;
+}
+.version-picker > summary::-webkit-details-marker { display: none; }
+.version-picker > summary::after { content: '▾'; font-size: .8em; color: var(--color-text-soft); }
+.version-picker > summary:hover { background: var(--color-surface-alt); }
+.version-picker ul { list-style: none; margin: .25rem 0 0; padding: 0 0 0 .5rem; }
+.version-picker li a { display: block; padding: .3rem .5rem; border-radius: 6px; color: var(--color-text-soft); font-size: .9rem; }
+.version-picker li a:hover { background: var(--color-surface-alt); color: var(--color-primary); text-decoration: none; }
+.version-picker li a[aria-current] { color: var(--color-primary); font-weight: 600; }
