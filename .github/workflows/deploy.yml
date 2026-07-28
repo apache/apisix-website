@@ -337,9 +337,14 @@ jobs:
               dest="website/build/${locale_prefix}docs/$rel"
               mkdir -p "$(dirname "$dest")"
               cp "$src/$rel" "$dest"
-              # Ship the Markdown twin next to the page it mirrors.
+              # Ship the Markdown twin next to the page it mirrors. Written as
+              # if/fi, not `[ -f … ] && cp …`: the latter is the loop body's
+              # last command, so a page without a twin makes the whole pipeline
+              # exit 1 under `set -e` — silently skipping every assertion below.
               twin="${rel%index.html}index.md"
-              [ -f "$src/$twin" ] && cp "$src/$twin" "website/build/${locale_prefix}docs/$twin"
+              if [ -f "$src/$twin" ]; then
+                cp "$src/$twin" "website/build/${locale_prefix}docs/$twin"
+              fi
             done
           done
           # The version archives must survive untouched.
