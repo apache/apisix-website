@@ -7,6 +7,7 @@ export interface DownloadProject {
   downloadPath: string;
   dockerhubPath?: string;
   version: string;
+  sourceVersion?: string;
   releaseDate: string;
 }
 

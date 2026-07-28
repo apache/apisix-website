@@ -6,6 +6,7 @@ const downloads = require('../../../config/downloads.js');
 const pluginGroups = require('../../../website/static/data/plugins.json');
 const apisixRelease = downloads.find((project) => project.githubRepo === 'apache/apisix');
 const pluginCount = pluginGroups.reduce((total, group) => total + group.plugins.length, 0);
+const socialImage = 'https://apisix.apache.org/img/apache-apisix.png';
 
 async function expectNoPageOverflow(page) {
   const layout = await page.evaluate(() => {
@@ -36,6 +37,12 @@ async function expectNoPageOverflow(page) {
 async function expectImageLoaded(locator) {
   await locator.scrollIntoViewIfNeeded();
   await expect.poll(() => locator.evaluate((image) => image.naturalWidth)).toBeGreaterThan(0);
+}
+
+async function expectSocialImage(page) {
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', socialImage);
+  await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', socialImage);
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
 }
 
 test('AI Gateway has complete responsive content and valid footer links', async ({ page }, testInfo) => {
@@ -71,7 +78,12 @@ test('Plugin Hub renders the complete catalog without page overflow', async ({ p
   await expect(page.getByTestId('plugin-card')).toHaveCount(pluginCount);
   await expect(page.locator('[data-plugin="ai-proxy"]'))
     .toHaveAttribute('href', '/docs/apisix/plugins/ai-proxy/');
-  await expectImageLoaded(page.getByTestId('plugin-card').first().locator('img'));
+  await expectImageLoaded(page.locator('[data-plugin="ai-proxy"] img'));
+  await expect(page.locator('[data-plugin="limit-req"] use'))
+    .toHaveAttribute('href', '#iconlimit-req');
+  await expect(page.locator('symbol#iconlimit-req')).toHaveCount(1);
+  await expect(page.locator('main')).toHaveCount(1);
+  await expectSocialImage(page);
   await expectNoPageOverflow(page);
 
   if (testInfo.project.name === 'mobile-chrome') {
@@ -88,14 +100,19 @@ test('Downloads exposes release artifacts, signatures, and checksums', async ({ 
 
   await expect(page.getByRole('heading', { level: 1, name: 'Downloads' })).toBeVisible();
   await expect(page.getByTestId('download-project')).toHaveCount(downloads.length);
+  for (const project of downloads) {
+    const sourceVersion = project.sourceVersion ?? project.version;
+    expect(project.downloadPath).toContain(`/${sourceVersion}/`);
+  }
 
   const apisix = page.locator('[data-project="apache/apisix"]');
   await expect(apisix).toContainText(apisixRelease.version);
   await apisix.locator('summary').click();
   await expect(apisix.getByRole('link', { name: 'ASC', exact: true })).toBeVisible();
   await expect(apisix.getByRole('link', { name: 'SHA512', exact: true })).toBeVisible();
-  await expect(apisix.getByRole('link', { name: 'Source archive' }))
+  await expect(apisix.getByRole('link', { name: `ASF source ${apisixRelease.version}` }))
     .toHaveAttribute('href', `https://www.apache.org/dyn/closer.cgi/${apisixRelease.downloadPath}.tgz`);
+  await expectSocialImage(page);
   await expectNoPageOverflow(page);
 });
 
@@ -117,4 +134,33 @@ test('Chinese routes keep localized primary content', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: '下载' })).toBeVisible();
   await expect(page.getByTestId('download-project')).toHaveCount(downloads.length);
   await expectNoPageOverflow(page);
+});
+
+test('final overlay retains Docusaurus-owned routes', async ({ page }) => {
+  test.setTimeout(60_000);
+  test.skip(process.env.EXPECT_DOCUSARUS_ROUTES !== 'true', 'Only runs against the final overlaid tree');
+
+  for (const route of ['/team/', '/contribute/', '/edit/', '/search/']) {
+    const response = await page.request.get(route);
+    const html = await response.text();
+
+    expect(response.ok()).toBeTruthy();
+    expect(html).toContain('name="generator" content="Docusaurus');
+    expect(html).toContain('id="__docusaurus"');
+  }
+
+  const siteOrigin = new URL(process.env.PLAYWRIGHT_BASE_URL ?? 'http://127.0.0.1:4321').origin;
+  await page.route('**/*', async (route) => {
+    if (new URL(route.request().url()).origin === siteOrigin) {
+      await route.continue();
+    } else {
+      await route.abort();
+    }
+  });
+
+  for (const route of ['/team/', '/contribute/', '/search/']) {
+    await page.goto(route, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#__docusaurus')).toHaveCount(1);
+    await expectNoPageOverflow(page);
+  }
 });

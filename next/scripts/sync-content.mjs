@@ -152,6 +152,10 @@ fs.writeFileSync(
   path.join(OUT, 'site-data.json'),
   `${JSON.stringify({ downloads, plugins, repoInfo }, null, 2)}\n`,
 );
+const pluginIconSource = path.join(WEBSITE_REPO, 'website/static/js/plugin-icon.js');
+const pluginIconOutput = path.join(root, 'public/js/plugin-icon.js');
+fs.mkdirSync(path.dirname(pluginIconOutput), { recursive: true });
+fs.copyFileSync(pluginIconSource, pluginIconOutput);
 
 // Blog (both locales), learning center, articles, general docs — all already
 // live as markdown in the apisix-website repo.

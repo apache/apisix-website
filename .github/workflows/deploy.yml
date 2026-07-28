@@ -236,10 +236,6 @@ jobs:
           # get clean prose instead of parsing markup.
           node scripts/generate-md-twins.mjs
 
-      - name: Test migrated main pages on desktop and mobile
-        working-directory: next
-        run: npm run test:e2e
-
       - name: Assert URL parity for the wave-2 subtrees
         run: |
           set -euo pipefail
@@ -447,6 +443,14 @@ jobs:
           grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.svg
+
+      - name: Test the final overlaid site on desktop and mobile
+        working-directory: next
+        run: npm run test:e2e
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4321
+          PLAYWRIGHT_WEB_SERVER_COMMAND: python3 -m http.server 4321 --bind 127.0.0.1 --directory ../website/build
+          EXPECT_DOCUSARUS_ROUTES: 'true'
 
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify

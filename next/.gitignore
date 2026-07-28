@@ -6,3 +6,4 @@ content/
 .sync/
 playwright-report/
 test-results/
+/public/js/plugin-icon.js

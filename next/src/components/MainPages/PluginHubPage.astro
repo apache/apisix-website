@@ -85,7 +85,7 @@ const collectionSchema = {
       </nav>
     </aside>
 
-    <main class="catalog" id="plugin-catalog">
+    <section class="catalog" id="plugin-catalog" aria-label={t(locale, 'Plugin catalog', '插件目录')}>
       {groups.map((group, groupIndex) => (
         <section
           class="plugin-group"
@@ -104,7 +104,6 @@ const collectionSchema = {
             {group.plugins.map((plugin) => {
               const slug = plugin.name.includes('serverless') ? 'serverless' : plugin.name;
               const basePath = plugin.beta ? 'next/plugins' : 'plugins';
-              const icon = plugin.logo ?? '/img/plugin/apisix.svg';
               return (
                 <a
                   class="plugin-card"
@@ -113,7 +112,15 @@ const collectionSchema = {
                   data-plugin={plugin.name}
                 >
                   <div class="plugin-icon">
-                    <img src={icon} alt="" width="48" height="48" loading="lazy" />
+                    {plugin.logo ? (
+                      <img src={plugin.logo} alt="" width="48" height="48" loading="lazy" />
+                    ) : plugin.useDefaultIcon ? (
+                      <img src="/img/plugin/apisix.svg" alt="" width="48" height="48" loading="lazy" />
+                    ) : (
+                      <svg aria-hidden="true">
+                        <use href={`#icon${plugin.name}`} />
+                      </svg>
+                    )}
                   </div>
                   <div class="plugin-name-row">
                     <h3>{plugin.name}</h3>
@@ -127,8 +134,9 @@ const collectionSchema = {
           </div>
         </section>
       ))}
-    </main>
+    </section>
   </div>
+  <script src="/js/plugin-icon.js" defer></script>
 </Base>
 
 <style>
@@ -206,7 +214,7 @@ const collectionSchema = {
     border-radius: 8px;
     background: #fafafa;
   }
-  .plugin-icon img { display: block; width: 48px; height: 48px; object-fit: contain; }
+  .plugin-icon img, .plugin-icon svg { display: block; width: 48px; height: 48px; object-fit: contain; }
   .plugin-name-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
   .plugin-name-row h3 { min-width: 0; margin: 0; font-size: 1rem; line-height: 1.35; letter-spacing: 0; overflow-wrap: anywhere; }
   .beta { padding: .12rem .45rem; border: 1px solid #f2b8b5; border-radius: 6px; color: var(--color-primary-dark); font-size: .68rem; font-weight: 700; }

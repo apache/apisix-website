@@ -68,6 +68,7 @@ const softwareSchema = {
         {projects.map((project) => {
           const repo = getRepoInfo(project.githubRepo)?.info;
           const isApisix = project.githubRepo === 'apache/apisix';
+          const sourceVersion = project.sourceVersion ?? project.version;
           return (
             <article
               class="project-card"
@@ -95,7 +96,7 @@ const softwareSchema = {
               <div class="release-panel">
                 <dl class="release-meta">
                   <div>
-                    <dt>{t(locale, 'Latest version', '最新版本')}</dt>
+                    <dt>{t(locale, 'Latest project version', '项目最新版本')}</dt>
                     <dd>{project.version}</dd>
                   </div>
                   <div>
@@ -114,7 +115,7 @@ const softwareSchema = {
                       <a href={`https://hub.docker.com/r/apache/${project.dockerhubPath}`}>Docker Hub</a>
                     )}
                     <a href={`https://www.apache.org/dyn/closer.cgi/${project.downloadPath}.tgz`}>
-                      {t(locale, 'Source archive', '源码压缩包')}
+                      {t(locale, `ASF source ${sourceVersion}`, `ASF 源码 ${sourceVersion}`)}
                     </a>
                     <a href={`https://downloads.apache.org/${project.downloadPath}.tgz.asc`}>ASC</a>
                     <a href={`https://downloads.apache.org/${project.downloadPath}.tgz.sha512`}>SHA512</a>
