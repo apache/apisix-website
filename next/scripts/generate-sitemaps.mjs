@@ -16,9 +16,9 @@ const SITE = 'https://apisix.apache.org';
 const today = new Date().toISOString().slice(0, 10);
 const excludePatterns = [
   /^\/404\/$/,
-  /\/blog\/(?:tags|page|archive)\//,
-  /\/learning-center\/(?:tags|page|archive)\//,
-  /\/(?:articles|events)\/(?:page|archive)\//,
+  /^\/(?:zh\/)?blog\/(?:tags|page|archive)\//,
+  /^\/(?:zh\/)?learning-center\/(?:tags|page|archive)\//,
+  /^\/(?:zh\/)?(?:articles|events)\/(?:page|archive)\//,
 ];
 
 function pagesUnder(dir) {

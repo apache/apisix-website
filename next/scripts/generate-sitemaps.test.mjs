@@ -23,6 +23,7 @@ const pages = [
   'learning-center/page/2',
   'learning-center/archive',
   'articles/Apache-APISIX-Incubator-Journey',
+  'docs/general/blog/page/overview',
   'articles/page/2',
   'articles/archive',
   'events/archive',
@@ -62,6 +63,7 @@ try {
   assert.match(en, /learning-center\/mcp-protocol-ai-gateway/);
   assert.match(en, /articles\/Apache-APISIX-Incubator-Journey/);
   assert.match(en, /blog\/2026\/07\/28\/release-notes/);
+  assert.match(en, /docs\/general\/blog\/page\/overview/);
   assert.match(zh, /zh\/learning-center\/what-is-an-api-gateway/);
   excluded.forEach((url) => assert.doesNotMatch(`${en}${zh}`, new RegExp(url)));
   console.log('Sitemap URL filters passed.');
