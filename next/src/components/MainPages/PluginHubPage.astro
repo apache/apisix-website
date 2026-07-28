@@ -1,0 +1,259 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPluginGroups } from '../../lib/site-data';
+import { SITE, localePrefix, t, type Locale } from '../../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const p = localePrefix(locale);
+const groups = getPluginGroups();
+const allPlugins = groups.flatMap((group) => group.plugins);
+
+const groupZh: Record<string, string> = {
+  Traffic: '流量管理',
+  Transformation: '请求与响应转换',
+  Authentication: '认证',
+  Security: '安全',
+  AI: 'AI',
+  Observability: '可观测性',
+  Serverless: 'Serverless',
+  'Other protocols': '其他协议',
+  General: '通用',
+};
+const groupLabel = (name: string) => locale === 'zh' ? groupZh[name] ?? name : name;
+const colors = ['#b42318', '#175cd3', '#027a48', '#b54708', '#6941c6', '#0e7090', '#9e165f', '#475467', '#344054'];
+
+const description = t(
+  locale,
+  'Explore 100+ Apache APISIX plugins for authentication, security, traffic control, observability, serverless, and AI.',
+  '探索 100+ Apache APISIX 插件，覆盖认证、安全、流量控制、可观测、Serverless 和 AI。',
+);
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Apache APISIX Plugin Hub',
+  description,
+  url: `${SITE}${locale === 'zh' ? '/zh' : ''}/plugins/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: allPlugins.length,
+    itemListElement: allPlugins.map((plugin, index) => {
+      const slug = plugin.name.includes('serverless') ? 'serverless' : plugin.name;
+      const basePath = plugin.beta ? 'next/plugins' : 'plugins';
+      return {
+        '@type': 'ListItem',
+        position: index + 1,
+        name: plugin.name,
+        url: `${SITE}${p}/docs/apisix/${basePath}/${slug}/`,
+      };
+    }),
+  },
+};
+---
+<Base
+  title={t(locale, 'Plugin Hub: 100+ API Gateway & AI Plugins', '插件中心：100+ API 网关与 AI 插件')}
+  description={description}
+  locale={locale}
+  path="/plugins/"
+  jsonLd={[collectionSchema]}
+>
+  <header class="page-head plugin-head">
+    <div class="container plugin-head-layout">
+      <div class="page-title">
+        <p class="kicker">Apache APISIX Plugin Hub</p>
+        <h1>{t(locale, 'Powerful plugins. Open integrations.', '强大的插件，开放的集成。')}</h1>
+        <p>{description}</p>
+      </div>
+      <dl class="plugin-summary" aria-label={t(locale, 'Plugin catalog summary', '插件目录概览')}>
+        <div><dt>{allPlugins.length}</dt><dd>{t(locale, 'plugins', '插件')}</dd></div>
+        <div><dt>{groups.length}</dt><dd>{t(locale, 'categories', '类别')}</dd></div>
+        <div><dt>100%</dt><dd>{t(locale, 'open source', '开源')}</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="container plugin-layout">
+    <aside class="category-nav" aria-label={t(locale, 'Plugin categories', '插件类别')}>
+      <p>{t(locale, 'Categories', '类别')}</p>
+      <nav>
+        {groups.map((group) => (
+          <a href={`#${group.groupName}`}>
+            <span>{groupLabel(group.groupName)}</span>
+            <span class="category-count">{group.plugins.length}</span>
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <main class="catalog" id="plugin-catalog">
+      {groups.map((group, groupIndex) => (
+        <section
+          class="plugin-group"
+          id={group.groupName}
+          style={`--group-color:${colors[groupIndex % colors.length]}`}
+          data-testid="plugin-group"
+        >
+          <div class="group-heading">
+            <div>
+              <p class="group-number">{String(groupIndex + 1).padStart(2, '0')}</p>
+              <h2>{groupLabel(group.groupName)}</h2>
+            </div>
+            <p>{group.plugins.length} {t(locale, 'plugins', '个插件')}</p>
+          </div>
+          <div class="plugin-grid">
+            {group.plugins.map((plugin) => {
+              const slug = plugin.name.includes('serverless') ? 'serverless' : plugin.name;
+              const basePath = plugin.beta ? 'next/plugins' : 'plugins';
+              const icon = plugin.logo ?? '/img/plugin/apisix.svg';
+              return (
+                <a
+                  class="plugin-card"
+                  href={`${p}/docs/apisix/${basePath}/${slug}/`}
+                  data-testid="plugin-card"
+                  data-plugin={plugin.name}
+                >
+                  <div class="plugin-icon">
+                    <img src={icon} alt="" width="48" height="48" loading="lazy" />
+                  </div>
+                  <div class="plugin-name-row">
+                    <h3>{plugin.name}</h3>
+                    {plugin.beta && <span class="beta">{t(locale, 'Beta', 'Beta')}</span>}
+                  </div>
+                  <p>{plugin.description ?? t(locale, 'Apache APISIX plugin.', 'Apache APISIX 插件。')}</p>
+                  <span class="read-link">{t(locale, 'Read documentation', '阅读文档')} <span aria-hidden="true">→</span></span>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </main>
+  </div>
+</Base>
+
+<style>
+  .plugin-head { padding: 3.5rem 0 2.5rem; }
+  .plugin-head-layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3rem; align-items: end; }
+  .page-title h1 { max-width: 16ch; font-size: 2.8rem; line-height: 1.12; letter-spacing: 0; }
+  .plugin-summary { display: flex; gap: 2rem; margin: 0; padding: 1.15rem 0; }
+  .plugin-summary div { min-width: 82px; }
+  .plugin-summary dt { color: var(--color-primary-dark); font-size: 1.7rem; font-weight: 750; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .plugin-summary dd { margin: .25rem 0 0; color: var(--color-text-soft); font-size: .78rem; }
+  .plugin-layout {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 3rem;
+    align-items: start;
+    padding-top: 2.5rem;
+  }
+  .category-nav {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    max-height: calc(100vh - var(--header-height) - 3rem);
+    overflow-y: auto;
+  }
+  .category-nav > p { margin: 0 0 .65rem; color: var(--color-text-soft); font-size: .75rem; font-weight: 750; text-transform: uppercase; }
+  .category-nav nav { display: grid; }
+  .category-nav a {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    padding: .4rem .55rem;
+    border-left: 2px solid var(--color-border);
+    color: var(--color-text-soft);
+    font-size: .86rem;
+  }
+  .category-nav a:hover { border-left-color: var(--color-primary); color: var(--color-primary); text-decoration: none; }
+  .category-count { min-width: 1.5rem; text-align: right; color: #7a8088; font-variant-numeric: tabular-nums; }
+  .catalog { min-width: 0; }
+  .plugin-group { padding: 0 0 4rem; scroll-margin-top: calc(var(--header-height) + 1rem); }
+  .plugin-group + .plugin-group { padding-top: 1rem; border-top: 1px solid var(--color-border); }
+  .group-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.25rem; }
+  .group-heading > div { display: flex; gap: .8rem; align-items: baseline; }
+  .group-number { margin: 0; color: var(--group-color); font-size: .78rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+  .group-heading h2 { margin: 0; font-size: 1.65rem; line-height: 1.25; letter-spacing: 0; }
+  .group-heading > p { margin: 0; color: var(--color-text-soft); font-size: .82rem; }
+  .plugin-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+  .plugin-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 245px;
+    padding: 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--color-text);
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .plugin-card:hover {
+    border-color: var(--group-color);
+    box-shadow: 0 8px 20px rgb(0 0 0 / 7%);
+    text-decoration: none;
+    transform: translateY(-3px);
+  }
+  .plugin-card:focus-visible { outline: 2px solid var(--group-color); outline-offset: 3px; }
+  .plugin-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: #fafafa;
+  }
+  .plugin-icon img { display: block; width: 48px; height: 48px; object-fit: contain; }
+  .plugin-name-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+  .plugin-name-row h3 { min-width: 0; margin: 0; font-size: 1rem; line-height: 1.35; letter-spacing: 0; overflow-wrap: anywhere; }
+  .beta { padding: .12rem .45rem; border: 1px solid #f2b8b5; border-radius: 6px; color: var(--color-primary-dark); font-size: .68rem; font-weight: 700; }
+  .plugin-card > p {
+    display: -webkit-box;
+    margin: .6rem 0 1rem;
+    overflow: hidden;
+    color: var(--color-text-soft);
+    font-size: .8rem;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .read-link { margin-top: auto; color: var(--group-color); font-size: .78rem; font-weight: 700; }
+  @media (max-width: 1040px) {
+    .plugin-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 820px) {
+    .plugin-head-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+    .plugin-summary { padding: 0; }
+    .plugin-layout { display: block; padding-top: 0; }
+    .category-nav {
+      position: sticky;
+      z-index: 20;
+      top: var(--header-height);
+      max-height: none;
+      margin: 0 -1.25rem 2.5rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--color-border);
+      background: #fff;
+    }
+    .category-nav > p { display: none; }
+    .category-nav nav { display: flex; overflow-x: auto; padding: .6rem 1.25rem; scrollbar-width: thin; }
+    .category-nav a { flex: 0 0 auto; min-height: 40px; border: 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .category-nav a:hover { border-bottom-color: var(--color-primary); }
+  }
+  @media (max-width: 560px) {
+    .plugin-head { padding: 2.5rem 0 2rem; }
+    .page-title h1 { font-size: 2.15rem; }
+    .plugin-summary { gap: 1.15rem; justify-content: space-between; }
+    .plugin-summary div { min-width: 0; }
+    .plugin-summary dt { font-size: 1.4rem; }
+    .group-heading { align-items: center; }
+    .plugin-grid { grid-template-columns: 1fr; }
+    .plugin-card { min-height: 210px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plugin-card:hover { transform: none; }
+  }
+</style>

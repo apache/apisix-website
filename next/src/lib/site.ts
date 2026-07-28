@@ -77,9 +77,8 @@ export const FOOTER = {
         { label: 'Blog', href: '/blog/' },
         { label: 'Learning Center', href: '/learning-center/' },
         { label: 'Comparisons', href: '/comparisons/' },
-        { label: 'Events', href: '/events/' },
+        { label: 'Events', href: '/docs/general/events/' },
         { label: 'Case Studies', href: '/blog/tags/case-studies/' },
-        { label: 'User Stories', href: '/user-stories/' },
       ],
     },
     {

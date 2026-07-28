@@ -4,3 +4,5 @@ dist/
 content/
 .astro/
 .sync/
+playwright-report/
+test-results/

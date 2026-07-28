@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -22,6 +23,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 // the checked-out repo root itself.
 const WEBSITE_REPO = process.env.WEBSITE_REPO || path.join(root, '.sync/website');
 const OUT = path.join(root, 'content');
+const require = createRequire(import.meta.url);
 
 const stats = { copied: 0, tabsFlattened: 0, importsStripped: 0, codeTitles: 0, canonicals: 0 };
 
@@ -132,6 +134,24 @@ function copyTree(srcDir, outDir, opts = {}, filter = () => true) {
 }
 
 fs.rmSync(OUT, { recursive: true, force: true });
+fs.mkdirSync(OUT, { recursive: true });
+
+// Static-page data stays owned by the existing site until Docusaurus is
+// retired. Copy it into the Astro content tree so both generators render the
+// same releases and plugin catalog without maintaining a second source.
+const downloads = require(path.join(WEBSITE_REPO, 'config/downloads.js'));
+const plugins = JSON.parse(fs.readFileSync(
+  path.join(WEBSITE_REPO, 'website/static/data/plugins.json'),
+  'utf8',
+));
+const repoInfoPath = path.join(WEBSITE_REPO, 'config/repos-info.json');
+const repoInfo = fs.existsSync(repoInfoPath)
+  ? JSON.parse(fs.readFileSync(repoInfoPath, 'utf8'))
+  : {};
+fs.writeFileSync(
+  path.join(OUT, 'site-data.json'),
+  `${JSON.stringify({ downloads, plugins, repoInfo }, null, 2)}\n`,
+);
 
 // Blog (both locales), learning center, articles, general docs — all already
 // live as markdown in the apisix-website repo.

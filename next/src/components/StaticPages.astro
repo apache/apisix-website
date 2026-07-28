@@ -6,9 +6,9 @@
  */
 import Base from '../layouts/Base.astro';
 import { SITE, t, localePrefix, type Locale } from '../lib/site';
-import { getApisixDocs, getLearningPosts } from '../lib/content';
+import { getLearningPosts } from '../lib/content';
 
-interface Props { kind: 'docs-hub' | 'downloads' | 'team' | 'contribute' | 'comparisons' | 'ai-gateway' | 'plugins'; locale: Locale }
+interface Props { kind: 'docs-hub' | 'team' | 'contribute' | 'comparisons'; locale: Locale }
 const { kind, locale } = Astro.props;
 const p = localePrefix(locale);
 
@@ -23,35 +23,20 @@ const DOCS_PROJECTS = [
   { name: 'General', href: `${p}/docs/general/join/`, desc: t(locale, 'Community, contribution, and release guides.', '社区、贡献与发版指南。') },
 ];
 
-const DOWNLOADS = [
-  { name: 'APISIX', repo: 'apache/apisix', src: 'https://downloads.apache.org/apisix/' },
-  { name: 'APISIX Ingress Controller', repo: 'apache/apisix-ingress-controller', src: 'https://downloads.apache.org/apisix/' },
-  { name: 'APISIX Helm Chart', repo: 'apache/apisix-helm-chart', src: 'https://downloads.apache.org/apisix/' },
-  { name: 'APISIX Docker', repo: 'apache/apisix-docker', src: 'https://hub.docker.com/r/apache/apisix' },
-  { name: 'APISIX Java Plugin Runner', repo: 'apache/apisix-java-plugin-runner', src: 'https://downloads.apache.org/apisix/' },
-  { name: 'APISIX Go Plugin Runner', repo: 'apache/apisix-go-plugin-runner', src: 'https://downloads.apache.org/apisix/' },
-];
-
-const plugins = kind === 'plugins'
-  ? getApisixDocs(locale).filter((d) => d.id.startsWith('plugins/')).sort((a, b) => a.id.localeCompare(b.id))
-  : [];
 const comparisons = kind === 'comparisons'
   ? getLearningPosts(locale).filter((post) => post.tags.includes('comparison'))
   : [];
 
 const META: Record<string, { title: string; desc: string; path: string }> = {
   'docs-hub': { title: t(locale, 'Documentation', '文档'), desc: t(locale, 'Documentation for Apache APISIX and its sub-projects.', 'Apache APISIX 及其子项目的文档。'), path: '/docs/' },
-  downloads: { title: t(locale, 'Downloads', '下载'), desc: t(locale, 'Download official Apache APISIX source releases and binaries.', '下载 Apache APISIX 官方源码发行版与二进制。'), path: '/downloads/' },
   team: { title: t(locale, 'Team', '团队'), desc: t(locale, 'The people behind Apache APISIX: PMC members, committers, and contributors.', 'Apache APISIX 背后的人：PMC 成员、Committer 与贡献者。'), path: '/team/' },
   contribute: { title: t(locale, 'Contribute', '参与贡献'), desc: t(locale, 'How to contribute code, docs, and community help to Apache APISIX.', '如何为 Apache APISIX 贡献代码、文档与社区支持。'), path: '/contribute/' },
   comparisons: { title: t(locale, 'Comparisons', '对比'), desc: t(locale, 'How Apache APISIX compares to Kong, Envoy, NGINX, Traefik, and cloud gateways.', 'Apache APISIX 与 Kong、Envoy、NGINX、Traefik 及云网关的对比。'), path: '/comparisons/' },
-  'ai-gateway': { title: 'AI Gateway', desc: t(locale, 'Use Apache APISIX as an AI gateway: LLM proxying, load balancing, token rate limiting, and prompt security.', '将 Apache APISIX 用作 AI 网关：LLM 代理、负载均衡、token 限流与提示词安全。'), path: '/ai-gateway/' },
-  plugins: { title: t(locale, 'Plugin Hub', '插件中心'), desc: t(locale, 'Explore 100+ Apache APISIX plugins for authentication, security, traffic, observability, serverless, and AI.', '探索 100+ APISIX 插件：认证、安全、流量、可观测、Serverless 与 AI。'), path: '/plugins/' },
 };
 const meta = META[kind];
-// Production canonicalizes the untranslated zh comparisons/ai-gateway pages
-// to their EN counterparts; every other zh page self-canonicalizes.
-const zhCanonicalToEn = locale === 'zh' && (kind === 'comparisons' || kind === 'ai-gateway')
+// Production canonicalizes the untranslated zh comparisons page to its EN
+// counterpart; every other zh page self-canonicalizes.
+const zhCanonicalToEn = locale === 'zh' && kind === 'comparisons'
   ? `${SITE}${meta.path}`
   : undefined;
 ---
@@ -64,27 +49,6 @@ const zhCanonicalToEn = locale === 'zh' && (kind === 'comparisons' || kind === '
         {DOCS_PROJECTS.map((proj) => (
           <a class="post-card" href={proj.href}><div class="body"><h3>{proj.name}</h3><p class="desc">{proj.desc}</p></div></a>
         ))}
-      </div>
-    )}
-
-    {kind === 'downloads' && (
-      <div class="archive-list prose">
-        <table>
-          <thead><tr><th>{t(locale, 'Project', '项目')}</th><th>{t(locale, 'Source & releases', '源码与发布')}</th><th>GitHub</th></tr></thead>
-          <tbody>
-            {DOWNLOADS.map((d) => (
-              <tr>
-                <td>{d.name}</td>
-                <td><a href={d.src}>{t(locale, 'Download', '下载')}</a></td>
-                <td><a href={`https://github.com/${d.repo}/releases`}>{d.repo}</a></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p>{t(locale,
-          'All official releases are signed. Verify signatures and hashes using the Apache verification guide.',
-          '所有官方发行版均经过签名，请按照 Apache 校验指南验证签名与哈希。')}
-          <a href="https://www.apache.org/dyn/closer.cgi"> apache.org/dyn/closer.cgi</a></p>
       </div>
     )}
 
@@ -118,30 +82,5 @@ const zhCanonicalToEn = locale === 'zh' && (kind === 'comparisons' || kind === '
       </div>
     )}
 
-    {kind === 'ai-gateway' && (
-      <div class="archive-list">
-        <div class="grid-3">
-          <a class="card" href={`${p}/docs/apisix/plugins/ai-proxy/`}><h3>ai-proxy</h3><p>{t(locale, 'Proxy OpenAI-compatible LLM APIs with a unified interface.', '以统一接口代理 OpenAI 兼容的 LLM API。')}</p></a>
-          <a class="card" href={`${p}/docs/apisix/plugins/ai-proxy-multi/`}><h3>ai-proxy-multi</h3><p>{t(locale, 'Load balancing, retries, and fallbacks across LLM providers.', '跨 LLM 提供商的负载均衡、重试与回退。')}</p></a>
-          <a class="card" href={`${p}/docs/apisix/plugins/ai-rate-limiting/`}><h3>ai-rate-limiting</h3><p>{t(locale, 'Token-based rate limiting for LLM traffic.', '面向 LLM 流量的 token 级限流。')}</p></a>
-          <a class="card" href={`${p}/docs/apisix/plugins/ai-prompt-guard/`}><h3>ai-prompt-guard</h3><p>{t(locale, 'Allow/deny prompt patterns before they reach the model.', '在请求到达模型前对提示词进行允许/拒绝控制。')}</p></a>
-          <a class="card" href={`${p}/docs/apisix/plugins/ai-rag/`}><h3>ai-rag</h3><p>{t(locale, 'Retrieval-augmented generation at the gateway layer.', '在网关层实现检索增强生成。')}</p></a>
-          <a class="card" href={`${p}/learning-center/mcp-protocol-ai-gateway/`}><h3>MCP</h3><p>{t(locale, 'Understand the Model Context Protocol and AI gateways.', '了解 Model Context Protocol 与 AI 网关。')}</p></a>
-        </div>
-      </div>
-    )}
-
-    {kind === 'plugins' && (
-      <div class="post-list" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
-        {plugins.map((pl) => (
-          <a class="post-card" href={pl.url}>
-            <div class="body">
-              <h3>{pl.id.replace('plugins/', '')}</h3>
-              {pl.description && <p class="desc">{pl.description}</p>}
-            </div>
-          </a>
-        ))}
-      </div>
-    )}
   </div>
 </Base>

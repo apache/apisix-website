@@ -1,0 +1,297 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getDownloads, getRepoInfo } from '../../lib/site-data';
+import { t, type Locale } from '../../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const projects = getDownloads();
+
+const descriptionZh: Record<string, string> = {
+  'apache/apisix': '动态、实时、高性能的 API 网关。',
+  'apache/apisix-ingress-controller': '面向 Kubernetes 的 APISIX Ingress Controller。',
+  'apache/apisix-java-plugin-runner': '以 Sidecar 方式运行 Java 编写的 APISIX 插件。',
+  'apache/apisix-go-plugin-runner': '以 Sidecar 方式运行 Go 编写的 APISIX 插件。',
+  'apache/apisix-python-plugin-runner': '以 Sidecar 方式运行 Python 编写的 APISIX 插件。',
+};
+
+const description = t(
+  locale,
+  'Download official Apache APISIX source releases, verify their signatures, and find archived versions.',
+  '下载 Apache APISIX 官方源码发行版、验证签名并查找历史版本。',
+);
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Apache APISIX',
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Linux, macOS, Docker, Kubernetes',
+  license: 'https://www.apache.org/licenses/LICENSE-2.0',
+  url: 'https://apisix.apache.org/downloads/',
+  author: {
+    '@type': 'Organization',
+    name: 'Apache Software Foundation',
+    url: 'https://www.apache.org/',
+  },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+---
+<Base
+  title={t(locale, 'Downloads', '下载')}
+  description={description}
+  locale={locale}
+  path="/downloads/"
+  jsonLd={[softwareSchema]}
+>
+  <header class="page-head">
+    <div class="container">
+      <div class="page-title">
+        <p class="kicker">Apache APISIX releases</p>
+        <h1>{t(locale, 'Downloads', '下载')}</h1>
+        <p>{description}</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container downloads-page">
+    <section aria-labelledby="current-releases">
+      <div class="section-title">
+        <h2 id="current-releases">{t(locale, 'Current releases', '当前发行版')}</h2>
+        <p>{t(
+          locale,
+          'Release artifacts are distributed through Apache mirrors. Each source archive includes detached signatures and SHA-512 checksums.',
+          '发行文件通过 Apache 镜像分发，每个源码压缩包均提供独立签名和 SHA-512 校验值。',
+        )}</p>
+      </div>
+
+      <div class="project-list">
+        {projects.map((project) => {
+          const repo = getRepoInfo(project.githubRepo)?.info;
+          const isApisix = project.githubRepo === 'apache/apisix';
+          return (
+            <article
+              class="project-card"
+              style={`--project-color:${project.color}`}
+              data-testid="download-project"
+              data-project={project.githubRepo}
+            >
+              <div class="project-main">
+                <div class="project-heading">
+                  <span class="project-mark" aria-hidden="true">A</span>
+                  <div>
+                    <h3><a href={`https://github.com/${project.githubRepo}`}>{project.name}</a></h3>
+                    <p>{locale === 'zh' ? descriptionZh[project.githubRepo] ?? project.description : project.description}</p>
+                  </div>
+                </div>
+                <nav class="project-links" aria-label={`${project.name} ${t(locale, 'project links', '项目链接')}`}>
+                  <a href={`https://github.com/${project.githubRepo}`}>GitHub{repo?.star != null ? ` · ${repo.star}` : ''}</a>
+                  <a href={`https://github.com/${project.githubRepo}/issues`}>
+                    {t(locale, 'Issues', '问题')}{repo?.issue != null ? ` · ${repo.issue}` : ''}
+                  </a>
+                  <a href={`https://github.com/${project.githubRepo}/blob/${project.githubBranch}/CHANGELOG.md`}>Changelog</a>
+                </nav>
+              </div>
+
+              <div class="release-panel">
+                <dl class="release-meta">
+                  <div>
+                    <dt>{t(locale, 'Latest version', '最新版本')}</dt>
+                    <dd>{project.version}</dd>
+                  </div>
+                  <div>
+                    <dt>{t(locale, 'Release date', '发布日期')}</dt>
+                    <dd><time datetime={project.releaseDate}>{project.releaseDate}</time></dd>
+                  </div>
+                </dl>
+                <details class="download-menu">
+                  <summary>
+                    {isApisix
+                      ? t(locale, `${project.version} current`, `${project.version} 当前版本`)
+                      : t(locale, 'Download', '下载')}
+                  </summary>
+                  <div class="download-options">
+                    {project.dockerhubPath && (
+                      <a href={`https://hub.docker.com/r/apache/${project.dockerhubPath}`}>Docker Hub</a>
+                    )}
+                    <a href={`https://www.apache.org/dyn/closer.cgi/${project.downloadPath}.tgz`}>
+                      {t(locale, 'Source archive', '源码压缩包')}
+                    </a>
+                    <a href={`https://downloads.apache.org/${project.downloadPath}.tgz.asc`}>ASC</a>
+                    <a href={`https://downloads.apache.org/${project.downloadPath}.tgz.sha512`}>SHA512</a>
+                  </div>
+                </details>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="release-guide" aria-labelledby="history">
+      <div>
+        <h2 id="history">{t(locale, 'Historical versions', '历史版本')}</h2>
+        <p>{t(
+          locale,
+          'Find previous APISIX releases in the Apache archive. Releases from the incubation period are kept in a separate archive.',
+          '可在 Apache 归档中查找早期 APISIX 发行版，孵化阶段的发行版保存在独立归档中。',
+        )}</p>
+        <p class="link-row">
+          <a href="https://archive.apache.org/dist/apisix/">{t(locale, 'APISIX archive', 'APISIX 归档')}</a>
+          <a href="https://archive.apache.org/dist/incubator/apisix/">{t(locale, 'Incubating archive', '孵化阶段归档')}</a>
+        </p>
+      </div>
+
+      <div>
+        <h2>{t(locale, 'Verify a release', '验证发行版')}</h2>
+        <p>{t(
+          locale,
+          'Download the KEYS file and the matching ASC signature from the main Apache distribution directory, then verify the source archive before installing it.',
+          '从 Apache 主分发目录下载 KEYS 文件和对应的 ASC 签名，在安装前验证源码压缩包。',
+        )}</p>
+        <p><a href="https://downloads.apache.org/apisix/KEYS">{t(locale, 'Download Apache APISIX KEYS', '下载 Apache APISIX KEYS')}</a></p>
+      </div>
+    </section>
+
+    <section class="verify-commands" aria-label={t(locale, 'Verification commands', '验证命令')}>
+      <div>
+        <p class="command-label">{t(locale, 'Import the signing keys', '导入签名密钥')}</p>
+        <pre><code>gpg -i KEYS
+
+# or
+pgpk -a KEYS
+
+# or
+pgp -ka KEYS</code></pre>
+      </div>
+      <div>
+        <p class="command-label">{t(locale, 'Verify a source archive', '验证源码压缩包')}</p>
+        <pre><code>gpg --verify apache-apisix-********.asc apache-apisix-********
+
+# or
+pgpv apache-apisix-********.asc apache-apisix-********</code></pre>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .downloads-page { padding-top: 2.5rem; padding-bottom: 1rem; }
+  .page-title h1 { letter-spacing: 0; }
+  .section-title { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: end; margin-bottom: 1.5rem; }
+  .section-title h2, .release-guide h2 { margin: 0; font-size: 1.55rem; line-height: 1.3; letter-spacing: 0; }
+  .section-title p, .release-guide p { margin: 0; color: var(--color-text-soft); }
+  .project-list { display: grid; gap: 1rem; }
+  .project-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--project-color);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .project-main { min-width: 0; }
+  .project-heading { display: flex; gap: 1rem; align-items: flex-start; }
+  .project-mark {
+    display: inline-flex;
+    flex: 0 0 46px;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
+    background: var(--project-color);
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+  .project-heading h3 { margin: 0; font-size: 1.25rem; line-height: 1.35; letter-spacing: 0; overflow-wrap: anywhere; }
+  .project-heading h3 a { color: var(--color-text); }
+  .project-heading h3 a:hover { color: var(--color-primary); text-decoration: none; }
+  .project-heading p { margin: .35rem 0 0; color: var(--color-text-soft); font-size: .92rem; }
+  .project-links { display: flex; flex-wrap: wrap; gap: .2rem 1rem; margin: 1.2rem 0 0 62px; font-size: .85rem; }
+  .project-links a { display: inline-flex; align-items: center; min-height: 32px; color: var(--color-text-soft); }
+  .project-links a:hover { color: var(--color-primary); }
+  .release-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; min-width: 0; }
+  .release-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0; }
+  .release-meta dt { color: var(--color-text-soft); font-size: .75rem; font-weight: 650; text-transform: uppercase; }
+  .release-meta dd { margin: .2rem 0 0; color: var(--color-text); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .download-menu { position: relative; margin-left: auto; width: 100%; }
+  .download-menu summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 46px;
+    padding: .65rem .9rem;
+    border: 1px solid var(--project-color);
+    border-radius: 8px;
+    background: var(--project-color);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  .download-menu summary::-webkit-details-marker { display: none; }
+  .download-menu summary::after { content: "▾"; margin-left: .75rem; }
+  .download-menu[open] summary::after { transform: rotate(180deg); }
+  .download-menu summary:focus-visible { outline: 2px solid var(--project-color); outline-offset: 3px; }
+  .download-options {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + .4rem);
+    right: 0;
+    left: 0;
+    padding: .35rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgb(0 0 0 / 12%);
+  }
+  .download-options a { display: block; padding: .55rem .65rem; border-radius: 6px; color: var(--color-text); font-size: .9rem; }
+  .download-options a:hover { background: var(--color-surface-alt); color: var(--color-primary); text-decoration: none; }
+  .release-guide {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .release-guide h2 { margin-bottom: .75rem; }
+  .release-guide p + p { margin-top: 1rem; }
+  .link-row { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+  .verify-commands { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .verify-commands > div { min-width: 0; }
+  .command-label { margin: 0 0 .5rem; font-size: .82rem; font-weight: 700; }
+  pre {
+    max-width: 100%;
+    min-height: 190px;
+    margin: 0;
+    padding: 1.1rem;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: #101216;
+    color: #e9edf2;
+    font-size: .78rem;
+    line-height: 1.65;
+  }
+  @media (max-width: 820px) {
+    .section-title { grid-template-columns: 1fr; gap: .65rem; }
+    .project-card { grid-template-columns: 1fr; gap: 1.5rem; }
+    .release-panel { padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
+    .release-guide { gap: 2rem; }
+  }
+  @media (max-width: 640px) {
+    .downloads-page { padding-top: 2rem; }
+    .project-card { padding: 1.1rem; }
+    .project-mark { flex-basis: 40px; width: 40px; height: 40px; }
+    .project-links { margin-left: 0; }
+    .release-meta, .release-guide, .verify-commands { grid-template-columns: 1fr; }
+    .release-guide { margin-top: 3rem; padding-top: 2.5rem; }
+    .download-options { position: static; margin-top: .4rem; box-shadow: none; }
+    .verify-commands { gap: 1.5rem; }
+    pre { min-height: 0; font-size: .72rem; }
+  }
+</style>
