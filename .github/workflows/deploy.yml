@@ -136,14 +136,16 @@ jobs:
 
       # Guards the canonical contract of versioned doc pages (see
       # doc/src/theme/LayoutHead/index.tsx): versioned pages must carry exactly
-      # one canonical pointing at the version-less latest URL, and canonicals
-      # embedded in the doc markdown itself must still win.
+      # one canonical pointing at the version-less latest URL.
+      #
+      # The version-less page itself is no longer part of this build — wave 3
+      # moved it to Astro — so the half of this check that covered it now runs
+      # after the overlay, against the page that actually ships.
       - name: Assert canonical contract
         run: |
           f=$(ls website/build/docs/apisix/3.*/plugins/cors/index.html | head -1)
           test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
           grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
-          grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' website/build/docs/apisix/plugins/cors/index.html
 
       - name: Update sitemap.xml
         run: |
@@ -372,8 +374,9 @@ jobs:
             echo "The Docusaurus SPA still routes the migrated docs URLs client-side."
             exit 1
           fi
-          # The cross-site canonical contract asserted earlier in this job runs
-          # against the Docusaurus build; re-assert it on what actually ships.
+          # The version-less pages are built by Astro, so this is the only
+          # place their cross-site canonical can be checked — the Docusaurus
+          # assertion earlier in this job covers the versioned pages.
           for f in website/build/docs/apisix/plugins/cors/index.html \
                    website/build/zh/docs/apisix/plugins/cors/index.html; do
             test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
