@@ -167,6 +167,7 @@ jobs:
         working-directory: next
         run: |
           npm ci
+          node scripts/generate-sitemaps.test.mjs
           # Project docs live in the upstream Apache repos. Clone the SAME ref
           # Docusaurus does (scripts/sync-docs.js): the newest *release* branch,
           # never the default branch — master is what production publishes at
@@ -425,6 +426,16 @@ jobs:
           grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.svg
+
+      - name: Generate final sitemaps
+        run: |
+          node next/scripts/generate-sitemaps.mjs --dist website/build
+          grep -q '<loc>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/</loc>' website/build/sitemap.xml
+          grep -q '<loc>https://apisix.apache.org/zh/learning-center/what-is-an-api-gateway/</loc>' website/build/zh/sitemap.xml
+          if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?(blog/(tags|page|archive)|learning-center/(tags|page|archive)|articles/(page|archive)|events/archive)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
+            echo 'Low-value aggregation URLs remain in the final sitemap.'
+            exit 1
+          fi
 
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify
