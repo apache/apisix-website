@@ -417,7 +417,10 @@ jobs:
           # The agent index lives at the site root (the wave-1/2 subtrees carry
           # their own Markdown twins along with the cp -R above).
           cp next/dist/llms.txt website/build/llms.txt
-          test -f website/build/blog/index.md
+          # Section landing pages have no Markdown source; require a real post
+          # twin instead of the deliberately absent /blog/index.md.
+          blog_post_twin=$(find website/build/blog -mindepth 2 -type f -name index.md -print -quit)
+          test -n "$blog_post_twin"
           test -f website/build/docs/apisix/plugins/cors/index.md
           grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
