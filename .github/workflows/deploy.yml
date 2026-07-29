@@ -280,7 +280,7 @@ jobs:
             missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
               | grep '/index\.html$' \
               | sed "s|^$docs_root/||" \
-              | grep -vE '(^|/)([0-9]+\.[0-9]+|next|v[0-9][^/]*)/' \
+              | grep -vE '(^|/)([0-9]+(\.[0-9]+)+|[[:alnum:]-]+-[0-9]+(\.[0-9]+)+|next|v[0-9][^/]*)/' \
               | grep -vE '(^|/)tags/index\.html$' \
               | sort | while read -r f; do
                 [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
