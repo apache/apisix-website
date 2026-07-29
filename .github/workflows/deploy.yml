@@ -165,7 +165,7 @@ jobs:
         working-directory: next
         run: |
           npm ci
-          node scripts/generate-sitemaps.test.mjs
+          npm run test:sitemap
           # Project docs live in the upstream Apache repos. Clone the SAME ref
           # Docusaurus does (scripts/sync-docs.js): the newest *release* branch,
           # never the default branch — master is what production publishes at
@@ -280,7 +280,7 @@ jobs:
             missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
               | grep '/index\.html$' \
               | sed "s|^$docs_root/||" \
-              | grep -vE '(^|/)([0-9]+(\.[0-9]+)+|[[:alnum:]-]+-[0-9]+(\.[0-9]+)+|next|v[0-9][^/]*)/' \
+              | grep -vE '^([^/]+/([0-9]+(\.[0-9]+)+|next|v[0-9][^/]*)|docker/apisix-[0-9]+(\.[0-9]+)+)/' \
               | grep -vE '(^|/)tags/index\.html$' \
               | sort | while read -r f; do
                 [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"

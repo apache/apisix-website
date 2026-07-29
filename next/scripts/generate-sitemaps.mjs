@@ -16,6 +16,10 @@ const SITE = 'https://apisix.apache.org';
 const today = new Date().toISOString().slice(0, 10);
 const excludePatterns = [
   /^\/404\/$/,
+  /^\/(?:zh\/)?docs\/[\w-]+\/(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?\//,
+  /^\/(?:zh\/)?docs\/[\w./-]+\/tags\//,
+  /^\/(?:zh\/)?docs\/[\w-]+\/next\//,
+  /^\/(?:zh\/)?search\/?$/,
   /^\/(?:zh\/)?blog\/(?:tags|page|archive)\//,
   /^\/(?:zh\/)?learning-center\/(?:tags|page|archive)\//,
   /^\/(?:zh\/)?(?:articles|events)\/(?:page|archive)\//,
@@ -24,14 +28,14 @@ const excludePatterns = [
 function pagesUnder(dir) {
   const out = [];
   (function walk(d) {
-    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+    fs.readdirSync(d, { withFileTypes: true }).forEach((e) => {
       const p = path.join(d, e.name);
       if (e.isDirectory()) walk(p);
       else if (e.name === 'index.html') {
         out.push(`/${path.relative(dist, path.dirname(p)).split(path.sep).join('/')}/`.replace('/./', '/'));
       }
-    }
-  })(dir);
+    });
+  }(dir));
   return out.map((u) => (u === '//' ? '/' : u)).sort();
 }
 
@@ -39,17 +43,31 @@ const all = pagesUnder(dist).filter((u) => !excludePatterns.some((pattern) => pa
 const zh = all.filter((u) => u === '/zh/' || u.startsWith('/zh/'));
 const en = all.filter((u) => !zh.includes(u));
 
-function meta(url) {
-  if (url === '/' ) return { priority: '1.0', changefreq: 'weekly' };
-  if (url.includes('/docs/') || url.includes('/learning-center/')) return { priority: '0.7', changefreq: 'monthly' };
-  return { priority: '0.5', changefreq: 'weekly' };
+function getPriority(url) {
+  if (/^\/(?:zh\/)?$/.test(url)) return '1.0';
+  if (/\/(?:ai-gateway|plugins|downloads|docs|learning-center)\/$/.test(url)) return '0.8';
+  if (url.includes('/learning-center/')) return '0.8';
+  if (/\/blog\/\d{4}\//.test(url)) return '0.6';
+  if (url.includes('/docs/')) return '0.7';
+  return '0.5';
+}
+
+function getChangefreq(url) {
+  if (/^\/(?:zh\/)?$/.test(url)) return 'weekly';
+  if (/\/blog\/\d{4}\//.test(url)) return 'monthly';
+  if (url.includes('/docs/') || url.includes('/learning-center/')) return 'monthly';
+  return 'weekly';
+}
+
+function sitemapLoc(url) {
+  return encodeURI(url)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
 }
 
 function render(urls) {
-  const items = urls.map((u) => {
-    const m = meta(u);
-    return `<url><loc>${SITE}${u}</loc><changefreq>${m.changefreq}</changefreq><priority>${m.priority}</priority><lastmod>${today}</lastmod></url>`;
-  }).join('');
+  const items = urls.map((u) => `<url><loc>${sitemapLoc(`${SITE}${u}`)}</loc><changefreq>${getChangefreq(u)}</changefreq><priority>${getPriority(u)}</priority><lastmod>${today}</lastmod></url>`).join('');
   return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${items}</urlset>\n`;
 }
 
