@@ -1,0 +1,346 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, localePrefix, t, type Locale } from '../../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const p = localePrefix(locale);
+
+const features = [
+  {
+    title: t(locale, 'Multi-LLM load balancing', '多 LLM 负载均衡'),
+    description: t(
+      locale,
+      'Route across OpenAI, DeepSeek, Claude, Mistral, Gemini, and other providers with health checks and weighted balancing.',
+      '通过健康检查和权重负载均衡，在 OpenAI、DeepSeek、Claude、Mistral、Gemini 等模型提供商之间路由。',
+    ),
+    icon: '/img/ai-gateway/load-balancing.svg',
+  },
+  {
+    title: t(locale, 'Token rate limiting', 'Token 限流'),
+    description: t(
+      locale,
+      'Control token consumption by Route, Service, Consumer, Consumer Group, or custom attributes in standalone and cluster deployments.',
+      '按 Route、Service、Consumer、Consumer Group 或自定义属性控制 token 消耗，支持单机与集群部署。',
+    ),
+    icon: '/img/ai-gateway/token-rate-limiting.svg',
+  },
+  {
+    title: 'AI RAG',
+    description: t(
+      locale,
+      'Connect enterprise knowledge to model requests at the gateway layer for grounded, context-aware responses.',
+      '在网关层为模型请求连接企业知识库，生成有依据、具备上下文的响应。',
+    ),
+    icon: '/img/ai-gateway/ai-rag.svg',
+  },
+  {
+    title: t(locale, 'Token observability', 'Token 可观测性'),
+    description: t(
+      locale,
+      'Track token usage through access logs and existing observability tools to control abuse and unexpected cost.',
+      '通过访问日志和现有可观测工具追踪 token 使用，控制滥用和意外成本。',
+    ),
+    icon: '/img/ai-gateway/observability.svg',
+  },
+  {
+    title: t(locale, 'Retry and fallback', '重试与回退'),
+    description: t(
+      locale,
+      'Use health checks, automatic retries, and fallback providers to keep AI applications available when an upstream model fails.',
+      '通过健康检查、自动重试和备用模型提供商，在上游模型故障时保持 AI 应用可用。',
+    ),
+    icon: '/img/ai-gateway/retry-fallback.svg',
+  },
+  {
+    title: t(locale, 'Prompt security', '提示词安全'),
+    description: t(
+      locale,
+      'Apply prompt guards, decorators, templates, content moderation, logging, and auditing before traffic reaches a model.',
+      '在流量到达模型之前应用提示词防护、装饰、模板、内容审核、日志和审计。',
+    ),
+    icon: '/img/ai-gateway/security.svg',
+  },
+];
+
+const pageTitle = t(
+  locale,
+  'Open-Source AI Gateway for LLMs and AI Agents',
+  '面向 LLM 与 AI Agent 的开源 AI 网关',
+);
+const description = t(
+  locale,
+  'Use Apache APISIX as an open-source LLM gateway and proxy for model routing, load balancing, retries, fallback, token rate limiting, security, and observability.',
+  '使用 Apache APISIX 构建开源 LLM 网关与代理，提供模型路由、负载均衡、重试、回退、token 限流、安全和可观测能力。',
+);
+---
+<Base
+  title={pageTitle}
+  description={description}
+  locale={locale}
+  path="/ai-gateway/"
+  image={`${SITE}/img/ai-gateway/hero.png`}
+>
+  <section class="ai-hero">
+    <div class="container ai-hero-inner">
+      <div class="ai-hero-copy">
+        <p class="eyebrow">Apache APISIX AI Gateway</p>
+        <h1>{pageTitle}</h1>
+        <p class="lead">{description}</p>
+        <div class="actions">
+          <a class="btn" href={`${p}/docs/apisix/plugins/ai-proxy/`}>
+            {t(locale, 'Read the documentation', '阅读文档')}
+          </a>
+          <a class="btn ghost" href={`${p}/plugins/#AI`}>
+            {t(locale, 'Explore AI plugins', '查看 AI 插件')}
+          </a>
+        </div>
+        <dl class="hero-facts" aria-label={t(locale, 'AI Gateway facts', 'AI 网关数据')}>
+          <div><dt>20+</dt><dd>{t(locale, 'model providers', '模型提供商')}</dd></div>
+          <div><dt>100+</dt><dd>{t(locale, 'gateway plugins', '网关插件')}</dd></div>
+          <div><dt>0</dt><dd>{t(locale, 'vendor lock-in', '厂商锁定')}</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section advantage-section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">{t(locale, 'One gateway, two workloads', '一个网关，两类流量')}</p>
+        <h2>{t(locale, 'Manage API and AI traffic together', '统一管理 API 与 AI 流量')}</h2>
+        <p>{t(
+          locale,
+          'Keep the routing, security, observability, and operations model your teams already use while adding LLM traffic.',
+          '在接入 LLM 流量的同时，继续使用团队熟悉的路由、安全、可观测和运维体系。',
+        )}</p>
+      </div>
+      <div class="advantage-grid">
+        <article class="advantage primary">
+          <p class="metric">Apache APISIX</p>
+          <h3>{t(locale, 'No vendor lock-in', '无厂商锁定')}</h3>
+          <p>{t(
+            locale,
+            'Open-source data plane, open plugin model, and portable configuration for APIs and AI workloads.',
+            '开源数据面、开放插件模型和可移植配置，同时服务 API 与 AI 工作负载。',
+          )}</p>
+        </article>
+        <article class="advantage">
+          <p class="metric">100+</p>
+          <h3>{t(locale, 'Gateway capabilities', '网关能力')}</h3>
+          <p>{t(locale, 'Authentication, traffic control, observability, serverless, and AI plugins.', '覆盖认证、流量控制、可观测、Serverless 和 AI 的插件。')}</p>
+        </article>
+        <article class="advantage visual">
+          <h3>{t(locale, 'Open AI plugin ecosystem', '开放的 AI 插件生态')}</h3>
+          <p>{t(
+            locale,
+            'Load balancing, fallback, token controls, RAG, prompt policies, moderation, and auditing are all available as open-source plugins.',
+            '负载均衡、回退、token 控制、RAG、提示词策略、内容审核和审计均以开源插件提供。',
+          )}</p>
+          <img
+            src="/img/ai-gateway/ai-llms.svg"
+            alt={t(locale, 'AI plugin icons', 'AI 插件图标')}
+            width="452"
+            height="51"
+            loading="lazy"
+          />
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="architecture-section">
+    <div class="container">
+      <div class="section-heading centered">
+        <p class="eyebrow">{t(locale, 'Architecture', '架构')}</p>
+        <h2>{t(locale, 'A control point between applications and models', '连接应用与模型的统一控制点')}</h2>
+      </div>
+      <picture>
+        <source
+          media="(max-width: 700px)"
+          srcset="/img/ai-gateway/architecture-mobile.png"
+          width="700"
+          height="1352"
+        />
+        <img
+          class="architecture-image"
+          src="/img/ai-gateway/architecture.png"
+          alt={t(locale, 'Apache APISIX AI Gateway architecture', 'Apache APISIX AI 网关架构')}
+          width="1200"
+          height="750"
+          loading="lazy"
+        />
+      </picture>
+    </div>
+  </section>
+
+  <section class="feature-band">
+    <div class="container">
+      <div class="section-heading light">
+        <p class="eyebrow">{t(locale, 'Built for production AI traffic', '为生产级 AI 流量而生')}</p>
+        <h2>{t(locale, 'Reliability, control, and visibility at the gateway', '在网关层获得可靠性、控制力与可见性')}</h2>
+      </div>
+      <div class="feature-grid">
+        {features.map((feature) => (
+          <article class="feature">
+            <img src={feature.icon} alt="" width="32" height="32" loading="lazy" />
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section provider-section">
+    <div class="container provider-layout">
+      <div>
+        <p class="eyebrow">{t(locale, 'Provider choice', '模型选择')}</p>
+        <h2>{t(locale, 'Route to the model that fits each request', '为每个请求选择合适的模型')}</h2>
+        <p>{t(
+          locale,
+          'Use OpenAI, DeepSeek, Claude, Mistral, Gemini, self-hosted models, or a mix of providers without changing the application-facing gateway.',
+          '使用 OpenAI、DeepSeek、Claude、Mistral、Gemini、自托管模型或多提供商组合，无需改变应用侧网关。',
+        )}</p>
+        <a class="text-link" href={`${p}/blog/2025/02/24/apisix-ai-gateway-features/`}>
+          {t(locale, 'See the AI Gateway capabilities', '了解 AI 网关能力')} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <img
+        src="/img/ai-gateway/providers.avif"
+        alt={t(locale, 'Supported LLM providers', '支持的 LLM 提供商')}
+        width="633"
+        height="462"
+        loading="lazy"
+      />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ai-hero {
+    position: relative;
+    min-height: 650px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
+    background-color: #fff;
+    background-image: url("/img/ai-gateway/hero.png");
+    background-position: calc(50% + 390px) 50%;
+    background-repeat: no-repeat;
+    background-size: 760px auto;
+  }
+  .ai-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-height: 650px;
+  }
+  .ai-hero-copy { width: min(610px, 55%); padding: 4.5rem 0 3.5rem; }
+  .eyebrow {
+    margin: 0 0 .65rem;
+    color: var(--color-primary-dark);
+    font-size: .78rem;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  h1 {
+    max-width: 13ch;
+    margin: 0;
+    font-size: 3.75rem;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+  .lead {
+    max-width: 58ch;
+    margin: 1.4rem 0 0;
+    color: var(--color-text-soft);
+    font-size: 1.12rem;
+    line-height: 1.65;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+  .hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    margin: 2.2rem 0 0;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .hero-facts div { min-width: 105px; }
+  .hero-facts dt { color: var(--color-primary-dark); font-size: 1.6rem; font-weight: 750; line-height: 1.1; }
+  .hero-facts dd { margin: .25rem 0 0; color: var(--color-text-soft); font-size: .82rem; }
+  .section-heading { max-width: 720px; margin-bottom: 2.25rem; }
+  .section-heading.centered { margin-right: auto; margin-left: auto; text-align: center; }
+  .section-heading h2 { margin: 0; font-size: 2.35rem; line-height: 1.18; letter-spacing: 0; }
+  .section-heading > p:last-child { margin: .85rem 0 0; color: var(--color-text-soft); font-size: 1.02rem; }
+  .advantage-section { background: #f7f7f8; }
+  .advantage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 1rem;
+  }
+  .advantage {
+    min-height: 250px;
+    padding: 1.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .advantage h3, .feature h3 { margin: .25rem 0 .6rem; font-size: 1.15rem; line-height: 1.35; letter-spacing: 0; }
+  .advantage p { margin: 0; color: var(--color-text-soft); }
+  .advantage .metric { color: var(--color-primary-dark); font-size: 1.65rem; font-weight: 750; }
+  .advantage.primary { border-top: 4px solid var(--color-primary); }
+  .advantage.visual { display: flex; flex-direction: column; }
+  .advantage.visual img { width: 100%; height: auto; margin-top: auto; padding-top: 2rem; }
+  .architecture-section { padding: 4.25rem 0; background: #fff; }
+  .architecture-image { display: block; width: 100%; height: auto; margin: 0 auto; }
+  .feature-band { padding: 4.5rem 0; background: #16181d; color: #fff; }
+  .section-heading.light .eyebrow { color: #ffaaa7; }
+  .section-heading.light h2 { color: #fff; }
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid #343840; border-left: 1px solid #343840; }
+  .feature { min-height: 245px; padding: 1.75rem; border-right: 1px solid #343840; border-bottom: 1px solid #343840; }
+  .feature img { display: block; width: 32px; height: 32px; margin-bottom: 1.25rem; object-fit: contain; }
+  .feature h3 { color: #fff; }
+  .feature p { margin: 0; color: #c9ccd3; font-size: .92rem; }
+  .provider-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 4rem; align-items: center; }
+  .provider-layout h2 { margin: 0; font-size: 2.35rem; line-height: 1.18; letter-spacing: 0; }
+  .provider-layout p { color: var(--color-text-soft); }
+  .provider-layout img { width: 100%; height: auto; }
+  .text-link { display: inline-flex; gap: .4rem; align-items: center; min-height: 44px; font-weight: 650; }
+  @media (max-width: 960px) {
+    .ai-hero {
+      min-height: 0;
+      background-position: 50% 100%;
+      background-size: min(720px, 100%) auto;
+    }
+    .ai-hero-inner { align-items: flex-start; min-height: 0; }
+    .ai-hero-copy { width: 100%; padding: 3.25rem 0 390px; }
+    h1 { max-width: 15ch; font-size: 3rem; }
+    .lead { max-width: 660px; }
+    .advantage-grid { grid-template-columns: 1fr 1fr; }
+    .advantage.visual { grid-column: 1 / -1; }
+    .feature-grid { grid-template-columns: repeat(2, 1fr); }
+    .provider-layout { gap: 2rem; }
+  }
+  @media (max-width: 640px) {
+    .ai-hero { background-size: 540px auto; }
+    .ai-hero-copy { padding: 2.5rem 0 310px; }
+    .eyebrow { letter-spacing: .06em; }
+    h1 { font-size: 2.25rem; line-height: 1.08; }
+    .lead { margin-top: 1rem; font-size: 1rem; }
+    .actions { flex-direction: column; align-items: stretch; }
+    .actions .btn { width: 100%; text-align: center; }
+    .hero-facts { gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; }
+    .hero-facts div { flex: 1 1 28%; min-width: 82px; }
+    .hero-facts dt { font-size: 1.35rem; }
+    .section-heading h2, .provider-layout h2 { font-size: 1.85rem; }
+    .advantage-grid, .feature-grid, .provider-layout { grid-template-columns: 1fr; }
+    .advantage.visual { grid-column: auto; }
+    .advantage { min-height: 0; }
+    .feature { min-height: 0; }
+    .architecture-section, .feature-band { padding: 3.5rem 0; }
+    .provider-layout { gap: 2.5rem; }
+  }
+</style>

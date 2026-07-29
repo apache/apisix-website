@@ -151,13 +151,11 @@ jobs:
         run: |
           yarn update-sitemap && git status
 
-      # ---- Static migration (waves 1-2) --------------------------------------
-      # Wave 1: the landing pages (/ and /zh/). Wave 2: the content subtrees
-      # whose markdown lives in THIS repo — blog (EN+ZH), learning-center,
-      # articles, events/archive. Everything else is still produced by
-      # Docusaurus. Runs last, after every Node 16 Docusaurus step (build,
-      # canonical assert, sitemap), so switching to Node 22 never touches the
-      # Docusaurus toolchain. See next/MIGRATION.md.
+      # ---- Static migration (waves 1-4) --------------------------------------
+      # Waves 1-2 cover the landing and in-repo content pages, wave 3 covers
+      # current version-less docs, and wave 4 adds selected main pages. The
+      # remaining routes stay Docusaurus. This runs after every Node 16 step so
+      # switching to Node 22 never touches the Docusaurus toolchain.
       - name: Set up Node.js 22 for the Astro build
         uses: actions/setup-node@v4
         with:
@@ -309,14 +307,16 @@ jobs:
       - name: Overlay the Astro pages onto the Docusaurus build
         run: |
           set -euo pipefail
-          # Path allowlist: the landing pages, the wave-2 content subtrees, and
-          # the shared Astro asset dir come from the Astro build. Everything
-          # else in website/build (docs, plugins, sitemaps, .htaccess, robots)
-          # is left as Docusaurus produced it, so those URLs stay byte-identical.
+          # Path allowlist: the landing pages, migrated content subtrees, main
+          # product/resource pages, and shared Astro assets come from the Astro
+          # build. Everything else in website/build (team, contribute, search,
+          # sitemaps, .htaccess, robots) stays as Docusaurus produced it.
           for path in index.html zh/index.html _astro \
                       blog zh/blog learning-center zh/learning-center \
                       articles zh/articles events zh/events \
-                      comparisons zh/comparisons; do
+                      comparisons zh/comparisons \
+                      ai-gateway zh/ai-gateway \
+                      plugins zh/plugins downloads zh/downloads; do
             rm -rf "website/build/$path"
             mkdir -p "website/build/$(dirname "$path")"
             cp -R "next/dist/$path" "website/build/$path"
@@ -408,6 +408,24 @@ jobs:
           # The comparisons hub (a single index.html in both locales) is Astro's.
           grep -q '/_astro/' website/build/comparisons/index.html
           grep -q '/_astro/' website/build/zh/comparisons/index.html
+          # Main-page migration: both locales must be Astro and retain the
+          # user-visible content that distinguishes each page from a shell.
+          for f in ai-gateway/index.html zh/ai-gateway/index.html \
+                   plugins/index.html zh/plugins/index.html \
+                   downloads/index.html zh/downloads/index.html; do
+            grep -q '/_astro/' "website/build/$f"
+            if grep -q 'name="generator" content="Docusaurus' "website/build/$f"; then
+              echo "Docusaurus page survived the Astro overlay: $f"
+              exit 1
+            fi
+          done
+          grep -q 'Open-Source AI Gateway for LLMs and AI Agents' website/build/ai-gateway/index.html
+          grep -q '面向 LLM 与 AI Agent 的开源 AI 网关' website/build/zh/ai-gateway/index.html
+          grep -q 'data-plugin="ai-proxy"' website/build/plugins/index.html
+          grep -q 'data-plugin="ai-proxy"' website/build/zh/plugins/index.html
+          grep -q 'data-project="apache/apisix"' website/build/downloads/index.html
+          grep -q 'data-project="apache/apisix"' website/build/zh/downloads/index.html
+          grep -q 'SHA512' website/build/downloads/index.html
           # Merge the homepage's image assets (integration brand icons, feature
           # infographics, architecture diagram) into the Docusaurus img tree.
           # cp merges: it adds the new files and overwrites only same-named
@@ -436,6 +454,14 @@ jobs:
             echo 'Low-value aggregation URLs remain in the final sitemap.'
             exit 1
           fi
+
+      - name: Test the final overlaid site on desktop and mobile
+        working-directory: next
+        run: npm run test:e2e
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4321
+          PLAYWRIGHT_WEB_SERVER_COMMAND: python3 -m http.server 4321 --bind 127.0.0.1 --directory ../website/build
+          EXPECT_DOCUSARUS_ROUTES: 'true'
 
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify

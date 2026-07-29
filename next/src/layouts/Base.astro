@@ -2,7 +2,15 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE, SITE_NAME, DEFAULT_DESCRIPTION, FAVICON, ORG_JSONLD, type Locale } from '../lib/site';
+import {
+  SITE,
+  SITE_NAME,
+  DEFAULT_DESCRIPTION,
+  FAVICON,
+  SOCIAL_IMAGE,
+  ORG_JSONLD,
+  type Locale,
+} from '../lib/site';
 
 interface Props {
   title: string;
@@ -46,6 +54,7 @@ const canonical = canonicalOverride ?? (locale === 'zh' ? zhUrl : enUrl);
 // Same pattern as production: "<page title> | Apache APISIX".
 const fullTitle = titleSuffix && !title.includes(' | ') ? `${title} | ${SITE_NAME}` : title;
 const desc = description?.trim() || DEFAULT_DESCRIPTION;
+const socialImage = image ?? SOCIAL_IMAGE;
 const allJsonLd = [...ORG_JSONLD, ...jsonLd];
 ---
 <html lang={locale === 'zh' ? 'zh-CN' : 'en'}>
@@ -69,9 +78,9 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
       so shares of a plugin doc still resolve to apisix.apache.org. */}
   <meta property="og:url" content={locale === 'zh' ? zhUrl : enUrl} />
   <meta property="og:site_name" content="Apache APISIX" />
-  {image && <meta property="og:image" content={image} />}
-  {image && <meta name="twitter:image" content={image} />}
-  <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+  <meta property="og:image" content={socialImage} />
+  <meta name="twitter:image" content={socialImage} />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@apacheapisix" />
   <script type="application/ld+json" set:html={JSON.stringify(allJsonLd)} />
   {search && (
