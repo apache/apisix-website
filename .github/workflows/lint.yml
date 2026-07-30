@@ -17,6 +17,9 @@ jobs:
       - name: Install dependencies
         working-directory: next
         run: npm ci
+      - name: Test sitemap generation
+        working-directory: next
+        run: npm run test:sitemap
       - name: Sync site content
         working-directory: next
         run: node scripts/sync-content.mjs

@@ -165,6 +165,7 @@ jobs:
         working-directory: next
         run: |
           npm ci
+          npm run test:sitemap
           # Project docs live in the upstream Apache repos. Clone the SAME ref
           # Docusaurus does (scripts/sync-docs.js): the newest *release* branch,
           # never the default branch — master is what production publishes at
@@ -279,7 +280,7 @@ jobs:
             missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
               | grep '/index\.html$' \
               | sed "s|^$docs_root/||" \
-              | grep -vE '(^|/)([0-9]+\.[0-9]+|next|v[0-9][^/]*)/' \
+              | grep -vE '^([^/]+/([0-9]+(\.[0-9]+)+|next|v[0-9][^/]*)|docker/apisix-[0-9]+(\.[0-9]+)+)/' \
               | grep -vE '(^|/)tags/index\.html$' \
               | sort | while read -r f; do
                 [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
@@ -443,6 +444,16 @@ jobs:
           grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.svg
+
+      - name: Generate final sitemaps
+        run: |
+          node next/scripts/generate-sitemaps.mjs --dist website/build
+          grep -q '<loc>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/</loc>' website/build/sitemap.xml
+          grep -q '<loc>https://apisix.apache.org/zh/learning-center/what-is-an-api-gateway/</loc>' website/build/zh/sitemap.xml
+          if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?(blog/(tags|page|archive)|learning-center/(tags|page|archive)|articles/(page|archive)|events/archive)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
+            echo 'Low-value aggregation URLs remain in the final sitemap.'
+            exit 1
+          fi
 
       - name: Test the final overlaid site on desktop and mobile
         working-directory: next
