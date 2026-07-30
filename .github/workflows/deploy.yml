@@ -7,6 +7,8 @@ name: Test and Deploy Website
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: '0 5 * * *'
@@ -392,11 +394,12 @@ jobs:
           # The version-less pages are built by Astro, so this is the only
           # place their cross-site canonical can be checked — the Docusaurus
           # assertion earlier in this job covers the versioned pages.
-          for f in website/build/docs/apisix/plugins/cors/index.html \
-                   website/build/zh/docs/apisix/plugins/cors/index.html; do
-            test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
-            grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' "$f"
-          done
+          f=website/build/docs/apisix/plugins/cors/index.html
+          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+          grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' "$f"
+          f=website/build/zh/docs/apisix/plugins/cors/index.html
+          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+          grep -q 'rel="canonical" href="https://docs.apiseven.com/hub/cors"' "$f"
           grep -q 'property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/cors/"' \
             website/build/docs/apisix/plugins/cors/index.html
           # Fail the deploy if the landing pages are not the Astro build, or
