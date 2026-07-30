@@ -26,6 +26,13 @@ const DOCS_PROJECTS = [
 const comparisons = kind === 'comparisons'
   ? getLearningPosts(locale).filter((post) => post.tags.includes('comparison'))
   : [];
+const aisixIndex = comparisons.findIndex((post) => post.slug === 'apisix-vs-aisix');
+const kongIndex = comparisons.findIndex((post) => post.slug === 'apisix-vs-kong');
+if (aisixIndex !== -1 && kongIndex !== -1 && aisixIndex !== kongIndex + 1) {
+  const [aisixComparison] = comparisons.splice(aisixIndex, 1);
+  const updatedKongIndex = comparisons.findIndex((post) => post.slug === 'apisix-vs-kong');
+  comparisons.splice(updatedKongIndex + 1, 0, aisixComparison);
+}
 
 const META: Record<string, { title: string; desc: string; path: string }> = {
   'docs-hub': { title: t(locale, 'Documentation', '文档'), desc: t(locale, 'Documentation for Apache APISIX and its sub-projects.', 'Apache APISIX 及其子项目的文档。'), path: '/docs/' },

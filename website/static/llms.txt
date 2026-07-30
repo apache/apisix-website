@@ -59,6 +59,7 @@
 - [What is Mutual TLS (mTLS)? How Two-Way Authentication Works](https://apisix.apache.org/learning-center/what-is-mutual-tls/): mTLS and zero-trust security
 - [API Gateway Security: Threats, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-security/): API security, WAF, rate limiting, zero trust
 - [Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks](https://apisix.apache.org/learning-center/apisix-vs-kong/): APISIX vs Kong comparison
+- [Apache APISIX vs AISIX: General-Purpose vs AI-Native Gateway](https://apisix.apache.org/learning-center/apisix-vs-aisix/): General-purpose API and AI gateway vs a dedicated AI-native gateway
 - [Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed](https://apisix.apache.org/learning-center/apisix-vs-aws-api-gateway/): Open-source self-hosted gateway vs managed cloud service, cost at scale, lock-in
 - [Apache APISIX vs NGINX: API Gateway vs Reverse Proxy](https://apisix.apache.org/learning-center/apisix-vs-nginx/): How APISIX builds a full API gateway on top of NGINX; NGINX Plus comparison
 - [Apache APISIX vs Envoy: API Gateway vs Service Proxy](https://apisix.apache.org/learning-center/apisix-vs-envoy/): Turnkey gateway vs a proxy that needs a separate control plane; service mesh
