@@ -47,8 +47,10 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--color-border);
   height: var(--header-height);
 }
-.site-header .container { display: flex; align-items: center; gap: 1rem; height: 100%; }
-.brand { display: flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--color-text); font-size: 1.05rem; }
+/* Full-bleed like the pre-Astro navbar: the desktop nav plus DocSearch
+   (~1210px on docs pages) is wider than the 1140px page column. */
+.site-header .container { display: flex; align-items: center; gap: 1rem; height: 100%; max-width: none; }
+.brand { display: flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--color-text); font-size: 1.05rem; flex-shrink: 0; white-space: nowrap; }
 .brand img { height: 30px; width: auto; }
 .brand:hover { text-decoration: none; }
 .main-nav { margin-left: auto; display: flex; align-items: center; gap: .25rem; }
@@ -70,8 +72,22 @@ a:hover { text-decoration: underline; }
 .nav-drop .menu a:hover { background: var(--color-surface-alt); text-decoration: none; }
 .mobile-toggle { display: none; }
 
-/* 996px matches production's collapse point; below ~1000px the desktop nav
-   only fits by wrapping the brand wordmark onto two lines. */
+/* The brand never wraps (flex-shrink: 0 above); instead the header sheds
+   chrome as the viewport narrows. Budget at the default font metrics:
+   brand 175px + gap 16px + nav ~870px + DocSearch button 155px ≈ 1215px. */
+@media (min-width: 997px) and (max-width: 1365px) {
+  .main-nav { gap: .125rem; }
+  .main-nav > a, .nav-drop > summary { padding: .4rem .5rem; }
+  /* icon-only search button (the button keeps its aria-label) */
+  .site-header .DocSearch-Button-Placeholder,
+  .site-header .DocSearch-Button-Keys { display: none; }
+}
+@media (min-width: 997px) and (max-width: 1139px) {
+  .brand span { display: none; }
+}
+
+/* 996px matches production's collapse point: the desktop nav gives way to
+   the burger menu. */
 @media (max-width: 996px) {
   .main-nav { display: none; }
   .mobile-toggle { display: block; margin-left: auto; }
