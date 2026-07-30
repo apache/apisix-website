@@ -28,6 +28,18 @@ jobs:
       - name: Build Astro site
         working-directory: next
         run: npm run build
+      - name: Assert Chinese learning-center retirement contract
+        working-directory: next
+        run: |
+          set -euo pipefail
+          node scripts/generate-md-twins.mjs
+          test -f dist/zh/learning-center/index.html
+          test "$(find dist/zh/learning-center -name index.html | wc -l)" -eq 1
+          test "$(find dist/zh/learning-center -name index.md | wc -l)" -eq 0
+          if grep -Eq 'https://apisix\.apache\.org/zh/learning-center/.+/index\.md' dist/llms.txt; then
+            echo 'Retired Chinese learning-center Markdown URL remains in llms.txt.'
+            exit 1
+          fi
       - name: Test main pages on desktop and mobile
         working-directory: next
         run: npm run test:e2e

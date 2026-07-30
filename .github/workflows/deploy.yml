@@ -245,11 +245,14 @@ jobs:
           # (blog tag pages are deliberately additive); it must never drop one.
           ROOT="$PWD"
           fail=0
-          for prefix in blog zh/blog learning-center articles zh/articles events zh/events; do
+          for prefix in blog zh/blog learning-center zh/learning-center articles zh/articles events zh/events; do
             [ -d "website/build/$prefix" ] || continue
-            missing=$(cd "website/build/$prefix" && find . -name index.html | sort | while read -r f; do
-              [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f"
-            done)
+            missing=""
+            if [ "$prefix" != "zh/learning-center" ]; then
+              missing=$(cd "website/build/$prefix" && find . -name index.html | sort | while read -r f; do
+                [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f"
+              done)
+            fi
             if [ -n "$missing" ]; then
               echo "MISSING in Astro build:"; echo "$missing"; fail=1
             fi
