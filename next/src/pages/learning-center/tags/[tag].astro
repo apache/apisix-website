@@ -3,7 +3,7 @@ import ListPage from '../../../layouts/ListPage.astro';
 import { getLearningPosts, groupByTag } from '../../../lib/content';
 
 export function getStaticPaths() {
-  const tags = groupByTag(getLearningPosts('en'));
+  const tags = groupByTag(getLearningPosts());
   return [...tags.entries()].map(([slug, group]) => ({ params: { tag: slug }, props: group }));
 }
 const { label, posts } = Astro.props;

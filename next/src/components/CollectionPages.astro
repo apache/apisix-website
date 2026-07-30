@@ -16,9 +16,17 @@ interface Props {
   sub?: string;
   kicker?: string;
   withTags?: boolean;
+  /** Locale prefix for archive/tags/pagination links; defaults to this page's. */
+  linkPrefix?: string;
 }
-const { locale, page, posts, urlBase, heading, sub, kicker, withTags = false } = Astro.props;
+const {
+  locale, page, posts, urlBase, heading, sub, kicker, withTags = false, linkPrefix,
+} = Astro.props;
 const prefix = localePrefix(locale);
+// Where the archive/tags/pagination siblings live. Normally alongside this
+// listing, but a locale that shows another locale's articles (zh learning
+// center) must point at that locale's pages, not at routes it doesn't build.
+const sibling = linkPrefix ?? prefix;
 const pages = paginate(posts);
 const pagePosts = pages[page - 1] ?? [];
 ---
@@ -29,10 +37,10 @@ const pagePosts = pages[page - 1] ?? [];
   kicker={kicker}
   locale={locale}
   path={page === 1 ? `${urlBase}/` : `${urlBase}/page/${page}/`}
-  base={`${prefix}${urlBase}/`}
+  base={`${sibling}${urlBase}/`}
   posts={pagePosts}
   current={page}
   total={pages.length}
-  archiveUrl={`${prefix}${urlBase}/archive/`}
-  tagsUrl={withTags ? `${prefix}${urlBase}/tags/` : undefined}
+  archiveUrl={`${sibling}${urlBase}/archive/`}
+  tagsUrl={withTags ? `${sibling}${urlBase}/tags/` : undefined}
 />

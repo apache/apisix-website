@@ -276,7 +276,13 @@ a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2
 .prose a:hover { color: var(--color-primary); text-decoration-color: currentcolor; }
 .prose :not(pre) > code { overflow-wrap: anywhere; }
 .prose iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: 8px; }
-.prose img { border-radius: 8px; }
+/* Synced docs images are remote and carry no intrinsic size, so reserve a
+   plausible block before they load — without this the whole article reflows as
+   each diagram arrives. `height: auto` still wins once the real ratio is known,
+   so correctly-proportioned images are unaffected. */
+.prose img { border-radius: 8px; aspect-ratio: 16 / 9; height: auto; object-fit: contain; }
+/* Images that declare their own dimensions know better. */
+.prose img[width][height] { aspect-ratio: auto; }
 .prose code { font-family: var(--font-mono); font-size: .86em; background: var(--color-code-bg); padding: .12em .35em; border-radius: 4px; }
 .prose pre { background: #0d1117; color: #e6edf3; border-radius: 10px; padding: 1rem 1.2rem; overflow-x: auto; font-size: .86rem; line-height: 1.6; }
 .prose .code-title { background: #21262d; color: #e6edf3; font-family: var(--font-mono); font-size: .78rem; padding: .45rem 1.2rem; border-radius: 10px 10px 0 0; margin-bottom: 0; }

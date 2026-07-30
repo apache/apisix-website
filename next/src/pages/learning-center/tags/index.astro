@@ -2,7 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import { getLearningPosts, groupByTag } from '../../../lib/content';
 
-const tags = groupByTag(getLearningPosts('en'));
+const tags = groupByTag(getLearningPosts());
 const sorted = [...tags.entries()].sort((a, b) => b[1].posts.length - a[1].posts.length || a[0].localeCompare(b[0]));
 ---
 <Base title="Tags | Learning Center" locale="en" path="/learning-center/tags/">
