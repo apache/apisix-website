@@ -31,7 +31,9 @@ const SITE = 'https://apisix.apache.org';
 const COLLECTIONS = [
   ['blog-en', ['/blog']],
   ['blog-zh', ['/zh/blog']],
-  ['learning-center', ['/learning-center', '/zh/learning-center']],
+  // Learning-center articles are English-only. The Chinese landing page links
+  // to these URLs directly; retired /zh/learning-center/<slug>/ pages redirect.
+  ['learning-center', ['/learning-center']],
   ['articles', ['/articles', '/zh/articles']],
   ['docs-general', ['/docs/general', '/zh/docs/general']],
   // The zh APISIX docs fall back to the English source where no translation
@@ -178,7 +180,6 @@ const llms = [
   ...section('Blog', group(en, '/blog/')),
   ...section('Articles', group(en, '/articles/')),
   ...section('中文文档', group(zh, '/docs/')),
-  ...section('中文学习中心', group(zh, '/learning-center/')),
   ...section('中文博客', group(zh, '/blog/')),
   ...section('中文技术文章', group(zh, '/articles/')),
 ].join('\n');

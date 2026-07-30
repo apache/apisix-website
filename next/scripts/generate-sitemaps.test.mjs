@@ -42,7 +42,7 @@ const pages = [
   'docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0',
   'search',
   'zh',
-  'zh/learning-center/what-is-an-api-gateway',
+  'zh/learning-center',
   'zh/learning-center/tags/api-gateway',
   'zh/articles/page/2',
   'zh/events/archive',
@@ -94,7 +94,8 @@ try {
   assert.match(en, /docs\/general\/blog\/page\/overview/);
   assert.match(en, /docs\/apisix\/upgrade-guide-from-2\.15\.x-to-3\.0\.0/);
   assert.match(en, /apisix-unity-group-q&amp;a/);
-  assert.match(zh, /zh\/learning-center\/what-is-an-api-gateway/);
+  assert.match(zh, /zh\/learning-center\/<\/loc>/);
+  assert.doesNotMatch(zh, /zh\/learning-center\/what-is-an-api-gateway/);
   assert.match(zh, /bi-weekly%20report/);
 
   assert.ok(en.includes('<loc>https://apisix.apache.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority>'));

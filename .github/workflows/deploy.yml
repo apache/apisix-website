@@ -245,7 +245,7 @@ jobs:
           # (blog tag pages are deliberately additive); it must never drop one.
           ROOT="$PWD"
           fail=0
-          for prefix in blog zh/blog learning-center zh/learning-center articles zh/articles events zh/events; do
+          for prefix in blog zh/blog learning-center articles zh/articles events zh/events; do
             [ -d "website/build/$prefix" ] || continue
             missing=$(cd "website/build/$prefix" && find . -name index.html | sort | while read -r f; do
               [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f"
@@ -267,6 +267,12 @@ jobs:
               echo "NON-HTML files not in the Astro tree and not in the feed-carry list:"; echo "$unhandled"; fail=1
             fi
           done
+          # zh/learning-center intentionally keeps only its localized landing
+          # page. Its English-only article, tag, archive, and pagination URLs
+          # redirect to the English tree instead of being rebuilt as duplicate
+          # pages, so exact Docusaurus parity does not apply to this subtree.
+          test -f next/dist/zh/learning-center/index.html
+          test "$(find next/dist/zh/learning-center -name index.html | wc -l)" -eq 1
           # Latest-version docs: Docusaurus no longer builds them (see
           # onlyIncludeVersions in doc/docusaurus.config.js), so the reference
           # is the LIVE SITE. Every version-less docs URL currently published
@@ -449,7 +455,11 @@ jobs:
         run: |
           node next/scripts/generate-sitemaps.mjs --dist website/build
           grep -q '<loc>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/</loc>' website/build/sitemap.xml
-          grep -q '<loc>https://apisix.apache.org/zh/learning-center/what-is-an-api-gateway/</loc>' website/build/zh/sitemap.xml
+          grep -q '<loc>https://apisix.apache.org/zh/learning-center/</loc>' website/build/zh/sitemap.xml
+          if grep -q '<loc>https://apisix.apache.org/zh/learning-center/what-is-an-api-gateway/</loc>' website/build/zh/sitemap.xml; then
+            echo 'Retired English-only Chinese learning-center URL remains in the sitemap.'
+            exit 1
+          fi
           if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?(blog/(tags|page|archive)|learning-center/(tags|page|archive)|articles/(page|archive)|events/archive)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
             echo 'Low-value aggregation URLs remain in the final sitemap.'
             exit 1
