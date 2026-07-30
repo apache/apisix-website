@@ -3,11 +3,11 @@ import Article from '../../layouts/Article.astro';
 import { getLearningPosts, relatedPosts } from '../../lib/content';
 
 export function getStaticPaths() {
-  return getLearningPosts('en').map((post) => ({ params: { slug: post.slug }, props: { post } }));
+  return getLearningPosts().map((post) => ({ params: { slug: post.slug }, props: { post } }));
 }
 const { post } = Astro.props;
 const path = `/learning-center/${post.slug}/`;
-const pool = getLearningPosts('en');
+const pool = getLearningPosts();
 const related = relatedPosts(post, pool);
 const idx = pool.findIndex((p) => p.url === post.url);
 const newer = idx > 0 ? pool[idx - 1] : undefined;

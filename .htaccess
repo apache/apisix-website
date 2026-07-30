@@ -164,3 +164,10 @@ RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:next/)?getting-started/$" 
 # Renamed docs and GitHub-repo-style paths that leak into search results
 RedirectMatch 301 "^(/zh)?/docs/apisix/stand-alone/?$" "$1/docs/apisix/deployment-modes/"
 RedirectMatch 301 "^(/zh)?/docs/apisix/en/latest/deployment-modes(\.md)?/?$" "$1/docs/apisix/deployment-modes/"
+
+# The Chinese learning-center articles were never translated: each served the
+# English body under lang="zh-CN" with a title identical to its English twin
+# and a self-referential canonical, so 18 near-duplicates competed with the
+# pages they duplicated. The listing at /zh/learning-center/ now links to the
+# English articles directly; these URLs are indexed, so send them there.
+RedirectMatch 301 "^/zh/learning-center/(.+)$" "/learning-center/$1"

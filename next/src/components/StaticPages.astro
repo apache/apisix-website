@@ -24,7 +24,7 @@ const DOCS_PROJECTS = [
 ];
 
 const comparisons = kind === 'comparisons'
-  ? getLearningPosts(locale).filter((post) => post.tags.includes('comparison'))
+  ? getLearningPosts().filter((post) => post.tags.includes('comparison'))
   : [];
 const aisixIndex = comparisons.findIndex((post) => post.slug === 'apisix-vs-aisix');
 const kongIndex = comparisons.findIndex((post) => post.slug === 'apisix-vs-kong');

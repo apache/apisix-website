@@ -39,6 +39,19 @@ const jsonLd = [{
   mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
 }];
 
+/**
+ * Upstream plugin docs carry a cross-site canonical to the English hub on
+ * docs.api7.ai. Emitting that unchanged on a translated Chinese page points
+ * search engines at a URL with no Chinese edition (docs.api7.ai/zh/hub/* is
+ * 404), so the translation we do have gets de-indexed in favour of a page
+ * that cannot rank for those queries. docs.apiseven.com is the Chinese
+ * edition of the same hub, so zh pages canonicalise there instead.
+ */
+const ZH_HUB = 'https://docs.apiseven.com';
+const rawCanonical = entry.mod.frontmatter.canonical;
+const canonicalOverride = locale === 'zh' && rawCanonical?.startsWith('https://docs.api7.ai/')
+  ? rawCanonical.replace('https://docs.api7.ai', ZH_HUB)
+  : rawCanonical;
 ---
 <Base
   title={entry.title}
@@ -46,7 +59,7 @@ const jsonLd = [{
   locale={locale}
   path={path}
   jsonLd={jsonLd}
-  canonicalOverride={entry.mod.frontmatter.canonical}
+  canonicalOverride={canonicalOverride}
   search
 >
   <div class="container docs-layout">

@@ -188,11 +188,20 @@ export function getBlogPosts(locale: Locale): Post[] {
     .sort(byDateDesc);
 }
 
-export function getLearningPosts(locale: Locale): Post[] {
-  // learning-center content is EN-only today; zh URLs serve the same entries
-  // (the current site does the same via Docusaurus i18n fallback).
+/**
+ * Learning-center articles. The content is English-only, so these always
+ * resolve to English URLs — the Chinese listing links straight to them.
+ *
+ * We used to publish /zh/learning-center/<slug>/ as well, serving the English
+ * body under lang="zh-CN" with a title identical to the English page and a
+ * self-referential canonical. That produced 18 near-duplicate competitors to
+ * the site's most valuable commercial pages, and told browsers the page was
+ * already Chinese so they would not offer to translate it. A reader is better
+ * served by an honest English URL.
+ */
+export function getLearningPosts(): Post[] {
   return Object.entries(learningModules)
-    .map(([p, mod]) => flatPost(p, mod, '/learning-center', locale))
+    .map(([p, mod]) => flatPost(p, mod, '/learning-center', 'en'))
     .sort(byDateDesc);
 }
 
