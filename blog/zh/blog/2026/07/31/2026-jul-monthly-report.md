@@ -3,7 +3,7 @@ title: "2026 社区月报 (07.01 - 07.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/07/31/wT1P39iV_2026-july-monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了一些新功能，包括 AI 语义缓存与语义负载均衡、更全面的 AI 内容审核、跨节点 AI 限流、更安全的插件请求与响应体缓冲，以及更丰富的可观测性指标等。有关更多细节，请阅读本期月报。
@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
+![贡献者名单](https://static.api7.ai/uploads/2026/07/31/rd80Rix1_2026-july-contributor-list.webp)
 
-![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
+![新晋贡献者](https://static.api7.ai/uploads/2026/07/31/YoPwY8sx_2026-july-new-contributors.webp)
 
 ## 近期亮点功能
 

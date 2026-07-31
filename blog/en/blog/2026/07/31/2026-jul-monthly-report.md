@@ -3,7 +3,7 @@ title: "2026 Monthly Report (July 01 - July 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/07/31/zaSU1pKM_2026-july-monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated some new features, including semantic AI caching and load balancing, broader AI content moderation, cross-node AI rate limiting, safer plugin body buffering, and enhanced observability. For more details, please read this month's newsletter.
@@ -18,9 +18,9 @@ From July 1st to July 31st, 19 contributors made 151 commits to Apache APISIX. W
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/07/31/rd80Rix1_2026-july-contributor-list.webp)
 
-![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
+![New Contributors List](https://static.api7.ai/uploads/2026/07/31/YoPwY8sx_2026-july-new-contributors.webp)
 
 ## Feature Highlights
 
