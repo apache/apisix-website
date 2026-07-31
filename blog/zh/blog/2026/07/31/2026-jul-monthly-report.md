@@ -14,13 +14,13 @@ image: https://static.api7.ai/uploads/2026/07/31/wT1P39iV_2026-july-monthly-repo
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，"众人拾柴火焰高"，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-从 2026.07.01 至 2026.07.31，有 19 名开发者提交了 151 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+从 2026.07.01 至 2026.07.31，有 15 名开发者提交了 79 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
 ## 贡献者统计
 
-![贡献者名单](https://static.api7.ai/uploads/2026/07/31/rd80Rix1_2026-july-contributor-list.webp)
+![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
 
-![新晋贡献者](https://static.api7.ai/uploads/2026/07/31/YoPwY8sx_2026-july-new-contributors.webp)
+![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
 
 ## 近期亮点功能
 

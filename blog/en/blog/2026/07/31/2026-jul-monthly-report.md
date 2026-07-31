@@ -14,13 +14,13 @@ image: https://static.api7.ai/uploads/2026/07/31/zaSU1pKM_2026-july-monthly-repo
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From July 1st to July 31st, 19 contributors made 151 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From July 1st to July 31st, 15 contributors made 79 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/07/31/rd80Rix1_2026-july-contributor-list.webp)
+![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
 
-![New Contributors List](https://static.api7.ai/uploads/2026/07/31/YoPwY8sx_2026-july-new-contributors.webp)
+![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
 
 ## Feature Highlights
 
