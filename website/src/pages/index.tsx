@@ -7,7 +7,6 @@ import { translate } from '@docusaurus/Translate';
 import useWindowType from '@theme/hooks/useWindowSize';
 
 import HeroSection from '../components/sections/HeroSection';
-import Architecture from '../components/sections/Architecture';
 import Features from '../components/sections/Features';
 import Benefits from '../components/sections/Benefits';
 import Comparison from '../components/sections/Comparison';
@@ -141,7 +140,6 @@ const Index: FC = () => (
     <HeroSection />
     <Pathways />
     <AIGatewaySection />
-    <Architecture />
     <Features />
     <Integrations />
     <Benefits />
