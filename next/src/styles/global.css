@@ -262,11 +262,12 @@ section.endcta.alt { background: transparent; padding: 4rem 1rem 0; }
 .arch-visual { max-width: 980px; margin: 2rem auto 0; background: #fff; border: 1px solid rgba(16,24,39,.06); border-radius: 16px; padding: clamp(1.25rem, 3vw, 2.5rem); box-shadow: 0 1px 2px rgb(0 0 0 / 4%), 0 12px 32px rgb(0 0 0 / 10%); }
 .arch-visual img { width: 100%; max-width: 100%; height: auto; display: block; margin-inline: auto; }
 .arch-visual figcaption { max-width: 34rem; margin: 1rem auto 0; text-align: center; font-size: .95rem; color: var(--color-text-soft); }
-/* On phones the 1713px-wide diagram would shrink below legibility (~14%);
-   let it pan horizontally at >=37% scale instead. */
+/* The diagram is authored 1200 CSS px wide (exported at 2x). On phones let it
+   pan horizontally rather than shrink past the point where labels stop being
+   readable; 720px is the narrowest that still holds the plugin grid legible. */
 @media (max-width: 700px) {
   .arch-visual { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .arch-visual img { min-width: 640px; }
+  .arch-visual img { min-width: 720px; }
 }
 .pillar-section { background: #fff8f6; }
 .pillar-section + .pillar-section { border-top: 1px solid #f2e8e4; }

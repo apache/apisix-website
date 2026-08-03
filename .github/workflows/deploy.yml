@@ -193,7 +193,7 @@ jobs:
           cp -R next/dist/img/. website/build/img/
           test -f website/build/img/infographs/performance.svg
           test -f website/build/img/integrations/icon-prometheus.svg
-          test -f website/build/img/architecture.svg
+          test -f website/build/img/architecture.png
 
       - name: Deploy to Netlify
         uses: ./.github/actions/actions-netlify
