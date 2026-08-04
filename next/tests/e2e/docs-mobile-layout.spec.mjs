@@ -21,27 +21,12 @@ async function firstBlogPost(page) {
   return href;
 }
 
-// `/edit/` is the one .article-wrap page present in every build, including the
-// content-less local one, so this check needs no gate and runs everywhere.
-test('the edit page keeps its horizontal padding', async ({ page }) => {
-  await page.goto('/edit/');
-  const pad = await inlinePadding(page, '.article-wrap');
-  expect(pad.left, '.article-wrap must not zero out .container padding').toBeGreaterThan(0);
-  expect(pad.right).toBeGreaterThan(0);
-});
-
-// Docs and blog article pages only exist in the assembled tree, so the rest is
-// gated the same way main-pages.spec.mjs:141 gates its overlay checks.
-test('docs pages keep horizontal padding and put the nav above the article', async ({ page }) => {
-  test.skip(
-    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true',
-    'Docs pages only exist in the final overlaid tree',
-  );
-
-  await page.goto('/docs/apisix/getting-started/README/');
+/** Padding restored and nav ahead of the article, for any docs page. */
+async function assertDocsLayout(page, url) {
+  await page.goto(url);
 
   const pad = await inlinePadding(page, '.docs-layout');
-  expect(pad.left, '.docs-layout must not zero out .container padding').toBeGreaterThan(0);
+  expect(pad.left, `${url}: .docs-layout must not zero out .container padding`).toBeGreaterThan(0);
   expect(pad.right).toBeGreaterThan(0);
 
   // The header was always correct, so it is the reference the article should
@@ -55,20 +40,32 @@ test('docs pages keep horizontal padding and put the nav above the article', asy
     articleTop: document.querySelector('.docs-content').offsetTop,
   }));
 
-  expect(geom.h1Left, 'article text must not touch the viewport edge').toBeGreaterThan(0);
+  expect(geom.h1Left, `${url}: article text must not touch the viewport edge`).toBeGreaterThan(0);
   if (geom.viewport <= 1140) {
     expect(Math.abs(geom.h1Left - geom.brandLeft),
-      'article should line up with the header brand').toBeLessThanOrEqual(1);
+      `${url}: article should line up with the header brand`).toBeLessThanOrEqual(1);
   }
-  expect(geom.navTop, 'the docs nav must come before the article').toBeLessThan(geom.articleTop);
+  expect(geom.navTop, `${url}: the docs nav must come before the article`)
+    .toBeLessThan(geom.articleTop);
+}
+
+// docs/general/** ships from this repo, so it exists in the PR CI build too —
+// no gate, and the fix is verified before anything is deployed.
+test('general docs keep padding and put the nav above the article', async ({ page }) => {
+  await assertDocsLayout(page, '/docs/general/contributor-guide/');
+});
+
+// Same assertions over the 200-link apisix tree that motivated the report.
+// Gated: apisix docs need .sync/ checkouts only the deploy pipeline has.
+test('apisix docs keep padding and put the nav above the article', async ({ page }) => {
+  test.skip(
+    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true',
+    'apisix docs only exist in the final overlaid tree',
+  );
+  await assertDocsLayout(page, '/docs/apisix/getting-started/README/');
 });
 
 test('blog posts keep their horizontal padding', async ({ page }) => {
-  test.skip(
-    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true',
-    'Blog posts only exist in the final overlaid tree',
-  );
-
   await page.goto(await firstBlogPost(page));
   const pad = await inlinePadding(page, '.article-wrap');
   expect(pad.left, 'blog posts share the .article-wrap defect').toBeGreaterThan(0);
@@ -76,10 +73,6 @@ test('blog posts keep their horizontal padding', async ({ page }) => {
 });
 
 test('desktop keeps the three-column article rails', async ({ page }) => {
-  test.skip(
-    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true',
-    'Blog posts only exist in the final overlaid tree',
-  );
   test.skip(test.info().project.name !== 'desktop-chrome', 'Rails only exist at >=1240px');
 
   await page.goto(await firstBlogPost(page));
