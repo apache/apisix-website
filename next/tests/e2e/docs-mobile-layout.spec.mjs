@@ -30,8 +30,7 @@ async function assertDocsLayout(page, url) {
   expect(pad.right).toBeGreaterThan(0);
 
   // The header was always correct, so it is the reference the article should
-  // match. Only meaningful below the 1140px container cap, where both are full
-  // width; above it the centred container makes the comparison meaningless.
+  // match — but only once the layout stacks; see the breakpoint note below.
   const geom = await page.evaluate(() => ({
     viewport: window.innerWidth,
     h1Left: document.querySelector('.docs-content h1').getBoundingClientRect().left,
@@ -43,7 +42,8 @@ async function assertDocsLayout(page, url) {
   expect(geom.h1Left, `${url}: article text must not touch the viewport edge`).toBeGreaterThan(0);
 
   // Both remaining checks are breakpoint-dependent, and 960px is the line
-  // (global.css:340) where .docs-layout collapses to one column.
+  // where .docs-layout collapses to one column (the max-width: 960px media
+  // query in global.css).
   if (geom.viewport <= 960) {
     // Stacked: the article shares the container's inline padding with the
     // header, so their left edges line up.
