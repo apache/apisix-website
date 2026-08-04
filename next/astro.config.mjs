@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
 import { remarkAdmonitions } from './scripts/remark-admonitions.mjs';
 import { remarkHeadingIds } from './scripts/remark-heading-ids.mjs';
+import { remarkImageLoading } from './scripts/remark-image-loading.mjs';
 
 // Static-only rebuild of apisix.apache.org.
 // URL contract: every public URL is identical to the current Docusaurus site
@@ -14,7 +15,7 @@ export default defineConfig({
   // Vite's inline threshold, so the deploy overlay's _astro/ dependency holds.
   build: { format: 'directory', inlineStylesheets: 'never' },
   markdown: {
-    remarkPlugins: [remarkDirective, remarkAdmonitions, remarkHeadingIds],
+    remarkPlugins: [remarkDirective, remarkAdmonitions, remarkHeadingIds, remarkImageLoading],
     shikiConfig: { theme: 'github-dark-default' },
   },
 });

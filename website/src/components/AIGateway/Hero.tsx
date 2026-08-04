@@ -40,16 +40,17 @@ const Hero: React.FC = () => {
                 variant="h1"
                 sx={{ lineHeight: '1.15' }}
               >
-                AI Gateway for AI Agents and LLMs
+                Open-Source AI Gateway for LLMs and AI Agents
               </Heading>
               <Text
                 fontSize="19px"
                 fontStyle="normal"
                 sx={{ lineHeight: '28.5px' }}
               >
-                Discover how Apache APISIX serves as an AI gateway with AI proxy,
-                LLMs load balancing, retry and fallback, token rate limiting,
-                and security for efficient and reliable AI agents.
+                Apache APISIX provides an LLM gateway and LLM proxy for routing,
+                securing, and observing traffic between AI applications and
+                model providers, with load balancing, retries, fallback, and
+                token rate limiting.
               </Text>
             </Stack>
           </GridItem>

@@ -12,6 +12,7 @@ const posts = pages[page - 1] ?? [];
 <ListPage
   title={t(locale, 'Blog', '博客')}
   heading={t(locale, 'Apache APISIX Blog', 'Apache APISIX 博客')}
+  kicker={t(locale, 'Blog', '博客')}
   sub={t(locale, 'Release notes, case studies, ecosystem integrations, and engineering deep dives.', '版本发布、用户案例、生态集成与工程实践。')}
   locale={locale}
   path={page === 1 ? '/blog/' : `/blog/page/${page}/`}
@@ -20,4 +21,5 @@ const posts = pages[page - 1] ?? [];
   current={page}
   total={pages.length}
   archiveUrl={`${prefix}/blog/archive/`}
+  tagsUrl={`${prefix}/blog/tags/`}
 />

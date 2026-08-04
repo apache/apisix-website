@@ -1,13 +1,13 @@
 ---
 title: "What is gRPC? Protocol Buffers, Performance & API Gateway Integration"
-description: "Understand gRPC, Protocol Buffers, streaming, REST tradeoffs, and how Apache APISIX can proxy and transform gRPC traffic."
+description: "Learn what the gRPC protocol is, how gRPC APIs use Protocol Buffers, streaming, and HTTP/2, and how Apache APISIX proxies and transforms gRPC traffic."
 slug: what-is-grpc
 date: 2026-04-14
 tags: [grpc, protocols, api-gateway]
 hide_table_of_contents: false
 ---
 
-gRPC is a high-performance, open-source remote procedure call (RPC) framework originally developed by Google. It uses Protocol Buffers for binary serialization and HTTP/2 for transport, enabling strongly typed service contracts, bidirectional streaming, and significantly smaller payload sizes compared to equivalent JSON over REST.
+gRPC is a high-performance, open-source remote procedure call (RPC) framework originally developed by Google. The gRPC protocol uses Protocol Buffers for binary serialization and HTTP/2 for transport, enabling strongly typed gRPC APIs, bidirectional streaming, and smaller payloads than equivalent JSON over REST.
 
 ## Why gRPC Exists
 

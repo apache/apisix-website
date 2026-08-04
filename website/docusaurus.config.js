@@ -117,6 +117,13 @@ module.exports = {
       title: 'Apache APISIX®',
       logo: {
         src: 'img/logo2.svg',
+        // Full-page navigation: the homepage is produced by the static Astro
+        // build (next/), not by this SPA — a client-side route to / would
+        // render the removed React homepage.
+        href: 'pathname:///',
+        // Explicit target: the Link resolver injects target="_blank" on
+        // pathname:// URLs otherwise (same as the locale dropdowns do).
+        target: '_self',
       },
       items: require('../config/navbar.js'),
     },

@@ -12,6 +12,33 @@ export interface MdModule {
  * Fallback meta description when frontmatter has none: the first real prose
  * paragraph of the document (same behavior as the current Docusaurus site).
  */
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** Deterministic display date — no ICU dependency. */
+export function humanDate(date: Date, locale: Locale): string {
+  const y = date.getUTCFullYear();
+  const m = date.getUTCMonth();
+  const d = date.getUTCDate();
+  return locale === 'zh' ? `${y}年${m + 1}月${d}日` : `${MONTHS[m]} ${d}, ${y}`;
+}
+
+/** Estimated reading time: ~200 latin words or ~400 CJK chars per minute. */
+export function readingMinutes(mod: MdModule): number {
+  const raw = mod.rawContent?.() ?? '';
+  const text = raw.replace(/```[\s\S]*?```/g, ' ');
+  const cjk = (text.match(/[一-鿿]/g) ?? []).length;
+  const latin = (text.match(/[A-Za-z0-9]+/g) ?? []).length;
+  return Math.max(1, Math.round(latin / 200 + cjk / 400));
+}
+
+/** Same-first-tag posts first (newest first), topped up with other recent posts. */
+export function relatedPosts(post: Post, pool: Post[], n = 3): Post[] {
+  const rest = pool.filter((p) => p.url !== post.url);
+  const tag = post.tags[0];
+  const same = tag ? rest.filter((p) => p.tags.includes(tag)) : [];
+  const sameSet = new Set(same);
+  return [...same, ...rest.filter((p) => !sameSet.has(p))].slice(0, n);
+}
+
 export function excerpt(mod: MdModule): string {
   const raw = mod.rawContent?.() ?? '';
   const cleaned = raw
@@ -40,6 +67,8 @@ export interface Post {
   description: string;
   date: Date;
   dateStr: string;
+  /** locale-formatted display date ("Jul 10, 2026" / "2026年7月10日"); '' when undated */
+  dateHuman: string;
   tags: string[];
   image?: string;
   author?: string;
@@ -65,6 +94,22 @@ const docsGoEn = import.meta.glob('/content/docs-go-plugin-runner-en/**/*.md', {
 const docsPythonEn = import.meta.glob('/content/docs-python-plugin-runner-en/**/*.md', { eager: true }) as MdMap;
 
 const sidebarConfigs = import.meta.glob('/content/docs-*/config.json', { eager: true }) as Record<string, any>;
+
+/** Git ref each project's docs were synced from (written by sync-content.mjs). */
+const docRefs = (Object.values(
+  import.meta.glob('/content/doc-refs.json', { eager: true }) as Record<string, any>,
+)[0]?.default ?? {}) as Record<string, string>;
+
+/**
+ * "Edit this page" URL for an upstream project doc. Uses the ref the content
+ * was actually synced from — sub-projects are cloned at a release tag, and
+ * default branches differ (master vs main) — and `pathId`, the source-relative
+ * path, since a frontmatter slug can move the URL away from the filename.
+ */
+export function docEditUrl(project: string, repo: string, entry: DocEntry): string {
+  const ref = docRefs[project] ?? 'master';
+  return `https://github.com/apache/${repo}/edit/${ref}/docs/${entry.sourceLocale}/latest/${entry.pathId}.md`;
+}
 
 /** Sub-projects served under /docs/<key>/ via the generic route. */
 export const SUBPROJECTS: Record<string, { en: MdMap; zh?: MdMap; repo: string }> = {
@@ -95,7 +140,9 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
   //  - frontmatter slug containing "/" replaces the whole path;
   //  - otherwise the filename is used AS-IS (case and spaces preserved —
   //    see /blog/2023/09/08/APISIX-integrates-with-Coraza/).
-  const slug = fmSlug ?? name;
+  // A leading "/" in the slug would double up in the URL (Docusaurus
+  // normalizeUrl collapses it; see the 2021-06-03 firsthand-experience post).
+  const slug = (fmSlug ?? name).replace(/^\/+/, '');
   const urlPath = slug.includes('/') ? slug : `${y}/${mo}/${d}/${slug}`;
   return {
     url: `${localePrefix(locale)}/blog/${urlPath}/`,
@@ -104,6 +151,7 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
     description: mod.frontmatter.description ?? excerpt(mod),
     date: new Date(`${y}-${mo}-${d}T00:00:00Z`),
     dateStr: `${y}-${mo}-${d}`,
+    dateHuman: humanDate(new Date(`${y}-${mo}-${d}T00:00:00Z`), locale),
     tags: toTags(mod.frontmatter),
     image: mod.frontmatter.image,
     author: mod.frontmatter.author ?? (Array.isArray(mod.frontmatter.authors) ? mod.frontmatter.authors[0]?.name : undefined),
@@ -120,7 +168,9 @@ function flatPost(path: string, mod: MdModule, urlBase: string, locale: Locale):
     title: mod.frontmatter.title ?? slug,
     description: mod.frontmatter.description ?? excerpt(mod),
     date,
-    dateStr: date.toISOString().slice(0, 10),
+    // Undated posts sort last (epoch) but must not DISPLAY "1970-01-01".
+    dateStr: mod.frontmatter.date ? date.toISOString().slice(0, 10) : '',
+    dateHuman: mod.frontmatter.date ? humanDate(date, locale) : '',
     tags: toTags(mod.frontmatter),
     image: mod.frontmatter.image,
     author: mod.frontmatter.author,
@@ -138,11 +188,20 @@ export function getBlogPosts(locale: Locale): Post[] {
     .sort(byDateDesc);
 }
 
-export function getLearningPosts(locale: Locale): Post[] {
-  // learning-center content is EN-only today; zh URLs serve the same entries
-  // (the current site does the same via Docusaurus i18n fallback).
+/**
+ * Learning-center articles. The content is English-only, so these always
+ * resolve to English URLs — the Chinese listing links straight to them.
+ *
+ * We used to publish /zh/learning-center/<slug>/ as well, serving the English
+ * body under lang="zh-CN" with a title identical to the English page and a
+ * self-referential canonical. That produced 18 near-duplicate competitors to
+ * the site's most valuable commercial pages, and told browsers the page was
+ * already Chinese so they would not offer to translate it. A reader is better
+ * served by an honest English URL.
+ */
+export function getLearningPosts(): Post[] {
   return Object.entries(learningModules)
-    .map(([p, mod]) => flatPost(p, mod, '/learning-center', locale))
+    .map(([p, mod]) => flatPost(p, mod, '/learning-center', 'en'))
     .sort(byDateDesc);
 }
 
@@ -180,6 +239,13 @@ export interface DocEntry {
   id: string; // URL id after frontmatter slug/id overrides (e.g. "FAQ", "plugins/limit-count")
   /** Pure path-derived id — the key sidebar config.json entries refer to. */
   pathId: string;
+  /**
+   * Locale of the file this page was actually rendered from. A zh page falls
+   * back to the English source when no translation exists, and an "Edit this
+   * page" link built from the rendered locale would then point at a file that
+   * does not exist upstream.
+   */
+  sourceLocale: Locale;
   url: string;
   title: string;
   description: string;
@@ -211,6 +277,8 @@ export function getGeneralDocs(locale: Locale): DocEntry[] {
       return {
         id,
         pathId: docId(p, 'docs-general'),
+        // docs/general lives in this repo and has no per-locale source split.
+        sourceLocale: 'en' as Locale,
         url: `${localePrefix(locale)}/docs/general/${id}/`,
         title: docTitle(mod, id),
         description: mod.frontmatter.description ?? excerpt(mod),
@@ -224,10 +292,12 @@ export function getApisixDocs(locale: Locale): DocEntry[] {
   const zh = new Map(Object.entries(docsApisixZh).map(([p, mod]) => [docId(p, 'docs-apisix-zh'), mod]));
   return Object.entries(docsApisixEn).map(([p, mod]) => {
     const id = docId(p, 'docs-apisix-en');
-    const effective = locale === 'zh' ? (zh.get(id) ?? mod) : mod;
+    const translated = locale === 'zh' ? zh.get(id) : undefined;
+    const effective = translated ?? mod;
     return {
       id,
       pathId: docId(p, 'docs-apisix-en'),
+      sourceLocale: translated ? 'zh' : 'en',
       url: `${localePrefix(locale)}/docs/apisix/${id}/`,
       title: docTitle(effective, id),
       description: effective.frontmatter.description ?? excerpt(effective),
@@ -246,10 +316,12 @@ export function getSubprojectDocs(project: string, locale: Locale): DocEntry[] {
     .filter(([p]) => !p.endsWith('config.json'))
     .map(([p, mod]) => {
       const id = docId(p, `${rootName}en`, mod.frontmatter);
-      const effective = locale === 'zh' ? (zhMap.get(id) ?? mod) : mod;
+      const translated = locale === 'zh' ? zhMap.get(id) : undefined;
+      const effective = translated ?? mod;
       return {
         id,
         pathId: docId(p, `${rootName}en`),
+        sourceLocale: (translated ? 'zh' : 'en') as Locale,
         url: `${localePrefix(locale)}/docs/${project}/${id}/`,
         title: docTitle(effective, id),
         description: effective.frontmatter.description ?? excerpt(effective),
@@ -268,6 +340,12 @@ export function getSubprojectSidebar(project: string): SidebarNode[] {
     return { label: item.label, items: (item.items ?? []).map(normalize) };
   };
   return sidebar.map(normalize);
+}
+
+/** Version label a sub-project's docs were synced at, e.g. "0.5". */
+export function subprojectVersion(project: string): string | undefined {
+  const cfg = Object.entries(sidebarConfigs).find(([p]) => p.includes(`docs-${project}-en/config.json`))?.[1];
+  return (cfg?.default?.version ?? cfg?.version) as string | undefined;
 }
 
 export interface SidebarNode {
@@ -293,3 +371,14 @@ export function getApisixSidebar(): SidebarNode[] {
 }
 
 export const APISIX_DOCS_VERSION: string = apisixCfg.version ?? 'current';
+
+/**
+ * Archived APISIX versions, newest first. These stay on the Docusaurus build
+ * under /docs/apisix/<version>/; listing them keeps the archive reachable from
+ * the migrated current-version pages.
+ */
+export const APISIX_ARCHIVED_VERSIONS: string[] = (() => {
+  const cur = APISIX_DOCS_VERSION.replace(/^v/, '').split('.').slice(0, 2).join('.');
+  const known = ['3.16', '3.15', '3.14', '3.13', '3.12', '3.11', '3.10'];
+  return known.filter((v) => v !== cur);
+})();

@@ -7,7 +7,7 @@ export const DEFAULT_DESCRIPTION = 'APISIX is a dynamic, high-performance API Ga
 export const LOGO = '/img/logo2.svg';
 export const FAVICON = 'https://static.apiseven.com/202202/favicon.png';
 // Social-share card image (og:image / twitter:image) — matches production.
-export const SOCIAL_IMAGE = 'https://static.apiseven.com/202202/apache-apisix.png';
+export const SOCIAL_IMAGE = `${SITE}/img/apache-apisix.png`;
 export const POSTS_PER_PAGE = 9;
 
 export type Locale = 'en' | 'zh';
@@ -41,6 +41,7 @@ export const NAV: NavItem[] = [
     ],
   },
   { label: 'Learning Center', labelZh: '学习中心', href: '/learning-center/' },
+  { label: 'Comparisons', labelZh: '对比', href: '/comparisons/' },
   { label: 'AI Gateway', href: '/ai-gateway/' },
   { label: 'Blog', labelZh: '博客', href: '/blog/' },
   { label: 'Plugin Hub', labelZh: '插件中心', href: '/plugins/' },
@@ -71,11 +72,21 @@ export const FOOTER = {
       ],
     },
     {
-      title: 'More',
+      title: 'Resources',
       links: [
         { label: 'Blog', href: '/blog/' },
-        { label: 'Plugin Hub', href: '/plugins/' },
         { label: 'Learning Center', href: '/learning-center/' },
+        { label: 'Comparisons', href: '/comparisons/' },
+        { label: 'Events', href: '/docs/general/events/' },
+        { label: 'Case Studies', href: '/blog/tags/case-studies/' },
+      ],
+    },
+    {
+      title: 'More',
+      links: [
+        { label: 'Plugin Hub', href: '/plugins/' },
+        { label: 'Downloads', href: '/downloads/' },
+        { label: 'Team', href: '/team/' },
         { label: 'Contribute', href: '/contribute/' },
       ],
     },

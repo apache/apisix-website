@@ -19,6 +19,14 @@ Regenerate the identical URL space with [Astro](https://astro.build) in static o
 - **Same deploy.** `dist/` → `asf-site` branch → ASF httpd. `.htaccess` redirects, staging profile, CI trigger cadence: all unchanged.
 - **Same URLs.** Verified mechanically, not by hand — see below.
 
+## Current rollout status
+
+| Generator | Public routes |
+|---|---|
+| Astro | Homepage, current version-less docs, blog, learning center, articles, comparisons, events archive |
+| Added in the main-pages wave | `/ai-gateway/`, `/plugins/`, `/downloads/` and their `/zh/` routes |
+| Docusaurus remains | `/team/`, `/contribute/`, `/edit/`, `/search/`, the 404 page, versioned docs, and `/docs/**/next/` |
+
 ## Evidence (prototype in this repo)
 
 | Metric | Result |
@@ -42,9 +50,9 @@ URL rules that had to be reverse-engineered and are now encoded in `src/lib/cont
 Mechanical, not architectural, work for the real migration:
 
 1. **Versioned docs** (`/docs/apisix/3.10/…` × 8 versions × 2 locales, ~3 000 pages). Same pipeline parameterized by version — the current `config/apisix-versions.js` list carries over.
-2. **Pixel-faithful visual port.** The prototype approximates the current design (brand palette, layout); the real PR should port section-by-section styling and the full homepage art.
+2. **Remaining visual ports.** Team, contribution, edit, and search surfaces still need production-ready Astro layouts.
 3. **Search.** Recommend keeping Algolia DocSearch as an additive script (crawler-based, no build coupling), or Pagefind for a fully self-hosted option.
-4. **Team/downloads data generators** (`generate-repos-info` GitHub API calls) — build-time JSON, framework-agnostic, ports as-is.
+4. **Team data generator.** Downloads and plugin data now sync from their existing config files; the team page still needs its build-time data port.
 
 ## Rollout plan: subtree waves, not a big-bang flip
 

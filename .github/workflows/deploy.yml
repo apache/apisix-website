@@ -7,6 +7,8 @@ name: Test and Deploy Website
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   schedule:
     # Run everyday at 9:00 AM (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07)
     - cron: '0 5 * * *'
@@ -17,12 +19,18 @@ on:
         required: true
         default: 'master'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Build and validate with read-only permissions; publish only from trusted events.
 jobs:
-  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -136,55 +144,306 @@ jobs:
 
       # Guards the canonical contract of versioned doc pages (see
       # doc/src/theme/LayoutHead/index.tsx): versioned pages must carry exactly
-      # one canonical pointing at the version-less latest URL, and canonicals
-      # embedded in the doc markdown itself must still win.
+      # one canonical pointing at the version-less latest URL.
+      #
+      # The version-less page itself is no longer part of this build — wave 3
+      # moved it to Astro — so the half of this check that covered it now runs
+      # after the overlay, against the page that actually ships.
       - name: Assert canonical contract
         run: |
           f=$(ls website/build/docs/apisix/3.*/plugins/cors/index.html | head -1)
           test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
           grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
-          grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' website/build/docs/apisix/plugins/cors/index.html
 
       - name: Update sitemap.xml
         run: |
           yarn update-sitemap && git status
 
-      # ---- Static homepage migration (wave 1) --------------------------------
-      # The landing page (/ and /zh/) is served from a zero-JS Astro build in
-      # next/; every other URL above is produced by Docusaurus. The Astro
-      # homepage needs no synced docs, so this build skips the content sync.
-      # Runs last, after every Node 16 Docusaurus step (build, canonical
-      # assert, sitemap), so switching to Node 22 never touches the Docusaurus
-      # toolchain. See next/MIGRATION.md.
+      # ---- Static migration (waves 1-4) --------------------------------------
+      # Waves 1-2 cover the landing and in-repo content pages, wave 3 covers
+      # current version-less docs, and wave 4 adds selected main pages. The
+      # remaining routes stay Docusaurus. This runs after every Node 16 step so
+      # switching to Node 22 never touches the Docusaurus toolchain.
       - name: Set up Node.js 22 for the Astro build
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Build the Astro homepage
+      - name: Build the Astro pages
         working-directory: next
         run: |
           npm ci
+          npm run test:sitemap
+          # Project docs live in the upstream Apache repos. Clone the SAME ref
+          # Docusaurus does (scripts/sync-docs.js): the newest *release* branch,
+          # never the default branch — master is what production publishes at
+          # /docs/<project>/next/, and shipping it at the version-less URLs
+          # would document unreleased behaviour as if it were the current
+          # release. Version lists come from config/, so bumping a release
+          # there moves both builds together.
+          # Sparse, depth-1 clones of just docs/ keep this to seconds each; the
+          # sync script skips any repo that is absent, so a fetch failure
+          # degrades to "no pages for that project" — which the parity gate
+          # below then catches.
+          mkdir -p .sync
+          # config/docs.js is the same source scripts/sync-docs.js reads, and
+          # the ref shape matches it too: ingress-controller tags releases as
+          # v<version>, everything else branches them as release/<version>.
+          # Resolve each project's newest release ref the same way
+          # scripts/sync-docs.js does: apisix takes the newest series from
+          # config/apisix-versions.js; every sub-project has its release refs
+          # DETECTED from the remote (ingress-controller tags them v<ver>,
+          # the rest branch them release/<ver>) and keeps the newest. A
+          # sub-project with no release refs falls back to its default branch,
+          # which is what Docusaurus publishes for it today.
+          # Version ordering goes through semver (the same library and compare
+          # that sync-docs.js uses) — `sort -V` picks the wrong ref here, e.g.
+          # ingress-controller v1.8.4 over v2.1.0.
+          pick_ref() {  # $1 = repo, $2/$3 = ref globs, $4 = sed expr stripping the prefix
+            git ls-remote --refs "https://github.com/apache/$1.git" "$2" "$3" 2>/dev/null \
+              | sed "$4" \
+              | node -e "
+                  const semver = require('semver');
+                  const all = require('fs').readFileSync(0,'utf8').split('\n')
+                    .map(s=>s.trim()).filter(s=>semver.valid(semver.coerce(s)));
+                  all.sort((a,b)=>semver.compare(semver.coerce(a),semver.coerce(b)));
+                  if (all.length) console.log(all[all.length-1]);
+                "
+          }
+          APISIX_SERIES=$(node -e "const v=require('$GITHUB_WORKSPACE/config/apisix-versions.js').versions;console.log(v[v.length-1])")
+          for repo in apisix apisix-ingress-controller apisix-helm-chart \
+                      apisix-docker apisix-java-plugin-runner \
+                      apisix-go-plugin-runner apisix-python-plugin-runner; do
+            url="https://github.com/apache/$repo.git"
+            case "$repo" in
+              apisix) ref="release/$APISIX_SERIES" ;;
+              apisix-ingress-controller)
+                # Releases are v<ver> — branches today, historically also tags.
+                v=$(pick_ref "$repo" 'refs/heads/v*' 'refs/tags/v*' 's|.*refs/[a-z]*/v||')
+                ref=${v:+v$v} ;;
+              *)
+                v=$(pick_ref "$repo" 'refs/heads/release/*' 'refs/tags/release/*' 's|.*refs/[a-z]*/release/||')
+                ref=${v:+release/$v} ;;
+            esac
+            if [ -n "$ref" ]; then
+              echo "$repo -> $ref"
+              git clone --depth 1 --filter=blob:none --sparse -q -b "$ref" "$url" ".sync/$repo" \
+                || echo "::warning::clone of apache/$repo@$ref failed"
+            else
+              echo "$repo -> (default branch: no release refs)"
+              git clone --depth 1 --filter=blob:none --sparse -q "$url" ".sync/$repo" \
+                || echo "::warning::clone of apache/$repo failed"
+            fi
+            [ -d ".sync/$repo" ] && (cd ".sync/$repo" && git sparse-checkout set docs) || true
+          done
+          # Blog/learning-center/articles markdown is synced from this very
+          # checkout (WEBSITE_REPO); project docs come from .sync/ above.
+          WEBSITE_REPO="$GITHUB_WORKSPACE" node scripts/sync-content.mjs
           npx astro build
+          # Agent-readable surfaces: a Markdown twin beside every content page
+          # (<page>/index.md) plus /llms.txt indexing them. Agents and crawlers
+          # get clean prose instead of parsing markup.
+          node scripts/generate-md-twins.mjs
 
-      - name: Overlay the Astro homepage onto the Docusaurus build
+      - name: Assert URL parity for the wave-2 subtrees
         run: |
           set -euo pipefail
-          # File-level allowlist: only the two landing pages and the shared
-          # Astro asset dir come from the Astro build. Everything else in
-          # website/build (docs, blog, sitemaps, .htaccess, robots) is left as
-          # Docusaurus produced it, so URLs stay byte-identical.
-          for path in index.html zh/index.html _astro; do
+          # Every URL Docusaurus produced under a migrated prefix must exist in
+          # the Astro build too (same index.html path). Astro may add pages
+          # (blog tag pages are deliberately additive); it must never drop one.
+          ROOT="$PWD"
+          fail=0
+          for prefix in blog zh/blog learning-center zh/learning-center articles zh/articles events zh/events; do
+            [ -d "website/build/$prefix" ] || continue
+            missing=""
+            if [ "$prefix" != "zh/learning-center" ]; then
+              missing=$(cd "website/build/$prefix" && find . -name index.html | sort | while read -r f; do
+                [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f"
+              done)
+            fi
+            if [ -n "$missing" ]; then
+              echo "MISSING in Astro build:"; echo "$missing"; fail=1
+            fi
+            # Non-HTML files (feeds today) must either already be in the Astro
+            # tree or be handled by the feed-carry step below — anything else
+            # would be silently dropped by the subtree replacement.
+            unhandled=$(cd "website/build/$prefix" && find . -type f ! -name index.html | sort | while read -r f; do
+              case "$prefix/${f#./}" in
+                learning-center/atom.xml|learning-center/rss.xml|articles/atom.xml|articles/rss.xml|\
+                zh/learning-center/atom.xml|zh/learning-center/rss.xml|zh/articles/atom.xml|zh/articles/rss.xml) ;;
+                *) [ -f "$ROOT/next/dist/$prefix/$f" ] || echo "$prefix/$f" ;;
+              esac
+            done)
+            if [ -n "$unhandled" ]; then
+              echo "NON-HTML files not in the Astro tree and not in the feed-carry list:"; echo "$unhandled"; fail=1
+            fi
+          done
+          # zh/learning-center intentionally keeps only its localized landing
+          # page. Its English-only article, tag, archive, and pagination URLs
+          # redirect to the English tree instead of being rebuilt as duplicate
+          # pages, so exact Docusaurus parity does not apply to this subtree.
+          test -f next/dist/zh/learning-center/index.html
+          test "$(find next/dist/zh/learning-center -name index.html | wc -l)" -eq 1
+          # Latest-version docs: Docusaurus no longer builds them (see
+          # onlyIncludeVersions in doc/docusaurus.config.js), so the reference
+          # is the LIVE SITE. Every version-less docs URL currently published
+          # must exist in the Astro build, or this deploy would 404 a page that
+          # works today. Versioned dirs are excluded — they stay Docusaurus by
+          # design — as are docs/*/tags/ index pages, which Docusaurus emits
+          # empty (one self-link, absent from the sitemap, linked from no doc
+          # page) and which the per-page swap leaves in place.
+          git fetch --depth 1 origin asf-site
+          for docs_root in docs zh/docs; do
+            missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
+              | grep '/index\.html$' \
+              | sed "s|^$docs_root/||" \
+              | grep -vE '^([^/]+/([0-9]+(\.[0-9]+)+|next|v[0-9][^/]*)|docker/apisix-[0-9]+(\.[0-9]+)+)/' \
+              | grep -vE '(^|/)tags/index\.html$' \
+              | sort | while read -r f; do
+                [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
+              done)
+            if [ -n "$missing" ]; then
+              echo "Published docs URLs missing from the Astro build:"; echo "$missing"; fail=1
+            fi
+          done
+          exit $fail
+
+      - name: Carry the Docusaurus RSS/atom feeds into the Astro tree
+        run: |
+          set -euo pipefail
+          # Docusaurus generates subscription feeds for these sections; the
+          # Astro build does not (yet). Copy them into the Astro tree so the
+          # subtree replacement below keeps the feed URLs alive.
+          for f in learning-center/atom.xml learning-center/rss.xml \
+                   articles/atom.xml articles/rss.xml \
+                   zh/learning-center/atom.xml zh/learning-center/rss.xml \
+                   zh/articles/atom.xml zh/articles/rss.xml; do
+            cp "website/build/$f" "next/dist/$f"
+          done
+
+      - name: Overlay the Astro pages onto the Docusaurus build
+        run: |
+          set -euo pipefail
+          # Path allowlist: the landing pages, migrated content subtrees, main
+          # product/resource pages, and shared Astro assets come from the Astro
+          # build. Everything else in website/build (team, contribute, search,
+          # sitemaps, .htaccess, robots) stays as Docusaurus produced it.
+          for path in index.html zh/index.html _astro \
+                      blog zh/blog learning-center zh/learning-center \
+                      articles zh/articles events zh/events \
+                      comparisons zh/comparisons \
+                      ai-gateway zh/ai-gateway \
+                      plugins zh/plugins downloads zh/downloads; do
             rm -rf "website/build/$path"
             mkdir -p "website/build/$(dirname "$path")"
             cp -R "next/dist/$path" "website/build/$path"
           done
+          # Latest-version docs come from Astro; every versioned directory
+          # (3.16/, next/, v1.6/, …) stays exactly as Docusaurus built it.
+          # Replacement is per-page, not per-subtree: under docs/<project>/ the
+          # version dirs and the latest-version pages sit side by side, so a
+          # subtree swap would delete the archive. Only paths the Astro build
+          # actually produced are touched.
+          for locale_prefix in "" "zh/"; do
+            src="next/dist/${locale_prefix}docs"
+            [ -d "$src" ] || continue
+            (cd "$src" && find . -name index.html) | sed 's|^\./||' | while read -r rel; do
+              case "$rel" in
+                # Never touch an archived version directory.
+                */[0-9].[0-9]*/*|*/next/*|*/v[0-9]*/*) continue ;;
+              esac
+              dest="website/build/${locale_prefix}docs/$rel"
+              mkdir -p "$(dirname "$dest")"
+              cp "$src/$rel" "$dest"
+              # Ship the Markdown twin next to the page it mirrors. Written as
+              # if/fi, not `[ -f … ] && cp …`: the latter is the loop body's
+              # last command, so a page without a twin makes the whole pipeline
+              # exit 1 under `set -e` — silently skipping every assertion below.
+              twin="${rel%index.html}index.md"
+              if [ -f "$src/$twin" ]; then
+                cp "$src/$twin" "website/build/${locale_prefix}docs/$twin"
+              fi
+            done
+          done
+          # The version archives must survive untouched.
+          test -f website/build/docs/apisix/3.16/plugins/cors/index.html
+          test -f website/build/docs/apisix/next/plugins/cors/index.html
+          grep -q 'docusaurus' website/build/docs/apisix/3.16/plugins/cors/index.html
+          # …and the latest-version pages must now be the Astro build.
+          grep -q '/_astro/' website/build/docs/apisix/plugins/cors/index.html
+          grep -q '/_astro/' website/build/zh/docs/apisix/plugins/cors/index.html
+          # The archives remain a Docusaurus SPA whose version dropdown and
+          # "older version" banner point at the version-less URLs. Docusaurus
+          # is configured (doc/docusaurus.config.js, onlyIncludeVersions) to
+          # stop building the newest version, so those URLs are no longer in
+          # its route manifest and a click leaves the SPA for the Astro page.
+          # Assert that manifest property directly — patching the serialized
+          # HTML would not help, because React Router intercepts clicks after
+          # hydration regardless of the anchor's target.
+          if ! node -e '
+            const fs = require("fs"), path = require("path");
+            const dir = "website/build/assets/js";
+            const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => /^main\..*\.js$/.test(f)) : [];
+            if (!files.length) { console.error("no main bundle found"); process.exit(1); }
+            const bundle = fs.readFileSync(path.join(dir, files[0]), "utf8");
+            const claimed = ["/docs/apisix/plugins/cors/", "/docs/apisix/getting-started/"]
+              .filter((u) => bundle.includes(`"${u}"`));
+            if (claimed.length) {
+              console.error("Docusaurus still owns migrated routes:", claimed.join(", "));
+              process.exit(1);
+            }
+            console.log("route manifest: no version-less docs routes — archive links hard-navigate");
+          '; then
+            echo "The Docusaurus SPA still routes the migrated docs URLs client-side."
+            exit 1
+          fi
+          # The version-less pages are built by Astro, so this is the only
+          # place their cross-site canonical can be checked — the Docusaurus
+          # assertion earlier in this job covers the versioned pages.
+          f=website/build/docs/apisix/plugins/cors/index.html
+          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+          grep -q 'rel="canonical" href="https://docs.api7.ai/hub/cors"' "$f"
+          f=website/build/zh/docs/apisix/plugins/cors/index.html
+          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+          grep -q 'rel="canonical" href="https://docs.apiseven.com/hub/cors"' "$f"
+          grep -q 'property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/cors/"' \
+            website/build/docs/apisix/plugins/cors/index.html
           # Fail the deploy if the landing pages are not the Astro build, or
           # if the homepage lost its stylesheet link.
           grep -q 'The same gateway, now for your LLM traffic' website/build/index.html
           grep -q '同一个网关' website/build/zh/index.html
           grep -q '/_astro/.*\.css' website/build/index.html
           test -d website/build/_astro
+          # Wave-2 sanity: key subtree landmarks exist.
+          test -f website/build/blog/index.html
+          test -f website/build/zh/blog/index.html
+          test -f website/build/blog/tags/index.html
+          test -f website/build/learning-center/index.html
+          test -f website/build/learning-center/atom.xml
+          test -f website/build/articles/index.html
+          test -f website/build/zh/articles/rss.xml
+          test -f website/build/events/archive/index.html
+          # The comparisons hub (a single index.html in both locales) is Astro's.
+          grep -q '/_astro/' website/build/comparisons/index.html
+          grep -q '/_astro/' website/build/zh/comparisons/index.html
+          # Main-page migration: both locales must be Astro and retain the
+          # user-visible content that distinguishes each page from a shell.
+          for f in ai-gateway/index.html zh/ai-gateway/index.html \
+                   plugins/index.html zh/plugins/index.html \
+                   downloads/index.html zh/downloads/index.html; do
+            grep -q '/_astro/' "website/build/$f"
+            if grep -q 'name="generator" content="Docusaurus' "website/build/$f"; then
+              echo "Docusaurus page survived the Astro overlay: $f"
+              exit 1
+            fi
+          done
+          grep -q 'Open-Source AI Gateway for LLMs and AI Agents' website/build/ai-gateway/index.html
+          grep -q '面向 LLM 与 AI Agent 的开源 AI 网关' website/build/zh/ai-gateway/index.html
+          grep -q 'data-plugin="ai-proxy"' website/build/plugins/index.html
+          grep -q 'data-plugin="ai-proxy"' website/build/zh/plugins/index.html
+          grep -q 'data-project="apache/apisix"' website/build/downloads/index.html
+          grep -q 'data-project="apache/apisix"' website/build/zh/downloads/index.html
+          grep -q 'SHA512' website/build/downloads/index.html
           # Merge the homepage's image assets (integration brand icons, feature
           # infographics, architecture diagram) into the Docusaurus img tree.
           # cp merges: it adds the new files and overwrites only same-named
@@ -192,27 +451,66 @@ jobs:
           mkdir -p website/build/img
           cp -R next/dist/img/. website/build/img/
           test -f website/build/img/infographs/performance.svg
+          # The agent index lives at the site root (the wave-1/2 subtrees carry
+          # their own Markdown twins along with the cp -R above).
+          cp next/dist/llms.txt website/build/llms.txt
+          # Section landing pages have no Markdown source; require a real post
+          # twin instead of the deliberately absent /blog/index.md.
+          blog_post_twin=$(find website/build/blog -mindepth 2 -type f -name index.md -print -quit)
+          test -n "$blog_post_twin"
+          test -f website/build/docs/apisix/plugins/cors/index.md
+          grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.png
 
-      - name: Deploy to Netlify
-        uses: ./.github/actions/actions-netlify
-        if: ${{ false }}
-        with:
-          publish-dir: './website/build'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: '${{ github.event.pull_request.title }}, Deploy from GitHub Actions'
-          enable-pull-request-comment: true
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
+      - name: Generate final sitemaps
+        run: |
+          node next/scripts/generate-sitemaps.mjs --dist website/build
+          grep -q '<loc>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/</loc>' website/build/sitemap.xml
+          grep -q '<loc>https://apisix.apache.org/zh/learning-center/</loc>' website/build/zh/sitemap.xml
+          if grep -q '<loc>https://apisix.apache.org/zh/learning-center/what-is-an-api-gateway/</loc>' website/build/zh/sitemap.xml; then
+            echo 'Retired English-only Chinese learning-center URL remains in the sitemap.'
+            exit 1
+          fi
+          if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?(blog/(tags|page|archive)|learning-center/(tags|page|archive)|articles/(page|archive)|events/archive)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
+            echo 'Low-value aggregation URLs remain in the final sitemap.'
+            exit 1
+          fi
+
+      - name: Test the final overlaid site on desktop and mobile
+        working-directory: next
+        run: npm run test:e2e
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 10
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4321
+          PLAYWRIGHT_WEB_SERVER_COMMAND: python3 -m http.server 4321 --bind 127.0.0.1 --directory ../website/build
+          EXPECT_DOCUSARUS_ROUTES: 'true'
+
+      - name: Upload final site for publishing
+        if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/master') || github.event_name == 'schedule' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-build
+          path: website/build
+          include-hidden-files: true
+          retention-days: 1
+
+  publish:
+    needs: build
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/master') || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - name: Download final site
+        uses: actions/download-artifact@v4
+        with:
+          name: website-build
+          path: website/build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.0
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' || github.event_name == 'schedule'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: website/build

@@ -1,7 +1,9 @@
 ---
 import Base from './Base.astro';
+import PostCard from '../components/PostCard.astro';
 import type { Post } from '../lib/content';
-import { SITE, type Locale } from '../lib/site';
+import { readingMinutes } from '../lib/content';
+import { SITE, t, type Locale } from '../lib/site';
 import { tagSlug } from '../lib/content';
 
 interface Props {
@@ -10,36 +12,122 @@ interface Props {
   path: string;
   /** e.g. "/blog" or "/learning-center" for tag links; omit to hide tags */
   tagBase?: string;
+  /** footer back-link target; defaults to the tag base (or the blog) */
+  backUrl?: string;
   schemaType?: 'BlogPosting' | 'TechArticle' | 'Article';
+  /** extra JSON-LD blocks (e.g. FAQPage) appended after the article schema */
+  jsonLdExtra?: object[];
+  /** same-section reading suggestions rendered after the article */
+  related?: Post[];
+  /** chronological neighbours in the same section (newest-first arrays) */
+  newer?: Post;
+  older?: Post;
 }
-const { post, locale, path, tagBase, schemaType = 'BlogPosting' } = Astro.props;
+const { post, locale, path, tagBase, backUrl, schemaType = 'BlogPosting', jsonLdExtra = [], related = [], newer, older } = Astro.props;
 const { Content } = post.mod;
+const minutes = readingMinutes(post.mod);
+const headings = post.mod.getHeadings().filter((h) => h.depth === 2 || h.depth === 3);
+const showToc = headings.length >= 3;
+const backHref = backUrl ?? `${tagBase ?? (locale === 'zh' ? '/zh/blog' : '/blog')}/`;
 
 const jsonLd = [{
   '@context': 'https://schema.org',
   '@type': schemaType,
   headline: post.title,
   description: post.description,
-  datePublished: post.dateStr,
+  ...(post.dateStr ? { datePublished: post.dateStr } : {}),
   image: post.image,
   author: post.author ? { '@type': 'Person', name: post.author } : { '@type': 'Organization', name: 'Apache APISIX' },
   publisher: { '@type': 'Organization', name: 'Apache APISIX', url: SITE },
   mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
-}];
+}, ...jsonLdExtra];
 ---
-<Base title={post.title} description={post.description} locale={locale} path={path} image={post.image} jsonLd={jsonLd}>
-  <div class="container article-wrap">
-    <article class="prose">
-      <h1>{post.title}</h1>
-      <p class="article-meta">
-        {post.dateStr}{post.author ? ` · ${post.author}` : ''}
-        {tagBase && post.tags.length > 0 && (
-          <span class="tag-row" style="display:inline-flex;margin-left:.75rem;vertical-align:middle">
+<Base title={post.title} description={post.description} locale={locale} path={path} image={post.image} jsonLd={jsonLd} ogType="article">
+  <div class={`container article-wrap${showToc || (tagBase && post.tags.length) ? ' with-rails' : ''}`}>
+    <aside class="article-side">
+      {tagBase && post.tags.length > 0 && (
+        <>
+          <p class="side-title">{t(locale, 'Tags', '标签')}</p>
+          <div class="tag-row">
             {post.tags.map((tag) => <a class="tag" href={`${tagBase}/tags/${tagSlug(tag)}/`}>{tag}</a>)}
-          </span>
+          </div>
+        </>
+      )}
+      <a class="cta-link side-back" href={backHref}>← {locale === 'zh' ? '所有文章' : 'All posts'}</a>
+    </aside>
+    <article class="prose">
+      <header class="article-header">
+        <h1>{post.title}</h1>
+        {(post.dateStr || post.author) && (
+          <p class="article-meta">
+            {post.dateStr && <time datetime={post.dateStr}>{post.dateHuman}</time>}{post.dateStr && post.author ? ' · ' : ''}{post.author ?? ''}
+            {' · '}{locale === 'zh' ? `约 ${minutes} 分钟` : `${minutes} min read`}
+          </p>
         )}
-      </p>
+        {tagBase && post.tags.length > 0 && (
+          <div class="tag-row header-tags">
+            {post.tags.map((tag) => <a class="tag" href={`${tagBase}/tags/${tagSlug(tag)}/`}>{tag}</a>)}
+          </div>
+        )}
+        {showToc && (
+          <details class="toc-inline">
+            <summary>{t(locale, 'On this page', '本页目录')}</summary>
+            <ul>
+              {headings.map((h) => (
+                <li class={h.depth === 3 ? 'd3' : ''}><a href={`#${h.slug}`}>{h.text}</a></li>
+              ))}
+            </ul>
+          </details>
+        )}
+      </header>
+      {post.image && (
+        <figure class="article-hero">
+          <img src={post.image} alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720" />
+        </figure>
+      )}
       <Content />
+      <slot />
+      <footer class="article-footer">
+        <a class="cta-link" href={backHref}>
+          ← {locale === 'zh' ? '所有文章' : 'All posts'}
+        </a>
+      </footer>
+      {(newer || older) && (
+        <nav class="post-nav" aria-label={t(locale, 'More posts', '更多文章')}>
+          {newer ? (
+            <a class="post-nav-card" href={newer.url}>
+              <span class="post-nav-label">← {t(locale, 'Newer post', '较新文章')}</span>
+              <span class="post-nav-title">{newer.title}</span>
+            </a>
+          ) : <span />}
+          {older && (
+            <a class="post-nav-card older" href={older.url}>
+              <span class="post-nav-label">{t(locale, 'Older post', '较早文章')} →</span>
+              <span class="post-nav-title">{older.title}</span>
+            </a>
+          )}
+        </nav>
+      )}
     </article>
+    {showToc && (
+      <nav class="toc" aria-label={t(locale, 'On this page', '本页目录')}>
+        <p class="side-title">{t(locale, 'On this page', '本页目录')}</p>
+        <ul>
+          {headings.map((h) => (
+            <li class={h.depth === 3 ? 'd3' : ''}><a href={`#${h.slug}`}>{h.text}</a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
   </div>
+  {related.length > 0 && (
+    <div class="container">
+      <section class="related-posts" aria-label={t(locale, 'Related articles', '相关文章')}>
+        <h2>{t(locale, 'Related articles', '相关文章')}</h2>
+        <div class="post-list">
+          {related.map((p) => <PostCard post={p} />)}
+        </div>
+      </section>
+    </div>
+  )}
 </Base>

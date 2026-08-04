@@ -1,6 +1,6 @@
 ---
 import Article from '../../layouts/Article.astro';
-import { getBlogPosts } from '../../lib/content';
+import { getBlogPosts, relatedPosts } from '../../lib/content';
 
 export function getStaticPaths() {
   return getBlogPosts('en').map((post) => ({
@@ -9,5 +9,12 @@ export function getStaticPaths() {
   }));
 }
 const { post } = Astro.props;
+const pool = getBlogPosts('en');
+const related = relatedPosts(post, pool);
+const idx = pool.findIndex((p) => p.url === post.url);
+const newer = idx > 0 ? pool[idx - 1] : undefined;
+const older = idx >= 0 && idx < pool.length - 1 ? pool[idx + 1] : undefined;
 ---
-<Article post={post} locale="en" path={post.url} schemaType="BlogPosting" />
+<Article post={post} locale="en" path={post.url} tagBase="/blog" schemaType="BlogPosting" related={related}
+  newer={newer}
+  older={older} />

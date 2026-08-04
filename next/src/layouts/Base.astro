@@ -2,7 +2,15 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE, SITE_NAME, DEFAULT_DESCRIPTION, FAVICON, ORG_JSONLD, type Locale } from '../lib/site';
+import {
+  SITE,
+  SITE_NAME,
+  DEFAULT_DESCRIPTION,
+  FAVICON,
+  SOCIAL_IMAGE,
+  ORG_JSONLD,
+  type Locale,
+} from '../lib/site';
 
 interface Props {
   title: string;
@@ -14,7 +22,11 @@ interface Props {
   jsonLd?: object[];
   /** Set false for pages that exist in only one locale. */
   hasAlternate?: boolean;
+  /** Open Graph object type; article pages pass "article". */
+  ogType?: 'website' | 'article';
   noindex?: boolean;
+  /** Load Algolia DocSearch (docs pages only — every other page stays zero-JS). */
+  search?: boolean;
   /** Cross-site canonical embedded in upstream docs (docs.api7.ai hub pages). */
   canonicalOverride?: string;
   /** Set false when the title is already the complete tag (homepage). */
@@ -32,6 +44,8 @@ const {
   noindex = false,
   canonicalOverride,
   titleSuffix = true,
+  ogType = 'website',
+  search = false,
 } = Astro.props;
 
 const enUrl = `${SITE}${path}`;
@@ -40,6 +54,7 @@ const canonical = canonicalOverride ?? (locale === 'zh' ? zhUrl : enUrl);
 // Same pattern as production: "<page title> | Apache APISIX".
 const fullTitle = titleSuffix && !title.includes(' | ') ? `${title} | ${SITE_NAME}` : title;
 const desc = description?.trim() || DEFAULT_DESCRIPTION;
+const socialImage = image ?? SOCIAL_IMAGE;
 const allJsonLd = [...ORG_JSONLD, ...jsonLd];
 ---
 <html lang={locale === 'zh' ? 'zh-CN' : 'en'}>
@@ -55,19 +70,28 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   {hasAlternate && <link rel="alternate" hreflang="x-default" href={enUrl} />}
   <link rel="icon" href={FAVICON} />
   <link rel="sitemap" type="application/xml" href={locale === 'zh' ? '/zh/sitemap.xml' : '/sitemap.xml'} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={desc} />
-  <meta property="og:url" content={canonical} />
+  {/* og:url stays on this page even when the canonical points off-site
+      (upstream docs that canonicalise to docs.api7.ai) — matching production,
+      so shares of a plugin doc still resolve to apisix.apache.org. */}
+  <meta property="og:url" content={locale === 'zh' ? zhUrl : enUrl} />
   <meta property="og:site_name" content="Apache APISIX" />
-  {image && <meta property="og:image" content={image} />}
-  {image && <meta name="twitter:image" content={image} />}
-  <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+  <meta property="og:image" content={socialImage} />
+  <meta name="twitter:image" content={socialImage} />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@apacheapisix" />
   <script type="application/ld+json" set:html={JSON.stringify(allJsonLd)} />
+  {search && (
+    <>
+      <link rel="preconnect" href="https://38VC84A2WJ-dsn.algolia.net" crossorigin />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+    </>
+  )}
 </head>
 <body>
-  <Header locale={locale} path={path} />
+  <Header locale={locale} path={path} search={search} />
   <main>
     <slot />
   </main>

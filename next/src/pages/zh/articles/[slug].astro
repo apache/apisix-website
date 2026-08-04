@@ -1,10 +1,17 @@
 ---
 import Article from '../../../layouts/Article.astro';
-import { getArticles } from '../../../lib/content';
+import { getArticles, relatedPosts } from '../../../lib/content';
 
 export function getStaticPaths() {
   return getArticles('zh').map((post) => ({ params: { slug: post.slug }, props: { post } }));
 }
 const { post } = Astro.props;
+const pool = getArticles('zh');
+const related = relatedPosts(post, pool);
+const idx = pool.findIndex((p) => p.url === post.url);
+const newer = idx > 0 ? pool[idx - 1] : undefined;
+const older = idx >= 0 && idx < pool.length - 1 ? pool[idx + 1] : undefined;
 ---
-<Article post={post} locale="zh" path={`/articles/${post.slug}/`} schemaType="Article" />
+<Article post={post} locale="zh" path={`/articles/${post.slug}/`} schemaType="Article" backUrl="/zh/articles/" related={related}
+  newer={newer}
+  older={older} />
