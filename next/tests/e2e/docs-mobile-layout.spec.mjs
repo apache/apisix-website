@@ -41,12 +41,27 @@ async function assertDocsLayout(page, url) {
   }));
 
   expect(geom.h1Left, `${url}: article text must not touch the viewport edge`).toBeGreaterThan(0);
-  if (geom.viewport <= 1140) {
+
+  // Both remaining checks are breakpoint-dependent, and 960px is the line
+  // (global.css:340) where .docs-layout collapses to one column.
+  if (geom.viewport <= 960) {
+    // Stacked: the article shares the container's inline padding with the
+    // header, so their left edges line up.
     expect(Math.abs(geom.h1Left - geom.brandLeft),
       `${url}: article should line up with the header brand`).toBeLessThanOrEqual(1);
+    // Stacked: the nav must precede the article. This is the defect — `order: 2`
+    // used to push it below.
+    expect(geom.navTop, `${url}: the docs nav must come before the article`)
+      .toBeLessThan(geom.articleTop);
+  } else {
+    // Side by side: nav and article are grid items on the same row, so their
+    // offsetTop is EQUAL. Measured on production at 1440px: both 132.
+    // Asserting `toBeLessThan` here would be unsatisfiable — and asserting
+    // equality is the guard that catches `order` leaking out of the media
+    // query and stacking the desktop layout.
+    expect(geom.navTop, `${url}: nav and article should share a grid row`)
+      .toBe(geom.articleTop);
   }
-  expect(geom.navTop, `${url}: the docs nav must come before the article`)
-    .toBeLessThan(geom.articleTop);
 }
 
 // docs/general/** ships from this repo, so it exists in the PR CI build too —
@@ -82,11 +97,19 @@ test('desktop keeps the three-column article rails', async ({ page }) => {
   const rails = page.locator('.article-wrap.with-rails');
   await expect(rails, 'the discovered post should render the rails layout').toHaveCount(1);
 
-  // Restoring the inline padding narrows the content box by 2.5rem. The rails
-  // grid needs 1276px of a 1340px cap, so this is the assertion that catches a
-  // miscalculation squeezing it from three columns down to fewer.
-  const columns = await rails.evaluate(
-    (el) => getComputedStyle(el).gridTemplateColumns.split(/\s+/).filter(Boolean).length,
-  );
-  expect(columns, 'the rails grid must stay three columns').toBe(3);
+  const tracks = await rails.evaluate((el) =>
+    getComputedStyle(el).gridTemplateColumns.split(/\s+/).filter(Boolean).map(parseFloat));
+
+  expect(tracks.length, 'the rails grid must stay three columns').toBe(3);
+
+  // The count alone is VACUOUS and must not be the only assertion here.
+  // `.with-rails` uses an explicit template (190px minmax(0,760px) 230px), so
+  // computed gridTemplateColumns always reports three tracks no matter how
+  // narrow the container gets. Measured on production: forcing the wrapper to
+  // 600px still reports 3 tracks — as "190px 44px 230px", with the reading
+  // column crushed. Restoring the inline padding shrinks the middle track, it
+  // never removes one, so track WIDTH is the only thing worth guarding.
+  // Design target is 760px; the rule's own comment allows ~680px at 1240.
+  expect(tracks[1], 'the reading column must not be squeezed by the padding fix')
+    .toBeGreaterThan(700);
 });
