@@ -382,3 +382,56 @@ export const APISIX_ARCHIVED_VERSIONS: string[] = (() => {
   const known = ['3.16', '3.15', '3.14', '3.13', '3.12', '3.11', '3.10'];
   return known.filter((v) => v !== cur);
 })();
+
+/** An entry in the docs version picker. */
+export interface VersionEntry {
+  label: string;
+  href: string;
+  current?: boolean;
+}
+
+/**
+ * First leaf of a sidebar tree — the project's landing doc id. Verified to
+ * reproduce config/docs.js's firstDocPath for all seven projects, and for
+ * apisix it yields the trap-free "getting-started/README".
+ */
+export function sidebarLandingId(nodes: SidebarNode[]): string | undefined {
+  for (const node of nodes) {
+    if (node.id) return node.id;
+    if (node.items) {
+      const found = sidebarLandingId(node.items);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Insert a version segment into the landing doc's version-less URL.
+ *
+ * This replaces linking the version ROOT (".../3.15/"), which has no
+ * index.html — ASF httpd answers 403 through Options -Indexes. Linking
+ * ".../3.15/getting-started/" is equally wrong: .htaccess:160 301s it to the
+ * LATEST version, silently defeating the switch. Only the full landing path
+ * is safe.
+ *
+ * Returns undefined when landingUrl does not sit under versionBase; the
+ * caller drops that entry. src/ degrades and never throws — the deploy.yml
+ * assertion is what fails loudly.
+ */
+export function versionedLandingHref(
+  versionBase: string,
+  version: string,
+  landingUrl: string,
+): string | undefined {
+  if (!landingUrl.startsWith(versionBase)) return undefined;
+  return `${versionBase}${version}/${landingUrl.slice(versionBase.length)}`;
+}
+
+/**
+ * Projects Docusaurus does not version-publish. With no versions.json it
+ * serves their docs straight from /docs/<project>/ and emits no next/ tree,
+ * so an unreleased entry would link to a 403. Astro syncs only the latest
+ * release and cannot observe this, hence the explicit list.
+ */
+export const NO_NEXT_DOCS = new Set(['helm-chart']);

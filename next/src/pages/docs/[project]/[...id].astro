@@ -1,6 +1,6 @@
 ---
 import DocPage from '../../../layouts/DocPage.astro';
-import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar, docEditUrl, subprojectVersion } from '../../../lib/content';
+import { SUBPROJECTS, getSubprojectDocs, getSubprojectSidebar, docEditUrl, subprojectVersion, sidebarLandingId, versionedLandingHref, NO_NEXT_DOCS, type VersionEntry } from '../../../lib/content';
 
 export function getStaticPaths() {
   return Object.keys(SUBPROJECTS).flatMap((project) => {
@@ -19,6 +19,19 @@ const sidebar = getSubprojectSidebar(project);
 const urlById = (id: string) => urlByPathId.get(id) ?? `/docs/${project}/${id}/`;
 const repo = SUBPROJECTS[project].repo;
 const version = subprojectVersion(project);
+
+const versionBase = `/docs/${project}/`;
+const landingId = sidebarLandingId(sidebar);
+const landingUrl = landingId ? urlById(landingId) : undefined;
+const nextHref = landingUrl && !NO_NEXT_DOCS.has(project)
+  ? versionedLandingHref(versionBase, 'next', landingUrl)
+  : undefined;
+const versions: VersionEntry[] = version && landingUrl
+  ? [
+      { label: `v${version}`, href: landingUrl, current: true },
+      ...(nextHref ? [{ label: 'Next (unreleased)', href: nextHref }] : []),
+    ]
+  : [];
 ---
 <DocPage
   entry={entry}
@@ -30,6 +43,5 @@ const version = subprojectVersion(project);
   urlById={urlById}
   editUrl={docEditUrl(project, repo, entry)}
   versionLabel={version ? `v${version}` : undefined}
-  archivedVersions={[]}
-  nextUrl={`/docs/${project}/next/`}
+  versions={versions}
 />
