@@ -509,10 +509,23 @@ jobs:
           # helm-chart is not version-published, so it must offer no next entry.
           # It also renders no <details class="version-picker"> at all (one
           # version means a plain label), so the walk above cannot cover it.
-          if grep -rq 'href="/docs/helm-chart/next/' website/build/docs/helm-chart/; then
-            echo "helm-chart links to a next/ tree that does not exist"
-            exit 1
-          fi
+          #
+          # BOTH locales. zh/docs/helm-chart/ is Astro-built too and shipped
+          # the identical dead link (verified on asf-site: 5 pages, each with
+          # href="/zh/docs/helm-chart/next/"), so checking only English would
+          # leave the Chinese side unguarded against the same regression.
+          for prefix in "" "/zh"; do
+            dir="website/build${prefix}/docs/helm-chart"
+            # A missing tree must fail loudly rather than silently satisfy the
+            # assertion: `grep -r` on an absent path exits 2, which inside `if`
+            # reads as "no match", so a build that shipped no helm-chart docs
+            # at all would pass this check.
+            test -d "$dir"
+            if grep -rq "href=\"${prefix}/docs/helm-chart/next/" "$dir"; then
+              echo "helm-chart links to a next/ tree that does not exist: ${prefix}/docs/helm-chart"
+              exit 1
+            fi
+          done
 
       - name: Generate final sitemaps
         run: |
