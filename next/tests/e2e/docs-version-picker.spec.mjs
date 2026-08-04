@@ -31,8 +31,15 @@ for (const pagePath of DOC_PAGES) {
       // (python3 -m http.server) answers an index-less directory with 200
       // plus a directory listing, so a status assertion would pass on the
       // exact build this test exists to reject. Production returns 403.
+      //
+      // Both selectors are required: current-version pages are Astro-built
+      // and wrap content in .docs-content, while archived versions are still
+      // Docusaurus-built and use .theme-doc-markdown instead. Do NOT relax
+      // this to a bare `h1` — the 404 page that a 403 renders has exactly
+      // one h1 (text "404"), so a bare h1 would pass on precisely the URLs
+      // this test exists to reject.
       await expect(
-        page.locator('.docs-content h1'),
+        page.locator('.docs-content h1, .theme-doc-markdown h1'),
         `${href} must be a docs page, not a directory listing`,
       ).toBeVisible();
     }
@@ -48,5 +55,11 @@ test('helm-chart offers no unreleased entry', async ({ page }) => {
   // Docusaurus does not version-publish helm-chart, so /docs/helm-chart/next/
   // has never existed and any link to it is a 403 by construction.
   await page.goto('/docs/helm-chart/apisix/');
+  // Positive anchor first: a 404, a redirect, or a blank page would all
+  // satisfy toHaveCount(0), letting the test pass vacuously. Requiring the
+  // page's own heading proves the docs page actually rendered before we
+  // assert the unreleased link is absent. This page is Astro-built, so
+  // .docs-content is the right container here.
+  await expect(page.locator('.docs-content h1')).toBeVisible();
   await expect(page.locator('a[href^="/docs/helm-chart/next/"]')).toHaveCount(0);
 });
