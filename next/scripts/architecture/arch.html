@@ -1,0 +1,219 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Apache APISIX architecture diagram (source)</title>
+<!--
+  Source for public/img/architecture.png. Render with ./render.sh.
+
+  Geometry is absolute so the boxes and the SVG connectors share one
+  coordinate space: the canvas is 1200x738 CSS px, exported at 2x.
+  Move a box and you must move the wire that lands on it.
+-->
+<style>
+  :root {
+    --ink: #1c1e21;
+    --ink-soft: #525860;
+    --panel-bg: #f7f8fa;
+    --panel-border: #ebeef2;
+    --box-border: #e3e7ec;
+    --wire: #8a939e;
+
+    --red: #b8342f;
+    --red-band: #fceded;
+    --red-border: #f3c9c7;
+    --red-dot: #d63b36;
+
+    --blue: #175ba1;
+    --blue-band: #e8f0fb;
+    --blue-border: #cfe0f5;
+    --blue-dot: #1a5da8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1200px;
+    height: 738px;
+    background: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .canvas { position: relative; width: 1200px; height: 738px; }
+  .at { position: absolute; }
+
+  .panel {
+    top: 24px;
+    height: 690px;
+    width: 560px;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 24px;
+  }
+  .panel.data { left: 24px; }
+  .panel.control { left: 616px; }
+
+  /* panel caption: dot + tracked-out uppercase label */
+  .caption {
+    top: 44px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .caption.data { left: 52px; color: #a32d2d; }
+  .caption.control { left: 644px; color: var(--blue); }
+  .caption::before {
+    content: "";
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .caption.data::before { background: var(--red-dot); }
+  .caption.control::before { background: var(--blue-dot); }
+
+  /* free-standing white node (Client / service, Admin, the API tiers) */
+  .node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid var(--box-border);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgb(16 24 39 / 5%), 0 6px 16px rgb(16 24 39 / 6%);
+    font-size: 20px;
+  }
+
+  /* titled card: tinted header band over a white body of chips */
+  .card { border-radius: 16px; overflow: hidden; background: #fff; }
+  .card .band {
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .card .band b { font-size: 26px; }
+  .card .band span { font-size: 15px; }
+  .card .body { padding: 14px; }
+
+  .card.red { border: 1px solid var(--red-border); }
+  .card.red .band { background: var(--red-band); }
+  .card.red .band b { color: var(--red); }
+  .card.red .band span { color: #a3564f; }
+  .card.blue { border: 1px solid var(--blue-border); }
+  .card.blue .band { background: var(--blue-band); }
+  .card.blue .band b { color: var(--blue); }
+  .card.blue .band span { color: #3d6c9e; }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+  .card.red .chip { border: 1px solid var(--red-border); }
+  .card.blue .chip { border: 1px solid var(--blue-border); }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .row { display: flex; justify-content: center; gap: 12px; }
+  /* auto-width chips: the row is tuned to fit on one line, so never wrap */
+  .row .chip { padding: 0 18px; white-space: nowrap; }
+
+  .wires { top: 0; left: 0; width: 1200px; height: 738px; }
+</style>
+
+<div class="canvas">
+  <div class="at panel data"></div>
+  <div class="at panel control"></div>
+
+  <div class="at caption data">Data plane</div>
+  <div class="at caption control">Control plane</div>
+
+  <!-- data plane -->
+  <div class="at node" style="left: 164px; top: 92px; width: 280px; height: 54px;">Client / service</div>
+
+  <div class="at card red" style="left: 52px; top: 190px; width: 504px;">
+    <div class="band"><b>Apache APISIX</b><span>Hot-reloadable plugin pipeline</span></div>
+    <div class="body grid3" style="grid-auto-rows: 48px;">
+      <div class="chip">Rate limit</div>
+      <div class="chip">Auth</div>
+      <div class="chip">Security</div>
+      <div class="chip">Logging</div>
+      <div class="chip">Tracing</div>
+      <div class="chip">Traffic split</div>
+      <div class="chip">Transformation</div>
+      <div class="chip">Custom plugin</div>
+      <div class="chip">100+ more</div>
+    </div>
+  </div>
+
+  <div class="at node" style="left: 52px;  top: 544px; width: 160px; height: 60px;">Partner APIs</div>
+  <div class="at node" style="left: 224px; top: 544px; width: 160px; height: 60px;">Private APIs</div>
+  <div class="at node" style="left: 396px; top: 544px; width: 160px; height: 60px;">Public APIs</div>
+
+  <!-- control plane -->
+  <div class="at node" style="left: 756px; top: 92px; width: 280px; height: 54px;">Admin</div>
+
+  <div class="at card blue" style="left: 644px; top: 178px; width: 504px;">
+    <div class="band"><b>Dashboard</b><span>Configure routes and plugins</span></div>
+    <div class="body row"><div class="chip" style="height: 46px;">Manager API</div></div>
+  </div>
+
+  <div class="at card blue" style="left: 644px; top: 358px; width: 504px;">
+    <div class="band"><b>etcd cluster</b><span>Configuration store</span></div>
+    <div class="body grid3" style="grid-auto-rows: 50px;">
+      <div class="chip">etcd</div>
+      <div class="chip">etcd</div>
+      <div class="chip">etcd</div>
+    </div>
+  </div>
+
+  <div class="at card blue" style="left: 644px; top: 530px; width: 504px;">
+    <div class="band"><b>Observability</b><span>Metrics, traces, and logs</span></div>
+    <div class="body row">
+      <div class="chip" style="height: 50px;">Apache SkyWalking</div>
+      <div class="chip" style="height: 50px;">Prometheus</div>
+      <div class="chip" style="height: 50px;">Grafana</div>
+    </div>
+  </div>
+
+  <svg class="at wires" viewBox="0 0 1200 738" fill="none">
+    <defs>
+      <!-- userSpaceOnUse keeps the head a fixed size regardless of stroke-width;
+           refX at the tip puts the point exactly on the path's last vertex -->
+      <marker id="head-gray" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="11" refY="5.5" orient="auto">
+        <path d="M0 0 L11 5.5 L0 11 z" fill="#8a939e" />
+      </marker>
+      <marker id="head-blue" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="11" refY="5.5" orient="auto">
+        <path d="M0 0 L11 5.5 L0 11 z" fill="#1a5da8" />
+      </marker>
+      <marker id="head-red" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="11" refY="5.5" orient="auto">
+        <path d="M0 0 L11 5.5 L0 11 z" fill="#d63b36" />
+      </marker>
+    </defs>
+
+    <g stroke="#8a939e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M304 146 V190" marker-end="url(#head-gray)" />
+      <path d="M896 146 V178" marker-end="url(#head-gray)" />
+      <path d="M896 332 V358" marker-end="url(#head-gray)" />
+      <!-- fan-out bus under APISIX: trunk + rail carry no head, the drops do -->
+      <path d="M304 470 V500 M132 500 H476" />
+      <path d="M132 500 V544" marker-end="url(#head-gray)" />
+      <path d="M304 500 V544" marker-end="url(#head-gray)" />
+      <path d="M476 500 V544" marker-end="url(#head-gray)" />
+    </g>
+
+    <!-- etcd pushes config into the gateway -->
+    <path d="M644 398 H556" stroke="#1a5da8" stroke-width="2.5" stroke-linecap="round" marker-end="url(#head-blue)" />
+    <!-- the gateway emits telemetry -->
+    <path d="M556 452 H600 V572 H644" stroke="#d63b36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#head-red)" />
+  </svg>
+</div>
