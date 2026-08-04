@@ -463,6 +463,57 @@ jobs:
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.svg
 
+      - name: Assert every version-picker link resolves
+        run: |
+          # The picker used to link version roots (/docs/apisix/3.15/), which
+          # have no index.html — ASF httpd answers 403 via Options -Indexes.
+          # Check at the filesystem level: the e2e static server directory-lists
+          # instead of 403ing, so only this step can tell a page from a hole.
+          # This is also the only layer that catches APISIX_ARCHIVED_VERSIONS
+          # drifting from what is actually published, because the Astro build
+          # never sees archived-version content.
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const roots = ["website/build/docs", "website/build/zh/docs"];
+            const walk = (dir, out = []) => {
+              for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+                const p = path.join(dir, e.name);
+                if (e.isDirectory()) walk(p, out);
+                else if (e.name === "index.html") out.push(p);
+              }
+              return out;
+            };
+            const seen = new Map();
+            for (const root of roots) {
+              if (!fs.existsSync(root)) continue;
+              for (const file of walk(root)) {
+                const block = fs.readFileSync(file, "utf8")
+                  .match(/<details class="version-picker"[\s\S]*?<\/details>/);
+                if (!block) continue;
+                for (const m of block[0].matchAll(/href="([^"]+)"/g)) {
+                  if (!seen.has(m[1])) seen.set(m[1], file);
+                }
+              }
+            }
+            if (!seen.size) { console.error("no version pickers found — the docs overlay is broken"); process.exit(1); }
+            let fail = false;
+            for (const [href, from] of seen) {
+              if (!fs.existsSync(path.join("website/build", href, "index.html"))) {
+                console.error(`dead version link ${href} (emitted by ${from})`);
+                fail = true;
+              }
+            }
+            if (fail) process.exit(1);
+            console.log(`version picker: ${seen.size} distinct links, all resolve`);
+          '
+          # helm-chart is not version-published, so it must offer no next entry.
+          # It also renders no <details class="version-picker"> at all (one
+          # version means a plain label), so the walk above cannot cover it.
+          if grep -rq 'href="/docs/helm-chart/next/' website/build/docs/helm-chart/; then
+            echo "helm-chart links to a next/ tree that does not exist"
+            exit 1
+          fi
+
       - name: Generate final sitemaps
         run: |
           node next/scripts/generate-sitemaps.mjs --dist website/build
