@@ -468,7 +468,8 @@ jobs:
           # The picker used to link version roots (/docs/apisix/3.15/), which
           # have no index.html — ASF httpd answers 403 via Options -Indexes.
           # Check at the filesystem level: the e2e static server directory-lists
-          # instead of 403ing, so only this step can tell a page from a hole.
+          # instead of 403ing, and only this step covers every emitted href
+          # rather than a handful of sampled pages.
           # This is also the only layer that catches APISIX_ARCHIVED_VERSIONS
           # drifting from what is actually published, because the Astro build
           # never sees archived-version content.

@@ -38,8 +38,15 @@ for (const pagePath of DOC_PAGES) {
       // this to a bare `h1` — the 404 page that a 403 renders has exactly
       // one h1 (text "404"), so a bare h1 would pass on precisely the URLs
       // this test exists to reject.
+      //
+      // .first() is required, not cosmetic: some docs pages legitimately
+      // render multiple h1s (python-plugin-runner's next/getting-started
+      // already does), and toBeVisible() on a multi-element locator is a
+      // Playwright strict-mode violation. Without it, an upstream doc gaining
+      // a second `#` heading would fail the site deploy. A zero-match locator
+      // still fails toBeVisible, so 404 pages and listings stay red.
       await expect(
-        page.locator('.docs-content h1, .theme-doc-markdown h1'),
+        page.locator('.docs-content h1, .theme-doc-markdown h1').first(),
         `${href} must be a docs page, not a directory listing`,
       ).toBeVisible();
     }
@@ -60,6 +67,6 @@ test('helm-chart offers no unreleased entry', async ({ page }) => {
   // page's own heading proves the docs page actually rendered before we
   // assert the unreleased link is absent. This page is Astro-built, so
   // .docs-content is the right container here.
-  await expect(page.locator('.docs-content h1')).toBeVisible();
+  await expect(page.locator('.docs-content h1').first()).toBeVisible();
   await expect(page.locator('a[href^="/docs/helm-chart/next/"]')).toHaveCount(0);
 });
