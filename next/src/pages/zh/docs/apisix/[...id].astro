@@ -1,6 +1,6 @@
 ---
 import DocPage from '../../../../layouts/DocPage.astro';
-import { getApisixDocs, getApisixSidebar, docEditUrl, APISIX_DOCS_VERSION, APISIX_ARCHIVED_VERSIONS } from '../../../../lib/content';
+import { getApisixDocs, getApisixSidebar, docEditUrl, APISIX_DOCS_VERSION, APISIX_ARCHIVED_VERSIONS, sidebarLandingId, versionedLandingHref, type VersionEntry } from '../../../../lib/content';
 
 export function getStaticPaths() {
   const docs = getApisixDocs('zh');
@@ -16,6 +16,17 @@ const { entry, titleById, urlByPathId } = Astro.props;
 const sidebar = getApisixSidebar();
 const urlById = (id: string) => urlByPathId.get(id) ?? `/zh/docs/apisix/${id}/`;
 const editUrl = docEditUrl('apisix', 'apisix', entry);
+
+const versionBase = '/zh/docs/apisix/';
+const landingId = sidebarLandingId(sidebar);
+const landingUrl = landingId ? urlById(landingId) : undefined;
+const versions: VersionEntry[] = landingUrl
+  ? [
+      { label: `APISIX ${APISIX_DOCS_VERSION}`, href: landingUrl, current: true },
+      ...APISIX_ARCHIVED_VERSIONS.map((v) => ({ label: v, href: versionedLandingHref(versionBase, v, landingUrl) })),
+      { label: '开发版 (next)', href: versionedLandingHref(versionBase, 'next', landingUrl) },
+    ].flatMap((e) => (e.href ? [{ ...e, href: e.href }] : []))
+  : [];
 ---
 <DocPage
   entry={entry}
@@ -27,6 +38,5 @@ const editUrl = docEditUrl('apisix', 'apisix', entry);
   urlById={urlById}
   editUrl={editUrl}
   versionLabel={`APISIX ${APISIX_DOCS_VERSION}`}
-  archivedVersions={APISIX_ARCHIVED_VERSIONS}
-  versionBase="/zh/docs/apisix/"
+  versions={versions}
 />

@@ -2,7 +2,7 @@
 import Base from './Base.astro';
 import SidebarNodes from '../components/SidebarNodes.astro';
 import { SITE, type Locale } from '../lib/site';
-import type { DocEntry, SidebarNode } from '../lib/content';
+import type { DocEntry, SidebarNode, VersionEntry } from '../lib/content';
 
 interface Props {
   entry: DocEntry;
@@ -13,20 +13,15 @@ interface Props {
   urlById?: (id: string) => string;
   editUrl?: string;
   versionLabel?: string;
-  /** Archived versions to offer alongside the current one, newest first. */
-  archivedVersions?: string[];
-  /** URL prefix the version dirs hang off, e.g. "/docs/apisix/". */
-  versionBase?: string;
-  /** Explicit link to the unreleased docs, for projects with no archives. */
-  nextUrl?: string;
+  /** Version picker entries, current version first. Built by the caller. */
+  versions?: VersionEntry[];
   /** Sidebar id of the current page (path-derived); defaults to entry.id. */
   activeId?: string;
 }
 const {
   entry, locale, path, sidebar = [], titleById, urlById, editUrl, versionLabel,
-  archivedVersions = [], versionBase = '', nextUrl,
+  versions = [],
 } = Astro.props;
-const nextHref = nextUrl ?? (versionBase ? `${versionBase}next/` : undefined);
 const active = Astro.props.activeId ?? entry.id;
 const { Content } = entry.mod;
 
@@ -66,14 +61,14 @@ const canonicalOverride = locale === 'zh' && rawCanonical?.startsWith('https://d
     {sidebar.length > 0 && (
       <nav class="docs-sidebar" aria-label="Docs sidebar">
         {versionLabel && (
-          (archivedVersions.length > 0 || nextHref)
+          versions.length > 1
             ? (
               <details class="version-picker">
                 <summary>{versionLabel}</summary>
                 <ul>
-                  {versionBase && <li><a href={versionBase} aria-current="page">{versionLabel}</a></li>}
-                  {archivedVersions.map((v) => <li><a href={`${versionBase}${v}/`}>{v}</a></li>)}
-                  {nextHref && <li><a href={nextHref}>{locale === 'zh' ? '开发版 (next)' : 'Next (unreleased)'}</a></li>}
+                  {versions.map((v) => (
+                    <li><a href={v.href} aria-current={v.current ? 'true' : undefined}>{v.label}</a></li>
+                  ))}
                 </ul>
               </details>
             )
