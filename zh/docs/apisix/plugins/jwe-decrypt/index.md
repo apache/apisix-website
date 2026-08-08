@@ -1,0 +1,331 @@
+# jwe-decrypt
+
+> jwe-decrypt 插件解密发送到路由或服务的请求中的 JWE 授权请求头，增强 API 安全性。
+
+Source: https://apisix.apache.org/zh/docs/apisix/plugins/jwe-decrypt/
+
+## 描述
+
+`jwe-decrypt` 插件解密发送到 APISIX [路由](/zh/docs/apisix/terminology/route/)或[服务](/zh/docs/apisix/terminology/service/)的请求中的 [JWE](https://datatracker.ietf.org/doc/html/rfc7516) 授权请求头。
+
+解密密钥应配置在[消费者](/zh/docs/apisix/terminology/consumer/)中。
+
+## 属性
+
+### 消费者
+
+| 名称              | 类型    | 必选项 | 默认值 | 有效值    | 描述                                                                                                                                                                                                  |
+| ----------------- | ------- | ------ | ------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| key               | string  | 是     |        |           | 用于标识消费者凭证的唯一密钥。                                                                                                                                                                        |
+| secret            | string  | 是     |        | 32 个字符 | 加/解密共用的对称密钥。也可以将其存储在环境变量中并使用 `env://` 前缀引用，或存储在 HashiCorp Vault 的 KV 密钥引擎等密钥管理器中并使用 `secret://` 前缀引用。启用 `is_base64_encoded` 后，`secret` 长度可能超过 32 个字符，只需确保解码后长度仍为 32 个字符即可。 |
+| is_base64_encoded | boolean | 否     | false  |           | 如果密钥为 Base64 编码，则设置为 true。                                                                                                                                                               |
+
+### 路由或服务
+
+| 名称           | 类型    | 必选项 | 默认值        | 有效值 | 描述                                                                                           |
+| -------------- | ------- | ------ | ------------- | ------ | ---------------------------------------------------------------------------------------------- |
+| header         | string  | 是     | Authorization |        | 用于获取令牌的请求头。                                                                         |
+| forward_header | string  | 是     | Authorization |        | 传递明文给上游的请求头名称。                                                                   |
+| strict         | boolean | 否     | true          |        | 如果为 true，当请求中缺少 JWE 令牌时抛出 403 错误。如果为 false，当找不到 JWE 令牌时不抛出错误。 |
+
+## 使用示例
+
+以下示例演示了如何针对不同场景使用 `jwe-decrypt` 插件。
+
+:::note
+
+你可以这样从 `config.yaml` 中获取 `admin_key` 并存入环境变量：
+
+```bash
+admin_key=$(yq '.deployment.admin.admin_key[0].key' conf/config.yaml | sed 's/"//g')
+```
+
+:::
+
+### 创建带有解密密钥的消费者
+
+以下示例演示如何创建带有解密密钥的消费者，并为其生成 JWE 令牌。
+
+创建带有 `jwe-decrypt` 的消费者并配置解密密钥：
+
+
+
+**Admin API**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "username": "jack",
+    "plugins": {
+      "jwe-decrypt": {
+        "key": "jack-key",
+        "secret": "key-length-should-be-32-chars123"
+      }
+    }
+  }'
+```
+
+
+
+
+**ADC**
+
+
+创建带有 `jwe-decrypt` 凭证的消费者：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+consumers:
+  - username: jack
+    plugins:
+      jwe-decrypt:
+        key: jack-key
+        secret: key-length-should-be-32-chars123
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**Ingress Controller**
+
+
+创建带有 `jwe-decrypt` 的消费者：
+
+
+
+**Gateway API**
+
+
+<div class="code-title">jwe-consumer-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: Consumer
+metadata:
+  namespace: aic
+  name: jack
+spec:
+  gatewayRef:
+    name: apisix
+  plugins:
+    - name: jwe-decrypt
+      config:
+        key: jack-key
+        secret: key-length-should-be-32-chars123
+```
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f jwe-consumer-ic.yaml
+```
+
+
+
+
+**APISIX Ingress Controller**
+
+
+`ApisixConsumer` 仅通过 `authParameter` 字段支持认证插件，而 `jwe-decrypt` 不在支持的类型中。此示例无法使用 APISIX Ingress Controller 完成。
+
+
+
+
+
+
+
+要为消费者生成 JWE 令牌，可使用任意 AES-256-GCM 库离线加密 payload，加密密钥为消费者的 secret。令牌结构如下：
+
+```text
+base64url(header).<empty>.base64url(iv).base64url(ciphertext).base64url(tag)
+```
+
+其中 header 为 `{"alg":"dir","enc":"A256GCM","kid":"<consumer-key>"}`。每个令牌的 IV 必须唯一且随机生成，切勿在同一密钥下复用 IV。
+
+例如，以下令牌使用上面配置的 secret，为消费者密钥 `jack-key` 加密了 payload `{"uid":10000,"uname":"test"}`：
+
+```text
+eyJraWQiOiJqYWNrLWtleSIsImFsZyI6ImRpciIsImVuYyI6IkEyNTZHQ00ifQ..vi29KBCQKcVmPwTT.VToyPMFbq-ZY05MIpntP1N3AmYeq3zELQ0B6iQ.vuTPG2ODc-DjUTjNCzfA2A
+```
+
+### 使用 JWE 解密数据
+
+以下示例演示如何解密上面生成的 JWE 令牌。
+
+创建带有 `jwe-decrypt` 的路由以解密授权请求头：
+
+
+
+**Admin API**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "jwe-decrypt-route",
+    "uri": "/anything/jwe",
+    "plugins": {
+      "jwe-decrypt": {
+        "header": "Authorization",
+        "forward_header": "Authorization"
+      }
+    },
+    "upstream": {
+      "type": "roundrobin",
+      "nodes": {
+        "httpbin.org:80": 1
+      }
+    }
+  }'
+```
+
+
+
+
+**ADC**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: jwe-decrypt-service
+    routes:
+      - name: jwe-decrypt-route
+        uris:
+          - /anything/jwe
+        plugins:
+          jwe-decrypt:
+            header: Authorization
+            forward_header: Authorization
+    upstream:
+      type: roundrobin
+      nodes:
+        - host: httpbin.org
+          port: 80
+          weight: 1
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**Ingress Controller**
+
+
+
+
+**Gateway API**
+
+
+<div class="code-title">jwe-decrypt-ic.yaml</div>
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: aic
+  name: httpbin-external-domain
+spec:
+  type: ExternalName
+  externalName: httpbin.org
+---
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: jwe-decrypt-plugin-config
+spec:
+  plugins:
+    - name: jwe-decrypt
+      config:
+        header: Authorization
+        forward_header: Authorization
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: jwe-decrypt-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything/jwe
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: jwe-decrypt-plugin-config
+      backendRefs:
+        - name: httpbin-external-domain
+          port: 80
+```
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f jwe-decrypt-ic.yaml
+```
+
+
+
+
+**APISIX Ingress Controller**
+
+
+`ApisixConsumer` 仅通过 `authParameter` 字段支持认证插件，而 `jwe-decrypt` 不在支持的类型中。此示例无法使用 APISIX Ingress Controller 完成。
+
+
+
+
+
+
+
+在 `Authorization` 请求头中携带 JWE 加密数据向路由发送请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything/jwe" -H 'Authorization: eyJraWQiOiJqYWNrLWtleSIsImFsZyI6ImRpciIsImVuYyI6IkEyNTZHQ00ifQ..vi29KBCQKcVmPwTT.VToyPMFbq-ZY05MIpntP1N3AmYeq3zELQ0B6iQ.vuTPG2ODc-DjUTjNCzfA2A'
+```
+
+你应该看到类似以下的响应，其中 `Authorization` 请求头显示了 payload 的明文：
+
+```json
+{
+  "args": {},
+  "data": "",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "*/*",
+    "Authorization": "{\"uid\":10000,\"uname\":\"test\"}",
+    "Host": "127.0.0.1",
+    "User-Agent": "curl/8.1.2",
+    "X-Amzn-Trace-Id": "Root=1-6510f2c3-1586ec011a22b5094dbe1896",
+    "X-Forwarded-Host": "127.0.0.1"
+  },
+  "json": null,
+  "method": "GET",
+  "origin": "127.0.0.1, 119.143.79.94",
+  "url": "http://127.0.0.1/anything/jwe"
+}
+```

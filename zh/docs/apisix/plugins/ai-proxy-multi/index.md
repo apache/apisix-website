@@ -1,0 +1,2758 @@
+# ai-proxy-multi
+
+> ai-proxy-multi 插件通过负载均衡、重试、故障转移和健康检查扩展了 ai-proxy 的功能，简化了与 OpenAI、DeepSeek、Azure、AIMLAPI、Anthropic、OpenRouter、Gemini、Vertex AI、Amazon Bedrock 和其他 OpenAI 兼容 API 的集成。
+
+Source: https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy-multi/
+
+## 描述
+
+`ai-proxy-multi` 插件通过将插件配置转换为 OpenAI、DeepSeek、Azure、AIMLAPI、Anthropic、OpenRouter、Gemini、Vertex AI、Amazon Bedrock 和其他 OpenAI 兼容 API 的指定请求格式，简化了对 LLM 和嵌入模型的访问。它通过负载均衡、重试、故障转移和健康检查扩展了 [`ai-proxy`](/zh/docs/apisix/plugins/ai-proxy/) 的功能。
+
+此外，该插件还支持在访问日志中记录 LLM 请求信息，如令牌使用量、模型、首次响应时间等。这些日志条目也会被 `http-logger`、`kafka-logger` 等日志插件消费，但不影响 `error.log`。
+
+## 请求格式
+
+| 名称               | 类型   | 必选项 | 描述                                         |
+| ------------------ | ------ | -------- | --------------------------------------------------- |
+| `messages`         | Array  | 是      | 消息对象数组。                        |
+| `messages.role`    | String | 是      | 消息的角色（`system`、`user`、`assistant`）。|
+| `messages.content` | String | 是      | 消息的内容。                             |
+
+### Bedrock Converse 请求格式
+
+当某个实例的 `provider` 设置为 `bedrock` 时，插件期望请求采用 [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) 格式。请求 URI 必须以 `/converse` 结尾，且请求体必须包含 `messages` 数组。
+
+| 名称               | 类型    | 必选项 | 描述                                                                                          |
+| ------------------ | ------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `messages`         | Array   | 是     | 消息对象数组。                                                                          |
+| `messages.role`    | String  | 是     | 消息的角色（`user`、`assistant`）。                                                            |
+| `messages.content` | Array   | 是     | 内容块数组。每个块包含一个 `text` 字段（例如 `[{"text": "What is 1+1?"}]`）。 |
+| `system`           | Array   | 否    | 可选的系统提示块（例如 `[{"text": "You are a helpful assistant."}]`）。                   |
+| `inferenceConfig`  | Object  | 否    | 可选的推理参数，如 `maxTokens`、`temperature`、`topP` 等。                        |
+| `stream`           | Boolean | 否    | 设置为 `true` 时，插件会将请求代理到 Bedrock 的 [`ConverseStream`](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) 接口，并以 [AWS EventStream](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html) 二进制帧（`application/vnd.amazon.eventstream`）转发响应。该字段由插件消费，不会转发给 Bedrock。 |
+
+## 属性
+
+| 名称                               | 类型            | 必选项 | 默认值                           | 有效值 | 描述 |
+|------------------------------------|----------------|----------|-----------------------------------|--------------|-------------|
+| fallback_strategy                  | string 或 array         | 否    |  | string: "instance_health_and_rate_limiting", "http_429", "http_5xx"<br />array: ["rate_limiting", "http_429", "http_5xx"] | 故障转移策略。设置后，插件将在转发请求时检查指定实例的令牌是否已耗尽。如果是，则无论实例优先级如何，都将请求转发到下一个实例。未设置时，当高优先级实例的令牌耗尽时，插件不会将请求转发到低优先级实例。 |
+| max_retries                        | integer        | 否    |                                   | 大于或等于 0 | 初始请求失败后允许的最大故障转移重试次数。用于限制单个请求最多尝试多少个额外实例，避免穷举所有已配置的实例。仅在配置 `fallback_strategy` 时生效。未设置时，插件会持续重试直到某个实例成功或所有实例都已尝试。 |
+| retry_on_failure_within_ms         | integer        | 否    |                                   | 大于或等于 1 | 仅当上游在指定毫秒数内失败时才故障转移到其他实例。快速失败（如连接错误、快速返回的 `429`/`5xx`）会触发重试，而耗时超过该值的慢失败会直接将错误返回给客户端，避免客户端等待时间翻倍。仅在配置 `fallback_strategy` 时生效。未设置时，插件无论失败请求耗时多久都会重试。 |
+| balancer                           | object         | 否    |                                   |              | 负载均衡配置。 |
+| balancer.algorithm                 | string         | 否    | roundrobin                     | [roundrobin, chash] | 负载均衡算法。设置为 `roundrobin` 时，使用加权轮询算法。设置为 `chash` 时，使用一致性哈希算法。 |
+| balancer.hash_on                   | string         | 否    |                                   | [vars, headers, cookie, consumer, vars_combinations] | 当 `type` 为 `chash` 时使用。支持基于 [NGINX 变量](https://nginx.org/en/docs/varindex.html)、标头、cookie、消费者或 [NGINX 变量](https://nginx.org/en/docs/varindex.html)组合进行哈希。 |
+| balancer.key                       | string         | 否    |                                   |              | 当 `type` 为 `chash` 时使用。当 `hash_on` 设置为 `header` 或 `cookie` 时，需要 `key`。当 `hash_on` 设置为 `consumer` 时，不需要 `key`，因为消费者名称将自动用作键。 |
+| instances                          | array[object]  | 是     |                                   |              | LLM 实例配置。 |
+| instances.name                     | string         | 是     |                                   |              | LLM 服务实例的名称。 |
+| instances.provider                 | string         | 是     |                                   | [openai, deepseek, azure-openai, aimlapi, anthropic, openrouter, gemini, vertex-ai, bedrock, openai-compatible] | LLM 服务提供商。设置为 `openai` 时，插件将代理请求到 `api.openai.com`。设置为 `deepseek` 时，插件将代理请求到 `api.deepseek.com`。设置为 `aimlapi` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `api.aimlapi.com`。设置为 `anthropic` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `api.anthropic.com`。设置为 `openrouter` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `openrouter.ai`。设置为 `gemini` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `generativelanguage.googleapis.com`。设置为 `vertex-ai` 时，插件默认将请求代理到 `aiplatform.googleapis.com`，且需要配置 `provider_conf` 或 `override`。设置为 `bedrock` 时，插件将代理请求到 AWS Bedrock Converse API（`bedrock-runtime.<region>.amazonaws.com`），并使用 AWS SigV4 对请求进行签名。设置为 `openai-compatible` 时，插件将代理请求到在 `override` 中配置的自定义端点。 |
+| instances.provider_conf            | object         | 否     |                                   |              | 特定提供商的配置。当 `provider` 设置为 `vertex-ai` 且未配置 `override` 时必填。当 `provider` 设置为 `bedrock` 时必填。 |
+| instances.provider_conf.project_id | string         | 是     |                                   |              | Google Cloud 项目 ID。 |
+| instances.provider_conf.region     | string         | 视提供商而定 |                                   | minLength = 1（Bedrock 时） | 当 `provider` 为 `vertex-ai` 时，此项为 Google Cloud 区域。当 `provider` 为 `bedrock` 时，此项为用于构造 Bedrock 端点并使用 SigV4 对请求进行签名的 AWS 区域（必填，不能为空）。 |
+| instances.priority                  | integer        | 否    | 0                               |              | LLM 实例在负载均衡中的优先级。`priority` 优先于 `weight`。 |
+| instances.weight                    | string         | 是     | 0                               | 大于或等于 0 | LLM 实例在负载均衡中的权重。 |
+| instances.auth                      | object         | 是     |                                   |              | 身份验证配置。 |
+| instances.auth.header               | object         | 否    |                                   |              | 身份验证标头。应配置 `header` 和 `query` 中的至少一个。 |
+| instances.auth.query                | object         | 否    |                                   |              | 身份验证查询参数。应配置 `header` 和 `query` 中的至少一个。 |
+| instances.auth.gcp                  | object         | 否    |                                   |              | Google Cloud Platform (GCP) 身份验证配置。 |
+| instances.auth.gcp.service_account_json | string     | 否    |                                   |              | GCP 服务帐户 JSON 文件的内容。也可以通过设置"GCP_SERVICE_ACCOUNT"环境变量来配置。 |
+| instances.auth.gcp.max_ttl          | integer        | 否    |                                   | minimum = 1  | 用于缓存 GCP 访问令牌的最大 TTL（以秒为单位）。 |
+| instances.auth.gcp.expire_early_secs| integer        | 否    | 60                                | minimum = 0  | 在访问令牌实际过期时间之前使其过期的秒数，以避免边缘情况。 |
+| instances.auth.aws                  | object         | 否    |                                   |              | AWS 身份验证配置。当 `provider` 为 `bedrock` 时必填。 |
+| instances.auth.aws.access_key_id    | string         | 是     |                                   | minLength = 1 | 用于 SigV4 签名的 AWS 访问密钥 ID。 |
+| instances.auth.aws.secret_access_key | string        | 是     |                                   | minLength = 1 | 用于 SigV4 签名的 AWS 秘密访问密钥。以加密形式存储。 |
+| instances.auth.aws.session_token    | string         | 否    |                                   | minLength = 1 | 可选的 AWS 会话令牌，用于临时凭证（例如来自 STS 或扮演角色获取的凭证）。以加密形式存储。 |
+| instances.options                   | object         | 否    |                                   |              | 模型配置。除了 `model` 之外，您还可以配置其他参数，它们将在请求体中转发到上游 LLM 服务。例如，如果您使用 OpenAI、DeepSeek 或 AIMLAPI，可以配置其他参数，如 `max_tokens`、`temperature`、`top_p` 和 `stream`。有关更多可用选项，请参阅您的 LLM 提供商的 API 文档。 |
+| instances.options.model             | string         | 否    |                                   |              | LLM 模型的名称，如 `gpt-4` 或 `gpt-3.5`。有关更多可用模型，请参阅您的 LLM 提供商的 API 文档。当 `provider` 为 `bedrock` 且未配置 `override.endpoint` 时，`model` 为必填项，可以是基础模型 ID（例如 `anthropic.claude-3-5-sonnet-20240620-v1:0`）、跨区域推理配置文件 ID（例如 `us.anthropic.claude-3-5-sonnet-20240620-v1:0`）或应用推理配置文件 ARN（例如 `arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/abc123`）。 |
+| instances.override                  | object         | 否    |                                   |              | 覆盖设置。 |
+| instances.override.endpoint         | string         | 否    |                                   |              | 用于替换默认端点的 LLM 提供商端点。如果未配置，插件使用默认的 OpenAI 端点 `https://api.openai.com/v1/chat/completions`。当 `provider` 为 `bedrock` 时，可以设置为自定义的 Bedrock 端点。如果覆盖 URL 包含含有保留字符的路径（例如 Bedrock 推理配置文件 ARN 中的 `:` 或 `/`），这些字符必须进行 URL 编码（`:` → `%3A`，`/` → `%2F`），以确保模型 ID 被保留为单个路径段。 |
+| instances.override.llm_options         | object         | 否    |                                   |              | 提供商感知的 LLM 选项。请参阅 `ai-proxy` 文档中的 [`max_tokens` 字段映射](/zh/docs/apisix/plugins/ai-proxy/#provider-aware-max_tokens-mapping)。 |
+| instances.override.llm_options.max_tokens | integer | 否    |                                   | ≥ 1          | 最大输出 token 数。APISIX 会自动将该值映射为各上游服务商对应的字段名。始终强制覆盖客户端值。 |
+| instances.override.request_body     | object         | 否    |                                   |              | 按目标协议的请求体覆盖配置。请参阅 `ai-proxy` 文档中的[按协议的请求体覆盖](/zh/docs/apisix/plugins/ai-proxy/#per-protocol-request-body-override)。 |
+| instances.override.request_body_force_override | boolean | 否 | false |                            | 为 `false`（默认）时，客户端请求体中的字段优先，`instances.override.request_body` 仅补充缺失字段。为 `true` 时，`instances.override.request_body` 的值强制覆盖客户端请求体中的同名字段。不影响 `instances.override.llm_options`。 |
+| logging                             | object         | 否    |                                   |              | 日志配置。不影响 `error.log`。 |
+| logging.summaries                   | boolean        | 否    | false                           |              | 如果为 true，记录请求 LLM 模型、持续时间、请求和响应令牌。 |
+| logging.payloads                    | boolean        | 否    | false                           |              | 如果为 true，记录请求和响应负载。 |
+| instances.override                    | object         | 否    |                                   |              | 覆盖设置。 |
+| instances.override.endpoint           | string         | 否    |                                   |              | 用于替换默认端点的 LLM 提供商端点。如果未配置，插件使用默认的 OpenAI 端点 `https://api.openai.com/v1/chat/completions`。 |
+| instances.checks                              | object         | 否    |                                   |              | 健康检查配置。请注意，目前 OpenAI、DeepSeek 和 AIMLAPI 不提供官方健康检查端点。您可以在 `openai-compatible` 提供商下配置的其他 LLM 服务可能有可用的健康检查端点。 |
+| instances.checks.active                       | object         | 是     |                                   |              | 主动健康检查配置。 |
+| instances.checks.active.type                  | string         | 否    | http                            | [http, https, tcp] | 健康检查连接类型。 |
+| instances.checks.active.timeout               | number         | 否    | 1                               |              | 健康检查超时时间（秒）。 |
+| instances.checks.active.concurrency           | integer        | 否    | 10                              |              | 同时检查的上游节点数量。 |
+| instances.checks.active.host                  | string         | 否    |                                   |              | HTTP 主机。 |
+| instances.checks.active.port                  | integer        | 否    |                                   | 1 到 65535（包含） | HTTP 端口。 |
+| instances.checks.active.http_path             | string         | 否    | /                               |              | HTTP 探测请求的路径。 |
+| instances.checks.active.https_verify_certificate | boolean   | 否    | true                            |              | 如果为 true，验证节点的 TLS 证书。 |
+| instances.checks.active.healthy               | object         | 否    |                                   |              | 健康检查配置。 |
+| instances.checks.active.healthy.interval      | integer        | 否    | 1                               |              | 检查健康节点的时间间隔（秒）。 |
+| instances.checks.active.healthy.http_statuses | array[integer] | 否    | [200,302]                       | 200 到 599 之间的状态码（包含） | 定义健康节点的 HTTP 状态码数组。 |
+| instances.checks.active.healthy.successes     | integer        | 否    | 2                               | 1 到 254（包含） | 定义健康节点所需的成功探测次数。 |
+| instances.checks.active.unhealthy             | object         | 否    |                                   |              | 不健康检查配置。 |
+| instances.checks.active.unhealthy.interval    | integer        | 否    | 1                               |              | 检查不健康节点的时间间隔（秒）。 |
+| instances.checks.active.unhealthy.http_statuses | array[integer] | 否  | [429,404,500,501,502,503,504,505] | 200 到 599 之间的状态码（包含） | 定义不健康节点的 HTTP 状态码数组。 |
+| instances.checks.active.unhealthy.http_failures | integer      | 否    | 5                               | 1 到 254（包含） | 定义不健康节点的 HTTP 失败次数。 |
+| instances.checks.active.unhealthy.timeout     | integer        | 否    | 3                               | 1 到 254（包含） | 定义不健康节点的探测超时次数。 |
+| timeout                             | integer        | 否    | 30000                           | 大于或等于 1 | 请求 LLM 服务时的请求超时时间（毫秒）。应用于单次 socket 操作（连接 / 发送 / 读取块），不限制流式响应的总时长。 |
+| max_stream_duration_ms              | integer        | 否    |                                 | 大于或等于 1 | 流式 AI 响应的总墙钟时长上限（毫秒）。若上游在此时间后仍持续发送数据，网关将关闭连接。未设置时不限制。用于防护上游持续输出 token 导致网关 CPU 被打满的异常情况。中途触发上限时，下游 SSE 流会被截断（不再发送协议特定的终止标记，例如 `[DONE]`、`message_stop` 或 `response.completed`），客户端应将缺失的终止标记视为响应未完成。 |
+| max_response_bytes                  | integer        | 否    |                                 | 大于或等于 1 | 单次 AI 响应（流式或非流式）允许从上游读取的最大总字节数。超出时关闭连接。非流式响应若存在 `Content-Length`，在读取 body 之前预检；否则（chunked 传输）与流式响应一样在接收字节的过程中增量检查。未设置时不限制。 |
+| keepalive                           | boolean        | 否    | true                            |              | 如果为 true，在请求 LLM 服务时保持连接活跃。 |
+| keepalive_timeout                   | integer        | 否    | 60000                           | 大于或等于 1000 | 请求 LLM 服务时的请求超时时间（毫秒）。 |
+| keepalive_pool                      | integer        | 否    | 30                              |              | 连接 LLM 服务时的保活池大小。 |
+| ssl_verify                          | boolean        | 否    | true                            |              | 如果为 true，验证 LLM 服务的证书。 |
+
+## 示例
+
+以下示例演示了如何为不同场景配置 `ai-proxy-multi`。
+
+:::note
+
+您可以使用以下命令从 `config.yaml` 获取 `admin_key` 并保存到环境变量中：
+
+```bash
+admin_key=$(yq '.deployment.admin.admin_key[0].key' conf/config.yaml | sed 's/"//g')
+```
+
+:::
+
+### 实例间负载均衡
+
+以下示例演示了如何配置两个模型进行负载均衡，将 80% 的流量转发到一个实例，20% 转发到另一个实例。
+
+为了演示和更容易区分，您将配置一个 OpenAI 实例和一个 DeepSeek 实例作为上游 LLM 服务。
+
+创建 Route 并更新您的 LLM 提供商、模型、API 密钥和端点（如果适用）：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 8,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 2,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 8
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 2
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+向 Route 发送 10 个 POST 请求，在请求体中包含系统提示和示例用户问题，以查看转发到 OpenAI 和 DeepSeek 的请求数量：
+
+```shell
+openai_count=0
+deepseek_count=0
+
+for i in {1..10}; do
+  model=$(curl -s "http://127.0.0.1:9080/anything" -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+      "messages": [
+        { "role": "system", "content": "You are a mathematician" },
+        { "role": "user", "content": "What is 1+1?" }
+      ]
+    }' | jq -r '.model')
+
+  if [[ "$model" == *"gpt-4"* ]]; then
+    ((openai_count++))
+  elif [[ "$model" == "deepseek-chat" ]]; then
+    ((deepseek_count++))
+  fi
+done
+
+echo "OpenAI responses: $openai_count"
+echo "DeepSeek responses: $deepseek_count"
+```
+
+您应该看到类似以下的响应：
+
+```text
+OpenAI responses: 8
+DeepSeek responses: 2
+```
+
+### 配置实例优先级和速率限制
+
+以下示例演示了如何配置两个具有不同优先级的模型，并在优先级较高的实例上应用速率限制。在 `fallback_strategy` 设置为 `["rate_limiting"]` 的情况下，一旦高优先级实例的速率限制配额完全消耗，插件应继续将请求转发到低优先级实例。
+
+创建 Route 并更新您的 LLM 提供商、模型、API 密钥和端点（如果适用）：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "fallback_strategy": ["rate_limiting"],
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "priority": 1,
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "priority": 0,
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ]
+      },
+      "ai-rate-limiting": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "limit": 10,
+            "time_window": 60
+          }
+        ],
+        "limit_strategy": "total_tokens"
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                priority: 1
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                priority: 0
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+          ai-rate-limiting:
+            instances:
+              - name: openai-instance
+                limit: 10
+                time_window: 60
+            limit_strategy: total_tokens
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        fallback_strategy:
+          - rate_limiting
+        instances:
+          - name: openai-instance
+            provider: openai
+            priority: 1
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            priority: 0
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+    - name: ai-rate-limiting
+      config:
+        instances:
+          - name: openai-instance
+            limit: 10
+            time_window: 60
+        limit_strategy: total_tokens
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                priority: 1
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                priority: 0
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+        - name: ai-rate-limiting
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                limit: 10
+                time_window: 60
+            limit_strategy: total_tokens
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+向 Route 发送 POST 请求，在请求体中包含系统提示和示例用户问题：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+您应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+由于 `total_tokens` 值超过了配置的 `10` 配额，预计在 60 秒窗口内的下一个请求将转发到另一个实例。
+
+在同一个 60 秒窗口内，向 Route 发送另一个 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newton law" }
+    ]
+  }'
+```
+
+您应该看到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Certainly! Newton's laws of motion are three fundamental principles that describe the relationship between the motion of an object and the forces acting on it. They were formulated by Sir Isaac Newton in the late 17th century and are foundational to classical mechanics.\n\n---\n\n### **1. Newton's First Law (Law of Inertia):**\n- **Statement:** An object at rest will remain at rest, and an object in motion will continue moving at a constant velocity (in a straight line at a constant speed), unless acted upon by an external force.\n- **Key Idea:** This law introduces the concept of **inertia**, which is the tendency of an object to resist changes in its state of motion.\n- **Example:** If you slide a book across a table, it eventually stops because of the force of friction acting on it. Without friction, the book would keep moving indefinitely.\n\n---\n\n### **2. Newton's Second Law (Law of Acceleration):**\n- **Statement:** The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. Mathematically, this is expressed as:\n  \\[\n  F = ma\n  \\]\n  where:\n  - \\( F \\) = net force applied (in Newtons),\n  -"
+      },
+      ...
+    }
+  ],
+  ...
+}
+```
+
+### 按消费者进行负载均衡和速率限制
+
+以下示例演示了如何配置两个模型进行负载均衡，并按消费者应用速率限制。
+
+创建 Consumer `johndoe` 并在 `openai-instance` 实例上设置 60 秒窗口内 10 个令牌的速率限制配额：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "username": "johndoe",
+    "plugins": {
+      "ai-rate-limiting": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "limit": 10,
+            "time_window": 60
+          }
+        ],
+        "rejected_code": 429,
+        "limit_strategy": "total_tokens"
+      }
+    }
+  }'
+```
+
+为 `johndoe` 配置 `key-auth` Credential：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers/johndoe/credentials" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "cred-john-key-auth",
+    "plugins": {
+      "key-auth": {
+        "key": "john-key"
+      }
+    }
+  }'
+```
+
+创建另一个 Consumer `janedoe` 并在 `deepseek-instance` 实例上设置 60 秒窗口内 10 个令牌的速率限制配额：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "username": "janedoe",
+    "plugins": {
+      "ai-rate-limiting": {
+        "instances": [
+          {
+            "name": "deepseek-instance",
+            "limit": 10,
+            "time_window": 60
+          }
+        ],
+        "rejected_code": 429,
+        "limit_strategy": "total_tokens"
+      }
+    }
+  }'
+```
+
+为 `janedoe` 配置 `key-auth` Credential：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers/janedoe/credentials" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "cred-jane-key-auth",
+    "plugins": {
+      "key-auth": {
+        "key": "jane-key"
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+consumers:
+  - username: johndoe
+    plugins:
+      ai-rate-limiting:
+        instances:
+          - name: openai-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+    credentials:
+      - name: key-auth
+        type: key-auth
+        config:
+          key: john-key
+  - username: janedoe
+    plugins:
+      ai-rate-limiting:
+        instances:
+          - name: deepseek-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+    credentials:
+      - name: key-auth
+        type: key-auth
+        config:
+          key: jane-key
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-consumer-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: Consumer
+metadata:
+  namespace: aic
+  name: johndoe
+spec:
+  gatewayRef:
+    name: apisix
+  plugins:
+    - name: ai-rate-limiting
+      config:
+        instances:
+          - name: openai-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+  credentials:
+    - type: key-auth
+      name: primary-key
+      config:
+        key: john-key
+---
+apiVersion: apisix.apache.org/v1alpha1
+kind: Consumer
+metadata:
+  namespace: aic
+  name: janedoe
+spec:
+  gatewayRef:
+    name: apisix
+  plugins:
+    - name: ai-rate-limiting
+      config:
+        instances:
+          - name: deepseek-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+  credentials:
+    - type: key-auth
+      name: primary-key
+      config:
+        key: jane-key
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-consumer-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixConsumer
+metadata:
+  namespace: aic
+  name: johndoe
+spec:
+  ingressClassName: apisix
+  authParameter:
+    keyAuth:
+      value:
+        key: john-key
+  plugins:
+    ai-rate-limiting:
+      instances:
+        - name: openai-instance
+          limit: 10
+          time_window: 60
+      rejected_code: 429
+      limit_strategy: total_tokens
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixConsumer
+metadata:
+  namespace: aic
+  name: janedoe
+spec:
+  ingressClassName: apisix
+  authParameter:
+    keyAuth:
+      value:
+        key: jane-key
+  plugins:
+    ai-rate-limiting:
+      instances:
+        - name: deepseek-instance
+          limit: 10
+          time_window: 60
+      rejected_code: 429
+      limit_strategy: total_tokens
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-consumer-ic.yaml
+```
+
+
+
+
+
+创建 Route 并更新您的 LLM 提供商、模型、API 密钥和端点（如果适用）：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "key-auth": {},
+      "ai-proxy-multi": {
+        "fallback_strategy": ["rate_limiting"],
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          key-auth: {}
+          ai-proxy-multi:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: key-auth
+      config:
+        _meta:
+          disable: false
+    - name: ai-proxy-multi
+      config:
+        fallback_strategy:
+          - rate_limiting
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: key-auth
+          enable: true
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+向 Route 发送 POST 请求，不带任何消费者密钥：
+
+```shell
+curl -i "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+您应该收到 `HTTP/1.1 401 Unauthorized` 响应。
+
+使用 `johndoe` 的密钥向 Route 发送 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: john-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+您应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+由于 `total_tokens` 值超过了 `johndoe` 的 `openai` 实例配置配额，预计在 60 秒窗口内来自 `johndoe` 的下一个请求将转发到 `deepseek` 实例。
+
+在同一个 60 秒窗口内，使用 `johndoe` 的密钥向 Route 发送另一个 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: john-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newtons laws to me" }
+    ]
+  }'
+```
+
+您应该看到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Certainly! Newton's laws of motion are three fundamental principles that describe the relationship between the motion of an object and the forces acting on it. They were formulated by Sir Isaac Newton in the late 17th century and are foundational to classical mechanics.\n\n---\n\n### **1. Newton's First Law (Law of Inertia):**\n- **Statement:** An object at rest will remain at rest, and an object in motion will continue moving at a constant velocity (in a straight line at a constant speed), unless acted upon by an external force.\n- **Key Idea:** This law introduces the concept of **inertia**, which is the tendency of an object to resist changes in its state of motion.\n- **Example:** If you slide a book across a table, it eventually stops because of the force of friction acting on it. Without friction, the book would keep moving indefinitely.\n\n---\n\n### **2. Newton's Second Law (Law of Acceleration):**\n- **Statement:** The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. Mathematically, this is expressed as:\n  \\[\n  F = ma\n  \\]\n  where:\n  - \\( F \\) = net force applied (in Newtons),\n  -"
+      },
+      ...
+    }
+  ],
+  ...
+}
+```
+
+使用 `janedoe` 的密钥向 Route 发送 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: jane-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+您应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "The sum of 1 and 1 is 2. This is a basic arithmetic operation where you combine two units to get a total of two units."
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 14,
+    "completion_tokens": 31,
+    "total_tokens": 45,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 14
+  },
+  "system_fingerprint": "fp_3a5770e1b4_prod0225"
+}
+```
+
+由于 `total_tokens` 值超过了 `janedoe` 的 `deepseek` 实例配置配额，预计在 60 秒窗口内来自 `janedoe` 的下一个请求将转发到 `openai` 实例。
+
+在同一个 60 秒窗口内，使用 `janedoe` 的密钥向 Route 发送另一个 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: jane-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newtons laws to me" }
+    ]
+  }'
+```
+
+您应该看到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Sure, here are Newton's three laws of motion:\n\n1) Newton's First Law, also known as the Law of Inertia, states that an object at rest will stay at rest, and an object in motion will stay in motion, unless acted on by an external force. In simple words, this law suggests that an object will keep doing whatever it is doing until something causes it to do otherwise. \n\n2) Newton's Second Law states that the force acting on an object is equal to the mass of that object times its acceleration (F=ma). This means that force is directly proportional to mass and acceleration. The heavier the object and the faster it accelerates, the greater the force.\n\n3) Newton's Third Law, also known as the law of action and reaction, states that for every action, there is an equal and opposite reaction. Essentially, any force exerted onto a body will create a force of equal magnitude but in the opposite direction on the object that exerted the first force.\n\nRemember, these laws become less accurate when considering speeds near the speed of light (where Einstein's theory of relativity becomes more appropriate) or objects very small or very large. However, for everyday situations, they provide a good model of how things move.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+这显示了 `ai-proxy-multi` 根据 Consumer 在 `ai-rate-limiting` 中的速率限制规则对流量进行负载均衡。
+
+### 限制完成令牌的最大数量
+
+以下示例演示了如何在生成聊天完成时限制使用的 `completion_tokens` 数量。
+
+为了演示和更容易区分，您将配置一个 OpenAI 实例和一个 DeepSeek 实例作为上游 LLM 服务。
+
+创建 Route 并更新您的 LLM 提供商、模型、API 密钥和端点（如果适用）：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4",
+              "max_tokens": 50
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat",
+              "max_tokens": 100
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+                  max_tokens: 50
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+                  max_tokens: 100
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+              max_tokens: 50
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+              max_tokens: 100
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+                  max_tokens: 50
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+                  max_tokens: 100
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+向 Route 发送 POST 请求，在请求体中包含系统提示和示例用户问题：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newtons law" }
+    ]
+  }'
+```
+
+如果请求被代理到 OpenAI，您应该看到类似以下的响应，其中内容根据 50 个 `max_tokens` 阈值被截断：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Newton's Laws of Motion are three physical laws that form the bedrock for classical mechanics. They describe the relationship between a body and the forces acting upon it, and the body'",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "length"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 20,
+    "completion_tokens": 50,
+    "total_tokens": 70,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+如果请求被代理到 DeepSeek，您应该看到类似以下的响应，其中内容根据 100 个 `max_tokens` 阈值被截断：
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Newton's Laws of Motion are three fundamental principles that form the foundation of classical mechanics. They describe the relationship between a body and the forces acting upon it, and the body's motion in response to those forces. Here's a brief explanation of each law:\n\n1. **Newton's First Law (Law of Inertia):**\n   - **Statement:** An object will remain at rest or in uniform motion in a straight line unless acted upon by an external force.\n   - **Explanation:** This law"
+      },
+      "logprobs": null,
+      "finish_reason": "length"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 100,
+    "total_tokens": 110,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 10
+  },
+  "system_fingerprint": "fp_3a5770e1b4_prod0225"
+}
+```
+
+### 在 Amazon Bedrock 实例之间进行负载均衡
+
+以下示例演示了如何配置位于不同区域的两个 [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/) 实例进行负载均衡。每个实例使用 `auth.aws` 进行身份验证，插件将使用 AWS SigV4 对上游请求进行签名。请求采用 [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) 格式发送，且 URI 必须以 `/converse` 结尾。
+
+将您的 AWS 凭证保存到环境变量：
+
+```shell
+export AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
+export AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
+```
+
+创建路由：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/bedrock/converse",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "bedrock-us-east-1",
+            "provider": "bedrock",
+            "weight": 5,
+            "auth": {
+              "aws": {
+                "access_key_id": "'"$AWS_ACCESS_KEY_ID"'",
+                "secret_access_key": "'"$AWS_SECRET_ACCESS_KEY"'"
+              }
+            },
+            "options": {
+              "model": "anthropic.claude-3-5-sonnet-20240620-v1:0"
+            },
+            "provider_conf": {
+              "region": "us-east-1"
+            }
+          },
+          {
+            "name": "bedrock-us-west-2",
+            "provider": "bedrock",
+            "weight": 5,
+            "auth": {
+              "aws": {
+                "access_key_id": "'"$AWS_ACCESS_KEY_ID"'",
+                "secret_access_key": "'"$AWS_SECRET_ACCESS_KEY"'"
+              }
+            },
+            "options": {
+              "model": "us.anthropic.claude-3-5-sonnet-20240620-v1:0"
+            },
+            "provider_conf": {
+              "region": "us-west-2"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+以 [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) 格式向路由发送 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/bedrock/converse" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": [{"text": "What is 1+1?"}]}
+    ],
+    "inferenceConfig": {"maxTokens": 256}
+  }'
+```
+
+您应该收到类似以下的 Bedrock Converse 响应：
+
+```json
+{
+  "output": {
+    "message": {
+      "role": "assistant",
+      "content": [
+        {"text": "1 + 1 = 2."}
+      ]
+    }
+  },
+  "stopReason": "end_turn",
+  "usage": {
+    "inputTokens": 14,
+    "outputTokens": 9,
+    "totalTokens": 23
+  },
+  ...
+}
+```
+
+如果您需要通过 `override.endpoint` 按 ARN 调用[应用推理配置文件](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.html)，则 ARN 中的保留字符（`:` 和 `/`）必须分别 URL 编码为 `%3A` 和 `%2F`，例如：
+
+```text
+https://bedrock-runtime.us-east-1.amazonaws.com/model/arn%3Aaws%3Abedrock%3Aus-east-1%3A123456789012%3Aapplication-inference-profile%2Fabc123/converse
+```
+
+:::note
+
+如果设置了 `auth.aws.session_token`，则它将用于临时凭证（例如从 AWS STS 或扮演角色获得的凭证），并将自动添加到 SigV4 签名的请求中。`auth.aws.secret_access_key` 和 `auth.aws.session_token` 都以加密形式存储。
+
+:::
+
+#### 使用 Bedrock `ConverseStream` 进行流式响应
+
+要启用流式响应，请使用相同的 Converse 请求体，并在其中加上 `"stream": true`。插件会将请求路由到 Bedrock 的 `/model/<model>/converse-stream` 接口，并将 AWS EventStream 帧原样转发给客户端。响应的 `Content-Type` 为 `application/vnd.amazon.eventstream`，客户端需自行解析二进制帧（多数 AWS SDK 已自动处理）。
+
+### 代理到嵌入模型
+
+以下示例演示了如何配置 `ai-proxy-multi` 插件以代理请求并在嵌入模型之间进行负载均衡。
+
+创建 Route 并更新您的 LLM 提供商、嵌入模型、API 密钥和端点：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "text-embedding-3-small"
+            },
+            "override": {
+              "endpoint": "https://api.openai.com/v1/embeddings"
+            }
+          },
+          {
+            "name": "az-openai-instance",
+            "provider": "openai-compatible",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$AZ_OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "text-embedding-3-small"
+            },
+            "override": {
+              "endpoint": "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://api.openai.com/v1/embeddings"
+              - name: az-openai-instance
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${AZ_OPENAI_API_KEY}"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: text-embedding-3-small
+            override:
+              endpoint: "https://api.openai.com/v1/embeddings"
+          - name: az-openai-instance
+            provider: openai-compatible
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: text-embedding-3-small
+            override:
+              endpoint: "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://api.openai.com/v1/embeddings"
+              - name: az-openai-instance
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+向 Route 发送 POST 请求，包含输入字符串：
+
+```shell
+curl "http://127.0.0.1:9080/embeddings" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": "hello world"
+  }'
+```
+
+您应该收到类似以下的响应：
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "index": 0,
+      "embedding": [
+        -0.0067144386,
+        -0.039197803,
+        0.034177095,
+        0.028763203,
+        -0.024785956,
+        -0.04201061,
+        ...
+      ],
+    }
+  ],
+  "model": "text-embedding-3-small",
+  "usage": {
+    "prompt_tokens": 2,
+    "total_tokens": 2
+  }
+}
+```
+
+### 启用主动健康检查
+
+以下示例演示了如何配置 `ai-proxy-multi` 插件以代理请求并在模型之间进行负载均衡，并启用主动健康检查以提高服务可用性。您可以在一个或多个实例上启用健康检查。
+
+创建 Route 并更新 LLM 提供商、嵌入模型、API 密钥和健康检查相关配置：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "llm-instance-1",
+            "provider": "openai-compatible",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "'"$YOUR_LLM_MODEL"'"
+            }
+          },
+          {
+            "name": "llm-instance-2",
+            "provider": "openai-compatible",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "'"$YOUR_LLM_MODEL"'"
+            },
+            "checks": {
+              "active": {
+                "type": "https",
+                "host": "yourhost.com",
+                "http_path": "/your/probe/path",
+                "healthy": {
+                  "interval": 2,
+                  "successes": 1
+                },
+                "unhealthy": {
+                  "interval": 1,
+                  "http_failures": 3
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: llm-instance-1
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${YOUR_LLM_API_KEY}"
+                options:
+                  model: "${YOUR_LLM_MODEL}"
+              - name: llm-instance-2
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${YOUR_LLM_API_KEY}"
+                options:
+                  model: "${YOUR_LLM_MODEL}"
+                checks:
+                  active:
+                    type: https
+                    host: yourhost.com
+                    http_path: /your/probe/path
+                    healthy:
+                      interval: 2
+                      successes: 1
+                    unhealthy:
+                      interval: 1
+                      http_failures: 3
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: llm-instance-1
+            provider: openai-compatible
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: your-model
+          - name: llm-instance-2
+            provider: openai-compatible
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: your-model
+            checks:
+              active:
+                type: https
+                host: yourhost.com
+                http_path: /your/probe/path
+                healthy:
+                  interval: 2
+                  successes: 1
+                unhealthy:
+                  interval: 1
+                  http_failures: 3
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: llm-instance-1
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: your-model
+              - name: llm-instance-2
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: your-model
+                checks:
+                  active:
+                    type: https
+                    host: yourhost.com
+                    http_path: /your/probe/path
+                    healthy:
+                      interval: 2
+                      successes: 1
+                    unhealthy:
+                      interval: 1
+                      http_failures: 3
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+为了验证，行为应与[主动健康检查](/zh/docs/apisix/tutorials/health-check/)中的验证一致。
+
+### 发送请求日志到日志记录器
+
+以下示例演示了如何记录请求和响应信息（包括 LLM 模型、令牌和负载），并将其推送到日志记录器。在继续之前，您应该先设置一个日志记录器，例如 Kafka。有关更多信息，请参阅 [`kafka-logger`](/zh/docs/apisix/plugins/kafka-logger/)。
+
+创建 Route 到您的 LLM 服务并配置日志记录详情：
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 8,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 2,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ],
+        "logging": {
+          "summaries": true,
+          "payloads": true
+        }
+      },
+      "kafka-logger": {
+        "brokers": [
+          {
+            "host": "127.0.0.1",
+            "port": 9092
+          }
+        ],
+        "kafka_topic": "test2",
+        "key": "key1",
+        "batch_max_size": 1
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+            logging:
+              summaries: true
+              payloads: true
+          kafka-logger:
+            brokers:
+              - host: 127.0.0.1
+                port: 9092
+            kafka_topic: test2
+            key: key1
+            batch_max_size: 1
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 8
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 2
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+        logging:
+          summaries: true
+          payloads: true
+    - name: kafka-logger
+      config:
+        brokers:
+          - host: kafka.aic.svc.cluster.local
+            port: 9092
+        kafka_topic: test2
+        key: key1
+        batch_max_size: 1
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+            logging:
+              summaries: true
+              payloads: true
+        - name: kafka-logger
+          enable: true
+          config:
+            brokers:
+              - host: kafka.aic.svc.cluster.local
+                port: 9092
+            kafka_topic: test2
+            key: key1
+            batch_max_size: 1
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+向 Route 发送 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+如果请求被转发到 OpenAI，您应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+在 Kafka 主题中，您还应该看到与请求对应的日志条目，其中包含 LLM 摘要和请求/响应负载。
+
+### 在访问日志中包含 LLM 信息
+
+以下示例演示了如何在网关的访问日志中记录 LLM 请求相关信息，以改进分析和审计。以下变量可用：
+
+* `request_llm_model`：请求中指定的 LLM 模型名称。
+* `apisix_upstream_response_time`：APISIX 向上游服务发送请求并接收完整响应所花费的时间
+* `request_type`：请求类型，值可能是 `traditional_http`、`ai_chat` 或 `ai_stream`。
+* `llm_time_to_first_token`：从发送请求到从 LLM 服务接收第一个令牌的持续时间（毫秒）。
+* `llm_model`：LLM 模型。
+* `llm_prompt_tokens`：提示中的令牌数量。
+* `llm_completion_tokens`：提示中的聊天完成令牌数量。
+
+在配置文件中更新访问日志格式以包含其他 LLM 相关变量：
+
+<div class="code-title">conf/config.yaml</div>
+
+```yaml
+nginx_config:
+  http:
+    access_log_format: "$remote_addr - $remote_user [$time_local] $http_host \"$request_line\" $status $body_bytes_sent $request_time \"$http_referer\" \"$http_user_agent\" $upstream_addr $upstream_status $apisix_upstream_response_time \"$upstream_scheme://$upstream_host$upstream_uri\" \"$apisix_request_id\" \"$request_type\" \"$llm_time_to_first_token\" \"$llm_model\" \"$request_llm_model\"  \"$llm_prompt_tokens\" \"$llm_completion_tokens\""
+```
+
+重新加载 APISIX 以使配置更改生效。
+
+接下来，使用 `ai-proxy-multi` 插件创建 Route 并发送请求。例如，如果请求转发到 OpenAI 并且您收到以下响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null,
+        "annotations": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    ...
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+在网关的访问日志中，您应该看到类似以下的日志条目：
+
+```text
+192.168.215.1 - - [21/Mar/2025:04:28:03 +0000] api.openai.com "POST /anything HTTP/1.1" 200 804 2.858 "-" "curl/8.6.0" - - - 5765 "http://api.openai.com" "5c5e0b95f8d303cb81e4dc456a4b12d9" "ai_chat" "2858" "gpt-4" "gpt-4" "23" "8"
+```
+
+访问日志条目显示请求类型为 `ai_chat`，Apisix 上游响应时间为 `5765` 毫秒，首次令牌时间为 `2858` 毫秒，请求的 LLM 模型为 `gpt-4`。LLM 模型为 `gpt-4`，提示令牌使用量为 `23`，完成令牌使用量为 `8`。

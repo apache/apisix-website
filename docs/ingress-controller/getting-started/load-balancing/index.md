@@ -1,0 +1,241 @@
+# Load Balancing
+
+> Learn how to implement load balancing in APISIX using APISIX Ingress Controller, distributing clients requests across multiple upstream nodes.
+
+Source: https://apisix.apache.org/docs/ingress-controller/getting-started/load-balancing/
+
+Load balancing is a technique used to distribute network request loads. It is a key consideration in designing systems that need to handle a large volume of traffic, allowing for improved system performance, scalability, and reliability.
+
+In this tutorial, you will create a route using APISIX Ingress Controller with two upstream services and uses the round-robin load balancing algorithm to load balance requests.
+
+## Prerequisite
+
+1. Complete [Get APISIX and APISIX Ingress Controller](/docs/ingress-controller/getting-started/get-apisix-ingress-controller/).
+
+## Configure Load Balancing
+
+For demonstration purpose, you will be creating a route to the [publicly hosted httpbin services](https://httpbin.org) and [mock.api7.ai](https://mock.api7.ai). If you would like to proxy requests to services on Kubernetes, please modify accordingly.
+
+:::important
+
+If you are using Gateway API, you should first configure the GatewayClass and Gateway resources:
+
+<details>
+
+<summary>Show configuration</summary>
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  namespace: ingress-apisix
+  name: apisix
+spec:
+  controllerName: apisix.apache.org/apisix-ingress-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  namespace: ingress-apisix
+  name: apisix
+spec:
+  gatewayClassName: apisix
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+  infrastructure:
+    parametersRef:
+      group: apisix.apache.org
+      kind: GatewayProxy
+      name: apisix-config
+```
+
+The `port` in the Gateway listener can be used for route matching based on [`listener_port_match_mode`](/docs/ingress-controller/reference/configuration-file/) (`auto`, `explicit`, or `off`). The controller cannot dynamically open new ports on the data plane, so ensure APISIX is configured to listen on the port.
+
+</details>
+
+If you are using Ingress or APISIX custom resources, you can proceed without additional configuration, as the IngressClass resource below is already applied with installation:
+
+<details>
+
+<summary>Show configuration</summary>
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: apisix
+spec:
+  controller: apisix.apache.org/apisix-ingress-controller
+  parameters:
+    apiGroup: apisix.apache.org
+    kind: GatewayProxy
+    name: apisix-config
+    namespace: ingress-apisix
+    scope: Namespace
+```
+
+</details>
+
+See [Define Controller and Gateway](/docs/ingress-controller/reference/example/#define-controller-and-gateway) for more information on parameters.
+
+:::
+
+Create a Kubernetes manifest file for a route that proxy requests to two upstream services for load balancing:
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">lb-route.yaml</div>
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ingress-apisix
+  name: httpbin-external-domain
+spec:
+  type: ExternalName
+  externalName: httpbin.org
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ingress-apisix
+  name: mockapi7-external-domain
+spec:
+  type: ExternalName
+  externalName: mock.api7.ai
+---
+apiVersion: apisix.apache.org/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  namespace: ingress-apisix
+  name: passhost-node
+spec:
+  targetRefs:
+  - name: httpbin-external-domain
+    kind: Service
+    group: ""
+  - name: mockapi7-external-domain
+    kind: Service
+    group: ""
+  passHost: node
+  scheme: https
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: ingress-apisix
+  name: lb-route
+spec:
+  parentRefs:
+  - name: apisix
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /headers
+    backendRefs:
+    - name: httpbin-external-domain
+      port: 443
+      weight: 1
+    - name: mockapi7-external-domain
+      port: 443
+      weight: 1
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">lb-route.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixUpstream
+metadata:
+  namespace: ingress-apisix
+  name: httpbin-external-domain
+spec:
+  ingressClassName: apisix
+  scheme: https
+  passHost: node
+  externalNodes:
+  - type: Domain
+    name: httpbin.org
+    weight: 1
+    port: 443
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixUpstream
+metadata:
+  namespace: ingress-apisix
+  name: mockapi7-external-domain
+spec:
+  ingressClassName: apisix
+  scheme: https
+  passHost: node
+  externalNodes:
+  - type: Domain
+    name: mock.api7.ai
+    weight: 1
+    port: 443
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: ingress-apisix
+  name: lb-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: lb-route
+      match:
+        paths:
+          - /headers
+      upstreams:
+      - name: httpbin-external-domain
+      - name: mockapi7-external-domain
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f lb-route.yaml
+```
+
+## Verify
+
+Expose the service port to your local machine by port forwarding:
+
+```shell
+kubectl port-forward svc/apisix-gateway 9080:80 &
+```
+
+Generate 50 consecutive requests to the route to see the load-balancing effect:
+
+```shell
+resp=$(seq 50 | xargs -I{} curl "http://127.0.0.1:9080/headers" -sL) && \
+  count_httpbin=$(echo "$resp" | grep "httpbin.org" | wc -l) && \
+  count_mockapi7=$(echo "$resp" | grep "mock.api7.ai" | wc -l) && \
+  echo httpbin.org: $count_httpbin, mock.api7.ai: $count_mockapi7
+```
+
+The command keeps count of the number of requests that was handled by the two services respectively. The output shows that requests were distributed over to the two services:
+
+```text
+httpbin.org: 23, mock.api7.ai: 27
+```
+
+The distribution of requests across services should be close to 1:1 but might not always result in a perfect 1:1 ratio. The slight deviation is due to APISIX operates with multiple workers.

@@ -1,0 +1,105 @@
+# gRPC 代理
+
+Source: https://apisix.apache.org/zh/docs/apisix/grpc-proxy/
+
+通过 APISIX 代理 gRPC 连接，并使用 APISIX 的大部分特性管理你的 gRPC 服务。
+
+## 参数
+
+* `scheme`: Route 对应的 Upstream 的 `scheme` 必须设置为 `grpc` 或者 `grpcs`
+* `uri`: 格式为 /service/method 如：/helloworld.Greeter/SayHello
+
+## 示例
+
+### 创建代理 gRPC 的 Route
+
+在指定 Route 中，代理 gRPC 服务接口：
+
+* 注意：这个 Route 对应的 Upstream 的 `scheme` 必须设置为 `grpc` 或者 `grpcs`。
+* 注意：APISIX 使用 TLS 加密的 HTTP/2 暴露 gRPC 服务，所以需要先 [配置 SSL 证书](/zh/docs/apisix/certificate/)；
+* 注意：APISIX 也支持通过纯文本的 HTTP/2 暴露 gRPC 服务，这不需要依赖 SSL，通常用于内网环境代理 gRPC 服务
+* 下面例子所代理的 gRPC 服务可供参考：[grpc_server_example](https://github.com/api7/grpc_server_example)。
+
+:::note
+
+您可以这样从 `config.yaml` 中获取 `admin_key` 并存入环境变量：
+
+```bash
+admin_key=$(yq '.deployment.admin.admin_key[0].key' conf/config.yaml | sed 's/"//g')
+```
+
+:::
+
+```shell
+curl http://127.0.0.1:9180/apisix/admin/routes/1 -H "X-API-KEY: $admin_key" -X PUT -d '
+{
+    "methods": ["POST", "GET"],
+    "uri": "/helloworld.Greeter/SayHello",
+    "upstream": {
+        "scheme": "grpc",
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:50051": 1
+        }
+    }
+}'
+```
+
+### 测试 TLS 加密的 HTTP/2
+
+访问上面配置的 Route：
+
+```shell
+grpcurl -insecure -import-path /pathtoprotos  -proto helloworld.proto  \
+    -d '{"name":"apisix"}' 127.0.0.1:9443 helloworld.Greeter.SayHello
+{
+  "message": "Hello apisix"
+}
+```
+
+> grpcurl 是一个 CLI 工具，类似于 curl，充当 gRPC 客户端并让您与 gRPC 服务器进行交互。安装方式请查看官方[文档](https://github.com/fullstorydev/grpcurl#installation)
+
+这表示已成功代理。
+
+### 测试纯文本的 HTTP/2
+
+默认情况下，APISIX 只在 `9443` 端口支持 TLS 加密的 HTTP/2。你也可以支持纯本文的 HTTP/2，只需要修改 `conf/config.yaml` 文件中的 `node_listen` 配置即可。
+
+```yaml
+apisix:
+    node_listen:
+        - port: 9080
+        - port: 9081
+    enable_http2: true
+```
+
+访问上面配置的 Route：
+
+```shell
+grpcurl -plaintext -import-path /pathtoprotos  -proto helloworld.proto  \
+    -d '{"name":"apisix"}' 127.0.0.1:9081 helloworld.Greeter.SayHello
+{
+  "message": "Hello apisix"
+}
+```
+
+这表示已成功代理。
+
+### gRPCS
+
+如果你的 gRPC 服务使用了自己的 TLS 加密，即所谓的 `gPRCS` (gRPC + TLS)，那么需要修改 scheme 为 `grpcs`。继续上面的例子，50052 端口上跑的是 gPRCS 的服务，这时候应该这么配置：
+
+```shell
+curl http://127.0.0.1:9180/apisix/admin/routes/1 -H "X-API-KEY: $admin_key" -X PUT -d '
+{
+    "methods": ["POST", "GET"],
+    "uri": "/helloworld.Greeter/SayHello",
+    "upstream": {
+        "scheme": "grpcs",
+        "type": "roundrobin",
+        "nodes": {
+            "127.0.0.1:50052": 1
+        }
+    }
+}'
+```

@@ -1,0 +1,266 @@
+# Key Authentication
+
+> Explore how to configure key authentication in APISIX using APISIX Ingress Controller, which implement access control to your APIs.
+
+Source: https://apisix.apache.org/docs/ingress-controller/getting-started/key-authentication/
+
+APISIX has a flexible plugin extension system and a number of existing plugins for user authentication and authorization.
+
+In this tutorial, you will create a Consumer, configure its key authentication Credential, and enable key authentication on a route, using APISIX Ingress Controller.
+
+## Prerequisite
+
+1. Complete [Get APISIX and APISIX Ingress Controller](/docs/ingress-controller/getting-started/get-apisix-ingress-controller/).
+
+## Configure Key Authentication
+
+For demonstration purpose, you will be creating a route to the [publicly hosted httpbin services](https://httpbin.org). If you would like to proxy requests to services on Kubernetes, please modify accordingly.
+
+:::important
+
+If you are using Gateway API, you should first configure the GatewayClass and Gateway resources:
+
+<details>
+
+<summary>Show configuration</summary>
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  namespace: ingress-apisix
+  name: apisix
+spec:
+  controllerName: apisix.apache.org/apisix-ingress-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  namespace: ingress-apisix
+  name: apisix
+spec:
+  gatewayClassName: apisix
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+  infrastructure:
+    parametersRef:
+      group: apisix.apache.org
+      kind: GatewayProxy
+      name: apisix-config
+```
+
+The `port` in the Gateway listener can be used for route matching based on [`listener_port_match_mode`](/docs/ingress-controller/reference/configuration-file/) (`auto`, `explicit`, or `off`). The controller cannot dynamically open new ports on the data plane, so ensure APISIX is configured to listen on the port.
+
+</details>
+
+If you are using Ingress or APISIX custom resources, you can proceed without additional configuration, as the IngressClass resource below is already applied with installation:
+
+<details>
+
+<summary>Show configuration</summary>
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: apisix
+spec:
+  controller: apisix.apache.org/apisix-ingress-controller
+  parameters:
+    apiGroup: apisix.apache.org
+    kind: GatewayProxy
+    name: apisix-config
+    namespace: ingress-apisix
+    scope: Namespace
+```
+
+</details>
+
+See [Define Controller and Gateway](/docs/ingress-controller/reference/example/#define-controller-and-gateway) for more information on parameters.
+
+:::
+
+
+
+
+**gateway-api**
+
+
+Create a Kubernetes manifest file to configure a consumer:
+
+<div class="code-title">consumer.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: Consumer
+metadata:
+  namespace: ingress-apisix
+  name: tom
+spec:
+  gatewayRef:
+    name: apisix
+  credentials:
+    - type: key-auth
+      name: primary-key
+      config:
+        key: secret-key
+```
+
+Create a Kubernetes manifest file to configure a route and enable key authentication:
+
+<div class="code-title">httpbin-route.yaml</div>
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ingress-apisix
+  name: httpbin-external-domain
+spec:
+  type: ExternalName
+  externalName: httpbin.org
+---
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: ingress-apisix
+  name: auth-plugin-config
+spec:
+  plugins:
+    - name: key-auth
+      config:
+        _meta:
+          disable: false
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: ingress-apisix
+  name: getting-started-ip
+spec:
+  parentRefs:
+  - name: apisix
+  rules:
+  - matches: 
+    - path:
+        type: Exact
+        value: /ip
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: apisix.apache.org
+        kind: PluginConfig
+        name: auth-plugin-config
+    backendRefs:
+    - name: httpbin-external-domain
+      port: 80
+```
+
+Apply the configurations to your cluster:
+
+```shell
+kubectl apply -f consumer.yaml -f httpbin-route.yaml
+```
+
+
+
+
+**apisix-crd**
+
+
+Create a Kubernetes manifest file to configure a consumer:
+
+<div class="code-title">consumer.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixConsumer
+metadata:
+  namespace: ingress-apisix
+  name: tom
+spec:
+  ingressClassName: apisix
+  authParameter:
+    keyAuth:
+      value:
+        key: secret-key
+```
+
+Create a Kubernetes manifest file to configure a route and enable key authentication:
+
+<div class="code-title">httpbin-route.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixUpstream
+metadata:
+  namespace: ingress-apisix
+  name: httpbin-external-domain
+spec:
+  ingressClassName: apisix
+  externalNodes:
+  - type: Domain
+    name: httpbin.org
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: ingress-apisix
+  name: getting-started-ip
+spec:
+  ingressClassName: apisix
+  http:
+    - name: getting-started-ip
+      match:
+        paths:
+          - /ip
+      upstreams:
+      - name: httpbin-external-domain
+      authentication:
+        enable: true
+        type: keyAuth
+```
+
+Apply the configurations to your cluster:
+
+```shell
+kubectl apply -f consumer.yaml -f httpbin-route.yaml
+```
+
+
+
+
+
+## Verify
+
+Expose the service port to your local machine by port forwarding:
+
+```shell
+kubectl port-forward svc/apisix-gateway 9080:80 &
+```
+
+Send a request without the `apikey` header.
+
+```shell
+curl -i "http://127.0.0.1:9080/ip"
+```
+
+You should receive an an `HTTP/1.1 401 Unauthorized` response.
+
+Send a request with a wrong key in the `apikey` header.
+
+```shell
+curl -i "http://127.0.0.1:9080/ip" -H 'apikey: wrong-key'
+```
+
+Since the key is incorrect, you should receive an `HTTP/1.1 401 Unauthorized` response.
+
+Send a request with the correct key in the `apikey` header.
+
+```shell
+curl -i "http://127.0.0.1:9080/ip" -H 'apikey: secret-key'
+```
+
+You should receive an `HTTP/1.1 200 OK` response.
