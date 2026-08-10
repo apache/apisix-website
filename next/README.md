@@ -19,6 +19,7 @@ Prototype rebuild of [apisix.apache.org](https://apisix.apache.org) as a **fully
 - `src/pages/` — routes; `/zh/**` mirrors are thin wrappers passing `locale="zh"`.
 - `scripts/generate-sitemaps.mjs` — emits `sitemap.xml` + `zh/sitemap.xml` post-build.
 - `scripts/check-parity.mjs` — asserts every URL in the live sitemaps exists in `dist/` (exact, case-sensitive string comparison).
+- `scripts/architecture/`: source for the homepage architecture diagram. `arch.html` is the drawing (absolutely-positioned boxes plus an SVG wire layer); `bash scripts/architecture/render.sh` shoots it in headless Chrome at 2x and overwrites `public/img/architecture.png`. Edit the HTML and re-render; the PNG is generated output.
 
 ## Build
 

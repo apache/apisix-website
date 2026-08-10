@@ -461,7 +461,7 @@ jobs:
           test -f website/build/docs/apisix/plugins/cors/index.md
           grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
-          test -f website/build/img/architecture.svg
+          test -f website/build/img/architecture.png
 
       - name: Assert every version-picker link resolves
         run: |
