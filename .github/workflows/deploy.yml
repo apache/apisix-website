@@ -151,9 +151,24 @@ jobs:
       # after the overlay, against the page that actually ships.
       - name: Assert canonical contract
         run: |
-          f=$(ls website/build/docs/apisix/3.*/plugins/cors/index.html | head -1)
-          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
-          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
+          set -euo pipefail
+          for f in \
+            website/build/docs/apisix/3.16/plugins/cors/index.html \
+            website/build/zh/docs/apisix/3.16/plugins/cors/index.html \
+            website/build/docs/apisix/next/plugins/cors/index.html \
+            website/build/zh/docs/apisix/next/plugins/cors/index.html; do
+            test -f "$f"
+            test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+            grep -q 'name="robots" content="noindex,follow"' "$f"
+            case "$f" in
+              website/build/zh/*)
+                grep -q 'rel="canonical" href="https://apisix.apache.org/zh/docs/apisix/plugins/cors/"' "$f"
+                ;;
+              *)
+                grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
+                ;;
+            esac
+          done
 
       - name: Update sitemap.xml
         run: |
@@ -408,6 +423,20 @@ jobs:
           grep -q 'rel="canonical" href="https://docs.apiseven.com/hub/cors"' "$f"
           grep -q 'property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/cors/"' \
             website/build/docs/apisix/plugins/cors/index.html
+          # Historical and next canonicals must resolve to pages in the final
+          # output. Check both locales so an apparently valid canonical cannot
+          # silently point at a missing Astro overlay page.
+          for f in \
+            website/build/docs/apisix/3.16/plugins/cors/index.html \
+            website/build/zh/docs/apisix/3.16/plugins/cors/index.html \
+            website/build/docs/apisix/next/plugins/cors/index.html \
+            website/build/zh/docs/apisix/next/plugins/cors/index.html; do
+            canonical=$(grep -o '<link[^>]*rel="canonical"[^>]*>' "$f" \
+              | sed -n 's/.*href="\([^"]*\)".*/\1/p')
+            target=${canonical#https://apisix.apache.org/}
+            test "$target" != "$canonical"
+            test -f "website/build/${target}index.html"
+          done
           # Fail the deploy if the landing pages are not the Astro build, or
           # if the homepage lost its stylesheet link.
           grep -q 'The same gateway, now for your LLM traffic' website/build/index.html
@@ -417,12 +446,17 @@ jobs:
           # Wave-2 sanity: key subtree landmarks exist.
           test -f website/build/blog/index.html
           test -f website/build/zh/blog/index.html
+          test -f website/build/blog/rss.xml
+          test -f website/build/blog/atom.xml
+          test -f website/build/zh/blog/rss.xml
+          test -f website/build/zh/blog/atom.xml
           test -f website/build/blog/tags/index.html
           test -f website/build/learning-center/index.html
           test -f website/build/learning-center/atom.xml
           test -f website/build/articles/index.html
           test -f website/build/zh/articles/rss.xml
           test -f website/build/events/archive/index.html
+          test -f website/build/docs/general/events/index.html
           # The comparisons hub (a single index.html in both locales) is Astro's.
           grep -q '/_astro/' website/build/comparisons/index.html
           grep -q '/_astro/' website/build/zh/comparisons/index.html
@@ -539,6 +573,18 @@ jobs:
           fi
           if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?(blog/(tags|page|archive)|learning-center/(tags|page|archive)|articles/(page|archive)|events/archive)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
             echo 'Low-value aggregation URLs remain in the final sitemap.'
+            exit 1
+          fi
+          if grep -q '<loc>https://apisix.apache.org/docs/apisix/plugins/cors/</loc>' website/build/sitemap.xml; then
+            echo 'A page canonicalized to API7 remains in the APISIX sitemap.'
+            exit 1
+          fi
+          if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?docs/[^/]+/(next|([[:alnum:]_-]+-)?[0-9]+\.[0-9]+(\.[0-9]+)?)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
+            echo 'Historical or next docs remain in the final sitemap.'
+            exit 1
+          fi
+          if grep -Eq '^Disallow: /(zh/)?docs/.+/(next|([[:alnum:]_-]+-)?[0-9]+\.[0-9]+(\.[0-9]+)?)/' website/build/robots.txt; then
+            echo 'robots.txt still blocks versioned docs from reading noindex/canonical.'
             exit 1
           fi
 

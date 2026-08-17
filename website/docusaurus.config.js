@@ -79,14 +79,6 @@ module.exports = {
     [
       '@docusaurus/plugin-content-blog',
       {
-        id: 'events',
-        routeBasePath: 'events',
-        path: 'events',
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-blog',
-      {
         id: 'articles',
         routeBasePath: 'articles',
         path: 'articles',

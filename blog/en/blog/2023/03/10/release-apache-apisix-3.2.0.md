@@ -1,5 +1,6 @@
 ---
 title: "Release Apache APISIX 3.2.0"
+translationKey: release-apache-apisix-3.2.0
 authors:
   - name: "Zexuan Luo"
     title: "Author"

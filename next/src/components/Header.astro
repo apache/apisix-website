@@ -1,13 +1,13 @@
 ---
 import { NAV, LOGO, localePrefix, type Locale } from '../lib/site';
 
-interface Props { locale: Locale; path: string; search?: boolean }
-const { locale, path, search = false } = Astro.props;
+interface Props { locale: Locale; path: string; search?: boolean; switchPath?: string }
+const { locale, path, search = false, switchPath } = Astro.props;
 const prefix = localePrefix(locale);
 const label = (item: { label: string; labelZh?: string }) =>
   locale === 'zh' && item.labelZh ? item.labelZh : item.label;
 const href = (h: string) => (h.startsWith('http') ? h : `${prefix}${h}`);
-const switchUrl = locale === 'zh' ? path : `/zh${path}`;
+const switchUrl = switchPath ?? (locale === 'zh' ? path : `/zh${path}`);
 ---
 <div class="announcement">
   🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href={`${prefix}/ai-gateway/`}>Learn More</a>
