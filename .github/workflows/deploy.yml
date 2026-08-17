@@ -153,22 +153,35 @@ jobs:
         run: |
           set -euo pipefail
           for f in \
-            website/build/docs/apisix/3.16/plugins/cors/index.html \
-            website/build/zh/docs/apisix/3.16/plugins/cors/index.html \
-            website/build/docs/apisix/next/plugins/cors/index.html \
-            website/build/zh/docs/apisix/next/plugins/cors/index.html; do
+            website/build/docs/apisix/3.16/installation-guide/index.html \
+            website/build/zh/docs/apisix/3.16/installation-guide/index.html \
+            website/build/docs/apisix/next/installation-guide/index.html \
+            website/build/zh/docs/apisix/next/installation-guide/index.html; do
             test -f "$f"
             test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
             grep -q 'name="robots" content="noindex,follow"' "$f"
             case "$f" in
               website/build/zh/*)
-                grep -q 'rel="canonical" href="https://apisix.apache.org/zh/docs/apisix/plugins/cors/"' "$f"
+                grep -q 'rel="canonical" href="https://apisix.apache.org/zh/docs/apisix/installation-guide/"' "$f"
                 ;;
               *)
-                grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
+                grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/installation-guide/"' "$f"
                 ;;
             esac
           done
+          # CORS gained the API7 hub canonical in 3.17. Keep that intentional
+          # cross-site contract separate from the APISIX-local fixture above.
+          while IFS='|' read -r f canonical; do
+            test -f "$f"
+            test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+            grep -q 'name="robots" content="noindex,follow"' "$f"
+            grep -q "rel=\"canonical\" href=\"$canonical\"" "$f"
+          done <<'EOF'
+          website/build/docs/apisix/3.17/plugins/cors/index.html|https://docs.api7.ai/hub/cors
+          website/build/zh/docs/apisix/3.17/plugins/cors/index.html|https://docs.apiseven.com/hub/cors
+          website/build/docs/apisix/next/plugins/cors/index.html|https://docs.api7.ai/hub/cors
+          website/build/zh/docs/apisix/next/plugins/cors/index.html|https://docs.apiseven.com/hub/cors
+          EOF
 
       - name: Update sitemap.xml
         run: |
@@ -427,10 +440,10 @@ jobs:
           # output. Check both locales so an apparently valid canonical cannot
           # silently point at a missing Astro overlay page.
           for f in \
-            website/build/docs/apisix/3.16/plugins/cors/index.html \
-            website/build/zh/docs/apisix/3.16/plugins/cors/index.html \
-            website/build/docs/apisix/next/plugins/cors/index.html \
-            website/build/zh/docs/apisix/next/plugins/cors/index.html; do
+            website/build/docs/apisix/3.16/installation-guide/index.html \
+            website/build/zh/docs/apisix/3.16/installation-guide/index.html \
+            website/build/docs/apisix/next/installation-guide/index.html \
+            website/build/zh/docs/apisix/next/installation-guide/index.html; do
             canonical=$(grep -o '<link[^>]*rel="canonical"[^>]*>' "$f" \
               | sed -n 's/.*href="\([^"]*\)".*/\1/p')
             target=${canonical#https://apisix.apache.org/}
