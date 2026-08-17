@@ -20,6 +20,9 @@ jobs:
       - name: Test sitemap generation
         working-directory: next
         run: npm run test:sitemap
+      - name: Test Ingress documentation redirects
+        working-directory: next
+        run: npm run test:redirects
       - name: Sync site content
         working-directory: next
         run: node scripts/sync-content.mjs

@@ -49,7 +49,7 @@ RedirectMatch 301 "^/zh/docs/apisix/3\.2/plugins/(.*)$" "https://apache-apisix.n
 Redirect 301 "/docs/apisix/install" "/docs/apisix/building-apisix/"
 Redirect 301 "/docs/apisix/architecture-design/plugin/" "/docs/apisix/terminology/plugin-config/"
 Redirect 301 "/docs/apisix/2.13/FAQ/plugins.md/" "/docs/apisix/terminology/plugin-config/"
-Redirect 301 "/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress" "/docs/ingress-controller/tutorials/proxy-the-httpbin-service-with-ingress/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?practices/proxy-the-httpbin-service-with-ingress/?$" "$1/docs/ingress-controller/getting-started/configure-routes/"
 Redirect 301 "/docs/apisix/admin-api/terminology/plugin-config.md/" "/docs/apisix/terminology/plugin-config/"
 Redirect 301 "/docs/general/community/" "/docs/general/join/"
 Redirect 301 "/docs/general/subscribe-guide/" "/docs/general/join/"
@@ -65,7 +65,6 @@ Redirect 301 "/blog/2022/09/21/apache-apisix-v3-preview" "/blog/2022/11/02/apach
 Redirect 301 "/zh/docs/apisix/install" "/zh/docs/apisix/building-apisix/"
 Redirect 301 "/zh/docs/apisix/architecture-design/plugin/" "/zh/docs/apisix/terminology/plugin-config/"
 Redirect 301 "/zh/docs/apisix/2.13/FAQ/plugins.md/" "/zh/docs/apisix/terminology/plugin-config/"
-Redirect 301 "/zh/docs/ingress-controller/practices/proxy-the-httpbin-service-with-ingress" "/zh/docs/ingress-controller/tutorials/proxy-the-httpbin-service-with-ingress/"
 Redirect 301 "/zh/docs/apisix/admin-api/terminology/plugin-config.md/" "/zh/docs/apisix/terminology/plugin-config/"
 Redirect 301 "/zh/docs/general/community/" "/zh/docs/general/join/"
 Redirect 301 "/zh/docs/general/subscribe-guide/" "/zh/docs/general/join/"
@@ -77,28 +76,28 @@ Redirect 301 "/zh/blog/2021/11/30/use-apisix-ingress-in-kubesphere/httpbin.org/"
 Redirect 301 "/zh/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX/" "/zh/blog/2021/08/18/auth-with-casbin-in-apache-apisix/"
 Redirect 301 "/zh/blog/2022/03/02/apisix-integration-graphql-plugin/" "/zh/blog/2022/03/02/apisix-integration-graphql/"
 
-# Ingress-controller pages from the pre-2.0 IA. These used to redirect to
-# 1.8.0, but only the newest release is built now, so 1.8.0 URLs 404 —
-# retarget to the closest page in the current IA. Stripped old-version URLs
-# from the rules further down land on these paths as their second hop (each
-# hop is a fresh request, re-evaluated from the top of this file).
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/concepts/(apisix_route|apisix_upstream|apisix_plugin_config|apisix_tls|apisix_consumer|apisix_cluster_config|apisix_global_rule)/$" "$1/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/concepts/annotations/$" "$1/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/design/$" "$1/docs/ingress-controller/concepts/deployment-architecture/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/composite/$" "$1/docs/ingress-controller/overview/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/references/(.+)$" "$1/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/tutorials/proxy-the-httpbin-service(-with-ingress)?/$" "$1/docs/ingress-controller/getting-started/configure-routes/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/tutorials/proxy-grpc-service/$" "$1/docs/ingress-controller/getting-started/configure-routes/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/tutorials/enable-authentication-and-restriction/$" "$1/docs/ingress-controller/getting-started/key-authentication/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/tutorials/the-hard-way/$" "$1/docs/ingress-controller/getting-started/get-apisix-ingress-controller/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/tutorials/(.+)$" "$1/docs/ingress-controller/overview/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/monitoring/$" "$1/docs/ingress-controller/overview/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/plugins/prometheus/$" "$1/docs/ingress-controller/overview/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/deployments/(.+)$" "$1/docs/ingress-controller/install/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/aeps/gateway-api/$" "$1/docs/ingress-controller/concepts/gateway-api/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/contribute/$" "$1/docs/ingress-controller/developer-guide/"
+# Ingress-controller pages from the pre-2.0 IA. Only the newest release is
+# built now, so known 0.x and 1.x paths must resolve directly to the closest
+# page in the current IA. The optional version segment keeps current legacy
+# slugs and archived URLs on the same one-hop redirect rules.
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?concepts/(apisix_route|apisix_upstream|apisix_plugin_config|apisix_tls|apisix_consumer|apisix_cluster_config|apisix_global_rule)/?$" "$1/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?concepts/annotations/?$" "$1/docs/ingress-controller/reference/apisix-ingress-controller/annotation/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?design/?$" "$1/docs/ingress-controller/concepts/deployment-architecture/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?composite/?$" "$1/docs/ingress-controller/overview/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?references/(.+)$" "$1/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?tutorials/proxy-the-httpbin-service(-with-ingress)?/?$" "$1/docs/ingress-controller/getting-started/configure-routes/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?tutorials/proxy-grpc-service/?$" "$1/docs/ingress-controller/getting-started/configure-routes/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?tutorials/enable-authentication-and-restriction/?$" "$1/docs/ingress-controller/getting-started/key-authentication/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?tutorials/the-hard-way/?$" "$1/docs/ingress-controller/getting-started/get-apisix-ingress-controller/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?tutorials/(.+)$" "$1/docs/ingress-controller/overview/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?monitoring/?$" "$1/docs/ingress-controller/overview/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?plugins/prometheus/?$" "$1/docs/ingress-controller/overview/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?deployments/(.+)$" "$1/docs/ingress-controller/install/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?aeps/gateway-api/?$" "$1/docs/ingress-controller/concepts/gateway-api/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?contribute/?$" "$1/docs/ingress-controller/developer-guide/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?FAQ/?$" "$1/docs/ingress-controller/overview/"
 Redirect 301 "/docs/ingress-controller/reference/apisix-ingress-controller/crd-reference/" "/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/"
-RedirectMatch 301 "^(/zh)?/docs/ingress-controller/upgrade/$" "$1/docs/ingress-controller/upgrade-guide/"
+RedirectMatch 301 "^(/zh)?/docs/ingress-controller/(?:[01]\.\d+\.\d+/)?upgrade/?$" "$1/docs/ingress-controller/upgrade-guide/"
 
 Redirect 301 "/docs/ingress-controller/next/tutorials/the-hard-way/" "/docs/ingress-controller/getting-started/get-apisix-ingress-controller/"
 Redirect 301 "/docs/ingress-controller/next/tutorials/configure-ingress-with-gateway-api/" "/docs/ingress-controller/concepts/gateway-api/"
@@ -142,10 +141,10 @@ RedirectMatch 301 "^/zh/help/?$" "/zh/"
 # --- Dead-URL cleanup (sourced from Matomo 404 inventory, 2026-06-14..07-11) ---
 
 # Old sub-project doc versions are no longer built (only the newest release is
-# published) — strip the version segment. Renamed pages then land on the
-# retargeting rules above as a second hop. The apisix project itself is NOT
-# covered here: its 3.10+ versions are still built, and 2.x/3.x legacy
-# redirects for it are handled at the infra layer.
+# published) — strip the version segment for paths without a direct mapping
+# above. The apisix project itself is NOT covered here: its 3.10+ versions are
+# still built, and 2.x/3.x legacy redirects for it are handled at the infra
+# layer.
 RedirectMatch 301 "^(/zh)?/docs/ingress-controller/[01]\.\d+\.\d+/(.*)$" "$1/docs/ingress-controller/$2"
 RedirectMatch 301 "^(/zh)?/docs/docker/(?:apisix-(?:dashboard-)?)?\d+\.\d+(?:\.\d+)?/(.+)$" "$1/docs/docker/$2"
 RedirectMatch 301 "^(/zh)?/docs/apisix/2\.[1-5](?:\.\d+)?/(.+)$" "$1/docs/apisix/$2"
