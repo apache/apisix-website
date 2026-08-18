@@ -13,7 +13,7 @@ API gateway authentication verifies client identity at a centralized entry point
 
 In a distributed architecture, every service that exposes an endpoint must answer a fundamental question: who is making this request? Without a gateway, each service independently implements its own authentication stack. This leads to inconsistent enforcement, duplicated code, and a broader attack surface.
 
-An API gateway centralizes this concern. It intercepts every inbound request, validates credentials against a configured identity provider or local store, and either forwards the authenticated request downstream or rejects it immediately. Broken authentication consistently ranks among the top API vulnerability categories, making centralized enforcement critical.
+An [API gateway](/learning-center/what-is-an-api-gateway/) centralizes this concern. It intercepts every inbound request, validates credentials against a configured identity provider or local store, and either forwards the authenticated request downstream or rejects it immediately. Broken authentication consistently ranks among the top API vulnerability categories, making centralized enforcement critical.
 
 Centralizing authentication at the gateway layer provides three key advantages. First, it significantly reduces per-service authentication code by consolidating auth logic into a single component. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.
 
@@ -70,7 +70,7 @@ OIDC is the de facto standard for single sign-on in API ecosystems. Major identi
 
 ### mTLS (Mutual TLS)
 
-Mutual TLS requires both the client and server to present certificates during the TLS handshake. The gateway validates the client certificate against a trusted certificate authority, establishing strong machine identity without application-layer tokens.
+[Mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) requires both the client and server to present certificates during the TLS handshake. The gateway validates the client certificate against a trusted certificate authority, establishing strong machine identity without application-layer tokens.
 
 mTLS adoption has surged alongside zero-trust architecture initiatives. In Kubernetes environments, mTLS between services has become increasingly common. At the gateway level, mTLS is particularly valuable for B2B integrations and internal service-to-service communication where certificate management infrastructure already exists.
 
@@ -104,7 +104,9 @@ Key plugins include:
 - [jwt-auth](/docs/apisix/plugins/jwt-auth/): JWT signature verification with configurable algorithms and claim validation.
 - [openid-connect](/docs/apisix/plugins/openid-connect/): Full OIDC flow support including authorization code, token introspection, and PKCE.
 
-APISIX can also combine authentication with authorization plugins such as consumer-restriction and OPA (Open Policy Agent), enabling access-control decisions after identity is established.
+APISIX can also combine authentication with authorization plugins such as consumer-restriction and OPA (Open Policy Agent), enabling access-control decisions after identity is established. The [API gateway security guide](/learning-center/api-gateway-security/) explains how authentication fits with authorization, rate limiting, and other layers of defense.
+
+To test these controls on a running gateway, first complete the [Apache APISIX getting started guide](/docs/apisix/getting-started/) and then configure the authentication plugin that matches the client and trust model.
 
 ## FAQ
 

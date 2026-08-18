@@ -64,7 +64,7 @@ IoT devices can operate in physically untrusted environments where API keys or p
 
 ### API Security and Partner Integration
 
-APIs exposed to partners or high-risk environments often require stronger client authentication than an API key alone provides. mTLS ensures that only clients holding a certificate issued by a trusted CA can establish a connection, providing defense in depth before application-layer authentication occurs.
+APIs exposed to partners or high-risk environments often require stronger client authentication than an API key alone provides. mTLS ensures that only clients holding a certificate issued by a trusted CA can establish a connection, providing defense in depth before [application-layer authentication](/learning-center/api-gateway-authentication/) occurs. This transport-layer control is one part of a broader [API gateway security](/learning-center/api-gateway-security/) strategy.
 
 ## Challenges of Implementing mTLS
 

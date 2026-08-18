@@ -128,7 +128,7 @@ APISIX proxies gRPC traffic over HTTP/2, including unary and streaming calls. Ro
 
 ### gRPC-Web Support
 
-The [grpc-web plugin](/docs/apisix/plugins/grpc-web/) enables browser clients to communicate with gRPC backends through APISIX. The plugin handles the protocol translation between gRPC-Web and native gRPC, allowing frontend teams to consume gRPC services directly without building a REST translation layer. This reduces the API surface area and eliminates a class of contract synchronization bugs.
+The [grpc-web plugin](/docs/apisix/plugins/grpc-web/) enables browser clients to communicate with gRPC backends through APISIX. The plugin handles the protocol translation between gRPC-Web and native gRPC, allowing frontend teams to consume gRPC services directly without building a REST translation layer. The [APISIX gRPC-Web integration guide](/blog/2022/01/25/apisix-grpc-web-integration/) provides an end-to-end configuration example.
 
 ### HTTP/JSON to gRPC Transcoding
 

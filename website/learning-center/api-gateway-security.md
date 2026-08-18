@@ -45,7 +45,7 @@ A defense-in-depth approach applies multiple security controls at the gateway la
 
 ### Authentication
 
-The gateway should verify identity before any request reaches a backend service. Common mechanisms include JWT validation, OAuth 2.0 token introspection, API key verification, and mutual TLS (mTLS) for service-to-service communication. Centralizing authentication at the gateway eliminates the risk of inconsistent enforcement across individual services.
+The gateway should verify identity before any request reaches a backend service. Common mechanisms include JWT validation, OAuth 2.0 token introspection, API key verification, and [mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) for service-to-service communication. Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) reduces the risk of inconsistent enforcement across individual services.
 
 ### Authorization
 
@@ -133,6 +133,4 @@ Apply at least three layers: a global rate limit to protect overall infrastructu
 ## Related
 
 - [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [API gateway authentication](/learning-center/api-gateway-authentication/)
-- [What is mutual TLS (mTLS)?](/learning-center/what-is-mutual-tls/)
 - [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)
