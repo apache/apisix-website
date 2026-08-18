@@ -25,9 +25,9 @@ module.exports = [
     githubBranch: 'master',
     downloadPath: 'apisix/ingress-controller/1.8.0/apache-apisix-ingress-controller-1.8.0-src',
     dockerhubPath: 'apisix-ingress-controller',
-    version: '2.1.0',
+    version: '2.2.0',
     sourceVersion: '1.8.0',
-    releaseDate: '2026-06-01',
+    releaseDate: '2026-08-18',
     firstDocPath: '/overview',
   },
   {
