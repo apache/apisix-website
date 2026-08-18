@@ -1,6 +1,6 @@
 ---
 title: "API Gateway Authentication: Methods, Best Practices & Implementation"
-description: "Learn how API Gateway authentication works in Apache APISIX with Key Auth, JWT, OpenID Connect, Keycloak, mTLS, HMAC, and access control."
+description: "Compare API gateway authentication methods including API keys, JWT, OAuth 2.0, OIDC, mTLS, and HMAC, with implementation guidance for Apache APISIX."
 slug: api-gateway-authentication
 date: 2026-04-14
 tags: [authentication, security, api-gateway]
@@ -17,6 +17,21 @@ An API gateway centralizes this concern. It intercepts every inbound request, va
 
 Centralizing authentication at the gateway layer provides three key advantages. First, it significantly reduces per-service authentication code by consolidating auth logic into a single component. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.
 
+Authentication establishes who or what is making a request. Authorization determines what that authenticated identity may access. A gateway can enforce both, but validating a credential does not by itself grant permission to every upstream resource.
+
+## Comparison Table
+
+| Method | Complexity | Statefulness | Best For | Credential Lifetime |
+|--------|-----------|-------------|----------|---------------------|
+| Basic Auth | Low | Stateless (lookup) | Controlled integrations, legacy clients | Manual rotation |
+| LDAP | Medium | Directory lookup | Enterprise users and existing directories | Directory policy |
+| Key Auth | Low | Stateless (lookup) | Controlled server-to-server integrations | Manual rotation |
+| JWT | Medium | Stateless | Distributed APIs and signed claims | Token expiration |
+| OAuth 2.0 | High | Authorization server | Delegated access and machine-to-machine grants | Access token lifetime |
+| OIDC | High | Identity provider and session | User authentication and SSO | ID and access token lifetime |
+| mTLS | High | Certificate validation | Workload identity, partner APIs, zero-trust | Certificate validity period |
+| HMAC | Medium | Stateless | Signed requests and webhook verification | Per-key rotation policy |
+
 ## Authentication Methods
 
 ### Basic and LDAP Authentication
@@ -29,17 +44,17 @@ LDAP authentication validates a username and password against an LDAP directory 
 
 Key authentication is the simplest method. The client includes a static API key in a header or query parameter. The gateway validates the key against a stored registry and maps it to a consumer identity.
 
-Key Auth works well for server-to-server communication where transport security (TLS) is guaranteed and the client population is small. API keys remain common for machine-to-machine authentication, though their share is declining as organizations move toward token-based methods.
+Key Auth works well for controlled server-to-server communication where transport security is enforced and credentials can be stored and rotated safely. It is a poor fit for public clients, such as browser or mobile applications, where a long-lived shared secret cannot be kept confidential.
 
 Apache APISIX supports Key Auth natively through its [key-auth plugin](/docs/apisix/plugins/key-auth/). Configuration requires only defining a consumer and attaching the plugin to a route.
 
 ### JWT (JSON Web Tokens)
 
-JWT authentication uses digitally signed tokens that carry claims about the client. The gateway validates the token signature, checks expiration, and optionally verifies audience and issuer claims. Because JWTs are self-contained, the gateway does not need to call an external service on every request.
+JWT authentication uses digitally signed tokens that carry claims about the client. A gateway validates the token signature and the claims required by its policy, such as expiration and not-before times. Because JWTs are self-contained, validation does not necessarily require an external request for every API call.
 
-JWTs dominate modern API authentication. The compact format and stateless verification make JWTs particularly well-suited for high-throughput gateways where microsecond-level latency matters.
+The compact format and local signature verification make JWTs useful for distributed APIs, provided issuers, signing keys, accepted algorithms, and required claims are configured explicitly.
 
-APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plugins/jwt-auth/), supporting both HS256 and RS256 algorithms with configurable claim validation.
+APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plugins/jwt-auth/). It supports symmetric, RSA, ECDSA, RSA-PSS, and EdDSA signing algorithms, together with configurable token locations and time-based claim validation.
 
 ### OAuth 2.0
 
@@ -63,38 +78,25 @@ mTLS adoption has surged alongside zero-trust architecture initiatives. In Kuber
 
 HMAC authentication requires the client to compute a hash-based message authentication code over the request content using a shared secret. The gateway independently computes the same HMAC and compares the results. This method provides request integrity verification in addition to authentication.
 
-HMAC is common in financial APIs and webhook verification scenarios where request tampering must be detected. AWS Signature Version 4, used across all AWS API calls, is an HMAC-based scheme processing billions of requests daily.
-
-## Comparison Table
-
-| Method | Complexity | Statefulness | Best For | Token Expiry |
-|--------|-----------|-------------|----------|-------------|
-| Basic Auth | Low | Stateless (lookup) | Controlled integrations, legacy clients | Manual rotation |
-| LDAP | Medium | Directory lookup | Enterprise users and existing directories | Directory policy |
-| Key Auth | Low | Stateless (lookup) | Internal services, simple integrations | Manual rotation |
-| JWT | Medium | Stateless | High-throughput APIs, mobile clients | Built-in (exp claim) |
-| OAuth 2.0 | High | Stateful (auth server) | Third-party access, delegated auth | Access token TTL |
-| OIDC | High | Stateful (identity provider) | SSO, user-facing APIs | ID + access token TTL |
-| mTLS | High | Stateless (cert validation) | Zero-trust, B2B, service mesh | Certificate validity period |
-| HMAC | Medium | Stateless | Financial APIs, webhook verification | Per-key rotation policy |
+HMAC is useful for financial APIs and webhook verification scenarios where the receiver must verify both the sender and the integrity of the signed request.
 
 ## Best Practices
 
 **Layer your authentication.** Use mTLS at the transport layer for service identity and JWT or OAuth 2.0 at the application layer for user identity. Defense in depth reduces the impact of any single credential compromise.
 
-**Enforce short-lived tokens.** Set JWT and OAuth 2.0 access token lifetimes to 15 minutes or less for user-facing flows. Use refresh tokens to obtain new access tokens without re-authentication. Short token lifetimes limit the window of exploitation if a token is leaked.
+**Enforce short-lived tokens.** Choose JWT and OAuth 2.0 access-token lifetimes that limit exposure while remaining practical for the client flow. Use an appropriate renewal mechanism rather than issuing long-lived bearer tokens by default.
 
 **Centralize consumer management.** Define consumers at the gateway level with consistent identity attributes. Map every API key, JWT subject, and OAuth 2.0 client ID to a named consumer entity. This enables unified rate limiting, logging, and access control across authentication methods.
 
 **Validate all claims.** Do not trust a JWT solely because its signature is valid. Verify the issuer (iss), audience (aud), expiration (exp), and not-before (nbf) claims. Reject tokens with unexpected or missing claims.
 
-**Log authentication events comprehensively.** Record every authentication success and failure with client identity, timestamp, source IP, and the route accessed. These logs are essential for incident response and compliance audits. NIST SP 800-92 recommends retaining authentication logs for a minimum of 90 days.
+**Log authentication events comprehensively.** Record authentication successes and failures with the available client identity, timestamp, source address, and route. Set retention according to the organization's incident-response, privacy, and compliance requirements.
 
 ## How Apache APISIX Handles Authentication
 
 Apache APISIX provides a plugin-based authentication architecture that supports the methods described above. Each authentication plugin runs in the gateway's request processing pipeline before the request reaches any upstream service.
 
-APISIX's consumer abstraction ties authentication credentials to named entities. A single consumer can have multiple authentication methods attached, enabling gradual migration between methods. For example, an organization migrating from Key Auth to JWT can configure both plugins on the same consumer during the transition period.
+APISIX's Consumer and Credential resources associate authentication material with named consumers. When different consumers need to use different authentication methods on the same Route or Service, the `multi-auth` plugin provides explicit "any supported method" behavior.
 
 Key plugins include:
 
@@ -102,9 +104,7 @@ Key plugins include:
 - [jwt-auth](/docs/apisix/plugins/jwt-auth/): JWT signature verification with configurable algorithms and claim validation.
 - [openid-connect](/docs/apisix/plugins/openid-connect/): Full OIDC flow support including authorization code, token introspection, and PKCE.
 
-APISIX also supports chaining authentication plugins with authorization plugins such as consumer-restriction and OPA (Open Policy Agent), enabling fine-grained access control decisions after identity is established.
-
-Performance benchmarks show APISIX processing authenticated requests with sub-millisecond overhead for Key Auth and JWT validation, and under 5ms for OIDC token introspection with a local identity provider. These numbers hold at sustained loads exceeding 10,000 requests per second on modest hardware.
+APISIX can also combine authentication with authorization plugins such as consumer-restriction and OPA (Open Policy Agent), enabling access-control decisions after identity is established.
 
 ## FAQ
 
@@ -114,7 +114,7 @@ JWT and OAuth 2.0 are not mutually exclusive. OAuth 2.0 is an authorization fram
 
 ### Is API key authentication secure enough for production?
 
-API key authentication is secure for server-to-server communication over TLS when keys are rotated regularly and scoped to specific consumers. It is not recommended for client-side applications (browsers, mobile apps) because keys cannot be kept secret on end-user devices. For any client-facing API, prefer OAuth 2.0 or OIDC.
+API key authentication can be appropriate for controlled server-to-server communication over TLS when keys are stored safely, scoped, monitored, and rotated. It is not appropriate as a secret in public browser or mobile clients because users can extract the key. For user-facing or delegated access, OAuth 2.0 and OIDC usually provide a better lifecycle and identity model.
 
 ### How does mTLS differ from standard TLS at the gateway?
 
@@ -122,11 +122,4 @@ Standard TLS authenticates only the server to the client. The client verifies th
 
 ### Can I combine multiple authentication methods on a single route?
 
-Yes. Apache APISIX supports configuring multiple authentication plugins on a single route. The gateway attempts each configured method in order and accepts the request if any method succeeds. This is useful during migration periods or when a route serves clients with different authentication capabilities.
-
-## Related
-
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [API gateway security](/learning-center/api-gateway-security/)
-- [What is mutual TLS (mTLS)?](/learning-center/what-is-mutual-tls/)
-- [Get started with Apache APISIX](/docs/apisix/getting-started/)
+Yes, but the intended behavior must be explicit. Apache APISIX provides the `multi-auth` plugin for a Route or Service that should accept a request when any configured authentication method succeeds. Adding independent authentication plugins without `multi-auth` does not provide the same alternative-method semantics.
