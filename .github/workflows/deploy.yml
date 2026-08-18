@@ -182,6 +182,14 @@ jobs:
           website/build/docs/apisix/next/plugins/cors/index.html|https://docs.api7.ai/hub/cors
           website/build/zh/docs/apisix/next/plugins/cors/index.html|https://docs.apiseven.com/hub/cors
           EOF
+          # `mcp-bridge` exists on `next`, but not in the latest release. It
+          # must remain self-canonical instead of pointing at a missing local
+          # version-less page.
+          f=website/build/docs/apisix/next/plugins/mcp-bridge/index.html
+          test -f "$f"
+          test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+          grep -q 'name="robots" content="noindex,follow"' "$f"
+          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/next/plugins/mcp-bridge/"' "$f"
 
       - name: Update sitemap.xml
         run: |
@@ -436,20 +444,10 @@ jobs:
           grep -q 'rel="canonical" href="https://docs.apiseven.com/hub/cors"' "$f"
           grep -q 'property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/cors/"' \
             website/build/docs/apisix/plugins/cors/index.html
-          # Historical and next canonicals must resolve to pages in the final
-          # output. Check both locales so an apparently valid canonical cannot
-          # silently point at a missing Astro overlay page.
-          for f in \
-            website/build/docs/apisix/3.16/installation-guide/index.html \
-            website/build/zh/docs/apisix/3.16/installation-guide/index.html \
-            website/build/docs/apisix/next/installation-guide/index.html \
-            website/build/zh/docs/apisix/next/installation-guide/index.html; do
-            canonical=$(grep -o '<link[^>]*rel="canonical"[^>]*>' "$f" \
-              | sed -n 's/.*href="\([^"]*\)".*/\1/p')
-            target=${canonical#https://apisix.apache.org/}
-            test "$target" != "$canonical"
-            test -f "website/build/${target}index.html"
-          done
+          # Every APISIX-local canonical in the final output must resolve to a
+          # real file. This catches missing latest-release targets that sample
+          # checks cannot cover, including docs that exist only on `next`.
+          node next/scripts/assert-local-canonical-targets.mjs --dist website/build
           # Fail the deploy if the landing pages are not the Astro build, or
           # if the homepage lost its stylesheet link.
           grep -q 'The same gateway, now for your LLM traffic' website/build/index.html
