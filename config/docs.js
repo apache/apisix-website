@@ -17,8 +17,8 @@ module.exports = [
     shape: 'hexagon',
     color: '#2563EB',
     githubRepo: 'apache/apisix-ingress-controller',
-    version: '2.1.0',
-    releaseDate: '2026-06-01',
+    version: '2.2.0',
+    releaseDate: '2026-08-18',
     firstDocPath: '/overview',
   },
   {
