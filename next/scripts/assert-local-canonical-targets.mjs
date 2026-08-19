@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import fs from 'node:fs';
 import path from 'node:path';
+import { decodeHTMLAttribute } from 'entities';
 
 const SITE_ORIGIN = 'https://apisix.apache.org';
 const canonicalTagPattern = /<link\b[^>]*\brel=["']canonical["'][^>]*>/gi;
@@ -54,7 +55,7 @@ htmlFiles.forEach((htmlFile) => {
     const href = tag.match(hrefPattern)?.[1];
     if (!href) return;
 
-    const canonical = new URL(href, SITE_ORIGIN);
+    const canonical = new URL(decodeHTMLAttribute(href), SITE_ORIGIN);
     if (canonical.origin !== SITE_ORIGIN) return;
 
     checkedCanonicals += 1;
