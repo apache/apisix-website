@@ -144,7 +144,8 @@ jobs:
 
       # Guards the canonical contract of versioned doc pages (see
       # doc/src/theme/LayoutHead/index.tsx): versioned pages must carry exactly
-      # one canonical pointing at the version-less latest URL.
+      # one canonical. It points to the version-less latest URL when that page
+      # exists; otherwise the historical/next page self-canonicalizes.
       #
       # The version-less page itself is no longer part of this build — wave 3
       # moved it to Astro — so the half of this check that covered it now runs

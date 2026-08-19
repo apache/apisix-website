@@ -22,11 +22,12 @@ const versionedDocPath = /^((?:\/zh)?\/docs\/[\w-]+\/)(?:(?:[\w-]+-)?\d+\.\d+(?:
 const normalizePath = (value: string) => value.replace(/\/$/, '');
 
 /**
- * Versioned doc pages (/docs/<project>/<version>/) self-canonicalize by
- * default, so Google indexes them as independent pages competing with the
- * version-less "latest" URLs. This wrapper marks them noindex,follow and
- * re-points their canonical to the latest URL only when the same document is
- * present in the newest release. Rendering order keeps the precedence right
+ * Docusaurus gives versioned doc pages a version-less canonical by default,
+ * even when that route does not exist in the latest release. This wrapper
+ * marks historical/next pages noindex,follow and points their canonical to
+ * the latest URL only when that release contains the same document. Otherwise
+ * it explicitly self-canonicalizes the historical/next page. Rendering order
+ * keeps the precedence right
  * (react-helmet:
  * last <Head> wins):
  *   1. default self-canonical (original LayoutHead)
@@ -50,7 +51,8 @@ const LayoutHead: FC<{ [key: string]: unknown }> = (props) => {
     && latestDoc.path.startsWith(latestRelease.path)
     ? `${activePlugin.path}${latestDoc.path.slice(latestRelease.path.length)}`
     : null;
-  const latestUrl = latestPath ? `${siteUrl}${latestPath}` : null;
+  const latestUrl = latestPath ? `${siteUrl}${latestPath.replace(/\/?$/, '/')}` : null;
+  const canonicalUrl = match ? latestUrl ?? `${siteUrl}${pathname}` : null;
 
   return (
     <>
@@ -58,8 +60,8 @@ const LayoutHead: FC<{ [key: string]: unknown }> = (props) => {
       {match && (
         <Head>
           <meta name="robots" content="noindex,follow" />
-          {latestUrl && <meta property="og:url" content={latestUrl} />}
-          {latestUrl && <link rel="canonical" href={latestUrl} />}
+          <meta property="og:url" content={canonicalUrl} />
+          <link rel="canonical" href={canonicalUrl} />
         </Head>
       )}
     </>
