@@ -37,15 +37,15 @@ The following changes affect existing behavior, defaults, configuration, or obse
 
 The `Apisix-Plugins` response header now reports ordered `plugin-name#phase` entries instead of a de-duplicated list of plugin names. Update tools that parse this header.
 
-**Upgrade plan:** Search dashboards, tests, and debugging tools for `Apisix-Plugins`. Update parsers to accept repeated plugin names in different phases and to preserve the reported order.
+**Upgrade plan:** If you consume `Apisix-Plugins`, update parsers to accept `plugin-name#phase`, repeated plugin names across phases, and ordered entries. Do not treat inferred post-header phases such as `body_filter` or `log` as proof that the phase executed; verify representative routes if tooling makes decisions from this header.
 
 For more information, see [PR #13710](https://github.com/apache/apisix/pull/13710).
 
 ### Request and response buffering is limited by default
 
-Plugins that buffer request or response bodies now default to a 64 MiB limit. Oversized request bodies can be rejected, while oversized responses can be truncated or passed through without caching, depending on the plugin. Configure `max_req_body_size` or `max_resp_body_size` where larger payloads are expected.
+Several plugins that buffer request or response bodies now default to a 64 MiB limit. Oversized request bodies can be rejected, while oversized responses can be truncated or passed through without caching, depending on the plugin. Configure `max_req_body_size` or `max_resp_body_size` on an affected plugin where larger payloads are expected.
 
-**Upgrade plan:** Identify routes that legitimately process bodies above 64 MiB. Set explicit limits on the affected plugins before upgrading, then test both oversized request rejection and response truncation behavior.
+**Upgrade plan:** If you use an affected body-buffering plugin, identify routes that can exceed 64 MiB and set its `max_req_body_size` or `max_resp_body_size` before upgrading. Test only the applicable path: oversized requests are rejected; response-transforming plugins can truncate; memory `proxy-cache` passes an oversized response through without caching it.
 
 For more information, see [PR #13705](https://github.com/apache/apisix/pull/13705).
 
@@ -53,7 +53,7 @@ For more information, see [PR #13705](https://github.com/apache/apisix/pull/1370
 
 Batch-processor-based loggers now default `max_pending_entries` to `8192`. When a logging backend cannot keep up, new entries above the limit are discarded to protect worker memory. Increase the limit only after accounting for log body sizes and available memory.
 
-**Upgrade plan:** Review logger throughput, `batch_max_size`, and whether request or response bodies are included. Add alerts for discard messages and size `max_pending_entries` from the memory budget of each worker.
+**Upgrade plan:** If you use a batch-processor-based logger, compare its expected backlog, `batch_max_size`, and logged body sizes with each worker's memory budget. Set `max_pending_entries` explicitly when `8192` is unsuitable, alert on discard messages, and test a slow or unavailable logging backend; larger logged bodies can require a lower limit.
 
 For more information, see [PR #13826](https://github.com/apache/apisix/pull/13826).
 
@@ -61,15 +61,15 @@ For more information, see [PR #13826](https://github.com/apache/apisix/pull/1382
 
 `ai-aws-content-moderation` now runs after `ai-proxy` or `ai-proxy-multi`, moderates protocol-decoded prompt content, and returns provider-compatible deny responses. The plugin requires AI proxy context, its priority changes from `1050` to `1031`, and the default deny status is now `200`.
 
-**Upgrade plan:** Ensure every route using the plugin also enables `ai-proxy` or `ai-proxy-multi`. Review clients that expect a 400 deny status and set `deny_code` explicitly if they should continue receiving an HTTP error.
+**Upgrade plan:** If you use `ai-aws-content-moderation`, pair it with `ai-proxy` or `ai-proxy-multi` wherever requests must actually be moderated. Pin `deny_code: 400` if clients rely on the previous HTTP error contract, and choose `fail_mode` explicitly for traffic the AI proxy cannot recognize. Test an allowed prompt, a denied prompt, and an unrecognized request shape.
 
 For more information, see [PR #13647](https://github.com/apache/apisix/pull/13647).
 
 ### Aliyun request moderation defaults to the latest user turn
 
-`ai-aliyun-content-moderation` now defaults to moderating the latest user turn rather than the complete conversation across all roles. Set `request_check_mode: all` and configure `request_check_roles` if the previous scope is required.
+`ai-aliyun-content-moderation` now defaults to moderating the latest consecutive block of `user` messages. The later `request_check_roles` option can include `user`, `tool`, and `system`; `request_check_mode` applies to `user` and `tool`, while selected `system` content is checked on every request. The plugin cannot select `assistant` history, so no configuration exactly restores the previous all-message behavior.
 
-**Upgrade plan:** Decide whether moderation should cover only the newest user turn or the full conversation. Pin `request_check_mode` and `request_check_roles` explicitly instead of relying on defaults.
+**Upgrade plan:** If you use request moderation, choose both fields explicitly. To approximate the previous coverage, set `request_check_mode: all` and `request_check_roles: ["user", "tool", "system"]`; this still does not inspect `assistant` history, and tool-result extraction depends on the AI protocol. If the previous policy relied on those uncovered messages, add a separate control or revise the policy. Test earlier and latest user turns, selected system content, and tool output in every protocol you accept.
 
 For more information, see [PR #13598](https://github.com/apache/apisix/pull/13598).
 
@@ -77,7 +77,7 @@ For more information, see [PR #13598](https://github.com/apache/apisix/pull/1359
 
 `sls-logger` now defaults `ssl_verify` to `true` and sends SNI. Custom or self-signed logging endpoints must use a trusted certificate or explicitly set `ssl_verify: false`.
 
-**Upgrade plan:** Test the TLS handshake to every SLS endpoint with the APISIX trust store. Install the correct CA and hostname-valid certificate; use `ssl_verify: false` only as a deliberate temporary exception.
+**Upgrade plan:** If you use `sls-logger`, test each configured TLS endpoint with the APISIX trust store and the exact configured hostname. Custom or self-signed endpoints need a trusted chain and hostname-valid certificate; use `ssl_verify: false` only as a deliberate temporary exception after assessing the credential-exposure risk.
 
 For more information, see [PR #13785](https://github.com/apache/apisix/pull/13785).
 
@@ -85,15 +85,15 @@ For more information, see [PR #13785](https://github.com/apache/apisix/pull/1378
 
 The `openid-connect` plugin now rejects tokens when the trusted issuer cannot be determined, treats `claim_validator.audience.match_with_client_id` as requiring an audience claim, and enforces `required_scopes` in authorization-code sessions. Review providers that issue opaque access tokens or omit scope claims.
 
-**Upgrade plan:** Test bearer and browser-session flows against the real identity provider. Configure `claim_validator.issuer.valid_issuers` when discovery may be unavailable, and confirm the provider exposes every configured required scope in a readable claim.
+**Upgrade plan:** Test only the OIDC checks you configure. For `match_with_client_id`, confirm issued tokens contain a matching audience. For local JWT validation when discovery can be unavailable, configure `claim_validator.issuer.valid_issuers`. For authorization-code routes with `required_scopes`, confirm the access token is a JWT with a string `scope` claim or the ID token carries it; opaque access tokens without either claim will be denied. Exercise both bearer and session flows that your deployment uses.
 
 For more information, see [PR #13829](https://github.com/apache/apisix/pull/13829).
 
-### Duplicate consumer authentication keys are rejected
+### Duplicate consumer authentication keys are checked on write
 
-The Admin API now rejects duplicate lookup keys across Consumers and credentials for `key-auth`, `basic-auth`, `jwt-auth`, `hmac-auth`, and LDAP authentication. Existing ambiguous configurations should be made unique before they are updated.
+The Admin API now checks writes for duplicate lookup keys across Consumers and credentials for `key-auth`, `basic-auth`, `jwt-auth`, `hmac-auth`, and LDAP authentication, and rejects detected collisions with 400. The protection is best effort: the locally watched Consumer view can lag rapid or concurrent writes, and incoming Secret or environment references cannot be resolved for this check.
 
-**Upgrade plan:** Audit existing Consumers and credentials for duplicate authentication keys before rollout. Resolve collisions first so later Admin API updates are not rejected.
+**Upgrade plan:** Independently audit existing Consumers and credentials for duplicate authentication keys, including values supplied through Secret or environment references, and resolve collisions before rollout. Do not rely on the new Admin API check as the only uniqueness control; serialize sensitive migrations where practical, then update and authenticate with each affected Consumer to verify ownership.
 
 For more information, see [PR #13529](https://github.com/apache/apisix/pull/13529).
 
@@ -101,15 +101,15 @@ For more information, see [PR #13529](https://github.com/apache/apisix/pull/1352
 
 `$var_x_forwarded_proto` is removed, while `$var_x_forwarded_host` and `$var_x_forwarded_port` are no longer writable from Lua. Plugins should use `core.request.set_header` to change upstream forwarding headers. Trusted peers that omit `X-Forwarded-Host` or `X-Forwarded-Port` now receive APISIX-observed values, and logger payloads include sanitized forwarded headers.
 
-**Upgrade plan:** Search custom plugins, NGINX snippets, and log formats for the three `$var_x_forwarded_*` variables. Replace Lua assignments with `core.request.set_header`, and update fixed-schema log consumers for the additional sanitized headers.
+**Upgrade plan:** If custom plugins, NGINX snippets, or log formats reference the three `$var_x_forwarded_*` variables, replace Lua writes with `core.request.set_header` and remove reads of the deleted `$var_x_forwarded_proto`. If log consumers enforce a fixed request-header schema, allow the three sanitized headers. Deployments with `trusted_addresses` should also test trusted peers that omit forwarded host or port values; the default no-boundary request path otherwise retains its upstream behavior.
 
 For more information, see [PR #13803](https://github.com/apache/apisix/pull/13803).
 
 ### AI proxy defaults to the FFI HTTP client
 
-`ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` now default to `ngx_http_ffi_client`. The APISIX Runtime pinned by this release includes the module. Operators using an older or custom runtime without it must upgrade the runtime or set `plugin_attr.ai-proxy.http_client: lua-resty-http`.
+`ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` now default to `ngx_http_ffi_client`. The APISIX Runtime pinned by this release includes the compatible v0.1.3 client. Operators using an older or custom runtime without that module or its resolver hook must upgrade the runtime or set `plugin_attr.ai-proxy.http_client: lua-resty-http`.
 
-**Upgrade plan:** Run `nginx -V` on the target image and confirm `ngx_http_ffi_client` is present. Upgrade the runtime with APISIX, or opt out in `config.yaml` before sending AI traffic.
+**Upgrade plan:** The runtime pinned by APISIX 3.18.0 needs no compatibility change. If you use an older or custom runtime, inspect `nginx -V` and confirm a compatible `ngx_http_ffi_client` revision with the resolver hook used by v0.1.3; module presence alone is insufficient. Upgrade the runtime or set `plugin_attr.ai-proxy.http_client: lua-resty-http` before AI traffic, then test DNS resolution, TLS, buffered responses, and streaming paths that your providers use.
 
 For more information, see [PR #13778](https://github.com/apache/apisix/pull/13778).
 
@@ -117,7 +117,7 @@ For more information, see [PR #13778](https://github.com/apache/apisix/pull/1377
 
 JSON and multipart bodies read for `post_arg.*` route predicates now default to a 64 MiB cap. A larger body no longer matches the predicate and can result in a 404. Raise `apisix.max_post_args_readable_size` or set it to `0` to retain unlimited reads.
 
-**Upgrade plan:** Locate routes that match on `post_arg.*`, determine their maximum expected body size, and set `apisix.max_post_args_readable_size` explicitly. Include an over-limit request in upgrade testing.
+**Upgrade plan:** If a Route matches `post_arg.*` against JSON or multipart bodies, determine its maximum expected request size and set `apisix.max_post_args_readable_size` explicitly when 64 MiB is insufficient. Setting `0` restores unlimited reads but also restores the memory-exhaustion risk. Test an over-limit request and confirm whether it should fall through to another Route or return 404.
 
 For more information, see [PR #13601](https://github.com/apache/apisix/pull/13601).
 
@@ -125,7 +125,7 @@ For more information, see [PR #13601](https://github.com/apache/apisix/pull/1360
 
 The LDAP client dependency upgrade makes `ldap-auth.tls_verify: true` perform certificate verification instead of acting as a no-op. Deployments with self-signed or hostname-mismatched LDAP certificates must install a trusted matching certificate or explicitly disable verification where appropriate.
 
-**Upgrade plan:** Validate the LDAP certificate chain and SAN against `ldap_uri`. Configure the trusted CA before deployment and test both LDAPS and StartTLS paths that are in use.
+**Upgrade plan:** If an existing `ldap-auth` deployment enables `tls_verify`, validate the certificate chain and SAN against `ldap_uri` before rollout and configure the required trusted CA. Test each encrypted connection mode actually in use, such as LDAPS or StartTLS; configurations with verification disabled do not gain this failure mode.
 
 For more information, see [PR #13762](https://github.com/apache/apisix/pull/13762).
 
@@ -133,7 +133,7 @@ For more information, see [PR #13762](https://github.com/apache/apisix/pull/1376
 
 `ldap-auth` now looks up Consumers using the escaped bind DN returned by the LDAP client. Consumers for usernames containing characters such as commas or plus signs must use the RFC 4514-escaped `user_dn` form.
 
-**Upgrade plan:** Find LDAP usernames containing DN-special characters and rewrite their Consumer `user_dn` values with RFC 4514 escaping before upgrading.
+**Upgrade plan:** If LDAP usernames can contain DN-special characters, generate the bind DN with LDAP-aware RFC 4514 escaping and update the corresponding Consumer `user_dn` before upgrading. Usernames without those characters are unchanged. Test both LDAP bind success and association with the intended Consumer.
 
 For more information, see [PR #13805](https://github.com/apache/apisix/pull/13805).
 
@@ -141,15 +141,15 @@ For more information, see [PR #13805](https://github.com/apache/apisix/pull/1380
 
 `apisix_llm_latency` now distinguishes `type="total"` from `type="ttft"`, and streaming requests emit both observations. Update dashboards, alerts, and recording rules to select `type="total"` when they need the previous total-latency meaning.
 
-**Upgrade plan:** Update PromQL queries and recording rules before the new metric shape is scraped. Check expected series counts because each streaming request now contributes both total-latency and TTFT observations.
+**Upgrade plan:** If dashboards, alerts, or recording rules use `apisix_llm_latency`, add `type="total"` where the old total-latency meaning is required, or aggregate by `type` intentionally. Validate cardinality and sample counts for streaming traffic because each streaming request now contributes one `total` and one `ttft` observation; non-streaming traffic contributes only `total`.
 
 For more information, see [PR #13487](https://github.com/apache/apisix/pull/13487).
 
-### Consumer-bound AI plugins default to skipping unrecognized traffic
+### AI security plugins default to skipping unrecognized traffic
 
-The new `fail_mode` option defaults to `skip`. Non-AI traffic that previously returned 500 in Aliyun moderation, or was moderated as a raw body by AWS moderation, now passes through unchecked. Set `fail_mode: error` when every request must be recognized and moderated.
+The new `fail_mode` option defaults to `skip` for `ai-aliyun-content-moderation`, `ai-aws-content-moderation`, and `ai-prompt-guard`. Unrecognized traffic now passes through unchecked whether the plugin is exposed through a Route, Service, or Consumer. This replaces Aliyun's previous 500 and AWS's raw-body moderation behavior, while preserving `ai-prompt-guard`'s previous pass-through outcome.
 
-**Upgrade plan:** Classify routes as mixed traffic or AI-only. Set `fail_mode: error` explicitly on routes where unrecognized traffic must never bypass moderation, and test non-JSON and non-AI requests.
+**Upgrade plan:** If you use any of these plugins, classify each Route, Service, or Consumer binding by whether it can receive mixed or unrecognized traffic. Set `fail_mode: error` where bypass is unacceptable; use `skip` or `warn` deliberately where mixed traffic must pass. Test non-JSON bodies, unsupported AI protocols, and requests that do not pass through `ai-proxy`.
 
 For more information, see [PR #13489](https://github.com/apache/apisix/pull/13489).
 
@@ -272,7 +272,7 @@ For more information, see [PR #13570](https://github.com/apache/apisix/pull/1357
 
 AWS moderation can now inspect non-streaming and streaming responses in addition to requests. Realtime mode checks batches while a response is streaming and can replace the remainder immediately; final-packet mode scores the assembled output and records a risk level. Long content is split at UTF-8 boundaries and batched within AWS Comprehend's segment limits.
 
-Both AWS and Aliyun plugins can select which request roles are in scope. `user`, `tool`, and `assistant` content can follow latest-turn or all-history behavior, while selected system content is checked on every request. OpenAI's `developer` role is treated as system-level content.
+The role controls differ slightly between providers. AWS can select `user`, `tool`, `assistant`, and `system`; Aliyun can select `user`, `tool`, and `system`. Selected turn roles follow latest-turn or all-history behavior, while selected system content is checked on every request. OpenAI's `developer` role is treated as system-level content.
 
 ```json
 {

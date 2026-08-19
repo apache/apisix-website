@@ -37,15 +37,15 @@ tags: [Community]
 
 `Apisix-Plugins` 响应头不再返回去重后的插件名称列表，而是按执行顺序返回 `plugin-name#phase`。依赖该响应头的解析工具需要相应更新。
 
-**升级计划：** 搜索仪表盘、测试和调试工具中对 `Apisix-Plugins` 的使用。更新解析逻辑，使其接受同一插件出现在多个阶段，并保留返回的执行顺序。
+**升级计划：** 如果系统会读取 `Apisix-Plugins`，请让解析逻辑支持 `plugin-name#phase`、同一插件出现在多个阶段以及有序条目。`body_filter`、`log` 等响应头发送后的阶段是提前推算的，不能作为阶段实际执行的依据；如果工具会根据该响应头作出判断，请使用代表性路由验证结果。
 
 更多信息，请参阅 [PR #13710](https://github.com/apache/apisix/pull/13710)。
 
 ### 默认限制请求与响应缓冲大小
 
-需要缓冲请求体或响应体的插件现在默认使用 64 MiB 上限。超出限制的请求体可能被拒绝；超出限制的响应则会根据插件行为被截断或直接转发而不缓存。若业务需要更大的报文，请配置 `max_req_body_size` 或 `max_resp_body_size`。
+多个需要缓冲请求体或响应体的插件现在默认使用 64 MiB 上限。超出限制的请求体可能被拒绝；超出限制的响应则会根据插件行为被截断或直接转发而不缓存。若受影响插件需要处理更大的报文，请配置 `max_req_body_size` 或 `max_resp_body_size`。
 
-**升级计划：** 找出确实需要处理 64 MiB 以上报文的路由，在升级前为相关插件设置明确上限，并分别验证超大请求的拒绝行为和响应截断行为。
+**升级计划：** 如果使用受影响的报文缓冲插件，请找出可能超过 64 MiB 的路由，并在升级前设置对应的 `max_req_body_size` 或 `max_resp_body_size`。只需验证适用的处理路径：超大请求会被拒绝；响应转换插件可能截断响应；内存 `proxy-cache` 会直接转发超大响应而不缓存。
 
 更多信息，请参阅 [PR #13705](https://github.com/apache/apisix/pull/13705)。
 
@@ -53,7 +53,7 @@ tags: [Community]
 
 使用批处理器的日志插件现在默认将 `max_pending_entries` 设为 `8192`。当日志后端无法及时处理时，超出限制的新条目会被丢弃，以保护工作进程的内存。调高该值前应评估日志体大小与可用内存。
 
-**升级计划：** 检查日志吞吐量、`batch_max_size`，以及是否记录请求体或响应体。为丢弃日志配置告警，并根据每个工作进程的内存预算设置 `max_pending_entries`。
+**升级计划：** 如果使用基于批处理器的日志插件，请结合预期积压量、`batch_max_size`、日志体大小和单个工作进程的内存预算评估默认值。当 `8192` 不合适时显式设置 `max_pending_entries`，为丢弃日志配置告警，并使用缓慢或不可用的日志后端进行测试；记录较大报文时可能需要降低该值。
 
 更多信息，请参阅 [PR #13826](https://github.com/apache/apisix/pull/13826)。
 
@@ -61,15 +61,15 @@ tags: [Community]
 
 `ai-aws-content-moderation` 现在运行在 `ai-proxy` 或 `ai-proxy-multi` 之后，审核协议解码后的提示词，并返回与提供商兼容的拒绝响应。该插件现在依赖 AI 代理上下文，优先级从 `1050` 调整为 `1031`，默认拒绝状态码改为 `200`。
 
-**升级计划：** 确保使用该插件的每条路由同时启用了 `ai-proxy` 或 `ai-proxy-multi`。如果客户端仍应接收 HTTP 错误，请显式设置 `deny_code`，不要依赖新的默认值。
+**升级计划：** 如果使用 `ai-aws-content-moderation`，请在必须实际执行审核的位置将其与 `ai-proxy` 或 `ai-proxy-multi` 配合使用。如果客户端依赖原有 HTTP 错误约定，请固定 `deny_code: 400`；对于 AI 代理无法识别的流量，还应显式选择 `fail_mode`。请分别测试允许、拒绝以及无法识别的请求。
 
 更多信息，请参阅 [PR #13647](https://github.com/apache/apisix/pull/13647)。
 
 ### 阿里云请求审核默认仅检查最新用户轮次
 
-`ai-aliyun-content-moderation` 默认只审核最新用户轮次，不再审核整个对话历史中的所有角色。如需保留原有范围，请设置 `request_check_mode: all` 并配置 `request_check_roles`。
+`ai-aliyun-content-moderation` 默认只审核最后一段连续的 `user` 消息。后续新增的 `request_check_roles` 可以选择 `user`、`tool` 和 `system`；`request_check_mode` 作用于 `user` 和 `tool`，选中的 `system` 内容则会在每个请求中检查。该插件无法选择 `assistant` 历史消息，因此没有配置可以完全恢复原有的全消息审核行为。
 
-**升级计划：** 明确审核范围是最新用户轮次还是完整对话，并显式固定 `request_check_mode` 与 `request_check_roles`，不要继续依赖默认值。
+**升级计划：** 如果使用请求审核，请同时显式选择这两个字段。若要近似保留原有范围，可设置 `request_check_mode: all` 和 `request_check_roles: ["user", "tool", "system"]`；但这仍不会检查 `assistant` 历史消息，tool 结果能否抽取也取决于 AI 协议。如果原有策略依赖这些未覆盖消息，请增加其他控制措施或调整策略。请针对支持的每种协议测试较早和最新的用户轮次、选中的 system 内容以及 tool 输出。
 
 更多信息，请参阅 [PR #13598](https://github.com/apache/apisix/pull/13598)。
 
@@ -77,7 +77,7 @@ tags: [Community]
 
 `sls-logger` 的 `ssl_verify` 现在默认为 `true`，并发送 SNI。自定义或自签名日志端点必须使用受信任证书，或显式设置 `ssl_verify: false`。
 
-**升级计划：** 使用 APISIX 信任库测试所有 SLS 端点的 TLS 握手。安装正确的 CA 与主机名匹配证书；仅将 `ssl_verify: false` 作为明确且临时的例外。
+**升级计划：** 如果使用 `sls-logger`，请使用 APISIX 信任库和配置中的准确主机名测试每个 TLS 端点。自定义或自签名端点需要受信任的证书链和主机名匹配证书；评估凭证泄露风险后，才能将 `ssl_verify: false` 作为明确且临时的例外。
 
 更多信息，请参阅 [PR #13785](https://github.com/apache/apisix/pull/13785)。
 
@@ -85,15 +85,15 @@ tags: [Community]
 
 `openid-connect` 现在会在无法确定受信任签发者时拒绝令牌；`claim_validator.audience.match_with_client_id` 会隐式要求 audience 声明；授权码会话也会执行 `required_scopes`。请检查使用不透明访问令牌或缺少 scope 声明的身份提供商。
 
-**升级计划：** 使用真实身份提供商测试 Bearer Token 与浏览器会话流程。若 Discovery 文档可能不可用，请配置 `claim_validator.issuer.valid_issuers`，并确认身份提供商会在可读取的声明中返回所有必需 scope。
+**升级计划：** 只需测试实际启用的 OIDC 校验。使用 `match_with_client_id` 时，确认签发的令牌包含匹配的 audience；本地校验 JWT 且 Discovery 文档可能不可用时，配置 `claim_validator.issuer.valid_issuers`；授权码路由配置 `required_scopes` 时，确认访问令牌是带字符串 `scope` 声明的 JWT，或 ID 令牌包含该声明。不透明访问令牌且两者都没有 `scope` 时，会话将被拒绝。请覆盖部署实际使用的 Bearer Token 和会话流程。
 
 更多信息，请参阅 [PR #13829](https://github.com/apache/apisix/pull/13829)。
 
-### 拒绝重复的 Consumer 身份验证键
+### 写入时检查重复的 Consumer 身份验证键
 
-Admin API 现在会拒绝 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` 与 LDAP 身份验证中跨 Consumer 或凭证重复的查找键。更新现有歧义配置前，应先确保这些值唯一。
+Admin API 现在会在写入时检查 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` 与 LDAP 身份验证中跨 Consumer 或凭证重复的查找键，并以 400 拒绝检测到的冲突。该保护是尽力而为：本地监听到的 Consumer 数据可能滞后于快速或并发写入，传入的 Secret 或环境变量引用也无法在此检查中解析。
 
-**升级计划：** 上线前审计现有 Consumer 与凭证中的重复身份验证键，并先解决冲突，避免后续 Admin API 更新被拒绝。
+**升级计划：** 上线前应独立审计现有 Consumer 与凭证中的重复身份验证键，包括通过 Secret 或环境变量引用提供的值，并先解决冲突。不要将新的 Admin API 检查作为唯一的唯一性保障；可行时应串行执行敏感迁移，随后更新每个受影响的 Consumer，并实际发起认证以确认身份归属正确。
 
 更多信息，请参阅 [PR #13529](https://github.com/apache/apisix/pull/13529)。
 
@@ -101,15 +101,15 @@ Admin API 现在会拒绝 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` �
 
 `$var_x_forwarded_proto` 已移除，`$var_x_forwarded_host` 与 `$var_x_forwarded_port` 不再可由 Lua 写入。插件应使用 `core.request.set_header` 修改发往上游的转发请求头。受信任对端未提供 `X-Forwarded-Host` 或 `X-Forwarded-Port` 时，现在会使用 APISIX 观测到的值；日志负载也会包含清洗后的转发请求头。
 
-**升级计划：** 搜索自定义插件、NGINX 片段和日志格式中对三个 `$var_x_forwarded_*` 变量的使用。将 Lua 赋值改为 `core.request.set_header`，并更新采用固定字段结构的日志消费者。
+**升级计划：** 如果自定义插件、NGINX 片段或日志格式引用了三个 `$var_x_forwarded_*` 变量，请将 Lua 写入改为 `core.request.set_header`，并移除对已删除 `$var_x_forwarded_proto` 的读取。采用固定请求头结构的日志消费者需要允许新增的三个清洗后请求头。配置了 `trusted_addresses` 的部署还应测试未提供 forwarded host 或 port 的受信任对端；默认未配置信任边界的请求路径则保持原有上游行为。
 
 更多信息，请参阅 [PR #13803](https://github.com/apache/apisix/pull/13803)。
 
 ### AI 代理默认使用 FFI HTTP 客户端
 
-`ai-proxy`、`ai-proxy-multi` 与 `ai-request-rewrite` 现在默认使用 `ngx_http_ffi_client`。本版本固定的 APISIX Runtime 已包含该模块。使用不含此模块的旧版或自定义 Runtime 时，必须升级 Runtime，或设置 `plugin_attr.ai-proxy.http_client: lua-resty-http`。
+`ai-proxy`、`ai-proxy-multi` 与 `ai-request-rewrite` 现在默认使用 `ngx_http_ffi_client`。本版本固定的 APISIX Runtime 已包含兼容的 v0.1.3 客户端。使用不含该模块或其解析器钩子的旧版或自定义 Runtime 时，必须升级 Runtime，或设置 `plugin_attr.ai-proxy.http_client: lua-resty-http`。
 
-**升级计划：** 在目标镜像中运行 `nginx -V`，确认包含 `ngx_http_ffi_client`。应随 APISIX 一起升级 Runtime；如果暂时无法升级，请在承载 AI 流量前通过 `config.yaml` 显式切换回 `lua-resty-http`。
+**升级计划：** APISIX 3.18.0 固定的 Runtime 无需兼容性调整。使用旧版或自定义 Runtime 时，请检查 `nginx -V`，并确认 `ngx_http_ffi_client` 版本兼容且具备 v0.1.3 使用的解析器钩子；仅确认模块存在并不充分。请升级 Runtime，或在承载 AI 流量前设置 `plugin_attr.ai-proxy.http_client: lua-resty-http`，随后测试实际提供商使用的 DNS、TLS、缓冲响应与流式路径。
 
 更多信息，请参阅 [PR #13778](https://github.com/apache/apisix/pull/13778)。
 
@@ -117,7 +117,7 @@ Admin API 现在会拒绝 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` �
 
 用于 `post_arg.*` 路由条件的 JSON 和 multipart 请求体现在默认限制为 64 MiB。更大的请求体将无法命中该条件，并可能返回 404。如需保留无限制读取，请调高 `apisix.max_post_args_readable_size`，或将其设为 `0`。
 
-**升级计划：** 找出使用 `post_arg.*` 的路由，确认预期最大请求体，并显式设置 `apisix.max_post_args_readable_size`。升级测试中应包含一个超出限制的请求。
+**升级计划：** 如果路由使用 `post_arg.*` 匹配 JSON 或 multipart 请求体，请确认预期最大请求体；需要超过 64 MiB 时，显式设置 `apisix.max_post_args_readable_size`。将其设为 `0` 会恢复无限制读取，但也会恢复内存耗尽风险。请发送超出限制的请求，确认它应命中其他路由还是返回 404。
 
 更多信息，请参阅 [PR #13601](https://github.com/apache/apisix/pull/13601)。
 
@@ -125,7 +125,7 @@ Admin API 现在会拒绝 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` �
 
 LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证书验证，而不再是无效配置。使用自签名证书或证书主机名不匹配的部署，需要安装受信任且匹配的证书，或在适当场景显式关闭验证。
 
-**升级计划：** 根据 `ldap_uri` 验证 LDAP 证书链和 SAN，在部署前配置受信任 CA，并测试实际使用的 LDAPS 与 StartTLS 路径。
+**升级计划：** 如果现有 `ldap-auth` 部署启用了 `tls_verify`，请在上线前根据 `ldap_uri` 验证证书链和 SAN，并配置所需的受信任 CA。只需测试实际使用的加密连接模式，例如 LDAPS 或 StartTLS；关闭证书验证的配置不会新增此失败路径。
 
 更多信息，请参阅 [PR #13762](https://github.com/apache/apisix/pull/13762)。
 
@@ -133,7 +133,7 @@ LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证�
 
 `ldap-auth` 现在使用 LDAP 客户端返回的已转义 bind DN 查找 Consumer。用户名包含逗号、加号等特殊字符时，Consumer 的 `user_dn` 必须使用 RFC 4514 转义形式。
 
-**升级计划：** 找出包含 DN 特殊字符的 LDAP 用户名，并在升级前将对应 Consumer 的 `user_dn` 改为 RFC 4514 转义形式。
+**升级计划：** 如果 LDAP 用户名可能包含 DN 特殊字符，请使用支持 LDAP 的工具生成符合 RFC 4514 的转义 bind DN，并在升级前更新对应 Consumer 的 `user_dn`。不含这些字符的用户名不受影响。请同时测试 LDAP bind 成功以及请求关联到预期 Consumer。
 
 更多信息，请参阅 [PR #13805](https://github.com/apache/apisix/pull/13805)。
 
@@ -141,15 +141,15 @@ LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证�
 
 `apisix_llm_latency` 现在使用 `type="total"` 与 `type="ttft"` 区分总延迟和首个 Token 延迟（TTFT）；流式请求会同时记录两类样本。若需保持原有总延迟语义，请更新仪表盘、告警和记录规则，添加 `type="total"` 选择条件。
 
-**升级计划：** 在抓取新指标前更新 PromQL 查询和记录规则。由于每个流式请求现在会产生总延迟与 TTFT 两类观测，还应检查预期的时间序列数量。
+**升级计划：** 如果仪表盘、告警或记录规则使用 `apisix_llm_latency`，请在需要原有总延迟语义的位置添加 `type="total"`，或有意识地按 `type` 聚合。流式请求现在分别产生一条 `total` 与一条 `ttft` 观测，非流式请求只产生 `total`；请据此验证基数和样本数量。
 
 更多信息，请参阅 [PR #13487](https://github.com/apache/apisix/pull/13487)。
 
-### Consumer 级 AI 插件默认跳过无法识别的流量
+### AI 安全插件默认跳过无法识别的流量
 
-新增的 `fail_mode` 默认值为 `skip`。此前在阿里云审核中返回 500、或在 AWS 审核中按原始请求体处理的非 AI 流量，现在会未经审核直接放行。如果所有请求都必须可识别并接受审核，请设置 `fail_mode: error`。
+`ai-aliyun-content-moderation`、`ai-aws-content-moderation` 与 `ai-prompt-guard` 新增的 `fail_mode` 均默认为 `skip`。无论插件通过 Route、Service 还是 Consumer 生效，无法识别的流量现在都会未经检查直接放行。该行为取代了阿里云审核原有的 500 和 AWS 的原始请求体审核，同时保留 `ai-prompt-guard` 原本的放行结果。
 
-**升级计划：** 将路由明确划分为混合流量或仅 AI 流量。对于无法识别的请求绝不能绕过审核的路由，显式设置 `fail_mode: error`，并测试非 JSON 与非 AI 请求。
+**升级计划：** 如果使用以上任一插件，请根据是否可能收到混合或无法识别的流量，逐一评估 Route、Service 和 Consumer 绑定。无法接受绕过时显式设置 `fail_mode: error`；混合流量需要放行时，应有意识地选择 `skip` 或 `warn`。请测试非 JSON 请求体、不支持的 AI 协议，以及未经过 `ai-proxy` 的请求。
 
 更多信息，请参阅 [PR #13489](https://github.com/apache/apisix/pull/13489)。
 
@@ -272,7 +272,7 @@ APISIX 会为每个实例的自然语言示例生成一次嵌入向量，并按�
 
 AWS 审核除了请求外，现在也可以检查非流式和流式响应。`realtime` 模式会在响应流动时分批检查，并可立即替换后续内容；`final_packet` 模式会对完整输出评分并记录风险等级。长内容会在 UTF-8 字符边界处拆分，并按 AWS Comprehend 的分段限制批量发送。
 
-AWS 与阿里云插件都可以选择请求侧审核角色。`user`、`tool` 和 `assistant` 内容可以按最新轮次或完整历史处理；选中的 system 内容则会在每个请求中检查。OpenAI 的 `developer` 角色会作为 system 级内容处理。
+两种提供商的角色控制略有不同：AWS 可以选择 `user`、`tool`、`assistant` 和 `system`，阿里云可以选择 `user`、`tool` 和 `system`。选中的轮次角色可以按最新轮次或完整历史处理；选中的 system 内容则会在每个请求中检查。OpenAI 的 `developer` 角色会作为 system 级内容处理。
 
 ```json
 {
