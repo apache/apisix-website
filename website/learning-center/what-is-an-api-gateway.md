@@ -59,7 +59,7 @@ Distributing traffic across service instances prevents hotspots and improves ava
 
 ### Authentication and Authorization
 
-Centralizing identity verification at the gateway eliminates the need for each service to implement its own auth stack. Common mechanisms include JWT validation, OAuth 2.0 token introspection, HMAC signatures, LDAP, and [API key authentication](/docs/apisix/plugins/key-auth/). Some gateways also integrate with external identity providers through OpenID Connect.
+Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) and authorization eliminates the need for each service to implement its own auth stack. Common mechanisms include JWT validation, OAuth 2.0 token introspection, HMAC signatures, LDAP, and [API key authentication](/docs/apisix/plugins/key-auth/). Some gateways also integrate with external identity providers through OpenID Connect.
 
 ### Rate Limiting
 
@@ -207,7 +207,6 @@ No. An API gateway is the runtime component that processes API traffic. An API m
 ## Related guides
 
 - [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
-- [API gateway authentication](/learning-center/api-gateway-authentication/)
 - [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)
 - [API gateway security](/learning-center/api-gateway-security/)
 - [Compare API gateways](/comparisons/)

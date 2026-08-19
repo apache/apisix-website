@@ -26,7 +26,10 @@ for (const pagePath of DOC_PAGES) {
     expect(hrefs.length, `${pagePath} should render a version picker`).toBeGreaterThan(0);
 
     for (const href of hrefs) {
-      await page.goto(href);
+      // The static CI server can leave non-critical assets loading even after
+      // the docs DOM is ready. The content assertion below is the actual
+      // validity check, so waiting for the full load event only adds flakiness.
+      await page.goto(href, { waitUntil: 'domcontentloaded' });
       // Assert on CONTENT, never on HTTP status. The e2e static server
       // (python3 -m http.server) answers an index-less directory with 200
       // plus a directory listing, so a status assertion would pass on the

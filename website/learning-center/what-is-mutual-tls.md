@@ -11,7 +11,7 @@ Mutual TLS (mTLS) authentication is a security protocol where both the client an
 
 ## Why Mutual TLS Matters
 
-Standard TLS protects the vast majority of internet traffic today. The overwhelming majority of web traffic now uses HTTPS. However, standard TLS only solves half the authentication problem: clients verify that the server holds a valid certificate, but servers have no cryptographic assurance about the client's identity. They rely on application-layer mechanisms like API keys, tokens, or passwords instead.
+In a typical TLS connection, the client verifies that the server holds a valid certificate, but the server does not authenticate the client with a certificate. The server instead relies on application-layer mechanisms such as API keys, tokens, or passwords when it needs to identify the caller.
 
 This gap becomes critical in zero-trust architectures, service-to-service communication, and regulated environments where network-level identity verification is required. mTLS closes this gap by making identity verification bilateral and cryptographic.
 
@@ -25,10 +25,10 @@ This gap becomes critical in zero-trust architectures, service-to-service commun
 | Certificate management complexity | Low | High |
 | Typical use case | Public websites, APIs | Internal services, zero-trust, IoT |
 | Identity assurance level | Server only | Both endpoints |
-| Performance overhead | Baseline | ~5-10% additional handshake time |
+| Handshake work | Server certificate validation | Server and client certificate validation |
 | Common in browsers | Yes | Rare (except enterprise) |
 
-mTLS has become the predominant service-to-service authentication mechanism in zero-trust network access (ZTNA) implementations, reflecting growing recognition that network perimeter-based security is insufficient for distributed architectures.
+mTLS is commonly used for service-to-service authentication and zero-trust architectures because it establishes cryptographic identity before application data is exchanged.
 
 ## How the mTLS Handshake Works
 
@@ -46,13 +46,13 @@ The mTLS handshake extends the standard TLS 1.3 handshake with additional steps 
 
 **Step 6: Secure Channel Established.** Both parties derive session keys from the shared secret. All subsequent communication is encrypted and authenticated in both directions.
 
-The entire handshake adds approximately 1-2 milliseconds of latency compared to standard TLS, depending on certificate chain depth and revocation checking methods.
+The additional certificate exchange and validation make an mTLS handshake more expensive than a standard TLS handshake. The actual cost depends on factors such as certificate-chain depth, cryptographic algorithms, revocation checks, network latency, and whether the connection can use session resumption.
 
 ## Use Cases for Mutual TLS
 
 ### Zero-Trust Architecture
 
-Zero-trust security models operate on the principle of "never trust, always verify." Every service must authenticate cryptographically before communicating, regardless of network location. mTLS provides the transport-layer foundation for this model. The industry trend is strongly toward zero-trust for new network access deployments, with mTLS as the predominant service identity mechanism.
+Zero-trust security models operate on the principle of "never trust, always verify." Every service must authenticate before communicating, regardless of network location. mTLS can provide the transport-layer identity needed to apply this model between clients, gateways, and services.
 
 ### Microservices Communication
 
@@ -60,27 +60,27 @@ In microservices architectures, dozens or hundreds of services communicate over 
 
 ### IoT Device Authentication
 
-IoT devices operate in physically untrusted environments where API keys or passwords can be extracted from device firmware. mTLS binds device identity to a hardware-backed certificate, making impersonation significantly harder. Certificate-based authentication is widely adopted across IoT devices, with mTLS adoption growing rapidly in industrial and healthcare IoT deployments.
+IoT devices can operate in physically untrusted environments where API keys or passwords may be extracted from device firmware. When private keys are protected by secure hardware, mTLS can bind device identity to a certificate and make credential copying more difficult.
 
 ### API Security and Partner Integration
 
-APIs exposed to partners or regulated industries often require stronger authentication than API keys provide. mTLS ensures that only clients holding a certificate issued by the API provider's CA can establish a connection, providing defense-in-depth before any application-layer authentication occurs. Financial services APIs governed by Open Banking regulations in the EU, UK, and Australia mandate mTLS for third-party provider connections.
+APIs exposed to partners or high-risk environments often require stronger client authentication than an API key alone provides. mTLS ensures that only clients holding a certificate issued by a trusted CA can establish a connection, providing defense in depth before [application-layer authentication](/learning-center/api-gateway-authentication/) occurs. This transport-layer control is one part of a broader [API gateway security](/learning-center/api-gateway-security/) strategy.
 
 ## Challenges of Implementing mTLS
 
 ### Certificate Lifecycle Management
 
-Every client and server in an mTLS deployment needs a valid certificate. For an organization running 500 microservices with 3 replicas each, that means managing 1,500 certificates with their own issuance, renewal, and revocation cycles. Without automation, this becomes operationally unsustainable. Tools like cert-manager (for Kubernetes), HashiCorp Vault, and SPIFFE/SPIRE address this by automating certificate lifecycle operations.
+Every client and server identity in an mTLS deployment needs a valid certificate with an issuance, renewal, and revocation process. As the number of workloads grows, manual certificate management becomes impractical. Tools such as cert-manager, HashiCorp Vault, and SPIFFE/SPIRE can automate parts of this lifecycle.
 
-Certificate-related outages are common in organizations managing large certificate inventories, and remediation can be costly. Automated rotation is not optional for production mTLS deployments.
+Production deployments should automate renewal and alert before expiration. Otherwise, an expired certificate can prevent a client or service from establishing new connections.
 
 ### Certificate Rotation
 
-Short-lived certificates (hours or days) reduce the blast radius of a compromised key but increase rotation frequency. Long-lived certificates (months or years) reduce operational churn but increase exposure time if compromised. The industry trend moves toward short-lived certificates: SPIFFE recommends certificate lifetimes of 1 hour for workload identities, with automated rotation handled by the SPIRE agent.
+Short-lived certificates reduce the time a compromised credential remains usable but require reliable automated rotation. Longer-lived certificates reduce rotation frequency but increase exposure if a key is compromised. Choose a lifetime that matches the workload's risk and the recovery guarantees of the certificate-management system.
 
 ### Performance Considerations
 
-mTLS adds computational overhead from asymmetric cryptography during the handshake and certificate validation. For services handling thousands of new connections per second, this overhead can be measurable. Connection pooling and keep-alive headers amortize the handshake cost across many requests. TLS session resumption (via session tickets or pre-shared keys) eliminates the full handshake on reconnection, reducing the per-request cost to near zero for long-lived connections.
+mTLS adds computational work during the handshake and certificate validation. Services that create many new connections can therefore see more overhead than services that reuse connections. Connection pooling, persistent connections, and TLS session resumption can amortize or reduce repeated handshake work.
 
 ### Debugging and Observability
 
@@ -88,27 +88,27 @@ When mTLS connections fail, diagnosing the cause is harder than debugging standa
 
 ## How to Configure mTLS in Apache APISIX
 
-Apache APISIX supports mTLS at both the edge (between clients and APISIX) and internally (between APISIX and upstream services). The configuration uses APISIX's SSL resource and route-level settings.
+Apache APISIX supports mTLS at both the edge (between clients and APISIX) and internally (between APISIX and upstream services). Client-to-gateway authentication is configured on an SSL resource, while gateway-to-upstream authentication is configured on an upstream.
 
 ### Client-to-Gateway mTLS
 
-To require client certificates for incoming connections, configure an SSL resource with the CA certificate that should be trusted for client authentication. APISIX will reject any client that does not present a certificate signed by the specified CA. See the [mTLS documentation](/docs/apisix/mtls/) for the full SSL resource schema and configuration examples.
+To require client certificates for incoming connections, configure an SSL resource for the relevant SNI names and set `client.ca` to the CA certificate trusted for client authentication. `client.depth` controls the maximum verification depth. APISIX rejects a client that does not present a certificate that can be verified against the configured CA. See the [mTLS documentation](/docs/apisix/mtls/) for configuration examples.
 
 ### Gateway-to-Upstream mTLS
 
-When upstream services require mTLS, configure the upstream resource with the client certificate and key that APISIX should present. This ensures APISIX authenticates itself to backend services, maintaining the zero-trust chain from edge to origin. The [upstream TLS configuration](/docs/apisix/mtls/) section covers the required fields.
+When an upstream service requires mTLS, configure its upstream with `tls.client_cert` and `tls.client_key`, or reference a client-type SSL resource with `tls.client_cert_id`. APISIX then presents that certificate when connecting to the upstream. This capability requires APISIX to run on APISIX-Runtime. The [upstream mTLS documentation](/docs/apisix/mtls/#mtls-between-apisix-and-upstream) covers the prerequisite and supported fields.
 
-### Per-Route mTLS Policies
+### Scope Client Certificate Verification
 
-APISIX allows different mTLS policies per route, enabling gradual rollout. Internal admin APIs can require mTLS immediately while public-facing routes continue using standard TLS with application-layer authentication. This granularity is configured through the route's `ssl` and `upstream` settings.
+Client certificate verification is attached to the SSL resource selected by SNI, rather than to a Route `ssl` field. If specific URI patterns on that HTTPS virtual host must bypass client-certificate checking, configure `client.skip_mtls_uri_regex` on the SSL resource and keep the exception list as narrow as possible.
 
-The [certificate management guide](/docs/apisix/certificate/) covers integration with cert-manager and external CA providers for automated certificate rotation within APISIX deployments.
+The [certificate guide](/docs/apisix/certificate/) explains how APISIX selects certificates by SNI and configures CA bundles. Certificate issuance and automated rotation remain the responsibility of the PKI or certificate-management system used by the deployment.
 
 ## mTLS Best Practices
 
 1. **Automate certificate lifecycle.** Never rely on manual certificate issuance or renewal for production mTLS. Use cert-manager, Vault, or SPIRE.
 
-2. **Use short-lived certificates.** Target lifetimes of 24 hours or less for workload certificates. Rotate automatically before expiration.
+2. **Limit certificate lifetime.** Use the shortest lifetime that the rotation and recovery process can support reliably, and rotate automatically before expiration.
 
 3. **Separate CAs by trust domain.** Do not use the same CA for internal service certificates and external partner certificates. Maintain distinct trust hierarchies.
 
@@ -132,18 +132,4 @@ No. mTLS authenticates the transport-layer identity (which machine or service is
 
 ### How does mTLS perform at scale in Kubernetes?
 
-In Kubernetes environments with service meshes, mTLS scales well because certificate issuance and rotation are fully automated by the mesh control plane. Istio, for example, issues and rotates certificates for every pod automatically using its built-in CA. The performance impact is primarily on new connections (the handshake), which is amortized by connection pooling. Organizations running mTLS across 10,000+ pods report negligible steady-state performance impact, with the main operational cost being control plane resource consumption for certificate management.
-
-### When should APIs use mutual TLS?
-
-mTLS is useful when both client and server identity must be verified, especially for service-to-service communication, zero-trust architectures, partner APIs, and high-risk internal APIs.
-
-### Can Apache APISIX enforce mTLS?
-
-Yes. Apache APISIX can be configured to validate client certificates at the gateway layer so upstream services receive traffic only from trusted clients.
-
-## Related
-
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [API gateway security](/learning-center/api-gateway-security/)
-- [API gateway authentication](/learning-center/api-gateway-authentication/)
+In Kubernetes environments, a service mesh or certificate controller can automate certificate issuance and rotation for workloads. Connection reuse limits repeated handshake work, but operators still need to monitor certificate expiration, CA availability, rotation failures, and the resource cost of the certificate-management control plane.

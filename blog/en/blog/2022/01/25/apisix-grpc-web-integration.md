@@ -24,7 +24,7 @@ tags: [Ecosystem,Plugins]
 
 ## gRPC Web Introduction
 
-Originally developed by Google, gRPC is a high-performance remote procedure call framework implemented on HTTP/2. However, because browsers do not directly expose HTTP/2, Web applications cannot use gRPC directly. gRPC Web is a standardized protocol that solves this problem.
+Originally developed by Google, [gRPC](/learning-center/what-is-grpc/) is a high-performance remote procedure call framework implemented on HTTP/2. However, because browsers do not directly expose HTTP/2, Web applications cannot use gRPC directly. gRPC Web is a standardized protocol that solves this problem.
 
 The first gRPC-web implementation was released in 2018 as a JavaScript library through which Web applications can communicate directly with the gRPC service. The principle is to create an end-to-end gRPC pipeline compatible with HTTP/1.1 and HTTP/2. The browser then sends a regular HTTP request, and a gRPC-Web proxy located between the browser and the server translates the request and response. Similar to gRPC, gRPC Web uses a predefined contract between the Web client and the back-end gRPC service. protocol Buffers are used to serialize and encode messages.
 

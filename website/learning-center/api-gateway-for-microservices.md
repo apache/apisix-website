@@ -87,6 +87,8 @@ API gateways and service meshes both manage network traffic in a microservices a
 | Protocol support | HTTP, gRPC, WebSocket, GraphQL | TCP, HTTP, gRPC |
 | Request transformation | Yes | Typically no |
 
+For services that use [gRPC](/learning-center/what-is-grpc/), the gateway must preserve HTTP/2 and streaming behavior or explicitly translate the protocol for clients that cannot use native gRPC.
+
 The two technologies are complementary, not competitive. Organizations deploying both an API gateway and a service mesh generally report improved overall system reliability compared to using either component alone.
 
 ## How Apache APISIX Supports Microservices
