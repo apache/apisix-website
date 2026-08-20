@@ -11,11 +11,17 @@ import sax from 'sax';
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const generator = path.join(root, 'scripts/generate-sitemaps.mjs');
 const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'apisix-sitemap-'));
+const SITE = 'https://apisix.apache.org';
 
-function writePage(url) {
+function writePage(url, { canonical, robots } = {}) {
   const dir = path.join(dist, url);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), '<!doctype html>');
+  const pagePath = url ? `/${url}/` : '/';
+  const canonicalTag = canonical === false
+    ? ''
+    : `<link data-test="canonical" href="${canonical ?? `${SITE}${pagePath}`}" rel="canonical">`;
+  const robotsTag = robots ? `<meta content="${robots}" name="robots">` : '';
+  fs.writeFileSync(path.join(dir, 'index.html'), `<!doctype html><head>${canonicalTag}${robotsTag}</head>`);
 }
 
 const pages = [
@@ -35,8 +41,11 @@ const pages = [
   'blog/2026/07/28/apisix-unity-group-q&a',
   'blog/page/2',
   'blog/archive',
+  'docs/apisix/3.17',
   'docs/apisix/3.17/plugins/cors',
+  'docs/docker/apisix-3.17.0',
   'docs/docker/apisix-3.17.0/build',
+  'docs/apisix/next',
   'docs/apisix/next/plugins/cors',
   'docs/apisix/tags/plugins',
   'docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0',
@@ -56,6 +65,10 @@ const pages = [
 
 try {
   pages.forEach(writePage);
+  writePage('external-canonical', { canonical: 'https://docs.api7.ai/hub/cors' });
+  writePage('zh/untranslated-doc', { canonical: `${SITE}/docs/untranslated-doc/` });
+  writePage('noindex-page', { robots: 'noindex,follow' });
+  writePage('missing-canonical', { canonical: false });
   const result = spawnSync(process.execPath, [generator, '--dist', dist], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
 
@@ -77,8 +90,11 @@ try {
     'zh/articles/page/2',
     'zh/events/archive',
     'zh/blog/page/2',
+    'docs/apisix/3.17',
     'docs/apisix/3.17/plugins/cors',
+    'docs/docker/apisix-3.17.0',
     'docs/docker/apisix-3.17.0/build',
+    'docs/apisix/next',
     'docs/apisix/next/plugins/cors',
     'docs/apisix/tags/plugins',
     'zh/docs/ingress-controller/2.1.0/overview',
@@ -86,6 +102,10 @@ try {
     'zh/docs/apisix/tags/plugins',
     '/search/',
     '/zh/search/',
+    'external-canonical',
+    'zh/untranslated-doc',
+    'noindex-page',
+    'missing-canonical',
   ];
 
   assert.match(en, /learning-center\/mcp-protocol-ai-gateway/);

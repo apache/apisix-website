@@ -23,6 +23,17 @@ jobs:
       - name: Test Ingress documentation redirects
         working-directory: next
         run: npm run test:redirects
+      - name: Sync APISIX release docs for SEO tests
+        working-directory: next
+        run: |
+          set -euo pipefail
+          mkdir -p .sync
+          APISIX_SERIES=$(node -e "const v=require('../config/apisix-versions.js').versions;console.log(v[v.length-1])")
+          git clone --depth 1 --filter=blob:none --sparse -q \
+            -b "release/$APISIX_SERIES" \
+            https://github.com/apache/apisix.git \
+            .sync/apisix
+          (cd .sync/apisix && git sparse-checkout set docs)
       - name: Sync site content
         working-directory: next
         run: node scripts/sync-content.mjs

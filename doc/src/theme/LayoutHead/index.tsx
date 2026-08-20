@@ -5,6 +5,7 @@ import Head from '@docusaurus/Head';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: swizzle-wrapper alias has no published types
 import OriginalLayoutHead from '@theme-original/LayoutHead';
+import { useActivePlugin } from '@theme/hooks/useDocs';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useLocation } from '@docusaurus/router';
 
@@ -16,13 +17,18 @@ import { useLocation } from '@docusaurus/router';
  *   /docs/apisix/next/...                    -> next
  * Keeps the same version-segment pattern as scripts/update-sitemap-loc.js.
  */
-const versionedDocPath = /^((?:\/zh)?\/docs\/[\w-]+\/)(?:(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?|next)(\/.+)$/;
+const versionedDocPath = /^((?:\/zh)?\/docs\/[\w-]+\/)(?:(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?|next)(\/.*)?$/;
+
+const normalizePath = (value: string) => value.replace(/\/$/, '');
 
 /**
- * Versioned doc pages (/docs/<project>/<version>/) self-canonicalize by
- * default, so Google indexes them as independent pages competing with the
- * version-less "latest" URLs. This wrapper re-points their canonical to the
- * latest URL. Rendering order keeps the precedence right (react-helmet:
+ * Docusaurus gives versioned doc pages a version-less canonical by default,
+ * even when that route does not exist in the latest release. This wrapper
+ * marks historical/next pages noindex,follow and points their canonical to
+ * the latest URL only when that release contains the same document. Otherwise
+ * it explicitly self-canonicalizes the historical/next page. Rendering order
+ * keeps the precedence right
+ * (react-helmet:
  * last <Head> wins):
  *   1. default self-canonical (original LayoutHead)
  *   2. this wrapper's latest-URL canonical (versioned pages only)
@@ -31,16 +37,31 @@ const versionedDocPath = /^((?:\/zh)?\/docs\/[\w-]+\/)(?:(?:[\w-]+-)?\d+\.\d+(?:
 const LayoutHead: FC<{ [key: string]: unknown }> = (props) => {
   const { siteConfig: { url: siteUrl } } = useDocusaurusContext();
   const { pathname } = useLocation();
+  const activePlugin = useActivePlugin()?.pluginData;
   const match = pathname.match(versionedDocPath);
-  const latestUrl = match ? `${siteUrl}${match[1].replace(/\/$/, '')}${match[2]}` : null;
+  const activeDoc = match ? activePlugin?.versions
+    .flatMap(({ docs }) => docs)
+    .find(({ path }) => normalizePath(path) === normalizePath(pathname)) : undefined;
+  // Docusaurus returns versions newest-first. `current` is the unreleased
+  // `next` tree, so the first non-current entry is the latest release that
+  // actually owns the version-less Astro routes.
+  const latestRelease = activePlugin?.versions.find(({ name }) => name !== 'current');
+  const latestDoc = latestRelease?.docs.find(({ id }) => id === activeDoc?.id);
+  const latestPath = activePlugin && latestRelease && latestDoc
+    && latestDoc.path.startsWith(latestRelease.path)
+    ? `${activePlugin.path}${latestDoc.path.slice(latestRelease.path.length)}`
+    : null;
+  const latestUrl = latestPath ? `${siteUrl}${latestPath.replace(/\/?$/, '/')}` : null;
+  const canonicalUrl = match ? latestUrl ?? `${siteUrl}${pathname}` : null;
 
   return (
     <>
       <OriginalLayoutHead {...props} />
-      {latestUrl && (
+      {match && (
         <Head>
-          <meta property="og:url" content={latestUrl} />
-          <link rel="canonical" href={latestUrl} />
+          <meta name="robots" content="noindex,follow" />
+          <meta property="og:url" content={canonicalUrl} />
+          <link rel="canonical" href={canonicalUrl} />
         </Head>
       )}
     </>

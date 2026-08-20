@@ -22,8 +22,16 @@ interface Props {
   /** chronological neighbours in the same section (newest-first arrays) */
   newer?: Post;
   older?: Post;
+  /** Reciprocal language routes, only when a real translated article exists. */
+  alternatePaths?: { en: string; zh: string };
+  /** Used by locale fallback pages whose indexable source is another URL. */
+  canonicalOverride?: string;
+  languageSwitchPath?: string;
 }
-const { post, locale, path, tagBase, backUrl, schemaType = 'BlogPosting', jsonLdExtra = [], related = [], newer, older } = Astro.props;
+const {
+  post, locale, path, tagBase, backUrl, schemaType = 'BlogPosting', jsonLdExtra = [],
+  related = [], newer, older, alternatePaths, canonicalOverride, languageSwitchPath,
+} = Astro.props;
 const { Content } = post.mod;
 const minutes = readingMinutes(post.mod);
 const headings = post.mod.getHeadings().filter((h) => h.depth === 2 || h.depth === 3);
@@ -42,7 +50,19 @@ const jsonLd = [{
   mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
 }, ...jsonLdExtra];
 ---
-<Base title={post.title} description={post.description} locale={locale} path={path} image={post.image} jsonLd={jsonLd} ogType="article">
+<Base
+  title={post.title}
+  description={post.description}
+  locale={locale}
+  path={path}
+  image={post.image}
+  jsonLd={jsonLd}
+  ogType="article"
+  hasAlternate={Boolean(alternatePaths)}
+  alternatePaths={alternatePaths}
+  canonicalOverride={canonicalOverride}
+  languageSwitchPath={languageSwitchPath}
+>
   <div class={`container article-wrap${showToc || (tagBase && post.tags.length) ? ' with-rails' : ''}`}>
     <aside class="article-side">
       {tagBase && post.tags.length > 0 && (

@@ -1,5 +1,6 @@
 ---
 title: "Apache APISIX 3.2.0 正式发布"
+translationKey: release-apache-apisix-3.2.0
 authors:
   - name: "罗泽轩"
     title: "Author"

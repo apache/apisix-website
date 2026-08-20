@@ -3,12 +3,18 @@ import Article from '../../../layouts/Article.astro';
 import { getBlogPosts, relatedPosts } from '../../../lib/content';
 
 export function getStaticPaths() {
+  const enByKey = new Map(getBlogPosts('en').map((post) => [post.translationKey, post]));
   return getBlogPosts('zh').map((post) => ({
     params: { rest: post.slug },
-    props: { post },
+    props: {
+      post,
+      alternatePaths: enByKey.has(post.translationKey)
+        ? { en: enByKey.get(post.translationKey)!.url, zh: post.url }
+        : undefined,
+    },
   }));
 }
-const { post } = Astro.props;
+const { post, alternatePaths } = Astro.props;
 const pool = getBlogPosts('zh');
 const related = relatedPosts(post, pool);
 const idx = pool.findIndex((p) => p.url === post.url);
@@ -17,5 +23,7 @@ const older = idx >= 0 && idx < pool.length - 1 ? pool[idx + 1] : undefined;
 const path = post.url.replace(/^\/zh/, '');
 ---
 <Article post={post} locale="zh" path={path} tagBase="/zh/blog" schemaType="BlogPosting" related={related}
+  alternatePaths={alternatePaths}
+  languageSwitchPath="/blog/"
   newer={newer}
   older={older} />

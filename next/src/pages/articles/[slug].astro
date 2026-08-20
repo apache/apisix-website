@@ -13,5 +13,6 @@ const newer = idx > 0 ? pool[idx - 1] : undefined;
 const older = idx >= 0 && idx < pool.length - 1 ? pool[idx + 1] : undefined;
 ---
 <Article post={post} locale="en" path={`/articles/${post.slug}/`} schemaType="Article" backUrl="/articles/" related={related}
+  languageSwitchPath="/zh/articles/"
   newer={newer}
   older={older} />

@@ -32,14 +32,44 @@ function pagesUnder(dir) {
       const p = path.join(d, e.name);
       if (e.isDirectory()) walk(p);
       else if (e.name === 'index.html') {
-        out.push(`/${path.relative(dist, path.dirname(p)).split(path.sep).join('/')}/`.replace('/./', '/'));
+        const url = `/${path.relative(dist, path.dirname(p)).split(path.sep).join('/')}/`.replace('/./', '/');
+        out.push({ url: url === '//' ? '/' : url, file: p });
       }
     });
   }(dir));
-  return out.map((u) => (u === '//' ? '/' : u)).sort();
+  return out.sort((a, b) => a.url.localeCompare(b.url));
 }
 
-const all = pagesUnder(dist).filter((u) => !excludePatterns.some((pattern) => pattern.test(u)));
+function attr(tag, name) {
+  const match = tag.match(new RegExp(`\\s${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'));
+  return match?.[2];
+}
+
+function isSelfCanonicalPage(page) {
+  const html = fs.readFileSync(page.file, 'utf8');
+  const robots = [...html.matchAll(/<meta\b[^>]*>/gi)]
+    .filter(([tag]) => attr(tag, 'name')?.toLowerCase() === 'robots')
+    .flatMap(([tag]) => (attr(tag, 'content') ?? '').toLowerCase().split(/[\s,]+/));
+  if (robots.includes('noindex')) return false;
+
+  const canonical = [...html.matchAll(/<link\b[^>]*>/gi)]
+    .find(([tag]) => (attr(tag, 'rel') ?? '').toLowerCase().split(/\s+/).includes('canonical'));
+  const href = canonical ? attr(canonical[0], 'href') : undefined;
+  if (!href) return false;
+  try {
+    const resolved = new URL(href, SITE);
+    resolved.hash = '';
+    resolved.search = '';
+    return resolved.href === new URL(page.url, SITE).href;
+  } catch {
+    return false;
+  }
+}
+
+const all = pagesUnder(dist)
+  .filter((page) => !excludePatterns.some((pattern) => pattern.test(page.url)))
+  .filter(isSelfCanonicalPage)
+  .map((page) => page.url);
 const zh = all.filter((u) => u === '/zh/' || u.startsWith('/zh/'));
 const en = all.filter((u) => !zh.includes(u));
 

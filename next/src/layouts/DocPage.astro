@@ -44,9 +44,12 @@ const jsonLd = [{
  */
 const ZH_HUB = 'https://docs.apiseven.com';
 const rawCanonical = entry.mod.frontmatter.canonical;
-const canonicalOverride = locale === 'zh' && rawCanonical?.startsWith('https://docs.api7.ai/')
-  ? rawCanonical.replace('https://docs.api7.ai', ZH_HUB)
+const canonicalOverride = locale === 'zh'
+  ? rawCanonical?.startsWith('https://docs.api7.ai/')
+    ? rawCanonical.replace('https://docs.api7.ai', ZH_HUB)
+    : entry.hasTranslation ? rawCanonical : `${SITE}${path}`
   : rawCanonical;
+const hasAlternate = entry.hasTranslation && !canonicalOverride;
 ---
 <Base
   title={entry.title}
@@ -55,6 +58,7 @@ const canonicalOverride = locale === 'zh' && rawCanonical?.startsWith('https://d
   path={path}
   jsonLd={jsonLd}
   canonicalOverride={canonicalOverride}
+  hasAlternate={hasAlternate}
   search
 >
   <div class="container docs-layout">

@@ -1,7 +1,7 @@
 import { POSTS_PER_PAGE, localePrefix, type Locale } from './site';
 
 export interface MdModule {
-  frontmatter: Record<string, any>;
+  frontmatter: { [key: string]: any };
   file: string;
   Content: any;
   getHeadings: () => { depth: number; slug: string; text: string }[];
@@ -45,19 +45,18 @@ export function excerpt(mod: MdModule): string {
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/```[\s\S]*?```/g, '')
     .replace(/^<head>[\s\S]*?<\/head>$/m, '');
-  for (const block of cleaned.split(/\n\s*\n/)) {
-    const t = block.trim();
-    // Skip headings, admonitions, tables, html, quotes, images, code, list
-    // items, and imports — but NOT prose that merely starts with a [link].
-    if (!t || /^(#|:{3}|\||<|>|!\[|`|\* |- |\d+\. |import )/.test(t)) continue;
-    const text = t
+  // Skip headings, admonitions, tables, html, quotes, images, code, list
+  // items, and imports — but NOT prose that merely starts with a [link].
+  return cleaned
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter((block) => block && !/^(#|:{3}|\||<|>|!\[|`|\* |- |\d+\. |import )/.test(block))
+    .map((block) => block
       .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
       .replace(/[*_`]/g, '')
       .replace(/\s+/g, ' ')
-      .trim();
-    if (text.length >= 40) return text;
-  }
-  return '';
+      .trim())
+    .find((block) => block.length >= 40) ?? '';
 }
 
 export interface Post {
@@ -72,11 +71,13 @@ export interface Post {
   tags: string[];
   image?: string;
   author?: string;
+  /** Stable source identity used to pair real EN/ZH blog translations. */
+  translationKey?: string;
   mod: MdModule;
 }
 
 // NOTE: import.meta.glob patterns must be literals (Vite static analysis).
-type MdMap = Record<string, MdModule>;
+type MdMap = { [key: string]: MdModule };
 const blogEnModules = import.meta.glob('/content/blog-en/**/*.md', { eager: true }) as MdMap;
 const blogZhModules = import.meta.glob('/content/blog-zh/**/*.md', { eager: true }) as MdMap;
 const learningModules = import.meta.glob('/content/learning-center/*.md', { eager: true }) as MdMap;
@@ -93,12 +94,12 @@ const docsJavaEn = import.meta.glob('/content/docs-java-plugin-runner-en/**/*.md
 const docsGoEn = import.meta.glob('/content/docs-go-plugin-runner-en/**/*.md', { eager: true }) as MdMap;
 const docsPythonEn = import.meta.glob('/content/docs-python-plugin-runner-en/**/*.md', { eager: true }) as MdMap;
 
-const sidebarConfigs = import.meta.glob('/content/docs-*/config.json', { eager: true }) as Record<string, any>;
+const sidebarConfigs = import.meta.glob('/content/docs-*/config.json', { eager: true }) as { [key: string]: any };
 
 /** Git ref each project's docs were synced from (written by sync-content.mjs). */
 const docRefs = (Object.values(
-  import.meta.glob('/content/doc-refs.json', { eager: true }) as Record<string, any>,
-)[0]?.default ?? {}) as Record<string, string>;
+  import.meta.glob('/content/doc-refs.json', { eager: true }) as { [key: string]: any },
+)[0]?.default ?? {}) as { [key: string]: string };
 
 /**
  * "Edit this page" URL for an upstream project doc. Uses the ref the content
@@ -112,7 +113,7 @@ export function docEditUrl(project: string, repo: string, entry: DocEntry): stri
 }
 
 /** Sub-projects served under /docs/<key>/ via the generic route. */
-export const SUBPROJECTS: Record<string, { en: MdMap; zh?: MdMap; repo: string }> = {
+export const SUBPROJECTS: { [key: string]: { en: MdMap; zh?: MdMap; repo: string } } = {
   'ingress-controller': { en: docsIngressEn, zh: docsIngressZh, repo: 'apisix-ingress-controller' },
   'helm-chart': { en: docsHelmEn, repo: 'apisix-helm-chart' },
   docker: { en: docsDockerEn, zh: docsDockerZh, repo: 'apisix-docker' },
@@ -125,7 +126,7 @@ function baseName(file: string): string {
   return file.split('/').pop()!.replace(/\.md$/, '');
 }
 
-function toTags(fm: Record<string, any>): string[] {
+function toTags(fm: { [key: string]: any }): string[] {
   const tags = fm.tags ?? [];
   return Array.isArray(tags) ? tags.map(String) : [String(tags)];
 }
@@ -154,7 +155,13 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
     dateHuman: humanDate(new Date(`${y}-${mo}-${d}T00:00:00Z`), locale),
     tags: toTags(mod.frontmatter),
     image: mod.frontmatter.image,
-    author: mod.frontmatter.author ?? (Array.isArray(mod.frontmatter.authors) ? mod.frontmatter.authors[0]?.name : undefined),
+    author: mod.frontmatter.author
+      ?? (Array.isArray(mod.frontmatter.authors) ? mod.frontmatter.authors[0]?.name : undefined),
+    translationKey: String(
+      mod.frontmatter.translationKey
+      ?? mod.frontmatter.translation_key
+      ?? `${y}/${mo}/${d}/${name}`,
+    ).toLowerCase(),
     mod,
   };
 }
@@ -178,7 +185,9 @@ function flatPost(path: string, mod: MdModule, urlBase: string, locale: Locale):
   };
 }
 
-const byDateDesc = (a: Post, b: Post) => b.date.getTime() - a.date.getTime() || a.title.localeCompare(b.title);
+const byDateDesc = (a: Post, b: Post) => (
+  b.date.getTime() - a.date.getTime() || a.title.localeCompare(b.title)
+);
 
 export function getBlogPosts(locale: Locale): Post[] {
   const modules = locale === 'zh' ? blogZhModules : blogEnModules;
@@ -223,13 +232,13 @@ export function tagSlug(tag: string): string {
 
 export function groupByTag(posts: Post[]): Map<string, { label: string; posts: Post[] }> {
   const map = new Map<string, { label: string; posts: Post[] }>();
-  for (const post of posts) {
-    for (const tag of post.tags) {
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => {
       const slug = tagSlug(tag);
       if (!map.has(slug)) map.set(slug, { label: tag, posts: [] });
       map.get(slug)!.posts.push(post);
-    }
-  }
+    });
+  });
   return map;
 }
 
@@ -246,13 +255,41 @@ export interface DocEntry {
    * does not exist upstream.
    */
   sourceLocale: Locale;
+  /** True only when the corresponding Chinese file contains translated prose. */
+  hasTranslation: boolean;
   url: string;
   title: string;
   description: string;
   mod: MdModule;
 }
 
-function docId(path: string, root: string, fm?: Record<string, any>): string {
+function normalizedDocProse(mod: MdModule): string {
+  return (mod.rawContent?.() ?? '')
+    .replace(/^---[\s\S]*?---\s*/m, '')
+    .replace(/<!--[^]*?-->/g, ' ')
+    .replace(/```[^]*?```/g, ' ')
+    .replace(/`[^`]*`/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[#*_>|{}()[\]-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+/** A copied English file is not a translation merely because it exists in zh/. */
+export function isMeaningfulTranslation(en: MdModule, zh?: MdModule): boolean {
+  if (!zh) return false;
+  if (zh.frontmatter.translated === false) return false;
+  if (zh.frontmatter.translated === true) return true;
+  const enText = normalizedDocProse(en);
+  const zhText = normalizedDocProse(zh);
+  if (!zhText || zhText === enText) return false;
+  return (zhText.match(/[\u3400-\u9fff]/g) ?? []).length >= 20;
+}
+
+function docId(path: string, root: string, fm?: { [key: string]: any }): string {
   const rel = path.slice(path.indexOf(root) + root.length + 1).replace(/\.md$/, '');
   const dir = rel.includes('/') ? rel.slice(0, rel.lastIndexOf('/') + 1) : '';
   // Docusaurus URL precedence: frontmatter slug (root-relative if it starts
@@ -279,6 +316,7 @@ export function getGeneralDocs(locale: Locale): DocEntry[] {
         pathId: docId(p, 'docs-general'),
         // docs/general lives in this repo and has no per-locale source split.
         sourceLocale: 'en' as Locale,
+        hasTranslation: false,
         url: `${localePrefix(locale)}/docs/general/${id}/`,
         title: docTitle(mod, id),
         description: mod.frontmatter.description ?? excerpt(mod),
@@ -292,12 +330,16 @@ export function getApisixDocs(locale: Locale): DocEntry[] {
   const zh = new Map(Object.entries(docsApisixZh).map(([p, mod]) => [docId(p, 'docs-apisix-zh'), mod]));
   return Object.entries(docsApisixEn).map(([p, mod]) => {
     const id = docId(p, 'docs-apisix-en');
-    const translated = locale === 'zh' ? zh.get(id) : undefined;
+    const pathId = docId(p, 'docs-apisix-en');
+    const zhMod = zh.get(pathId);
+    const hasTranslation = isMeaningfulTranslation(mod, zhMod);
+    const translated = locale === 'zh' && hasTranslation ? zhMod : undefined;
     const effective = translated ?? mod;
     return {
       id,
-      pathId: docId(p, 'docs-apisix-en'),
+      pathId,
       sourceLocale: translated ? 'zh' : 'en',
+      hasTranslation,
       url: `${localePrefix(locale)}/docs/apisix/${id}/`,
       title: docTitle(effective, id),
       description: effective.frontmatter.description ?? excerpt(effective),
@@ -311,17 +353,21 @@ export function getSubprojectDocs(project: string, locale: Locale): DocEntry[] {
   const { en, zh } = SUBPROJECTS[project];
   const rootName = `docs-${project}-`;
   const zhMap = new Map(Object.entries(zh ?? {}).filter(([p]) => !p.endsWith('config.json'))
-    .map(([p, mod]) => [docId(p, `${rootName}zh`, mod.frontmatter), mod]));
+    .map(([p, mod]) => [docId(p, `${rootName}zh`), mod]));
   return Object.entries(en)
     .filter(([p]) => !p.endsWith('config.json'))
     .map(([p, mod]) => {
       const id = docId(p, `${rootName}en`, mod.frontmatter);
-      const translated = locale === 'zh' ? zhMap.get(id) : undefined;
+      const pathId = docId(p, `${rootName}en`);
+      const zhMod = zhMap.get(pathId);
+      const hasTranslation = isMeaningfulTranslation(mod, zhMod);
+      const translated = locale === 'zh' && hasTranslation ? zhMod : undefined;
       const effective = translated ?? mod;
       return {
         id,
-        pathId: docId(p, `${rootName}en`),
+        pathId,
         sourceLocale: (translated ? 'zh' : 'en') as Locale,
+        hasTranslation,
         url: `${localePrefix(locale)}/docs/${project}/${id}/`,
         title: docTitle(effective, id),
         description: effective.frontmatter.description ?? excerpt(effective),
@@ -396,14 +442,10 @@ export interface VersionEntry {
  * apisix it yields the trap-free "getting-started/README".
  */
 export function sidebarLandingId(nodes: SidebarNode[]): string | undefined {
-  for (const node of nodes) {
-    if (node.id) return node.id;
-    if (node.items) {
-      const found = sidebarLandingId(node.items);
-      if (found) return found;
-    }
-  }
-  return undefined;
+  return nodes.reduce<string | undefined>((found, node) => {
+    if (found || node.id) return found ?? node.id;
+    return node.items ? sidebarLandingId(node.items) : undefined;
+  }, undefined);
 }
 
 /**

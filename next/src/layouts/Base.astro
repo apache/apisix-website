@@ -22,6 +22,10 @@ interface Props {
   jsonLd?: object[];
   /** Set false for pages that exist in only one locale. */
   hasAlternate?: boolean;
+  /** Explicit locale paths when translated pages do not share one URL path. */
+  alternatePaths?: { en: string; zh: string };
+  /** Safe language-switch destination when no page-level translation exists. */
+  languageSwitchPath?: string;
   /** Open Graph object type; article pages pass "article". */
   ogType?: 'website' | 'article';
   noindex?: boolean;
@@ -41,6 +45,8 @@ const {
   image,
   jsonLd = [],
   hasAlternate = true,
+  alternatePaths,
+  languageSwitchPath,
   noindex = false,
   canonicalOverride,
   titleSuffix = true,
@@ -48,9 +54,18 @@ const {
   search = false,
 } = Astro.props;
 
-const enUrl = `${SITE}${path}`;
-const zhUrl = `${SITE}/zh${path}`;
-const canonical = canonicalOverride ?? (locale === 'zh' ? zhUrl : enUrl);
+const currentEnUrl = `${SITE}${path}`;
+const currentZhUrl = `${SITE}/zh${path}`;
+const enUrl = alternatePaths ? `${SITE}${alternatePaths.en}` : currentEnUrl;
+const zhUrl = alternatePaths ? `${SITE}${alternatePaths.zh}` : currentZhUrl;
+const canonical = canonicalOverride ?? (locale === 'zh' ? currentZhUrl : currentEnUrl);
+// A cross-site canonical and APISIX-local hreflang targets send conflicting
+// ownership signals. Upstream plugin docs therefore keep their API7 canonical
+// without advertising APISIX copies as alternate canonical pages.
+const emitAlternates = hasAlternate && !canonicalOverride;
+const switchPath = alternatePaths
+  ? (locale === 'zh' ? alternatePaths.en : alternatePaths.zh)
+  : languageSwitchPath;
 // Same pattern as production: "<page title> | Apache APISIX".
 const fullTitle = titleSuffix && !title.includes(' | ') ? `${title} | ${SITE_NAME}` : title;
 const desc = description?.trim() || DEFAULT_DESCRIPTION;
@@ -65,9 +80,9 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   <meta name="description" content={desc} />
   {noindex ? <meta name="robots" content="noindex" /> : <meta name="robots" content="index,follow" />}
   <link rel="canonical" href={canonical} />
-  {hasAlternate && <link rel="alternate" hreflang="en" href={enUrl} />}
-  {hasAlternate && <link rel="alternate" hreflang="zh" href={zhUrl} />}
-  {hasAlternate && <link rel="alternate" hreflang="x-default" href={enUrl} />}
+  {emitAlternates && <link rel="alternate" hreflang="en" href={enUrl} />}
+  {emitAlternates && <link rel="alternate" hreflang="zh" href={zhUrl} />}
+  {emitAlternates && <link rel="alternate" hreflang="x-default" href={enUrl} />}
   <link rel="icon" href={FAVICON} />
   <link rel="sitemap" type="application/xml" href={locale === 'zh' ? '/zh/sitemap.xml' : '/sitemap.xml'} />
   <meta property="og:type" content={ogType} />
@@ -76,7 +91,7 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   {/* og:url stays on this page even when the canonical points off-site
       (upstream docs that canonicalise to docs.api7.ai) — matching production,
       so shares of a plugin doc still resolve to apisix.apache.org. */}
-  <meta property="og:url" content={locale === 'zh' ? zhUrl : enUrl} />
+  <meta property="og:url" content={locale === 'zh' ? currentZhUrl : currentEnUrl} />
   <meta property="og:site_name" content="Apache APISIX" />
   <meta property="og:image" content={socialImage} />
   <meta name="twitter:image" content={socialImage} />
@@ -91,7 +106,7 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
   )}
 </head>
 <body>
-  <Header locale={locale} path={path} search={search} />
+  <Header locale={locale} path={path} search={search} switchPath={switchPath} />
   <main>
     <slot />
   </main>

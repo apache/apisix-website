@@ -144,16 +144,53 @@ jobs:
 
       # Guards the canonical contract of versioned doc pages (see
       # doc/src/theme/LayoutHead/index.tsx): versioned pages must carry exactly
-      # one canonical pointing at the version-less latest URL.
+      # one canonical. It points to the version-less latest URL when that page
+      # exists; otherwise the historical/next page self-canonicalizes.
       #
       # The version-less page itself is no longer part of this build — wave 3
       # moved it to Astro — so the half of this check that covered it now runs
       # after the overlay, against the page that actually ships.
       - name: Assert canonical contract
         run: |
-          f=$(ls website/build/docs/apisix/3.*/plugins/cors/index.html | head -1)
+          set -euo pipefail
+          for f in \
+            website/build/docs/apisix/3.16/installation-guide/index.html \
+            website/build/zh/docs/apisix/3.16/installation-guide/index.html \
+            website/build/docs/apisix/next/installation-guide/index.html \
+            website/build/zh/docs/apisix/next/installation-guide/index.html; do
+            test -f "$f"
+            test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+            grep -q 'name="robots" content="noindex,follow"' "$f"
+            case "$f" in
+              website/build/zh/*)
+                grep -q 'rel="canonical" href="https://apisix.apache.org/zh/docs/apisix/installation-guide/"' "$f"
+                ;;
+              *)
+                grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/installation-guide/"' "$f"
+                ;;
+            esac
+          done
+          # CORS gained the API7 hub canonical in 3.17. Keep that intentional
+          # cross-site contract separate from the APISIX-local fixture above.
+          while IFS='|' read -r f canonical; do
+            test -f "$f"
+            test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
+            grep -q 'name="robots" content="noindex,follow"' "$f"
+            grep -q "rel=\"canonical\" href=\"$canonical\"" "$f"
+          done <<'EOF'
+          website/build/docs/apisix/3.17/plugins/cors/index.html|https://docs.api7.ai/hub/cors
+          website/build/zh/docs/apisix/3.17/plugins/cors/index.html|https://docs.apiseven.com/hub/cors
+          website/build/docs/apisix/next/plugins/cors/index.html|https://docs.api7.ai/hub/cors
+          website/build/zh/docs/apisix/next/plugins/cors/index.html|https://docs.apiseven.com/hub/cors
+          EOF
+          # `mcp-bridge` exists on `next`, but not in the latest release. It
+          # must remain self-canonical instead of pointing at a missing local
+          # version-less page.
+          f=website/build/docs/apisix/next/plugins/mcp-bridge/index.html
+          test -f "$f"
           test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
-          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/cors/"' "$f"
+          grep -q 'name="robots" content="noindex,follow"' "$f"
+          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/next/plugins/mcp-bridge/"' "$f"
 
       - name: Update sitemap.xml
         run: |
@@ -408,6 +445,10 @@ jobs:
           grep -q 'rel="canonical" href="https://docs.apiseven.com/hub/cors"' "$f"
           grep -q 'property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/cors/"' \
             website/build/docs/apisix/plugins/cors/index.html
+          # Every APISIX-local canonical in the final output must resolve to a
+          # real file. This catches missing latest-release targets that sample
+          # checks cannot cover, including docs that exist only on `next`.
+          node next/scripts/assert-local-canonical-targets.mjs --dist website/build
           # Fail the deploy if the landing pages are not the Astro build, or
           # if the homepage lost its stylesheet link.
           grep -q 'The same gateway, now for your LLM traffic' website/build/index.html
@@ -417,12 +458,17 @@ jobs:
           # Wave-2 sanity: key subtree landmarks exist.
           test -f website/build/blog/index.html
           test -f website/build/zh/blog/index.html
+          test -f website/build/blog/rss.xml
+          test -f website/build/blog/atom.xml
+          test -f website/build/zh/blog/rss.xml
+          test -f website/build/zh/blog/atom.xml
           test -f website/build/blog/tags/index.html
           test -f website/build/learning-center/index.html
           test -f website/build/learning-center/atom.xml
           test -f website/build/articles/index.html
           test -f website/build/zh/articles/rss.xml
           test -f website/build/events/archive/index.html
+          test -f website/build/docs/general/events/index.html
           # The comparisons hub (a single index.html in both locales) is Astro's.
           grep -q '/_astro/' website/build/comparisons/index.html
           grep -q '/_astro/' website/build/zh/comparisons/index.html
@@ -539,6 +585,18 @@ jobs:
           fi
           if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?(blog/(tags|page|archive)|learning-center/(tags|page|archive)|articles/(page|archive)|events/archive)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
             echo 'Low-value aggregation URLs remain in the final sitemap.'
+            exit 1
+          fi
+          if grep -q '<loc>https://apisix.apache.org/docs/apisix/plugins/cors/</loc>' website/build/sitemap.xml; then
+            echo 'A page canonicalized to API7 remains in the APISIX sitemap.'
+            exit 1
+          fi
+          if grep -Eq '<loc>https://apisix\.apache\.org/(zh/)?docs/[^/]+/(next|([[:alnum:]_-]+-)?[0-9]+\.[0-9]+(\.[0-9]+)?)/' website/build/sitemap.xml website/build/zh/sitemap.xml; then
+            echo 'Historical or next docs remain in the final sitemap.'
+            exit 1
+          fi
+          if grep -Eq '^Disallow: /(zh/)?docs/.+/(next|([[:alnum:]_-]+-)?[0-9]+\.[0-9]+(\.[0-9]+)?)/' website/build/robots.txt; then
+            echo 'robots.txt still blocks versioned docs from reading noindex/canonical.'
             exit 1
           fi
 
