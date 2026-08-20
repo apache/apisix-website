@@ -15,11 +15,9 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.18.0 版本于 2026 年 8 月 24 日发布。该版本新增 AI 响应缓存、语义模型路由、安全插件、L4 增强与可观测性能力，并包含需要注意的升级变更。
+description: Apache APISIX 3.18.0 版本于 2026 年 8 月 20 日发布。该版本新增 AI 响应缓存、语义模型路由、安全插件、L4 增强与可观测性能力，并包含需要注意的升级变更。
 tags: [Community]
 ---
-
-<!-- TODO: 正式发布后替换 2026 年 8 月 24 日这一占位日期。 -->
 
 我们很高兴地宣布 Apache APISIX 3.18.0 正式发布。该版本带来了新的 AI Gateway 能力、更严格的安全默认值、L4 代理增强、可观测性改进，以及覆盖网关各模块的可靠性修复。
 
@@ -105,14 +103,6 @@ Admin API 现在会在写入时检查 `key-auth`、`basic-auth`、`jwt-auth`、`
 
 更多信息，请参阅 [PR #13803](https://github.com/apache/apisix/pull/13803)。
 
-### AI 代理默认使用 FFI HTTP 客户端
-
-`ai-proxy`、`ai-proxy-multi` 与 `ai-request-rewrite` 现在默认使用 `ngx_http_ffi_client`。本版本固定的 APISIX Runtime 已包含兼容的 v0.1.3 客户端。使用不含该模块或其解析器钩子的旧版或自定义 Runtime 时，必须升级 Runtime，或设置 `plugin_attr.ai-proxy.http_client: lua-resty-http`。
-
-**升级计划：** APISIX 3.18.0 固定的 Runtime 无需兼容性调整。使用旧版或自定义 Runtime 时，请检查 `nginx -V`，并确认 `ngx_http_ffi_client` 版本兼容且具备 v0.1.3 使用的解析器钩子；仅确认模块存在并不充分。请升级 Runtime，或在承载 AI 流量前设置 `plugin_attr.ai-proxy.http_client: lua-resty-http`，随后测试实际提供商使用的 DNS、TLS、缓冲响应与流式路径。
-
-更多信息，请参阅 [PR #13778](https://github.com/apache/apisix/pull/13778)。
-
 ### 限制大型 `post_arg.*` 路由匹配读取
 
 用于 `post_arg.*` 路由条件的 JSON 和 multipart 请求体现在默认限制为 64 MiB。更大的请求体将无法命中该条件，并可能返回 404。如需保留无限制读取，请调高 `apisix.max_post_args_readable_size`，或将其设为 `0`。
@@ -156,6 +146,24 @@ LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证�
 ## 新功能
 
 APISIX 3.18.0 扩展了 AI Gateway、身份验证、L4 代理、可观测性、限流、日志和流量管理能力。以下内容将分别介绍各项主要功能的适用场景、工作方式和关键配置选择。
+
+### 使用 FFI HTTP 客户端发送 AI 上游请求
+
+`ai-proxy`、`ai-proxy-multi` 与 `ai-request-rewrite` 现在默认通过 `ngx_http_ffi_client` 向上游 LLM 发送请求。该客户端基于 C 实现，可降低出站 HTTP 开销，同时支持与 `lua-resty-http` 相同的缓冲、流式、TLS 和连接复用路径。
+
+APISIX 3.18.0 固定的 APISIX-Runtime 已包含兼容的 v0.1.3 客户端及其 APISIX 域名解析钩子。该钩子可保持网关原有的 DNS 行为，包括 `dns_resolver`、`/etc/hosts` 和搜索域处理，同时为 `Host` 请求头与 SNI 保留原始主机名。
+
+使用自行构建或旧版 APISIX-Runtime 的运维人员可以显式保留 Lua 客户端：
+
+```yaml
+plugin_attr:
+  ai-proxy:
+    http_client: lua-resty-http
+```
+
+配置的客户端不可用时，传输层不会静默切换到另一客户端。本版本固定的 APISIX-Runtime 无需兼容性调整；自定义 APISIX-Runtime 用户应确认客户端版本，或选择 `lua-resty-http`，随后测试实际提供商使用的 DNS、TLS、缓冲响应和流式路径。
+
+更多信息，请参阅 [PR #13778](https://github.com/apache/apisix/pull/13778)。
 
 ### 使用 `ai-cache` 缓存 LLM 响应
 
@@ -476,7 +484,7 @@ AI 代理现在能够保留更多上游提供商的原始语义，并使重试�
 - 结构化与多模态消息内容会为文本消费者进行一致展开，同时在精确缓存键中保持区别；包含非文本状态的提示词会绕过语义缓存。参阅 [PR #13634](https://github.com/apache/apisix/pull/13634) 和 [PR #13654](https://github.com/apache/apisix/pull/13654)。
 - 协议转换将一个上游数据块展开为多个客户端事件时，实时审核不再重复计算同一数据块。参阅 [PR #13765](https://github.com/apache/apisix/pull/13765)。
 
-`ai-request-rewrite` 的内部请求不再把下游客户端的 `Authorization` 或 `Cookie` 请求头转发到配置的 LLM 端点；透明代理的 `ai-proxy` 路径仍会按文档转发客户端请求头。参阅 [PR #13699](https://github.com/apache/apisix/pull/13699)。
+`ai-request-rewrite` 的内部请求现在只携带插件中配置的提供商凭证，不再转发下游客户端的 `Cookie` 及其他请求头；当提供商通过查询参数、`api-key` 或 SigV4 进行身份验证，而不会覆盖 `Authorization` 请求头时，客户端的 `Authorization` 也不会再被转发。透明代理的 `ai-proxy` 路径仍会按文档转发客户端请求头。参阅 [PR #13699](https://github.com/apache/apisix/pull/13699)。
 
 ### 身份验证与身份安全
 
@@ -533,7 +541,7 @@ CAS 单点登出回调现在会在插件处终止，不再转发到上游；Casd
 
 - Elasticsearch、Kafka、RocketMQ、SLS 与 Syslog 不再把序列化日志负载写入错误日志；Kafka SASL 凭证也会在错误路径中脱敏。参阅 [PR #13502](https://github.com/apache/apisix/pull/13502) 和 [PR #13786](https://github.com/apache/apisix/pull/13786)。
 - Loki 会按请求解析动态标签，并按解析后的标签集合对批次中的条目分组，避免一个服务的标签泄漏到另一个服务。参阅 [PR #13562](https://github.com/apache/apisix/pull/13562)。
-- Loggly 会将每个批处理器绑定到自己的配置，避免一条路由的令牌或标签被另一条路由的日志批次使用。参阅 [PR #13648](https://github.com/apache/apisix/pull/13648)。
+- Loggly 会将每个批处理器绑定到自己的配置，避免一条路由的端点、令牌或标签被另一条路由的日志批次使用。参阅 [PR #13648](https://github.com/apache/apisix/pull/13648)。
 - 合并后的 DogStatsD 数据包超过 Agent 默认接收缓冲区时，Datadog 会回退为逐指标数据报。参阅 [PR #13665](https://github.com/apache/apisix/pull/13665)。
 - 部分日志文件轮转成功时仍会发送 reopen 信号。参阅 [PR #13375](https://github.com/apache/apisix/pull/13375)。
 

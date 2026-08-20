@@ -15,11 +15,9 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.18.0 is released on Aug 24, 2026. This release introduces AI response caching, semantic model routing, new security plugins, L4 enhancements, observability improvements, and important upgrade considerations.
+description: Apache APISIX 3.18.0 was released on Aug 20, 2026. This release introduces AI response caching, semantic model routing, new security plugins, L4 enhancements, observability improvements, and important upgrade considerations.
 tags: [Community]
 ---
-
-<!-- TODO: Replace Aug 24, 2026 with the final release date. -->
 
 We are glad to present Apache APISIX 3.18.0 with new AI Gateway capabilities, stronger security defaults, L4 proxy enhancements, observability improvements, and reliability fixes across the gateway.
 
@@ -105,14 +103,6 @@ For more information, see [PR #13529](https://github.com/apache/apisix/pull/1352
 
 For more information, see [PR #13803](https://github.com/apache/apisix/pull/13803).
 
-### AI proxy defaults to the FFI HTTP client
-
-`ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` now default to `ngx_http_ffi_client`. The APISIX Runtime pinned by this release includes the compatible v0.1.3 client. Operators using an older or custom runtime without that module or its resolver hook must upgrade the runtime or set `plugin_attr.ai-proxy.http_client: lua-resty-http`.
-
-**Upgrade plan:** The runtime pinned by APISIX 3.18.0 needs no compatibility change. If you use an older or custom runtime, inspect `nginx -V` and confirm a compatible `ngx_http_ffi_client` revision with the resolver hook used by v0.1.3; module presence alone is insufficient. Upgrade the runtime or set `plugin_attr.ai-proxy.http_client: lua-resty-http` before AI traffic, then test DNS resolution, TLS, buffered responses, and streaming paths that your providers use.
-
-For more information, see [PR #13778](https://github.com/apache/apisix/pull/13778).
-
 ### Large `post_arg.*` route matches are bounded
 
 JSON and multipart bodies read for `post_arg.*` route predicates now default to a 64 MiB cap. A larger body no longer matches the predicate and can result in a 404. Raise `apisix.max_post_args_readable_size` or set it to `0` to retain unlimited reads.
@@ -156,6 +146,24 @@ For more information, see [PR #13489](https://github.com/apache/apisix/pull/1348
 ## New Features
 
 APISIX 3.18.0 expands AI Gateway, authentication, L4 proxying, observability, rate limiting, logging, and traffic-management capabilities. The following sections explain the use cases, behavior, and key configuration choices for each major addition.
+
+### Use the FFI HTTP client for AI upstream requests
+
+`ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite` now send upstream LLM requests through `ngx_http_ffi_client` by default. This C-based client reduces outbound HTTP overhead while supporting the same buffered, streaming, TLS, and connection-reuse paths as `lua-resty-http`.
+
+APISIX 3.18.0 pins an APISIX Runtime that includes the compatible v0.1.3 client and its APISIX resolver hook. The hook preserves gateway DNS behavior, including `dns_resolver`, `/etc/hosts`, and search-domain handling, while retaining the original hostname for the Host header and SNI.
+
+Operators using a hand-built or older Runtime can explicitly retain the Lua client:
+
+```yaml
+plugin_attr:
+  ai-proxy:
+    http_client: lua-resty-http
+```
+
+The transport does not silently switch clients when the configured client is unavailable. The Runtime pinned by this release needs no compatibility change; custom Runtime users should verify the client revision or select `lua-resty-http`, then test the DNS, TLS, buffered-response, and streaming paths their providers use.
+
+For more information, see [PR #13778](https://github.com/apache/apisix/pull/13778).
 
 ### Cache LLM responses with `ai-cache`
 
@@ -476,7 +484,7 @@ Protocol conversion is more resilient and faithful:
 - Structured and multimodal message content is flattened consistently for text consumers while remaining distinct in exact cache keys; semantic caching bypasses prompts containing non-text state. See [PR #13634](https://github.com/apache/apisix/pull/13634) and [PR #13654](https://github.com/apache/apisix/pull/13654).
 - Realtime moderation no longer counts one upstream chunk multiple times when protocol conversion fans it out into several client events. See [PR #13765](https://github.com/apache/apisix/pull/13765).
 
-Internal requests from `ai-request-rewrite` no longer forward the downstream client's `Authorization` or `Cookie` headers to the configured LLM endpoint. The transparent `ai-proxy` path still forwards client headers as documented. See [PR #13699](https://github.com/apache/apisix/pull/13699).
+Internal requests from `ai-request-rewrite` now carry only the plugin's configured provider credentials. They no longer forward the downstream client's `Cookie` or other client headers; the client's `Authorization` header is also withheld when the provider authenticates through a query parameter, `api-key`, or SigV4 instead of overwriting that header. The transparent `ai-proxy` path still forwards client headers as documented. See [PR #13699](https://github.com/apache/apisix/pull/13699).
 
 ### Authentication and identity security
 
@@ -533,7 +541,7 @@ Logger payloads and credentials are less likely to leak or cross configuration b
 
 - Elasticsearch, Kafka, RocketMQ, SLS, and Syslog no longer write serialized log payloads into the error log; Kafka SASL credentials are redacted from error paths. See [PR #13502](https://github.com/apache/apisix/pull/13502) and [PR #13786](https://github.com/apache/apisix/pull/13786).
 - Loki resolves dynamic labels per request and groups each batch by the resolved label set, preventing one service's labels from leaking to another. See [PR #13562](https://github.com/apache/apisix/pull/13562).
-- Loggly binds each batch processor to its own configuration, preventing one Route's token or tags from being used for another Route's batch. See [PR #13648](https://github.com/apache/apisix/pull/13648).
+- Loggly binds each batch processor to its own configuration, preventing one Route's endpoint, token, or tags from being used for another Route's batch. See [PR #13648](https://github.com/apache/apisix/pull/13648).
 - Datadog falls back to per-metric datagrams when a coalesced DogStatsD packet would exceed the agent's default receive buffer. See [PR #13665](https://github.com/apache/apisix/pull/13665).
 - Partial log rotation still sends the reopen signal when at least one file was rotated successfully. See [PR #13375](https://github.com/apache/apisix/pull/13375).
 
