@@ -137,7 +137,7 @@ LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证�
 
 ### AI 安全插件默认跳过无法识别的流量
 
-`ai-aliyun-content-moderation`、`ai-aws-content-moderation` 与 `ai-prompt-guard` 新增的 `fail_mode` 均默认为 `skip`。无论插件通过 Route、Service 还是 Consumer 生效，无法识别的流量现在都会未经检查直接放行。该行为取代了阿里云审核原有的 500 和 AWS 的原始请求体审核，同时保留 `ai-prompt-guard` 原本的放行结果。
+`ai-aliyun-content-moderation`、`ai-aws-content-moderation` 与 `ai-prompt-guard` 新增的 `fail_mode` 均默认为 `skip`。具体变化取决于原有处理路径：缺少 AI 代理上下文、Content-Type 不受支持或协议无法识别时，阿里云审核不再返回错误；请求体不是有效 JSON 时，`ai-prompt-guard` 不再返回 400，而其无法识别 AI 协议的路径原本就会放行；AWS 审核也不再将非 JSON 请求体作为原始文本进行检查。无论插件通过 Route、Service 还是 Consumer 生效，这些请求现在都会未经检查直接放行。
 
 **升级计划：** 如果使用以上任一插件，请根据是否可能收到混合或无法识别的流量，逐一评估 Route、Service 和 Consumer 绑定。无法接受绕过时显式设置 `fail_mode: error`；混合流量需要放行时，应有意识地选择 `skip` 或 `warn`。请测试非 JSON 请求体、不支持的 AI 协议，以及未经过 `ai-proxy` 的请求。
 

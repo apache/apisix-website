@@ -137,7 +137,7 @@ For more information, see [PR #13487](https://github.com/apache/apisix/pull/1348
 
 ### AI security plugins default to skipping unrecognized traffic
 
-The new `fail_mode` option defaults to `skip` for `ai-aliyun-content-moderation`, `ai-aws-content-moderation`, and `ai-prompt-guard`. Unrecognized traffic now passes through unchecked whether the plugin is exposed through a Route, Service, or Consumer. This replaces Aliyun's previous 500 and AWS's raw-body moderation behavior, while preserving `ai-prompt-guard`'s previous pass-through outcome.
+The new `fail_mode` option defaults to `skip` for `ai-aliyun-content-moderation`, `ai-aws-content-moderation`, and `ai-prompt-guard`. The exact change depends on the previous path: Aliyun moderation no longer returns an error for missing AI context, unsupported content types, or unsupported protocols; `ai-prompt-guard` no longer returns 400 for invalid JSON, while its unrecognized-protocol path already passed through; and AWS moderation no longer scans a non-JSON body as raw text. These requests now pass through unchecked whether the plugin is exposed through a Route, Service, or Consumer.
 
 **Upgrade plan:** If you use any of these plugins, classify each Route, Service, or Consumer binding by whether it can receive mixed or unrecognized traffic. Set `fail_mode: error` where bypass is unacceptable; use `skip` or `warn` deliberately where mixed traffic must pass. Test non-JSON bodies, unsupported AI protocols, and requests that do not pass through `ai-proxy`.
 
