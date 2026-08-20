@@ -63,6 +63,12 @@ const COMPARISONS: Comparison[] = [
     to: '/learning-center/api-gateway-vs-load-balancer/',
   },
   {
+    title: 'API gateway vs API management',
+    description:
+      'Runtime traffic control vs the broader API lifecycle, and when an organization needs both.',
+    to: '/learning-center/api-gateway-vs-api-management/',
+  },
+  {
     title: 'Kubernetes API gateway',
     description:
       'Gateway API vs Ingress, ingress controllers, and deploying an API gateway on Kubernetes.',

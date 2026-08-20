@@ -48,6 +48,8 @@
 ## Learning Center
 
 - [What is an API Gateway?](https://apisix.apache.org/learning-center/what-is-an-api-gateway/): Definition, benefits, and use cases
+- [API Gateway vs API Management: Key Differences](https://apisix.apache.org/learning-center/api-gateway-vs-api-management/): Runtime gateway capabilities compared with full API lifecycle management
+- [API Governance: Framework and Best Practices](https://apisix.apache.org/learning-center/api-governance/): Design-time and runtime governance, operating models, and implementation practices
 - [API Gateway Authentication: Methods, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-authentication/): Auth at gateway layer (JWT, OAuth2, mTLS, HMAC)
 - [API Gateway for Microservices: Architecture, Patterns & Best Practices](https://apisix.apache.org/learning-center/api-gateway-for-microservices/): Microservices architecture with API gateway
 - [API Gateway Rate Limiting: Algorithms, Strategies & Configuration](https://apisix.apache.org/learning-center/api-gateway-rate-limiting/): Token bucket, sliding window, leaky bucket
