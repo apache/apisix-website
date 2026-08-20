@@ -120,7 +120,7 @@ APISIX also supports JWT authentication, key authentication, OpenID Connect, rat
 
 ### What is the difference between API gateway security and API security?
 
-API security is the broad discipline of protecting APIs across their entire lifecycle, including design, development, testing, and runtime. API gateway security specifically refers to the security controls enforced at the gateway layer during runtime, such as authentication, rate limiting, and input validation. The gateway is one component of a comprehensive API security strategy, not a replacement for secure coding practices and security testing.
+API security is the broad discipline of protecting APIs across their entire lifecycle, including design, development, testing, and runtime. API gateway security specifically refers to the security controls enforced at the gateway layer during runtime, such as authentication, rate limiting, and input validation. The gateway is one component of a comprehensive API security strategy, not a replacement for secure coding practices and security testing. An [API governance framework](/learning-center/api-governance/) connects these runtime controls with ownership, design standards, exceptions, and lifecycle decisions.
 
 ### Should I terminate TLS at the API gateway or at the backend service?
 

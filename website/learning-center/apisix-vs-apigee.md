@@ -36,7 +36,7 @@ APISIX is a **gateway**. It excels at routing, authentication, rate limiting, tr
 
 Apigee is a **platform**. It includes a gateway, but its value proposition extends to the full API business: onboarding external developers through a portal, analyzing API usage for product decisions, monetizing APIs, and governing them across their lifecycle.
 
-This means the comparison is rarely feature-for-feature. The real question is whether you need a focused, high-performance gateway you can run anywhere, or an end-to-end managed API management suite, and whether you are willing to trade cost and portability for that breadth.
+This means the comparison is rarely feature-for-feature. The real question is whether you need a focused, high-performance gateway you can run anywhere, or an end-to-end managed API management suite, and whether you are willing to trade cost and portability for that breadth. See [API gateway vs API management](/learning-center/api-gateway-vs-api-management/) for a vendor-neutral breakdown of these categories.
 
 ## Architecture and Deployment
 

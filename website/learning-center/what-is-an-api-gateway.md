@@ -120,7 +120,7 @@ In practice, many organizations start with a reverse proxy or load balancer and 
 
 ### API Gateway vs API Management
 
-An API gateway is the runtime component on the request path. It routes traffic and enforces policies. API management is the broader lifecycle discipline and may also include API design, publishing, documentation, developer onboarding, analytics, and governance. A gateway can be part of an API management platform, but the two terms are not interchangeable.
+An API gateway is the runtime component on the request path. It routes traffic and enforces policies. API management is the broader lifecycle discipline and may also include API design, publishing, documentation, developer onboarding, analytics, and governance. A gateway can be part of an API management platform, but the two terms are not interchangeable. The [API gateway vs API management guide](/learning-center/api-gateway-vs-api-management/) compares their responsibilities and explains when teams need both.
 
 ## API Gateway Use Cases
 
