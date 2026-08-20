@@ -20,7 +20,7 @@ faq:
       All four gateways support Kubernetes, but the depth varies. APISIX and Kong offer dedicated ingress controllers with CRD-based configuration. Envoy integrates through the Kubernetes Gateway API and service mesh deployments. Traefik auto-discovers Kubernetes services natively. The emerging Kubernetes Gateway API standard is supported by all four projects to varying degrees, and is becoming the recommended approach for new deployments.
 ---
 
-An open-source API gateway sits between clients and backend services, handling routing, authentication, rate limiting, and observability. Apache APISIX, Kong, Envoy, and Traefik are among the most widely adopted options, each with distinct architectural decisions that affect performance, extensibility, and operational complexity.
+An open-source [API gateway](/learning-center/what-is-an-api-gateway/) sits between clients and backend services, handling routing, authentication, rate limiting, and observability. Apache APISIX, Kong, Envoy, and Traefik are among the most widely adopted options, each with distinct architectural decisions that affect performance, extensibility, and operational complexity.
 
 ## Why the Choice of API Gateway Matters
 
@@ -134,7 +134,6 @@ All four gateways support Kubernetes, but the depth varies. APISIX and Kong offe
 ## Related
 
 - [All API gateway comparisons](/comparisons/)
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
 - [Apache APISIX vs Kong](/learning-center/apisix-vs-kong/)
 - [Apache APISIX vs Traefik](/learning-center/apisix-vs-traefik/)
 - [Get started with Apache APISIX](/docs/apisix/getting-started/)

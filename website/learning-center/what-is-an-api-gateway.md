@@ -8,22 +8,22 @@ hide_table_of_contents: false
 faq:
   - q: "What is the difference between an API gateway and a load balancer?"
     a: >-
-      A load balancer distributes incoming traffic across multiple server instances using algorithms like round-robin or least connections. It operates at the network or transport layer (L4) or HTTP layer (L7) but does not understand API semantics. An API gateway performs load balancing as one of many functions, and adds API-specific capabilities: authentication, rate limiting, request transformation, caching, and observability. If you only need to distribute traffic, a load balancer suffices. If you need to manage, secure, and observe API traffic, you need a gateway.
+      A load balancer's primary role is distributing traffic across healthy server instances. Some Layer 7 load balancers also provide authentication, rate limiting, or header-based routing, so the feature sets can overlap. An API gateway is designed around API-level policies for routes and consumers, such as authentication, quotas, transformation, and API observability. Choose based on the policy model you need, not on a strict feature checklist.
   - q: "Do I need an API gateway for a monolithic application?"
     a: >-
       An API gateway is not strictly required for a monolith, but it can still add value. If your monolith exposes APIs consumed by external clients, mobile apps, or third-party integrators, a gateway provides centralized authentication, rate limiting, and monitoring without modifying the application. It also positions your architecture for incremental migration to microservices using the strangler fig pattern.
   - q: "How does an API gateway affect latency?"
     a: >-
-      A well-implemented gateway adds minimal latency --- typically 0.2ms to 2ms per request depending on the number of active plugins. High-performance gateways like Apache APISIX are optimized for sub-millisecond overhead. The latency tradeoff is almost always worthwhile: the gateway eliminates redundant auth checks, reduces backend calls through caching, and prevents cascading failures through circuit breaking, all of which improve overall system response times.
+      An API gateway adds another network hop and executes policies before forwarding a request, so it always adds some latency. The actual overhead depends on deployment topology, TLS settings, enabled plugins, request and response transformations, and logging. Benchmark the gateway with the same policy chain and traffic profile you expect in production rather than relying on a universal latency figure.
   - q: "Can an API gateway replace a service mesh?"
     a: >-
-      An API gateway and a service mesh serve different layers. The gateway handles north-south traffic (external clients to internal services), while a service mesh manages east-west traffic (service-to-service communication within the cluster). They are complementary, not competing, technologies. Some organizations use APISIX as both a gateway and an ingress controller, bridging the two layers, but a full service mesh (Istio, Linkerd) addresses concerns like mutual TLS between services and fine-grained internal traffic policies that fall outside a gateway's scope.
+      An API gateway and a service mesh usually serve different traffic boundaries. The gateway handles north-south traffic from API clients to services, while a service mesh focuses on east-west service-to-service communication. Apache APISIX can expose and control APIs at a cluster edge, but that does not replace mesh capabilities such as workload identity and service-to-service mTLS.
   - q: "Is an API gateway the same as an API management platform?"
     a: >-
-      No. An API gateway is the runtime component that processes API traffic. An API management platform is a broader category that typically includes a gateway, a developer portal, API documentation tools, lifecycle management, and analytics dashboards. The gateway is the engine; the management platform is the full vehicle. Apache APISIX provides the high-performance gateway layer, and organizations often pair it with additional tooling for the complete API management lifecycle.
+      No. An API gateway is the runtime component that processes API traffic. API management is a broader category that can include a gateway, developer onboarding, API documentation, lifecycle governance, and analytics. Apache APISIX provides the open-source gateway layer; teams can integrate it with the other tools required for their API lifecycle.
 ---
 
-An API gateway is a server that sits between clients and backend services, acting as the single entry point for all API traffic. It accepts incoming requests, applies policies such as authentication, rate limiting, and transformation, then routes each request to the appropriate upstream service and returns the response to the caller.
+An API gateway is a server that sits between clients and backend services, acting as an entry point for the APIs placed behind it. It accepts incoming requests, applies policies such as authentication, rate limiting, and transformation, then routes each request to the appropriate upstream service and returns the response to the caller.
 
 In practice, an API gateway consolidates cross-cutting concerns that would otherwise be duplicated across every microservice: access control, traffic shaping, observability, and protocol translation. Instead of embedding this logic in each service, teams centralize it at the gateway layer, reducing code duplication, simplifying deployments, and giving platform teams a single control plane for governing API behavior at scale.
 
@@ -31,7 +31,7 @@ In practice, an API gateway consolidates cross-cutting concerns that would other
 
 The request lifecycle through an API gateway follows a well-defined pipeline:
 
-1. **Client sends a request.** A mobile app, browser, or upstream service issues an HTTP/HTTPS request to the gateway's public endpoint. The client never communicates directly with individual backend services.
+1. **Client sends a request.** A mobile app, browser, or upstream service issues an HTTP/HTTPS request to the gateway endpoint. For APIs exposed through the gateway, the client does not need to know the location of individual backend services.
 
 2. **Gateway evaluates policies.** The gateway inspects the incoming request and runs it through a chain of plugins or middleware. This typically includes validating authentication tokens (JWT, OAuth 2.0, API keys), enforcing rate limits, checking IP allowlists, and applying request transformations such as header injection or body rewriting.
 
@@ -41,9 +41,9 @@ The request lifecycle through an API gateway follows a well-defined pipeline:
 
 5. **Gateway processes the response.** Before forwarding the response to the client, the gateway can apply response transformations, inject CORS headers, compress the payload, or cache the result for subsequent identical requests.
 
-6. **Gateway returns the response.** The final response reaches the client with appropriate status codes, headers, and payload. Throughout this entire cycle, the gateway emits metrics, access logs, and traces that feed into observability systems.
+6. **Gateway returns the response.** The final response reaches the client with appropriate status codes, headers, and payload. When the corresponding observability features are enabled, the gateway can emit metrics, access logs, and trace data for the traffic it processes.
 
-This pipeline executes in milliseconds. High-performance gateways like Apache APISIX complete it in under 1ms of added latency, making the overhead negligible even for latency-sensitive workloads.
+Each policy and network hop adds some processing time. Measure gateway latency with the same TLS settings, plugins, logging, payloads, and traffic profile you plan to run in production.
 
 ## Key Features of an API Gateway
 
@@ -59,27 +59,27 @@ Distributing traffic across service instances prevents hotspots and improves ava
 
 ### Authentication and Authorization
 
-Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) and authorization eliminates the need for each service to implement its own auth stack. Common mechanisms include JWT validation, OAuth 2.0 token introspection, HMAC signatures, LDAP, and [API key authentication](/docs/apisix/plugins/key-auth/). Some gateways also integrate with external identity providers through OpenID Connect.
+Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) and common access policies reduces duplicated security logic across services. Common mechanisms include JWT validation, OAuth 2.0 token introspection, HMAC signatures, LDAP, and [API key authentication](/docs/apisix/plugins/key-auth/). Some gateways also integrate with external identity providers through OpenID Connect. Backend services still need to enforce business authorization, resource ownership, and other application-specific rules.
 
 ### Rate Limiting
 
-Rate limiting protects backend services from traffic spikes, abusive clients, and cascading failures. Gateways enforce limits at multiple granularities: per consumer, per route, per IP, or globally. Apache APISIX provides configurable [rate limiting plugins](/docs/apisix/plugins/limit-req/) that support both fixed-window and leaky-bucket algorithms, with shared counters across gateway nodes via Redis.
+Rate limiting protects backend services from traffic spikes, abusive clients, and cascading failures. Gateways enforce limits at multiple granularities: per consumer, per route, per IP, or globally. In Apache APISIX, [`limit-req`](/docs/apisix/plugins/limit-req/) uses a leaky-bucket algorithm for request-rate control, while [`limit-count`](/docs/apisix/plugins/limit-count/) applies quotas within fixed time windows. Redis-backed policies can share counters across gateway nodes when a deployment requires a cluster-wide limit.
 
 ### Caching
 
-Response caching at the gateway layer reduces backend load and improves latency for read-heavy endpoints. Gateways cache responses based on configurable TTLs, cache keys (URI, headers, query strings), and invalidation rules. For APIs serving relatively static data --- product catalogs, configuration endpoints, reference data --- caching can reduce upstream requests by 80% or more.
+Response caching at the gateway layer can reduce backend load and improve latency for read-heavy endpoints. Gateways cache responses based on configurable TTLs, cache keys (URI, headers, query strings), and bypass rules. The benefit depends on response cacheability, request distribution, cache sizing, and invalidation requirements, so teams should measure hit rate and upstream load for their own traffic.
 
 ### Request and Response Transformation
 
-Gateways can rewrite requests before they reach the backend and transform responses before they reach the client. This includes header manipulation, body rewriting, protocol translation (HTTP to gRPC, REST to GraphQL), and payload format conversion. Transformation eliminates the need for adapter services and simplifies API versioning.
+Gateways can rewrite requests before they reach the backend and transform responses before they reach the client. Depending on the product and configuration, this can include header manipulation, body rewriting, HTTP-to-gRPC transcoding, GraphQL-to-REST mapping, and payload format conversion. Explicit mappings are required, and more complex translations may still need a dedicated adapter service.
 
 ### Monitoring and Observability
 
-A gateway sees every request, making it the natural instrumentation point for API metrics. Production gateways export access logs, request/response latencies (P50, P95, P99), error rates, and throughput to systems like Prometheus, Datadog, and OpenTelemetry collectors. Apache APISIX ships with built-in integrations for [Prometheus](/docs/apisix/plugins/prometheus/), Grafana, SkyWalking, and Zipkin.
+A gateway sees the requests that pass through it, making it a useful instrumentation point for API metrics. Production gateways can export access logs, request and response latencies, error rates, and throughput to systems such as Prometheus, Datadog, and OpenTelemetry collectors. Apache APISIX can expose [Prometheus metrics](/docs/apisix/plugins/prometheus/) that teams may visualize in Grafana, and it provides plugins for tracing systems such as SkyWalking and Zipkin.
 
 ### SSL/TLS Termination
 
-The gateway handles TLS handshakes, certificate management, and encryption offloading so that backend services can communicate over plain HTTP internally. This simplifies certificate rotation, centralizes security policy, and reduces CPU overhead on upstream services. Modern gateways also support mTLS for service-to-service authentication.
+The gateway can terminate client-facing TLS and centralize certificate selection and policy enforcement. Communication from the gateway to upstream services is configured separately and can use TLS or [mutual TLS](/learning-center/what-is-mutual-tls/) when the network and identity model require it. This separation lets teams manage encryption and certificate rotation at both trust boundaries instead of assuming internal traffic is safe by default.
 
 ### Circuit Breaking
 
@@ -87,7 +87,7 @@ When a backend service becomes degraded or unresponsive, a circuit breaker at th
 
 ### API Versioning and Canary Releases
 
-Gateways can route a percentage of traffic to new service versions, enabling canary deployments and blue-green releases without infrastructure changes. Traffic-splitting rules let teams gradually shift load from v1 to v2, monitor error rates, and roll back instantly if metrics degrade.
+Gateways can route a percentage of traffic to new service versions, enabling canary deployments and blue-green releases without changing client integrations. Traffic-splitting rules let teams gradually shift load from v1 to v2, monitor error rates, and adjust or revert the routing rules if metrics degrade.
 
 ## API Gateway vs Load Balancer vs Reverse Proxy
 
@@ -95,36 +95,42 @@ These three components overlap in functionality but serve different primary purp
 
 | Capability | Reverse Proxy | Load Balancer | API Gateway |
 |---|---|---|---|
-| Request forwarding | Yes | Yes | Yes |
-| SSL termination | Yes | Sometimes | Yes |
-| Load balancing | Basic | Advanced | Advanced |
-| Health checks | Limited | Yes | Yes |
-| Authentication | No | No | Yes |
-| Rate limiting | No | No | Yes |
-| Request transformation | No | No | Yes |
-| API-aware routing | No | No | Yes |
-| Response caching | Yes | No | Yes |
-| Observability/metrics | Basic | Basic | Comprehensive |
-| Protocol translation | No | No | Yes |
-| Plugin/middleware ecosystem | Limited | No | Extensive |
+| Request forwarding | Core function | Core function | Core function |
+| TLS termination | Common | Common | Common |
+| Load balancing | Product-dependent | Core function | Common |
+| Health checks | Product-dependent | Core function | Common |
+| Authentication | Extension or product-dependent | Product-dependent at L7 | API policy |
+| Rate limiting | Extension or product-dependent | Product-dependent at L7 | API policy |
+| Request transformation | Product-dependent | Limited or product-dependent | API policy |
+| API-aware routing | Basic HTTP routing | L7 routing | Route and consumer policies |
+| Response caching | Product-dependent | Product-dependent | Product-dependent |
+| Observability/metrics | Proxy metrics | Infrastructure metrics | API and consumer metrics |
+| Protocol translation | Limited | Limited | Product-dependent |
+| Plugin/middleware ecosystem | Product-dependent | Product-dependent | Core extensibility model |
 
-**A reverse proxy** (e.g., Nginx, HAProxy in proxy mode) forwards client requests to backend servers, provides SSL termination, and can cache static content. It operates at the HTTP level but lacks API-specific intelligence.
+Capabilities vary by product and configuration. The table describes each component's primary operating model rather than guaranteeing that a feature is present or absent.
 
-**A load balancer** (e.g., AWS ALB, HAProxy, Envoy in LB mode) distributes traffic across server instances using health checks and balancing algorithms. Layer 4 load balancers work at the TCP level; Layer 7 load balancers can inspect HTTP headers but still lack API-layer logic like authentication or transformation.
+**A reverse proxy** (e.g., NGINX or HAProxy in proxy mode) forwards client requests to backend servers and may provide TLS termination, caching, routing, and other configurable features. Its use as a reverse proxy does not by itself provide a consistent policy model for APIs and consumers.
 
-**An API gateway** builds on reverse proxy and load balancing capabilities but adds an API-aware policy layer: authentication, rate limiting, request/response transformation, observability, and developer portal integration. It is purpose-built for managing API traffic.
+**A load balancer** (e.g., AWS ALB, HAProxy, or Envoy in load-balancing deployments) distributes traffic across server instances using health checks and balancing algorithms. Layer 4 load balancers work at the transport layer. Layer 7 products can inspect HTTP requests and may offer selected authentication, rate limiting, routing, or transformation features, but their scope varies by product.
 
-In practice, many organizations start with a reverse proxy or load balancer and later adopt an API gateway as their API surface grows. Some gateways, including Apache APISIX, are built on top of proven proxies (APISIX uses Nginx and OpenResty) and inherit their performance characteristics while adding the API management layer.
+**An API gateway** builds on reverse proxy and load balancing capabilities but adds an API-aware runtime policy layer: authentication, rate limiting, request and response transformation, and observability. It is purpose-built for controlling API traffic.
+
+In practice, many organizations start with a reverse proxy or load balancer and later adopt an API gateway as their API surface grows. Some gateways, including Apache APISIX, build on NGINX and OpenResty while adding dynamic routing and a configurable plugin pipeline for API traffic policies.
+
+### API Gateway vs API Management
+
+An API gateway is the runtime component on the request path. It routes traffic and enforces policies. API management is the broader lifecycle discipline and may also include API design, publishing, documentation, developer onboarding, analytics, and governance. A gateway can be part of an API management platform, but the two terms are not interchangeable.
 
 ## API Gateway Use Cases
 
 ### Microservices Architecture
 
-In a microservices system with dozens or hundreds of services, an API gateway provides the single entry point that abstracts internal service topology from external consumers. Clients interact with one stable endpoint; the gateway handles service discovery, routing, and cross-cutting concerns. Without a gateway, each client must know the location and protocol of every service, creating tight coupling and operational fragility.
+In a microservices system with many independently deployed services, an API gateway provides the single entry point that abstracts internal service topology from external consumers. Clients interact with one stable endpoint; the gateway handles service discovery, routing, and cross-cutting concerns. The [API gateway for microservices guide](/learning-center/api-gateway-for-microservices/) explains patterns such as request routing, service discovery, and canary delivery in more detail.
 
 ### Mobile and IoT Backends
 
-Mobile clients operate under bandwidth, latency, and battery constraints that differ significantly from desktop browsers. An API gateway can aggregate multiple backend calls into a single response (the Backend-for-Frontend pattern), compress payloads, and adapt protocols. For IoT devices that may use MQTT or CoAP, the gateway translates between device protocols and internal HTTP/gRPC services.
+Mobile clients operate under bandwidth, latency, and battery constraints that differ significantly from desktop browsers. An API gateway can aggregate multiple backend calls into a single response (the Backend-for-Frontend pattern), compress payloads, and adapt supported protocols. IoT systems that use MQTT or other non-HTTP protocols may also require a specialized gateway or protocol adapter; support for proxying or translating those protocols varies by product.
 
 ### Multi-Cloud and Hybrid Deployments
 
@@ -132,11 +138,11 @@ Organizations running services across AWS, GCP, Azure, and on-premises data cent
 
 ### API Monetization
 
-Companies that expose APIs as products --- payment processors, data providers, communication platforms --- use gateways to enforce usage tiers, track consumption per API key, and generate billing data. Rate limiting by tier, quota enforcement, and detailed usage analytics are all gateway responsibilities in this model.
+Companies that expose APIs as products use gateways to identify consumers, enforce quotas, and emit usage records. Billing, pricing, entitlements, and account management normally live in connected business systems; the gateway supplies enforcement and traffic data rather than replacing those systems.
 
 ### Zero-Trust Security
 
-A gateway enforces authentication and authorization at the network edge, ensuring that no unauthenticated request reaches backend services. Combined with mTLS for internal traffic, IP allowlisting, and WAF integration, the gateway becomes a core component of a zero-trust architecture. It can also mask or redact sensitive fields in responses to prevent data leakage.
+A gateway can enforce authentication and authorization at the network edge before protected requests reach backend services. Combined with mTLS, IP allowlists, and threat-protection controls, the gateway can form one enforcement point in a zero-trust architecture. See [API gateway security](/learning-center/api-gateway-security/) for the security controls and trust boundaries that still need to be designed around it.
 
 ### Legacy System Modernization
 
@@ -150,19 +156,19 @@ Clients interact with a single, well-documented endpoint instead of tracking the
 
 ### Centralized Security
 
-Authentication, authorization, encryption, and threat detection are enforced at one layer rather than reimplemented in every service. A single policy change at the gateway propagates instantly across all APIs. This consistency eliminates the security gaps that emerge when individual teams implement auth differently.
+The gateway can enforce edge authentication, encryption requirements, and common access policies for the APIs configured to use them. Central policy management reduces duplicated implementations and inconsistent controls, while backend services retain responsibility for business authorization and resource-level access decisions.
 
 ### Operational Visibility
 
-Because every request passes through the gateway, teams gain comprehensive metrics, access logs, and distributed traces without instrumenting each service individually. Dashboards built on gateway telemetry provide real-time visibility into traffic patterns, error rates, and latency distributions across the entire API surface.
+Gateway telemetry provides metrics, access logs, and trace spans for the requests that pass through the gateway. It helps teams analyze API traffic patterns, gateway and upstream error rates, and observed latency, but it complements rather than replaces service instrumentation required for end-to-end traces and application-level visibility.
 
 ### Reduced Backend Load
 
-Caching, request deduplication, and rate limiting at the gateway layer prevent unnecessary calls from reaching backend services. This directly reduces infrastructure costs and improves system stability during traffic spikes. For read-heavy APIs, gateway caching alone can cut upstream load by an order of magnitude.
+Caching and rate limiting at the gateway layer can prevent unnecessary or excessive calls from reaching backend services. The effect depends on traffic patterns and cacheability, but these controls can reduce upstream work and protect service capacity during traffic spikes.
 
 ### Faster Time to Market
 
-Developers focus on business logic rather than reimplementing cross-cutting concerns. Adding authentication to a new service takes a single plugin configuration at the gateway instead of weeks of development. Teams ship faster because infrastructure concerns are already solved.
+Developers can focus more on business logic when common concerns such as edge authentication, rate limiting, and request transformation are implemented and maintained consistently at the gateway. This reduces repeated integration work, while service-specific policies and application logic remain in the backend.
 
 ### Independent Scalability
 
@@ -170,15 +176,15 @@ The gateway and backend services scale independently. During a traffic surge, te
 
 ## How Apache APISIX Works as an API Gateway
 
-[Apache APISIX](/) is a high-performance, cloud-native API gateway built on Nginx and LuaJIT. It is designed for environments where throughput, latency, and extensibility are critical requirements.
+[Apache APISIX](/) is an open-source, cloud-native API gateway built on NGINX and LuaJIT. It provides dynamic routing and a plugin-based policy layer for authentication, traffic control, observability, and request or response transformation.
 
-**Performance at scale.** APISIX handles over 18,000 requests per second per CPU core with a median latency of 0.2ms. This performance comes from its non-blocking, event-driven architecture and the efficiency of LuaJIT-compiled plugin execution. For comparison, this throughput exceeds most Java- and Go-based gateways by a significant margin.
+**Runtime architecture.** APISIX uses NGINX's event-driven request processing and LuaJIT-based plugins. Performance depends on hardware, topology, TLS, enabled plugins, and upstream behavior, so teams should benchmark their own production policy chain instead of treating a single published result as universal.
 
-**Extensive plugin ecosystem.** APISIX ships with over 100 built-in [plugins](/plugins/) covering authentication (JWT, OAuth, LDAP, OpenID Connect), traffic control (rate limiting, circuit breaking, traffic mirroring), observability (Prometheus, SkyWalking, OpenTelemetry), and transformation (gRPC transcoding, request rewriting, response rewriting). Plugins can also be written in Lua, Java, Go, Python, or WebAssembly.
+**Extensible policy layer.** The APISIX [plugin ecosystem](/plugins/) covers authentication, traffic control, observability, security, and transformation. Native plugins use Lua, while external plugin runners provide additional extension models where their operational tradeoffs are appropriate.
 
-**Dynamic configuration.** Unlike traditional gateways that require restarts for configuration changes, APISIX reloads routes, upstreams, and plugin configurations in real time through its Admin API. This enables zero-downtime deployments and makes APISIX well-suited for CI/CD pipelines and GitOps workflows.
+**Dynamic configuration.** Routes match request attributes, execute configured plugins, and forward traffic to an upstream. In traditional and decoupled deployment modes, APISIX stores configuration in etcd and exposes an Admin API, allowing route, upstream, consumer, and plugin changes to propagate without restarting gateway processes. Standalone mode can instead load declarative configuration without etcd.
 
-**Proven adoption.** APISIX powers over 147,000 deployments across more than 5,200 companies globally, spanning industries from fintech to telecommunications. Its Apache Software Foundation governance ensures vendor-neutral, community-driven development.
+**Open governance.** Apache APISIX is an Apache Software Foundation top-level project developed under community governance and released under the Apache License 2.0.
 
 To get started with APISIX, see the [getting started guide](/docs/apisix/getting-started/).
 
@@ -186,7 +192,7 @@ To get started with APISIX, see the [getting started guide](/docs/apisix/getting
 
 ### What is the difference between an API gateway and a load balancer?
 
-A load balancer distributes incoming traffic across multiple server instances using algorithms like round-robin or least connections. It operates at the network or transport layer (L4) or HTTP layer (L7) but does not understand API semantics. An API gateway performs load balancing as one of many functions, and adds API-specific capabilities: authentication, rate limiting, request transformation, caching, and observability. If you only need to distribute traffic, a load balancer suffices. If you need to manage, secure, and observe API traffic, you need a gateway.
+A load balancer's primary role is distributing traffic across healthy server instances. Some Layer 7 load balancers also provide authentication, rate limiting, or header-based routing, so the feature sets can overlap. An API gateway is designed around API-level policies for routes and consumers, such as authentication, quotas, transformation, and API observability. Choose based on the policy model you need, not on a strict feature checklist.
 
 ### Do I need an API gateway for a monolithic application?
 
@@ -194,20 +200,12 @@ An API gateway is not strictly required for a monolith, but it can still add val
 
 ### How does an API gateway affect latency?
 
-A well-implemented gateway adds minimal latency --- typically 0.2ms to 2ms per request depending on the number of active plugins. High-performance gateways like Apache APISIX are optimized for sub-millisecond overhead. The latency tradeoff is almost always worthwhile: the gateway eliminates redundant auth checks, reduces backend calls through caching, and prevents cascading failures through circuit breaking, all of which improve overall system response times.
+An API gateway adds another network hop and executes policies before forwarding a request, so it always adds some latency. The actual overhead depends on deployment topology, TLS settings, enabled plugins, request and response transformations, and logging. Benchmark the gateway with the same policy chain and traffic profile you expect in production rather than relying on a universal latency figure.
 
 ### Can an API gateway replace a service mesh?
 
-An API gateway and a service mesh serve different layers. The gateway handles north-south traffic (external clients to internal services), while a service mesh manages east-west traffic (service-to-service communication within the cluster). They are complementary, not competing, technologies. Some organizations use APISIX as both a gateway and an ingress controller, bridging the two layers, but a full service mesh (Istio, Linkerd) addresses concerns like mutual TLS between services and fine-grained internal traffic policies that fall outside a gateway's scope.
+An API gateway and a service mesh usually serve different traffic boundaries. The gateway handles north-south traffic from API clients to services, while a service mesh focuses on east-west service-to-service communication. Apache APISIX can expose and control APIs at a cluster edge, but that does not replace mesh capabilities such as workload identity and service-to-service mTLS.
 
 ### Is an API gateway the same as an API management platform?
 
-No. An API gateway is the runtime component that processes API traffic. An API management platform is a broader category that typically includes a gateway, a developer portal, API documentation tools, lifecycle management, and analytics dashboards. The gateway is the engine; the management platform is the full vehicle. Apache APISIX provides the high-performance gateway layer, and organizations often pair it with additional tooling for the complete API management lifecycle.
-
-## Related guides
-
-- [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
-- [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)
-- [API gateway security](/learning-center/api-gateway-security/)
-- [Compare API gateways](/comparisons/)
-- [Get started with Apache APISIX](/docs/apisix/getting-started/)
+No. An API gateway is the runtime component that processes API traffic. API management is a broader category that can include a gateway, developer onboarding, API documentation, lifecycle governance, and analytics. Apache APISIX provides the open-source gateway layer; teams can integrate it with the other tools required for their API lifecycle.

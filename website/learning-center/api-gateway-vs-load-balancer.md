@@ -21,7 +21,7 @@ The primary value of a load balancer is availability. By distributing traffic an
 
 ## What is an API Gateway
 
-An API gateway is an application-layer proxy that acts as the single entry point for API consumers. Beyond routing requests to the correct backend service, an API gateway provides a rich set of cross-cutting concerns: authentication, authorization, rate limiting, request and response transformation, caching, logging, and monitoring.
+An [API gateway](/learning-center/what-is-an-api-gateway/) is an application-layer proxy that acts as the single entry point for API consumers. Beyond routing requests to the correct backend service, an API gateway provides a rich set of cross-cutting concerns: authentication, authorization, rate limiting, request and response transformation, caching, logging, and monitoring.
 
 API gateways emerged from the needs of microservices architectures and API-first product strategies. When an organization exposes dozens or hundreds of microservices, a gateway centralizes the operational concerns that would otherwise be duplicated across every service.
 
@@ -133,6 +133,5 @@ A reverse proxy forwards client requests to backend servers and is the foundatio
 
 ## Related
 
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
 - [Compare API gateways](/comparisons/)
 - [API gateway for microservices](/learning-center/api-gateway-for-microservices/)

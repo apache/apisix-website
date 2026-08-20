@@ -7,7 +7,7 @@ tags: [microservices, architecture, api-gateway]
 hide_table_of_contents: false
 ---
 
-Microservices architectures need an API gateway to act as a single entry point for API consumers and route requests to the correct backend services. The gateway centralizes access control, authentication and authorization, protocol translation, rate limiting, and observability, so each microservice does not have to implement these cross-cutting concerns independently.
+Microservices architectures often use an [API gateway](/learning-center/what-is-an-api-gateway/) as a single entry point for API consumers and to route requests to the correct backend services. The gateway centralizes access control, authentication and authorization, protocol translation, rate limiting, and observability, so each microservice does not have to implement these cross-cutting concerns independently.
 
 ## Why Microservices Need a Gateway
 
@@ -125,7 +125,6 @@ Apache APISIX, built on NGINX and LuaJIT, adds 1-2ms of latency per request with
 
 ## Related
 
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
 - [Kubernetes API gateway](/learning-center/kubernetes-api-gateway/)
 - [Compare API gateways](/comparisons/)
 - [Get started with Apache APISIX](/docs/apisix/getting-started/)
