@@ -183,14 +183,16 @@ jobs:
           website/build/docs/apisix/next/plugins/cors/index.html|https://docs.api7.ai/hub/cors
           website/build/zh/docs/apisix/next/plugins/cors/index.html|https://docs.apiseven.com/hub/cors
           EOF
-          # `mcp-bridge` exists on `next`, but not in the latest release. It
-          # must remain self-canonical instead of pointing at a missing local
-          # version-less page.
+          # `mcp-bridge` shipped in 3.18, so the version-less page this fixture
+          # used to find missing now exists and the `next` page points at it.
+          # The self-canonical half of the contract is unfixtured while every
+          # `next` doc also ships in the latest release; give it a fixture again
+          # as soon as a doc lands on `next` alone.
           f=website/build/docs/apisix/next/plugins/mcp-bridge/index.html
           test -f "$f"
           test "$(grep -o 'rel="canonical"' "$f" | wc -l)" -eq 1
           grep -q 'name="robots" content="noindex,follow"' "$f"
-          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/next/plugins/mcp-bridge/"' "$f"
+          grep -q 'rel="canonical" href="https://apisix.apache.org/docs/apisix/plugins/mcp-bridge/"' "$f"
 
       - name: Update sitemap.xml
         run: |
