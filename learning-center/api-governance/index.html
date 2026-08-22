@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Governance: Framework and Best Practices | Apache APISIX</title><meta name="description" content="Learn how API governance aligns ownership, design standards, security, lifecycle controls, runtime enforcement, and evidence across API teams."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/learning-center/api-governance/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API Governance: Framework and Best Practices | Apache APISIX"><meta property="og:description" content="Learn how API governance aligns ownership, design standards, security, lifecycle controls, runtime enforcement, and evidence across API teams."><meta property="og:url" content="https://apisix.apache.org/learning-center/api-governance/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"API Governance: Framework and Best Practices","description":"Learn how API governance aligns ownership, design standards, security, lifecycle controls, runtime enforcement, and evidence across API teams.","datePublished":"2026-08-20","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/api-governance/"}]</script><link rel="stylesheet" href="/_astro/Base.B9YyqfbX.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>Docs ▾</summary> <div class="menu"> <a href="/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/docs/docker/build/">Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/">General</a> </div> </details><a href="/learning-center/">Learning Center</a><a href="/comparisons/">Comparisons</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/zh/learning-center/" title="简体中文">中</a>   </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/docs/">Docs</a><a href="/learning-center/">Learning Center</a><a href="/comparisons/">Comparisons</a><a href="/ai-gateway/">AI Gateway</a><a href="/blog/">Blog</a><a href="/plugins/">Plugin Hub</a><a href="/downloads/">Downloads</a><a href="/team/">Team</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/zh/learning-center/">简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/learning-center/tags/api-governance/">api-governance</a><a class="tag" href="/learning-center/tags/api-management/">api-management</a><a class="tag" href="/learning-center/tags/api-security/">api-security</a> </div>  <a class="cta-link side-back" href="/learning-center/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>API Governance: Framework and Best Practices</h1> <p class="article-meta"> <time datetime="2026-08-20">Aug 20, 2026</time>  · 10 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/learning-center/tags/api-governance/">api-governance</a><a class="tag" href="/learning-center/tags/api-management/">api-management</a><a class="tag" href="/learning-center/tags/api-security/">api-security</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#api-governance-vs-api-management-and-api-gateways">API Governance vs API Management and API Gateways</a></li><li class><a href="#why-api-governance-matters">Why API Governance Matters</a></li><li class><a href="#design-time-and-runtime-governance">Design-Time and Runtime Governance</a></li><li class="d3"><a href="#design-time-governance">Design-Time Governance</a></li><li class="d3"><a href="#runtime-governance">Runtime Governance</a></li><li class="d3"><a href="#lifecycle-governance">Lifecycle Governance</a></li><li class><a href="#an-api-governance-framework">An API Governance Framework</a></li><li class="d3"><a href="#1-ownership-and-inventory">1. Ownership and Inventory</a></li><li class="d3"><a href="#2-design-and-contract-standards">2. Design and Contract Standards</a></li><li class="d3"><a href="#3-security-and-data-policy">3. Security and Data Policy</a></li><li class="d3"><a href="#4-change-and-version-management">4. Change and Version Management</a></li><li class="d3"><a href="#5-publication-and-consumer-experience">5. Publication and Consumer Experience</a></li><li class="d3"><a href="#6-runtime-policy-enforcement">6. Runtime Policy Enforcement</a></li><li class="d3"><a href="#7-observability-and-evidence">7. Observability and Evidence</a></li><li class="d3"><a href="#8-deprecation-and-retirement">8. Deprecation and Retirement</a></li><li class><a href="#centralized-vs-federated-api-governance">Centralized vs Federated API Governance</a></li><li class="d3"><a href="#centralized-governance">Centralized Governance</a></li><li class="d3"><a href="#federated-governance">Federated Governance</a></li><li class><a href="#api-governance-process">API Governance Process</a></li><li class><a href="#api-governance-tools">API Governance Tools</a></li><li class><a href="#how-apache-apisix-supports-runtime-api-governance">How Apache APISIX Supports Runtime API Governance</a></li><li class><a href="#api-governance-best-practices">API Governance Best Practices</a></li><li class><a href="#api-governance-checklist">API Governance Checklist</a></li> </ul> </details> </header>  <p>API governance is the system of decision rights, standards, processes, and controls that helps an organization operate APIs consistently throughout their lifecycle. It defines who owns an API, which rules apply, how exceptions are approved, where controls are enforced, and what evidence shows that the rules are working.</p>
+<p>Governance is broader than installing an API gateway or publishing a style guide. Effective governance connects design-time checks, delivery workflows, runtime policy enforcement, and lifecycle decisions. It should reduce avoidable risk and inconsistency without turning every API change into a centralized manual review.</p>
+<h2 id="api-governance-vs-api-management-and-api-gateways">API Governance vs API Management and API Gateways</h2>
+<p>These concepts overlap, but they are not interchangeable.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Concept</th><th>Primary purpose</th><th>Typical responsibilities</th></tr></thead><tbody><tr><td>API governance</td><td>Define decision rights, standards, controls, exceptions, and accountability</td><td>Ownership, design rules, security baselines, versioning, review, evidence, and retirement</td></tr><tr><td>API management</td><td>Operate APIs across their lifecycle</td><td>Design, publication, discovery, onboarding, analytics, governance, and runtime control, depending on the platform</td></tr><tr><td>API gateway</td><td>Enforce policies on live traffic</td><td>Routing, authentication, rate limiting, transformation, traffic control, metrics, and logging</td></tr></tbody></table>
+<p>Governance describes what should happen and who is accountable. API management supplies processes and tooling for running the program. The gateway implements selected runtime controls. For a fuller explanation of the product categories, see <a href="/learning-center/api-gateway-vs-api-management/">API gateway vs API management</a>.</p>
+<h2 id="why-api-governance-matters">Why API Governance Matters</h2>
+<p>As an API estate grows, local decisions accumulate. Teams may use different authentication methods, error formats, versioning rules, and deprecation practices. Ownership becomes unclear, duplicate APIs appear, and consumers discover breaking changes only after deployment.</p>
+<p>Governance addresses these problems by establishing a small set of shared expectations:</p>
+<ul>
+<li>Every API has an accountable owner and intended audience.</li>
+<li>Contracts follow agreed naming, compatibility, and documentation standards.</li>
+<li>Security controls reflect data sensitivity and exposure.</li>
+<li>Runtime policies are applied consistently to the APIs that require them.</li>
+<li>Changes, exceptions, and deprecations are traceable.</li>
+<li>Teams collect evidence that controls operate as intended.</li>
+</ul>
+<p>The purpose is not uniformity for its own sake. Standards should target risks and coordination costs that individual teams cannot solve independently.</p>
+<h2 id="design-time-and-runtime-governance">Design-Time and Runtime Governance</h2>
+<h3 id="design-time-governance">Design-Time Governance</h3>
+<p>Design-time governance applies before an API reaches production. It can include:</p>
+<ul>
+<li>Reviewing an API’s purpose, owner, consumers, and data classification</li>
+<li>Describing the interface with an <a href="https://spec.openapis.org/oas/latest.html">OpenAPI specification</a> or another appropriate contract format</li>
+<li>Linting names, error models, pagination, versioning, and compatibility rules</li>
+<li>Running schema, security, and dependency checks in CI</li>
+<li>Requiring an explicit exception when a standard cannot be met</li>
+<li>Publishing the approved contract and ownership metadata to a catalog</li>
+</ul>
+<p>These controls catch problems while they are less expensive to change. They also create inputs for documentation, testing, client generation, and deployment automation.</p>
+<h3 id="runtime-governance">Runtime Governance</h3>
+<p>Runtime governance applies while consumers use an API. Common controls include:</p>
+<ul>
+<li>Authenticating callers and validating credentials</li>
+<li>Enforcing shared access, network, and TLS policies</li>
+<li>Applying consumer, route, or global rate limits</li>
+<li>Restricting methods, paths, origins, or source addresses</li>
+<li>Routing traffic between approved versions or deployments</li>
+<li>Capturing request metrics and access logs</li>
+<li>Detecting policy violations and operational anomalies</li>
+</ul>
+<p>A gateway is useful here because it can enforce common controls without duplicating them in every backend. It cannot, however, correct an ambiguous contract, assign an API owner, or decide whether a breaking change should be approved.</p>
+<h3 id="lifecycle-governance">Lifecycle Governance</h3>
+<p>Lifecycle governance connects design and runtime. It defines when an API moves from proposed to active, deprecated, and retired; how consumers are notified; which compatibility guarantees apply; and how teams verify that old versions are no longer in use.</p>
+<h2 id="an-api-governance-framework">An API Governance Framework</h2>
+<p>A practical framework covers the following areas.</p>
+<h3 id="1-ownership-and-inventory">1. Ownership and Inventory</h3>
+<p>Record an accountable owner, technical contact, intended consumers, lifecycle state, and critical dependencies for each API. An inventory should answer which APIs exist and who can make decisions about them. A repository file, service catalog, or API catalog can hold this information, but it needs a maintained source of truth.</p>
+<h3 id="2-design-and-contract-standards">2. Design and Contract Standards</h3>
+<p>Define the minimum rules that improve interoperability: resource naming, status codes, error formats, pagination, idempotency, compatibility, and contract documentation. Automate objective rules with linters and tests. Reserve human review for architecture, domain modeling, risk, and exceptions that tools cannot evaluate reliably.</p>
+<h3 id="3-security-and-data-policy">3. Security and Data Policy</h3>
+<p>Classify APIs by exposure and data sensitivity, then map each class to required controls. A public read-only API and an internal payment API should not inherit an identical checklist. Policies may cover authentication, authorization boundaries, encryption, input validation, rate limiting, secrets, logging, and retention.</p>
+<p>Gateway authentication is only one layer. Backend services must still enforce resource ownership and business authorization, while development and security practices address vulnerabilities that cannot be detected at the gateway.</p>
+<h3 id="4-change-and-version-management">4. Change and Version Management</h3>
+<p>Define what counts as a breaking change, how compatibility is tested, when a new version is required, and how long old versions are supported. Track consumers of a version before deprecation. A versioning standard without usage evidence can leave teams unable to retire anything safely.</p>
+<h3 id="5-publication-and-consumer-experience">5. Publication and Consumer Experience</h3>
+<p>An approved API should have accurate documentation, a clear support channel, and a predictable onboarding process. Public and partner APIs may also need searchable discovery, application registration, credentials, service-level expectations, and change notifications. These are usually handled outside the gateway.</p>
+<h3 id="6-runtime-policy-enforcement">6. Runtime Policy Enforcement</h3>
+<p>Translate approved policies into deployable configuration. Reusable policy bundles reduce drift, while environment-specific configuration handles legitimate differences. Treat gateway configuration as code where possible, review it, test it, and promote it through environments instead of relying on untracked production edits.</p>
+<h3 id="7-observability-and-evidence">7. Observability and Evidence</h3>
+<p>Define which signals demonstrate that an API and its controls are healthy. Gateway metrics can show request volume, latency, errors, and policy outcomes for traffic that passes through the gateway. Logs can support investigations and compliance evidence when their content, retention, access, and privacy controls are designed appropriately.</p>
+<p>Gateway telemetry complements service metrics, distributed tracing, security monitoring, and business events. It does not provide complete end-to-end or business visibility on its own.</p>
+<h3 id="8-deprecation-and-retirement">8. Deprecation and Retirement</h3>
+<p>Set entry and exit criteria for deprecation. Identify active consumers, communicate dates, monitor remaining traffic, and remove routes, credentials, documentation, and dependencies when retirement is complete. Keeping abandoned endpoints indefinitely increases attack surface and operational cost.</p>
+<h2 id="centralized-vs-federated-api-governance">Centralized vs Federated API Governance</h2>
+<h3 id="centralized-governance">Centralized Governance</h3>
+<p>A central platform or architecture team defines standards and reviews changes. This can create consistency quickly, but a small team may become a queue for every API decision. Centralized review is most useful for high-risk decisions, shared platform controls, and organization-wide exceptions.</p>
+<h3 id="federated-governance">Federated Governance</h3>
+<p>Domain teams own their APIs within shared organizational guardrails. Automated checks and reusable runtime policies enforce the common baseline, while teams retain authority over domain-specific design. A central group maintains standards, tooling, and exception policy rather than approving every routine change.</p>
+<p>Many organizations use a hybrid model: centralized minimum controls with federated API ownership. The right balance depends on regulatory risk, team maturity, API audience, and the cost of inconsistency.</p>
+<h2 id="api-governance-process">API Governance Process</h2>
+<p>The following sequence turns governance from a document into operating practice:</p>
+<ol>
+<li><strong>Inventory APIs and assign owners.</strong> Start with externally exposed and business-critical APIs rather than waiting for a perfect enterprise inventory.</li>
+<li><strong>Classify APIs by risk and audience.</strong> Use the classification to select proportionate controls.</li>
+<li><strong>Define a minimum baseline.</strong> Choose a short set of design, security, documentation, and lifecycle rules that can be explained and measured.</li>
+<li><strong>Automate design checks.</strong> Run contract linting, compatibility checks, and security tests in CI where possible.</li>
+<li><strong>Create reusable runtime policies.</strong> Package common gateway controls so teams do not recreate them route by route.</li>
+<li><strong>Manage exceptions explicitly.</strong> Record the owner, reason, compensating control, approval, and expiry date.</li>
+<li><strong>Collect evidence.</strong> Monitor API health, policy outcomes, configuration drift, undocumented APIs, and deprecated-version traffic.</li>
+<li><strong>Review outcomes and revise standards.</strong> Remove rules that add work without reducing risk, and strengthen controls where incidents or drift reveal a gap.</li>
+</ol>
+<h2 id="api-governance-tools">API Governance Tools</h2>
+<p>No single tool governs an API estate by itself. Common tool categories include:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Tool category</th><th>Governance role</th></tr></thead><tbody><tr><td>Contract and design tools</td><td>Define and review API interfaces</td></tr><tr><td>Linters and CI checks</td><td>Automate objective design and compatibility rules</td></tr><tr><td>Service or API catalogs</td><td>Record ownership, lifecycle state, documentation, and dependencies</td></tr><tr><td>Source control and delivery systems</td><td>Review, approve, test, and promote changes</td></tr><tr><td>Identity and secrets systems</td><td>Manage users, applications, credentials, and trust material</td></tr><tr><td>API gateways</td><td>Enforce selected runtime policies and route traffic</td></tr><tr><td>Observability and SIEM systems</td><td>Analyze operational and security evidence</td></tr><tr><td>Workflow systems</td><td>Track exceptions, deprecations, and organizational approvals</td></tr></tbody></table>
+<p>Evaluate tools against a defined governance process. Buying a portal or gateway before establishing ownership and decision rights often moves the inconsistency into a new interface instead of resolving it.</p>
+<h2 id="how-apache-apisix-supports-runtime-api-governance">How Apache APISIX Supports Runtime API Governance</h2>
+<p><a href="/">Apache APISIX</a> can serve as the runtime enforcement component in a wider governance architecture.</p>
+<ul>
+<li><a href="/docs/apisix/terminology/route/">Routes</a> and <a href="/docs/apisix/terminology/service/">Services</a> define how requests reach upstream APIs and which plugins run.</li>
+<li><a href="/docs/apisix/terminology/plugin-config/">Plugin Configs</a> let multiple routes reuse a plugin configuration.</li>
+<li><a href="/docs/apisix/terminology/global-rule/">Global Rules</a> run configured plugins before route- or service-level plugins, which can support selected gateway-wide controls.</li>
+<li><a href="/docs/apisix/terminology/consumer/">Consumers</a> identify API callers, <a href="/docs/apisix/terminology/credential/">Credentials</a> hold consumer authentication configurations, and <a href="/docs/apisix/terminology/consumer-group/">Consumer Groups</a> apply reusable plugin policies to sets of consumers.</li>
+<li>Authentication, IP restriction, rate limiting, and transformation plugins, together with <a href="/docs/apisix/mtls/">SSL and mTLS configuration</a>, enforce controls on traffic routed through APISIX.</li>
+<li><a href="/docs/apisix/plugins/prometheus/">Prometheus metrics</a> and logging plugins such as <a href="/docs/apisix/plugins/http-logger/">http-logger</a> export runtime evidence to external monitoring and analysis systems.</li>
+<li>The <a href="/docs/apisix/admin-api/">Admin API</a> manages APISIX runtime resources in deployment modes that use it, enabling teams to connect reviewed configuration workflows to the gateway.</li>
+</ul>
+<p>These mechanisms do not make APISIX a complete governance system. APISIX does not assign organizational ownership, approve API designs, maintain a source-of-truth catalog, provide a complete developer portal, or run lifecycle approval workflows. Those responsibilities stay with API owners and the connected tools selected by the organization.</p>
+<h2 id="api-governance-best-practices">API Governance Best Practices</h2>
+<ul>
+<li>Keep the mandatory baseline small enough to explain, automate, and maintain.</li>
+<li>Apply controls according to API risk instead of forcing every API through the same process.</li>
+<li>Store ownership and lifecycle state in a maintained system of record.</li>
+<li>Validate API contracts and compatibility before deployment.</li>
+<li>Treat gateway policies as reviewed, tested configuration rather than manual production settings.</li>
+<li>Separate gateway authentication from application-level business authorization.</li>
+<li>Use reusable policies, but allow documented exceptions with owners and expiry dates.</li>
+<li>Monitor whether controls are deployed and effective, not only whether a policy document exists.</li>
+<li>Include privacy and retention requirements when collecting API logs.</li>
+<li>Measure deprecated-version traffic before removing an endpoint.</li>
+<li>Review governance rules after incidents, platform changes, and repeated exception requests.</li>
+</ul>
+<h2 id="api-governance-checklist">API Governance Checklist</h2>
+<p>For each production API, confirm that:</p>
+<ul>
+<li>An accountable owner and support contact are recorded.</li>
+<li>The audience, data classification, and lifecycle state are known.</li>
+<li>A reviewed contract describes the current interface.</li>
+<li>Automated checks cover applicable design and compatibility rules.</li>
+<li>Authentication and authorization responsibilities are documented.</li>
+<li>Required gateway policies are deployed through a controlled workflow.</li>
+<li>Secrets and certificates have owners and rotation procedures.</li>
+<li>Metrics, logs, and alerts cover the expected operational risks.</li>
+<li>Exceptions include a reason, owner, compensating control, and expiry date.</li>
+<li>Versioning, deprecation, consumer notification, and retirement paths are defined.</li>
+</ul>
+<p>Governance becomes useful when these answers are visible and actionable to the teams building and operating APIs. The goal is a dependable system of ownership and controls, not a longer approval checklist.</p>  <footer class="article-footer"> <a class="cta-link" href="/learning-center/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <a class="post-nav-card" href="/learning-center/api-gateway-vs-api-management/"> <span class="post-nav-label">← Newer post</span> <span class="post-nav-title">API Gateway vs API Management: Key Differences</span> </a> <a class="post-nav-card older" href="/learning-center/apisix-vs-aisix/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">Apache APISIX vs AISIX: General-Purpose vs AI-Native Gateway</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#api-governance-vs-api-management-and-api-gateways">API Governance vs API Management and API Gateways</a></li><li class><a href="#why-api-governance-matters">Why API Governance Matters</a></li><li class><a href="#design-time-and-runtime-governance">Design-Time and Runtime Governance</a></li><li class="d3"><a href="#design-time-governance">Design-Time Governance</a></li><li class="d3"><a href="#runtime-governance">Runtime Governance</a></li><li class="d3"><a href="#lifecycle-governance">Lifecycle Governance</a></li><li class><a href="#an-api-governance-framework">An API Governance Framework</a></li><li class="d3"><a href="#1-ownership-and-inventory">1. Ownership and Inventory</a></li><li class="d3"><a href="#2-design-and-contract-standards">2. Design and Contract Standards</a></li><li class="d3"><a href="#3-security-and-data-policy">3. Security and Data Policy</a></li><li class="d3"><a href="#4-change-and-version-management">4. Change and Version Management</a></li><li class="d3"><a href="#5-publication-and-consumer-experience">5. Publication and Consumer Experience</a></li><li class="d3"><a href="#6-runtime-policy-enforcement">6. Runtime Policy Enforcement</a></li><li class="d3"><a href="#7-observability-and-evidence">7. Observability and Evidence</a></li><li class="d3"><a href="#8-deprecation-and-retirement">8. Deprecation and Retirement</a></li><li class><a href="#centralized-vs-federated-api-governance">Centralized vs Federated API Governance</a></li><li class="d3"><a href="#centralized-governance">Centralized Governance</a></li><li class="d3"><a href="#federated-governance">Federated Governance</a></li><li class><a href="#api-governance-process">API Governance Process</a></li><li class><a href="#api-governance-tools">API Governance Tools</a></li><li class><a href="#how-apache-apisix-supports-runtime-api-governance">How Apache APISIX Supports Runtime API Governance</a></li><li class><a href="#api-governance-best-practices">API Governance Best Practices</a></li><li class><a href="#api-governance-checklist">API Governance Checklist</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/learning-center/api-gateway-vs-api-management/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>api-gateway</span> </div> <div class="body"> <h3>API Gateway vs API Management: Key Differences</h3> <p class="desc">Compare API gateways and API management across runtime traffic control, API lifecycle, governance, developer experience, and when teams need both.</p> <p class="meta">Aug 20, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-aisix/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs AISIX: General-Purpose vs AI-Native Gateway</h3> <p class="desc">Compare Apache APISIX and AISIX across architecture, API and AI traffic, model routing, guardrails, observability, deployment, and when to use one or both.</p> <p class="meta">Jul 27, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-apigee/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Apigee: Gateway vs API Management Platform</h3> <p class="desc">Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.</p> <p class="meta">Jun 24, 2026</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/comparisons/">Comparisons</a></li><li><a href="/docs/general/events/">Events</a></li><li><a href="/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/plugins/">Plugin Hub</a></li><li><a href="/downloads/">Downloads</a></li><li><a href="/team/">Team</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

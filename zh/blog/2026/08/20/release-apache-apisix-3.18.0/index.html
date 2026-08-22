@@ -1,0 +1,375 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.18.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.18.0 版本于 2026 年 8 月 20 日发布。该版本新增 AI 响应缓存、语义模型路由、安全插件、L4 增强与可观测性能力，并包含需要注意的升级变更。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2026/08/20/release-apache-apisix-3.18.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2026/08/20/release-apache-apisix-3.18.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2026/08/20/release-apache-apisix-3.18.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2026/08/20/release-apache-apisix-3.18.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 3.18.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.18.0 版本于 2026 年 8 月 20 日发布。该版本新增 AI 响应缓存、语义模型路由、安全插件、L4 增强与可观测性能力，并包含需要注意的升级变更。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2026/08/20/release-apache-apisix-3.18.0/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.18.0 正式发布","description":"Apache APISIX 3.18.0 版本于 2026 年 8 月 20 日发布。该版本新增 AI 响应缓存、语义模型路由、安全插件、L4 增强与可观测性能力，并包含需要注意的升级变更。","datePublished":"2026-08-20","author":{"@type":"Person","name":"Abhishek Choudhary"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2026/08/20/release-apache-apisix-3.18.0/"}]</script><link rel="stylesheet" href="/_astro/Base.B9YyqfbX.css"></head> <body> <div class="announcement">
+🤔 Introducing APISIX AI Gateway<span class="ann-detail"> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/">Learn More</a> </div> <header class="site-header"> <div class="container"> <a class="brand" href="/zh/"> <img src="/img/logo2.svg" alt="" width="36" height="30"> <span>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation"> <details class="nav-drop"> <summary>文档 ▾</summary> <div class="menu"> <a href="/zh/docs/apisix/getting-started/README/">Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/">Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/">Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/">Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/">Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/">Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/">Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/">General</a> </div> </details><a href="/zh/learning-center/">学习中心</a><a href="/zh/comparisons/">对比</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix" title="GitHub">GitHub</a> <a href="/blog/2026/08/20/release-apache-apisix-3.18.0/" title="English">EN</a>   </nav> <details class="mobile-toggle"> <summary aria-label="Menu">☰</summary> <div class="menu"> <a href="/zh/docs/">文档</a><a href="/zh/learning-center/">学习中心</a><a href="/zh/comparisons/">对比</a><a href="/zh/ai-gateway/">AI Gateway</a><a href="/zh/blog/">博客</a><a href="/zh/plugins/">插件中心</a><a href="/zh/downloads/">下载</a><a href="/zh/team/">团队</a> <a href="https://github.com/apache/apisix">GitHub</a> <a href="/blog/2026/08/20/release-apache-apisix-3.18.0/">English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 3.18.0 正式发布</h1> <p class="article-meta"> <time datetime="2026-08-20">2026年8月20日</time> · Abhishek Choudhary  · 约 30 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#重大变更">重大变更</a></li><li class="d3"><a href="#调试插件报告包含阶段与执行顺序">调试插件报告包含阶段与执行顺序</a></li><li class="d3"><a href="#默认限制请求与响应缓冲大小">默认限制请求与响应缓冲大小</a></li><li class="d3"><a href="#日志积压默认丢弃超额条目">日志积压默认丢弃超额条目</a></li><li class="d3"><a href="#aws-内容审核改为审核解码后的-ai-内容">AWS 内容审核改为审核解码后的 AI 内容</a></li><li class="d3"><a href="#阿里云请求审核默认仅检查最新用户轮次">阿里云请求审核默认仅检查最新用户轮次</a></li><li class="d3"><a href="#sls-日志插件默认验证-tls-证书">SLS 日志插件默认验证 TLS 证书</a></li><li class="d3"><a href="#openid-connect-验证失败时拒绝请求">OpenID Connect 验证失败时拒绝请求</a></li><li class="d3"><a href="#写入时检查重复的-consumer-身份验证键">写入时检查重复的 Consumer 身份验证键</a></li><li class="d3"><a href="#转发请求头处理行为变更">转发请求头处理行为变更</a></li><li class="d3"><a href="#限制大型-post_arg-路由匹配读取">限制大型 post_arg.* 路由匹配读取</a></li><li class="d3"><a href="#现有-ldap-tls-验证开始真正生效">现有 LDAP TLS 验证开始真正生效</a></li><li class="d3"><a href="#ldap-consumer-dn-使用-rfc-4514-转义">LDAP Consumer DN 使用 RFC 4514 转义</a></li><li class="d3"><a href="#prometheus-llm-延迟指标新增-type-标签">Prometheus LLM 延迟指标新增 type 标签</a></li><li class="d3"><a href="#ai-安全插件默认跳过无法识别的流量">AI 安全插件默认跳过无法识别的流量</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#使用-ffi-http-客户端发送-ai-上游请求">使用 FFI HTTP 客户端发送 AI 上游请求</a></li><li class="d3"><a href="#使用-ai-cache-缓存-llm-响应">使用 ai-cache 缓存 LLM 响应</a></li><li class="d3"><a href="#根据语义将提示词路由到不同模型">根据语义将提示词路由到不同模型</a></li><li class="d3"><a href="#使用-lakera-guard-保护-llm-请求与响应">使用 Lakera Guard 保护 LLM 请求与响应</a></li><li class="d3"><a href="#扩展-aws-与阿里云-ai-内容审核能力">扩展 AWS 与阿里云 AI 内容审核能力</a></li><li class="d3"><a href="#新增高级-ldap-身份验证">新增高级 LDAP 身份验证</a></li><li class="d3"><a href="#增强-stream-与-l4-代理">增强 Stream 与 L4 代理</a></li><li class="d3"><a href="#扩展-prometheus-控制与-ai-指标">扩展 Prometheus 控制与 AI 指标</a></li><li class="d3"><a href="#通过-redis-共享限流计数器">通过 Redis 共享限流计数器</a></li><li class="d3"><a href="#增强-openid-connect-客户端流程">增强 OpenID Connect 客户端流程</a></li><li class="d3"><a href="#增强日志格式并保护存储的凭证">增强日志格式并保护存储的凭证</a></li><li class="d3"><a href="#新增路由健康检查和加密配置">新增路由、健康检查和加密配置</a></li><li class><a href="#bug-修复">Bug 修复</a></li><li class="d3"><a href="#ai-gateway-正确性与协议兼容性">AI Gateway 正确性与协议兼容性</a></li><li class="d3"><a href="#身份验证与身份安全">身份验证与身份安全</a></li><li class="d3"><a href="#健康检查与负载均衡">健康检查与负载均衡</a></li><li class="d3"><a href="#限流">限流</a></li><li class="d3"><a href="#缓存与请求处理">缓存与请求处理</a></li><li class="d3"><a href="#日志与可观测性">日志与可观测性</a></li><li class="d3"><a href="#配置服务发现与-secret">配置、服务发现与 Secret</a></li><li class><a href="#其他更新">其他更新</a></li><li class><a href="#更新日志">更新日志</a></li> </ul> </details> </header>  <p>我们很高兴地宣布 Apache APISIX 3.18.0 正式发布。该版本带来了新的 AI Gateway 能力、更严格的安全默认值、L4 代理增强、可观测性改进，以及覆盖网关各模块的可靠性修复。</p>
+<!--truncate-->
+<p>本版本新增了 LLM 精确、语义与流式响应缓存、语义模型路由、Lakera Guard 集成、高级 LDAP 身份验证插件、更丰富的 Prometheus 指标，以及多项流代理、健康检查、日志和加密能力。</p>
+<p>该版本也包含不向后兼容的变更。升级前请阅读以下迁移说明。</p>
+<h2 id="重大变更">重大变更</h2>
+<p>以下变更会影响现有行为、默认值、配置或可观测性约定。请根据每项变更下的升级计划确认部署是否受影响，并在发布前完成必要调整。</p>
+<h3 id="调试插件报告包含阶段与执行顺序">调试插件报告包含阶段与执行顺序</h3>
+<p><code>Apisix-Plugins</code> 响应头不再返回去重后的插件名称列表，而是按执行顺序返回 <code>plugin-name#phase</code>。依赖该响应头的解析工具需要相应更新。</p>
+<p><strong>升级计划：</strong> 如果系统会读取 <code>Apisix-Plugins</code>，请让解析逻辑支持 <code>plugin-name#phase</code>、同一插件出现在多个阶段以及有序条目。<code>body_filter</code>、<code>log</code> 等响应头发送后的阶段是提前推算的，不能作为阶段实际执行的依据；如果工具会根据该响应头作出判断，请使用代表性路由验证结果。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13710">PR #13710</a>。</p>
+<h3 id="默认限制请求与响应缓冲大小">默认限制请求与响应缓冲大小</h3>
+<p>多个需要缓冲请求体或响应体的插件现在默认使用 64 MiB 上限。超出限制的请求体可能被拒绝；超出限制的响应则会根据插件行为被截断或直接转发而不缓存。若受影响插件需要处理更大的报文，请配置 <code>max_req_body_size</code> 或 <code>max_resp_body_size</code>。</p>
+<p><strong>升级计划：</strong> 如果使用受影响的报文缓冲插件，请找出可能超过 64 MiB 的路由，并在升级前设置对应的 <code>max_req_body_size</code> 或 <code>max_resp_body_size</code>。只需验证适用的处理路径：超大请求会被拒绝；响应转换插件可能截断响应；内存 <code>proxy-cache</code> 会直接转发超大响应而不缓存。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13705">PR #13705</a>。</p>
+<h3 id="日志积压默认丢弃超额条目">日志积压默认丢弃超额条目</h3>
+<p>使用批处理器的日志插件现在默认将 <code>max_pending_entries</code> 设为 <code>8192</code>。当日志后端无法及时处理时，超出限制的新条目会被丢弃，以保护工作进程的内存。调高该值前应评估日志体大小与可用内存。</p>
+<p><strong>升级计划：</strong> 如果使用基于批处理器的日志插件，请结合预期积压量、<code>batch_max_size</code>、日志体大小和单个工作进程的内存预算评估默认值。当 <code>8192</code> 不合适时显式设置 <code>max_pending_entries</code>，为丢弃日志配置告警，并使用缓慢或不可用的日志后端进行测试；记录较大报文时可能需要降低该值。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13826">PR #13826</a>。</p>
+<h3 id="aws-内容审核改为审核解码后的-ai-内容">AWS 内容审核改为审核解码后的 AI 内容</h3>
+<p><code>ai-aws-content-moderation</code> 现在运行在 <code>ai-proxy</code> 或 <code>ai-proxy-multi</code> 之后，审核协议解码后的提示词，并返回与提供商兼容的拒绝响应。该插件现在依赖 AI 代理上下文，优先级从 <code>1050</code> 调整为 <code>1031</code>，默认拒绝状态码改为 <code>200</code>。</p>
+<p><strong>升级计划：</strong> 如果使用 <code>ai-aws-content-moderation</code>，请在必须实际执行审核的位置将其与 <code>ai-proxy</code> 或 <code>ai-proxy-multi</code> 配合使用。如果客户端依赖原有 HTTP 错误约定，请固定 <code>deny_code: 400</code>；对于 AI 代理无法识别的流量，还应显式选择 <code>fail_mode</code>。请分别测试允许、拒绝以及无法识别的请求。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13647">PR #13647</a>。</p>
+<h3 id="阿里云请求审核默认仅检查最新用户轮次">阿里云请求审核默认仅检查最新用户轮次</h3>
+<p><code>ai-aliyun-content-moderation</code> 默认只审核最后一段连续的 <code>user</code> 消息。后续新增的 <code>request_check_roles</code> 可以选择 <code>user</code>、<code>tool</code> 和 <code>system</code>；<code>request_check_mode</code> 作用于 <code>user</code> 和 <code>tool</code>，选中的 <code>system</code> 内容则会在每个请求中检查。该插件无法选择 <code>assistant</code> 历史消息，因此没有配置可以完全恢复原有的全消息审核行为。</p>
+<p><strong>升级计划：</strong> 如果使用请求审核，请同时显式选择这两个字段。若要近似保留原有范围，可设置 <code>request_check_mode: all</code> 和 <code>request_check_roles: ["user", "tool", "system"]</code>；但这仍不会检查 <code>assistant</code> 历史消息，tool 结果能否抽取也取决于 AI 协议。如果原有策略依赖这些未覆盖消息，请增加其他控制措施或调整策略。请针对支持的每种协议测试较早和最新的用户轮次、选中的 system 内容以及 tool 输出。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13598">PR #13598</a>。</p>
+<h3 id="sls-日志插件默认验证-tls-证书">SLS 日志插件默认验证 TLS 证书</h3>
+<p><code>sls-logger</code> 的 <code>ssl_verify</code> 现在默认为 <code>true</code>，并发送 SNI。自定义或自签名日志端点必须使用受信任证书，或显式设置 <code>ssl_verify: false</code>。</p>
+<p><strong>升级计划：</strong> 如果使用 <code>sls-logger</code>，请使用 APISIX 信任库和配置中的准确主机名测试每个 TLS 端点。自定义或自签名端点需要受信任的证书链和主机名匹配证书；评估凭证泄露风险后，才能将 <code>ssl_verify: false</code> 作为明确且临时的例外。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13785">PR #13785</a>。</p>
+<h3 id="openid-connect-验证失败时拒绝请求">OpenID Connect 验证失败时拒绝请求</h3>
+<p><code>openid-connect</code> 现在会在无法确定受信任签发者时拒绝令牌；<code>claim_validator.audience.match_with_client_id</code> 会隐式要求 audience 声明；授权码会话也会执行 <code>required_scopes</code>。请检查使用不透明访问令牌或缺少 scope 声明的身份提供商。</p>
+<p><strong>升级计划：</strong> 只需测试实际启用的 OIDC 校验。使用 <code>match_with_client_id</code> 时，确认签发的令牌包含匹配的 audience；本地校验 JWT 且 Discovery 文档可能不可用时，配置 <code>claim_validator.issuer.valid_issuers</code>；授权码路由配置 <code>required_scopes</code> 时，确认访问令牌是带字符串 <code>scope</code> 声明的 JWT，或 ID 令牌包含该声明。不透明访问令牌且两者都没有 <code>scope</code> 时，会话将被拒绝。请覆盖部署实际使用的 Bearer Token 和会话流程。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13829">PR #13829</a>。</p>
+<h3 id="写入时检查重复的-consumer-身份验证键">写入时检查重复的 Consumer 身份验证键</h3>
+<p>Admin API 现在会在写入时检查 <code>key-auth</code>、<code>basic-auth</code>、<code>jwt-auth</code>、<code>hmac-auth</code> 与 LDAP 身份验证中跨 Consumer 或凭证重复的查找键，并以 400 拒绝检测到的冲突。该保护是尽力而为：本地监听到的 Consumer 数据可能滞后于快速或并发写入，传入的 Secret 或环境变量引用也无法在此检查中解析。</p>
+<p><strong>升级计划：</strong> 上线前应独立审计现有 Consumer 与凭证中的重复身份验证键，包括通过 Secret 或环境变量引用提供的值，并先解决冲突。不要将新的 Admin API 检查作为唯一的唯一性保障；可行时应串行执行敏感迁移，随后更新每个受影响的 Consumer，并实际发起认证以确认身份归属正确。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13529">PR #13529</a>。</p>
+<h3 id="转发请求头处理行为变更">转发请求头处理行为变更</h3>
+<p><code>$var_x_forwarded_proto</code> 已移除，<code>$var_x_forwarded_host</code> 与 <code>$var_x_forwarded_port</code> 不再可由 Lua 写入。插件应使用 <code>core.request.set_header</code> 修改发往上游的转发请求头。受信任对端未提供 <code>X-Forwarded-Host</code> 或 <code>X-Forwarded-Port</code> 时，现在会使用 APISIX 观测到的值；日志负载也会包含清洗后的转发请求头。</p>
+<p><strong>升级计划：</strong> 如果自定义插件、NGINX 片段或日志格式引用了三个 <code>$var_x_forwarded_*</code> 变量，请将 Lua 写入改为 <code>core.request.set_header</code>，并移除对已删除 <code>$var_x_forwarded_proto</code> 的读取。采用固定请求头结构的日志消费者需要允许新增的三个清洗后请求头。配置了 <code>trusted_addresses</code> 的部署还应测试未提供 forwarded host 或 port 的受信任对端；默认未配置信任边界的请求路径则保持原有上游行为。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13803">PR #13803</a>。</p>
+<h3 id="限制大型-post_arg-路由匹配读取">限制大型 <code>post_arg.*</code> 路由匹配读取</h3>
+<p>用于 <code>post_arg.*</code> 路由条件的 JSON 和 multipart 请求体现在默认限制为 64 MiB。更大的请求体将无法命中该条件，并可能返回 404。如需保留无限制读取，请调高 <code>apisix.max_post_args_readable_size</code>，或将其设为 <code>0</code>。</p>
+<p><strong>升级计划：</strong> 如果路由使用 <code>post_arg.*</code> 匹配 JSON 或 multipart 请求体，请确认预期最大请求体；需要超过 64 MiB 时，显式设置 <code>apisix.max_post_args_readable_size</code>。将其设为 <code>0</code> 会恢复无限制读取，但也会恢复内存耗尽风险。请发送超出限制的请求，确认它应命中其他路由还是返回 404。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13601">PR #13601</a>。</p>
+<h3 id="现有-ldap-tls-验证开始真正生效">现有 LDAP TLS 验证开始真正生效</h3>
+<p>LDAP 客户端依赖升级后，<code>ldap-auth.tls_verify: true</code> 会真正执行证书验证，而不再是无效配置。使用自签名证书或证书主机名不匹配的部署，需要安装受信任且匹配的证书，或在适当场景显式关闭验证。</p>
+<p><strong>升级计划：</strong> 如果现有 <code>ldap-auth</code> 部署启用了 <code>tls_verify</code>，请在上线前根据 <code>ldap_uri</code> 验证证书链和 SAN，并配置所需的受信任 CA。只需测试实际使用的加密连接模式，例如 LDAPS 或 StartTLS；关闭证书验证的配置不会新增此失败路径。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13762">PR #13762</a>。</p>
+<h3 id="ldap-consumer-dn-使用-rfc-4514-转义">LDAP Consumer DN 使用 RFC 4514 转义</h3>
+<p><code>ldap-auth</code> 现在使用 LDAP 客户端返回的已转义 bind DN 查找 Consumer。用户名包含逗号、加号等特殊字符时，Consumer 的 <code>user_dn</code> 必须使用 RFC 4514 转义形式。</p>
+<p><strong>升级计划：</strong> 如果 LDAP 用户名可能包含 DN 特殊字符，请使用支持 LDAP 的工具生成符合 RFC 4514 的转义 bind DN，并在升级前更新对应 Consumer 的 <code>user_dn</code>。不含这些字符的用户名不受影响。请同时测试 LDAP bind 成功以及请求关联到预期 Consumer。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13805">PR #13805</a>。</p>
+<h3 id="prometheus-llm-延迟指标新增-type-标签">Prometheus LLM 延迟指标新增 <code>type</code> 标签</h3>
+<p><code>apisix_llm_latency</code> 现在使用 <code>type="total"</code> 与 <code>type="ttft"</code> 区分总延迟和首个 Token 延迟（TTFT）；流式请求会同时记录两类样本。若需保持原有总延迟语义，请更新仪表盘、告警和记录规则，添加 <code>type="total"</code> 选择条件。</p>
+<p><strong>升级计划：</strong> 如果仪表盘、告警或记录规则使用 <code>apisix_llm_latency</code>，请在需要原有总延迟语义的位置添加 <code>type="total"</code>，或有意识地按 <code>type</code> 聚合。流式请求现在分别产生一条 <code>total</code> 与一条 <code>ttft</code> 观测，非流式请求只产生 <code>total</code>；请据此验证基数和样本数量。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13487">PR #13487</a>。</p>
+<h3 id="ai-安全插件默认跳过无法识别的流量">AI 安全插件默认跳过无法识别的流量</h3>
+<p><code>ai-aliyun-content-moderation</code>、<code>ai-aws-content-moderation</code> 与 <code>ai-prompt-guard</code> 新增的 <code>fail_mode</code> 均默认为 <code>skip</code>。具体变化取决于原有处理路径：缺少 AI 代理上下文、Content-Type 不受支持或协议无法识别时，阿里云审核不再返回错误；请求体不是有效 JSON 时，<code>ai-prompt-guard</code> 不再返回 400，而其无法识别 AI 协议的路径原本就会放行；AWS 审核也不再将非 JSON 请求体作为原始文本进行检查。无论插件通过 Route、Service 还是 Consumer 生效，这些请求现在都会未经检查直接放行。</p>
+<p><strong>升级计划：</strong> 如果使用以上任一插件，请根据是否可能收到混合或无法识别的流量，逐一评估 Route、Service 和 Consumer 绑定。无法接受绕过时显式设置 <code>fail_mode: error</code>；混合流量需要放行时，应有意识地选择 <code>skip</code> 或 <code>warn</code>。请测试非 JSON 请求体、不支持的 AI 协议，以及未经过 <code>ai-proxy</code> 的请求。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13489">PR #13489</a>。</p>
+<h2 id="新功能">新功能</h2>
+<p>APISIX 3.18.0 扩展了 AI Gateway、身份验证、L4 代理、可观测性、限流、日志和流量管理能力。以下内容将分别介绍各项主要功能的适用场景、工作方式和关键配置选择。</p>
+<h3 id="使用-ffi-http-客户端发送-ai-上游请求">使用 FFI HTTP 客户端发送 AI 上游请求</h3>
+<p><code>ai-proxy</code>、<code>ai-proxy-multi</code> 与 <code>ai-request-rewrite</code> 现在默认通过 <code>ngx_http_ffi_client</code> 向上游 LLM 发送请求。该客户端基于 C 实现，可降低出站 HTTP 开销，同时支持与 <code>lua-resty-http</code> 相同的缓冲、流式、TLS 和连接复用路径。</p>
+<p>APISIX 3.18.0 固定的 APISIX-Runtime 已包含兼容的 v0.1.3 客户端及其 APISIX 域名解析钩子。该钩子可保持网关原有的 DNS 行为，包括 <code>dns_resolver</code>、<code>/etc/hosts</code> 和搜索域处理，同时为 <code>Host</code> 请求头与 SNI 保留原始主机名。</p>
+<p>使用自行构建或旧版 APISIX-Runtime 的运维人员可以显式保留 Lua 客户端：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">plugin_attr</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ai-proxy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    http_client</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">lua-resty-http</span></span></code></pre>
+<p>配置的客户端不可用时，传输层不会静默切换到另一客户端。本版本固定的 APISIX-Runtime 无需兼容性调整；自定义 APISIX-Runtime 用户应确认客户端版本，或选择 <code>lua-resty-http</code>，随后测试实际提供商使用的 DNS、TLS、缓冲响应和流式路径。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13778">PR #13778</a>。</p>
+<h3 id="使用-ai-cache-缓存-llm-响应">使用 <code>ai-cache</code> 缓存 LLM 响应</h3>
+<p>新的 <code>ai-cache</code> 插件可降低客服助手、文档问答、翻译和基于提示词的自动化等包含大量重复请求的 LLM 工作负载的延迟与上游 Token 成本。它提供三类互补能力：</p>
+<ul>
+<li>使用 Redis 存储的精确 L1 缓存，用于请求语义完全一致的场景。</li>
+<li>可选的语义 L2 缓存，使用 OpenAI 或 Azure OpenAI 生成嵌入向量，并通过 RediSearch 进行余弦相似度检索。</li>
+<li>对受支持流式提供商进行完整 SSE 捕获与重放，JSON 与 SSE 条目分别存储。</li>
+</ul>
+<p>缓存键包含客户端协议、实际模型和提供商、决定响应的参数，以及最终选中的 AI 实例；还可以按路由、Consumer 或指定 NGINX 变量进行隔离。Redis 或嵌入向量生成失败时，请求会按普通 MISS 继续转发，因此缓存不会成为可用性依赖。</p>
+<p>以下示例同时启用精确缓存和语义缓存。第一个请求会填充两层缓存；后续改写后的相似问题在超过阈值时可由 L2 直接返回。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ai-cache"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"127.0.0.1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6379</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "layers"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"exact"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"semantic"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "semantic"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "similarity_threshold"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.9</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "embedding"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "openai"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"text-embedding-3-small"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "api_key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://OPENAI_API_KEY"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "vector_search"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "redis"</span><span style="color:#E6EDF3">: {}</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13578">PR #13578</a>、<a href="https://github.com/apache/apisix/pull/13632">PR #13632</a> 和 <a href="https://github.com/apache/apisix/pull/13644">PR #13644</a>。</p>
+<h3 id="根据语义将提示词路由到不同模型">根据语义将提示词路由到不同模型</h3>
+<p><code>ai-proxy-multi</code> 新增 <code>semantic</code> 负载均衡算法，适用于多个模型能力、成本和延迟并不相同的部署。一个统一端点可以将编程问题路由到能力更强的模型，将翻译请求路由到低成本模型，并将无法归类的流量交给通用回退实例，而无需向客户端暴露提供商拓扑。</p>
+<p>APISIX 会为每个实例的自然语言示例生成一次嵌入向量，并按配置版本缓存参考向量。每个请求只需生成一次提示词嵌入向量，随后在进程内完成余弦相似度比较，不需要向量数据库。如果嵌入向量生成失败或没有分数超过阈值，请求会交给配置的回退实例。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ai-proxy-multi"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "balancer"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "algorithm"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"semantic"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "threshold"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.6</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "semantic_opts"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "fallback"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"general"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "embeddings"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "provider"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"openai"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"text-embedding-3-small"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "auth"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "header"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">            "Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer $env://EMBEDDING_API_KEY"</span></span>
+<span class="line"><span style="color:#E6EDF3">          }</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "instances"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"code"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "provider"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"openai"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "auth"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"header"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer $env://OPENAI_API_KEY"</span><span style="color:#E6EDF3">}},</span></span>
+<span class="line"><span style="color:#7EE787">        "options"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"gpt-4o"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">        "override"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"endpoint"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://api.openai.com/v1/chat/completions"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">        "examples"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"debug this stack trace"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"write a Python function"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span></span>
+<span class="line"><span style="color:#7EE787">        "name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"general"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "provider"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"openai"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "weight"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "auth"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"header"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"Authorization"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer $env://OPENAI_API_KEY"</span><span style="color:#E6EDF3">}},</span></span>
+<span class="line"><span style="color:#7EE787">        "options"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"gpt-4o-mini"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">        "override"</span><span style="color:#E6EDF3">: {</span><span style="color:#7EE787">"endpoint"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://api.openai.com/v1/chat/completions"</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#7EE787">        "examples"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"answer a general question"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    ]</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>语义选择是尽力而为的路由能力，并非内容安全控制；实例选定后目前也不提供基于健康状态的重试。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13676">PR #13676</a>。</p>
+<h3 id="使用-lakera-guard-保护-llm-请求与响应">使用 Lakera Guard 保护 LLM 请求与响应</h3>
+<p>新的 <code>ai-lakera-guard</code> 插件在网关层与 Lakera Guard v2 API 集成，可检测提示词注入、敏感信息、策略违规和恶意链接。它可以扫描请求、响应或双向流量，应用无需分别实现同一套安全集成。</p>
+<p>在 <code>block</code> 模式下，被标记的流量会被替换为与提供商兼容的拒绝响应。流式输出会先缓冲再释放，避免有风险的输出内容到达客户端。在 <code>alert</code> 模式下，运维人员可以先观察判定结果，再启用拦截。Lakera API 故障由独立的 <code>fail_open</code> 控制，使可用性与强制执行之间的选择保持明确。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ai-lakera-guard"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "api_key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://LAKERA_API_KEY"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "direction"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"both"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "action"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"alert"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "fail_open"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "reveal_failure_categories"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>建议先使用 <code>action: alert</code> 和 <code>fail_open: true</code> 上线，观察检测结果与误报，再将选定路由切换为 <code>block</code>。若需要严格的响应侧强制执行，请使用 <code>fail_open: false</code>；此时流式响应会被缓冲，扫描服务不可用时也不会泄漏未经检查的输出。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13570">PR #13570</a> 和 <a href="https://github.com/apache/apisix/pull/13606">PR #13606</a>。</p>
+<h3 id="扩展-aws-与阿里云-ai-内容审核能力">扩展 AWS 与阿里云 AI 内容审核能力</h3>
+<p>AWS 审核除了请求外，现在也可以检查非流式和流式响应。<code>realtime</code> 模式会在响应流动时分批检查，并可立即替换后续内容；<code>final_packet</code> 模式会对完整输出评分并记录风险等级。长内容会在 UTF-8 字符边界处拆分，并按 AWS Comprehend 的分段限制批量发送。</p>
+<p>两种提供商的角色控制略有不同：AWS 可以选择 <code>user</code>、<code>tool</code>、<code>assistant</code> 和 <code>system</code>，阿里云可以选择 <code>user</code>、<code>tool</code> 和 <code>system</code>。选中的轮次角色可以按最新轮次或完整历史处理；选中的 system 内容则会在每个请求中检查。OpenAI 的 <code>developer</code> 角色会作为 system 级内容处理。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ai-aws-content-moderation"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "comprehend"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "access_key_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://AWS_ACCESS_KEY_ID"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "secret_access_key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://AWS_SECRET_ACCESS_KEY"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "region"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"us-east-1"</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "request_check_roles"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"user"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"tool"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"system"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "request_check_mode"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"last"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "check_response"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "stream_check_mode"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"realtime"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>这些配置可帮助 Agent 和 MCP 工作负载审核工具输出及可能被污染的系统指令，而无需在每个请求中把整个对话历史重复发送给审核提供商。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13735">PR #13735</a>、<a href="https://github.com/apache/apisix/pull/13773">PR #13773</a>、<a href="https://github.com/apache/apisix/pull/13767">PR #13767</a>、<a href="https://github.com/apache/apisix/pull/13646">PR #13646</a> 和 <a href="https://github.com/apache/apisix/pull/13780">PR #13780</a>。</p>
+<h3 id="新增高级-ldap-身份验证">新增高级 LDAP 身份验证</h3>
+<p>新的 <code>ldap-auth-advanced</code> 插件适用于无法从用户名直接构造 bind DN 的目录。插件会先搜索用户，再使用解析出的 DN 进行绑定，覆盖通过 <code>sAMAccountName</code> 等属性进行身份验证的常见 Active Directory 部署。</p>
+<p>搜索可以使用服务账号或匿名绑定。插件支持 LDAPS、StartTLS、证书验证、连接池、LDAP 过滤器转义、受限搜索，以及通过 <code>user_dn</code> 关联 Consumer。身份验证失败返回 401，而目录服务连接或配置故障仍会明确返回服务端错误。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ldap-auth-advanced"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "ldap_uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"ldap.example.com:636"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "use_ldaps"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ssl_verify"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "base_dn"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"ou=users,dc=example,dc=org"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "attribute"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"sAMAccountName"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "bind_dn"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"cn=apisix,ou=services,dc=example,dc=org"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "ldap_password"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://LDAP_BIND_PASSWORD"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>默认情况下，成功认证的身份必须映射到 APISIX Consumer。如果目录身份无需 Consumer 级策略即可通过认证，应明确配置 <code>consumer_required</code>。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13762">PR #13762</a>。</p>
+<h3 id="增强-stream-与-l4-代理">增强 Stream 与 L4 代理</h3>
+<p>Stream 监听端口现在可以针对每个 TCP 端口分别启用或关闭入站和出站 PROXY 协议，不再受限于原有的全局开关。一个 APISIX 实例因此可以同时服务具有不同协议要求的客户端与上游。</p>
+<p>当 APISIX 位于受信任的负载均衡器之后时，<code>nginx_config.stream.real_ip_from</code> 可以信任并使用入站 PROXY 头中的客户端地址。该地址随后可供 Stream 插件使用，并可重新写入发往上游的 PROXY 头。L4 TLS 上游也可以接收来自内联配置或 <code>tls.client_cert_id</code> 的客户端证书。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apisix</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  proxy_mode</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">http&#x26;stream</span></span>
+<span class="line"><span style="color:#7EE787">  stream_proxy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    tcp</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">addr</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">9100</span></span>
+<span class="line"><span style="color:#7EE787">        proxy_protocol</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">        proxy_protocol_to_upstream</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">nginx_config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  stream</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">    real_ip_from</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#A5D6FF">10.0.0.0/8</span></span></code></pre>
+<p>Prometheus 还提供活跃连接 Gauge 指标、终止状态，以及按监听地址统计的下游/上游入站与出站带宽。这些指标需要本版本包含的 APISIX Runtime；在旧版 Runtime 上会自动停用相关采集，不影响网关继续运行。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13561">PR #13561</a>、<a href="https://github.com/apache/apisix/pull/13700">PR #13700</a>、<a href="https://github.com/apache/apisix/pull/13596">PR #13596</a> 和 <a href="https://github.com/apache/apisix/pull/13796">PR #13796</a>。</p>
+<h3 id="扩展-prometheus-控制与-ai-指标">扩展 Prometheus 控制与 AI 指标</h3>
+<p>Prometheus 新增 AI 缓存命中、未命中和绕过计数器、嵌入向量生成延迟直方图、LLM 提示词与补全 Token 分布，以及总延迟和 TTFT 的独立观测。借助这些指标，可以直接从网关衡量缓存效果、嵌入向量生成开销、提示词大小分位数和流式响应速度。</p>
+<p>高基数部署可以通过插件元数据折叠指定内置标签的值，而不改变指标的标签结构。客户端提供的模型标签值也会限制为 128 字节。依赖升级修复了重复时间序列、指标字典满时的 100% CPU 忙循环，以及过期条目无法回收的问题。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "disabled_labels"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "http_status"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"node"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"consumer"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "http_latency"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"node"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "llm_prompt_tokens"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"request_llm_model"</span><span style="color:#E6EDF3">]</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>通过 <code>/apisix/admin/plugin_metadata/prometheus</code> 应用 <code>disabled_labels</code>。HTTP 状态码和延迟类型等结构性标签不能被禁用，因为折叠这些标签会合并语义不同的测量值。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13659">PR #13659</a>、<a href="https://github.com/apache/apisix/pull/13202">PR #13202</a>、<a href="https://github.com/apache/apisix/pull/13637">PR #13637</a>、<a href="https://github.com/apache/apisix/pull/13602">PR #13602</a>、<a href="https://github.com/apache/apisix/pull/13708">PR #13708</a> 和 <a href="https://github.com/apache/apisix/pull/13754">PR #13754</a>。</p>
+<h3 id="通过-redis-共享限流计数器">通过 Redis 共享限流计数器</h3>
+<p><code>ai-rate-limiting</code> 现在可以将 Token 用量计数器存储在 Redis、Redis Cluster 或 Redis Sentinel 中，使多个 APISIX 节点共同执行一个配额。现有 <code>local</code> 策略仍是默认值，并继续为每个网关节点维护独立计数器。</p>
+<p><code>limit-count</code> 新增三项可独立使用的控制：用于高可用的 Sentinel 后端、平滑窗口边界突发的滑动窗口计数器，以及为高吞吐工作负载批量更新 Redis 的延迟同步。延迟同步以短时间内的全局精度换取更少的网络往返；如果需要每个请求精确写入 Redis，请不要配置 <code>sync_interval</code>。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "limit-count"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "count"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">5000</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "time_window"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">60</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"consumer_name"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "key_type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"var"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "window_type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"sliding"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "policy"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"redis-sentinel"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_sentinels"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span><span style="color:#7EE787">"host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"10.0.0.1"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">26379</span><span style="color:#E6EDF3">},</span></span>
+<span class="line"><span style="color:#E6EDF3">      {</span><span style="color:#7EE787">"host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"10.0.0.2"</span><span style="color:#E6EDF3">, </span><span style="color:#7EE787">"port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">26379</span><span style="color:#E6EDF3">}</span></span>
+<span class="line"><span style="color:#E6EDF3">    ],</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_master_name"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"mymaster"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "sync_interval"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>本版本还修复了滑动窗口和延迟同步实现中的原子性与配额计算问题，因此采用新模式时应使用完整的 3.18.0 补丁集。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13670">PR #13670</a> 和 <a href="https://github.com/apache/apisix/pull/13443">PR #13443</a>。</p>
+<h3 id="增强-openid-connect-客户端流程">增强 OpenID Connect 客户端流程</h3>
+<p><code>openid-connect</code> 新增 Pushed Authorization Requests（PAR）、用于令牌端点和 UserInfo 请求的 DPoP 证明生成，以及客户端断言算法与 audience 控制。PAR 与 DPoP 均为可选能力，并使用嵌套配置对象；DPoP 私钥会加密存储。</p>
+<p>需要原始签名 ID 令牌的应用可以启用 <code>set_raw_id_token_header</code>，在授权码会话流程中通过 <code>X-Raw-ID-Token</code> 转发。它不同于 <code>X-ID-Token</code>：后者包含编码后的已解码声明，而不是身份提供商签名的 JWT。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "openid-connect"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "client_id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "client_secret"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://OIDC_CLIENT_SECRET"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "discovery"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://idp.example.com/.well-known/openid-configuration"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redirect_uri"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https://gateway.example.com/callback"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "par"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "enabled"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "set_raw_id_token_header"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "session"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "secret"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$env://OIDC_SESSION_SECRET"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>浏览器流程故障也会得到更友好的恢复。过期回调或 <code>temporarily_unavailable</code> 响应可以从原始 URL 重新启动认证，并通过受限重试计数器避免重定向循环。<code>access_denied</code> 等明确拒绝结果不会重试。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13649">PR #13649</a>、<a href="https://github.com/apache/apisix/pull/13616">PR #13616</a>、<a href="https://github.com/apache/apisix/pull/13712">PR #13712</a> 和 <a href="https://github.com/apache/apisix/pull/13825">PR #13825</a>。</p>
+<h3 id="增强日志格式并保护存储的凭证">增强日志格式并保护存储的凭证</h3>
+<p>日志插件支持 <code>log_format_extra</code>，可以在默认结构化日志上覆盖或添加指定字段，而不是替换整条日志。这样可以添加租户、上游或业务上下文，同时保留请求头、响应数据、延迟字段、APISIX 版本与资源标识。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "log_format_extra"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "upstream_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$upstream_unresolved_host"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "tenant"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$http_x_tenant_id"</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Kafka 日志可以连接启用 TLS 的 Broker；当需要 Broker 端消息时间戳时，可以选择 Produce API 版本 <code>2</code>。<code>error-log-logger</code> 的 Kafka 输出也获得同样的 TLS 能力。</p>
+<p>凭证存储也得到强化：启用数据加密后，Elasticsearch 与 Loki 自定义请求头、限流插件中的 Redis 密码、Sentinel 密码，以及内联 Stream 上游客户端私钥都会加密存储。可能暴露序列化日志内容或 Kafka SASL 凭证的调试日志已被移除。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13568">PR #13568</a>、<a href="https://github.com/apache/apisix/pull/13607">PR #13607</a>、<a href="https://github.com/apache/apisix/pull/13521">PR #13521</a>、<a href="https://github.com/apache/apisix/pull/13612">PR #13612</a>、<a href="https://github.com/apache/apisix/pull/13784">PR #13784</a> 和 <a href="https://github.com/apache/apisix/pull/13624">PR #13624</a>。</p>
+<h3 id="新增路由健康检查和加密配置">新增路由、健康检查和加密配置</h3>
+<p>APISIX 可以在匹配参数化路由时保留 <code>%2F</code> 编码，使 <code>cat%2Fdog</code> 等值继续作为一个路径参数，而不是被拆成两个路径段。该全局选项默认关闭，只影响匹配与捕获的参数；后续阶段仍会看到规范化后的 URI。</p>
+<p>主动健康检查可以发送自定义 HTTP 方法和请求体，适用于无法通过无请求体 GET 进行有效检查的上游，例如要求最小 Chat Completion POST 的 LLM 端点。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "checks"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "active"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "type"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"https"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "http_method"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"POST"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "http_path"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"/v1/chat/completions"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "http_req_body"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">model</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">health-check</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">messages</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:[{</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">role</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">user</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">,</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">content</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">:</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">ping</span><span style="color:#FF7B72">\"</span><span style="color:#A5D6FF">}]}"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>数据加密 keyring 现在可以在同一轮换集合中同时使用 16 字节 AES-128 与 32 字节 AES-256 密钥。运维人员可以将新的 AES-256 密钥放在首位，同时保留旧 AES-128 密钥用于解密。Prometheus、服务发现和链路追踪中无法安全淘汰的数据也使用了更大的默认共享字典。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/13626">PR #13626</a>、<a href="https://github.com/apache/apisix/pull/13726">PR #13726</a>、<a href="https://github.com/apache/apisix/pull/13756">PR #13756</a> 和 <a href="https://github.com/apache/apisix/pull/13688">PR #13688</a>。</p>
+<h2 id="bug-修复">Bug 修复</h2>
+<p>本版本还修复了网关多个核心子系统中的正确性、安全性与可靠性问题。以下内容按受影响的功能领域归类，便于运维人员快速找到与其部署相关的修复。</p>
+<h3 id="ai-gateway-正确性与协议兼容性">AI Gateway 正确性与协议兼容性</h3>
+<p>AI 代理现在能够保留更多上游提供商的原始语义，并使重试与前一次尝试相互隔离。请求未重试时，客户端会收到原始 429/5xx 错误体和 Content-Type；发生回退时，每个实例都从未被修改的客户端请求体重新构造请求，避免模型选项在实例之间泄漏。AI 延迟变量在成功和错误响应上也统一使用毫秒。参阅 <a href="https://github.com/apache/apisix/pull/13565">PR #13565</a>、<a href="https://github.com/apache/apisix/pull/13793">PR #13793</a> 和 <a href="https://github.com/apache/apisix/pull/13711">PR #13711</a>。</p>
+<p>协议转换变得更加可靠和忠实：</p>
+<ul>
+<li>上游流在打开内容块前结束时，Anthropic 客户端不再挂起；无效的 <code>tool_call</code> 参数也不会丢弃原本可用的响应。参阅 <a href="https://github.com/apache/apisix/pull/13583">PR #13583</a> 和 <a href="https://github.com/apache/apisix/pull/13599">PR #13599</a>。</li>
+<li>Anthropic 工具结果顺序、工具名称映射、推理强度、结构化输出和消息形态现在更符合 OpenAI 兼容上游的预期。参阅 <a href="https://github.com/apache/apisix/pull/13674">PR #13674</a>。</li>
+<li>结构化与多模态消息内容会为文本消费者进行一致展开，同时在精确缓存键中保持区别；包含非文本状态的提示词会绕过语义缓存。参阅 <a href="https://github.com/apache/apisix/pull/13634">PR #13634</a> 和 <a href="https://github.com/apache/apisix/pull/13654">PR #13654</a>。</li>
+<li>协议转换将一个上游数据块展开为多个客户端事件时，实时审核不再重复计算同一数据块。参阅 <a href="https://github.com/apache/apisix/pull/13765">PR #13765</a>。</li>
+</ul>
+<p><code>ai-request-rewrite</code> 的内部请求现在只携带插件中配置的提供商凭证，不再转发下游客户端的 <code>Cookie</code> 及其他请求头；当提供商通过查询参数、<code>api-key</code> 或 SigV4 进行身份验证，而不会覆盖 <code>Authorization</code> 请求头时，客户端的 <code>Authorization</code> 也不会再被转发。透明代理的 <code>ai-proxy</code> 路径仍会按文档转发客户端请求头。参阅 <a href="https://github.com/apache/apisix/pull/13699">PR #13699</a>。</p>
+<h3 id="身份验证与身份安全">身份验证与身份安全</h3>
+<p>身份验证插件现在可以干净地拒绝异常输入，并防止客户端控制的身份数据到达上游服务：</p>
+<ul>
+<li>异常 JWT 签名返回 401，而不再触发 500；<code>jwe-decrypt</code> 在关闭 <code>strict</code> 时也会正确允许缺少令牌的请求。参阅 <a href="https://github.com/apache/apisix/pull/13518">PR #13518</a> 和 <a href="https://github.com/apache/apisix/pull/13822">PR #13822</a>。</li>
+<li><code>wolf-rbac</code> 与 <code>attach-consumer-label</code> 会在应用受信任身份数据前始终删除客户端传入的身份请求头。参阅 <a href="https://github.com/apache/apisix/pull/13696">PR #13696</a> 和 <a href="https://github.com/apache/apisix/pull/13590">PR #13590</a>。</li>
+<li><code>key-auth</code> 会通过 <code>multi-auth</code> 报告真实失败原因，<code>basic-auth</code> 会验证 <code>anonymous_consumer</code>，<code>hmac-auth</code> 也能在要求时可靠移除凭证。参阅 <a href="https://github.com/apache/apisix/pull/13693">PR #13693</a>、<a href="https://github.com/apache/apisix/pull/13682">PR #13682</a> 和 <a href="https://github.com/apache/apisix/pull/13820">PR #13820</a>。</li>
+</ul>
+<p>CAS 单点登出回调现在会在插件处终止，不再转发到上游；Casdoor 会话会随访问令牌一起过期。<code>request-id</code> 的 <code>nanoid</code> 算法现在使用 CSPRNG，不再出现重复 ID、异常输出或文件描述符泄漏。参阅 <a href="https://github.com/apache/apisix/pull/13610">PR #13610</a>、<a href="https://github.com/apache/apisix/pull/13500">PR #13500</a> 和 <a href="https://github.com/apache/apisix/pull/13508">PR #13508</a>。</p>
+<h3 id="健康检查与负载均衡">健康检查与负载均衡</h3>
+<p>一致性哈希环现在与配置的节点和权重保持绑定，并在选择时跳过不健康目标，避免原本落到健康节点的哈希键发生不必要迁移。最少连接负载均衡会在扩缩容时保留实时负载，并正确释放 Stream 连接，因此新加入的空闲节点会优先于已有负载的节点。参阅 <a href="https://github.com/apache/apisix/pull/13532">PR #13532</a> 和 <a href="https://github.com/apache/apisix/pull/13666">PR #13666</a>。</p>
+<p>主动健康检查获得多项可靠性修复：</p>
+<ul>
+<li>仅节点变化的上游会原地协调目标，而不是销毁检查器，从而保留健康状态，并避免不健康节点重新接收流量的窗口。参阅 <a href="https://github.com/apache/apisix/pull/13629">PR #13629</a>。</li>
+<li>域名节点使用配置的域名作为 Host 与 TLS SNI，而不是使用解析后的 IP 进行探测。参阅 <a href="https://github.com/apache/apisix/pull/13743">PR #13743</a>。</li>
+<li>所有检查器都会清除过期目标，周期锁会正确释放，AI 上游构造失败也不会中断其他资源的定时任务。参阅 <a href="https://github.com/apache/apisix/pull/13627">PR #13627</a> 和 <a href="https://github.com/apache/apisix/pull/13592">PR #13592</a>。</li>
+<li><code>ai-proxy-multi</code> 会在异步健康检查器建立后刷新服务选择器，并保留健康检查路径已有的查询参数。参阅 <a href="https://github.com/apache/apisix/pull/13505">PR #13505</a> 和 <a href="https://github.com/apache/apisix/pull/13506">PR #13506</a>。</li>
+</ul>
+<p>使用不同引用客户端证书的 HTTPS 上游不再共享同一个 keepalive 连接池。参阅 <a href="https://github.com/apache/apisix/pull/13587">PR #13587</a>。</p>
+<h3 id="限流">限流</h3>
+<p>滑动窗口现在会在 Redis 后端原子地完成允许/拒绝判断和计数器递增。延迟同步会正确计算上一窗口的加权贡献，避免每个窗口边界都出现一份新的完整配额。参阅 <a href="https://github.com/apache/apisix/pull/13574">PR #13574</a> 和 <a href="https://github.com/apache/apisix/pull/13704">PR #13704</a>。</p>
+<p>通过变量解析出的 <code>count</code> 与 <code>time_window</code> 现在必须是正的安全整数。客户端控制的异常值会被拒绝，而不再使限流器崩溃或静默跳过规则。参阅 <a href="https://github.com/apache/apisix/pull/13573">PR #13573</a>。</p>
+<p><code>workflow</code>、Consumer 和 Redis 后端之间的计数器与连接隔离得到修复：</p>
+<ul>
+<li>每个 <code>limit-conn</code> <code>workflow</code> 动作使用独立计数器；Consumer 级计数器会在该 Consumer 的所有路由之间共享，而不再按路由拆分。参阅 <a href="https://github.com/apache/apisix/pull/13591">PR #13591</a> 和 <a href="https://github.com/apache/apisix/pull/13600">PR #13600</a>。</li>
+<li>Redis 与 Sentinel keepalive 连接池会按数据库、凭证和 TLS 设置隔离，避免计数器落入另一份配置的连接上下文。参阅 <a href="https://github.com/apache/apisix/pull/13516">PR #13516</a> 和 <a href="https://github.com/apache/apisix/pull/13553">PR #13553</a>。</li>
+<li>Redis 策略 schema 会先复制再扩展；Redis Cluster 脚本缓存未命中也不会再触发不必要的拓扑刷新。参阅 <a href="https://github.com/apache/apisix/pull/13555">PR #13555</a> 和 <a href="https://github.com/apache/apisix/pull/13579">PR #13579</a>。</li>
+</ul>
+<h3 id="缓存与请求处理">缓存与请求处理</h3>
+<p>内存 <code>proxy-cache</code> 策略现在使用具有唯一映射关系的存储键格式，使构造请求无法读取或覆盖其他请求的 Vary 变体。布局版本也已升级，因此升级前的内存缓存条目在过期前将无法命中。<code>graphql-proxy-cache</code> 的 PURGE 也会删除索引中的所有 Vary 变体，而不再只删除旧的基础条目。参阅 <a href="https://github.com/apache/apisix/pull/13831">PR #13831</a> 和 <a href="https://github.com/apache/apisix/pull/13523">PR #13523</a>。</p>
+<p>缓冲后的请求体现在会在内部 HTTP 调用前重新生成正确的消息边界信息。<code>forward-auth</code>、AWS Lambda、Azure Functions 与 OpenFunction 会移除已经不再适用的客户端 <code>Transfer-Encoding</code> 和 <code>Content-Length</code>，由 HTTP 客户端根据实际缓冲请求体重新生成 <code>Content-Length</code>。参阅 <a href="https://github.com/apache/apisix/pull/13642">PR #13642</a> 和 <a href="https://github.com/apache/apisix/pull/13798">PR #13798</a>。</p>
+<p>其他数据处理修复包括：</p>
+<ul>
+<li>GraphQL 片段深度计算从指数复杂度降为线性复杂度，并会显式拒绝片段循环。参阅 <a href="https://github.com/apache/apisix/pull/13809">PR #13809</a>。</li>
+<li>XML 命名空间移除不再在遍历期间修改同一张表，从而可靠保留命名空间键与重复元素。参阅 <a href="https://github.com/apache/apisix/pull/13522">PR #13522</a>。</li>
+<li>AWS Lambda SigV4 会对实际发送的同一份规范化、编码、多值查询字符串进行签名。参阅 <a href="https://github.com/apache/apisix/pull/13520">PR #13520</a>。</li>
+<li>空的 repeated protobuf 字段会编码为 JSON 数组；移除 JSON 数组元素后也会压紧数组，不再留下空洞。参阅 <a href="https://github.com/apache/apisix/pull/13678">PR #13678</a> 和 <a href="https://github.com/apache/apisix/pull/13818">PR #13818</a>。</li>
+<li>重复的 <code>Content-Type</code> 请求头会被干净拒绝，<code>$upstream_uri</code> 中的控制字符会被转义，不安全 URI 重写也会保留客户端查询字符串。参阅 <a href="https://github.com/apache/apisix/pull/13691">PR #13691</a>、<a href="https://github.com/apache/apisix/pull/13787">PR #13787</a> 和 <a href="https://github.com/apache/apisix/pull/12843">PR #12843</a>。</li>
+</ul>
+<h3 id="日志与可观测性">日志与可观测性</h3>
+<p>日志负载和凭证更不容易泄漏或跨配置串用：</p>
+<ul>
+<li>Elasticsearch、Kafka、RocketMQ、SLS 与 Syslog 不再把序列化日志负载写入错误日志；Kafka SASL 凭证也会在错误路径中脱敏。参阅 <a href="https://github.com/apache/apisix/pull/13502">PR #13502</a> 和 <a href="https://github.com/apache/apisix/pull/13786">PR #13786</a>。</li>
+<li>Loki 会按请求解析动态标签，并按解析后的标签集合对批次中的条目分组，避免一个服务的标签泄漏到另一个服务。参阅 <a href="https://github.com/apache/apisix/pull/13562">PR #13562</a>。</li>
+<li>Loggly 会将每个批处理器绑定到自己的配置，避免一条路由的端点、令牌或标签被另一条路由的日志批次使用。参阅 <a href="https://github.com/apache/apisix/pull/13648">PR #13648</a>。</li>
+<li>合并后的 DogStatsD 数据包超过 Agent 默认接收缓冲区时，Datadog 会回退为逐指标数据报。参阅 <a href="https://github.com/apache/apisix/pull/13665">PR #13665</a>。</li>
+<li>部分日志文件轮转成功时仍会发送 reopen 信号。参阅 <a href="https://github.com/apache/apisix/pull/13375">PR #13375</a>。</li>
+</ul>
+<p>OpenTelemetry Tracer 会在元数据变更后重建，核心 Span 注入也会使用独立缓存条目，从而保留 always-on 采样行为。无效、重复或非十六进制的 <code>X-Request-Id</code> 会回退到自动生成的 Trace ID，而不再导致导出崩溃；元数据值类型也会被正确验证。参阅 <a href="https://github.com/apache/apisix/pull/13618">PR #13618</a>、<a href="https://github.com/apache/apisix/pull/13633">PR #13633</a>、<a href="https://github.com/apache/apisix/pull/12990">PR #12990</a> 和 <a href="https://github.com/apache/apisix/pull/13690">PR #13690</a>。</p>
+<h3 id="配置服务发现与-secret">配置、服务发现与 Secret</h3>
+<p>配置更新与服务发现现在能够更可预测地恢复：</p>
+<ul>
+<li>短暂 DNS 故障后，相同地址恢复可解析时，上游不再持续返回 503。Consul 会跳过单个异常节点，而不丢弃服务中的其他节点；Stream 子系统中的 Nacos 服务发现也获得所需的共享字典。参阅 <a href="https://github.com/apache/apisix/pull/13137">PR #13137</a>、<a href="https://github.com/apache/apisix/pull/13513">PR #13513</a> 和 <a href="https://github.com/apache/apisix/pull/13541">PR #13541</a>。</li>
+<li>Service 中的 Host 会按大小写不敏感方式规范化；Stream 路由需要 xRPC schema 时会正确初始化；启用 IPv6 后，PROXY 协议监听器也可以绑定 IPv6。参阅 <a href="https://github.com/apache/apisix/pull/13781">PR #13781</a>、<a href="https://github.com/apache/apisix/pull/13515">PR #13515</a> 和 <a href="https://github.com/apache/apisix/pull/12859">PR #12859</a>。</li>
+<li>etcd 全量重载遇到新数据无效时会保留之前的有效值；Watch 超时不再跳过 Revision；未变化条目会被复用以避免不必要的路由器重建。参阅 <a href="https://github.com/apache/apisix/pull/13717">PR #13717</a> 和 <a href="https://github.com/apache/apisix/pull/13721">PR #13721</a>。</li>
+</ul>
+<p>环境变量与 Secret 处理也获得多项修复：</p>
+<ul>
+<li>精确键环境变量查找可避免前缀冲突；配置键替换会移除未解析旧键；<code>nginx_config.envs</code> 也会安全引用包含空格的值。参阅 <a href="https://github.com/apache/apisix/pull/13595">PR #13595</a>、<a href="https://github.com/apache/apisix/pull/12885">PR #12885</a> 和 <a href="https://github.com/apache/apisix/pull/13713">PR #13713</a>。</li>
+<li><code>/secrets</code> 变化时 Secret 缓存会失效；未解析引用会生成包含字段信息的错误，而不再静默失败。参阅 <a href="https://github.com/apache/apisix/pull/13668">PR #13668</a> 和 <a href="https://github.com/apache/apisix/pull/13737">PR #13737</a>。</li>
+<li>Secret 引用仍未解析时，Consumer 身份验证会拒绝请求，而不再使用引用字符串继续认证。Stream TLS 与引用的上游 SSL 对象也会正确初始化和解析由环境变量或 Secret 提供的证书材料。参阅 <a href="https://github.com/apache/apisix/pull/13667">PR #13667</a>、<a href="https://github.com/apache/apisix/pull/12935">PR #12935</a> 和 <a href="https://github.com/apache/apisix/pull/13062">PR #13062</a>。</li>
+</ul>
+<p>合并 Consumer 与 Route 配置后，插件状态会被保留；父资源查找也支持所有可携带插件的资源类型。参阅 <a href="https://github.com/apache/apisix/pull/13757">PR #13757</a> 和 <a href="https://github.com/apache/apisix/pull/13663">PR #13663</a>。</p>
+<h2 id="其他更新">其他更新</h2>
+<p>以下性能优化、代码重构与维护性变更减少了运行时开销，并简化了内部行为，但不会引入新的用户功能。</p>
+<ul>
+<li>通过跨阶段缓存全局规则插件集合、跳过未采样请求的 Zipkin 标签构建，以及在一个 Datadog 批次内复用 UDP 套接字，减少热路径工作。参阅 <a href="https://github.com/apache/apisix/pull/13779">PR #13779</a>、<a href="https://github.com/apache/apisix/pull/13656">PR #13656</a> 和 <a href="https://github.com/apache/apisix/pull/13653">PR #13653</a>。</li>
+<li>移除未使用的 <code>clean_handlers</code> 机制，将通用数据加密与 SSL 专用代码分离，并移除多余的 CAS 原始 Cookie 回退。参阅 <a href="https://github.com/apache/apisix/pull/13761">PR #13761</a>、<a href="https://github.com/apache/apisix/pull/13564">PR #13564</a> 和 <a href="https://github.com/apache/apisix/pull/13635">PR #13635</a>。</li>
+<li>对已禁用或跨子系统插件的元数据不再输出预期警告，并统一使用 <code>description</code> 记录字段级 schema 文档。参阅 <a href="https://github.com/apache/apisix/pull/13514">PR #13514</a> 和 <a href="https://github.com/apache/apisix/pull/13547">PR #13547</a>。</li>
+</ul>
+<h2 id="更新日志">更新日志</h2>
+<p>此版本的完整更新列表，请参阅 <a href="https://github.com/apache/apisix/blob/master/CHANGELOG.md#3180">3.18.0 CHANGELOG</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <span></span> <a class="post-nav-card older" href="/zh/blog/2026/07/31/2026-jul-monthly-report/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">2026 社区月报 (07.01 - 07.31)</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#重大变更">重大变更</a></li><li class="d3"><a href="#调试插件报告包含阶段与执行顺序">调试插件报告包含阶段与执行顺序</a></li><li class="d3"><a href="#默认限制请求与响应缓冲大小">默认限制请求与响应缓冲大小</a></li><li class="d3"><a href="#日志积压默认丢弃超额条目">日志积压默认丢弃超额条目</a></li><li class="d3"><a href="#aws-内容审核改为审核解码后的-ai-内容">AWS 内容审核改为审核解码后的 AI 内容</a></li><li class="d3"><a href="#阿里云请求审核默认仅检查最新用户轮次">阿里云请求审核默认仅检查最新用户轮次</a></li><li class="d3"><a href="#sls-日志插件默认验证-tls-证书">SLS 日志插件默认验证 TLS 证书</a></li><li class="d3"><a href="#openid-connect-验证失败时拒绝请求">OpenID Connect 验证失败时拒绝请求</a></li><li class="d3"><a href="#写入时检查重复的-consumer-身份验证键">写入时检查重复的 Consumer 身份验证键</a></li><li class="d3"><a href="#转发请求头处理行为变更">转发请求头处理行为变更</a></li><li class="d3"><a href="#限制大型-post_arg-路由匹配读取">限制大型 post_arg.* 路由匹配读取</a></li><li class="d3"><a href="#现有-ldap-tls-验证开始真正生效">现有 LDAP TLS 验证开始真正生效</a></li><li class="d3"><a href="#ldap-consumer-dn-使用-rfc-4514-转义">LDAP Consumer DN 使用 RFC 4514 转义</a></li><li class="d3"><a href="#prometheus-llm-延迟指标新增-type-标签">Prometheus LLM 延迟指标新增 type 标签</a></li><li class="d3"><a href="#ai-安全插件默认跳过无法识别的流量">AI 安全插件默认跳过无法识别的流量</a></li><li class><a href="#新功能">新功能</a></li><li class="d3"><a href="#使用-ffi-http-客户端发送-ai-上游请求">使用 FFI HTTP 客户端发送 AI 上游请求</a></li><li class="d3"><a href="#使用-ai-cache-缓存-llm-响应">使用 ai-cache 缓存 LLM 响应</a></li><li class="d3"><a href="#根据语义将提示词路由到不同模型">根据语义将提示词路由到不同模型</a></li><li class="d3"><a href="#使用-lakera-guard-保护-llm-请求与响应">使用 Lakera Guard 保护 LLM 请求与响应</a></li><li class="d3"><a href="#扩展-aws-与阿里云-ai-内容审核能力">扩展 AWS 与阿里云 AI 内容审核能力</a></li><li class="d3"><a href="#新增高级-ldap-身份验证">新增高级 LDAP 身份验证</a></li><li class="d3"><a href="#增强-stream-与-l4-代理">增强 Stream 与 L4 代理</a></li><li class="d3"><a href="#扩展-prometheus-控制与-ai-指标">扩展 Prometheus 控制与 AI 指标</a></li><li class="d3"><a href="#通过-redis-共享限流计数器">通过 Redis 共享限流计数器</a></li><li class="d3"><a href="#增强-openid-connect-客户端流程">增强 OpenID Connect 客户端流程</a></li><li class="d3"><a href="#增强日志格式并保护存储的凭证">增强日志格式并保护存储的凭证</a></li><li class="d3"><a href="#新增路由健康检查和加密配置">新增路由、健康检查和加密配置</a></li><li class><a href="#bug-修复">Bug 修复</a></li><li class="d3"><a href="#ai-gateway-正确性与协议兼容性">AI Gateway 正确性与协议兼容性</a></li><li class="d3"><a href="#身份验证与身份安全">身份验证与身份安全</a></li><li class="d3"><a href="#健康检查与负载均衡">健康检查与负载均衡</a></li><li class="d3"><a href="#限流">限流</a></li><li class="d3"><a href="#缓存与请求处理">缓存与请求处理</a></li><li class="d3"><a href="#日志与可观测性">日志与可观测性</a></li><li class="d3"><a href="#配置服务发现与-secret">配置、服务发现与 Secret</a></li><li class><a href="#其他更新">其他更新</a></li><li class><a href="#更新日志">更新日志</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/31/2026-jul-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/07/31/wT1P39iV_2026-july-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (07.01 - 07.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年7月31日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/30/2026-jun-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (06.01 - 06.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年6月30日</p> </div> </a><a class="post-card" href="/zh/blog/2026/06/15/release-apache-apisix-3.17.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.17.0 正式发布</h3> <p class="desc">Apache APISIX 3.17.0 版本于 2026 年 6 月 15 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。</p> <p class="meta">2026年6月15日 · Abhishek Choudhary</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
