@@ -334,7 +334,25 @@ a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2
 .docs-sidebar a { display: block; color: var(--color-text-soft); padding: .22rem .5rem; border-radius: 6px; }
 .docs-sidebar a:hover { color: var(--color-primary); background: var(--color-surface-alt); text-decoration: none; }
 .docs-sidebar a.active { color: var(--color-primary); font-weight: 600; background: #fdeeee; }
-.docs-sidebar .cat > span { display: block; font-weight: 700; color: var(--color-text); padding: .5rem .5rem .2rem; }
+.docs-sidebar .sidebar-category > summary {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .5rem .5rem .2rem;
+  color: var(--color-text);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+.docs-sidebar .sidebar-category > summary::-webkit-details-marker { display: none; }
+.docs-sidebar .sidebar-category > summary::before {
+  content: '▸';
+  color: var(--color-text-soft);
+  font-size: .8em;
+  transition: transform var(--dur) var(--ease);
+}
+.docs-sidebar .sidebar-category[open] > summary::before { transform: rotate(90deg); }
+.docs-sidebar .sidebar-category > summary:hover { color: var(--color-primary); }
 .docs-content { min-width: 0; padding-bottom: 3rem; }
 .docs-meta { border-top: 1px solid var(--color-border); margin-top: 2.5rem; padding-top: 1rem; font-size: .85rem; color: var(--color-text-soft); display: flex; gap: 1rem; flex-wrap: wrap; }
 @media (max-width: 960px) {
