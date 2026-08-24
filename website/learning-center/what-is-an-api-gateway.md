@@ -25,7 +25,7 @@ faq:
 
 An API gateway is a server that sits between clients and backend services, acting as an entry point for the APIs placed behind it. It accepts incoming requests, applies policies such as authentication, rate limiting, and transformation, then routes each request to the appropriate upstream service and returns the response to the caller.
 
-In practice, an API gateway consolidates cross-cutting concerns that would otherwise be duplicated across every microservice: access control, traffic shaping, observability, and protocol translation. Instead of embedding this logic in each service, teams centralize it at the gateway layer, reducing code duplication, simplifying deployments, and giving platform teams a single control plane for governing API behavior at scale.
+The main benefits of an API gateway are consistent edge policy enforcement, less duplicated infrastructure logic, and a stable entry point as backend services change. Teams can centralize access control, traffic shaping, and gateway-level observability while leaving business authorization and service-specific behavior in the applications that own them.
 
 ## How Does an API Gateway Work?
 

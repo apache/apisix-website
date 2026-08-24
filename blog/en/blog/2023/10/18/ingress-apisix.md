@@ -1,5 +1,5 @@
 ---
-title: "Embrace the Lightweight APISIX Ingress Controller Without etcd Dependency"
+title: "APISIX Ingress Controller 1.7 Without etcd"
 authors:
   - name: "Xin Rong"
     title: "Author"
@@ -18,7 +18,7 @@ tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
-> The innovative architecture of the APISIX Ingress Controller eliminates the dependency on a standalone etcd cluster, greatly simplifying maintenance costs and system complexity.
+> This article describes the APISIX Ingress Controller architecture introduced in v1.7.0, which removed the need to operate a separate etcd cluster for the ingress deployment.
 
 <!--truncate-->
 

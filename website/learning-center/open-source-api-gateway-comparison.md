@@ -1,6 +1,6 @@
 ---
-title: "Open Source API Gateway Comparison: APISIX vs Kong vs Envoy vs Traefik"
-description: "Compare the leading open-source API gateways. Feature-by-feature analysis of Apache APISIX, Kong, Envoy, and Traefik covering architecture, plugins, Kubernetes support, and community."
+title: "Open Source API Gateway Comparison"
+description: "Compare Apache APISIX, Kong, Envoy, and Traefik across architecture, extensibility, Kubernetes support, operations, and community."
 slug: open-source-api-gateway-comparison
 date: 2026-04-14
 tags: [comparison, api-gateway, open-source]
@@ -8,78 +8,74 @@ hide_table_of_contents: false
 faq:
   - q: "Is Apache APISIX production-ready for enterprise workloads?"
     a: >-
-      Yes. Apache APISIX is an Apache Software Foundation top-level project used in production by organizations worldwide. The etcd-backed architecture provides high availability without single points of failure when deployed with an etcd cluster.
+      Apache APISIX is an Apache Software Foundation top-level project. Production readiness still depends on designing APISIX, etcd, upstream services, and surrounding infrastructure for the required availability, capacity, and recovery objectives.
   - q: "Can I migrate from Kong to APISIX without downtime?"
     a: >-
-      A zero-downtime migration is achievable using a canary deployment approach: run both gateways in parallel behind a load balancer, gradually shifting traffic from Kong to APISIX as you validate route-by-route equivalence. APISIX supports most Kong plugin equivalents natively, and the Admin API allows automated route provisioning during migration.
+      A parallel or canary migration can reduce interruption, but it cannot guarantee zero downtime. Inventory routes and plugins, translate configuration, validate behavior and observability, shift traffic gradually, and keep a tested rollback path.
   - q: "How do open-source API gateways compare to cloud-managed options like AWS API Gateway?"
     a: >-
-      Cloud-managed gateways trade control for convenience. They handle infrastructure operations but impose vendor lock-in, per-request pricing that grows with traffic volume, and limited plugin customization. Open-source gateways like APISIX provide full control over the data plane, support multi-cloud and hybrid deployments, and eliminate per-request platform fees.
+      Cloud-managed services take on more infrastructure operation, while self-managed open-source gateways provide more control over deployment and extension. Pricing, portability, customization, and operational responsibility vary by provider and architecture, so compare them against the same workload and support requirements.
   - q: "Which gateway has the best Kubernetes support?"
     a: >-
-      All four gateways support Kubernetes, but the depth varies. APISIX and Kong offer dedicated ingress controllers with CRD-based configuration. Envoy integrates through the Kubernetes Gateway API and service mesh deployments. Traefik auto-discovers Kubernetes services natively. The emerging Kubernetes Gateway API standard is supported by all four projects to varying degrees, and is becoming the recommended approach for new deployments.
+      There is no universal winner. Compare the maintained controller or integration for each project, its Gateway API conformance, supported policies and custom resources, upgrade lifecycle, and the operational model required by your platform.
 ---
 
-An open-source [API gateway](/learning-center/what-is-an-api-gateway/) sits between clients and backend services, handling routing, authentication, rate limiting, and observability. Apache APISIX, Kong, Envoy, and Traefik are among the most widely adopted options, each with distinct architectural decisions that affect performance, extensibility, and operational complexity.
+This open-source [API gateway comparison](/learning-center/what-is-an-api-gateway/) evaluates Apache APISIX, Kong, Envoy, and Traefik across architecture, extensibility, Kubernetes integration, and day-two operations. Each project can route and protect service traffic, but its control plane, extension model, and deployment assumptions create different tradeoffs for platform teams.
 
 ## Why the Choice of API Gateway Matters
 
-Organizations running microservices at scale route millions of requests per day through their gateway layer. The gateway you choose determines your latency floor, plugin flexibility, and how much operational overhead your platform team absorbs.
+The gateway you choose affects request processing, extension options, configuration workflows, and how much operational responsibility the platform team owns.
 
-Choosing poorly means rearchitecting under pressure. Choosing well means a gateway that scales with your traffic for years without becoming a bottleneck.
+Evaluate candidates with the policies, deployment topology, failure modes, and traffic profile you expect to operate rather than selecting from a feature count alone.
 
 ## Feature Comparison Table
 
 | Feature | Apache APISIX | Kong | Envoy | Traefik |
 |---|---|---|---|---|
 | Language | Lua (NGINX + LuaJIT) | Lua (NGINX + LuaJIT) | C++ | Go |
-| Configuration Store | etcd | PostgreSQL / Cassandra | xDS API (control plane) | File / KV stores |
-| Admin API | RESTful, fully dynamic | RESTful | xDS gRPC | REST + dashboard |
-| Hot Reload | Yes, sub-millisecond | Partial (DB polling) | Yes (xDS push) | Yes (provider watch) |
-| Plugin Count | 100+ built-in | 60+ bundled (more in Hub) | ~30 HTTP filters | ~30 middlewares |
+| Configuration Model | etcd-backed dynamic or standalone file-based | PostgreSQL, DB-less, or hybrid | Static files or xDS | Files and provider integrations |
+| Management Interface | Admin API | Admin API or declarative configuration | Admin interface and xDS APIs | File/providers and dashboard/API |
+| Dynamic Updates | Yes | Mode-dependent | Yes with xDS or dynamic files | Yes through provider watches |
+| Extension Model | Built-in and external plugins | Plugin Hub and custom plugins | HTTP/network filters | Middleware and plugins |
 | Plugin Languages | Lua, Java, Go, Python, Wasm | Lua, Go (PDK) | C++, Wasm | Go (middleware) |
 | gRPC Proxying | Native | Supported | Native | Supported |
-| HTTP/3 (QUIC) | Supported | Experimental | Supported | Supported |
-| Dashboard | Built-in (APISIX Dashboard) | Kong Manager (Enterprise) | None (third-party) | Built-in |
 | License | Apache 2.0 | Apache 2.0 (OSS) / Proprietary (Enterprise) | Apache 2.0 | MIT |
 
-Note: Feature details are based on each project's official documentation as of early 2026. Check the respective project sites for the latest status.
+Note: Feature details change across releases and editions. Verify required capabilities against each project's current documentation before selecting a gateway.
 
 ## Detailed Breakdown
 
 ### Apache APISIX
 
-Apache APISIX is built on NGINX and LuaJIT, using etcd as its configuration store. This architecture eliminates database dependencies on the data path: route changes propagate to every gateway node within milliseconds without restarts or reloads.
+Apache APISIX is built on NGINX and LuaJIT. Its traditional mode uses etcd to distribute route and plugin configuration dynamically, while standalone mode loads declarative configuration from a local file.
 
-The [plugin ecosystem](/plugins/) includes over 100 built-in options spanning authentication (JWT, key-auth, OpenID Connect), traffic management (rate limiting, circuit breaking), observability (Prometheus, Zipkin, OpenTelemetry), and transformation (request/response rewriting, gRPC transcoding). Developers can write custom plugins in Lua, Go, Java, Python, or WebAssembly, making it one of the most polyglot gateway runtimes available.
+The [plugin ecosystem](/plugins/) spans authentication (JWT, key-auth, OpenID Connect), traffic management (rate limiting, circuit breaking), observability (Prometheus, Zipkin, OpenTelemetry), and transformation (request/response rewriting, gRPC transcoding). APISIX also supports several external plugin runners and WebAssembly extensions in addition to native Lua plugins.
 
-APISIX supports the Kubernetes Ingress Controller pattern natively. The [APISIX Ingress Controller](/docs/ingress-controller/overview/) watches Kubernetes resources and translates them into APISIX routing configuration, enabling declarative GitOps workflows while preserving the full plugin surface.
+The [APISIX Ingress Controller](/docs/ingress-controller/overview/) watches supported Kubernetes resources and translates them into APISIX routing and plugin configuration.
 
 As an Apache Software Foundation top-level project, APISIX is community-governed and vendor-neutral.
 
 ### Kong
 
-Kong is the longest-established open-source API gateway, with a mature commercial ecosystem. It shares the NGINX + LuaJIT foundation with APISIX but relies on PostgreSQL or Cassandra as its configuration store. This architectural choice introduces a database dependency for configuration storage, which adds operational complexity for HA deployments.
+Kong shares the NGINX and LuaJIT foundation with APISIX and supports PostgreSQL-backed, DB-less, and hybrid control-plane/data-plane deployment modes. These modes differ in how configuration is persisted and distributed, so teams should compare them against their availability and change-management requirements.
 
-Kong's plugin hub offers approximately 60 bundled plugins in the open-source edition, with additional enterprise-only plugins for advanced features like OAuth2 introspection and advanced rate limiting. The Go Plugin Development Kit (PDK) allows extending Kong in Go, though Lua remains the primary plugin language.
+Kong's Plugin Hub includes open-source and commercial plugins, and its extension options include Lua plugins and external plugin servers. Availability varies by gateway edition, deployment mode, and plugin.
 
 Kong has a strong enterprise support ecosystem with commercial offerings (Kong Gateway Enterprise, Kong Konnect) and a large user community.
 
 ### Envoy
 
-Envoy is a high-performance C++ proxy originally built at Lyft, now a CNCF graduated project. It excels as a service mesh data plane and is the foundation for Istio, AWS App Mesh, and other mesh implementations.
+Envoy is a C++ proxy originally built at Lyft and is now a CNCF graduated project. It is used as a service-mesh data plane and as an edge or service proxy.
 
-Envoy's configuration model uses the xDS (discovery service) API, a gRPC-based protocol that pushes configuration updates from a control plane. This design is powerful but means Envoy does not function as a standalone gateway without a control plane component. Organizations adopting Envoy as an edge gateway typically pair it with a control plane like Gloo Edge or similar tools.
+Envoy can start with fully static listeners, routes, and clusters, so it does not require an external control plane for a small or stable configuration. For dynamic management, Envoy uses the xDS discovery APIs to receive configuration from files or a management server. Edge deployments that change frequently often pair Envoy with a separate control plane or gateway product.
 
-The filter chain model supports around 30 built-in HTTP filters. Custom extensions require C++ or WebAssembly, raising the barrier for teams without C++ expertise. Envoy is most commonly deployed as a sidecar proxy within a service mesh, though it is also used as an edge proxy.
+Envoy's filter-chain model provides built-in HTTP and network filters and supports native or WebAssembly extensions. It is commonly used as a service-mesh data plane and can also operate as an edge proxy.
 
 ### Traefik
 
-Traefik is written in Go and designed for automatic service discovery. It integrates natively with Docker, Kubernetes, Consul, and other orchestrators, automatically detecting new services and generating routes without manual configuration. This auto-discovery model makes Traefik popular for development environments and smaller-scale production deployments.
+Traefik is written in Go and uses provider integrations for environments such as Docker, Kubernetes, and Consul. Those integrations can watch service changes and update routing configuration.
 
-Traefik includes built-in Let's Encrypt integration for automatic TLS certificate provisioning, a feature that requires additional tooling in other gateways. Its middleware system offers approximately 30 built-in options covering authentication, rate limiting, headers manipulation, and circuit breaking.
-
-Traefik has a large community and is widely used in Docker-native environments.
+Traefik includes ACME certificate-resolver integration for automated TLS certificate provisioning. Its middleware system covers capabilities such as authentication, rate limiting, header manipulation, and circuit breaking.
 
 ## Performance Considerations
 
@@ -87,22 +83,22 @@ Performance varies significantly based on configuration, plugin chains, TLS term
 
 Key factors that affect gateway performance:
 
-- **Architecture**: C++ and LuaJIT-based gateways (Envoy, APISIX, Kong) generally achieve lower latency than pure Go implementations
-- **Configuration store**: Gateways that avoid database queries on the data path (APISIX, Envoy) tend to have more consistent latency
+- **Runtime and filters**: Implementation language alone does not predict end-to-end performance; active filters and request processing matter more than language labels
+- **Configuration model**: Check whether configuration distribution or storage introduces work on the request path
 - **Plugin overhead**: Each active plugin adds processing time. Test with your actual plugin chain enabled
-- **Connection handling**: The NGINX event-driven model (APISIX, Kong) handles high concurrency efficiently
+- **Connection handling**: Compare connection reuse, keepalive, protocol, buffering, and concurrency behavior under the intended workload
 
 We recommend benchmarking the specific gateways you are considering with a representative workload on hardware similar to your production environment.
 
 ## When to Choose Which
 
-**Choose Apache APISIX when** you need a large built-in plugin ecosystem, fully dynamic configuration without restarts, multi-language plugin support, and no database dependency. It suits teams building platform-grade API infrastructure. See the [getting started guide](/docs/apisix/getting-started/) to evaluate it hands-on.
+**Choose Apache APISIX when** you need broad plugin coverage and external plugin runners together with either etcd-backed dynamic configuration or a standalone declarative mode. See the [getting started guide](/docs/apisix/getting-started/) to evaluate it hands-on.
 
-**Choose Kong when** you are operating in an enterprise environment with existing Kong deployments, need commercial support, or require specific enterprise-only plugins. Kong's maturity means more third-party integrations and consultants are available.
+**Choose Kong when** you already operate Kong tooling, need its commercial support options, or require a specific plugin available in the intended Kong edition.
 
-**Choose Envoy when** your primary use case is a service mesh data plane, you need advanced load balancing algorithms, or you are already running Istio or a similar mesh. Envoy is less suited as a standalone edge gateway due to its control plane dependency.
+**Choose Envoy when** your primary use case is a service mesh data plane, you need its proxy and load-balancing capabilities, or you already operate an xDS-compatible management layer. Static configuration can serve smaller standalone deployments; dynamic edge-gateway management usually requires an additional control plane.
 
-**Choose Traefik when** auto-discovery and zero-configuration routing are priorities, or you need built-in Let's Encrypt integration without additional tooling. Traefik excels in Docker-native and small-to-medium Kubernetes environments.
+**Choose Traefik when** integrated provider discovery and ACME certificate automation are priorities, particularly in Docker- or Kubernetes-based environments.
 
 ## Migration Considerations
 
@@ -111,25 +107,25 @@ Migrating between gateways is nontrivial and typically requires careful planning
 - **Plugin compatibility**: Not all plugins have equivalents across gateways. Audit your active plugins and identify gaps before migrating.
 - **Configuration translation**: Each gateway uses a different configuration format. Automated translation tools can help but manual verification is essential.
 - **Operational tooling**: Monitoring dashboards, CI/CD pipelines, and alerting rules need updating.
-- **Canary approach**: Running both gateways in parallel behind a load balancer and shifting traffic gradually is the safest migration strategy.
+- **Parallel validation**: Running both gateways in parallel and shifting selected traffic gradually is one way to compare behavior and preserve a rollback path.
 
 ## Frequently Asked Questions
 
 ### Is Apache APISIX production-ready for enterprise workloads?
 
-Yes. Apache APISIX is an Apache Software Foundation top-level project used in production by organizations worldwide. The etcd-backed architecture provides high availability without single points of failure when deployed with an etcd cluster.
+Apache APISIX is an Apache Software Foundation top-level project. Production readiness still depends on designing APISIX, etcd, upstream services, and surrounding infrastructure for the required availability, capacity, and recovery objectives.
 
 ### Can I migrate from Kong to APISIX without downtime?
 
-A zero-downtime migration is achievable using a canary deployment approach: run both gateways in parallel behind a load balancer, gradually shifting traffic from Kong to APISIX as you validate route-by-route equivalence. APISIX supports most Kong plugin equivalents natively, and the Admin API allows automated route provisioning during migration.
+A parallel or canary migration can reduce interruption, but it cannot guarantee zero downtime. Inventory routes and plugins, translate configuration, validate behavior and observability, shift traffic gradually, and keep a tested rollback path.
 
 ### How do open-source API gateways compare to cloud-managed options like AWS API Gateway?
 
-Cloud-managed gateways trade control for convenience. They handle infrastructure operations but impose vendor lock-in, per-request pricing that grows with traffic volume, and limited plugin customization. Open-source gateways like APISIX provide full control over the data plane, support multi-cloud and hybrid deployments, and eliminate per-request platform fees.
+Cloud-managed services take on more infrastructure operation, while self-managed open-source gateways provide more control over deployment and extension. Pricing, portability, customization, and operational responsibility vary by provider and architecture, so compare them against the same workload and support requirements.
 
 ### Which gateway has the best Kubernetes support?
 
-All four gateways support Kubernetes, but the depth varies. APISIX and Kong offer dedicated ingress controllers with CRD-based configuration. Envoy integrates through the Kubernetes Gateway API and service mesh deployments. Traefik auto-discovers Kubernetes services natively. The emerging Kubernetes Gateway API standard is supported by all four projects to varying degrees, and is becoming the recommended approach for new deployments.
+There is no universal winner. Compare the maintained controller or integration for each project, its Gateway API conformance, supported policies and custom resources, upgrade lifecycle, and the operational model required by your platform.
 
 ## Related
 

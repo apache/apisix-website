@@ -1,5 +1,5 @@
 ---
-title: "API Gateway Security: Threats, Best Practices & Implementation"
+title: "API Gateway Security Best Practices"
 description: "Learn API Gateway security best practices with Apache APISIX, including authentication, authorization, rate limiting, WAF, mTLS, and zero-trust controls."
 slug: api-gateway-security
 date: 2026-04-14
@@ -7,13 +7,13 @@ tags: [security, api-gateway, best-practices]
 hide_table_of_contents: false
 ---
 
-API gateway security is the practice of protecting your API infrastructure at the edge by enforcing authentication, authorization, rate limiting, and traffic filtering before requests reach backend services. A properly secured gateway reduces attack surface, prevents data breaches, and ensures compliance across every API endpoint in your organization.
+API gateway security best practices protect API infrastructure at the edge by combining authentication, coarse-grained authorization, rate limiting, request validation, and traffic filtering before requests reach backend services. These controls reduce the attack surface and provide consistent protection for traffic routed through the gateway, while backend services remain responsible for business authorization and resource ownership.
 
 ## Why API Gateway Security Matters
 
-APIs have become the primary attack vector for modern applications. According to the OWASP API Security Top 10 (2023 edition), broken object-level authorization and broken authentication remain the two most critical API vulnerabilities, affecting organizations across every industry. The explosive growth of API-first architectures has created an equally explosive growth in API-targeted attacks.
+The OWASP API Security Top 10 (2023 edition) ranks broken object-level authorization and broken authentication as its first two API risk categories. As organizations expose more application functionality through APIs, these interfaces require the same deliberate threat modeling and layered controls as the services behind them.
 
-The cost of getting API security wrong is substantial, as breaches involving API vulnerabilities tend to take longer to identify and contain and carry significant financial impact. The API gateway sits at a unique vantage point: it processes every inbound request, making it the single most effective location to enforce security policies consistently.
+The cost of getting API security wrong can be substantial. An API gateway sits at a useful enforcement point because it processes traffic routed through it and can apply common edge policies consistently, while application services continue to enforce their own authorization and data-protection rules.
 
 ## Common API Threats
 
@@ -29,7 +29,7 @@ SQL injection, NoSQL injection, and command injection remain persistent threats.
 
 ### Broken Authentication
 
-Weak or improperly implemented authentication mechanisms allow attackers to assume legitimate user identities. Common failures include missing token validation, weak password policies, credential stuffing vulnerabilities, and improper session management. Credential stuffing attacks account for billions of login attempts monthly across the internet.
+Weak or improperly implemented authentication mechanisms allow attackers to assume legitimate user identities. Common failures include missing token validation, weak password policies, credential stuffing vulnerabilities, and improper session management.
 
 ### Excessive Data Exposure
 
@@ -37,7 +37,7 @@ APIs frequently return more data than the client needs, relying on the frontend 
 
 ### Rate Limit Bypass
 
-Without proper rate limiting, attackers can launch brute-force attacks, denial-of-service campaigns, and credential enumeration at scale. Automated bot traffic constitutes a significant portion of all internet traffic, and much of it targets API endpoints specifically.
+Without appropriate traffic controls, automated clients can increase the rate of brute-force attempts, credential enumeration, or resource-exhaustion traffic against an API.
 
 ## Security Layers at the Gateway
 
@@ -45,15 +45,15 @@ A defense-in-depth approach applies multiple security controls at the gateway la
 
 ### Authentication
 
-The gateway should verify identity before any request reaches a backend service. Common mechanisms include JWT validation, OAuth 2.0 token introspection, API key verification, and [mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) for service-to-service communication. Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) reduces the risk of inconsistent enforcement across individual services.
+For routes that require identity, the gateway can verify credentials before forwarding a request. Common mechanisms include JWT validation, OAuth 2.0 token introspection, API key verification, and [mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) for service-to-service communication. Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) can reduce inconsistent edge enforcement, while explicitly public routes remain unauthenticated by design.
 
 ### Authorization
 
-Beyond verifying identity, the gateway must enforce access control. Role-based access control (RBAC), attribute-based access control (ABAC), and scope-based authorization ensure that authenticated users can only access resources and operations they are permitted to use. Fine-grained authorization at the gateway prevents BOLA vulnerabilities at scale.
+Beyond verifying identity, the gateway can enforce route-, consumer-, role-, attribute-, or scope-based access policies before forwarding a request. These gateway-level checks complement rather than replace authorization in the application: backend services must still verify resource ownership and other business rules to prevent BOLA.
 
 ### Rate Limiting and Throttling
 
-Rate limiting protects backend services from abuse and ensures fair resource allocation. Effective rate limiting operates at multiple granularities: per consumer, per route, per IP address, and globally. A substantial share of traffic on the average website comes from bots, and rate limiting is the first line of defense against automated abuse.
+Rate limiting protects backend services from abuse and helps allocate capacity fairly. Effective rate limiting can operate at multiple granularities, including per consumer, per route, per IP address, and globally. It should be combined with authentication, request validation, and other controls when defending against automated abuse.
 
 ### IP Restriction
 
@@ -61,40 +61,40 @@ IP allowlists and denylists provide coarse-grained access control. While not suf
 
 ### WAF and CORS
 
-A Web Application Firewall (WAF) at the gateway layer inspects request payloads for known attack patterns. CORS policies prevent unauthorized cross-origin requests from browser-based clients. Together, they address both server-side injection attacks and client-side cross-origin abuse.
+A Web Application Firewall (WAF) at the gateway layer can inspect requests for configured attack patterns. CORS controls which origins browser code may read responses from; it is enforced by browsers and does not stop non-browser clients from sending requests. Use these controls for their distinct purposes rather than treating either as a complete authorization or injection defense.
 
 ### TLS Termination
 
-TLS termination at the gateway ensures that all client-to-gateway traffic is encrypted. The gateway handles certificate management, cipher suite configuration, and protocol version enforcement, relieving backend services of this operational burden. The vast majority of web traffic now uses HTTPS, and TLS is considered a baseline requirement for any production API.
+TLS termination at the gateway encrypts client-to-gateway traffic when HTTPS is required. The gateway handles certificate management, cipher suite configuration, and protocol version enforcement, while teams should separately decide whether to re-encrypt traffic from the gateway to upstream services. TLS is a baseline requirement for production APIs that carry sensitive or authenticated traffic.
 
 ### Request Validation
 
-Schema-based request validation rejects malformed or oversized payloads before they reach backend services. Validating request structure, data types, and content length at the gateway prevents injection attacks and reduces the attack surface of downstream services.
+Schema-based request validation can reject malformed, unexpected, or oversized payloads before they reach backend services. This reduces invalid input, but it does not by itself prevent injection; applications still need safe query construction, output handling, and business-level validation.
 
 ## Zero-Trust API Architecture
 
-Zero-trust architecture assumes that no request is inherently trustworthy, regardless of its origin. Every API call must be authenticated, authorized, and validated, whether it arrives from the public internet, an internal service, or a trusted partner.
+Zero-trust architecture does not grant trust from network location alone. Protected API calls should be evaluated against identity, authorization, device or workload context, and other policy signals appropriate to the resource.
 
-At the gateway layer, zero-trust principles translate into several concrete practices. Every request carries verifiable identity credentials. Authorization is evaluated per request rather than per session. Network location (internal vs. external) does not confer implicit trust. All traffic is encrypted, including east-west service-to-service communication.
-The API gateway enables zero-trust by serving as a policy enforcement point. It validates tokens, checks permissions, and applies security policies uniformly across all traffic, creating a consistent security boundary regardless of the underlying network topology.
+At the gateway layer, zero-trust principles can include validating credentials on protected routes, evaluating common access policy per request, and requiring encryption according to the threat model. Network location alone does not confer implicit trust.
+The API gateway can serve as one policy enforcement point for traffic routed through it. Application services and other infrastructure controls remain responsible for resource authorization, data protection, and traffic that does not pass through the gateway.
 
 ## Security Best Practices
 
 The following practices represent a comprehensive approach to API gateway security that organizations should adopt incrementally based on risk profile.
 
-1. **Enforce authentication on every endpoint.** No API route should be accessible without verified identity. Use JWTs with short expiration times and validate signatures on every request.
+1. **Define authentication per route.** Require verified identity for protected APIs, validate credentials on every protected request, and expose public routes only by explicit design. Choose token lifetimes and authentication methods according to the client and risk model.
 
 2. **Implement least-privilege authorization.** Grant the minimum permissions required for each consumer. Default to deny and require explicit grants for sensitive operations.
 
-3. **Apply rate limiting at multiple levels.** Configure per-consumer, per-route, and global rate limits. Use sliding window algorithms to prevent burst abuse while accommodating legitimate traffic spikes.
+3. **Apply rate limits where they address a measured risk.** Combine only independent dimensions justified by the abuse model and backend capacity, such as per-consumer, per-route, global, or concurrency limits. Select the algorithm and burst behavior for the workload.
 
 4. **Validate all request inputs.** Enforce request schema validation at the gateway. Reject payloads that exceed expected sizes, contain unexpected fields, or fail type checks.
 
-5. **Use mutual TLS for service-to-service calls.** Encrypt and authenticate all internal traffic. Rotate certificates automatically and enforce certificate validation on every connection.
+5. **Use mutual TLS where service identity is required.** Encrypt internal traffic according to the threat model, validate certificates, and automate certificate rotation where practical.
 
 6. **Enable WAF rules for known attack patterns.** Deploy rulesets targeting SQL injection, XSS, and command injection. Update rules regularly to address emerging attack vectors.
 
-7. **Log and audit all security events.** Capture authentication failures, authorization denials, rate limit triggers, and WAF blocks. Feed security logs into a SIEM for correlation and alerting.
+7. **Log and audit relevant security events.** Capture authentication failures, authorization denials, rate limit triggers, and WAF blocks without recording credentials or sensitive payloads. Feed appropriate security logs into a SIEM for correlation and alerting.
 
 8. **Rotate credentials and secrets regularly.** Automate API key rotation, certificate renewal, and token signing key rotation. Never embed secrets in client-side code or version control.
 
@@ -104,17 +104,17 @@ The following practices represent a comprehensive approach to API gateway securi
 
 ## How Apache APISIX Secures APIs
 
-Apache APISIX provides a comprehensive set of security plugins that implement each layer of the defense-in-depth model described above.
+Apache APISIX provides security plugins that can implement several gateway layers in the defense-in-depth model described above.
 
 For **IP-based access control**, the [ip-restriction plugin](/docs/apisix/plugins/ip-restriction/) supports allowlists and denylists at the route level, enabling fine-grained control over which addresses can reach specific endpoints.
 
-**Cross-origin resource sharing** is managed through the [CORS plugin](/docs/apisix/plugins/cors/), which configures allowed origins, methods, and headers to prevent unauthorized cross-origin requests from browser clients.
+**Cross-origin resource sharing** is managed through the [CORS plugin](/docs/apisix/plugins/cors/), which configures the origins, methods, and headers that browser code may use when reading cross-origin responses. CORS is not a substitute for authentication or authorization.
 
-**CSRF protection** is available through the [CSRF plugin](/docs/apisix/plugins/csrf/), which generates and validates CSRF tokens to prevent cross-site request forgery attacks on state-changing API operations.
+**CSRF protection** is available through the [CSRF plugin](/docs/apisix/plugins/csrf/), which generates and validates CSRF tokens to mitigate cross-site request forgery on state-changing operations.
 
-For **mutual TLS**, APISIX supports [mTLS configuration](/docs/apisix/mtls/) for both client-to-gateway and gateway-to-upstream connections, ensuring encrypted and mutually authenticated communication at every hop.
+For **mutual TLS**, APISIX supports [mTLS configuration](/docs/apisix/mtls/) for client-to-gateway and gateway-to-upstream connections when both encryption and peer authentication are required.
 
-APISIX also supports JWT authentication, key authentication, OpenID Connect, rate limiting with multiple algorithms, and request body validation. The plugin architecture enables security policies to be composed per route, allowing teams to apply exactly the controls each endpoint requires without over- or under-securing traffic.
+APISIX also supports JWT authentication, key authentication, OpenID Connect, rate limiting with multiple algorithms, and request body validation. Its plugin architecture lets teams compose gateway policies per route while retaining application-level authorization and validation in the services that own the data.
 
 ## FAQ
 
@@ -124,11 +124,11 @@ API security is the broad discipline of protecting APIs across their entire life
 
 ### Should I terminate TLS at the API gateway or at the backend service?
 
-Terminate TLS at the gateway for client-facing connections. This centralizes certificate management and offloads cryptographic processing from backend services. For traffic between the gateway and upstream services, use mTLS to maintain encryption and mutual authentication throughout the request path. This approach balances operational simplicity with end-to-end security.
+TLS can terminate at the gateway when centralized certificate and edge-policy management fit the architecture. Re-encrypt gateway-to-upstream traffic when the network and data threat model requires confidentiality, and use mTLS when upstream services also need to authenticate the gateway. TLS passthrough or service-side termination may be more appropriate for some protocols or ownership boundaries.
 
 ### How many rate limiting layers should an API gateway enforce?
 
-Apply at least three layers: a global rate limit to protect overall infrastructure capacity, a per-consumer limit to prevent any single client from monopolizing resources, and per-route limits for endpoints with expensive backend operations. Use sliding window or leaky bucket algorithms rather than fixed windows to provide smoother throttling behavior and prevent burst abuse at window boundaries.
+Choose rate-limit dimensions from measured capacity and the abuse model. A service may combine global, per-consumer, per-route, or concurrency limits when those controls address distinct risks. Select the algorithm and burst behavior that match the backend and client contract rather than enforcing a universal number of layers.
 
 ## Related
 
