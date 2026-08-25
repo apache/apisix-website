@@ -1,5 +1,5 @@
 ---
-title: "Embracing GitOps: APISIX's New Feature for Declarative Configuration"
+title: "Manage APISIX Declarative Configuration with ADC and GitOps"
 authors:
   - name: Jintao Zhang
     title: Author
@@ -13,312 +13,210 @@ keywords:
   - Open Source
   - API Gateway
   - Apache APISIX
-description: APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
+  - GitOps
+  - ADC
+  - Declarative Configuration
+description: "Use ADC lint, diff, sync, dump, and OpenAPI conversion commands in a reviewed GitOps workflow for Apache APISIX configuration."
 tags: [Community]
 image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 ---
 
-APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
+ADC is a command-line tool for managing API gateway configuration declaratively. With Apache APISIX, teams can keep intended routes, services, upstreams, and other supported resources in version control, review changes, compare them with a target gateway, and synchronize an approved file.
+
 <!--truncate-->
 
-With the widespread adoption of cloud-native and microservices, the API gateway has emerged as a critical component for connecting and managing various microservices. However, as the number of services continues to grow and changes occur more frequently, the traditional imperative configuration has become increasingly challenging to manage and maintain. GitOps, on the other hand, is an operational model that leverages version control systems and automated workflows. By supporting declarative configurations, GitOps provides a more efficient, reliable, and traceable mode of operation.
+ADC helps automate a workflow, but installing a CLI does not make the workflow GitOps by itself. A production design still needs review, protected credentials, environment promotion, drift policy, verification, and rollback procedures.
 
-To enhance developing efficiency and operational reliability, APISIX has introduced a new tool that supports GitOps in a declarative manner. By embracing the declarative nature of GitOps, APISIX strengthens its integration with modern development and operational workflows. This integration enables smoother collaboration between developers and operations teams, promoting efficient and reliable management of the APISIX platform.
+## What Declarative Gateway Configuration Changes
 
-## Why Does APISIX Support GitOps Declarative Configuration
+An imperative workflow sends a sequence of create, update, and delete requests. The history may show what commands ran, but it can be difficult to see the intended final state.
 
-Although APISIX offers a stand-alone mode that allows configuration through YAML files, it lacks seamless integration with related ecosystems such as CI/CD tools like Jenkins and ArgoCD. While the APISIX Ingress Controller project makes significant strides in this area, APISIX itself does not provide a comprehensive set of declarative tools to support GitOps when used in non-Kubernetes environments such as bare metal or virtual machines.
+A declarative workflow stores the desired state in a file and asks a tool to compare or reconcile that state with a target system. This can improve:
 
-In traditional API gateway management, configurations and policies are typically manipulated using imperative methods, requiring manual modifications through command-line tools or management interfaces. This approach poses several challenges:
+- **reviewability:** a pull request shows the intended configuration change;
+- **repeatability:** the same approved input can be evaluated in another environment;
+- **traceability:** commits connect a configuration version to its reviewer and deployment;
+- **drift detection:** a diff can reveal changes made outside the controlled workflow;
+- **recovery:** an earlier reviewed configuration is available as a rollback candidate.
 
-- **Cumbersome Configuration Management**: Manual modifications of configurations are prone to errors, especially when dealing with large-scale gateways.
+These properties depend on repository controls and deployment discipline. A declarative file can still contain an unsafe route, and synchronizing an old file can remove a valid production change.
 
-- **Poor Traceability**: Tracking the change history and version control of configurations becomes difficult.
+## What ADC Provides
 
-- **Lack of Consistency**: Configuration discrepancies among multiple environments result in inconsistencies between development, testing, and production environments.
+The current ADC command set includes workflows for:
 
-The APISIX development team recognized several benefits of supporting GitOps in a declarative manner to effectively address these challenges:
+- `adc lint` — check a declarative file before deployment;
+- `adc diff` — compare a local file with the configured gateway;
+- `adc sync` — synchronize the local desired state;
+- `adc dump` — export supported configuration from the gateway;
+- `adc convert openapi` — convert an OpenAPI document to declarative gateway configuration;
+- `adc ping` — verify that ADC can connect to the configured server.
 
-1. **Improved Developer Efficiency**: By using GitOps with a declarative configuration approach, developers can directly manage API gateway configurations by modifying and committing configuration files in the code repository. This method aligns with the development workflow that developers are familiar with, reducing the learning curve and tool-switching costs, and thus enhancing developer productivity.
+Use `adc --help` and the [official ADC repository](https://github.com/api7/adc) for the exact flags supported by the installed release. Pin and test a tool version in automation rather than silently changing behavior when a new release becomes available.
 
-2. **Enhanced Operational Reliability**: Storing configuration files in a version control system ensures consistency and reliability. Each configuration change can be traced through its change history, and it becomes easy to roll back to a previous configuration state. This function enables traceability and auditability and reduces the risk of failures caused by human errors.
+## Install ADC
 
-3. **Streamlined Multi-Environment Management**: Managing different configurations across development, testing, and production environments can be simplified. By utilizing GitOps, it becomes effortless to create different branches or tags for managing configuration files in different environments, ensuring consistency across environments and reducing manual configuration errors.
-
-4. **Facilitated Team Collaboration**: The GitOps workflow promotes collaboration and communication among team members. Developers can actively participate in the development and maintenance of API gateway configurations through practices such as submitting merge requests and code reviews, thereby improving team collaboration efficiency and code quality.
-
-## How Does APISIX Support GitOps Declarative Configuration
-
-### ADC and Its Usage Scenarios and Functions
-
-ADC, APISIX declarative CLI, is a declarative configuration tool for APISIX. It assists users in achieving various integrations in non-Kubernetes environments using a declarative approach.
-
-ADC allows interaction with APISIX instances through the command line and currently provides the following functionalities:
-
-- **Configuration of connection information**: ADC allows the configuration of the address, port, login token, and other details of the APISIX instance to connect to.
-- **Configuration validation**: ADC provides the functionality to validate the syntax of APISIX configuration files.
-- **Configuration synchronization**: Local configuration files can be synchronized to the APISIX instance using ADC.
-- **Configuration export**: ADC enables the export of configuration files from the APISIX instance.
-- **Configuration diff comparison**: ADC can compare the differences between the local configuration and the configuration on the APISIX instance.
-- **OpenAPI conversion**: ADC can convert OpenAPI specification files into APISIX configuration files.
-- **Runtime diagnostics**: ADC supports diagnostic commands such as ping to assist in debugging the connection between ADC and the gateway.
-
-In essence, ADC provides a declarative approach to APISIX configuration and management, eliminating the need for manual calls to the admin API or using tools like the Dashboard. Instead, configuration synchronization can be achieved through simple commands.
-
-## How Does APISIX Use ADC for Declarative Configuration
-
-### Installing APISIX and ADC
-
-Please refer to the [APISIX documentation](https://apisix.apache.org/docs/apisix/getting-started/README/) for installing APISIX. Once APISIX is installed, you can proceed to install the ADC binary to the `$GOPATH/bin` directory using the `go install` command.
+The official installation script is:
 
 ```shell
-go install github.com/api7/adc@latest
+curl -sL "https://run.api7.ai/adc/install" | sh
 ```
 
-Add this line of code to your `$PATH` environment variable:
+Downloading and executing a remote script is a trust decision. In a controlled environment, inspect the installer, verify the downloaded artifact according to your supply-chain policy, and pin the version used by CI.
 
-```shell
-export PATH=$PATH:$GOPATH/bin
-```
-
-If you don't have Go installed, you can download the latest `adc` binary and add it to your `/bin` folder:
-
-```shell
-wget https://github.com/api7/adc/releases/download/v0.2.0/adc_0.2.0_linux_amd64.tar.gz
-tar -zxvf adc_0.2.0_linux_amd64.tar.gz
-mv adc /usr/local/bin/adc
-```
-
-You can find binaries for other operating systems on the [releases page](https://github.com/api7/adc/releases/tag/v0.2.0). In the future, these files will be published on package management tools like Homebrew.
-
-Run the following code to confirm that `adc` has been installed:
+Confirm that the command is available:
 
 ```shell
 adc --help
 ```
 
-If everything goes well, you will see a list of available subcommands and using guide.
+## Configure a Target Securely
 
-### Configuring ADC with APISIX Instance
-
-Next, configure the APISIX instance in the ADC.
+ADC reads connection settings from environment variables. For an APISIX target, configure the server and credential according to the current ADC documentation:
 
 ```shell
-adc configure
-```
+export ADC_SERVER="https://gateway-admin.example.com"
+export ADC_TOKEN="<token-from-secret-store>"
 
-It will prompt you to pass in the APISIX server address ('http://127.0.0.1:9180' if you followed along) and token. If everything is filled in correctly, you can see the following content:
-
-```shell
-ADC configured successfully!
-Connected to APISIX successfully!
-```
-
-You can use the `ping` subcommand to check the APISIX connection at any time:
-
-```shell
 adc ping
 ```
 
-### Validating APISIX Configuration Files
+Do not commit `ADC_TOKEN`, print it in CI logs, or expose the APISIX Admin API to the public internet. Retrieve credentials from the CI platform's protected secret store, restrict network access to the administrative endpoint, and grant only the access required for the deployment job.
 
-Create a basic APISIX configuration with a route that forwards traffic to upstreams:
+ADC also supports a backend selection for supported non-default targets, such as `ADC_BACKEND=api7ee` for the documented API7 Enterprise workflow. Do not copy a backend setting between products without checking the current tool documentation.
 
-```yaml title="config.yaml"
-name: "Basic configuration"
-version: "1.0.0"
-services:
-  - name: httpbin-service
-    hosts:
-      - api7.ai
-    upstream:
-      name: httpbin
-      nodes:
-        - host: httpbin.org
-          port: 80
-          weight: 1
-routes:
-  - name: httpbin-route
-    service_id: httpbin-service
-    uri: "/anything"
-    methods:
-      - GET
-```
+## Create a Baseline
 
-Once the ADC is connected to the running APISIX instance, you can use it to validate this configuration before applying it by running:
+If a gateway already has configuration, export the supported state with resource IDs to start a reviewed baseline:
 
 ```shell
-adc validate -f config.yaml
+adc dump --with-id -o adc.yaml
 ```
 
-If the configuration is valid, you will receive a response similar to:
+For an existing gateway, `--with-id` is important: without stable IDs, a later synchronization can treat exported resources as new objects, delete and recreate them, and break references or traffic. Review the exported file before treating it as the source of truth. Remove environment-specific or sensitive values according to the resource schema and your secret-management design. An export is a snapshot, not proof that every existing policy is correct.
+
+Commit the reviewed baseline only after confirming that:
+
+- the file contains the intended resources;
+- secret material is not stored in plaintext;
+- identifiers and references are stable across environments or templated safely;
+- synchronizing the file in a disposable environment produces the expected state.
+
+## Validate and Compare a Change
+
+After editing `adc.yaml`, run a local check:
 
 ```shell
-Read configuration file successfully: config name: Basic configuration, version: 1.0.0, routes: 1, services: 1.
-Successfully validated configuration file!
+adc lint -f adc.yaml
 ```
 
-### Syncing Configuration to APISIX Instance
+Linting detects supported structural problems; it cannot prove that upstream addresses, authentication design, traffic limits, or business behavior are correct.
 
-ADC can now be used to synchronize valid configurations with connected APISIX instances. To do this, run:
+Compare the proposed file with the configured target:
 
 ```shell
-adc sync -f config.yaml
+adc diff -f adc.yaml
 ```
 
-This will create a route and a service as we declared in the configuration file:
+Review additions, changes, and deletions carefully. A deletion may be intentional, or it may mean that the desired-state file is incomplete. Treat unexpected drift as an investigation, not an automatic reason to overwrite production.
+
+## Synchronize Approved Configuration
+
+After review and environment-specific checks, synchronize the file:
 
 ```shell
-creating service: "httpbin-service"
-creating route: "httpbin-route"
-Summary: created 2, updated 0, deleted 0
+adc sync -f adc.yaml
 ```
 
-To verify that the route was created correctly, let's try sending a request:
+Run synchronization from a single controlled job for each target. Concurrent writers—CI jobs, manual Admin API changes, dashboards, and other controllers—can race or continually overwrite one another. Define which system owns each resource and how emergency changes are reconciled back into version control.
+
+After synchronization, verify both configuration and behavior:
 
 ```shell
-curl localhost:9080/anything -H "host:api7.ai"
+adc diff -f adc.yaml
 ```
 
-If everything is correct, you will receive a response from [httpbin.org](httpbin.org).
+Also run route-level smoke tests and observe error rate, latency, and upstream health. A zero configuration diff does not prove that the deployed routes work.
 
-### Comparing Local and Running Configuration
+## Convert an OpenAPI Document
 
-Now, let's update the local configuration in the `config.yaml` file by adding another route:
-
-```yaml title="config.yaml" {20-24}
-name: "Basic configuration"
-version: "1.0.0"
-services:
-  - name: httpbin-service
-    hosts:
-      - api7.ai
-    upstream:
-      name: httpbin
-      nodes:
-        - host: httpbin.org
-          port: 80
-          weight: 1
-routes:
-  - name: httpbin-route-anything
-    service_id: httpbin-service
-    uri: "/anything"
-    methods:
-      - GET
-  - name: httpbin-route-ip
-    service_id: httpbin-service
-    uri: "/ip"
-    methods:
-      - GET
-```
-
-Before synchronizing this configuration with APISIX, ADC allows you to check the differences between it and the existing APISIX configuration. You can run the following operations:
+ADC can create a starting configuration from an OpenAPI document:
 
 ```shell
-adc diff -f config.yaml
+adc convert openapi -f openapi.yaml -o adc.yaml
 ```
 
-You can see the added and deleted configurations and check the changes before applying the configuration.
+Review the generated file. An OpenAPI document describes an HTTP interface, but it normally does not contain every gateway concern, such as upstream discovery, production credentials, consumer policy, rate-limit capacity, or observability requirements. Conversion is a bootstrap step, not an automatic production deployment.
 
-### Converting OpenAPI Definitions to APISIX Configurations
+## A Safe GitOps Pipeline
 
-ADC also supports the use of [OpenAPI definitions](https://spec.openapis.org/oas/v3.0.0). ADC allows the conversion of OpenAPI format definitions into APISIX configurations.
+A minimal pipeline can use the following stages.
 
-For example, if you document your API in OpenAPI format like this:
+### 1. Pull-request checks
 
-```yaml title="openAPI.yaml"
-openapi: 3.0.0
-info:
-  title: httpbin API
-  description: Routes for httpbin API
-  version: 1.0.0
-servers:
-  - url: http://httpbin.org
-paths:
-  /anything:
-    get:
-      tags:
-        - default
-      summary: Returns anything that is passed in the request data
-      operationId: getAnything
-      parameters:
-        - name: host
-          in: header
-          schema:
-            type: string
-          example: "{{host}}"
-      responses:
-        "200":
-          description: Successfully return anything
-          content:
-            application/json: {}
-  /ip:
-    get:
-      tags:
-        - default
-      summary: Returns the IP address of the requester
-      operationId: getIP
-      responses:
-        "200":
-          description: Successfully return IP
-          content:
-            application/json: {}
-```
+- validate YAML and repository conventions;
+- run `adc lint` on every changed declarative file;
+- reject embedded secrets;
+- apply policy checks for administrative exposure, unauthenticated routes, wildcard hosts, and unbounded traffic where appropriate;
+- require review from the service owner and gateway platform owner for sensitive changes.
 
-You can convert this to an APISIX configuration using the subcommand `openapi2apisix` as follows:
+### 2. Disposable-environment test
 
-```shell
-adc openapi2apisix -o config.yaml -f openAPI.yaml
-```
+Synchronize the change to a non-production gateway, then run authentication, routing, timeout, and negative tests. Test deletion and rollback paths as well as successful creation.
 
-This will create a configuration file as shown below:
+### 3. Target diff
 
-```yaml title="config.yaml"
-name: ""
-routes:
-- desc: Returns anything that is passed in the request data
-  id: ""
-  methods:
-  - GET
-  name: getAnything
-  uris:
-  - /anything
-- desc: Returns the IP address of the requester
-  id: ""
-  methods:
-  - GET
-  name: getIP
-  uris:
-  - /ip
-services:
-- desc: Routes for httpbin API
-  id: ""
-  name: httpbin API
-  upstream:
-    id: ""
-    name: ""
-    nodes: null
-version: ""
-```
+Run `adc diff` against the intended environment immediately before deployment. Store a redacted diff as deployment evidence and stop on unreviewed destructive changes.
 
-As you can see, the configuration is incomplete and a lot of configuration still needs to be added manually. We are improving ADC to bridge the gap between OpenAPI definitions and configurations that can be mapped directly to APISIX.
+### 4. Controlled synchronization
 
-### Tip: Use Autocomplete
+Use protected environments, one writer, a pinned ADC version, short-lived credentials where available, and an auditable approval. Do not pass secrets as command-line arguments that may be captured in process or job logs.
 
-ADC offers many functions, and the list of features is sure to grow. To learn how to use any subcommand, you can use the `--help` or `-h` flag, which will display the documentation for that subcommand.
+### 5. Post-deployment verification
 
-To make it even easier, you can use the `completion` subcommand to generate an autocompletion script for your shell environment. For example, if you are using a zsh shell, you can run:
+Confirm the target diff, run smoke tests, monitor key traffic indicators, and associate the deployment with the source commit. Roll back only after evaluating whether the previous file remains compatible with current upstream services.
 
-```shell
-adc completion zsh
-```
+## Environment Promotion
 
-You can then copy and paste the output into your `.zshrc` file and it will start showing hints when you use `adc`.
+Avoid maintaining unrelated copies of a large configuration file for development, staging, and production. Choose a controlled strategy such as:
 
-ADC is still in its infancy and is constantly being improved. To learn more about the project, report a bug, or suggest a feature, visit [github.com/api7/adc](github.com/api7/adc).
+- a shared base plus small reviewed environment overlays;
+- generated environment files from a typed source and validated templates;
+- separate directories with automated structural comparison.
 
-## Summary
+Keep secrets outside the declarative source and resolve them through supported secret references or the deployment environment. Ensure the rendered artifact being synchronized is reviewable and retained as deployment evidence without secret values.
 
-By using the declarative configuration tool ADC, APISIX provides a more simplified, reliable, and traceable management method, allowing developers to manage and deploy API gateway configurations more efficiently. This new feature brings many benefits to team collaboration, environmental consistency, and configuration management, providing strong support for building reliable cloud-native architectures.
+## Drift and Emergency Changes
 
-In non-Kubernetes environments, users can seamlessly integrate tools like Jenkins and ArgoCD. They can leverage GitOps' internal CI/CD approach to manage various aspects of APISIX, enabling functions like multi-environment releases.
+Decide in advance how to handle a manual emergency edit:
+
+1. record who made it, why, and which resource changed;
+2. export or inspect the resulting state;
+3. reconcile the intended change into version control promptly;
+4. verify that the next synchronization will not remove the emergency fix accidentally.
+
+Blindly running `adc sync` on a timer can hide ownership problems and repeatedly revert another authorized controller. Alert on drift first; reconcile automatically only when the resource ownership and desired state are unambiguous.
+
+## Frequently Asked Questions
+
+### Is APISIX standalone mode the same as ADC?
+
+No. Standalone mode is an APISIX deployment/configuration mode using a local YAML configuration source. ADC is a separate CLI that compares and synchronizes supported declarative resources with a configured backend. Choose the model that fits the deployment architecture and do not let multiple writers own the same resources.
+
+### Does `adc lint` guarantee a safe production change?
+
+No. It checks supported file rules. Security, upstream reachability, capacity, compatibility, and deletion impact require policy and integration tests.
+
+### Should CI automatically synchronize every merged change?
+
+Only if the repository, approval, credential, environment, and rollback controls justify it. Sensitive production environments may require a protected deployment approval even after the source pull request is merged.
+
+### Can ADC eliminate configuration drift?
+
+It can show and reconcile supported differences. Preventing repeated drift requires clear ownership and removing uncontrolled writers, not only running another synchronization.
+
+## Conclusion
+
+ADC provides useful primitives for a declarative APISIX workflow: export, lint, compare, synchronize, convert, and test connectivity. A reliable GitOps process combines those commands with protected secrets, review, one-writer ownership, environment testing, drift handling, and post-deployment verification.
+
+Keep the desired state auditable, treat every unexpected deletion as a risk, and make the synchronized artifact—not an operator's workstation—the reproducible input to the gateway deployment.

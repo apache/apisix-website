@@ -1,5 +1,5 @@
 ---
-title: "Use API gateway to proxy gRPC service"
+title: "Proxy HTTP Requests to gRPC with APISIX grpc-transcode"
 authors:
   - name: "Bozhong Yu"
     title: "Author"
@@ -9,183 +9,163 @@ authors:
     title: "Technical Writer"
     url: "https://github.com/SylviaBABY"
     image_url: "https://avatars.githubusercontent.com/u/39793568?v=4"
-keywords: 
-- Apache APISIX
-- gRPC
-- Google
-- proto
-- plugin
-description: This article shows you how to proxy client HTTP traffic to the back-end gRPC service via the `grpc-transcode` plugin in API Gateway Apache APISIX.
+keywords:
+  - Apache APISIX
+  - gRPC
+  - grpc-transcode
+  - API Gateway
+  - Protocol Buffers
+description: "Configure the APISIX grpc-transcode plugin to translate an HTTP request into a unary gRPC call using a registered Protocol Buffers definition."
 tags: [Ecosystem]
 ---
 
-> This article shows you how to proxy client HTTP traffic to the back-end gRPC service via the `grpc-transcode` plugin in Apache APISIX.
+Apache APISIX can proxy native gRPC traffic, translate gRPC-Web for browser clients, or transcode an HTTP request into a gRPC call. These are different use cases. This tutorial focuses on HTTP-to-gRPC transcoding with the `grpc-transcode` plugin.
 
 <!--truncate-->
 
-## Introduction
+## Choose the Correct gRPC Mode
 
-### Apache APISIX
+Before configuring a route, identify the client protocol:
 
-[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance API gateway that provides load balancing, dynamic upstream, canary release, service fusion, authentication, observability, and other rich traffic management features. Apache APISIX not only supports dynamic change and hot-plugging of plug-ins, but also has a rich library of plug-in resources.
+- **Native gRPC proxying:** the client already speaks gRPC over HTTP/2. Configure a route and a `grpc` or `grpcs` upstream as documented for APISIX.
+- **gRPC-Web:** a browser uses the gRPC-Web protocol. Use the `grpc-web` plugin with an appropriate gRPC upstream.
+- **HTTP-to-gRPC transcoding:** an HTTP client sends a request that APISIX maps to a gRPC service and method. Use `grpc-transcode` and register the service's `.proto` definition.
 
-### gRPC
+The `grpc-transcode` plugin does not turn every arbitrary REST API into gRPC automatically. The configured input must map to the fields and method in the Protocol Buffers definition, and the current plugin documentation describes supported request and response behavior.
 
-[gRPC](https://grpc.io/) is an open source remote procedure call system initiated by Google. The system is based on HTTP/2 protocol transport, using Protocol Buffers as the interface description language, and can be run in any environment. The gRPC service provides pluggable mode support for load balancing, link tracing, health checking, and authentication, effectively connecting multiple services between data centers.
+## How `grpc-transcode` Works
 
-## Plugin Introduction
+For a matching route, APISIX:
 
-In order to add support for gRPC service proxies, Apache APISIX has released `grpc-transcode`, a gRPC-based plugin that invokes gRPC services in a RESTful way.
+1. loads the Protocol Buffers definition referenced by `proto_id`;
+2. maps the HTTP request data to the configured gRPC request message;
+3. calls the configured `service` and `method` on an upstream whose scheme is `grpc` or `grpcs`;
+4. translates the upstream response into the HTTP response format supported by the plugin.
 
-The plugin supports specifying the contents of `.proto` files in Apache APISIX and implementing proxies for different gRPC services through user-defined gRPC services.
+This is useful for exposing a controlled HTTP interface to clients that cannot use native gRPC. It also creates a protocol boundary that must be documented and tested: HTTP status handling, gRPC status, field encoding, deadlines, and streaming capabilities are not interchangeable.
 
-### Integration Principle
+## Prerequisites
 
-The user specifies the `.proto` content in Apache APISIX, binds the corresponding proto by the `proto_id` in the `grpc-transcode` plugin, and configures the Service and Method defined in the `.proto` to implement a proxy for the gRPC service.
+You need:
 
-The basic principle is as follows: the user can configure a `grpc-transcode` plugin in the route, and when the route matches the request, it will forward the gRPC request to the upstream service.
+- a running APISIX instance and access to its Admin API;
+- a reachable gRPC service;
+- the exact `.proto` definition used by that service;
+- a unary RPC supported by the plugin for this example.
 
-:::note
-The `grpc-transcode` plugin supports configuration of `proto_id`, `grpc service name`, `grpc service method`, `grpc deadline`, and `pb_option`. Based on the configuration, the upstream gRPC service is invoked and the response obtained from the upstream gRPC service is returned to the client.
-:::
+The following snippets use a minimal `helloworld.Greeter/SayHello` service. Replace the addresses, credentials, and schema with your own values.
 
-## How to use
+## Step 1: Register the Protocol Buffers Definition
 
-### Environment Preparation
-
-Before configuring Apache APISIX, you need to start the gRPC service.
-
-#### Step 1: Configure the grpc-server-example service
-
-1. Clone the `grpc-server-example` repository.
-
-```shell
-git clone https://github.com/api7/grpc_server_example
-```
-
-2. Start grpc-server.
+Create a proto resource through the APISIX Admin API. The current resource path is `/apisix/admin/protos/{id}`.
 
 ```shell
-cd grpc_server_example
-go run main.go
+curl "http://127.0.0.1:9180/apisix/admin/protos/1" \
+  -X PUT \
+  -H "X-API-KEY: $admin_key" \
+  -d '
+{
+  "content": "syntax = \"proto3\";\npackage helloworld;\nservice Greeter {\n  rpc SayHello (HelloRequest) returns (HelloReply) {}\n}\nmessage HelloRequest {\n  string name = 1;\n}\nmessage HelloReply {\n  string message = 1;\n}"
+}'
 ```
 
-3. Verify the gRPC service, it is recommended to use `grpcurl` to verify the availability of the service.
+The registered definition must match the package, service, method, and message types implemented by the upstream. Treat proto changes as an API compatibility change and promote them through review and testing with the corresponding service version.
+
+## Step 2: Create the Transcoding Route
+
+Configure the plugin with the proto resource, fully qualified service name, and method. Set the upstream scheme to `grpc` for plaintext HTTP/2 inside a trusted network or `grpcs` when APISIX must use TLS to the upstream.
 
 ```shell
-grpcurl -d '{"name": "zhangsan"}' -plaintext 127.0.0.1:50051 helloworld.Greeter.SayHello
+curl "http://127.0.0.1:9180/apisix/admin/routes/grpc-transcode-demo" \
+  -X PUT \
+  -H "X-API-KEY: $admin_key" \
+  -d '
+{
+  "uri": "/hello",
+  "methods": ["GET"],
+  "plugins": {
+    "grpc-transcode": {
+      "proto_id": "1",
+      "service": "helloworld.Greeter",
+      "method": "SayHello"
+    }
+  },
+  "upstream": {
+    "type": "roundrobin",
+    "scheme": "grpc",
+    "nodes": {
+      "127.0.0.1:50051": 1
+    }
+  }
+}'
 ```
 
-After correctly starting the gRPC service, executing the above command will output the following.
+Restrict methods and request size to what the public API actually supports. The example embeds an upstream for clarity; production environments may reference a separately managed upstream object.
+
+## Step 3: Call the HTTP Endpoint
+
+For the schema above, an HTTP client can provide the `name` field as supported by the plugin:
+
+```shell
+curl "http://127.0.0.1:9080/hello?name=APISIX"
+```
+
+A successful response contains the translated `HelloReply`, for example:
 
 ```json
 {
- "message": "Hello zhangsan"
+  "message": "Hello APISIX"
 }
 ```
 
-#### Step 2: Configure Apache APISIX
+The exact encoding and error response depend on the plugin configuration and APISIX version. Test missing fields, invalid values, upstream timeouts, and every gRPC status your service can return. Do not infer HTTP semantics solely from a successful demonstration call.
 
-1. Add proto
+## Production Considerations
 
-```shell
-curl http://127.0.0.1:9080/apisix/admin/proto/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{
-    "content" : "syntax = \"proto3\";
-    package helloworld;
-    service Greeter {
-        rpc SayHello (HelloRequest) returns (HelloReply) {}
-    }
-    message HelloRequest {
-        string name = 1;
-    }
-    message HelloReply {
-        string message = 1;
-    }"
-}'
-```
+### Schema compatibility
 
-2. In the specified Route, proxy the gRPC service interface.
+Keep the registered proto synchronized with the deployed gRPC service. Follow Protocol Buffers compatibility rules, avoid reusing field numbers, and test old clients during a staged rollout.
 
-```shell
-curl http://127.0.0.1:9080/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{
-    "methods": ["GET"],
-    "uri": "/grpctest",
-    "plugins": {
-        "grpc-transcode": {
-         "proto_id": "1",
-         "service": "helloworld.Greeter",
-         "method": "SayHello"
-        }
-    },
-    "upstream": {
-        "scheme": "grpc",
-        "type": "roundrobin",
-        "nodes": {
-            "127.0.0.1:50051": 1
-        }
-    }
-}'
-```
+### Deadlines and retries
 
-Details of the specific code interpretation and supported parameters can be found below.
+Set bounded timeouts based on the service's latency objective. Retries are safe only for operations that are idempotent under the application's semantics; automatically retrying a state-changing RPC can duplicate work.
 
-| Name      | Type                        | Requirement | Default | Description                       |
-|:----------|:-----------------------------|:------|:-------|:---------------------------|
-| proto_id  | string/integer               | required | N/A  | `.proto` content id        |
-| service   | string                       | required | N/A  | the grpc service name                |
-| method    | string                       | required | N/A  | the method name of grpc service  |
-| deadline  | number                       | optional | 0    | deadline for grpc in milliseconds          |
-| pb_option | array[string(pb_option_def)] | optional | N/A  | protobuf options |
+### TLS and identity
 
-### Testing Requests
+Use `grpcs` when the network and threat model require upstream TLS, and configure certificate verification according to the current APISIX upstream TLS documentation. Client authentication at the HTTP route does not automatically provide service-to-service identity to the gRPC server.
 
-Here we will use cURL for testing.
+### Error mapping
 
-```shell
-curl -i http://127.0.0.1:9080/grpctest\?name=world
-HTTP/1.1 200 OK
-Date: Mon, 27 Dec 2021 06:24:47 GMT
-Content-Type: application/json
-Transfer-Encoding: chunked
-Connection: keep-alive
-Server: APISIX/2.11.0
-Trailer: grpc-status
-Trailer: grpc-message
+gRPC uses status codes and trailers, while HTTP clients expect HTTP status codes and bodies. Define which translated errors form part of the public API contract and verify them with integration tests. Preserve enough structured detail for clients without exposing internal stack traces.
 
-{"message":"Hello world"}
-grpc-status: 0
-grpc-message:
-```
+### Streaming
 
-The feedback from the code shows that the request was successfully proxied to the back-end gRPC service.
+Do not assume an HTTP transcoding route supports every client-, server-, or bidirectional-streaming pattern. Check the current plugin limitations. Native gRPC proxying may be the appropriate design when streaming is required.
 
-### Disabling the plugin
+### Observability
 
-If you are done using the `grpc-transcode` plugin on the route, simply remove the plugin-related configuration from the route configuration to turn off the `grpc-transcode` plugin on the route.
+Capture route latency, upstream latency, gRPC status, HTTP status, and timeouts with bounded labels. Propagate trace context when supported, and redact credentials and sensitive request fields from logs.
 
-Thanks to the Apache APISIX plugin hot-loading mode, there is no need to restart Apache APISIX to turn it on and off.
+## Frequently Asked Questions
 
-```shell
-# Disable the plugin
-curl http://127.0.0.1:9080/apisix/admin/routes/111 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
-{
-    "methods": ["GET"],
-    "uri": "/grpctest",
-    "plugins": {},
-    "upstream": {
-        "scheme": "grpc",
-        "type": "roundrobin",
-        "nodes": {
-            "127.0.0.1:50051": 1
-        }
-    }
-}'
-```
+### Is `grpc-transcode` required to proxy native gRPC?
 
-## Summary
+No. It is for translating an HTTP request into a gRPC call. A client that already uses native gRPC can be proxied with an appropriate gRPC route and upstream without HTTP-to-gRPC transcoding.
 
-This article provides a step-by-step guide to using the `grpc-transcode` plugin to proxy requests to a back-end gRPC service via RESTful. By using this plugin, Apache APISIX can be configured to proxy to the gRPC service only.
+### Is this the same as gRPC-Web?
 
-For more descriptions and a complete configuration list of the grpc-transcode plugin, please refer to the [official documentation](https://apisix.apache.org/docs/apisix/next/plugins/grpc-transcode/).
+No. gRPC-Web is a browser-oriented protocol handled by the `grpc-web` plugin. `grpc-transcode` exposes an HTTP-style interface mapped through a proto definition.
+
+### Can APISIX infer the service and method from the proto?
+
+The route explicitly configures `proto_id`, `service`, and `method`. This keeps the exposed HTTP route tied to a specific RPC rather than exposing every method in a schema by default.
+
+### Where is the current field reference?
+
+Use the official [`grpc-transcode` plugin documentation](https://apisix.apache.org/docs/apisix/plugins/grpc-transcode/) for the supported fields, request mappings, response options, and version-specific limitations.
+
+## Conclusion
+
+The APISIX `grpc-transcode` plugin is a protocol adapter for a defined HTTP-to-gRPC route. Register the exact proto, bind one service and method, configure a gRPC upstream, and test schema, deadline, error, and security behavior as part of the public API contract.
+
+Use native gRPC proxying or gRPC-Web when those protocols match the client instead of adding an unnecessary transcoding layer.

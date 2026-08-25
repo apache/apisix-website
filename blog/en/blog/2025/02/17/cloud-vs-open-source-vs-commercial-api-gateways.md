@@ -1,5 +1,5 @@
 ---
-title: "Cloud vs Open Source vs Commercial API Gateways"
+title: "Cloud-Managed vs Open Source vs Commercial API Gateways"
 authors:
   - name: Ming Wen
     title: Author
@@ -18,144 +18,133 @@ keywords:
   - Hybrid Cloud
   - Vendor Lock-in
   - API Strategy
-description: "Compare cloud-managed, open-source, and commercial API gateways, and learn where Apache APISIX fits for self-hosted API traffic management."
+description: "Compare cloud-managed, open-source, and commercial API gateways by deployment, operations, extensibility, support, and total cost."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/02/17/gWz2QJYq_api-gateway-comparison.png
 ---
 
-This article explores the differences between cloud-managed, open-source, and commercial API gateways. It highlights key pros and cons, pricing risks, and strategic recommendations for businesses that anticipate API growth and hybrid cloud adoption.
+Cloud-managed, open-source, and commercial API gateways are not mutually exclusive categories. A vendor can offer a managed service built on open-source software, while a commercial gateway can support self-managed and hosted deployments. The useful question is therefore not which label is universally best, but which operating and support model matches your requirements.
 
 <!--truncate-->
 
-## Introduction
+## What Are You Comparing?
 
-API gateways have become essential components in modern cloud architectures. They provide security, traffic management, observability, and service orchestration—critical for handling APIs at scale. However, with multiple API gateway solutions available, choosing the right one can be challenging.
+An API gateway sits between API clients and upstream services. Depending on the product and configuration, it can handle routing, authentication, traffic limits, protocol translation, observability integrations, and other cross-cutting policies.
 
-Broadly, API gateways fall into three categories:
+The three common buying models emphasize different responsibilities:
 
-- **Cloud API Gateways** (e.g., <a href="https://aws.amazon.com/api-gateway/" rel="nofollow">Amazon API Gateway</a>, <a href="https://cloud.google.com/apigee" rel="nofollow">Google Apigee</a>)
-- **Open Source API Gateways** (e.g., [Apache APISIX](https://apisix.apache.org/), Kong Gateway, Tyk)
-- **Commercial API Gateways** (e.g., <a href="https://www.mulesoft.com/" rel="nofollow">MuleSoft</a>, <a href="https://boomi.com/" rel="nofollow">Boomi</a>)
+- **Cloud-managed gateway:** the provider operates most or all of the gateway service. The deployment is usually closely integrated with that provider's identity, networking, logging, and billing services.
+- **Open-source gateway:** the source code and an open-source license are available. Your team can self-manage the gateway or, for some projects, use a vendor's managed or enterprise distribution.
+- **Commercial gateway:** a paid product or service that may include proprietary features, support, service-level commitments, and governance tooling. Deployment options vary by vendor.
 
-Each option has its advantages and trade-offs. This article provides a deep dive into their differences, hidden risks, and a **strategic recommendation** for companies looking to scale API usage and adopt hybrid cloud architectures.
+Because these models overlap, compare specific products and editions rather than assuming that every product in a category behaves the same way.
 
-## Cloud API Gateways: Convenience vs. Lock-in
+## Cloud-Managed API Gateways
 
-### Pros:
+A cloud-managed gateway can reduce the amount of infrastructure a team operates directly. It is often a strong fit when most workloads already run in one cloud and the team values integrated provisioning and billing.
 
-✅ Fully managed, reducing operational burden
+Common benefits include:
 
-✅ Deep integration with cloud provider services (IAM, logging, monitoring)
+- provider-managed availability, upgrades, and capacity;
+- integration with the cloud provider's identity, monitoring, networking, and serverless services;
+- usage-based billing that can make a small deployment quick to start.
 
-✅ High availability and auto-scaling out of the box
+Questions to evaluate include:
 
-### Cons:
+- Can the control plane or data plane run in every environment you require?
+- Which policies, identity integrations, or deployment definitions are portable?
+- How do request, data-transfer, logging, and support charges change at your expected traffic level?
+- What extension points are available for policies the service does not provide?
 
-❌ **Vendor Lock-in**: API definitions, policies, and configurations are tied to the cloud provider
+Some managed services support hybrid or multicloud patterns, while others are designed primarily for their provider's environment. Verify the architecture of the exact service instead of treating “cloud-managed” as “cloud-only.”
 
-❌ **No Customization**: Cloud API gateways are closed-source, limiting the ability to add custom plugins or functionality
+## Open-Source API Gateways
 
-❌ **No Hybrid Cloud Support**: Cloud-managed API gateways cannot be deployed on-premise or across multi-cloud environments
+An open-source gateway gives teams access to the code and can offer broad deployment and extension choices. It does not, however, remove the cost of operating the system.
 
-### Use Case:
+Common benefits include:
 
-Cloud API gateways are ideal for **startups and small teams** that need a quick, managed solution without worrying about infrastructure maintenance. However, as API traffic grows or hybrid cloud requirements arise, their limitations become apparent.
+- visibility into the implementation and release process;
+- the ability to evaluate, extend, and self-host the software under its license;
+- deployment choices that may include virtual machines, containers, Kubernetes, on-premises infrastructure, and multiple clouds;
+- community integrations and a path to paid support when the project has commercial providers.
 
-🔹 **Example**: Amazon API Gateway is a popular choice for cloud-native applications but lacks flexibility for on-premises deployments.
+Operational responsibilities can include:
 
-## Open Source API Gateways: Control and Flexibility
+- sizing and scaling the data plane and any required control-plane components;
+- applying security updates and testing upgrades;
+- protecting configuration stores and administrative APIs;
+- building monitoring, backup, incident-response, and change-management procedures.
 
-### Pros:
+License, governance, and project health also matter. Review the current license, release activity, contributor base, security process, and ownership model. Foundation governance can reduce dependence on a single vendor, but it does not replace technical and operational due diligence.
 
-✅ Fully customizable, allowing teams to extend functionality as needed
+## Commercial API Gateways
 
-✅ No licensing fees, reducing costs in the long run
+Commercial products can bundle the gateway with API lifecycle, analytics, developer portal, governance, security, and support capabilities. Some are proprietary; others are enterprise distributions or hosted services based on an open-source project.
 
-✅ Can be deployed anywhere—**on-prem, multi-cloud, hybrid cloud**
+Potential benefits include:
 
-### Cons:
+- vendor support and contractual service commitments;
+- packaged administration, governance, and analytics workflows;
+- tested integrations and upgrade paths;
+- features intended for larger organizations, subject to the product and edition.
 
-❌ **Operational Overhead**: Requires self-hosting, upgrades, and security management
+The trade-offs are product-specific. Evaluate:
 
-❌ **Governance Risks**: Some open-source projects are controlled by a single vendor, which may later change licensing terms (e.g., Redis, ELK Stack)
+- whether pricing is based on requests, environments, gateway instances, users, or another unit;
+- which features require higher editions;
+- how configuration and data can be exported;
+- whether the data plane continues operating if it loses contact with a hosted control plane;
+- where control-plane and traffic data are processed;
+- whether the contract, support model, and deployment options meet your compliance needs.
 
-❌ **Scalability Complexity**: Running an open-source API gateway at enterprise scale requires expertise in deployment and maintenance
+Paid does not automatically mean more secure or more scalable, just as open source does not automatically mean less expensive. Architecture, configuration, operations, and support all affect the result.
 
-## Key Consideration: Choosing a Foundation-Owned Open Source Project
+## A Practical Comparison Framework
 
-Some open-source API gateways are **vendor-controlled**, meaning the company behind them can change licensing terms. For example, Redis and Elasticsearch modified their open-source licenses to prevent cloud providers from offering managed services.
+Use the same workload and constraints when evaluating each candidate.
 
-To **avoid future licensing risks**, it's safer to choose an API gateway governed by a **neutral open-source foundation**, such as:
+| Decision area | Questions to ask |
+| --- | --- |
+| Deployment | Where do the control plane, data plane, and configuration store run? Can the gateway cover cloud, on-premises, edge, and Kubernetes environments you actually use? |
+| Reliability | How does traffic handling behave during control-plane, network, or configuration-store failures? How are upgrades and rollbacks performed? |
+| Security | Which authentication and authorization policies are built in? How are secrets, administrative access, audit logs, and security updates managed? |
+| Extensibility | Can you add policies safely? Which languages, plugin models, and supported extension points are available? |
+| Operations | Who owns capacity planning, upgrades, backups, monitoring, and incidents? What skills and staffing does that require? |
+| Portability | Can routes, policies, API definitions, and telemetry be moved or reproduced elsewhere? Which provider-specific integrations create migration work? |
+| Support | Is community support sufficient, or do you need response-time commitments and a supported upgrade path? |
+| Cost | What is the three-year total cost at realistic request volume, including infrastructure, traffic, logs, labor, licenses, and support? |
 
-- [Apache APISIX (Apache Software Foundation)](https://apisix.apache.org/)
-- <a href="https://www.envoyproxy.io/" rel="nofollow">Envoy Proxy (Cloud Native Computing Foundation)</a>
+Run a proof of concept with representative authentication, routing, failure, and observability scenarios. A feature checklist alone will not show operational complexity or migration risk.
 
-## Commercial API Gateways: Enterprise Features with Pricing Risks
+## How Apache APISIX Fits
 
-### Pros:
+[Apache APISIX](https://apisix.apache.org/) is an Apache Software Foundation project and an open-source API gateway. It supports multiple deployment approaches and a plugin-based model for traffic management, security, observability, and protocol handling. Teams can operate APISIX themselves and choose commercial support separately if required.
 
-✅ **Enterprise-grade security**
+That model can be useful when deployment control, open governance, or extensibility is important. It also means the operating team remains responsible for designing and running a reliable deployment unless it purchases an appropriate managed service or support offering.
 
-✅ **SLA-backed support** with 24/7 assistance
+Before selecting it, validate the plugins, deployment mode, configuration workflow, performance profile, and operational model against your own requirements. For a product-focused comparison, see the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/). To distinguish gateway functions from broader lifecycle tooling, see [API gateway vs API management](/learning-center/api-gateway-vs-api-management/).
 
-✅ **Monetization and API analytics** for businesses offering APIs as a service
+## Frequently Asked Questions
 
-### Cons:
+### Is an open-source API gateway always cheaper?
 
-❌ **High Licensing Costs**: Typically charged per API call, which can become expensive
+No. The software may not require a commercial license, but infrastructure, engineering time, observability, security maintenance, and support still contribute to total cost. Compare the complete operating model over the expected lifetime of the system.
 
-❌ **Potential Pricing Changes**: Many vendors modify pricing models over time, significantly increasing costs (e.g., Apigee, Kong Enterprise)
+### Does a managed API gateway always cause vendor lock-in?
 
-❌ **Limited Deployment Flexibility**: Some solutions require vendor-managed infrastructure, reducing control
+Not necessarily. Migration effort depends on provider-specific policies, identity services, deployment definitions, observability integrations, and data formats. A portable API specification helps, but it rarely captures the entire gateway configuration.
 
-### Use Case:
+### Is a commercial gateway required for enterprise use?
 
-Best suited for **large enterprises** with strict security, compliance, and SLA requirements. However, pricing unpredictability is a concern—many companies have faced sudden cost increases.
+No. Some organizations operate open-source gateways at scale; others prefer commercial support and packaged governance. The right choice depends on internal expertise, risk tolerance, compliance needs, and service commitments.
 
-## Strategic Recommendation: A Hybrid Approach for Growth
+### Which model is best for hybrid or multicloud deployments?
 
-If your API traffic is **growing rapidly** and **hybrid cloud** is part of your strategy, the best approach is:
+There is no category-wide answer. Compare where each product's control and data planes can run, how configuration is distributed, what happens during loss of connectivity, and which features depend on a specific cloud.
 
-**1. Start with an Open Source API Gateway**
+## Conclusion
 
-- Avoid vendor lock-in
-- Maintain control over deployment and customization
-- Lower costs by eliminating per-call fees
+Choose an API gateway by responsibility and architecture, not by category label alone. A cloud-managed service can reduce operational work, an open-source gateway can provide code access and deployment control, and a commercial offering can add support and packaged workflows. Many products combine elements of all three.
 
-**2. Upgrade to a Commercial Version When Needed**
-
-- When security requirements increase
-- When managing multi-cluster deployments
-- When enterprise support and SLAs become necessary
-
-By following this approach, you get the best of both worlds: flexibility, cost control, and enterprise-grade features when needed.
-
-🔹 **Example Strategy**: A company starts with Apache APISIX (open source) and later upgrades to [API7 Enterprise](https://api7.ai/) when requiring advanced security and SLA support.
-
-## FAQ: Common Questions About API Gateway Selection
-
-**1. Why not start with a cloud API gateway and switch later?**
-
-Switching API gateways is complex due to differences in configurations, rate-limiting rules, authentication methods, and monitoring setups. If hybrid cloud or multi-cloud is part of your strategy, starting with an open-source gateway ensures long-term flexibility.
-
-**2. How do I avoid open-source licensing risks?**
-
-Choose projects governed by neutral software foundations (e.g., Apache Software Foundation, CNCF). Avoid projects fully controlled by a single company, as they may change their licensing model.
-
-**3. What is the best API gateway for hybrid cloud?**
-
-Open-source gateways like Apache APISIX and Envoy Proxy offer full deployment flexibility, making them ideal for hybrid and multi-cloud architectures.
-
-## Conclusion: Making the Right Choice
-
-Choosing the right API gateway depends on your **scalability, budget, and cloud strategy**:
-
-| Criteria                  | Cloud API Gateway          | Open Source API Gateway    | Commercial API Gateway     |
-|---------------------------|----------------------------|----------------------------|----------------------------|
-| **Cost**                      | High (Pay per API call)    | Low (Free)                 | High (License fees)        |
-| **Customization**             | Limited                    | Full control               | Limited                    |
-| **Deployment Flexibility**    | Cloud-only                 | Anywhere (Hybrid, Multi-cloud) | Varies                     |
-| **Enterprise Features**       | Basic                      | Requires customization     | Advanced (Security, Compliance) |
-| **Support**                   | Cloud provider support     | Community-driven           | SLA-backed                 |
-
-If **API traffic is growing rapidly** and **hybrid cloud adoption is planned**, a **hybrid approach**—starting with **open source** and upgrading to a **commercial enterprise solution** when needed—offers the best flexibility and cost efficiency.
+Document your deployment, reliability, security, portability, support, and cost requirements; test the finalists with a realistic workload; and select the operating model your team can sustain.
