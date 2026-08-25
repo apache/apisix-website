@@ -53,7 +53,7 @@ Beyond verifying identity, the gateway can enforce route-, consumer-, role-, att
 
 ### Rate Limiting and Throttling
 
-Rate limiting protects backend services from abuse and helps allocate capacity fairly. Effective rate limiting can operate at multiple granularities, including per consumer, per route, per IP address, and globally. It should be combined with authentication, request validation, and other controls when defending against automated abuse.
+[API gateway rate limiting](/learning-center/api-gateway-rate-limiting/) protects backend services from abuse and helps allocate capacity fairly. Effective policies can operate at multiple granularities, including per consumer, per route, per IP address, and globally. Rate limiting should be combined with authentication, request validation, and other controls when defending against automated abuse.
 
 ### IP Restriction
 
@@ -129,8 +129,3 @@ TLS can terminate at the gateway when centralized certificate and edge-policy ma
 ### How many rate limiting layers should an API gateway enforce?
 
 Choose rate-limit dimensions from measured capacity and the abuse model. A service may combine global, per-consumer, per-route, or concurrency limits when those controls address distinct risks. Select the algorithm and burst behavior that match the backend and client contract rather than enforcing a universal number of layers.
-
-## Related
-
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/)

@@ -13,9 +13,9 @@ API gateway rate limiting controls how many requests a client can make within a 
 
 Rate limiting enforces a maximum request rate or count for API consumers. When a client exceeds a configured limit, a gateway can return HTTP 429 (Too Many Requests) instead of forwarding the request. A server may include `Retry-After` when it can tell the client when to retry.
 
-Rate limiting helps protect finite backend capacity from accidental loops, high-frequency polling, credential attacks, and other traffic that exceeds the service's operating envelope.
+Rate limiting helps protect finite backend capacity from accidental loops, high-frequency polling, [credential attacks and other API security risks](/learning-center/api-gateway-security/), and traffic that exceeds the service's operating envelope.
 
-Without rate limiting, a single misbehaving client can consume disproportionate backend resources, degrading performance for all consumers. Rate limiting is also a contractual tool: it enforces the usage tiers defined in API monetization plans and SLAs.
+Without rate limiting, a single misbehaving client can consume disproportionate backend resources, degrading performance for all consumers. Rate limiting is also a contractual tool: it can enforce usage tiers defined in [API monetization plans](/learning-center/api-monetization-guide/) and service agreements.
 
 ## Why Rate Limit at the Gateway
 
@@ -27,9 +27,11 @@ Implementing rate limiting at the API gateway rather than in individual services
 
 **Consistent client experience.** Centralized rate limiting can provide consistent HTTP 429 responses. Additional quota headers such as `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` are implementation-dependent and should be documented for clients.
 
-**Operational visibility.** Gateway-level rate limiting produces unified metrics on throttled requests, enabling operations teams to identify abusive clients, undersized quotas, and traffic anomalies from a single dashboard.
+**Operational visibility.** When access logs and metrics are configured, gateway-level rate limiting can expose rejected requests by route, consumer, or other configured key. Teams can use that evidence to investigate abusive clients, undersized quotas, and traffic anomalies.
 
 ## Rate Limiting Algorithms
+
+The algorithms below describe common rate-limiting models. A gateway product may implement only some of them, and details such as queuing, counter storage, and boundary handling vary by implementation.
 
 ### Token Bucket
 
@@ -51,9 +53,9 @@ Leaky bucket is ideal for backends that require strictly uniform request rates, 
 
 **Cons:** Higher latency for bursty traffic due to queuing, queue size requires tuning.
 
-### Sliding Window
+### Sliding Window (Counter-Based)
 
-The sliding window algorithm divides time into overlapping windows and counts requests across the current and previous windows using weighted proportions. This eliminates the boundary problem inherent in fixed windows.
+A sliding window counter estimates usage over a rolling interval by combining the current window with a weighted portion of the previous window. This reduces the boundary spike possible with a fixed window without storing every request timestamp.
 
 For example, if the window is 60 seconds and the current position is 40 seconds into the window, the algorithm weights 33% of the previous window's count and 100% of the current window's count to determine if the limit is exceeded.
 
@@ -77,20 +79,20 @@ Fixed window is the simplest algorithm but has a well-known boundary problem: a 
 |-----------|---------------|-------------------|--------|------------|-------------------|
 | Token Bucket | Allows controlled bursts | Moderate | Low | Low | N/A |
 | Leaky Bucket | Queues bursts | Very smooth | Medium | Low | N/A |
-| Sliding Window | Proportional smoothing | Smooth | Medium | Medium | High |
+| Sliding Window (Counter-Based) | Proportional smoothing | Smooth | Medium | Medium | High |
 | Fixed Window | Boundary bursts possible | Low | Very low | Very low | Low |
 
 ## Rate Limiting Strategies
 
 ### Per-Consumer
 
-Assign rate limits based on authenticated consumer identity. This is the most common strategy for APIs with tiered pricing plans. A free tier consumer might receive 100 requests per minute while a paid enterprise consumer receives 10,000.
+Assign rate limits based on authenticated consumer identity. This is useful for APIs that provide different quotas or burst allowances to different consumer groups.
 
-Per-consumer rate limiting requires the rate limiting plugin to execute after authentication so the consumer identity is available. APISIX's consumer abstraction makes this straightforward: attach rate limit configurations directly to consumer definitions.
+In APISIX, an authentication plugin can establish the Consumer before a rate-limiting plugin keys a policy on `consumer_name`. Rate-limiting plugins can also be attached to [Consumers](/docs/apisix/terminology/consumer/) or [Consumer Groups](/docs/apisix/terminology/consumer-group/) when that ownership model fits the policy.
 
 ### Per-IP
 
-Throttle requests based on the client's source IP address. This strategy is effective for public APIs that do not require authentication, such as health check endpoints or public data feeds. IP-based rate limiting is a practical first line of defense against volumetric API abuse, especially when combined with reputation scoring.
+Throttle requests based on the client's source IP address. This can provide a coarse limit for unauthenticated public APIs, but an IP address is not a stable client identity and should not be treated as one.
 
 Per-IP limiting has limitations in environments where many clients share a single IP (corporate NATs, mobile carriers). Use it as a coarse first defense layer, not as the sole rate limiting strategy.
 
@@ -104,41 +106,43 @@ Enforce an aggregate rate limit across all consumers and routes. Global limits p
 
 ## How Apache APISIX Implements Rate Limiting
 
-Apache APISIX provides three complementary rate limiting plugins, each targeting a different dimension of traffic control.
+Apache APISIX provides three complementary traffic-control plugins. They do not map one-to-one to every generic algorithm above: `limit-req` uses a leaky bucket, `limit-count` supports fixed and sliding windows, and `limit-conn` controls concurrency.
 
 ### limit-req (Request Rate Limiting)
 
-The [limit-req plugin](/docs/apisix/plugins/limit-req/) implements a leaky bucket algorithm that controls the request rate per second. It accepts configuration for the sustained request rate (`rate`), the burst allowance (`burst`), and the rejection status code.
+The [limit-req plugin](/docs/apisix/plugins/limit-req/) implements a leaky bucket algorithm that controls the request rate per second. It accepts configuration for the sustained request rate (`rate`), the burst allowance (`burst`), and the rejection status code. Local policies maintain counters independently on each gateway node; Redis-backed policies can share rate limits across nodes.
 
 This plugin is ideal when you need to smooth traffic to a uniform rate. It supports keying on remote address, consumer name, service, or any variable available in the APISIX context.
 
 ### limit-count (Request Count Limiting)
 
-The [limit-count plugin](/docs/apisix/plugins/limit-count/) enforces a maximum number of requests within a configurable time window. It supports both fixed window and sliding window algorithms, with the window size configurable from one second to one day.
+The [limit-count plugin](/docs/apisix/plugins/limit-count/) enforces a maximum number of requests within a configurable positive time window. It uses a fixed window by default and supports a sliding window through `window_type`.
 
-limit-count is a good fit for implementing API quota plans (e.g., 10,000 requests per day). It returns rate limit headers so clients can track their remaining quota. For distributed deployments, limit-count supports shared counters through Redis so multiple gateway nodes can enforce the same quota. Redis-backed counting adds network and storage overhead, so benchmark it with the topology and traffic profile you plan to run.
+limit-count is a good fit for implementing API quota plans (e.g., 10,000 requests per day). It returns rate limit headers by default so clients can track their remaining quota. For distributed deployments, limit-count supports shared counters through Redis so multiple gateway nodes can enforce the same quota. Redis-backed counting adds network and storage overhead, so benchmark it with the topology and traffic profile you plan to run.
 
 ### limit-conn (Concurrent Connection Limiting)
 
-The [limit-conn plugin](/docs/apisix/plugins/limit-conn/) restricts the number of concurrent requests being processed simultaneously. Unlike rate-based limits, connection limits protect against slow-client attacks and long-running requests that tie up backend connections.
+The [limit-conn plugin](/docs/apisix/plugins/limit-conn/) restricts concurrent requests by a configured key. Requests between `conn` and `conn + burst` can be delayed, while requests above that threshold can be rejected.
 
-This plugin is essential for APIs that serve large file downloads, streaming responses, or long-polling connections. It works by counting active connections per key and rejecting new connections when the limit is exceeded.
+Concurrency limits can help protect upstreams with finite connection pools or workloads with long-lived requests. Choose thresholds from measured concurrency and latency rather than treating the plugin as a general request quota.
 
 ### Combining Plugins
 
-APISIX allows stacking all three plugins on a single route. A typical production configuration might combine limit-count for daily quotas, limit-req for per-second smoothing, and limit-conn for concurrent connection caps. The plugins execute in order, and a request rejected by any plugin does not consume quota in subsequent plugins.
+APISIX allows stacking the three plugins on a route. A policy might combine `limit-count` for a longer quota window, `limit-req` for per-second smoothing, and `limit-conn` for concurrency caps.
 
 Layering can be useful when an API has independent quota, burst, and concurrency requirements. Choose only the dimensions supported by measured backend capacity and consumer contracts.
+
+Starting in APISIX 3.16, `limit-count` and `limit-conn` can define multiple rules, use expressions for selected thresholds, and compose keys from request variables. The [dynamic rate-limiting introduction](/blog/2026/04/14/apisix-3.16-dynamic-rate-limiting/) shows how these capabilities support different tiers and tenants without duplicating routes.
 
 ## FAQ
 
 ### What HTTP status code should I return for rate-limited requests?
 
-Return HTTP 429 (Too Many Requests) as defined in RFC 6585. When the server can estimate an appropriate retry time, include a `Retry-After` header. APISIX's limit-count plugin can also return `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers so clients can track the configured quota.
+Return HTTP 429 (Too Many Requests) as defined in RFC 6585. When the server can estimate an appropriate retry time, include a `Retry-After` header. APISIX rate-limiting plugins let operators configure the rejection status, and `limit-count` can return `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers so clients can track the configured quota.
 
 ### How do I handle rate limiting in a distributed gateway deployment?
 
-Use a shared counter store such as Redis when gateway nodes need to enforce one shared quota. APISIX's limit-count plugin supports Redis and Redis Cluster policies for distributed counters. The added network and storage overhead depends on Redis topology, load, and network conditions, so benchmark it in the intended deployment.
+Use a shared counter store such as Redis when gateway nodes need to enforce one shared policy. Current APISIX documentation describes Redis-backed policies for `limit-count`, `limit-req`, and `limit-conn`; local policies enforce counters independently on each node. The added network and storage overhead depends on Redis topology, load, and network conditions, so benchmark it in the intended deployment.
 
 ### Should I rate limit internal service-to-service traffic?
 
@@ -147,9 +151,3 @@ It can be useful when one service can exceed another service's measured capacity
 ### How do I communicate rate limits to API consumers?
 
 Document rate limits, response behavior, and any implementation-specific quota headers in your API reference and onboarding materials. If consumers need current quota state, expose it through documented response fields, an endpoint, or a dashboard. For paid tiers, consider notifications when consumers approach their limits.
-
-## Related
-
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [API gateway security](/learning-center/api-gateway-security/)
-- [Get started with Apache APISIX](/docs/apisix/getting-started/)

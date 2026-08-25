@@ -52,7 +52,7 @@
 - [API Governance: Framework and Best Practices](https://apisix.apache.org/learning-center/api-governance/): Design-time and runtime governance, operating models, and implementation practices
 - [API Gateway Authentication: Methods, Best Practices & Implementation](https://apisix.apache.org/learning-center/api-gateway-authentication/): Auth at gateway layer (JWT, OAuth2, mTLS, HMAC)
 - [API Gateway for Microservices: Architecture, Patterns & Best Practices](https://apisix.apache.org/learning-center/api-gateway-for-microservices/): Microservices architecture with API gateway
-- [API Gateway Rate Limiting: Algorithms, Strategies & Configuration](https://apisix.apache.org/learning-center/api-gateway-rate-limiting/): Token bucket, sliding window, leaky bucket
+- [API Gateway Rate Limiting: Algorithms](https://apisix.apache.org/learning-center/api-gateway-rate-limiting/): Algorithm tradeoffs, APISIX plugin roles, distributed counters, and client response guidance
 - [API Gateway vs Load Balancer: Key Differences Explained](https://apisix.apache.org/learning-center/api-gateway-vs-load-balancer/): Gateway vs load balancer comparison
 - [Kubernetes API Gateway: Gateway API, Ingress Controllers & Best Practices](https://apisix.apache.org/learning-center/kubernetes-api-gateway/): Kubernetes Gateway API and Ingress
 - [API Monetization: Models, Strategies & Implementation Guide](https://apisix.apache.org/learning-center/api-monetization-guide/): API pricing and monetization models

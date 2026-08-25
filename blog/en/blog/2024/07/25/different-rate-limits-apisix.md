@@ -23,13 +23,15 @@ Rate-limiting is an age-old Reverse Proxy feature focused on protecting against 
 
 In this post, I want to detail how to do it with Apache APISIX. Note I take most of the material from the [workshop](https://nfrankel.github.io/apisix-workshop/).
 
+For the underlying algorithm tradeoffs, quota patterns, and distributed-counter choices, see the [API gateway rate limiting guide](/learning-center/api-gateway-rate-limiting/).
+
 ## Rate-limiting for the masses
 
 Apache APISIX offers no less than three plugins to rate limit requests:
 
-* [limit conn](https://apisix.apache.org/docs/apisix/plugins/limit-conn/): limits the number of concurrent requests
-* [limit req](https://https://apisix.apache.org/docs/apisix/plugins/limit-req/): limits the number of requests based on the [Leaky Bucket](https://en.wikipedia.org/wiki/Leaky_bucket) algorithm
-* [limit count](https://https://apisix.apache.org/docs/apisix/plugins/limit-count/): limits the number of requests based on a fixed time window
+- [`limit-conn`](https://apisix.apache.org/docs/apisix/plugins/limit-conn/): limits the number of concurrent requests
+- [`limit-req`](https://apisix.apache.org/docs/apisix/plugins/limit-req/): limits the number of requests based on the [Leaky Bucket](https://en.wikipedia.org/wiki/Leaky_bucket) algorithm
+- [`limit-count`](https://apisix.apache.org/docs/apisix/plugins/limit-count/): limits the number of requests within a configurable time window
 
 The `limit-count` plugin is a good candidate for this post.
 
