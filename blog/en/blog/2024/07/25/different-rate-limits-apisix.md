@@ -251,6 +251,6 @@ The complete source code for this post can be found on [GitHub](https://github.c
 
 **To go further:**
 
-* [Consumer](https://apisix.apache.org/docs/apisix/terminology/consumer/)
-* [Consumer Group](https://apisix.apache.org/docs/apisix/terminology/consumer-group/)
-* [Apache APISIX Hands-on Lab](https://nfrankel.github.io/apisix-workshop/)
+- [Consumer](https://apisix.apache.org/docs/apisix/terminology/consumer/)
+- [Consumer Group](https://apisix.apache.org/docs/apisix/terminology/consumer-group/)
+- [Apache APISIX Hands-on Lab](https://nfrankel.github.io/apisix-workshop/)
