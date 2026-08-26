@@ -107,18 +107,6 @@
     "message": "阅读博客",
     "description": "Read Blog"
   },
-  "architecture.component.title.name": {
-    "message": "适用于超大规模、复杂的业务系统",
-    "description": "Building for large-scale, high value systems"
-  },
-  "architecture.component.title.subtitle": {
-    "message": "Apache APISIX 作为云原生架构的开源 API 网关，可以为海量 API 和微服务提供安全可靠的动态、高性能、可扩展的管理平台。",
-    "description": "Apache APISIX lets you build Cloud-Native Microservices API gateways, delivering the ultimate performance, security, open source and scalable platform for all your APIs and microservices."
-  },
-  "architecture.component.card.caption": {
-    "message": "Apache APISIX 基于 NGINX 与 etcd，相较于传统的 API 网关，它提供了动态路由、插件热加载等诸多能力。",
-    "description": "Apache APISIX is based on NGINX and etcd. Compared with traditional API gateways, APISIX has dynamic routing and hot-loading plugins"
-  },
   "features.component.why.title": {
     "message": "为什么选择 APISIX API 网关？"
   },
