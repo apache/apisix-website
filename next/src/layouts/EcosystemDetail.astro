@@ -119,19 +119,19 @@ const breadcrumbSchema = {
         </div>
       </div>
 
-      <dl class="resource-facts" aria-label={t(locale, 'Tested scope', '测试范围')}>
+      <dl class="resource-facts" aria-label={t(locale, 'Version details', '版本信息')}>
         <div><dt>APISIX</dt><dd>{apisixVersion}</dd></div>
         {externalVersion && <div><dt>{t(locale, 'Dependency', '依赖')}</dt><dd>{externalVersion}</dd></div>}
         {protocols.length > 0 && <div><dt>{t(locale, 'Protocols', '协议')}</dt><dd>{protocols.join(', ')}</dd></div>}
         {difficulty && <div><dt>{t(locale, 'Difficulty', '难度')}</dt><dd>{difficulty}</dd></div>}
         {duration && <div><dt>{t(locale, 'Time', '时间')}</dt><dd>{duration}</dd></div>}
         <div>
-          <dt>{t(locale, 'Last verified', '最后验证')}</dt>
+          <dt>{t(locale, 'Last verified', '最近验证')}</dt>
           <dd>{lastVerified && verificationUrl
             ? <a href={verificationUrl}>{lastVerified}</a>
-            : t(locale, 'Pending', '待完成')}</dd>
+            : t(locale, 'Pending', '尚未验证')}</dd>
         </div>
-        <div><dt>{t(locale, 'Source review', '源码核对')}</dt><dd><a href={evidenceUrl}>{reviewedAt}</a></dd></div>
+        <div><dt>{t(locale, 'Code reviewed', '源码审查')}</dt><dd><a href={evidenceUrl}>{reviewedAt}</a></dd></div>
       </dl>
     </div>
   </header>
@@ -139,11 +139,11 @@ const breadcrumbSchema = {
   <div class="container resource-body">
     {verification === 'validation-in-progress' && (
       <aside class="validation-note" role="note">
-        <strong>{t(locale, 'Publication gate:', '发布门：')}</strong>{' '}
+        <strong>{t(locale, 'Verification note:', '验证说明：')}</strong>{' '}
         {t(
           locale,
-          'the page is source-reviewed, but the pinned end-to-end lab must pass before this status changes to E2E verified.',
-          '页面已完成源码核对，但固定版本的端到端实验通过后，状态才会更新为 E2E 已验证。',
+          'this page has been checked against the APISIX source, but the pinned lab has not yet passed end-to-end testing.',
+          '本文已对照 APISIX 源码检查，固定版本的端到端测试尚未完成。',
         )}
       </aside>
     )}

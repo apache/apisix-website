@@ -65,8 +65,8 @@ const linkedIntegrations = resource.kind === 'cookbook'
   )}
 
   {linkedIntegrations.length > 0 && (
-    <section aria-labelledby="used-integrations">
-      <h2 id="used-integrations">{t(locale, 'Used integrations', '使用的集成')}</h2>
+    <section aria-labelledby="related-integrations">
+      <h2 id="related-integrations">{t(locale, 'Related integrations', '相关集成')}</h2>
       <ul class="resource-links">
         {linkedIntegrations.map((integration) => (
           <li><a href={`${p}${integration.href}`}>{integration.name}</a></li>

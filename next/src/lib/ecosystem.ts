@@ -55,12 +55,12 @@ export const verificationLabels: { [key: VerificationStatus]: LocalizedText } = 
 };
 
 export const integrationCategoryLabels: { [key: IntegrationCategory]: LocalizedText } = {
-  data: { en: 'Data, cache, and rate-limit backends', zh: '数据、缓存与限流后端' },
+  data: { en: 'Data stores, caching, and rate limiting', zh: '数据存储、缓存与限流' },
 };
 
 export const cookbookCategoryLabels: { [key: CookbookCategory]: LocalizedText } = {
   cost: { en: 'Cost and quotas', zh: '成本与配额' },
-  reliability: { en: 'Reliability and resilience', zh: '可靠性与韧性' },
+  reliability: { en: 'Reliability', zh: '可靠性' },
 };
 
 export function localize(locale: Locale, value: LocalizedText | string): string {

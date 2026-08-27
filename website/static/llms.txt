@@ -36,11 +36,11 @@
 
 ## Integrations & Cookbooks
 
-- [Integration Hub](https://apisix.apache.org/integrations/): Versioned connections between Apache APISIX and external products
+- [Integration Hub](https://apisix.apache.org/integrations/): How Apache APISIX connects to external products, with version and testing details
 - [Apache APISIX with Redis](https://apisix.apache.org/integrations/redis/): Redis-backed AI response caching and shared token counters
-- [Cookbooks](https://apisix.apache.org/cookbooks/): Reproducible outcome-focused APISIX guides
-- [Redis exact and semantic AI cache](https://apisix.apache.org/cookbooks/redis-ai-cache/): Validate exact hits, semantic matches, isolation, and failures
-- [Shared Redis token quota](https://apisix.apache.org/cookbooks/redis-shared-token-quota/): Validate a token counter across APISIX nodes
+- [Cookbooks](https://apisix.apache.org/cookbooks/): Step-by-step guides for common Apache APISIX tasks
+- [Redis exact and semantic AI cache](https://apisix.apache.org/cookbooks/redis-ai-cache/): Set up and test exact hits, semantic matches, tenant isolation, and Redis failures
+- [Shared Redis token quota](https://apisix.apache.org/cookbooks/redis-shared-token-quota/): Share an LLM token counter across APISIX nodes with Redis
 
 ## Observability
 

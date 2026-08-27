@@ -27,18 +27,18 @@ const title = isIntegrations
   ? t(locale, 'Apache APISIX Integrations', 'Apache APISIX 集成')
   : t(locale, 'Apache APISIX Cookbooks', 'Apache APISIX Cookbook');
 const heading = isIntegrations
-  ? t(locale, 'Connect APISIX to your stack', '将 APISIX 接入你的技术栈')
-  : t(locale, 'Run an outcome, not just a config', '运行一个完整场景，而不只是复制配置');
+  ? t(locale, 'Connect APISIX to your stack', '将 APISIX 接入现有系统')
+  : t(locale, 'Practical guides for Apache APISIX', 'Apache APISIX 实践指南');
 const description = isIntegrations
   ? t(
     locale,
-    'Browse documented Apache APISIX integrations with explicit connection methods, version scope, verification status, and runnable cookbooks.',
-    '浏览 Apache APISIX 集成，并查看明确的接入方式、版本范围、验证状态和可运行 Cookbook。',
+    'See how Apache APISIX connects to other systems, including setup methods, supported versions, current test status, and hands-on guides.',
+    '了解 Apache APISIX 如何连接其他系统，包括接入方式、适用版本、当前验证状态和实践指南。',
   )
   : t(
     locale,
-    'Reproducible Apache APISIX recipes with pinned versions, observable checks, failure cases, security boundaries, and cleanup steps.',
-    '可复现的 Apache APISIX 场景配方，包含固定版本、可观察验收、失败用例、安全边界和清理步骤。',
+    'Step-by-step Apache APISIX guides with version details, expected results, failure cases, security notes, and cleanup steps.',
+    '按步骤复现常见的 APISIX 使用场景。每篇指南都注明版本、预期结果、故障处理、安全事项和清理步骤。',
   );
 
 const categoryOrder = Object.keys(labels);
@@ -82,7 +82,7 @@ const collectionSchema = {
         <p class="kicker">
           {isIntegrations
             ? t(locale, 'Integration Hub', '集成中心')
-            : t(locale, 'Runnable Cookbooks', '可运行 Cookbook')}
+            : t(locale, 'Cookbooks', '实践指南')}
         </p>
         <h1>{heading}</h1>
         <p>{description}</p>
@@ -90,7 +90,6 @@ const collectionSchema = {
       <dl class="ecosystem-summary" aria-label={t(locale, 'Catalog summary', '目录概览')}>
         <div><dt>{entries.length}</dt><dd>{isIntegrations ? t(locale, 'integrations', '项集成') : t(locale, 'cookbooks', '篇 Cookbook')}</dd></div>
         <div><dt>{groups.length}</dt><dd>{t(locale, 'categories', '个类别')}</dd></div>
-        <div><dt>100%</dt><dd>{t(locale, 'APISIX-side open source', 'APISIX 侧开源')}</dd></div>
       </dl>
     </div>
   </header>
@@ -151,7 +150,9 @@ const collectionSchema = {
                   </dl>
                 )}
                 <span class="card-link">
-                  {t(locale, 'Open guide', '打开指南')} <span aria-hidden="true">→</span>
+                  {entry.kind === 'integration'
+                    ? t(locale, 'View integration', '查看集成')
+                    : t(locale, 'View cookbook', '查看指南')} <span aria-hidden="true">→</span>
                 </span>
               </a>
             ))}

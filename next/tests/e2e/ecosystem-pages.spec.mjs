@@ -51,13 +51,13 @@ test('header navigation reaches an Integration and its Cookbook', async ({ page 
 
   await expect(page).toHaveURL(/\/integrations\/$/);
   await page.locator('[data-resource="redis"]').click();
-  await expect(page.getByRole('heading', { level: 1, name: 'Redis® software' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Redis' })).toBeVisible();
   await page.getByRole('link', {
-    name: 'Cache LLM responses using Redis® software for exact and semantic matching',
+    name: 'Cache LLM responses with Redis: exact and semantic matching',
   }).click();
   await expect(page.getByRole('heading', {
     level: 1,
-    name: 'Cache LLM responses using Redis® software for exact and semantic matching',
+    name: 'Cache LLM responses with Redis: exact and semantic matching',
   })).toBeVisible();
 });
 
@@ -73,20 +73,20 @@ test('catalogs derive their cards and metadata from Markdown', async ({ page }) 
   await expectNoPageOverflow(page);
 
   await page.goto('/zh/cookbooks/');
-  await expect(page.getByRole('heading', { level: 1, name: '运行一个完整场景，而不只是复制配置' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Apache APISIX 实践指南' })).toBeVisible();
   await expect(page.getByTestId('ecosystem-card')).toHaveCount(2);
-  await expect(page.locator('[data-resource="redis-ai-cache"]')).toContainText('使用 Redis® 软件的精确与语义匹配缓存 LLM 响应');
+  await expect(page.locator('[data-resource="redis-ai-cache"]')).toContainText('使用 Redis 缓存 LLM 响应：精确匹配与语义匹配');
   await expectNoPageOverflow(page);
 });
 
 test('Redis detail pages expose translations, relationships, and source-review boundaries', async ({ page }) => {
   test.slow();
   await page.goto('/integrations/redis/');
-  await expect(page.getByRole('heading', { level: 1, name: 'Redis® software' })).toBeVisible();
-  await expect(page.getByText('Publication gate:')).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Cache LLM responses using Redis® software for exact and semantic matching' }))
+  await expect(page.getByRole('heading', { level: 1, name: 'Redis' })).toBeVisible();
+  await expect(page.getByText('Verification note:')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Cache LLM responses with Redis: exact and semantic matching' }))
     .toHaveAttribute('href', '/cookbooks/redis-ai-cache/');
-  await expect(page.getByRole('link', { name: 'Share an LLM token quota across APISIX nodes with Redis® software' }))
+  await expect(page.getByRole('link', { name: 'Share an LLM token quota across APISIX nodes with Redis' }))
     .toHaveAttribute('href', '/cookbooks/redis-shared-token-quota/');
   await expect(page.locator('link[rel="canonical"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/integrations/redis/');
@@ -99,11 +99,11 @@ test('Redis detail pages expose translations, relationships, and source-review b
   await expectNoPageOverflow(page);
 
   await page.goto('/zh/cookbooks/redis-shared-token-quota/');
-  await expect(page.getByRole('heading', { level: 1, name: '使用 Redis® 软件在多个 APISIX 节点间共享 LLM token 配额' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: '使用 Redis 在多个 APISIX 节点间共享 LLM token 配额' })).toBeVisible();
   await expect(page.locator('.breadcrumbs').getByRole('link', { name: 'Cookbook', exact: true }))
     .toHaveAttribute('href', '/zh/cookbooks/');
   await expect(page.locator('.resource-facts')).toContainText('35 分钟');
-  await expect(page.getByRole('link', { name: 'Redis® 软件' })).toHaveAttribute('href', '/zh/integrations/redis/');
+  await expect(page.getByRole('link', { name: 'Redis' })).toHaveAttribute('href', '/zh/integrations/redis/');
   await expect(page.locator('link[rel="canonical"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/');
   await expectNoPageOverflow(page);
