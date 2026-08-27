@@ -32,6 +32,32 @@ test('all Integration and Cookbook routes are generated', async ({ request }) =>
   }
 });
 
+test('header navigation reaches an Integration and its Cookbook', async ({ page }, testInfo) => {
+  await page.goto('/');
+
+  if (testInfo.project.name === 'mobile-chrome') {
+    await page.locator('.mobile-toggle > summary').click();
+    const ecosystem = page.locator('.mobile-nav-group').filter({ hasText: 'Ecosystem' });
+    await ecosystem.locator('summary').click();
+    await ecosystem.getByRole('link', { name: 'Integrations', exact: true }).click();
+  } else {
+    const ecosystem = page.locator('.main-nav .nav-drop').filter({ hasText: 'Ecosystem' });
+    await ecosystem.locator('summary').click();
+    await ecosystem.getByRole('link', { name: 'Integrations', exact: true }).click();
+  }
+
+  await expect(page).toHaveURL(/\/integrations\/$/);
+  await page.locator('[data-resource="redis"]').click();
+  await expect(page.getByRole('heading', { level: 1, name: 'Redis® software' })).toBeVisible();
+  await page.getByRole('link', {
+    name: 'Cache LLM responses using Redis® software for exact and semantic matching',
+  }).click();
+  await expect(page.getByRole('heading', {
+    level: 1,
+    name: 'Cache LLM responses using Redis® software for exact and semantic matching',
+  })).toBeVisible();
+});
+
 test('catalogs derive their cards and metadata from Markdown', async ({ page }) => {
   await page.goto('/integrations/');
   await expect(page.getByRole('heading', { level: 1, name: 'Connect APISIX to your stack' })).toBeVisible();
