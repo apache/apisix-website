@@ -1,0 +1,20 @@
+apisix:
+  node_listen:
+    - 9080
+  status:
+    ip: 127.0.0.1
+    port: 7085
+
+nginx_config:
+  http:
+    # Do not log raw query strings, which may contain caller credentials.
+    access_log_format: >-
+      $remote_addr - $remote_user [$time_local] $http_host
+      "$request_method $uri $server_protocol" $status $body_bytes_sent
+      $request_time $upstream_addr $upstream_status $upstream_response_time
+      "$apisix_request_id"
+
+deployment:
+  role: data_plane
+  role_data_plane:
+    config_provider: yaml

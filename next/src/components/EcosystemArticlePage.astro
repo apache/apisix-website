@@ -1,0 +1,77 @@
+---
+import EcosystemDetail from '../layouts/EcosystemDetail.astro';
+import {
+  cookbookCategoryLabels,
+  findIntegration,
+  integrationCategoryLabels,
+  localize,
+  relatedCookbooks,
+  type CookbookEntry,
+  type IntegrationEntry,
+} from '../lib/ecosystem';
+import { localePrefix, t, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  resource: IntegrationEntry | CookbookEntry;
+}
+
+const { locale, resource } = Astro.props;
+const p = localePrefix(locale);
+const Content = resource.mod.Content;
+const title = resource.kind === 'integration' ? resource.name : resource.title;
+const category = resource.kind === 'integration'
+  ? localize(locale, integrationCategoryLabels[resource.category])
+  : localize(locale, cookbookCategoryLabels[resource.category]);
+const linkedCookbooks = resource.kind === 'integration'
+  ? relatedCookbooks(locale, resource.slug)
+  : [];
+const linkedIntegrations = resource.kind === 'cookbook'
+  ? resource.integrations
+    .map((slug) => findIntegration(locale, slug))
+    .filter((entry): entry is IntegrationEntry => Boolean(entry))
+  : [];
+---
+<EcosystemDetail
+  locale={locale}
+  kind={resource.kind}
+  title={title}
+  description={resource.description}
+  path={resource.href}
+  category={category}
+  verification={resource.verification}
+  owner={resource.owner}
+  apisixVersion={resource.apisixVersion}
+  externalVersion={resource.externalVersion}
+  reviewedAt={resource.reviewedAt}
+  evidenceUrl={resource.evidenceUrl}
+  lastVerified={resource.lastVerified}
+  verificationUrl={resource.verificationUrl}
+  protocols={resource.kind === 'integration' ? resource.protocols : undefined}
+  difficulty={resource.kind === 'cookbook' ? resource.difficulty : undefined}
+  duration={resource.kind === 'cookbook' ? resource.duration : undefined}
+>
+  <Content />
+
+  {linkedCookbooks.length > 0 && (
+    <section aria-labelledby="related-cookbooks">
+      <h2 id="related-cookbooks">{t(locale, 'Related cookbooks', '相关 Cookbook')}</h2>
+      <ul class="resource-links">
+        {linkedCookbooks.map((cookbook) => (
+          <li><a href={`${p}${cookbook.href}`}>{cookbook.title}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {linkedIntegrations.length > 0 && (
+    <section aria-labelledby="used-integrations">
+      <h2 id="used-integrations">{t(locale, 'Used integrations', '使用的集成')}</h2>
+      <ul class="resource-links">
+        {linkedIntegrations.map((integration) => (
+          <li><a href={`${p}${integration.href}`}>{integration.name}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+</EcosystemDetail>

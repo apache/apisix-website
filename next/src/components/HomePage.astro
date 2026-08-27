@@ -48,7 +48,7 @@ const INTEGRATIONS: { name: string; img: string | null; href: string }[] = [
   { name: 'Kubernetes', img: '/img/integrations/kubernetes.svg', href: '/docs/apisix/discovery/kubernetes/' },
   { name: 'Consul', img: '/img/integrations/consul.svg', href: '/docs/apisix/discovery/consul/' },
   { name: 'NGINX', img: '/img/integrations/nginx.svg', href: '/docs/apisix/architecture-design/apisix/' },
-  { name: 'Redis', img: '/img/integrations/redis.svg', href: '/docs/apisix/plugins/limit-count/' },
+  { name: 'Redis', img: '/img/integrations/redis.svg', href: '/integrations/redis/' },
   { name: 'OpenID Connect', img: '/img/integrations/icon-openid-connect.svg', href: '/docs/apisix/plugins/openid-connect/' },
   { name: 'Keycloak', img: '/img/integrations/icon-authz-keycloak.svg', href: '/docs/apisix/plugins/authz-keycloak/' },
   { name: 'Casbin', img: '/img/integrations/casbin.png', href: '/docs/apisix/plugins/authz-casbin/' },
@@ -234,7 +234,7 @@ const SOFTWARE_APPLICATION_SCHEMA = {
           <span>{it.name}</span>
         </a>
       ))}</div>
-      <p style="margin-top:2rem"><a class="cta-link" href={`${p}/plugins/`}>{t(locale, 'Explore all 100+ plugins →', '浏览全部 100+ 插件 →')}</a></p>
+      <p style="margin-top:2rem"><a class="cta-link" href={`${p}/integrations/`}>{t(locale, 'Explore integrations →', '浏览集成 →')}</a></p>
     </div>
   </section>
 

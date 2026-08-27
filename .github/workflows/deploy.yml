@@ -370,6 +370,7 @@ jobs:
           for path in index.html zh/index.html _astro \
                       blog zh/blog learning-center zh/learning-center \
                       articles zh/articles events zh/events \
+                      integrations zh/integrations cookbooks zh/cookbooks \
                       comparisons zh/comparisons \
                       ai-gateway zh/ai-gateway \
                       plugins zh/plugins downloads zh/downloads; do
@@ -469,6 +470,10 @@ jobs:
           test -f website/build/learning-center/atom.xml
           test -f website/build/articles/index.html
           test -f website/build/zh/articles/rss.xml
+          test -f website/build/integrations/redis/index.html
+          test -f website/build/zh/integrations/redis/index.html
+          test -f website/build/cookbooks/redis-ai-cache/index.html
+          test -f website/build/zh/cookbooks/redis-ai-cache/index.html
           test -f website/build/events/archive/index.html
           test -f website/build/docs/general/events/index.html
           # The comparisons hub (a single index.html in both locales) is Astro's.
@@ -507,6 +512,8 @@ jobs:
           blog_post_twin=$(find website/build/blog -mindepth 2 -type f -name index.md -print -quit)
           test -n "$blog_post_twin"
           test -f website/build/docs/apisix/plugins/cors/index.md
+          test -f website/build/integrations/redis/index.md
+          test -f website/build/cookbooks/redis-ai-cache/index.md
           grep -q 'index.md' website/build/llms.txt
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.svg
@@ -580,6 +587,8 @@ jobs:
         run: |
           node next/scripts/generate-sitemaps.mjs --dist website/build
           grep -q '<loc>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/</loc>' website/build/sitemap.xml
+          grep -q '<loc>https://apisix.apache.org/integrations/redis/</loc>' website/build/sitemap.xml
+          grep -q '<loc>https://apisix.apache.org/cookbooks/redis-ai-cache/</loc>' website/build/sitemap.xml
           grep -q '<loc>https://apisix.apache.org/zh/learning-center/</loc>' website/build/zh/sitemap.xml
           if grep -q '<loc>https://apisix.apache.org/zh/learning-center/what-is-an-api-gateway/</loc>' website/build/zh/sitemap.xml; then
             echo 'Retired English-only Chinese learning-center URL remains in the sitemap.'

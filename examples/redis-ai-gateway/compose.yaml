@@ -1,0 +1,69 @@
+name: apisix-redis-ai-gateway
+
+x-apisix-common: &apisix-common
+  image: "apache/apisix:3.18.0-debian@\
+    sha256:84e6b5e787e9f889ebff88161cb9a16599bafcffa236c6b54c7f779a0655940d"
+  environment:
+    REDIS_PASSWORD: "${REDIS_PASSWORD:?run scripts/setup.sh first}"
+    CONSUMER_A_KEY: "${CONSUMER_A_KEY:?run scripts/setup.sh first}"
+    CONSUMER_B_KEY: "${CONSUMER_B_KEY:?run scripts/setup.sh first}"
+    OPENAI_API_KEY: "${OPENAI_API_KEY:-not-configured}"
+    OPENAI_AUTHORIZATION: "Bearer ${OPENAI_API_KEY:-not-configured}"
+    OPENAI_CHAT_MODEL: "${OPENAI_CHAT_MODEL:-gpt-4o-mini}"
+    OPENAI_EMBEDDING_MODEL: "${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}"
+  volumes:
+    - ./conf/config.yaml:/usr/local/apisix/conf/config.yaml:ro
+    - ./conf/apisix.yaml:/usr/local/apisix/conf/apisix.yaml:ro
+  depends_on:
+    redis:
+      condition: service_healthy
+  networks:
+    - lab
+  healthcheck:
+    test:
+      - CMD-SHELL
+      - >-
+          bash -ec 'exec 3<>/dev/tcp/127.0.0.1/7085;
+          printf "GET /status/ready HTTP/1.0\r\nHost: localhost\r\n\r\n" >&3;
+          IFS= read -r line <&3;
+          [[ "$$line" == *" 200 "* ]]'
+    interval: 2s
+    timeout: 2s
+    retries: 30
+    start_period: 10s
+
+services:
+  redis:
+    image: redis:8-alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD:?run scripts/setup.sh first}"
+    command:
+      - sh
+      - -ec
+      - >-
+          exec redis-server --requirepass "$${REDIS_PASSWORD}"
+          --appendonly no --save ''
+          --loadmodule /usr/local/lib/redis/modules/redisearch.so
+    networks:
+      - lab
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - REDISCLI_AUTH="$${REDIS_PASSWORD}" redis-cli ping | grep -q PONG
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    # Redis is private and ephemeral: no host port and no persistent volume.
+
+  apisix-a:
+    <<: *apisix-common
+    ports:
+      - "127.0.0.1:9080:9080"
+
+  apisix-b:
+    <<: *apisix-common
+    ports:
+      - "127.0.0.1:9081:9080"
+
+networks:
+  lab: {}

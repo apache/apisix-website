@@ -1,0 +1,195 @@
+---
+import Base from './Base.astro';
+import {
+  localize,
+  verificationLabels,
+  type VerificationStatus,
+} from '../lib/ecosystem';
+import { SITE, localePrefix, t, type Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  kind: 'integration' | 'cookbook';
+  title: string;
+  description: string;
+  path: string;
+  category: string;
+  verification: VerificationStatus;
+  owner: string;
+  apisixVersion: string;
+  externalVersion?: string;
+  lastVerified?: string;
+  verificationUrl?: string;
+  reviewedAt: string;
+  evidenceUrl: string;
+  protocols?: string[];
+  difficulty?: string;
+  duration?: string;
+}
+
+const {
+  locale,
+  kind,
+  title,
+  description,
+  path,
+  category,
+  verification,
+  owner,
+  apisixVersion,
+  externalVersion,
+  lastVerified,
+  verificationUrl,
+  reviewedAt,
+  evidenceUrl,
+  protocols = [],
+  difficulty,
+  duration,
+} = Astro.props;
+const p = localePrefix(locale);
+const hubPath = kind === 'integration' ? '/integrations/' : '/cookbooks/';
+const hubLabel = kind === 'integration'
+  ? t(locale, 'Integrations', '集成')
+  : 'Cookbooks';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  url: `${SITE}${p}${path}`,
+  mainEntityOfPage: `${SITE}${p}${path}`,
+  inLanguage: locale === 'zh' ? 'zh-CN' : 'en',
+  about: {
+    '@type': 'SoftwareApplication',
+    name: kind === 'integration' ? 'Apache APISIX integration' : 'Apache APISIX cookbook',
+    applicationCategory: 'DeveloperApplication',
+  },
+  author: {
+    '@type': 'Organization',
+    name: 'Apache APISIX',
+    url: SITE,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Apache APISIX',
+    url: SITE,
+  },
+  isPartOf: {
+    '@type': 'CollectionPage',
+    name: hubLabel,
+    url: `${SITE}${p}${hubPath}`,
+  },
+  dateModified: lastVerified ?? reviewedAt,
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Apache APISIX', item: `${SITE}${p}/` },
+    { '@type': 'ListItem', position: 2, name: hubLabel, item: `${SITE}${p}${hubPath}` },
+    { '@type': 'ListItem', position: 3, name: title, item: `${SITE}${p}${path}` },
+  ],
+};
+---
+<Base
+  title={title}
+  description={description}
+  locale={locale}
+  path={path}
+  ogType="article"
+  jsonLd={[articleSchema, breadcrumbSchema]}
+>
+  <header class="resource-head">
+    <div class="container resource-head-layout">
+      <div class="resource-title">
+        <nav class="breadcrumbs" aria-label={t(locale, 'Breadcrumb', '面包屑')}>
+          <a href={`${p}/`}>{t(locale, 'Home', '首页')}</a>
+          <span aria-hidden="true">/</span>
+          <a href={`${p}${hubPath}`}>{hubLabel}</a>
+        </nav>
+        <p class="kicker">{category}</p>
+        <h1>{title}</h1>
+        <p class="lead">{description}</p>
+        <div class="resource-status-row">
+          <span class={`verification ${verification}`}>
+            {localize(locale, verificationLabels[verification])}
+          </span>
+          <span>{t(locale, 'Maintained by', '维护者')} {owner}</span>
+        </div>
+      </div>
+
+      <dl class="resource-facts" aria-label={t(locale, 'Tested scope', '测试范围')}>
+        <div><dt>APISIX</dt><dd>{apisixVersion}</dd></div>
+        {externalVersion && <div><dt>{t(locale, 'Dependency', '依赖')}</dt><dd>{externalVersion}</dd></div>}
+        {protocols.length > 0 && <div><dt>{t(locale, 'Protocols', '协议')}</dt><dd>{protocols.join(', ')}</dd></div>}
+        {difficulty && <div><dt>{t(locale, 'Difficulty', '难度')}</dt><dd>{difficulty}</dd></div>}
+        {duration && <div><dt>{t(locale, 'Time', '时间')}</dt><dd>{duration}</dd></div>}
+        <div>
+          <dt>{t(locale, 'Last verified', '最后验证')}</dt>
+          <dd>{lastVerified && verificationUrl
+            ? <a href={verificationUrl}>{lastVerified}</a>
+            : t(locale, 'Pending', '待完成')}</dd>
+        </div>
+        <div><dt>{t(locale, 'Source review', '源码核对')}</dt><dd><a href={evidenceUrl}>{reviewedAt}</a></dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="container resource-body">
+    {verification === 'validation-in-progress' && (
+      <aside class="validation-note" role="note">
+        <strong>{t(locale, 'Publication gate:', '发布门：')}</strong>{' '}
+        {t(
+          locale,
+          'the page is source-reviewed, but the pinned end-to-end lab must pass before this status changes to E2E verified.',
+          '页面已完成源码核对，但固定版本的端到端实验通过后，状态才会更新为 E2E 已验证。',
+        )}
+      </aside>
+    )}
+    <article class="prose resource-prose">
+      <slot />
+    </article>
+  </div>
+</Base>
+
+<style>
+  .resource-head { padding: 3rem 0 2.5rem; border-bottom: 1px solid var(--color-border); background: linear-gradient(180deg, #fff 0%, #fdf3f3 100%); }
+  .resource-head-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 3rem; align-items: start; }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.4rem; color: var(--color-text-soft); font-size: .82rem; }
+  .breadcrumbs a { color: var(--color-text-soft); }
+  .resource-title .kicker { margin: 0 0 .5rem; color: var(--color-primary-dark); font-size: .78rem; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+  .resource-title h1 { max-width: 18ch; margin: 0 0 .85rem; font-size: clamp(2.15rem, 1.6rem + 2.1vw, 3.15rem); line-height: 1.1; letter-spacing: -.025em; text-wrap: balance; }
+  .resource-title .lead { max-width: 48rem; margin: 0; color: var(--color-text-soft); font-size: 1.08rem; }
+  .resource-status-row { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1rem; margin-top: 1.25rem; color: var(--color-text-soft); font-size: .78rem; }
+  .verification { padding: .25rem .6rem; border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-surface-alt); font-size: .72rem; font-weight: 750; }
+  .verification.verified { border-color: #a7d7c5; color: #067647; background: #ecfdf3; }
+  .verification.validation-in-progress { border-color: #fedf89; color: #934f00; background: #fffaeb; }
+  .resource-facts { display: grid; margin: .25rem 0 0; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: #fff; }
+  .resource-facts div { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: .75rem; padding: .75rem .85rem; }
+  .resource-facts div + div { border-top: 1px solid var(--color-border); }
+  .resource-facts dt { color: var(--color-text-soft); font-size: .76rem; }
+  .resource-facts dd { margin: 0; font-size: .8rem; font-weight: 650; overflow-wrap: anywhere; }
+  .resource-body { max-width: 900px; padding-top: 2.5rem; }
+  .validation-note { margin: 0 0 2rem; padding: 1rem 1.1rem; border: 1px solid #fedf89; border-radius: 10px; background: #fffaeb; color: #693700; font-size: .9rem; }
+  .resource-prose { max-width: 760px; margin: 0 auto; font-size: 1.04rem; line-height: 1.75; }
+  :global(.resource-prose table) { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: .9rem; }
+  :global(.resource-prose th), :global(.resource-prose td) { padding: .65rem .75rem; border: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+  :global(.resource-prose th) { background: var(--color-surface-alt); }
+  :global(.resource-prose .resource-links) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; padding: 0; list-style: none; }
+  :global(.resource-prose .resource-links a) { display: block; height: 100%; padding: .85rem 1rem; border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text); text-decoration: none; }
+  :global(.resource-prose .resource-links a:hover) { border-color: var(--color-hover-border); color: var(--color-primary); }
+  :global(.resource-prose .architecture-flow) { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .5rem; align-items: center; margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-alt); text-align: center; font-size: .84rem; }
+  :global(.resource-prose .architecture-flow span:nth-child(even)) { color: var(--color-primary); font-weight: 750; }
+  @media (max-width: 800px) {
+    .resource-head-layout { grid-template-columns: 1fr; gap: 1.75rem; }
+    .resource-facts { max-width: 520px; }
+  }
+  @media (max-width: 600px) {
+    .resource-head { padding: 2.25rem 0 2rem; }
+    .resource-body { padding-top: 1.75rem; }
+    :global(.resource-prose .resource-links) { grid-template-columns: 1fr; }
+    :global(.resource-prose .architecture-flow) { grid-template-columns: 1fr; }
+    :global(.resource-prose .architecture-flow span:nth-child(even)) { transform: rotate(90deg); }
+  }
+</style>

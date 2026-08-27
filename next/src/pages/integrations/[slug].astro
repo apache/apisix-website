@@ -1,0 +1,11 @@
+---
+import EcosystemArticlePage from '../../components/EcosystemArticlePage.astro';
+import { getIntegrations } from '../../lib/ecosystem';
+
+export function getStaticPaths() {
+  return getIntegrations('en').map((resource) => ({ params: { slug: resource.slug }, props: { resource } }));
+}
+
+const { resource } = Astro.props;
+---
+<EcosystemArticlePage locale="en" resource={resource} />

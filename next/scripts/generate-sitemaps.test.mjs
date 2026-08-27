@@ -29,6 +29,10 @@ const pages = [
   '404',
   'learning-center',
   'learning-center/mcp-protocol-ai-gateway',
+  'integrations',
+  'integrations/redis',
+  'cookbooks',
+  'cookbooks/redis-ai-cache',
   'learning-center/tags/ai-gateway',
   'learning-center/page/2',
   'learning-center/archive',
@@ -52,6 +56,10 @@ const pages = [
   'search',
   'zh',
   'zh/learning-center',
+  'zh/integrations',
+  'zh/integrations/redis',
+  'zh/cookbooks',
+  'zh/cookbooks/redis-ai-cache',
   'zh/learning-center/tags/api-gateway',
   'zh/articles/page/2',
   'zh/events/archive',
@@ -109,17 +117,24 @@ try {
   ];
 
   assert.match(en, /learning-center\/mcp-protocol-ai-gateway/);
+  assert.match(en, /integrations\/redis/);
+  assert.match(en, /cookbooks\/redis-ai-cache/);
   assert.match(en, /articles\/Apache-APISIX-Incubator-Journey/);
   assert.match(en, /blog\/2026\/07\/28\/release-notes/);
   assert.match(en, /docs\/general\/blog\/page\/overview/);
   assert.match(en, /docs\/apisix\/upgrade-guide-from-2\.15\.x-to-3\.0\.0/);
   assert.match(en, /apisix-unity-group-q&amp;a/);
   assert.match(zh, /zh\/learning-center\/<\/loc>/);
+  assert.match(zh, /zh\/integrations\/redis/);
+  assert.match(zh, /zh\/cookbooks\/redis-ai-cache/);
   assert.match(zh, /bi-weekly%20report/);
 
   assert.ok(en.includes('<loc>https://apisix.apache.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority>'));
   assert.ok(en.includes('<loc>https://apisix.apache.org/learning-center/</loc><changefreq>monthly</changefreq><priority>0.8</priority>'));
   assert.ok(en.includes('<loc>https://apisix.apache.org/learning-center/mcp-protocol-ai-gateway/</loc><changefreq>monthly</changefreq><priority>0.8</priority>'));
+  assert.ok(en.includes('<loc>https://apisix.apache.org/integrations/</loc><changefreq>weekly</changefreq><priority>0.8</priority>'));
+  assert.ok(en.includes('<loc>https://apisix.apache.org/integrations/redis/</loc><changefreq>monthly</changefreq><priority>0.7</priority>'));
+  assert.ok(en.includes('<loc>https://apisix.apache.org/cookbooks/redis-ai-cache/</loc><changefreq>monthly</changefreq><priority>0.7</priority>'));
   assert.ok(en.includes('<loc>https://apisix.apache.org/blog/2026/07/28/release-notes/</loc><changefreq>monthly</changefreq><priority>0.6</priority>'));
   assert.ok(en.includes('<loc>https://apisix.apache.org/docs/general/blog/page/overview/</loc><changefreq>monthly</changefreq><priority>0.7</priority>'));
   excluded.forEach((url) => assert.equal(`${en}${zh}`.includes(url), false, url));

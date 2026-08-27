@@ -75,8 +75,9 @@ const en = all.filter((u) => !zh.includes(u));
 
 function getPriority(url) {
   if (/^\/(?:zh\/)?$/.test(url)) return '1.0';
-  if (/\/(?:ai-gateway|plugins|downloads|docs|learning-center)\/$/.test(url)) return '0.8';
+  if (/\/(?:ai-gateway|plugins|downloads|docs|learning-center|integrations|cookbooks)\/$/.test(url)) return '0.8';
   if (url.includes('/learning-center/')) return '0.8';
+  if (url.includes('/integrations/') || url.includes('/cookbooks/')) return '0.7';
   if (/\/blog\/\d{4}\//.test(url)) return '0.6';
   if (url.includes('/docs/')) return '0.7';
   return '0.5';
@@ -84,8 +85,10 @@ function getPriority(url) {
 
 function getChangefreq(url) {
   if (/^\/(?:zh\/)?$/.test(url)) return 'weekly';
+  if (/\/(?:integrations|cookbooks)\/$/.test(url)) return 'weekly';
   if (/\/blog\/\d{4}\//.test(url)) return 'monthly';
-  if (url.includes('/docs/') || url.includes('/learning-center/')) return 'monthly';
+  if (url.includes('/docs/') || url.includes('/learning-center/')
+    || url.includes('/integrations/') || url.includes('/cookbooks/')) return 'monthly';
   return 'weekly';
 }
 
