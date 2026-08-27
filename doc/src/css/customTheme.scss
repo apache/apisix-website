@@ -672,7 +672,8 @@ article img {
   min-width: 19rem;
 }
 
-.table-shell[data-overflow="true"] .docs-table--attributes .docs-table__col--name {
+.table-shell[data-overflow="true"] .docs-table--attributes .docs-table__col--name,
+.table-shell[data-overflow="unknown"] .docs-table--attributes .docs-table__col--name {
   position: sticky;
   z-index: 1;
   left: 0;
@@ -680,7 +681,8 @@ article img {
   box-shadow: 1px 0 var(--ifm-table-border-color, var(--color-border));
 }
 
-.table-shell[data-overflow="true"] .docs-table--attributes thead .docs-table__col--name {
+.table-shell[data-overflow="true"] .docs-table--attributes thead .docs-table__col--name,
+.table-shell[data-overflow="unknown"] .docs-table--attributes thead .docs-table__col--name {
   z-index: 2;
   background: var(--ifm-color-emphasis-100);
 }

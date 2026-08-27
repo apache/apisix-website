@@ -291,6 +291,9 @@ async function assertNoJsPluginTable(browser, {
           ?.replace('docs-table__col--', '') ?? null
       ));
       return {
+        firstBodyCellPosition: getComputedStyle(
+          element.querySelector('tbody tr > :first-child'),
+        ).position,
         pageClientWidth: document.documentElement.clientWidth,
         pageScrollWidth: document.documentElement.scrollWidth,
         scrollerClientWidth: scrollRegion.clientWidth,
@@ -299,6 +302,8 @@ async function assertNoJsPluginTable(browser, {
       };
     });
     expect(metrics.semanticColumns).toEqual(expectedColumns);
+    expect(metrics.firstBodyCellPosition, 'no-JS schema tables must keep Name visible')
+      .toBe('sticky');
     expect(metrics.scrollerScrollWidth).toBeGreaterThan(metrics.scrollerClientWidth);
     expect(metrics.pageScrollWidth, 'no-JS table overflow must remain inside its scroller')
       .toBeLessThanOrEqual(metrics.pageClientWidth);
