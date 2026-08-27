@@ -4,6 +4,7 @@ slug: redis-shared-token-quota
 translation_of: redis-shared-token-quota
 description: 验证两个 APISIX 3.18 节点共享同一个响应后 LLM token 计数，包括跨节点拒绝和明确的 Redis® 降级行为。
 difficulty: 中等
+duration: 35 分钟
 ---
 
 本 Cookbook 定义如何验证两个 APISIX 节点使用同一个以 Redis® 软件为后端的 token 计数；在下述发布门通过前，不声称已完成端到端验证。同时明确记账边界：APISIX 在请求前检查已有计数，但只有在 LLM 返回后才加入真实 token usage。这是共享的上游用量配额，并非零超额的预算预留。

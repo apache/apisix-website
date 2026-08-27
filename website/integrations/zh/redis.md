@@ -16,7 +16,7 @@ Apache APISIX 3.18 提供两条彼此独立、以 Redis® 软件为后端的集�
 
 | 能力 | APISIX 3.18 行为 | 重要边界 |
 |---|---|---|
-| 精确响应缓存 | Redis® 软件按规范化后的有效 AI 请求保存 HTTP 200 AI 响应的正文。默认 TTL 为 3,600 秒，默认最大响应为 1 MiB。 | 3.18 的缓存策略只支持一个 Redis® 地址；没有请求合并，不处理上游 `Cache-Control`，也没有专用清理 API。命中会重建 HTTP 200 与 `Content-Type`；其他上游响应 header 不会被保存或回放。 |
+| 精确响应缓存 | Redis® 软件按规范化后的请求正文与 Provider 配置保存 HTTP 200 AI 响应的正文。默认 TTL 为 3,600 秒，默认最大响应为 1 MiB。 | 任意转发 header 默认不会进入缓存键。应移除客户端可控的 Provider 路由 header，或用可信服务端变量表示每个响应决定因素，并通过 `cache_key.include_vars` 加入缓存键。3.18 的缓存策略只支持一个 Redis® 地址；没有请求合并，不处理上游 `Cache-Control`，也没有专用清理 API。命中会重建 HTTP 200 与 `Content-Type`；其他上游响应 header 不会被保存或回放。 |
 | 语义响应缓存 | 精确缓存未命中后，APISIX 可为纯文本 OpenAI Chat prompt 生成 embedding，并通过 Redis® Search 查找相似响应。 | 语义匹配只适用于纯文本 OpenAI Chat。多模态请求和非空 tool/function call 会绕过这一层；精确缓存层始终启用。 |
 | 共享 token 配额 | `ai-rate-limiting` 可把固定窗口计数保存在 Redis® 数据库中，使多个 APISIX 节点看到同一份用量。 | 只有模型响应给出 usage 后才记账，并非预付式额度预留；大响应或并发响应可能先越过阈值，后续请求才被拒绝。 |
 | 流式缓存 | APISIX 识别到协议终止事件后，可缓存完整、受支持的 SSE 响应。 | 中断的流不会写入缓存；JSON 与 SSE 使用不同条目；命中时会立即回放完整 SSE，不会复现原始 token 节奏。 |
@@ -25,7 +25,7 @@ Apache APISIX 3.18 提供两条彼此独立、以 Redis® 软件为后端的集�
 
 ## 隔离与安全
 
-缓存默认按 Route 隔离，但同一 Route 上的不同 Consumer 可能共享缓存。多租户流量必须先把各租户认证为不同 Consumer，再配置 `cache_key.include_consumer: true`；也可以加入可信的服务端租户变量。该选项本身不能隔离未认证流量，仅使用客户端可伪造的 header 也不能构成租户边界。
+缓存默认按 Route 隔离，但同一 Route 上的不同 Consumer 可能共享缓存。多租户流量必须先把各租户认证为不同 Consumer，再配置 `cache_key.include_consumer: true`；也可以加入可信的服务端租户变量。该选项本身不能隔离未认证流量，仅使用客户端可伪造的 header 也不能构成租户边界。代理前应移除任何会改变 Provider 路由或输出的客户端可控 header；如果响应决定因素确实需要变化，应从可信服务端状态生成，并通过 `cache_key.include_vars` 加入缓存键。
 
 Redis® 凭据应使用 APISIX Secret 引用。Redis® 服务应位于私有网络；使用 TLS 时必须校验证书；日志和截图中不要暴露缓存正文、embedding、Provider request ID 或完整 Redis® key。
 

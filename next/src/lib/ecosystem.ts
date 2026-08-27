@@ -186,7 +186,7 @@ function cookbookFromModule(
     description: requiredString(translated, 'description'),
     category: cookbookCategory(enMod),
     difficulty: requiredString(translated, 'difficulty'),
-    duration: requiredString(enMod, 'duration'),
+    duration: requiredString(translated, 'duration'),
     verification: status,
     owner: requiredString(enMod, 'owner'),
     apisixVersion: requiredString(enMod, 'apisix_version'),

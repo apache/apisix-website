@@ -81,6 +81,8 @@ The tested Route must include all of these boundaries:
 
 The runnable lab supplies the complete Route, Consumer authentication, provider configuration, private networks, and cleanup. It currently validates response headers and Redis® state; it does not enable or scrape the APISIX Prometheus plugin. The fragment above is the security contract, not a standalone deployment: `include_consumer` only works after APISIX authenticates a Consumer, and a production TLS connection must set `redis_ssl_verify: true`.
 
+APISIX can forward client headers that are not part of the default AI cache key. The lab strips OpenAI organization, project, and beta-selection headers before proxying. In production, strip every client-controlled header that can change the provider response, or derive the value from trusted server-side state and add it to `cache_key.include_vars`.
+
 ## Acceptance sequence
 
 | Check | Observable evidence | Failure signal |

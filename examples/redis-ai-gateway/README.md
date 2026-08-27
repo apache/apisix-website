@@ -34,7 +34,7 @@ This preflight does **not** call an LLM and is not cache or quota E2E evidence.
 
 Add a dedicated, least-privilege OpenAI API key to `.env`. The tests use `gpt-4o-mini` and `text-embedding-3-small` by default. They never print the key or prompt/response bodies.
 
-The Routes remove successful key-auth credentials before proxying, and the lab access-log format excludes raw query strings. Send the Consumer key in the `apikey` header; do not place credentials in URLs.
+The Routes remove successful key-auth credentials and client-supplied OpenAI organization, project, and beta-selection headers before proxying. This keeps forwarded headers that can change the provider response outside the lab's cache boundary. The lab access-log format excludes raw query strings. Send the Consumer key in the `apikey` header; do not place credentials in URLs.
 
 ```dotenv
 OPENAI_API_KEY=replace-me

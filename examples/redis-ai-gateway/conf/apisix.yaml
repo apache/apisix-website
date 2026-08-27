@@ -17,7 +17,14 @@ routes:
         hide_credentials: true
       proxy-rewrite:
         headers:
-          remove: [Authorization, Cookie, X-API-Key, apikey]
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
       ai-proxy:
         provider: openai
         auth:
@@ -57,7 +64,14 @@ routes:
         hide_credentials: true
       proxy-rewrite:
         headers:
-          remove: [Authorization, Cookie, X-API-Key, apikey]
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
       ai-proxy:
         provider: openai
         auth:
@@ -94,7 +108,14 @@ routes:
         hide_credentials: true
       proxy-rewrite:
         headers:
-          remove: [Authorization, Cookie, X-API-Key, apikey]
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
       ai-proxy:
         provider: openai
         auth:
@@ -133,7 +154,14 @@ routes:
         hide_credentials: true
       proxy-rewrite:
         headers:
-          remove: [Authorization, Cookie, X-API-Key, apikey]
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
       ai-proxy:
         provider: openai
         auth:

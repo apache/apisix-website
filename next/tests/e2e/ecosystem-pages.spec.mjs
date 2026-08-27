@@ -100,6 +100,9 @@ test('Redis detail pages expose translations, relationships, and source-review b
 
   await page.goto('/zh/cookbooks/redis-shared-token-quota/');
   await expect(page.getByRole('heading', { level: 1, name: '使用 Redis® 软件在多个 APISIX 节点间共享 LLM token 配额' })).toBeVisible();
+  await expect(page.locator('.breadcrumbs').getByRole('link', { name: 'Cookbook', exact: true }))
+    .toHaveAttribute('href', '/zh/cookbooks/');
+  await expect(page.locator('.resource-facts')).toContainText('35 分钟');
   await expect(page.getByRole('link', { name: 'Redis® 软件' })).toHaveAttribute('href', '/zh/integrations/redis/');
   await expect(page.locator('link[rel="canonical"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/');

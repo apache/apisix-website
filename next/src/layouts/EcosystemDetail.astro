@@ -50,7 +50,7 @@ const p = localePrefix(locale);
 const hubPath = kind === 'integration' ? '/integrations/' : '/cookbooks/';
 const hubLabel = kind === 'integration'
   ? t(locale, 'Integrations', '集成')
-  : 'Cookbooks';
+  : t(locale, 'Cookbooks', 'Cookbook');
 
 const articleSchema = {
   '@context': 'https://schema.org',

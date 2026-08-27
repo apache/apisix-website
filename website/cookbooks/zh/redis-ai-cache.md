@@ -4,6 +4,7 @@ slug: redis-ai-cache
 translation_of: redis-ai-cache
 description: 构建并验证 APISIX 3.18 响应缓存链路，覆盖精确命中、语义匹配、租户隔离、完整流检查和 Redis® 故障测试。
 difficulty: 中等
+duration: 45 分钟
 ---
 
 本 Cookbook 的发布门不只要求 Redis® 软件上的一次 `MISS` 和一次 `HIT`。它还要求证明：命中时真实模型没有被调用；语义匹配不超出文档支持的请求形态；不同租户不能复用彼此缓存；不完整的流永远不会写入缓存；Redis® 服务故障也不会让 LLM 链路不可用。
@@ -68,6 +69,8 @@ mock 或 fixture server 不能满足发布门。没有 Provider 凭据时，只�
 ```
 
 可运行实验会补全 Route、Consumer 认证、Provider 配置、私有网络和清理步骤。目前它通过响应 header 与 Redis® 状态验证，并未启用或抓取 APISIX Prometheus 插件。上面的片段是安全契约，并非独立部署配置：`include_consumer` 只有在 APISIX 已认证 Consumer 后才生效；生产 TLS 连接必须设置 `redis_ssl_verify: true`。
+
+APISIX 可能转发未进入默认 AI 缓存键的客户端 header。实验会在代理前移除 OpenAI organization、project 和 beta-selection header。生产环境应移除所有会改变 Provider 响应的客户端可控 header；或者从可信服务端状态生成该值，并通过 `cache_key.include_vars` 加入缓存键。
 
 ## 验收顺序
 

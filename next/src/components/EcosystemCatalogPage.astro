@@ -79,7 +79,11 @@ const collectionSchema = {
   <header class="page-head ecosystem-head">
     <div class="container ecosystem-head-layout">
       <div class="page-title">
-        <p class="kicker">{isIntegrations ? 'Integration Hub' : 'Runnable Cookbooks'}</p>
+        <p class="kicker">
+          {isIntegrations
+            ? t(locale, 'Integration Hub', '集成中心')
+            : t(locale, 'Runnable Cookbooks', '可运行 Cookbook')}
+        </p>
         <h1>{heading}</h1>
         <p>{description}</p>
       </div>
