@@ -37,6 +37,9 @@ test('header navigation reaches an Integration and its Cookbook', async ({ page 
 
   if (testInfo.project.name === 'mobile-chrome') {
     await page.locator('.mobile-toggle > summary').click();
+    const docs = page.locator('.mobile-nav-group').filter({ hasText: 'Docs' });
+    await docs.locator('summary').click();
+    await expect(docs.getByRole('link', { name: 'Docs', exact: true })).toHaveAttribute('href', '/docs/');
     const ecosystem = page.locator('.mobile-nav-group').filter({ hasText: 'Ecosystem' });
     await ecosystem.locator('summary').click();
     await ecosystem.getByRole('link', { name: 'Integrations', exact: true }).click();

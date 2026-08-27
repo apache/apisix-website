@@ -51,6 +51,9 @@ const switchUrl = switchPath ?? (locale === 'zh' ? path : `/zh${path}`);
           <details class="mobile-nav-group">
             <summary>{label(item)}</summary>
             <div>
+              {!item.items.some((sub) => sub.href === item.href) && (
+                <a class="mobile-subnav" href={href(item.href)}>{label(item)}</a>
+              )}
               {item.items.map((sub) => <a class="mobile-subnav" href={href(sub.href)}>{label(sub)}</a>)}
             </div>
           </details>
