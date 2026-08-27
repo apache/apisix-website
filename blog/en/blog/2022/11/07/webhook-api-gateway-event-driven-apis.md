@@ -1,101 +1,167 @@
 ---
-title: "Event-Driven APIs with Webhook and API Gateway"
+title: "Using an API Gateway for Secure Webhook Delivery"
 authors:
   - name: Bobur Umurzokov
     title: Author
     url: https://github.com/Boburmirzo
     image_url: https://avatars.githubusercontent.com/u/14247607
-keywords: 
-- API Gateway
-- Apache APISIX
-- API
-- Architecture
-- Use-cases
-- Webhook
-- Event-driven
-description: "Learn how Apache APISIX can secure, route, and manage webhook APIs and event-driven traffic with gateway policies and plugins."
+keywords:
+  - API Gateway
+  - Apache APISIX
+  - Webhook API
+  - Event-Driven Architecture
+  - Webhook Security
+description: "Learn where an API gateway fits in a webhook architecture, from subscription and inbound security to retries, idempotency, and observability."
 tags: [Ecosystem]
 image: https://static.apiseven.com/2022/11/07/6368d30abf672.png
 ---
 
-> There are many ways and technology options to consider when implementing an event-driven API. For example, we explored how to [build event-driven APIs using these 3 well-known patterns](https://dev.to/apisix/building-event-driven-api-services-using-cqrs-api-gateway-and-serverless-af4): [CQRS](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs), [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/) and [Serverless](https://learn.microsoft.com/en-us/dotnet/architecture/serverless/serverless-architecture) on the previous blog post. This post elaborates on **building event-driven APIs by making use of Webhook and API Gateway**, we understand the role of each in this solution. Firstly, let’s turn our attention to the initial problem statement without the webhook in place.
+Webhooks let an event producer notify a consumer by making an HTTP request to a callback URL. An API gateway can protect and route the HTTP-facing parts of that design, but it does not by itself provide durable event delivery, callback validation, retry scheduling, or idempotent processing. Those responsibilities need to be designed explicitly.
 
 <!--truncate-->
 
-## Need for a webhook
+## Why Use Webhooks Instead of Polling?
 
-Consuming applications expect to be informed of any change of state on a specific record or records.
+Polling asks an API repeatedly whether a resource has changed. It is straightforward, but frequent polls may return no new data and create unnecessary load. A webhook reverses the interaction: the producer sends an HTTP request when a relevant event occurs.
 
-Examples:
+Common examples include:
 
-- Updating or adding customers in a CRM system triggers an event.
-- Currency exchange rates from a foreign exchange application informs users about currency change.
-- New post on a user's blog notifies subscribers.
-- New order creation on an online shopping application informs another service in the system.
-- An orchestrator service wants to be notified when Service A completes a task and when to handover the task to Service B in a data ingestion pipeline and so on.
+- notifying a fulfillment service when an order is paid;
+- updating a CRM integration after a customer record changes;
+- telling a subscriber that a long-running job completed;
+- triggering a deployment or automation workflow after a repository event.
 
-The majority of APIs only support these types of requirements by having the consuming application constantly poll for changes. This means that the consuming application has to make frequent API calls to find out any changes of state in the desired resource. This is highly inefficient, and calls may result in empty payloads when there haven't been any updates. Also, what if the called HTTP API accepts our HTTP request but takes a long time to handle it, this could affect the user experience, especially when the behavior is reflected in the user interface (meaning a user has to refresh a page to get the latest changes).
+Webhooks are appropriate when consumers can expose a reachable callback and tolerate asynchronous, at-least-once delivery. Polling or an event-streaming system may be a better fit when callbacks are not reachable, consumers need replay over a long history, or very high event volume requires a different delivery model.
 
-Instead of having to constantly poll for changes, create a subscription endpoint against a specific resource so consuming applications can register their interest to be informed on any change of state (an event) by providing a call-back endpoint. At this point, it becomes the API's responsibility to send back any change of state by posting the updates to the registered endpoint.
+## The Components of a Webhook System
 
-![poll for changes vs webhook](https://static.apiseven.com/2022/11/07/6368cda2cbae7.png)
+A production design usually includes more than one HTTP endpoint:
 
-## What’s Webhook?
+1. **Subscription API:** registers the events and callback URL a consumer wants to receive.
+2. **Event producer:** records a business event after the relevant state change succeeds.
+3. **Delivery worker:** creates signed webhook requests, applies retry policy, and records delivery state.
+4. **Consumer endpoint:** authenticates the request, deduplicates it, acknowledges receipt, and processes the event.
+5. **API gateway:** can route and protect the subscription API, delivery API, or consumer endpoint, depending on which side of the integration you operate.
 
-A [webhook](https://en.wikipedia.org/wiki/Webhook) is a software architecture approach that allows applications and services to submit a web-based notification to other applications whenever a specific event occurs. The application provides a way for users to register or connect API calls to certain events under specific conditions, such as when a new user, account, or order is created or an order ships out of a warehouse.
+The gateway is an HTTP policy and traffic component. A durable queue, outbox, or delivery store is normally responsible for surviving process restarts and retrying events without losing them.
 
-Webhooks are generally used to notify clients of events, in real-time, as they occur. They normally take the form of HTTP POST endpoints that can be requested with a JSON body and it is fully managed by an event consumer. An event producer, such as an API server, can send event notifications to a webhook when something interesting happens.
+## Where an API Gateway Fits
 
-## Webhook and API Gateway in Event-Driven Architecture
+### Protecting the subscription API
 
-Leveraging Webhook and API Gateway enables you to build an event-driven API that can be decoupled from your main application code. Enabling you to call external systems that have subscribed via webhooks in complete isolation from your application code.
+A gateway can authenticate subscribers, limit registration traffic, enforce request-size constraints, and route subscription requests to the application that owns subscriber data.
 
-![Webhook with an API Gateway](https://static.apiseven.com/2022/11/06/6367bd7b2ad1a.png)
+The application must still validate callback URLs. In particular, prevent server-side request forgery by rejecting unsupported schemes, credentials in URLs, local and link-local addresses, and destinations that resolve to protected networks. Revalidate DNS resolution at delivery time when the threat model requires it, and control redirects rather than following them blindly.
 
-As you can see in the preceding architectural diagram, there are two main flows.
+### Receiving inbound webhooks
 
-### Subscription process
+When your system consumes webhooks, the gateway can terminate TLS, restrict request size, apply source controls where appropriate, and route events to the correct receiver. Authentication depends on the provider: it may use an HTTP signature, a shared secret, mTLS, an OAuth token, or another documented mechanism.
 
-In the first flow on the left, API Consumers can subscribe to the API by registering a Webhook URL as the callback. A consuming application subscribing for changes in a resource by making a POST call (with the call-back URL in the body) to a resource subscription API endpoint (for example, `/{resource}/subscribe`) exposed in an API gateway. Once the API gateway receives the call, it routes the request to the subscription service, which then adds the subscriber details to a database.
+Do not assume that IP allowlists alone authenticate a sender, or that every provider signs requests the same way. Signature verification often depends on the exact raw request body and provider-specific timestamp rules. If a gateway plugin transforms the body before verification, the signature check can fail or verify the wrong representation.
 
-![the first flow Subscription process](https://static.apiseven.com/2022/11/07/6368be4e9bba1.png)
+### Sending outbound webhooks
 
-It is also possible to unsubscribe from the API. In this scenario, API Gateway’s tasks first identify unknown messages so be sure that the request is always authenticated and credentials are valid,  it returns a `2xx response` immediately as an acknowledgment or if the request cannot be authenticated or there is an error getting the payload into a staging system, an error is returned. Then it is also passing the request to the responsible service based on the path provided by the consumer.
+An outbound delivery service can use a gateway as a controlled egress point for TLS policy, destination policy, telemetry, and network routing. The gateway does not automatically decide which events to send, persist them, or retry them safely. Keep those responsibilities in the producer, outbox, queue, and delivery worker.
 
-### Callback process
+## Subscription Flow
 
-In the second flow on the right, we are delivering events to API consumers asynchronously through the call-back component and the API Gateway. An event listener service queries the database as subscribers are matched against particular processed events. The event listener service then creates call-back commands and publishes them in an Event Hub so a call-back service can execute all API calls (and retries if necessary) via the API gateway.
+A safe subscription flow can follow these steps:
 
-![the second flow Callback process](https://static.apiseven.com/2022/11/07/6368be5603f54.png)
+1. The consumer authenticates to the subscription API.
+2. The application authorizes the requested event types and tenant.
+3. The callback URL passes syntax, scheme, destination, and ownership checks.
+4. The producer stores a subscription identifier and a protected signing secret or public-key association.
+5. If ownership verification is required, the system sends a challenge and activates the subscription only after the correct response.
+6. The API returns the subscription state without exposing secret material.
 
-There, API Gateway plays not only a role of a reverse proxy but can convert internal calls from one format to another. For example, the call-back service is using another [AMQP](https://www.amqp.org/) (Advanced Message Queuing Protocol) messaging protocol but the API should make a REST call to the consumer’s callback endpoint, in this gateway an API Gateway such as [Apache APISIX](https://apisix.apache.org/) can help. It can receive a REST request, then transform it to the desired format and forward it to a service, get the response, and return it to the client in REST format utilizing its [different plug-ins](https://apisix.apache.org/docs/apisix/plugins/response-rewrite/).
+Rate limits at the gateway can reduce abuse, but business rules such as which tenant may subscribe to which account belong in the subscription service.
 
-Also, it comes with other concerns like securing it with certificates and preventing [DDoS attacks](https://en.wikipedia.org/wiki/Denial-of-service_attack). And it enables a monitoring feature for your webhook to be able to see what is going on with the webhook, you know like what is wrong with the configuration on the API provider side.
+## Delivery Flow
 
-One of the most efficient ways to handle the **webhook processing part** of the above architecture by using API Gateway of your choice and an event-driven serverless function.
+When the source transaction commits, record the event in a durable outbox or publish it to a durable broker. A delivery worker then:
 
-## Summary
+1. assigns a stable event or delivery identifier;
+2. serializes the documented payload;
+3. creates the authentication signature or credential;
+4. sends the request with a bounded connection and response timeout;
+5. records the response and schedules a retry when the policy permits;
+6. moves repeatedly failing deliveries to a bounded failure state for investigation or replay.
 
-As we understood throughout the post, Webhook tries to decouple the concerns like a message acknowledgment and the processing messages in the API and no synchronous business logic is performed. However, the above architectural example we discussed can be a complicated pattern to implement given that it has many moving parts and the API are not aware of a consuming application endpoint is up and running but that can be improved. In addition to this, Webhooks force the event consumer to establish a publicly accessible HTTP endpoint to receive events that are not secure enough. We can secure it properly by enabling some authentication mechanism (Basic auth, JWT or other ways) with the API Gateway capabilities.
+Avoid sending the callback synchronously inside the source transaction. A slow or unavailable consumer should not hold open the user-facing request that produced the event.
 
-### Related resources
+## Security Controls
 
-➔ [Building event-driven API services using CQRS, API Gateway and Serverless](https://dev.to/apisix/building-event-driven-api-services-using-cqrs-api-gateway-and-serverless-af4).
+### Authenticate every delivery
 
-➔ [API Gateway](https://apisix.apache.org/docs/apisix/terminology/api-gateway/).
+Use the mechanism documented by the provider or define a clear signing scheme for your own webhooks. A typical signature design includes the raw body, a timestamp, and a delivery identifier, and uses a current secret or private key. The consumer should compare signatures in constant time and reject timestamps outside a configured tolerance.
 
-### Recommended content 💁
+### Prevent replay
 
-➔ Watch Video Tutorial:
+A timestamp limits how long a captured request remains useful. Store recently accepted delivery identifiers so a repeated valid request is not processed twice. The retention period should cover the sender's maximum retry window.
 
-- [Getting Started with Apache APISIX](https://youtu.be/dUOjJkb61so).
-  
-- [APIs security with Apache APISIX](https://youtu.be/hMFjhwLMtQ8).
+### Protect secrets and logs
 
-- [Implementing resilient applications with API Gateway (Circuit breaker)](https://youtu.be/aWzo0ysH__c).
+Store webhook secrets in protected secret storage, limit access, and support rotation with a short, auditable overlap. Redact authorization headers, signatures, tokens, and sensitive payload fields from gateway and application logs.
 
-➔ Read the blog posts:
+### Treat callback destinations as untrusted input
 
-- [Implementing resilient applications with API Gateway (Health Check)](https://dev.to/apisix/implementing-resilient-applications-with-api-gateway-health-check-338c).
+Callback URLs can be used to probe internal services or cloud metadata endpoints. Apply destination policy before each delivery, restrict ports and schemes, use controlled egress, and set conservative timeouts and response-size limits.
 
-- [10 most common use cases of an API Gateway](https://apisix.apache.org/blog/2022/10/27/ten-use-cases-api-gateway/).
+## Reliability and Idempotency
+
+Webhook delivery is commonly at least once: a consumer can process an event and then fail before its acknowledgement reaches the sender. The sender sees a timeout and retries, so the consumer receives a duplicate.
+
+Design the handler to be idempotent:
+
+- use the stable event identifier as a deduplication key;
+- make state transitions conditional on the current state;
+- protect deduplication records with an atomic insert or equivalent constraint;
+- retain records for at least the documented retry period.
+
+Retry only operations and status classes allowed by your contract. Use exponential backoff with jitter, a maximum attempt count, and a maximum delivery age. Honor `Retry-After` when the receiver uses it and your policy permits. Do not retry permanent authentication, validation, or destination-policy failures indefinitely.
+
+Consumers should acknowledge only after the event has been durably accepted. If processing is slow, enqueue the event and return a success response after that durable handoff rather than keeping the HTTP request open.
+
+## Observability
+
+Track delivery outcomes without exposing sensitive payloads. Useful dimensions include:
+
+- subscription and event type;
+- attempt count and delivery age;
+- destination class or tenant, with cardinality controls;
+- response status, timeout, and policy rejection;
+- queue delay and failure-state volume.
+
+Propagate a correlation identifier from the event record through the gateway and delivery worker. Alert on sustained failure rates and growing queue age, not on a single transient retry.
+
+## Using Apache APISIX
+
+[Apache APISIX](https://apisix.apache.org/) can route webhook HTTP endpoints and apply plugins for authentication, traffic control, observability, request restrictions, and other gateway policies. Select and test policies for the exact inbound or outbound flow; not every responsibility described above belongs in APISIX.
+
+For example, APISIX can expose `/webhooks/{provider}` routes to receiver services and apply per-route size limits and telemetry. The receiver should still perform provider-specific signature and replay checks unless a verified plugin implements that exact scheme. Likewise, a durable event store and delivery worker should own outbound retries and idempotency.
+
+Review available [APISIX plugins](https://apisix.apache.org/docs/apisix/plugins/) and keep custom plugins small, bounded, and outside the durable workflow state machine.
+
+## Frequently Asked Questions
+
+### Is a webhook the same as an event stream?
+
+No. A webhook pushes an HTTP request to a callback. An event stream or broker usually provides different retention, ordering, replay, and consumer coordination capabilities. They can be used together: a broker stores events while a worker delivers selected events as webhooks.
+
+### Can an API gateway guarantee webhook delivery?
+
+No. A gateway can route and observe an HTTP attempt, but durable delivery requires persisted event state, retry scheduling, and a defined failure/replay process.
+
+### Should a webhook return `200` immediately?
+
+Return a documented success status only after the event is authenticated and durably accepted. Long processing should usually happen asynchronously. Returning success before durable acceptance can lose events; waiting for all business processing can cause unnecessary retries.
+
+### Are webhook retries safe?
+
+Only when the sender uses bounded retry rules and the consumer processes repeated event identifiers idempotently. Network timeouts make duplicate delivery normal, not exceptional.
+
+## Conclusion
+
+An API gateway is useful at the HTTP boundary of a webhook system: it can secure, limit, observe, and route subscription and delivery traffic. Durable events, callback validation, authentication semantics, retries, and idempotent processing require application and messaging components with explicit ownership.
+
+Design those responsibilities first, then apply gateway policies that reinforce the design without hiding or duplicating the delivery state machine.
