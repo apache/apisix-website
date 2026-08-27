@@ -56,6 +56,6 @@ The APISIX Prometheus plugin exports cache hits by `exact` or `semantic` layer, 
 - [Redis® Search module lifecycle](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle/)
 - [Pinned two-node APISIX and Redis® lab](https://github.com/apache/apisix-website/tree/master/examples/redis-ai-gateway)
 
-This page remains **Validation in progress** until its pinned lab passes twice from a clean state and a second operator reproduces it. Source review establishes the intended 3.18.0 behavior; it is not runtime verification.
+This page remains **Validation in progress** until the pinned lab records provider-side chat and embedding call counters, complete and interrupted SSE evidence, two clean runs, sanitized logs, and an independent second-operator reproduction. Source review establishes the intended 3.18.0 behavior; it is not runtime verification.
 
 Redis is a registered trademark of Redis Ltd. Any rights therein are reserved to Redis Ltd. This community integration is not endorsed, supported, or certified by Redis®.

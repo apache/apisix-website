@@ -48,6 +48,6 @@ APISIX Prometheus 插件会导出按 `exact` 或 `semantic` 分层的命中数�
 - [Redis® Search 模块生命周期](https://redis.io/docs/latest/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle/)
 - [固定版本的双节点 APISIX 与 Redis® 实验](https://github.com/apache/apisix-website/tree/master/examples/redis-ai-gateway)
 
-在固定版本实验从干净状态连续通过两次，并由第二位操作者复现前，本页面保持“**验证进行中**”。源码核对只能证明 3.18.0 的预期行为，不能替代运行时验证。
+在固定版本实验取得 Provider 侧 chat 与 embedding 调用计数、完整与中断 SSE 证据、两次干净运行、脱敏日志，并由第二位操作者独立复现前，本页面保持“**验证进行中**”。源码核对只能证明 3.18.0 的预期行为，不能替代运行时验证。
 
 Redis is a registered trademark of Redis Ltd. Any rights therein are reserved to Redis Ltd. 此社区集成未获得 Redis® 的认可、支持或认证。
