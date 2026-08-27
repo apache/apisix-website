@@ -237,6 +237,7 @@ a:hover {
 
 .markdown a {
   color: var(--color-primary);
+  overflow-wrap: anywhere;
 }
 
 .arrow-btn {
@@ -532,11 +533,193 @@ article img {
   height: auto;
 }
 
-.markdown table {
-  display: block;
+.markdown > p,
+.markdown > ul,
+.markdown > ol,
+.markdown > blockquote,
+.markdown > div[class*="admonition"] {
+  max-width: 85ch;
+}
+
+.table-shell {
+  position: relative;
+  width: 100%;
   max-width: 100%;
-  overflow-x: auto;
+  margin-bottom: var(--ifm-spacing-vertical);
+}
+
+.table-scroll {
+  max-width: 100%;
+  overflow: auto;
+  overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
+}
+
+.table-shell[data-overflow="false"] .table-scroll {
+  overflow: visible;
+}
+
+.table-scroll:focus-visible {
+  outline: 3px solid var(--ifm-color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.table-shell::before,
+.table-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  width: 2.5rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--ifm-transition-fast) ease;
+}
+
+.table-shell::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--ifm-background-color), transparent);
+}
+
+.table-shell::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--ifm-background-color), transparent);
+}
+
+.table-shell[data-overflow="true"][data-at-start="false"]::before,
+.table-shell[data-overflow="true"][data-at-end="false"]::after {
+  opacity: 1;
+}
+
+.table-shell--attributes[data-overflow="true"][data-at-start="false"]::before {
+  opacity: 0;
+}
+
+.markdown .docs-table {
+  display: table;
+  width: 100%;
+  min-width: 100%;
+  table-layout: auto;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid var(--ifm-table-border-color, var(--color-border));
+  border-left: 1px solid var(--ifm-table-border-color, var(--color-border));
+  overflow: visible;
+}
+
+.markdown .docs-table th,
+.markdown .docs-table td {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  vertical-align: top;
+  border: 0;
+  border-right: 1px solid var(--ifm-table-border-color, var(--color-border));
+  border-bottom: 1px solid var(--ifm-table-border-color, var(--color-border));
+}
+
+.markdown .docs-table--attributes thead th {
+  white-space: nowrap;
+}
+
+.markdown .docs-table--attributes {
+  width: 100%;
+  min-width: 100%;
+  table-layout: auto;
+}
+
+.docs-table--attributes .docs-table__col--name {
+  width: 13rem;
+  min-width: 13rem;
+  overflow-wrap: anywhere;
+}
+
+.docs-table--attributes .docs-table__col--type {
+  width: 7.5rem;
+  min-width: 7.5rem;
+  white-space: nowrap;
+}
+
+.docs-table--attributes .docs-table__col--required {
+  width: 6rem;
+  min-width: 6rem;
+  white-space: nowrap;
+}
+
+.docs-table--attributes .docs-table__col--encrypted {
+  width: 7.5rem;
+  min-width: 7.5rem;
+  white-space: nowrap;
+}
+
+.docs-table--attributes .docs-table__col--default {
+  width: 9rem;
+  min-width: 9rem;
+  overflow-wrap: anywhere;
+}
+
+.docs-table--attributes .docs-table__col--valid-values {
+  width: 12rem;
+  min-width: 12rem;
+  overflow-wrap: anywhere;
+}
+
+.docs-table--attributes .docs-table__col--description {
+  width: 19rem;
+  min-width: 19rem;
+}
+
+.table-shell[data-overflow="true"] .docs-table--attributes .docs-table__col--name {
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  background: var(--ifm-background-color);
+  box-shadow: 1px 0 var(--ifm-table-border-color, var(--color-border));
+}
+
+.table-shell[data-overflow="true"] .docs-table--attributes thead .docs-table__col--name {
+  z-index: 2;
+  background: var(--ifm-color-emphasis-100);
+}
+
+@media screen and (max-width: 996px) {
+  .docs-table--attributes .docs-table__col--name {
+    width: 10rem;
+    min-width: 10rem;
+  }
+
+  .docs-table--attributes .docs-table__col--type {
+    width: 6.5rem;
+    min-width: 6.5rem;
+  }
+
+  .docs-table--attributes .docs-table__col--required {
+    width: 6rem;
+    min-width: 6rem;
+  }
+
+  .docs-table--attributes .docs-table__col--encrypted {
+    width: 6.5rem;
+    min-width: 6.5rem;
+  }
+
+  .docs-table--attributes .docs-table__col--default {
+    width: 8rem;
+    min-width: 8rem;
+  }
+
+  .docs-table--attributes .docs-table__col--valid-values {
+    width: 11rem;
+    min-width: 11rem;
+  }
+
+  .docs-table--attributes .docs-table__col--description {
+    width: 13rem;
+    min-width: 13rem;
+  }
 }
 
 .markdown pre {

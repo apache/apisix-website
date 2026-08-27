@@ -10,6 +10,9 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --max-width: 1140px;
+  --docs-reading-max: 85ch;
+  --docs-wide-max: 92rem;
+  --docs-shell-max: 114.5rem;
   --header-height: 60px;
   --radius-card: .75rem;
   --color-surface-warm: #faf7f7;
@@ -304,7 +307,11 @@ a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2
 .prose .code-title { background: #21262d; color: #e6edf3; font-family: var(--font-mono); font-size: .78rem; padding: .45rem 1.2rem; border-radius: 10px 10px 0 0; margin-bottom: 0; }
 .prose .code-title + pre { border-radius: 0 0 10px 10px; margin-top: 0; }
 .prose pre code { background: none; padding: 0; font-size: inherit; }
-.prose table { border-collapse: collapse; display: block; overflow-x: auto; margin: 1.25rem 0; }
+
+.prose table {
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+}
 .prose th, .prose td { border: 1px solid var(--color-border); padding: .5rem .8rem; font-size: .9rem; }
 .prose th { background: var(--color-surface-alt); }
 .prose blockquote { margin: 1.25rem 0; padding: .2rem 1.25rem; border-left: 4px solid var(--color-primary); background: var(--color-surface-alt); border-radius: 0 8px 8px 0; }
@@ -321,7 +328,15 @@ a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2
 .admonition-important { border-color: #a25ddc; background: #f4eefb; }
 
 /* ---------- docs layout ---------- */
-.docs-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 2.5rem; align-items: start; padding-block: 2rem; }
+.docs-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  max-width: var(--docs-shell-max);
+  padding-block: 2rem;
+}
+
 .docs-sidebar {
   position: sticky; top: calc(var(--header-height) + 1rem);
   max-height: calc(100vh - var(--header-height) - 2rem);
@@ -353,9 +368,207 @@ a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2
 }
 .docs-sidebar .sidebar-category[open] > summary::before { transform: rotate(90deg); }
 .docs-sidebar .sidebar-category > summary:hover { color: var(--color-primary); }
-.docs-content { min-width: 0; padding-bottom: 3rem; }
+
+/* stylelint-disable no-descending-specificity */
+.docs-content {
+  width: 100%;
+  max-width: var(--docs-wide-max);
+  min-width: 0;
+  padding-bottom: 3rem;
+}
+
+.docs-content > p,
+.docs-content > ul,
+.docs-content > ol,
+.docs-content > blockquote,
+.docs-content > .admonition { max-width: var(--docs-reading-max); }
+
+.docs-content a { overflow-wrap: anywhere; }
+
+.table-shell {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 1.25rem 0;
+}
+
+.table-scroll {
+  max-width: 100%;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll:focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.table-shell[data-overflow="false"] .table-scroll {
+  overflow: visible;
+}
+
+.table-shell::before,
+.table-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  width: 2.5rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.table-shell::before {
+  left: 0;
+  background: linear-gradient(90deg, rgb(255 255 255 / 92%), transparent);
+}
+
+.table-shell::after {
+  right: 0;
+  background: linear-gradient(270deg, rgb(255 255 255 / 92%), transparent);
+}
+
+.table-shell[data-overflow="true"][data-at-start="false"]::before,
+.table-shell[data-overflow="true"][data-at-end="false"]::after {
+  opacity: 1;
+}
+
+/* The sticky Name column is the left-edge cue for schema tables. A gradient
+   above it would wash out the text once the reader starts panning. */
+.table-shell--attributes[data-overflow="true"][data-at-start="false"]::before {
+  opacity: 0;
+}
+
+.table-shell .docs-table {
+  display: table;
+  width: 100%;
+  min-width: 100%;
+  table-layout: auto;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+}
+
+.table-shell .docs-table th,
+.table-shell .docs-table td {
+  vertical-align: top;
+  line-height: 1.5;
+  border: 0;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-shell .docs-table--attributes thead th {
+  white-space: nowrap;
+}
+
+.table-shell .docs-table--attributes {
+  width: 100%;
+  min-width: 100%;
+  table-layout: auto;
+}
+
+.docs-table--attributes .docs-table__col--name {
+  width: 13rem;
+  min-width: 13rem;
+  overflow-wrap: anywhere;
+}
+
+.docs-table--attributes .docs-table__col--type {
+  width: 7.5rem;
+  min-width: 7.5rem;
+  white-space: nowrap;
+}
+
+.docs-table--attributes .docs-table__col--required {
+  width: 6rem;
+  min-width: 6rem;
+  white-space: nowrap;
+}
+
+.docs-table--attributes .docs-table__col--encrypted {
+  width: 7.5rem;
+  min-width: 7.5rem;
+  white-space: nowrap;
+}
+
+.docs-table--attributes .docs-table__col--default {
+  width: 9rem;
+  min-width: 9rem;
+  overflow-wrap: anywhere;
+}
+
+.docs-table--attributes .docs-table__col--valid-values {
+  width: 12rem;
+  min-width: 12rem;
+  overflow-wrap: anywhere;
+}
+
+.docs-table--attributes .docs-table__col--description {
+  width: 19rem;
+  min-width: 19rem;
+}
+
+.table-shell[data-overflow="true"] .docs-table--attributes .docs-table__col--name {
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  background: var(--color-surface);
+  box-shadow: 1px 0 var(--color-border);
+}
+
+.table-shell[data-overflow="true"] .docs-table--attributes thead .docs-table__col--name {
+  z-index: 2;
+  background: var(--color-surface-alt);
+}
+
+@media (max-width: 996px) {
+  .docs-table--attributes .docs-table__col--name {
+    width: 10rem;
+    min-width: 10rem;
+  }
+
+  .docs-table--attributes .docs-table__col--type {
+    width: 6.5rem;
+    min-width: 6.5rem;
+  }
+
+  .docs-table--attributes .docs-table__col--required {
+    width: 6rem;
+    min-width: 6rem;
+  }
+
+  .docs-table--attributes .docs-table__col--encrypted {
+    width: 6.5rem;
+    min-width: 6.5rem;
+  }
+
+  .docs-table--attributes .docs-table__col--default {
+    width: 8rem;
+    min-width: 8rem;
+  }
+
+  .docs-table--attributes .docs-table__col--valid-values {
+    width: 11rem;
+    min-width: 11rem;
+  }
+
+  .docs-table--attributes .docs-table__col--description {
+    width: 13rem;
+    min-width: 13rem;
+  }
+}
+/* stylelint-enable no-descending-specificity */
+
 .docs-meta { border-top: 1px solid var(--color-border); margin-top: 2.5rem; padding-top: 1rem; font-size: .85rem; color: var(--color-text-soft); display: flex; gap: 1rem; flex-wrap: wrap; }
-@media (max-width: 960px) {
+
+@media (max-width: 1260px) {
   /* The nav stays in document order, above the article. It used to be pushed
      below it, which put the link tree — and the version picker inside it —
      roughly seven screens down, with only ~4% of the tree visible once you got

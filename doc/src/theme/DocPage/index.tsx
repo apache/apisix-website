@@ -7,9 +7,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ReactNode } from 'react';
+import type {
+  ReactElement, ReactNode, TableHTMLAttributes,
+} from 'react';
 import React, {
-  useState, useCallback, useEffect,
+  useState, useCallback, useEffect, useRef,
 } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MDXProvider } from '@mdx-js/react';
@@ -56,8 +58,245 @@ const navbarLinkMap = {
 
 const navbarLinkKeys = Object.keys(navbarLinkMap);
 
+type AttributeColumnKind =
+  | 'name'
+  | 'type'
+  | 'required'
+  | 'encrypted'
+  | 'default'
+  | 'valid-values'
+  | 'description';
+
+const attributeColumnPatterns: ReadonlyArray<{
+  kind: AttributeColumnKind;
+  pattern: RegExp;
+}> = [
+  { kind: 'name', pattern: /^(name|field|名称|字段|参数名|属性名称)$/i },
+  { kind: 'type', pattern: /^(type|类型)$/i },
+  {
+    kind: 'required',
+    pattern: /^(required|requirement|必选项|要求|是否必需|必需|必填)$/i,
+  },
+  { kind: 'encrypted', pattern: /^(encrypted|加密)$/i },
+  { kind: 'default', pattern: /^(default|default value|默认值|默认)$/i },
+  {
+    kind: 'valid-values',
+    pattern: /^(valid|valid values?|有效值|有效)$/i,
+  },
+  { kind: 'description', pattern: /^(description|描述)$/i },
+];
+
+type ElementWithChildren = ReactElement<{
+  children?: ReactNode;
+  className?: string;
+}>;
+
+const elementChildren = (children: ReactNode): ElementWithChildren[] => (
+  React.Children.toArray(children).filter(
+    (child): child is ElementWithChildren => React.isValidElement(child),
+  )
+);
+
+const findElement = (children: ReactNode, type: string): ElementWithChildren | undefined => {
+  const directMatch = elementChildren(children).find((child) => child.type === type);
+  if (directMatch) return directMatch;
+
+  return elementChildren(children)
+    .map((child) => findElement(child.props.children, type))
+    .find(Boolean);
+};
+
+const reactTextContent = (children: ReactNode): string => (
+  React.Children.toArray(children).map((child) => {
+    if (typeof child === 'string' || typeof child === 'number') return String(child);
+    if (React.isValidElement<{ children?: ReactNode }>(child)) {
+      return reactTextContent(child.props.children);
+    }
+    return '';
+  }).join('')
+);
+
+const attributeColumnKind = (header: string): AttributeColumnKind | null => (
+  attributeColumnPatterns.find(({ pattern }) => pattern.test(header))?.kind ?? null
+);
+
+// Header semantics are deliberate: request, metadata, and other field-schema
+// tables need the same readable widths even outside an "Attributes" section.
+const attributeColumns = (children: ReactNode): AttributeColumnKind[] | null => {
+  const head = findElement(children, 'thead');
+  const row = findElement(head?.props.children, 'tr');
+  const headers = elementChildren(row?.props.children)
+    .filter((cell) => cell.type === 'th')
+    .map((cell) => reactTextContent(cell.props.children).trim().replace(/[\s\u00a0]+/g, ' '));
+  const columns = headers.map(attributeColumnKind);
+
+  if (
+    columns.length < 3
+    || columns.length > 7
+    || columns.some((column) => column === null)
+  ) return null;
+
+  const semanticColumns = columns as AttributeColumnKind[];
+  const uniqueColumns = new Set(semanticColumns);
+
+  if (
+    semanticColumns[0] !== 'name'
+    || semanticColumns[semanticColumns.length - 1] !== 'description'
+    || uniqueColumns.size !== semanticColumns.length
+    || (!uniqueColumns.has('type') && !uniqueColumns.has('required'))
+  ) return null;
+
+  return semanticColumns;
+};
+
+const decorateRowCells = (
+  children: ReactNode,
+  columns: AttributeColumnKind[],
+): ReactNode => {
+  let cellIndex = 0;
+
+  return React.Children.map(children, (child) => {
+    if (!React.isValidElement<{ className?: string }>(child)) return child;
+    if (child.type !== 'th' && child.type !== 'td') return child;
+
+    const column = columns[cellIndex];
+    cellIndex += 1;
+    if (!column) return child;
+
+    return React.cloneElement(child, {
+      className: clsx(child.props.className, `docs-table__col--${column}`),
+    });
+  });
+};
+
+const decorateTableRows = (
+  children: ReactNode,
+  columns: AttributeColumnKind[],
+): ReactNode => React.Children.map(children, (child) => {
+  if (!React.isValidElement<{ children?: ReactNode }>(child)) return child;
+
+  if (child.type === 'tr') {
+    return React.cloneElement(child, {
+      children: decorateRowCells(child.props.children, columns),
+    });
+  }
+
+  if (child.props.children === undefined) return child;
+
+  return React.cloneElement(child, {
+    children: decorateTableRows(child.props.children, columns),
+  });
+});
+
+const tableLabel = (frame: HTMLElement): string => {
+  const markdown = frame.closest('.markdown');
+  if (!markdown) return 'Documentation table';
+
+  let label = 'Documentation table';
+  markdown.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((heading) => {
+    if (heading.compareDocumentPosition(frame) === Node.DOCUMENT_POSITION_FOLLOWING) {
+      label = heading.textContent?.trim() || label;
+    }
+  });
+  return label;
+};
+
+const DocsTable = ({
+  className,
+  children,
+  ...props
+}: TableHTMLAttributes<HTMLTableElement>): JSX.Element => {
+  // Classify from React children so the SSR HTML has stable semantic widths
+  // before hydration, including when JavaScript is unavailable.
+  const columns = attributeColumns(children);
+  const attributes = columns !== null;
+  const tableChildren = columns ? decorateTableRows(children, columns) : children;
+  const frameRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
+  const [state, setState] = useState<{
+    overflow: boolean | null;
+    atStart: boolean;
+    atEnd: boolean;
+    label: string;
+  }>({
+    overflow: null,
+    atStart: true,
+    atEnd: false,
+    label: 'Documentation table',
+  });
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    const scroller = scrollerRef.current;
+    const table = tableRef.current;
+    if (!frame || !scroller || !table) return undefined;
+
+    const update = () => {
+      const next = {
+        overflow: scroller.scrollWidth > scroller.clientWidth + 1,
+        atStart: scroller.scrollLeft <= 1,
+        atEnd: scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 1,
+        label: tableLabel(frame),
+      };
+      setState((current) => (
+        current.overflow === next.overflow
+        && current.atStart === next.atStart
+        && current.atEnd === next.atEnd
+        && current.label === next.label
+          ? current
+          : next
+      ));
+    };
+
+    scroller.addEventListener('scroll', update, { passive: true });
+    const observer = new ResizeObserver(update);
+    observer.observe(scroller);
+    observer.observe(table);
+    update();
+
+    return () => {
+      scroller.removeEventListener('scroll', update);
+      observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={frameRef}
+      className={clsx('table-shell', {
+        'table-shell--attributes': attributes,
+      })}
+      data-overflow={state.overflow ?? 'unknown'}
+      data-at-start={state.atStart}
+      data-at-end={state.atEnd}
+    >
+      <div
+        ref={scrollerRef}
+        className="table-scroll"
+        role={state.overflow === false ? undefined : 'region'}
+        aria-label={state.overflow === false ? undefined : state.label}
+        // A focusable region is the keyboard fallback for native horizontal scrolling.
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={state.overflow === false ? -1 : 0}
+      >
+        <table
+          {...props}
+          ref={tableRef}
+          className={clsx('docs-table', {
+            'docs-table--attributes': attributes,
+          }, className)}
+        >
+          {tableChildren}
+        </table>
+      </div>
+    </div>
+  );
+};
+
 const components = (currentPage: string) => ({
   ...MDXComponents,
+  table: DocsTable,
   a: (props) => {
     const { children, ...others } = props;
     const inCurrent = props.href?.includes(currentPage) || props.href?.startsWith('#');
