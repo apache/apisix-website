@@ -54,6 +54,8 @@ The current ADC command set includes workflows for:
 
 Use `adc --help` and the [official ADC repository](https://github.com/api7/adc) for the exact flags supported by the installed release. Pin and test a tool version in automation rather than silently changing behavior when a new release becomes available.
 
+The Apache APISIX backend has version-specific compatibility boundaries and known limitations. In [ADC v0.30.0](https://github.com/api7/adc/blob/v0.30.0/libs/backend-apisix/README.md), this backend is experimental, and the tested-version matrix ends at APISIX 3.17.x; APISIX 3.18.x is not listed and is therefore untested. The same release does not support external `upstream_id` references or `plugin_configs`, excludes Consumer Groups from dump and sync, and may report some normalized resources as continually changed. Review the matrix and limitations for the exact ADC release you pin, then validate the exact ADC–APISIX pairing in a disposable environment before running `dump`, `diff`, or `sync` against an existing gateway.
+
 ## Install ADC
 
 The official installation script is:
@@ -127,6 +129,8 @@ After review and environment-specific checks, synchronize the file:
 ```shell
 adc sync -f adc.yaml
 ```
+
+Do not run `sync` against production until the pinned ADC and APISIX versions have completed a dump, diff, and synchronization round trip in a disposable environment, including review of every deletion and an inventory of resources that ADC does not manage.
 
 Run synchronization from a single controlled job for each target. Concurrent writers—CI jobs, manual Admin API changes, dashboards, and other controllers—can race or continually overwrite one another. Define which system owns each resource and how emergency changes are reconciled back into version control.
 

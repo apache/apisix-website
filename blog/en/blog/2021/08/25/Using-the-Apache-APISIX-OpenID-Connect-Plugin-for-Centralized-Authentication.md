@@ -78,6 +78,8 @@ curl "http://127.0.0.1:9180/apisix/admin/routes/oidc-browser" \
       "client_id": "<oidc-client-id>",
       "client_secret": "<oidc-client-secret>",
       "discovery": "https://id.example.com/.well-known/openid-configuration",
+      "redirect_uri": "https://gateway.example.com/app/oidc/callback",
+      "logout_path": "/app/logout",
       "scope": "openid profile",
       "bearer_only": false,
       "realm": "example",
@@ -92,7 +94,9 @@ curl "http://127.0.0.1:9180/apisix/admin/routes/oidc-browser" \
 
 When `bearer_only` is `false`, the session secret is required and must contain at least 16 characters. Use a high-entropy secret appropriate for the deployment's secret-management system rather than the placeholder shown above.
 
-If `redirect_uri` is omitted, the plugin derives a callback path ending in `/.apisix/redirect`. The redirect URI registered with the identity provider must match the actual external scheme, host, port, and path. When setting `redirect_uri` explicitly, use a subpath of the protected route as required by the plugin and avoid a value that routes the callback back into authentication indefinitely.
+The example uses a fixed callback under the protected `/app/*` route. Replace the hostname with the externally reachable gateway hostname and register `https://gateway.example.com/app/oidc/callback` exactly with the identity provider. Do not omit `redirect_uri` on a wildcard browser route: the default is derived from the current request URI and would produce a different callback path for different application pages. The explicit callback must remain a subpath of the protected route without being identical to a normal application URI.
+
+The explicit `/app/logout` path also remains inside the route matched by `/app/*`. If you choose another logout path, ensure that a route carrying the same plugin configuration matches it.
 
 After successful login, APISIX maintains the configured session and proxies the request. Test login, logout, session expiry, callback errors, and behavior across multiple gateway instances before production rollout.
 
