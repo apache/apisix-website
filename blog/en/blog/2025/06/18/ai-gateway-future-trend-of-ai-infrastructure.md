@@ -107,14 +107,14 @@ An AI gateway can enforce a reviewed decision at the traffic boundary. It should
 
 ## Apache APISIX as an Implementation Example
 
-Apache APISIX combines general gateway plugins with AI-specific plugins. The exact schema and behavior depend on the APISIX release, so verify the documentation for the version you run.
+Apache APISIX combines general gateway plugins with AI-specific plugins. The exact schema and behavior depend on the APISIX release, so verify the documentation for the version you run. The plugin details below were verified against APISIX 3.18.0.
 
 - [`ai-proxy`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy/) converts supported request formats for documented model providers and can expose model, token, duration, and time-to-first-token fields to access logs.
-- [`ai-proxy-multi`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy-multi/) supports multiple configured model instances with documented load-balancing and fallback behavior. When a failed upstream is retried, the current plugin records that instance's error body in the error log. Treat those logs as potentially sensitive and review their access, export, and retention before enabling fallback.
+- [`ai-proxy-multi`](https://apisix.apache.org/docs/apisix/plugins/ai-proxy-multi/) supports multiple configured model instances with documented load-balancing and fallback behavior. In APISIX 3.18.0, when a failed upstream is retried, the plugin records that instance's error body in the error log. Treat those logs as potentially sensitive and review their access, export, and retention before enabling fallback.
 - [`ai-rate-limiting`](https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/) can apply token-based limits using local or supported Redis policies. Counter availability and any degradation setting are part of the enforcement decision.
 - [`ai-prompt-guard`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/) applies configured allow and deny patterns to recognized prompt formats. Its `fail_mode` controls unrecognized traffic and defaults to `skip`; its scope is pattern matching, not general semantic safety classification.
 
-General authentication, request transformation, traffic control, and logging plugins can be composed with these features. Current `ai-proxy` behavior forwards client headers other than `Host`, `Content-Length`, and `Accept-Encoding` unless they are removed or overwritten. Strip cookies and unrelated authorization or internal identity headers before the provider request. Composition still requires testing of plugin order, identity variables, outbound headers, streaming, error paths, and sensitive logs. A plugin being available does not mean it is enabled or correctly configured on every route.
+General authentication, request transformation, traffic control, and logging plugins can be composed with these features. In APISIX 3.18.0, `ai-proxy` forwards client headers other than `Host`, `Content-Length`, and `Accept-Encoding` unless they are removed or overwritten. Strip cookies and unrelated authorization or internal identity headers before the provider request. Composition still requires testing of plugin order, identity variables, outbound headers, streaming, error paths, and sensitive logs. A plugin being available does not mean it is enabled or correctly configured on every route.
 
 ## AI Gateway Trends Worth Evaluating
 

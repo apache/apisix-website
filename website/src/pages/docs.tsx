@@ -54,6 +54,12 @@ const TaskLink = styled.a`
     text-decoration: none;
     border-color: var(--ifm-color-primary);
   }
+
+  &:focus-visible {
+    outline: 3px solid var(--ifm-color-primary);
+    outline-offset: 3px;
+    border-color: var(--ifm-color-primary);
+  }
 `;
 
 const VersionNote = styled.p`
@@ -156,6 +162,7 @@ interface DocInfo {
   name: string;
   nameInParamCase: string;
   description: string;
+  githubRepo: string;
   shape: string;
   color: string;
   version: string;
@@ -163,7 +170,34 @@ interface DocInfo {
   firstDocPath: string;
 }
 
-interface ProjectCardProps extends DocInfo { }
+type ProjectCardProps = Omit<DocInfo, 'githubRepo'>;
+
+const taskNavigation = [
+  {
+    githubRepo: 'apache/apisix',
+    label: (
+      <Translate id="docs.taskNavigation.gateway">
+        Start or operate APISIX
+      </Translate>
+    ),
+  },
+  {
+    githubRepo: 'apache/apisix-ingress-controller',
+    label: (
+      <Translate id="docs.taskNavigation.kubernetes">
+        Run APISIX on Kubernetes
+      </Translate>
+    ),
+  },
+  {
+    githubRepo: 'apache/apisix-java-plugin-runner',
+    label: (
+      <Translate id="docs.taskNavigation.plugins">
+        Choose an external plugin runner
+      </Translate>
+    ),
+  },
+];
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
   const {
@@ -220,15 +254,18 @@ const Docs: FC = () => {
           </Translate>
         </PageSubtitle>
         <TaskNav aria-label={translate({ id: 'docs.taskNavigation.label', message: 'Choose documentation by task' })}>
-          <TaskLink href="#apisix">
-            <Translate id="docs.taskNavigation.gateway">Start or operate APISIX</Translate>
-          </TaskLink>
-          <TaskLink href="#ingress-controller">
-            <Translate id="docs.taskNavigation.kubernetes">Run APISIX on Kubernetes</Translate>
-          </TaskLink>
-          <TaskLink href="#java-plugin-runner">
-            <Translate id="docs.taskNavigation.plugins">Choose an external plugin runner</Translate>
-          </TaskLink>
+          {taskNavigation.map((task) => {
+            const project = docs.find(({ githubRepo }) => githubRepo === task.githubRepo);
+            if (!project) {
+              return null;
+            }
+
+            return (
+              <TaskLink key={task.githubRepo} href={`#${project.nameInParamCase}`}>
+                {task.label}
+              </TaskLink>
+            );
+          })}
         </TaskNav>
         <VersionNote>
           <Translate id="docs.webpage.versionNote">
