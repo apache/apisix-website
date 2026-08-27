@@ -205,4 +205,5 @@ routes:
           vector_search:
             redis:
               index: apisix-cookbook-semantic
-# END
+# eslint-disable-next-line yml/spaced-comment -- APISIX requires the exact marker below.
+#END
