@@ -23,6 +23,8 @@ In practice, real-world rate limiting is far more nuanced. A SaaS platform needs
 
 Apache APISIX 3.16 addresses these challenges head-on with two powerful enhancements to the rate limiting plugins: **multiple rules** and **variable support**. Together, they transform rate limiting from static configuration into a dynamic, context-aware policy engine.
 
+For a broader comparison of rate, quota, concurrency, and distributed-counter strategies, start with the [API gateway rate limiting guide](/learning-center/api-gateway-rate-limiting/).
+
 <!--truncate-->
 
 ## What Changed in APISIX 3.16
