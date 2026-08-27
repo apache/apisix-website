@@ -307,6 +307,65 @@ async function assertNoJsPluginTable(browser, {
   }
 }
 
+async function assertGenericMetricsTable(page, { path, shellSelector }) {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(path);
+  const shell = page.locator(shellSelector);
+  const table = shell.locator('table');
+  await expect(shell).toHaveCount(1);
+  await expect(shell).not.toHaveClass(/table-shell--attributes/);
+  await expect(table).not.toHaveClass(/docs-table--attributes/);
+  await expect(table.locator('thead th')).toHaveText(['Name', 'Type', 'Description']);
+
+  const metrics = await shell.evaluate((element) => ({
+    firstBodyCellPosition: getComputedStyle(element.querySelector('tbody td')).position,
+    headerWhiteSpace: [...element.querySelectorAll('thead th')]
+      .map((header) => getComputedStyle(header).whiteSpace),
+    pageClientWidth: document.documentElement.clientWidth,
+    pageScrollWidth: document.documentElement.scrollWidth,
+  }));
+  expect(metrics.headerWhiteSpace).toEqual(metrics.headerWhiteSpace.map(() => 'normal'));
+  expect(metrics.firstBodyCellPosition).not.toBe('sticky');
+  expect(metrics.pageScrollWidth, `${path}: generic metric overflow must remain local`)
+    .toBeLessThanOrEqual(metrics.pageClientWidth);
+}
+
+async function assertLiveResizeTransitions(page, { path, shellSelector }) {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(path);
+  const shell = page.locator(shellSelector);
+  const scroller = shell.locator('.table-scroll');
+
+  await expect(shell).toHaveAttribute('data-overflow', 'true');
+  await expect(shell).toHaveAttribute('data-at-end', 'false');
+  await expect(scroller).toHaveAttribute('role', 'region');
+  await expect(scroller).toHaveAttribute('tabindex', '0');
+  await expect.poll(() => shell.evaluate((element) => (
+    getComputedStyle(element, '::after').opacity
+  ))).toBe('1');
+
+  await page.setViewportSize({ width: 2962, height: 1668 });
+  await expect(shell).toHaveAttribute('data-overflow', 'false');
+  await expect(shell).toHaveAttribute('data-at-end', 'true');
+  await expect(scroller).not.toHaveAttribute('role', 'region');
+  await expect(scroller).toHaveAttribute('tabindex', '-1');
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(shell).toHaveAttribute('data-overflow', 'true');
+  await expect(shell).toHaveAttribute('data-at-end', 'false');
+  await expect(scroller).toHaveAttribute('role', 'region');
+  await expect(scroller).toHaveAttribute('tabindex', '0');
+  await expect.poll(() => shell.evaluate((element) => (
+    getComputedStyle(element, '::after').opacity
+  ))).toBe('1');
+
+  await scroller.evaluate((element) => element.scrollTo({ left: element.scrollWidth }));
+  await expect(shell).toHaveAttribute('data-at-end', 'true');
+  await expect.poll(() => shell.evaluate((element) => (
+    getComputedStyle(element, '::after').opacity
+  ))).toBe('0');
+}
+
 // docs/general/** ships from this repo, so it exists in the PR CI build too —
 // no gate, and the fix is verified before anything is deployed.
 test('general docs keep padding and put the nav above the article', async ({ page }) => {
@@ -474,6 +533,32 @@ test('current Attributes table remains usable without JavaScript', async ({ brow
   });
 });
 
+test('current metrics catalog stays generic', async ({ page }) => {
+  test.skip(
+    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
+      || test.info().project.name !== 'desktop-chrome',
+    'current APISIX docs only exist in the final overlaid tree',
+  );
+
+  await assertGenericMetricsTable(page, {
+    path: '/docs/apisix/plugins/prometheus/',
+    shellSelector: '.docs-content .table-shell:has(> .table-scroll[aria-label="Metrics"])',
+  });
+});
+
+test('current Attributes table reacts to live viewport changes', async ({ page }) => {
+  test.skip(
+    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
+      || test.info().project.name !== 'desktop-chrome',
+    'current APISIX docs only exist in the final overlaid tree',
+  );
+
+  await assertLiveResizeTransitions(page, {
+    path: '/docs/apisix/plugins/openid-connect/',
+    shellSelector: '.docs-content h2#attributes + .table-shell',
+  });
+});
+
 test('current Attributes tables support four, five, and seven column schemas', async ({ page }) => {
   test.skip(
     process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
@@ -594,22 +679,10 @@ test('archived Docusaurus tables cover variable schemas and generic wrapping', a
     });
   }
 
-  await page.goto('/docs/apisix/3.18/plugins/prometheus/');
-  const generic = page.locator('.markdown .table-shell:not(.table-shell--attributes)').first();
-  await expect(generic.locator('thead th').first()).toHaveText('Name');
-  await expect(generic.locator('thead th').nth(1)).toHaveText('Description');
-  await expect(generic.locator('table')).not.toHaveClass(/docs-table--attributes/);
-  const metrics = await generic.evaluate((element) => ({
-    firstBodyCellPosition: getComputedStyle(element.querySelector('tbody td')).position,
-    headerWhiteSpace: [...element.querySelectorAll('thead th')]
-      .map((header) => getComputedStyle(header).whiteSpace),
-    pageClientWidth: document.documentElement.clientWidth,
-    pageScrollWidth: document.documentElement.scrollWidth,
-  }));
-  expect(metrics.headerWhiteSpace).toEqual(metrics.headerWhiteSpace.map(() => 'normal'));
-  expect(metrics.firstBodyCellPosition).not.toBe('sticky');
-  expect(metrics.pageScrollWidth, 'generic Docusaurus overflow must remain local')
-    .toBeLessThanOrEqual(metrics.pageClientWidth);
+  await assertGenericMetricsTable(page, {
+    path: '/docs/apisix/3.18/plugins/prometheus/',
+    shellSelector: '.markdown .table-shell:has(> .table-scroll[aria-label^="Metrics"])',
+  });
 });
 
 test('archived Docusaurus Attributes table works without JavaScript', async ({ browser }) => {
@@ -688,6 +761,19 @@ test('archived Docusaurus table focus stays visible in dark mode', async ({ brow
   } finally {
     await darkPage.close();
   }
+});
+
+test('archived Docusaurus table reacts to live viewport changes', async ({ page }) => {
+  test.skip(
+    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
+      || test.info().project.name !== 'desktop-chrome',
+    'archived Docusaurus docs only exist in the final overlaid tree',
+  );
+
+  await assertLiveResizeTransitions(page, {
+    path: '/docs/apisix/3.18/plugins/openid-connect/',
+    shellSelector: '.markdown h2:has(#attributes) + .table-shell',
+  });
 });
 
 test('current plugin table overflow remains local and keyboard accessible on mobile', async ({ page }) => {

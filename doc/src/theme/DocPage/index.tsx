@@ -86,6 +86,8 @@ const attributeColumnPatterns: ReadonlyArray<{
   { kind: 'description', pattern: /^(description|描述)$/i },
 ];
 
+const fieldTypePattern = /^(?:array|boolean|integer|null|number|object|string)(?:\s*[/|]\s*(?:array|boolean|integer|null|number|object|string))*$/i;
+
 type ElementWithChildren = ReactElement<{
   children?: ReactNode;
   className?: string;
@@ -120,6 +122,22 @@ const attributeColumnKind = (header: string): AttributeColumnKind | null => (
   attributeColumnPatterns.find(({ pattern }) => pattern.test(header))?.kind ?? null
 );
 
+const hasFieldTypeValues = (children: ReactNode): boolean => {
+  const body = findElement(children, 'tbody');
+  const rows = elementChildren(body?.props.children)
+    .filter((row) => row.type === 'tr');
+  const typeValues = rows.map((row) => {
+    const cells = elementChildren(row.props.children)
+      .filter((cell) => cell.type === 'th' || cell.type === 'td');
+    return reactTextContent(cells[1]?.props.children)
+      .trim()
+      .replace(/[\s\u00a0]+/g, ' ');
+  });
+
+  return rows.length > 0
+    && typeValues.every((value) => fieldTypePattern.test(value));
+};
+
 // Header semantics are deliberate: request, metadata, and other field-schema
 // tables need the same readable widths even outside an "Attributes" section.
 const attributeColumns = (children: ReactNode): AttributeColumnKind[] | null => {
@@ -139,11 +157,18 @@ const attributeColumns = (children: ReactNode): AttributeColumnKind[] | null => 
   const semanticColumns = columns as AttributeColumnKind[];
   const uniqueColumns = new Set(semanticColumns);
 
+  // Name | Type | Description is also used by metric catalogs. Only promote
+  // the ambiguous three-column form when its body contains field data types.
   if (
     semanticColumns[0] !== 'name'
     || semanticColumns[semanticColumns.length - 1] !== 'description'
     || uniqueColumns.size !== semanticColumns.length
     || (!uniqueColumns.has('type') && !uniqueColumns.has('required'))
+    || (
+      semanticColumns.length === 3
+      && semanticColumns[1] === 'type'
+      && !hasFieldTypeValues(children)
+    )
   ) return null;
 
   return semanticColumns;

@@ -10,6 +10,8 @@ const ATTRIBUTE_COLUMN_KINDS = [
   ['description', /^(description|描述)$/i],
 ];
 
+const FIELD_TYPE_PATTERN = /^(?:array|boolean|integer|null|number|object|string)(?:\s*[/|]\s*(?:array|boolean|integer|null|number|object|string))*$/i;
+
 function textContent(node) {
   if (typeof node.value === 'string') return node.value;
   return node.children?.map(textContent).join('') ?? '';
@@ -39,6 +41,13 @@ function attributeColumns(node) {
   if (columns.some((column) => !column)) return null;
   if (new Set(columns).size !== columns.length) return null;
   if (!columns.includes('type') && !columns.includes('required')) return null;
+  // Name | Type | Description is also used by metric catalogs. Only promote
+  // the ambiguous three-column form when its body contains field data types.
+  if (
+    columns.length === 3
+    && columns[1] === 'type'
+    && !hasFieldTypeValues(node)
+  ) return null;
 
   return columns;
 }
@@ -83,6 +92,23 @@ function decorateAttributeColumns(node, columns) {
       };
     }),
   };
+}
+
+function hasFieldTypeValues(node) {
+  const bodyRows = node.children
+    ?.find((child) => child.tagName === 'tbody')
+    ?.children?.filter((child) => child.tagName === 'tr') ?? [];
+  const typeValues = bodyRows.map((row) => {
+    const cells = row.children?.filter((child) => (
+      child.tagName === 'th' || child.tagName === 'td'
+    )) ?? [];
+    return cells[1]
+      ? textContent(cells[1]).trim().replace(/[\s\u00a0]+/g, ' ')
+      : '';
+  });
+
+  return bodyRows.length > 0
+    && typeValues.every((value) => FIELD_TYPE_PATTERN.test(value));
 }
 
 export default function rehypeDocTables() {
