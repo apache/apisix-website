@@ -12,8 +12,36 @@
     "description": "Document"
   },
   "docs.webpage.title.DocumentSubtitle": {
-    "message": "让产品与技术背后的细节更加可视化",
-    "description": "We love open source."
+    "message": "根据任务选择对应的 Apache APISIX 文档集。每张卡片均会打开该项目的最新发布版文档。",
+    "description": "Choose the Apache APISIX documentation set that matches your task. Each card opens the latest published documentation for that project."
+  },
+  "docs.meta.description": {
+    "message": "浏览 Apache APISIX 文档，涵盖 API 网关、AI 网关、Ingress Controller、Helm Chart 和插件开发。通过指南、教程与 API 参考快速上手。",
+    "description": "Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development. Get started with guides, tutorials, and API references."
+  },
+  "docs.meta.ogDescription": {
+    "message": "浏览 Apache APISIX 的 API 网关、AI 网关、Ingress Controller、Helm Chart 和插件开发文档。",
+    "description": "Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development."
+  },
+  "docs.taskNavigation.label": {
+    "message": "按任务选择文档",
+    "description": "Choose documentation by task"
+  },
+  "docs.taskNavigation.gateway": {
+    "message": "开始使用或运维 APISIX",
+    "description": "Start or operate APISIX"
+  },
+  "docs.taskNavigation.kubernetes": {
+    "message": "在 Kubernetes 上运行 APISIX",
+    "description": "Run APISIX on Kubernetes"
+  },
+  "docs.taskNavigation.plugins": {
+    "message": "选择外部插件运行器",
+    "description": "Choose an external plugin runner"
+  },
+  "docs.webpage.versionNote": {
+    "message": "需要其他版本？打开文档集并使用版本选择器。复制配置或命令前，请先确认所选版本。",
+    "description": "Need a different release? Open a documentation set and use its version selector. Verify the selected version before copying configuration or commands."
   },
   "download.website.title": {
     "message": "立即下载",

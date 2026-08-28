@@ -31,7 +31,40 @@ const PageTitle = styled.h1`
 `;
 
 const PageSubtitle = styled.div`
-  margin-bottom: 4rem;
+  max-width: 780px;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+`;
+
+const TaskNav = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+`;
+
+const TaskLink = styled.a`
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: none;
+    border-color: var(--ifm-color-primary);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--ifm-color-primary);
+    outline-offset: 3px;
+    border-color: var(--ifm-color-primary);
+  }
+`;
+
+const VersionNote = styled.p`
+  margin-bottom: 2.5rem;
+  color: var(--ifm-color-emphasis-700);
 `;
 
 const CardsContainer = styled.div`
@@ -129,6 +162,7 @@ interface DocInfo {
   name: string;
   nameInParamCase: string;
   description: string;
+  githubRepo: string;
   shape: string;
   color: string;
   version: string;
@@ -136,7 +170,34 @@ interface DocInfo {
   firstDocPath: string;
 }
 
-interface ProjectCardProps extends DocInfo { }
+type ProjectCardProps = Omit<DocInfo, 'githubRepo'>;
+
+const taskNavigation = [
+  {
+    githubRepo: 'apache/apisix',
+    label: (
+      <Translate id="docs.taskNavigation.gateway">
+        Start or operate APISIX
+      </Translate>
+    ),
+  },
+  {
+    githubRepo: 'apache/apisix-ingress-controller',
+    label: (
+      <Translate id="docs.taskNavigation.kubernetes">
+        Run APISIX on Kubernetes
+      </Translate>
+    ),
+  },
+  {
+    githubRepo: 'apache/apisix-java-plugin-runner',
+    label: (
+      <Translate id="docs.taskNavigation.plugins">
+        Choose an external plugin runner
+      </Translate>
+    ),
+  },
+];
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
   const {
@@ -151,7 +212,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
   } = props;
 
   return (
-    <Card href={`/docs/${nameInParamCase}${firstDocPath}`}>
+    <Card id={nameInParamCase} href={`/docs/${nameInParamCase}${firstDocPath}`}>
       <Title>
         <ShapeBeforeTitle color={color}>{shapeComponentMap[shape]}</ShapeBeforeTitle>
         {name}
@@ -160,7 +221,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
       <VersionInfo className="docs-versioninfo">
         Latest version&nbsp;
         <span>{version}</span>
-        &nbsp;released at&nbsp;
+        &nbsp;released on&nbsp;
         <span>{releaseDate}</span>
       </VersionInfo>
     </Card>
@@ -177,7 +238,7 @@ const Docs: FC = () => {
   const projects = docs.map((project) => <ProjectCard key={project.name} {...project} />);
 
   return (
-    <Layout title={translate({ message: 'Documentation' })}>
+    <Layout title={translate({ id: 'docs.webpage.title.Document', message: 'Documentation' })}>
       <Head>
         <meta name="description" content={translate({ id: 'docs.meta.description', message: 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development. Get started with guides, tutorials, and API references.' })} />
         <meta property="og:description" content={translate({ id: 'docs.meta.ogDescription', message: 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, and plugin development.' })} />
@@ -187,8 +248,31 @@ const Docs: FC = () => {
           <Translate id="docs.webpage.title.Document">Documentation</Translate>
         </PageTitle>
         <PageSubtitle>
-          <Translate id="docs.webpage.title.DocumentSubtitle">We love open source.</Translate>
+          <Translate id="docs.webpage.title.DocumentSubtitle">
+            Choose the Apache APISIX documentation set that matches your task. Each card opens the
+            latest published documentation for that project.
+          </Translate>
         </PageSubtitle>
+        <TaskNav aria-label={translate({ id: 'docs.taskNavigation.label', message: 'Choose documentation by task' })}>
+          {taskNavigation.map((task) => {
+            const project = docs.find(({ githubRepo }) => githubRepo === task.githubRepo);
+            if (!project) {
+              return null;
+            }
+
+            return (
+              <TaskLink key={task.githubRepo} href={`#${project.nameInParamCase}`}>
+                {task.label}
+              </TaskLink>
+            );
+          })}
+        </TaskNav>
+        <VersionNote>
+          <Translate id="docs.webpage.versionNote">
+            Need a different release? Open a documentation set and use its version selector. Verify
+            the selected version before copying configuration or commands.
+          </Translate>
+        </VersionNote>
         <CardsContainer>{projects}</CardsContainer>
       </Page>
     </Layout>
