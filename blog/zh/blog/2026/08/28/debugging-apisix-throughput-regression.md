@@ -15,17 +15,19 @@ keywords:
   - LuaJIT
   - 性能优化
   - 吞吐回退
-description: "本文复盘一次 APISIX 吞吐回退定位：从 CPU 饱和与 eBPF 火焰图入手，沿调用栈追查 Global Rule 重复筛选和 LuaJIT 编译中断，并用每请求调用次数与配对 A/B 实验验证瓶颈，说明为什么最宽的火焰图路径未必最值得优化。"
+description: 火焰图没有撒谎，却也没有直接指出 APISIX 吞吐回退的瓶颈。本文沿 CPU、调用栈和 LuaJIT 证据链逐步排查，并通过每请求调用次数和配对 A/B 实验，解释为什么最宽的热点未必最值得优化。"
 tags: [Ecosystem]
 ---
 
-一次吞吐回退中，火焰图最宽的路径并不是最终瓶颈。真正值得追查的两个位置，在 Lua 采样里只有 3.0% 和 3.9%。如果按热点排序，它们根本进不了第一轮优化名单。
+火焰图没有撒谎，却也没有直接指出 APISIX 吞吐回退的瓶颈。本文沿 CPU、调用栈和 LuaJIT 证据链逐步排查，并通过每请求调用次数和配对 A/B 实验，解释为什么最宽的热点未必最值得优化。
 
 <!--truncate-->
 
+一次吞吐回退中，火焰图最宽的路径并不是最终瓶颈。真正值得追查的两个位置，在 Lua 采样里只有 3.0% 和 3.9%。如果按热点排序，它们根本进不了第一轮优化名单。
+
 这次排查最有价值的不是某个补丁，而是一条证据链：先确认 CPU 确实是瓶颈；再横向看火焰图宽度，建立候选；然后沿调用栈纵向追，看重复调用和公共路径如何放大成本；当火焰图解释不了端到端差距时，继续查 LuaJIT 编译与中断事件；最后用每请求调用次数和配对 A/B 实验定量。
 
-数据范围：下文数据来自同一受控环境中的一个 APISIX 内部定制构建，其中加载了 100 余个插件。吞吐统一归一化，只用于说明定位方法与因果链，不代表 Apache APISIX OSS 在其他硬件、配置或负载下的通用表现。
+> 数据范围：下文数据来自同一受控环境中的一个 APISIX 内部定制构建，其中加载了 100 余个插件。吞吐统一归一化，只用于说明定位方法与因果链，不代表 Apache APISIX OSS 在其他硬件、配置或负载下的通用表现。
 
 ## 1. 先确认 CPU 瓶颈，而不是上来就看火焰图
 
@@ -45,9 +47,9 @@ tags: [Ecosystem]
 
 我们使用 eBPF 以 500 Hz 同时采集 C 和 Lua 调用栈。下面是排查中的真实 Lua on-CPU 火焰图。
 
-[Image]
+![Lua on-CPU Flame Graph](https://static.api7.ai/uploads/2026/08/28/vM9N9LYs_lua-on-cpu-flame-graph.webp)
 
-图 1：真实火焰图的全局视图。搜索 `run_global_rules` 后命中 3 处，但这些位置在整张图里并不醒目。原始采样共 2,446 个样本；截图已移除进程 PID。可点击查看大图。
+*图 1：真实火焰图的全局视图。搜索 `run_global_rules` 后命中 3 处，但这些位置在整张图里并不醒目。原始采样共 2,446 个样本；截图已移除进程 PID。*
 
 横向看火焰图，看的是宽度，不是 x 轴顺序。宽度越大，采样落在该路径上的次数越多。初步候选位置按 Lua self time 排序：
 
@@ -73,9 +75,9 @@ tags: [Ecosystem]
 
 选中某个 `run_global_rules` 方块后，纵向看调用栈：底部是请求阶段入口，向上经过 `common_phase`、Global Rule 插件筛选、调度，再到具体插件执行。
 
-[Image]
+![run_global_rules Graph](https://static.api7.ai/uploads/2026/08/28/wZ5J5OWQ_run-global-rules.webp)
 
-图 2：点击一个 `run_global_rules` 栈后的交互放大视图。所选栈会被重新铺满画布，因此图中的宽度已经归一化，不能再当作它占总 CPU 的比例。可点击查看大图。
+*图 2：点击一个 `run_global_rules` 栈后的交互放大视图。所选栈会被重新铺满画布，因此图中的宽度已经归一化，不能再当作它占总 CPU 的比例。可点击查看大图。*
 
 纵向高度本身不代表耗时。它的作用是看清成本从哪里进入、被谁调用、为什么反复出现。
 
@@ -142,7 +144,7 @@ JIT trace 难以完整 unwind，12.9% 只能看作下界。但在同一环境中
 
 我们一开始也把“起点出现次数为 0”误读成“整个函数都在解释执行”。后来用 `jit.dump` 字节码模式复核，才发现多个函数入口没有成为 root trace，但函数体已多次进入其他 trace。真正反复失败的是阶段入口和编排函数。
 
-看不到 trace 起点，只能证明这里没有成为 root trace 锚点；不能证明整个函数没有进入机器码。
+> 看不到 trace 起点，只能证明这里没有成为 root trace 锚点；不能证明整个函数没有进入机器码。
 
 ### 4.3 把 `start`、`stop`、`abort` 归回同一起点
 
@@ -226,7 +228,7 @@ JIT 数据在这里承担两个职责：发现火焰图无法正确归属的成�
 
 ## 参考资料
 
-1. WPS with Apache APISIX：火焰图与 LuaJIT 性能实践
-2. 1s to 10ms：Prometheus 长尾延迟的复现、定位与修复
-3. How Is Apache APISIX Fast?
-4. Apache APISIX Benchmark 文档
+1. [WPS with Apache APISIX：火焰图与 LuaJIT 性能实践](https://apisix.apache.org/blog/2021/09/28/wps-usercase/)
+2. [1s to 10ms：Prometheus 长尾延迟的复现、定位与修复](https://api7.ai/blog/1s-to-10ms-reducing-prometheus-delay-in-api-gateway)
+3. [How Is Apache APISIX Fast?](https://apisix.apache.org/blog/2023/06/12/how-is-apisix-fast/)
+4. [Apache APISIX Benchmark 文档](https://apisix.apache.org/docs/apisix/benchmark/)
