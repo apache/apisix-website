@@ -1,5 +1,5 @@
 ---
-title: "The Flame Graph Did Not Lie, but It Did Not Directly Reveal the Bottleneck: Debugging an APISIX Throughput Regression"
+title: "APISIX Throughput Regression: Beyond the Flame Graph"
 authors:
   - name: "Xin Rong"
     title: "Author"
@@ -15,52 +15,50 @@ keywords:
   - LuaJIT
   - performance optimization
   - throughput regression
-description: "The flame graph did not lie, but it did not directly identify the bottleneck behind an APISIX throughput regression. This article follows an evidence chain across CPU, call stacks, and LuaJIT, then uses per-request call counts and paired A/B tests to explain why the widest hotspot is not always the most valuable optimization target."
+description: "An APISIX throughput regression showed why the widest path in the flame graph is not always the real bottleneck—and how CPU data, call stacks, LuaJIT events, and paired A/B tests exposed it."
 tags: [Ecosystem]
 ---
 
-The flame graph did not lie, but it did not directly identify the bottleneck behind an APISIX throughput regression. This article follows an evidence chain across CPU, call stacks, and LuaJIT, then uses per-request call counts and paired A/B tests to explain why the widest hotspot is not always the most valuable optimization target.
+Flame graphs are honest, but they are not verdicts. In this APISIX throughput regression, the widest path was not the real bottleneck. The paths worth chasing accounted for just 3.0% and 3.9% of the Lua samples.
 
 <!--truncate-->
 
-During one throughput regression, the widest path in the flame graph was not the ultimate bottleneck. The two locations that actually warranted investigation accounted for only 3.0% and 3.9% of the Lua samples. Ranked by hotspot size, neither would have made the first optimization shortlist.
-
-The most valuable outcome of this investigation was not any single patch, but the chain of evidence: first confirm that the CPU is genuinely the bottleneck; inspect flame-graph widths horizontally to establish candidates; follow the call stacks vertically to see how repeated calls and shared paths amplify cost; when the flame graph cannot explain the end-to-end gap, inspect LuaJIT compilation and abort events; and finally quantify the effect through per-request call counts and paired A/B tests.
+Ranked by hotspot size alone, neither path would have made the first optimization shortlist. The key was not a single patch but a chain of evidence: confirm that the worker is CPU-bound, compare flame-graph widths, follow repeated call paths, inspect LuaJIT compilation and aborts when the numbers stop adding up, and use per-request call counts plus paired A/B tests to measure the impact.
 
 > **Data scope:** The data below comes from one internally customized APISIX build in the same controlled environment, with more than 100 plugins loaded. Throughput is normalized and is used only to illustrate the diagnostic method and causal chain. It does not represent the general performance of Apache APISIX OSS under other hardware, configurations, or workloads.
 
-## 1. Confirm a CPU Bottleneck Before Looking at a Flame Graph
+## 1. Confirm the Worker Is CPU-Bound
 
-A flame graph shows what the CPU was executing during the sampling window. Its width can explain a performance regression only when the target worker's CPU is close to saturation and throughput is constrained by that core.
+A flame graph shows where the CPU spent its sampled time. Its width matters to a throughput regression only when the target worker is close to saturation and that core limits throughput.
 
-Before sampling, we fixed the following conditions:
+Before collecting the profile, we held the following conditions constant:
 
 - APISIX ran with a single worker pinned to a dedicated physical core.
 - The upstream service and load generator ran on other cores to avoid CPU contention.
 - The request model, configuration, and response content remained unchanged.
-- The throughput regression was consistently reproducible, with no change in error rate or response results.
-- The target worker remained close to saturation, while the upstream service, network, and load generator still had spare capacity.
+- The regression reproduced consistently, with stable error rates and response results.
+- The target worker remained close to saturation, while the upstream service, network, and load generator still had headroom.
 
-If these prerequisites are not met, investigate connections, the network, the upstream service, or the load generator first instead of searching for answers in an on-CPU flame graph.
+If any of these conditions is not met, start with connections, the network, the upstream service, or the load generator—not an on-CPU flame graph.
 
-## 2. Read Width Horizontally, Not Rank
+## 2. Read Width, Not Rank
 
-We used eBPF to collect C and Lua call stacks simultaneously at 500 Hz. The following is the actual Lua on-CPU flame graph from the investigation.
+We used eBPF to sample C and Lua call stacks simultaneously at 500 Hz. Here is the actual Lua on-CPU flame graph from the investigation.
 
 ![Global view of the Lua on-CPU flame graph](https://static.api7.ai/uploads/2026/08/28/vM9N9LYs_lua-on-cpu-flame-graph.webp)
 
 Figure 1: Global view of the actual flame graph. Searching for `run_global_rules` produced 3 matches, none of which stood out in the full graph. The original profile contained 2,446 samples; process PIDs were removed from the screenshot.
 
-When reading a flame graph horizontally, width matters; the position along the x-axis does not. A wider frame means that more samples landed on that path. The initial candidates, ranked by Lua self time, were:
+In a flame graph, x-axis position does not imply order. Width reflects how many samples landed on a path. Ranked by Lua self time, the first shortlist looked like this:
 
 | Candidate location | Lua self time | Initial assessment |
 |---|---:|---|
-| Prometheus exporter | 25.9% | Best candidate to investigate first |
+| Prometheus exporter | 25.9% | Highest-priority candidate |
 | `ctx.var` metamethod | 15.1% | Second candidate |
 | Custom logging bypass | 3.9% | Easy to overlook |
 | `run_global_rules` | 3.0% | Easy to overlook |
 
-Here, self time means the percentage of samples with Lua context that landed directly at that location. It is not a percentage of total CPU time. Approximately 19.6% of the samples in this profile lacked Lua context, so these percentages are useful only for selecting candidates and cannot directly predict throughput gains.
+Here, self time is the share of samples with Lua context that landed directly at a location—not a share of total CPU time. About 19.6% of the samples lacked Lua context, so these percentages are useful for selecting candidates, not predicting throughput gains.
 
 This ranking has four blind spots:
 
@@ -69,17 +67,17 @@ This ranking has four blind spots:
 3. Costs such as table lookups, memory allocation, and garbage collection are attributed to C symbols rather than to the Lua lines that triggered them.
 4. A call can change the caller's JIT state, making the resulting cost appear at the head of the caller function.
 
-`run_global_rules` had one additional characteristic: it did not form one large column. Instead, it appeared across call stacks from several request phases. No single occurrence was wide, but their combined cost could still be substantial.
+There was another clue: `run_global_rules` did not form one large column. It appeared across stacks from several request phases. No single occurrence was wide, but the combined cost could still be substantial.
 
-## 3. Follow the Stack Vertically: How 3% Gets Amplified
+## 3. Follow the Stack to See How 3% Gets Amplified
 
-After selecting a `run_global_rules` frame, follow the call stack vertically. The request-phase entry point is at the bottom, followed by `common_phase`, Global Rule plugin filtering, dispatch, and finally the execution of individual plugins.
+Select a `run_global_rules` frame and follow the stack upward. The request-phase entry point sits at the bottom, followed by `common_phase`, Global Rule plugin filtering, dispatch, and finally individual plugin execution.
 
 ![Zoomed view of the run_global_rules call stack](https://static.api7.ai/uploads/2026/08/28/wZ5J5OWQ_run-global-rules.webp)
 
 Figure 2: Interactive zoomed view after selecting one `run_global_rules` stack. The selected stack is stretched to fill the canvas, so its width is normalized and must not be interpreted as its share of total CPU time. Click the image to view it at full size.
 
-Stack height does not represent elapsed time. Its purpose is to show where the cost enters, who invokes it, and why it appears repeatedly.
+Stack height does not represent elapsed time. It shows where the cost enters, who invokes it, and why it keeps coming back.
 
 Before the fix, `run_global_rules()` called `_M.filter()` in several request phases. `_M.filter()` iterated through every loaded plugin and checked each one to determine whether it had been configured in the Global Rule:
 
@@ -96,12 +94,12 @@ for _, plugin_obj in ipairs(local_plugins) do
 end
 ```
 
-Two amplifiers were present:
+Two factors amplified the cost:
 
 1. The cost of each filtering pass increased with the number of loaded plugins.
 2. The same filtering result was regenerated across request phases. The `body_filter` and `delayed_body_filter` phases could also be entered multiple times for response-body chunks.
 
-In this test configuration, a single request triggered 9 filtering passes. In other words, the same request repeated the work of finding a small number of configured plugins among more than 100 loaded plugins 9 times.
+In this test configuration, one request triggered 9 filtering passes. The same request scanned more than 100 loaded plugins for the same small configured set 9 times.
 
 This explains why a Lua-level self time of 3.0% understated the cost of the entire path:
 
@@ -113,11 +111,11 @@ This explains why a Lua-level self time of 3.0% understated the cost of the enti
 | Temporary object reclamation | `gc_sweep` |
 | Uncompiled interpreter dispatch | `lj_vm_*` / `lj_BC_*` |
 
-Viewed horizontally, this was only a 3% candidate. Following the stack vertically revealed that it sat on a shared path entered repeatedly. The optimization direction was straightforward: within one request, if the Global Rule and matched route have not changed, reuse the filtered plugin set instead of regenerating it in every phase.
+At 3% self time, this path looked minor. Following the stack showed that it sat on a shared path entered repeatedly. The optimization followed directly: within one request, if the Global Rule and matched route have not changed, reuse the filtered plugin set instead of rebuilding it in every phase.
 
-## 4. A Flame-Graph Gap? Check LuaJIT Compilation Events
+## 4. When the Flame Graph Doesn't Add Up, Check LuaJIT
 
-The second path came from a custom observability component. Neither that component nor its logging bypass is part of APISIX OSS, but the issue it exposed is relevant to APISIX plugins and OpenResty extensions: an apparently lightweight call can both incur direct cost and change whether the caller subsequently runs in the interpreter or as machine code.
+The second lead came from a custom observability component. Neither the component nor its logging bypass is part of APISIX OSS, but the failure mode matters to APISIX plugins and OpenResty extensions: a call that looks cheap can add direct cost and change whether subsequent caller code runs in the interpreter or as machine code.
 
 ### 4.1 Interpreter Dispatch Was Abnormally Active
 
@@ -128,27 +126,27 @@ After reclassifying the C-level samples by runtime category, the most notable si
 | Interpreter dispatch: `lj_BC_*` / `lj_vm_*` | 5.86 μs | 29.6% |
 | Observable JIT trace execution | 2.55 μs | 12.9% |
 
-JIT traces are difficult to unwind completely, so 12.9% can only be treated as a lower bound. But in the same environment, such active interpreter dispatch was already a strong signal that some high-frequency paths might not be running consistently as machine code.
+JIT traces do not always unwind cleanly, so 12.9% is only a lower bound. Still, the amount of interpreter dispatch in the same environment was a strong signal that some high-frequency paths might not be running consistently as machine code.
 
-This does not mean that more traces are always better. Initialization code does not need to be compiled, and different traces can have very different costs. Compilation results warrant deeper investigation only when the CPU is saturated, the path is frequently executed, and interpreter dispatch is abnormally active.
+This is not an argument for maximizing trace count. Initialization code does not need to be compiled, and trace costs vary widely. Compilation results are worth investigating only when the CPU is saturated, the path is hot, and interpreter dispatch is unusually active.
 
 ### 4.2 `jit.v` Raised the Alarm—and Caused the First Misdiagnosis
 
 With `jit.v` enabled, one short load test reported 417 successful trace compilations and 493 aborts. After aggregation by source location, a group of paths each stopped at exactly 11 aborts.
 
-These are compilation-event counts, however—not counts of unique functions, coverage measurements, or CPU time. `jit.v` has several important limitations:
+These are compilation-event counts—not unique functions, coverage, or CPU time. `jit.v` also has several important limitations:
 
 - An abort line shows the trace abort location, while the penalty is applied to the trace starting point; the two may not be the same line.
 - A function never appearing as a trace starting point does not mean it was never compiled. Its body may have been inlined into a parent trace.
 - Text logs make it difficult to perform stable set comparisons between results collected with a feature enabled and disabled.
 
-Initially, we also misread “0 appearances as a starting point” as “the entire function runs in the interpreter.” A subsequent check using the bytecode mode of `jit.dump` showed that several function entries had not become root traces, while their bodies had repeatedly entered other traces. The paths that repeatedly failed were actually phase-entry and orchestration functions.
+At first, we read “0 appearances as a starting point” as “the whole function runs in the interpreter.” The bytecode mode of `jit.dump` proved otherwise: several function entries never became root traces, but their bodies repeatedly entered other traces. The recurring failures were in phase-entry and orchestration functions.
 
 > The absence of a trace starting point proves only that the location did not become a root-trace anchor. It does not prove that the entire function never entered machine code.
 
-### 4.3 Attribute `start`, `stop`, and `abort` to One Trace Start
+### 4.3 Correlate `start`, `stop`, and `abort` by Trace Start
 
-To answer which code failed to compile and why, LuaJIT must provide the event stream directly. The core approach is to store the location of each `start` event by trace ID, then attribute the corresponding `stop` or `abort` event back to that same starting point:
+To learn what failed to compile and why, we needed the event stream from LuaJIT itself. Store each `start` location by trace ID, then map the matching `stop` or `abort` back to that same starting point:
 
 ```lua
 -- Simplified illustration; actual callback arguments and parsing are more complex
@@ -167,11 +165,11 @@ jit.attach(function(what, trace_id, func, pc, err_code)
 end, "trace")
 ```
 
-The actual probe must also use `jit.util.funcinfo` to resolve source locations and `jit.vmdef.traceerr` to recover abort reasons. This makes it possible to compare the custom component's enabled and disabled states: which starting points enter the compiled set, which repeatedly abort, and whether a trace flush occurs.
+The real probe also needs `jit.util.funcinfo` to resolve source locations and `jit.vmdef.traceerr` to recover abort reasons. With that data, we can compare the component's enabled and disabled states: which starting points compile, which repeatedly abort, and whether a trace flush occurs.
 
-In the LuaJIT build used for this investigation, the failure penalty began at 72 and doubled after each failure: it was 36,864 on the 10th failure and reached 73,728 on the 11th, exceeding the 60,000 limit. The abort count for several starting points stopped increasing after exactly 11 aborts. They never entered the compiled set, and no trace flush occurred during collection. The number of live traces in both test variants remained below the cache limit, ruling out trace-cache exhaustion. Together, this evidence showed that LuaJIT had abandoned further compilation attempts for those trace starting points.
+In the LuaJIT build used here, the failure penalty started at 72 and doubled after each failure. It was 36,864 on the 10th failure and reached 73,728 on the 11th, above the 60,000 limit. Several starting points stopped at exactly 11 aborts and never entered the compiled set; no trace flush occurred during collection. The number of live traces in both test variants remained below the cache limit, ruling out trace-cache exhaustion. Together, the evidence showed that LuaJIT had abandoned further compilation attempts for those trace starts.
 
-The conclusion must still remain narrowly scoped: the trace starting points were abandoned, not necessarily the entire function bodies. Other parts of those functions could still have been inlined into other traces.
+Keep the conclusion narrow: LuaJIT abandoned those trace starts, not necessarily the entire functions. Other parts of the same functions could still have been inlined into different traces.
 
 When the data was grouped by caller, every affected phase-entry and orchestration function passed through the same custom logging bypass. When the log level was too low to emit output, this path still inspected the request phase, call stack, and request context. The added call did not produce a wide column of its own, but it changed the JIT outcome of its callers, making part of the cost appear at the heads of ordinary request-processing functions.
 
@@ -184,15 +182,15 @@ if log_level_is_suppressed then
 end
 ```
 
-Here, the JIT data served two purposes: it exposed costs that the flame graph could not attribute correctly, and it verified that toggling the feature changed the execution state of high-frequency paths. It could not directly quantify the throughput loss. The goal was also not to force every function to compile, but to prevent work that should never happen when the feature is disabled.
+The JIT data did two jobs: it exposed costs the flame graph could not attribute cleanly, and it showed that toggling the feature changed how hot paths executed. It still could not quantify the throughput loss. The goal was not to force every function to compile; it was to remove work that should never happen when the feature is disabled.
 
-One more trap can distort the result: the probe must be installed before the observed module is loaded. If a module stores a function reference during `require`, replacing the original function afterward allows the counter to observe only the few calls that did not capture the earlier reference. With the probe injected too late, we measured 1 call per request. Moving it before `require("apisix")` revealed the actual rate of 5 calls per request.
+One more trap: install the probe before loading the module under observation. A module can capture a function reference during `require`; replacing that function later leaves the captured reference untouched. Our late probe saw 1 call per request. Moving it before `require("apisix")` exposed the real rate: 5 calls per request.
 
-## 5. Paired A/B Tests Close the Loop: “What Is It Worth?”
+## 5. Close the Loop with Paired A/B Tests
 
-The flame graph identifies locations, call stacks reveal amplification chains, and LuaJIT events explain misplaced costs. Paired experiments are still required to quantify the result.
+Flame graphs identify locations, call stacks reveal amplification, and LuaJIT events explain misplaced costs. Paired experiments tell us how much those paths are actually worth.
 
-For the Global Rule path, we retained the same dispatch and configuration but made the Prometheus business function return immediately after entry. This distinguished “the plugin's business logic is slow” from “the shared path before entering the plugin is slow.” To avoid presenting absolute RPS from a customized environment as an APISIX OSS benchmark, throughput with Prometheus disabled was normalized to 100:
+For the Global Rule path, we kept the same dispatch and configuration but returned immediately after entering the Prometheus business function. This helped distinguish the cost of the plugin's business logic from that of the shared path before plugin entry. To avoid presenting absolute RPS from a customized environment as an APISIX OSS benchmark, we normalized throughput with Prometheus disabled to 100:
 
 | Internal A/B scenario | Relative throughput index | Relative to Prometheus disabled |
 |---|---:|---:|
@@ -200,21 +198,21 @@ For the Global Rule path, we retained the same dispatch and configuration but ma
 | Plugin and dispatch retained; business function returns immediately | 77.2 | -22.8% |
 | Complete Prometheus Global Rule | 56.9 | -43.1% |
 
-Even after the plugin's business code was short-circuited, a substantial gap remained. This experiment could not attribute the cost to a specific line, but it was sufficient to show that the loss did not come solely from metric calculation. The shared path before plugin entry was itself worth investigating. Only after combining this result with 9 filtering passes per request, the vertical call stacks, and the C-level cost distribution was the amplification chain fully established.
+The gap remained even after short-circuiting the plugin's business code. The experiment did not identify a single expensive line, but it ruled out metric calculation as the only cause. Combined with 9 filtering passes per request, the call stacks, and the C-level cost distribution, it closed the amplification chain.
 
-We applied the same method to the custom observability component. With the workload and configuration held constant, we collected compilation events, per-request call counts, throughput, and response-correctness results with the component enabled and disabled. The JIT events explained why the graph did not contain a sufficiently wide new column; the end-to-end A/B test answered how much the path actually cost.
+We used the same method for the custom observability component. With workload and configuration held constant, we collected compilation events, per-request call counts, throughput, and response correctness with the component on and off. JIT events explained why no wide new column appeared in the graph; the end-to-end A/B test measured the actual cost.
 
-The entire investigation can be condensed into five steps:
+The investigation comes down to five steps:
 
 | Step | Core question | Evidence |
 |---|---|---|
-| 1. Confirm the CPU prerequisite | Can the flame graph legitimately explain the regression? | Worker saturation, CPU pinning, spare upstream and load-generator capacity, and stable reproduction |
-| 2. Read width horizontally | Where do most samples land? | Global flame graph and candidate ranking |
-| 3. Follow stacks vertically | Why is a small cost amplified? | Request phases, shared functions, and per-request call counts |
-| 4. Inspect LuaJIT | Why is the cost misplaced or missing? | `start`, `stop`, `abort`, `flush`, and `jit.dump` |
-| 5. Close the loop with paired A/B tests | What is the actual magnitude and causal relationship? | Throughput, latency, call counts, error rate, and response consistency |
+| 1. Verify the worker is CPU-bound | Is the target worker actually CPU-bound? | Worker saturation, CPU pinning, spare upstream and load-generator capacity, and stable reproduction |
+| 2. Compare widths | Where do samples accumulate? | Global flame graph and candidate ranking |
+| 3. Follow stacks | What multiplies a small local cost? | Request phases, shared functions, and per-request call counts |
+| 4. Inspect LuaJIT | Why does cost appear elsewhere or go missing? | `start`, `stop`, `abort`, `flush`, and `jit.dump` |
+| 5. Run paired A/B tests | How large is the effect, and is it causal? | Throughput, latency, call counts, error rate, and response consistency |
 
-These conclusions must remain within explicit boundaries:
+Keep the conclusions within clear boundaries:
 
 - Flame-graph width, Lua self time, and throughput changes use different denominators and cannot be directly subtracted or divided.
 - The custom observability component is not part of APISIX OSS. It is included only to illustrate a general issue that custom extensions may encounter.
@@ -222,9 +220,9 @@ These conclusions must remain within explicit boundaries:
 - “Did not become a trace starting point” does not mean “the function was not compiled.” You must check whether the function body entered other traces.
 - JIT compilation results are diagnostic signals, not final performance metrics. Any optimization must still be validated against throughput, latency, error rate, response content, and resource reclamation.
 
-The flame graph did not lie. Horizontal width showed where CPU samples accumulated, and vertical call stacks showed how shared paths amplified their cost. But once costs spread across interpreter dispatch, JIT traces, the allocator, and caller functions, the flame graph no longer showed complete attribution.
+The flame graph was not wrong. Width showed where CPU samples accumulated, and call stacks showed how shared paths amplified the cost. But once that cost spread across interpreter dispatch, JIT traces, the allocator, and caller functions, the graph no longer showed complete attribution.
 
-At that point, the most effective next step was not to keep guessing which Lua line should be faster. It was to obtain the compilation-event stream from LuaJIT, then use per-request call counts and paired A/B tests to pin down the magnitude. The work most worth optimizing is often not the widest column, but the work that the evidence proves never needed to happen repeatedly in the first place.
+When the graph stops adding up, do not keep guessing which Lua line should be faster. Pull the compilation-event stream from LuaJIT, count calls per request, and run paired A/B tests. The best optimization target is often not the widest column, but the work the evidence shows should never have repeated in the first place.
 
 ## References
 
