@@ -19,7 +19,7 @@ description: "An APISIX throughput regression showed why the widest path in the 
 tags: [Ecosystem]
 ---
 
-Flame graphs are honest, but they are not verdicts. In this APISIX throughput regression, the widest path was not the real bottleneck. The paths worth chasing accounted for just 3.0% and 3.9% of the Lua samples.
+The flame graph didn't lie, but it didn't point to the bottleneck either. In this APISIX throughput regression, the widest path was not the one that mattered. The two paths worth investigating accounted for only 3.0% and 3.9% of the Lua samples.
 
 <!--truncate-->
 
@@ -29,14 +29,14 @@ Ranked by hotspot size alone, neither path would have made the first optimizatio
 
 ## 1. Confirm the Worker Is CPU-Bound
 
-A flame graph shows where the CPU spent its sampled time. Its width matters to a throughput regression only when the target worker is close to saturation and that core limits throughput.
+A flame graph shows where the CPU spent its sampled time. Its width can explain a throughput drop only when the target worker is close to saturation and that core is the bottleneck.
 
 Before collecting the profile, we held the following conditions constant:
 
 - APISIX ran with a single worker pinned to a dedicated physical core.
 - The upstream service and load generator ran on other cores to avoid CPU contention.
 - The request model, configuration, and response content remained unchanged.
-- The regression reproduced consistently, with stable error rates and response results.
+- The regression reproduced consistently. Error rates and responses did not drift.
 - The target worker remained close to saturation, while the upstream service, network, and load generator still had headroom.
 
 If any of these conditions is not met, start with connections, the network, the upstream service, or the load generator—not an on-CPU flame graph.
@@ -138,7 +138,7 @@ These are compilation-event counts—not unique functions, coverage, or CPU time
 
 - An abort line shows the trace abort location, while the penalty is applied to the trace starting point; the two may not be the same line.
 - A function never appearing as a trace starting point does not mean it was never compiled. Its body may have been inlined into a parent trace.
-- Text logs make it difficult to perform stable set comparisons between results collected with a feature enabled and disabled.
+- Text logs make it hard to reliably diff results between enabled and disabled runs.
 
 At first, we read “0 appearances as a starting point” as “the whole function runs in the interpreter.” The bytecode mode of `jit.dump` proved otherwise: several function entries never became root traces, but their bodies repeatedly entered other traces. The recurring failures were in phase-entry and orchestration functions.
 
@@ -169,7 +169,7 @@ The real probe also needs `jit.util.funcinfo` to resolve source locations and `j
 
 In the LuaJIT build used here, the failure penalty started at 72 and doubled after each failure. It was 36,864 on the 10th failure and reached 73,728 on the 11th, above the 60,000 limit. Several starting points stopped at exactly 11 aborts and never entered the compiled set; no trace flush occurred during collection. The number of live traces in both test variants remained below the cache limit, ruling out trace-cache exhaustion. Together, the evidence showed that LuaJIT had abandoned further compilation attempts for those trace starts.
 
-Keep the conclusion narrow: LuaJIT abandoned those trace starts, not necessarily the entire functions. Other parts of the same functions could still have been inlined into different traces.
+That still does not mean LuaJIT abandoned those functions entirely. Other parts could have been inlined into different traces.
 
 When the data was grouped by caller, every affected phase-entry and orchestration function passed through the same custom logging bypass. When the log level was too low to emit output, this path still inspected the request phase, call stack, and request context. The added call did not produce a wide column of its own, but it changed the JIT outcome of its callers, making part of the cost appear at the heads of ordinary request-processing functions.
 
@@ -206,19 +206,19 @@ The investigation comes down to five steps:
 
 | Step | Core question | Evidence |
 |---|---|---|
-| 1. Verify the worker is CPU-bound | Is the target worker actually CPU-bound? | Worker saturation, CPU pinning, spare upstream and load-generator capacity, and stable reproduction |
+| 1. Verify the worker is CPU-bound | Can the flame graph explain this regression? | Worker saturation, CPU pinning, upstream, network, and load-generator headroom, and stable reproduction |
 | 2. Compare widths | Where do samples accumulate? | Global flame graph and candidate ranking |
 | 3. Follow stacks | What multiplies a small local cost? | Request phases, shared functions, and per-request call counts |
 | 4. Inspect LuaJIT | Why does cost appear elsewhere or go missing? | `start`, `stop`, `abort`, `flush`, and `jit.dump` |
 | 5. Run paired A/B tests | How large is the effect, and is it causal? | Throughput, latency, call counts, error rate, and response consistency |
 
-Keep the conclusions within clear boundaries:
+A few limits on what this shows:
 
 - Flame-graph width, Lua self time, and throughput changes use different denominators and cannot be directly subtracted or divided.
 - The custom observability component is not part of APISIX OSS. It is included only to illustrate a general issue that custom extensions may encounter.
 - The values 29.6%, 12.9%, 417, 493, and abort ×11 apply only to this build and collection window and must not be extrapolated.
 - “Did not become a trace starting point” does not mean “the function was not compiled.” You must check whether the function body entered other traces.
-- JIT compilation results are diagnostic signals, not final performance metrics. Any optimization must still be validated against throughput, latency, error rate, response content, and resource reclamation.
+- JIT compilation results are diagnostic signals, not final performance metrics. Any optimization must still be validated against throughput, latency, error rate, response content, and GC behavior.
 
 The flame graph was not wrong. Width showed where CPU samples accumulated, and call stacks showed how shared paths amplified the cost. But once that cost spread across interpreter dispatch, JIT traces, the allocator, and caller functions, the graph no longer showed complete attribution.
 
@@ -226,7 +226,7 @@ When the graph stops adding up, do not keep guessing which Lua line should be fa
 
 ## References
 
-1. [WPS with Apache APISIX: Flame Graph and LuaJIT Performance Practices](https://apisix.apache.org/blog/2021/09/28/wps-usercase/)
-2. [1s to 10ms: Reproducing, Diagnosing, and Fixing Prometheus Tail Latency](https://api7.ai/blog/1s-to-10ms-reducing-prometheus-delay-in-api-gateway)
+1. [WPS with Apache APISIX to create new API gateway experience](https://apisix.apache.org/blog/2021/09/28/wps-usercase/)
+2. [1s to 10ms: Reducing Prometheus Delay in API Gateway](https://api7.ai/blog/1s-to-10ms-reducing-prometheus-delay-in-api-gateway)
 3. [How Is Apache APISIX Fast?](https://apisix.apache.org/blog/2023/06/12/how-is-apisix-fast/)
 4. [Apache APISIX Benchmark Documentation](https://apisix.apache.org/docs/apisix/benchmark/)
