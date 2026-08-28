@@ -15,7 +15,7 @@ keywords:
   - LuaJIT
   - 性能优化
   - 吞吐回退
-description: 火焰图没有撒谎，却也没有直接指出 APISIX 吞吐回退的瓶颈。本文沿 CPU、调用栈和 LuaJIT 证据链逐步排查，并通过每请求调用次数和配对 A/B 实验，解释为什么最宽的热点未必最值得优化。"
+description: "火焰图没有撒谎，却也没有直接指出 APISIX 吞吐回退的瓶颈。本文沿 CPU、调用栈和 LuaJIT 证据链逐步排查，并通过每请求调用次数和配对 A/B 实验，解释为什么最宽的热点未必最值得优化。"
 tags: [Ecosystem]
 ---
 
@@ -49,7 +49,7 @@ tags: [Ecosystem]
 
 ![Lua on-CPU Flame Graph](https://static.api7.ai/uploads/2026/08/28/vM9N9LYs_lua-on-cpu-flame-graph.webp)
 
-*图 1：真实火焰图的全局视图。搜索 `run_global_rules` 后命中 3 处，但这些位置在整张图里并不醒目。原始采样共 2,446 个样本；截图已移除进程 PID。*
+图 1：真实火焰图的全局视图。搜索 `run_global_rules` 后命中 3 处，但这些位置在整张图里并不醒目。原始采样共 2,446 个样本；截图已移除进程 PID。
 
 横向看火焰图，看的是宽度，不是 x 轴顺序。宽度越大，采样落在该路径上的次数越多。初步候选位置按 Lua self time 排序：
 
@@ -77,7 +77,7 @@ tags: [Ecosystem]
 
 ![run_global_rules Graph](https://static.api7.ai/uploads/2026/08/28/wZ5J5OWQ_run-global-rules.webp)
 
-*图 2：点击一个 `run_global_rules` 栈后的交互放大视图。所选栈会被重新铺满画布，因此图中的宽度已经归一化，不能再当作它占总 CPU 的比例。可点击查看大图。*
+图 2：点击一个 `run_global_rules` 栈后的交互放大视图。所选栈会被重新铺满画布，因此图中的宽度已经归一化，不能再当作它占总 CPU 的比例。可点击查看大图。
 
 纵向高度本身不代表耗时。它的作用是看清成本从哪里进入、被谁调用、为什么反复出现。
 
