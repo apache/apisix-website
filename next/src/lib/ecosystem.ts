@@ -3,8 +3,8 @@ import type { Locale } from './site';
 
 export type LocalizedText = { en: string; zh: string };
 export type VerificationStatus = 'verified' | 'documented' | 'validation-in-progress';
-export type IntegrationCategory = 'data';
-export type CookbookCategory = 'cost' | 'reliability';
+export type IntegrationCategory = 'ai-runtime' | 'data';
+export type CookbookCategory = 'cost' | 'deployment' | 'reliability';
 
 interface BaseResource {
   slug: string;
@@ -55,11 +55,13 @@ export const verificationLabels: { [key: VerificationStatus]: LocalizedText } = 
 };
 
 export const integrationCategoryLabels: { [key: IntegrationCategory]: LocalizedText } = {
+  'ai-runtime': { en: 'AI model runtimes', zh: 'AI 模型运行时' },
   data: { en: 'Data stores, caching, and rate limiting', zh: '数据存储、缓存与限流' },
 };
 
 export const cookbookCategoryLabels: { [key: CookbookCategory]: LocalizedText } = {
   cost: { en: 'Cost and quotas', zh: '成本与配额' },
+  deployment: { en: 'Deployment and model serving', zh: '部署与模型服务' },
   reliability: { en: 'Reliability', zh: '可靠性' },
 };
 
@@ -127,13 +129,15 @@ function verification(mod: MdModule): VerificationStatus {
 
 function integrationCategory(mod: MdModule): IntegrationCategory {
   const value = requiredString(mod, 'category');
-  if (value !== 'data') throw new Error(`${sourceName(mod)}: unsupported integration category ${value}`);
-  return value;
+  if (!['ai-runtime', 'data'].includes(value)) {
+    throw new Error(`${sourceName(mod)}: unsupported integration category ${value}`);
+  }
+  return value as IntegrationCategory;
 }
 
 function cookbookCategory(mod: MdModule): CookbookCategory {
   const value = requiredString(mod, 'category');
-  if (!['cost', 'reliability'].includes(value)) {
+  if (!['cost', 'deployment', 'reliability'].includes(value)) {
     throw new Error(`${sourceName(mod)}: unsupported cookbook category ${value}`);
   }
   return value as CookbookCategory;
