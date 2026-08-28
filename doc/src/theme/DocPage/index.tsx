@@ -91,7 +91,15 @@ const fieldTypePattern = /^(?:array|boolean|integer|null|number|object|string)(?
 type ElementWithChildren = ReactElement<{
   children?: ReactNode;
   className?: string;
+  mdxType?: string;
+  originalType?: string;
 }>;
+
+const elementType = (element: ElementWithChildren): string | undefined => (
+  typeof element.type === 'string'
+    ? element.type
+    : element.props.mdxType ?? element.props.originalType
+);
 
 const elementChildren = (children: ReactNode): ElementWithChildren[] => (
   React.Children.toArray(children).filter(
@@ -100,7 +108,7 @@ const elementChildren = (children: ReactNode): ElementWithChildren[] => (
 );
 
 const findElement = (children: ReactNode, type: string): ElementWithChildren | undefined => {
-  const directMatch = elementChildren(children).find((child) => child.type === type);
+  const directMatch = elementChildren(children).find((child) => elementType(child) === type);
   if (directMatch) return directMatch;
 
   return elementChildren(children)
@@ -125,10 +133,10 @@ const attributeColumnKind = (header: string): AttributeColumnKind | null => (
 const hasFieldTypeValues = (children: ReactNode): boolean => {
   const body = findElement(children, 'tbody');
   const rows = elementChildren(body?.props.children)
-    .filter((row) => row.type === 'tr');
+    .filter((row) => elementType(row) === 'tr');
   const typeValues = rows.map((row) => {
     const cells = elementChildren(row.props.children)
-      .filter((cell) => cell.type === 'th' || cell.type === 'td');
+      .filter((cell) => elementType(cell) === 'th' || elementType(cell) === 'td');
     return reactTextContent(cells[1]?.props.children)
       .trim()
       .replace(/[\s\u00a0]+/g, ' ');
@@ -144,7 +152,7 @@ const attributeColumns = (children: ReactNode): AttributeColumnKind[] | null => 
   const head = findElement(children, 'thead');
   const row = findElement(head?.props.children, 'tr');
   const headers = elementChildren(row?.props.children)
-    .filter((cell) => cell.type === 'th')
+    .filter((cell) => elementType(cell) === 'th')
     .map((cell) => reactTextContent(cell.props.children).trim().replace(/[\s\u00a0]+/g, ' '));
   const columns = headers.map(attributeColumnKind);
 
@@ -182,7 +190,7 @@ const decorateRowCells = (
 
   return React.Children.map(children, (child) => {
     if (!React.isValidElement<{ className?: string }>(child)) return child;
-    if (child.type !== 'th' && child.type !== 'td') return child;
+    if (elementType(child) !== 'th' && elementType(child) !== 'td') return child;
 
     const column = columns[cellIndex];
     cellIndex += 1;
@@ -200,7 +208,7 @@ const decorateTableRows = (
 ): ReactNode => React.Children.map(children, (child) => {
   if (!React.isValidElement<{ children?: ReactNode }>(child)) return child;
 
-  if (child.type === 'tr') {
+  if (elementType(child) === 'tr') {
     return React.cloneElement(child, {
       children: decorateRowCells(child.props.children, columns),
     });
@@ -219,7 +227,10 @@ const tableLabel = (frame: HTMLElement): string => {
 
   let label = 'Documentation table';
   markdown.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((heading) => {
-    if (heading.compareDocumentPosition(frame) === Node.DOCUMENT_POSITION_FOLLOWING) {
+    if (
+      !heading.closest('.admonition')
+      && heading.compareDocumentPosition(frame) === Node.DOCUMENT_POSITION_FOLLOWING
+    ) {
       label = heading.textContent?.trim() || label;
     }
   });
@@ -343,6 +354,7 @@ const components = (currentPage: string) => ({
           <div
             style={{
               width: 500,
+              maxWidth: '100%',
               height: 300,
               borderRadius: '1rem',
               backgroundColor: '#d2d2d7',

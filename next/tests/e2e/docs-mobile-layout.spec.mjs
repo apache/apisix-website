@@ -112,12 +112,17 @@ async function assertPluginTable(page, {
   verifyShortCells = false,
   accessibleName = /Attributes/i,
 }) {
-  await page.goto(path);
+  if (new URL(page.url()).pathname !== path) {
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+  }
   const shell = page.locator(shellSelector);
   const scroller = shell.locator('.table-scroll');
   const expectedOverflow = String(shouldOverflow);
   await expect(shell).toHaveAttribute('data-overflow', expectedOverflow);
   await expect(shell.locator('.docs-table--attributes')).toHaveCount(1);
+  await scroller.evaluate((element) => {
+    element.scrollTo({ left: 0 });
+  });
 
   const metrics = await page.evaluate(({ content, expectedColumnCount, tableShell }) => {
     const contentElement = document.querySelector(content);
@@ -314,7 +319,7 @@ async function assertNoJsPluginTable(browser, {
 
 async function assertGenericMetricsTable(page, { path, shellSelector }) {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(path);
+  await page.goto(path, { waitUntil: 'domcontentloaded' });
   const shell = page.locator(shellSelector);
   const table = shell.locator('table');
   await expect(shell).toHaveCount(1);
@@ -337,7 +342,7 @@ async function assertGenericMetricsTable(page, { path, shellSelector }) {
 
 async function assertLiveResizeTransitions(page, { path, shellSelector }) {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(path);
+  await page.goto(path, { waitUntil: 'domcontentloaded' });
   const shell = page.locator(shellSelector);
   const scroller = shell.locator('.table-scroll');
 
@@ -596,6 +601,7 @@ test('current Attributes tables support four, five, and seven column schemas', a
 });
 
 test('archived APISIX plugin tables expand when space is available', async ({ page }) => {
+  test.setTimeout(120_000);
   test.skip(
     process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
       || test.info().project.name !== 'desktop-chrome',
@@ -654,6 +660,7 @@ test('archived APISIX plugin tables expand when space is available', async ({ pa
 });
 
 test('archived Docusaurus tables cover variable schemas and generic wrapping', async ({ page }) => {
+  test.setTimeout(120_000);
   test.skip(
     process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
       || test.info().project.name !== 'desktop-chrome',
@@ -705,6 +712,7 @@ test('archived Docusaurus Attributes table works without JavaScript', async ({ b
 });
 
 test('archived Docusaurus table focus stays visible in dark mode', async ({ browser }) => {
+  test.setTimeout(120_000);
   test.skip(
     process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
       || test.info().project.name !== 'desktop-chrome',
@@ -717,12 +725,15 @@ test('archived Docusaurus table focus stays visible in dark mode', async ({ brow
   });
   try {
     await darkPage.addInitScript(() => localStorage.setItem('theme', 'dark'));
-    await darkPage.goto('/docs/apisix/3.18/plugins/openid-connect/');
+    await darkPage.goto('/docs/apisix/3.18/plugins/openid-connect/', {
+      waitUntil: 'domcontentloaded',
+    });
     await expect(darkPage.locator('html')).toHaveAttribute('data-theme', 'dark');
     const shell = darkPage.locator('.markdown h2:has(#attributes) + .table-shell');
     const scroller = shell.locator('.table-scroll');
     await expect(shell).toHaveAttribute('data-overflow', 'true');
-    await scroller.focus();
+    await darkPage.locator('.markdown h2:has(#attributes) .hash-link').focus();
+    await darkPage.keyboard.press('Tab');
     await expect(scroller).toBeFocused();
 
     const focusMetrics = await scroller.evaluate((element) => {
@@ -769,6 +780,7 @@ test('archived Docusaurus table focus stays visible in dark mode', async ({ brow
 });
 
 test('archived Docusaurus table reacts to live viewport changes', async ({ page }) => {
+  test.setTimeout(120_000);
   test.skip(
     process.env.EXPECT_DOCUSARUS_ROUTES !== 'true'
       || test.info().project.name !== 'desktop-chrome',

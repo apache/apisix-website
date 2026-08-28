@@ -602,12 +602,56 @@ jobs:
             exit 1
           fi
 
+      # Production HTML points at the CDN, but a new content-hashed bundle is
+      # unavailable there until after this job succeeds and publishes it. Test
+      # an isolated copy with local asset URLs so hydration exercises the exact
+      # JS/CSS produced above without changing the artifact that gets published.
+      - name: Prepare the final site for local browser testing
+        id: e2e-site
+        run: |
+          set -euo pipefail
+          cdn_origin='https://apisix-website-static.apiseven.com'
+          cdn_origin_pattern='https://apisix-website-static\.apiseven\.com'
+          kapa_script='https://widget.kapa.ai/kapa-widget.bundle.js'
+          e2e_site=$(mktemp -d "$RUNNER_TEMP/apisix-website-e2e.XXXXXX")
+          cp -R website/build/. "$e2e_site/"
+          # Keep third-party Kapa/reCAPTCHA traffic from blocking layout tests;
+          # the checks below ensure only the disposable copy loses the widget.
+          find "$e2e_site" -type f -name '*.html' -exec \
+            sed -i \
+              -e "s|$cdn_origin_pattern/assets/|/assets/|g" \
+              -e "s|$cdn_origin_pattern/zh/assets/|/zh/assets/|g" \
+              -e 's|<script src="https://widget\.kapa\.ai/kapa-widget\.bundle\.js"[^>]*></script>||g' {} +
+          for asset_prefix in "$cdn_origin/assets/" "$cdn_origin/zh/assets/"; do
+            if grep -RqlF --include='*.html' "$asset_prefix" "$e2e_site"; then
+              echo "CDN asset URLs remain in the local E2E site: $asset_prefix"
+              exit 1
+            fi
+            if ! grep -RqlF --include='*.html' "$asset_prefix" website/build; then
+              echo "The production build lost its CDN asset URLs: $asset_prefix"
+              exit 1
+            fi
+          done
+          if grep -RqlF --include='*.html' "$kapa_script" "$e2e_site"; then
+            echo 'The third-party Kapa widget remains in the isolated E2E site.'
+            exit 1
+          fi
+          if ! grep -RqlF --include='*.html' "$kapa_script" website/build; then
+            echo 'The production build lost the Kapa widget.'
+            exit 1
+          fi
+          test -d "$e2e_site/assets/js"
+          test -d "$e2e_site/assets/css"
+          test -d "$e2e_site/zh/assets/js"
+          test -d "$e2e_site/zh/assets/css"
+          echo "site=$e2e_site" >> "$GITHUB_OUTPUT"
+
       - name: Test the final overlaid site on desktop and mobile
         working-directory: next
         run: npm run test:e2e
         env:
           PLAYWRIGHT_BASE_URL: http://127.0.0.1:4321
-          PLAYWRIGHT_WEB_SERVER_COMMAND: python3 -m http.server 4321 --bind 127.0.0.1 --directory ../website/build
+          PLAYWRIGHT_WEB_SERVER_COMMAND: python3 -m http.server 4321 --bind 127.0.0.1 --directory ${{ steps.e2e-site.outputs.site }}
           EXPECT_DOCUSARUS_ROUTES: 'true'
 
       - name: Upload final site for publishing

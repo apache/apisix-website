@@ -533,6 +533,10 @@ article img {
   height: auto;
 }
 
+.markdown .lazy-load-image-background {
+  max-width: 100%;
+}
+
 .markdown > p,
 .markdown > ul,
 .markdown > ol,
@@ -670,6 +674,7 @@ article img {
 .docs-table--attributes .docs-table__col--description {
   width: 19rem;
   min-width: 19rem;
+  overflow-wrap: anywhere;
 }
 
 .table-shell[data-overflow="true"] .docs-table--attributes .docs-table__col--name,

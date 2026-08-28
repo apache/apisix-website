@@ -513,6 +513,7 @@ a.tag:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2
 .docs-table--attributes .docs-table__col--description {
   width: 19rem;
   min-width: 19rem;
+  overflow-wrap: anywhere;
 }
 
 .table-shell[data-overflow="true"] .docs-table--attributes .docs-table__col--name,
