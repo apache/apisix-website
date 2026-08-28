@@ -1,0 +1,244 @@
+---
+title: "火焰图没撒谎，但没直接告诉我们瓶颈：一次 APISIX 吞吐回退定位"
+authors:
+  - name: "Xin Rong"
+    title: "Author"
+    url: "https://github.com/AlinsRan"
+    image_url: "https://github.com/AlinsRan.png"
+  - name: "Yilia Lin"
+    title: "Technical Writer"
+    url: "https://github.com/Yilialinn"
+    image_url: "https://github.com/Yilialinn.png"
+keywords:
+  - Apache APISIX
+  - 火焰图
+  - LuaJIT
+  - 性能优化
+  - 吞吐回退
+description: 一次 APISIX 吞吐回退排查：从 CPU 饱和、火焰图调用栈和 LuaJIT 编译事件，到每请求调用次数与配对 A/B 实验，建立完整的性能定位证据链。
+tags: [Ecosystem]
+---
+
+一次吞吐回退中，火焰图最宽的路径解释了显著成本，却没有解释全部回退。最终值得继续追查的两个位置，在 Lua 采样里只有 3.0% 和 3.9%。如果只按热点排序，它们根本进不了第一轮优化名单。
+
+<!--truncate-->
+
+这次排查最有价值的不是某个补丁，而是一条证据链：先确认 CPU 确实是瓶颈；再横向看火焰图宽度，建立候选；然后沿调用栈纵向追，看重复调用和公共路径如何放大成本；当火焰图解释不了端到端差距时，继续查 LuaJIT 编译与中断事件；最后用每请求调用次数和配对 A/B 实验定量。
+
+> **数据范围：** 除下文引用的公开 PR #13779 A/B 结果外，内部数据来自同一受控环境中的一个 APISIX 定制构建，其中加载了 100 余个插件。内部吞吐统一归一化，只用于说明定位方法与因果链，不代表 Apache APISIX OSS 在其他硬件、配置或负载下的通用表现。本文定位的 Global Rule 跨阶段重复筛选已在 [Apache APISIX 3.18.0](https://apisix.apache.org/zh/blog/2026/08/20/release-apache-apisix-3.18.0/) 中修复；下文记录的是修复前的排查过程，不应理解为当前版本仍有相同行为。
+
+## 1. 先确认 CPU 瓶颈，而不是上来就看火焰图
+
+火焰图显示的是采样期间 CPU 在执行什么。只有目标 worker CPU 接近饱和、吞吐受这个核限制时，火焰图的宽度才有资格解释性能回退。
+
+我们在采样前固定了这些条件：
+
+- APISIX 使用单 worker，并绑定独占物理核；
+- 上游服务和压测端使用其他核，避免 CPU 争抢；
+- 请求模型、配置、响应内容保持一致；
+- 吞吐回退可稳定复现，错误率和响应结果没有偏移；
+- 目标 worker 持续接近饱和，上游、网络、压测端仍有余量。
+
+如果不满足这些前提，首先应该查连接、网络、上游或压测端，而不是在 on-CPU 火焰图里找答案。
+
+## 2. 横向看宽度，而不是排名
+
+我们使用 eBPF 以 500 Hz 同时采集 C 和 Lua 调用栈。下面是排查中的真实 Lua on-CPU 火焰图。
+
+<!-- TODO: Insert the original full Lua on-CPU flame graph (Figure 1). -->
+
+图 1：真实火焰图的全局视图。搜索 `run_global_rules` 后命中 3 处，但这些位置在整张图里并不醒目。原始采样共 2,446 个样本；截图已移除进程 PID。可点击查看大图。
+
+横向看火焰图，看的是宽度，不是 x 轴顺序。宽度越大，采样落在该路径上的次数越多。初步候选位置按 Lua self time 排序：
+
+| 候选位置 | Lua self time | 初判 |
+|---|---:|---|
+| Prometheus exporter | 25.9% | 最值得先看 |
+| `ctx.var` 元方法 | 15.1% | 第二候选 |
+| 自定义日志旁路 | 3.9% | 很容易被忽略 |
+| `run_global_rules` | 3.0% | 很容易被忽略 |
+
+这里的 self time 指：在带 Lua 上下文的样本中，直接落在这个位置上的比例，不是总 CPU 占比。本次采样约 19.6% 的样本缺失 Lua 上下文；按这个单一窗口估算，3.0% 和 3.9% 分别只有约 59 和 77 个样本。因此，这些百分比只用于建立待复测的候选，不能直接预测吞吐收益，也不宜强调两者之间的排名差异。
+
+这个排名有四个盲区：
+
+1. LuaJIT 解释执行时，不同 Lua 代码可能折叠到共享的 `lj_BC_*`、`lj_vm_*` 符号里。
+2. 已编译的 JIT trace 不一定能被常规栈回溯完整展开，因此可观察到的 JIT 样本只是下界。
+3. 表查找、内存分配、GC 等成本会记在 C 符号上，而不是触发的 Lua 行上。
+4. 一个调用可能改变调用方的 JIT 状态，使成本看起来落在调用方函数头上。
+
+`run_global_rules` 还有一个特征：它没有形成一根大柱子，而是散在多个请求阶段的调用栈里。单处不宽，不等于合起来不贵。
+
+## 3. 纵向沿栈看，3% 如何被公共路径放大
+
+选中某个 `run_global_rules` 方块后，纵向看调用栈：底部是请求阶段入口，向上经过 `common_phase`、Global Rule 插件筛选、调度，再到具体插件执行。
+
+<!-- TODO: Insert the original zoomed run_global_rules stack (Figure 2). -->
+
+图 2：点击一个 `run_global_rules` 栈后的交互放大视图。所选栈会被重新铺满画布，因此图中的宽度已经归一化，不能再当作它占总 CPU 的比例。可点击查看大图。
+
+纵向高度本身不代表耗时。它的作用是看清成本从哪里进入、被谁调用、为什么反复出现。
+
+修复前，`run_global_rules()` 会在请求的多个阶段调用 `_M.filter()`。`_M.filter()` 遍历所有已加载插件，再逐个判断该插件是否被 Global Rule 配置：
+
+```lua
+-- 简化示意，非 APISIX 完整实现
+for _, plugin_obj in ipairs(local_plugins) do
+    local name = plugin_obj.name
+    local plugin_conf = user_plugin_conf[name]
+    if type(plugin_conf) ~= "table" then
+        goto continue
+    end
+    -- 处理已配置插件
+    ::continue::
+end
+```
+
+两个放大器都在这里：
+
+1. 单次过滤成本随已加载插件数量增长。
+2. 相同过滤结果跨请求阶段重复生成；`body_filter` 与 `delayed_body_filter` 还可能按响应块多次进入。
+
+本次测试配置中，一个请求实际触发了 9 次过滤。也就是说，“从 100+ 插件中找出已配置的少量插件”这件事，被同一个请求重复了 9 次。
+
+这解释了为什么 Lua 层 3.0% 会低估整条路径成本：
+
+| 实际工作 | 火焰图常见归属 |
+|---|---|
+| 循环本身 | `plugin.lua` 对应位置 |
+| 大量表查找 | `lj_BC_TGETS` |
+| 临时表分配 | `lj_alloc_malloc` |
+| 该路径触发或承担的 GC 工作 | `gc_sweep` |
+| 未编译解释器派发 | `lj_vm_*` / `lj_BC_*` |
+
+横向看，它只是 3% 的候选；纵向看，才会发现它位于一条被反复进入的公共路径。优化方向也很直接：同一请求内，如果 Global Rule 和匹配路由没有变化，就复用已筛选的插件集合，而不是每个阶段重新生成。缓存需要同时按 Global Rule 版本和匹配路由失效，因为 Consumer 配置合并可能在 `rewrite` 与 `access` 之间替换匹配路由。这项优化已在 [Apache APISIX PR #13779](https://github.com/apache/apisix/pull/13779) 中合入，并随 APISIX 3.18.0 发布。
+
+## 4. 火焰图解释不了差距时，查 LuaJIT 编译事件
+
+第二条路径来自自定义观测组件。它和日志旁路不属于 APISIX OSS，但揭示的问题对 APISIX 插件和 OpenResty 扩展有参考价值：一次看似很轻的调用，既可能产生直接成本，也可能改变调用方之后以解释器还是机器码运行。
+
+### 4.1 解释器与 VM helper 活动值得深挖
+
+把 C 层样本按运行时类型重新分类，最值得注意的不是某行 Lua，而是解释器与 JIT 的关系：
+
+| 运行类别 | 每请求 CPU 时间 | 占本次样本 |
+|---|---:|---:|
+| 字节码 handler 与 VM helper：`lj_BC_*` / `lj_vm_*` | 5.86 μs | 29.6% |
+| 可观察到的 JIT trace 执行 | 2.55 μs | 12.9% |
+
+这个 29.6% 的桶不能直接叫作“纯解释器占比”。`lj_BC_*` 可以视为字节码 handler，但 `lj_vm_*` 还包括数值转换、FFI bridge 等 VM helper，其中一些也可能被 JIT trace 调用。要做严格归因，需要按确切符号重分，并用 [LuaJIT profiler 的 VM state](https://luajit.org/ext_profiler.html)（`I`、`N`、`C`、`G`、`J`）交叉验证。
+
+JIT trace 难以完整 unwind，12.9% 也只能看作下界。即便如此，VM 运行时相关活动在同一环境中如此集中，仍是一个值得继续检查的信号，而不是“29.6% 都在解释执行”的结论。
+
+这不等于 trace 越多越好。初始化代码不需要追求编译，不同 trace 的成本差异也很大。只有在 CPU 饱和、路径高频、解释器派发异常时，编译结果才值得深挖。
+
+### 4.2 `jit.v` 发出警报，也制造了第一次误判
+
+开启 `jit.v` 后，一次短时压测输出中看到 417 次 trace 编译成功、493 次 abort。按位置聚合后，一批路径的 abort 次数整齐停在 11。
+
+但这是编译事件数，不是唯一函数数、覆盖率或 CPU 时间。`jit.v` 有几个边界：
+
+- abort 记录包含 trace 起点；中断位置不同时，`jit.v` 会在末尾追加 `at ...`。解析时不能把末尾位置误当成起点，因为惩罚记在真正的 trace 起点。
+- 某函数从未成为 trace 起点，不代表它没有被编译，函数体可能已被内联进父 trace。
+- 文本日志很难对功能开启/关闭两组结果做稳定的集合差。
+
+我们一开始也把“起点出现次数为 0”误读成“整个函数都在解释执行”。后来用 `jit.dump` 字节码模式复核，才发现多个函数入口没有成为 root trace，但函数体已多次进入其他 trace。真正反复失败的是阶段入口和编排函数。
+
+> 看不到 trace 起点，只能证明这里没有成为 root trace 锚点；不能证明整个函数没有进入机器码。
+
+### 4.3 把 `start`、`stop`、`abort` 归回同一起点
+
+要回答“哪段代码没有编译、为什么”，需要让 LuaJIT 自己交事件流。核心做法是按 trace ID 保存 `start` 的位置，再把后续 `stop` 或 `abort` 归回同一个起点：
+
+```lua
+-- 简化示意，实际回调参数和解析逻辑更复杂
+local trace_start = {}
+
+jit.attach(function(what, trace_id, func, pc, err_code)
+    if what == "start" then
+        trace_start[trace_id] = locate(func, pc)
+    elseif what == "stop" then
+        record_compiled(trace_start[trace_id])
+        trace_start[trace_id] = nil
+    elseif what == "abort" then
+        record_abort(trace_start[trace_id], err_code)
+        trace_start[trace_id] = nil
+    end
+end, "trace")
+```
+
+实际探针还要用 `jit.util.funcinfo` 解析源位置，用 `jit.vmdef.traceerr` 还原 abort 原因。这样就能比较开启/关闭自定义组件时：哪些起点进入 compiled 集合，哪些反复 abort，以及是否发生 trace flush。
+
+在本次 LuaJIT 构建中，失败惩罚从 72 开始，后续按“旧值的两倍再加 0–15”增长。第 10 次的惩罚范围为 36,864–44,529；第 11 次计算值至少为 73,728，超过 60,000 上限后，该起始字节码会被直接加入黑名单，而不是保存一个精确的 73,728。具体机制可见 OpenResty LuaJIT 的[惩罚常量](https://github.com/openresty/luajit2/blob/fbfc558aacd57a54623df0ced4c31a28f81f8ff2/src/lj_jit.h#L303-L313)与[实现](https://github.com/openresty/luajit2/blob/fbfc558aacd57a54623df0ced4c31a28f81f8ff2/src/lj_trace.c#L393-L415)。多个起点恰好 abort ×11 后不再增长；它们没有进入 compiled 集合，采集期间也没有 trace flush。两组存活 trace 数均低于缓存上限，因此排除了 trace 缓存被挤爆的可能。这些证据与源码机制一致，说明对应的 trace 起点已被放弃继续编译。
+
+仍然不能扩大结论：被放弃的是 trace 起点，不一定是整个函数体；其他部分仍可能被内联进别的 trace。
+
+按调用来源聚合后，受影响的阶段入口和编排函数都经过同一条自定义日志旁路：日志级别不足时虽不输出，但仍会检查请求阶段、调用栈和请求上下文。新增调用本身没有形成大柱子，却改变了调用方的 JIT 结果，使部分成本看起来落在正常请求函数头上。
+
+```lua
+-- 自定义扩展的简化示意，不是 APISIX OSS 实现
+if log_level_is_suppressed then
+    check_debug_capture(...)
+    check_request_buffer(...)
+    return
+end
+```
+
+JIT 数据在这里承担两个职责：发现火焰图无法正确归属的成本，验证功能开关确实改变了高频路径的执行状态。但它不能直接告诉我们吞吐损失多大；真正的方向也不是“强迫所有函数编译”，而是让关闭状态下本来不该发生的工作根本不执行。
+
+还有一个容易让结论失真的陷阱：探针必须装在被观测模块加载之前。如果模块在 `require` 时保存了函数引用，之后替换原函数，计数器只能看到少量没被快照走的调用。本次探针注入晚时测到 1 次/请求，前移到 `require("apisix")` 之前后，才确认真实值是 5 次/请求。
+
+## 5. 配对 A/B 收口：实验回答“值多少钱”
+
+火焰图给位置，调用栈给放大链，LuaJIT 事件解释错位成本。最终还要靠配对实验定量。
+
+以 Global Rule 路径为例，我们保留相同调度和配置，只让 Prometheus 业务函数进入后立即返回，用来区分“插件业务逻辑慢”和“进入插件前的公共路径慢”。为避免把定制环境绝对 RPS 当成 APISIX OSS benchmark，关闭 Prometheus 的吞吐被归一化为 100：
+
+| 内部 A/B 场景 | 相对吞吐指数 | 相对关闭 Prometheus |
+|---|---:|---:|
+| 关闭 Prometheus | 100.0 | 基准 |
+| 保留插件与调度，业务函数立即返回 | 77.2 | -22.8% |
+| 完整 Prometheus Global Rule | 56.9 | -43.1% |
+
+即使插件业务代码被短路，差距仍然显著。这个实验不能把成本定位到某一行，但足以证明损耗不只来自指标计算，进入插件前的公共路径本身就值得追查。再结合每请求 9 次过滤、纵向调用栈和 C 层成本分布，放大链才真正闭合。
+
+“业务函数立即返回”仍然包含调度和插件进入成本，不能单独量化 `_M.filter()` 复用的收益。针对最终修复本身，[PR #13779](https://github.com/apache/apisix/pull/13779) 还给出了更直接的配对结果：基于 APISIX 3.2 的同类 fork、单 worker 绑核、wrk2、每组 5 轮取中位数，并通过 Global Rule 启用 Prometheus：
+
+| Global Rule 修复 A/B | RPS | 相对基线 |
+|---|---:|---:|
+| 修复前基线 | 21,453 | 基准 |
+| 跨阶段复用筛选结果 | 24,062 | +12.2% |
+
+该结果没有在当时的 `master` 上复测，不能外推为其他版本或环境的通用增益；它的作用是直接验证这项修复在对应基线上的收益。
+
+自定义观测组件也用同样方法：保持负载与配置一致，分别采集开启和关闭下的编译事件、每请求调用次数、吞吐和响应正确性。JIT 事件解释“为什么图上没有足够宽的新柱子”，端到端 A/B 才能回答“这条路径到底值多少钱”。本文没有给出这条自定义路径的最终吞吐差，因此它在这里是一个重要的诊断案例，而不是一个已经公开定量的瓶颈结论。
+
+整个排查可以压缩成五步：
+
+| 步骤 | 核心问题 | 证据 |
+|---|---|---|
+| 1. 确认 CPU 前提 | 火焰图是否有资格解释回退？ | worker 饱和、绑核、上下游余量、稳定复现 |
+| 2. 横向看宽度 | 样本主要落在哪里？ | 全局火焰图与候选排序 |
+| 3. 纵向沿栈看 | 小成本为何被放大？ | 调用阶段、公共函数、每请求调用次数 |
+| 4. 检查 LuaJIT | 成本为何错位或消失？ | `start`、`stop`、`abort`、`flush` 与 `jit.dump` |
+| 5. 配对 A/B 收口 | 真实量级与因果是什么？ | 吞吐、延迟、调用次数、错误率与响应一致性 |
+
+这些结论必须留在明确边界内：
+
+- 火焰图宽度、Lua self time 与吞吐变化的分母不同，不能直接相减或相除。
+- 自定义观测组件不属于 APISIX OSS，只用于说明自定义扩展可能遇到的通用问题。
+- 29.6%、12.9%、417、493 和 abort ×11 都属于本次构建和采集窗口，不能外推。
+- “没有成为 trace 起点”不等于“函数没有编译”，必须检查函数体是否进入其他 trace。
+- JIT 编译结果是定位信号，不是最终性能指标；优化仍需验证吞吐、延迟、错误率、响应内容和资源回收。
+
+火焰图没有撒谎。横向宽度告诉我们 CPU 样本聚集在哪，纵向调用栈告诉我们成本如何被公共路径放大。但当成本进入解释器、JIT trace、分配器和调用方后，火焰图看到的就不再是完整归属。
+
+这时最有效的动作不是继续猜哪行 Lua 应该更快，而是让 LuaJIT 交出编译事件，再用每请求调用次数和配对 A/B 把量级钉死。最终值得优化的，往往不是最宽的柱子，而是那段经过证据证明、根本不需要反复发生的工作。
+
+## 参考资料
+
+1. [WPS 基于 Apache APISIX 的网关性能优化实践](https://apisix.apache.org/zh/blog/2021/09/28/wps-usercase/)
+2. [从 1 秒到 10 毫秒！在 APISIX 中减少 Prometheus 请求阻塞](https://apisix.apache.org/zh/blog/2023/03/06/the-mystery-of-prometheus-plugins-and-long-tail-requests/)
+3. [How Is Apache APISIX Fast?](https://apisix.apache.org/blog/2023/06/12/how-is-apisix-fast/)
+4. [Apache APISIX Benchmark 文档](https://apisix.apache.org/zh/docs/apisix/benchmark/)
+5. [Apache APISIX PR #13779：跨阶段复用 Global Rule 插件筛选结果](https://github.com/apache/apisix/pull/13779)
