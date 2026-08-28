@@ -584,12 +584,12 @@ article img {
 
 .table-shell::before {
   left: 0;
-  background: linear-gradient(90deg, var(--ifm-background-color), transparent);
+  background: linear-gradient(90deg, var(--ifm-background-surface-color), transparent);
 }
 
 .table-shell::after {
   right: 0;
-  background: linear-gradient(270deg, var(--ifm-background-color), transparent);
+  background: linear-gradient(270deg, var(--ifm-background-surface-color), transparent);
 }
 
 .table-shell[data-overflow="true"][data-at-start="false"]::before,
@@ -682,7 +682,7 @@ article img {
   position: sticky;
   z-index: 1;
   left: 0;
-  background: var(--ifm-background-color);
+  background: var(--ifm-background-surface-color);
   box-shadow: 1px 0 var(--ifm-table-border-color, var(--color-border));
 }
 

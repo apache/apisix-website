@@ -102,6 +102,59 @@ async function assertDocsLayout(page, url) {
   }
 }
 
+async function assertAttributeTableSurfacePaint(shell, context, {
+  requireThemeSurface = false,
+} = {}) {
+  const metrics = await shell.evaluate((element) => {
+    const alpha = (color) => {
+      if (!color || color === 'transparent') return 0;
+      const channels = color.match(/rgba?\(([^)]+)\)/)?.[1]
+        .split(/[,/\s]+/)
+        .filter(Boolean) ?? [];
+      if (channels.length < 4) return 1;
+      const value = parseFloat(channels[3]);
+      return channels[3].endsWith('%') ? value / 100 : value;
+    };
+    const stickyCell = element.querySelector(
+      '.docs-table--attributes tbody tr > :first-child',
+    );
+    const surfaceProbe = document.createElement('span');
+    surfaceProbe.style.backgroundColor = 'var(--ifm-background-surface-color)';
+    element.append(surfaceProbe);
+    const surfaceColor = getComputedStyle(surfaceProbe).backgroundColor;
+    surfaceProbe.remove();
+    const stickyBackground = getComputedStyle(stickyCell).backgroundColor;
+    const cueBackgrounds = ['::before', '::after']
+      .map((pseudo) => getComputedStyle(element, pseudo).backgroundImage);
+    const cueEdgeColors = cueBackgrounds.map((background) => (
+      background.match(/rgba?\([^)]+\)/)?.[0] ?? null
+    ));
+
+    return {
+      cueEdgeAlphas: cueEdgeColors.map(alpha),
+      cueEdgeColors,
+      stickyBackground,
+      stickyBackgroundAlpha: alpha(stickyBackground),
+      surfaceAlpha: alpha(surfaceColor),
+      surfaceColor,
+    };
+  });
+
+  expect(metrics.stickyBackgroundAlpha, `${context}: sticky Name cells must mask scrolled text`)
+    .toBeGreaterThan(0);
+  expect(
+    metrics.cueEdgeAlphas.every((value) => value > 0),
+    `${context}: both overflow cues must include a visible edge stop`,
+  ).toBe(true);
+  if (requireThemeSurface) {
+    expect(metrics.surfaceAlpha, `${context}: the Docusaurus surface must be opaque`).toBe(1);
+    expect(metrics.stickyBackground, `${context}: sticky Name cells must use the theme surface`)
+      .toBe(metrics.surfaceColor);
+    expect(metrics.cueEdgeColors, `${context}: both cues must start with the theme surface`)
+      .toEqual([metrics.surfaceColor, metrics.surfaceColor]);
+  }
+}
+
 async function assertPluginTable(page, {
   path,
   shellSelector,
@@ -111,6 +164,7 @@ async function assertPluginTable(page, {
   minimumShellWidth = 0,
   verifyShortCells = false,
   accessibleName = /Attributes/i,
+  requireThemeSurface = false,
 }) {
   if (new URL(page.url()).pathname !== path) {
     await page.goto(path, { waitUntil: 'domcontentloaded' });
@@ -250,6 +304,7 @@ async function assertPluginTable(page, {
     });
     expect(stickyMetrics.position, `${path}: keep the attribute name visible while panning`)
       .toBe('sticky');
+    await assertAttributeTableSurfacePaint(shell, path, { requireThemeSurface });
     expect(Math.abs(stickyMetrics.cellLeft - stickyMetrics.scrollerLeft))
       .toBeLessThanOrEqual(2);
     const leftCueOpacity = await shell.evaluate((element) => (
@@ -272,6 +327,8 @@ async function assertNoJsPluginTable(browser, {
   path,
   shellSelector,
   expectedColumns,
+  requireThemeSurface = false,
+  theme = 'light',
 }) {
   const noJsPage = await browser.newPage({
     baseURL: test.info().project.use.baseURL,
@@ -280,6 +337,12 @@ async function assertNoJsPluginTable(browser, {
   });
   try {
     await noJsPage.goto(path);
+    if (theme === 'dark') {
+      await noJsPage.locator('html').evaluate((element) => {
+        element.setAttribute('data-theme', 'dark');
+      });
+      await expect(noJsPage.locator('html')).toHaveAttribute('data-theme', 'dark');
+    }
     const shell = noJsPage.locator(shellSelector);
     const scroller = shell.locator('.table-scroll');
     const table = scroller.locator('.docs-table--attributes');
@@ -309,6 +372,11 @@ async function assertNoJsPluginTable(browser, {
     expect(metrics.semanticColumns).toEqual(expectedColumns);
     expect(metrics.firstBodyCellPosition, 'no-JS schema tables must keep Name visible')
       .toBe('sticky');
+    await assertAttributeTableSurfacePaint(
+      shell,
+      `${path} in ${theme} theme without JavaScript`,
+      { requireThemeSurface },
+    );
     expect(metrics.scrollerScrollWidth).toBeGreaterThan(metrics.scrollerClientWidth);
     expect(metrics.pageScrollWidth, 'no-JS table overflow must remain inside its scroller')
       .toBeLessThanOrEqual(metrics.pageClientWidth);
@@ -612,6 +680,7 @@ test('archived APISIX plugin tables expand when space is available', async ({ pa
     path: '/docs/apisix/3.18/plugins/openid-connect/',
     shellSelector: '.markdown h2:has(#attributes) + .table-shell',
     contentSelector: '.markdown',
+    requireThemeSurface: true,
   };
 
   const serverResponse = await page.request.get(table.path);
@@ -688,6 +757,7 @@ test('archived Docusaurus tables cover variable schemas and generic wrapping', a
       shouldOverflow: true,
       minimumShellWidth: 340,
       accessibleName: item.accessibleName ?? /Attributes/i,
+      requireThemeSurface: true,
     });
   }
 
@@ -704,11 +774,15 @@ test('archived Docusaurus Attributes table works without JavaScript', async ({ b
     'archived Docusaurus docs only exist in the final overlaid tree',
   );
 
-  await assertNoJsPluginTable(browser, {
-    path: '/docs/apisix/3.18/plugins/openid-connect/',
-    shellSelector: '.markdown h2:has(#attributes) + .table-shell',
-    expectedColumns: ATTRIBUTE_COLUMNS['openid-connect'],
-  });
+  for (const theme of ['light', 'dark']) {
+    await assertNoJsPluginTable(browser, {
+      path: '/docs/apisix/3.18/plugins/openid-connect/',
+      shellSelector: '.markdown h2:has(#attributes) + .table-shell',
+      expectedColumns: ATTRIBUTE_COLUMNS['openid-connect'],
+      requireThemeSurface: true,
+      theme,
+    });
+  }
 });
 
 test('archived Docusaurus table focus stays visible in dark mode', async ({ browser }) => {
@@ -732,6 +806,9 @@ test('archived Docusaurus table focus stays visible in dark mode', async ({ brow
     const shell = darkPage.locator('.markdown h2:has(#attributes) + .table-shell');
     const scroller = shell.locator('.table-scroll');
     await expect(shell).toHaveAttribute('data-overflow', 'true');
+    await assertAttributeTableSurfacePaint(shell, 'archived dark-mode table', {
+      requireThemeSurface: true,
+    });
     await darkPage.locator('.markdown h2:has(#attributes) .hash-link').focus();
     await darkPage.keyboard.press('Tab');
     await expect(scroller).toBeFocused();
@@ -861,6 +938,7 @@ test('archived plugin table overflow remains local and keyboard accessible on mo
     expectedColumns: ATTRIBUTE_COLUMNS['openid-connect'],
     shouldOverflow: true,
     minimumShellWidth: 340,
+    requireThemeSurface: true,
   });
 });
 
