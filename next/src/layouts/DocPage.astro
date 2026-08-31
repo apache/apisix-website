@@ -90,4 +90,36 @@ const hasAlternate = entry.hasTranslation && !canonicalOverride;
       </div>
     </article>
   </div>
+  <script>
+    document.querySelectorAll<HTMLElement>('.table-shell').forEach((shell) => {
+      const scroller = shell.querySelector<HTMLElement>('.table-scroll');
+      const table = scroller?.querySelector('table');
+      if (!scroller || !table) return;
+
+      const update = () => {
+        const overflow = scroller.scrollWidth > scroller.clientWidth + 1;
+        const atStart = scroller.scrollLeft <= 1;
+        const atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 1;
+
+        shell.dataset.overflow = String(overflow);
+        shell.dataset.atStart = String(atStart);
+        shell.dataset.atEnd = String(atEnd);
+        scroller.tabIndex = overflow ? 0 : -1;
+
+        if (overflow) {
+          scroller.setAttribute('role', 'region');
+          scroller.setAttribute('aria-label', shell.dataset.tableLabel ?? 'Documentation');
+        } else {
+          scroller.removeAttribute('role');
+          scroller.removeAttribute('aria-label');
+        }
+      };
+
+      scroller.addEventListener('scroll', update, { passive: true });
+      const observer = new ResizeObserver(update);
+      observer.observe(scroller);
+      observer.observe(table);
+      update();
+    });
+  </script>
 </Base>
