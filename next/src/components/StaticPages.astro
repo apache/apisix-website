@@ -23,6 +23,15 @@ const DOCS_PROJECTS = [
   { name: 'General', href: `${p}/docs/general/join/`, desc: t(locale, 'Community, contribution, and release guides.', '社区、贡献与发版指南。') },
 ];
 
+const DOCS_TASKS = [
+  { label: t(locale, 'Start or operate APISIX', '开始使用或运维 APISIX'), href: `${p}/docs/apisix/getting-started/README/` },
+  { label: t(locale, 'Run APISIX on Kubernetes', '在 Kubernetes 上运行 APISIX'), href: `${p}/docs/ingress-controller/overview/` },
+  { label: t(locale, 'Install APISIX with Helm', '使用 Helm 安装 APISIX'), href: `${p}/docs/helm-chart/apisix/` },
+  { label: t(locale, 'Develop plugins in Java', '使用 Java 开发插件'), href: `${p}/docs/java-plugin-runner/development/` },
+  { label: t(locale, 'Develop plugins in Go', '使用 Go 开发插件'), href: `${p}/docs/go-plugin-runner/getting-started/` },
+  { label: t(locale, 'Develop plugins in Python', '使用 Python 开发插件'), href: `${p}/docs/python-plugin-runner/getting-started/` },
+];
+
 const comparisons = kind === 'comparisons'
   ? getLearningPosts().filter((post) => post.tags.includes('comparison'))
   : [];
@@ -35,7 +44,7 @@ if (aisixIndex !== -1 && kongIndex !== -1 && aisixIndex !== kongIndex + 1) {
 }
 
 const META: Record<string, { title: string; desc: string; path: string }> = {
-  'docs-hub': { title: t(locale, 'Documentation', '文档'), desc: t(locale, 'Documentation for Apache APISIX and its sub-projects.', 'Apache APISIX 及其子项目的文档。'), path: '/docs/' },
+  'docs-hub': { title: t(locale, 'Documentation', '文档'), desc: t(locale, 'Browse Apache APISIX documentation for API Gateway, AI Gateway, Ingress Controller, Helm Chart, plugin development, tutorials, and API references.', '浏览 Apache APISIX 文档，涵盖 API 网关、AI 网关、Ingress Controller、Helm Chart、插件开发、教程与 API 参考。'), path: '/docs/' },
   team: { title: t(locale, 'Team', '团队'), desc: t(locale, 'The people behind Apache APISIX: PMC members, committers, and contributors.', 'Apache APISIX 背后的人：PMC 成员、Committer 与贡献者。'), path: '/team/' },
   contribute: { title: t(locale, 'Contribute', '参与贡献'), desc: t(locale, 'How to contribute code, docs, and community help to Apache APISIX.', '如何为 Apache APISIX 贡献代码、文档与社区支持。'), path: '/contribute/' },
   comparisons: { title: t(locale, 'Comparisons', '对比'), desc: t(locale, 'How Apache APISIX compares to Kong, Envoy, NGINX, Traefik, and cloud gateways.', 'Apache APISIX 与 Kong、Envoy、NGINX、Traefik 及云网关的对比。'), path: '/comparisons/' },
@@ -52,11 +61,19 @@ const zhCanonicalToEn = locale === 'zh' && kind === 'comparisons'
     <div class="page-title"><h1>{meta.title}</h1><p>{meta.desc}</p></div>
 
     {kind === 'docs-hub' && (
-      <div class="post-list">
-        {DOCS_PROJECTS.map((proj) => (
-          <a class="post-card" href={proj.href}><div class="body"><h3>{proj.name}</h3><p class="desc">{proj.desc}</p></div></a>
-        ))}
-      </div>
+      <>
+        <nav class="tag-row docs-task-nav" aria-label={t(locale, 'Choose documentation by task', '按任务选择文档')}>
+          {DOCS_TASKS.map((task) => <a class="tag" href={task.href}>{task.label}</a>)}
+        </nav>
+        <p class="docs-version-note">{t(locale,
+          'Need a specific release? Open a documentation set and use its version selector when available. Verify the selected version before copying configuration or commands.',
+          '需要特定版本？打开文档集，并在提供版本选择器时进行切换。复制配置或命令前，请先确认所选版本。')}</p>
+        <div class="post-list docs-project-list">
+          {DOCS_PROJECTS.map((proj) => (
+            <a class="post-card" href={proj.href}><div class="body"><h3>{proj.name}</h3><p class="desc">{proj.desc}</p></div></a>
+          ))}
+        </div>
+      </>
     )}
 
     {kind === 'team' && (
@@ -91,3 +108,9 @@ const zhCanonicalToEn = locale === 'zh' && kind === 'comparisons'
 
   </div>
 </Base>
+
+<style>
+  .docs-task-nav { margin: 1.5rem 0 1rem; }
+  .docs-version-note { margin: 0; color: var(--color-text-soft); max-width: 50rem; }
+  .docs-project-list { padding-top: 1.5rem; }
+</style>
