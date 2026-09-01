@@ -3,7 +3,7 @@ title: "2026 社区月报 (08.01 - 08.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: /TODO_COVER_IMAGE_ZH
 ---
 
 > 最近，我们引入并更新了一些新功能，包括增强 LDAP 与 OIDC 身份认证、强化数据加密与上游 TLS 校验、提升 AI 流量处理效率与容错能力，以及完善流量治理和可观测性等。有关更多细节，请阅读本期月报。
@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
+<img alt="贡献者名单" src="/TODO_CONTRIBUTOR_LIST_IMAGE" />
 
-![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
+<img alt="新晋贡献者" src="/TODO_NEW_CONTRIBUTORS_IMAGE" />
 
 ## 近期亮点功能
 

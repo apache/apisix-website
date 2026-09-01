@@ -3,7 +3,7 @@ title: "2026 Monthly Report (August 01 - August 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: /TODO_COVER_IMAGE_EN
 ---
 
 > Recently, we've introduced and updated some new features, including advanced LDAP and OIDC authentication, stronger encryption and upstream TLS verification, faster and more resilient AI traffic, and richer traffic governance and observability. For more details, please read this month's newsletter.
@@ -18,9 +18,9 @@ From August 1st to August 31st, 10 contributors made 69 commits to Apache APISIX
 
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
+<img alt="Apache APISIX Contributors List" src="/TODO_CONTRIBUTOR_LIST_IMAGE" />
 
-![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
+<img alt="New Contributors List" src="/TODO_NEW_CONTRIBUTORS_IMAGE" />
 
 ## Feature Highlights
 
