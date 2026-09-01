@@ -78,7 +78,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-该 PR 为 `ai-aws-content-moderation` 新增 `request_check_roles` 和 `request_check_mode`，可选择审核用户、工具及系统消息，并决定检查全部历史还是最近一组相关消息。默认配置保留插件原有的审核范围，而按需选择内容可避免在每轮对话中重复审核历史消息并产生额外费用。
+该 PR 为 `ai-aws-content-moderation` 新增 `request_check_roles` 和 `request_check_mode`，可选择审核用户、工具及系统消息，并决定检查全部历史还是最近一组相关消息。默认配置保留对用户、工具和系统消息的原有审核范围，但此前由通用提取逻辑覆盖的 assistant 消息不再接受审核。按需选择内容可避免在每轮对话中重复审核历史消息并产生额外费用。
 
 #### 7. 通过 `ngx_http_ffi_client` 发送 LLM 请求
 

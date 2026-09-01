@@ -78,7 +78,7 @@ PR: https://github.com/apache/apisix/pull/13773
 
 Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
-This PR adds `request_check_roles` and `request_check_mode` to `ai-aws-content-moderation`, so operators can choose which user, tool, and system content to moderate and whether to inspect all turns or only the latest relevant block. The defaults preserve the plugin's existing coverage, while selective checks can avoid repeatedly scoring and billing for conversation history.
+This PR adds `request_check_roles` and `request_check_mode` to `ai-aws-content-moderation`, so operators can choose which user, tool, and system content to moderate and whether to inspect all turns or only the latest relevant block. The defaults preserve the previous coverage for user, tool, and system messages, but assistant messages previously included by the generic extractor are no longer moderated. Selective checks can avoid repeatedly scoring and billing for conversation history.
 
 #### 7. Send LLM Requests Through `ngx_http_ffi_client`
 
@@ -124,4 +124,4 @@ This PR allows `chaitin-waf` to report response status, headers, and a configura
 
 ## Conclusion
 
-The [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) of Apache APISIX provide a wealth of documentation of tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
+The Apache APISIX [official website](https://apisix.apache.org/) and [GitHub Issues](https://github.com/apache/apisix/issues) offer extensive documentation, tutorials, and real-world use cases. If you encounter any issues, you can refer to the documentation, search for keywords in Issues, or participate in discussions on Issues to share your ideas and practical experiences.
