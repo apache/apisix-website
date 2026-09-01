@@ -3,7 +3,7 @@ title: "2026 社区月报 (08.01 - 08.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: /TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/09/01/rWYKjvhI_2026-aug-monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了一些新功能，包括增强 LDAP 与 OIDC 身份认证、强化数据加密与上游 TLS 校验、提升 AI 流量处理效率与容错能力，以及完善流量治理和可观测性等。有关更多细节，请阅读本期月报。
@@ -14,13 +14,13 @@ image: /TODO_COVER_IMAGE_ZH
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，"众人拾柴火焰高"，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-从 2026.08.01 至 2026.08.31，有 10 名开发者提交了 69 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+从 2026.08.01 至 2026.08.31，有 13 名开发者提交了 117 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
 ## 贡献者统计
 
-<img alt="贡献者名单" src="/TODO_CONTRIBUTOR_LIST_IMAGE" />
+![贡献者名单](https://static.api7.ai/uploads/2026/09/01/N8c2DgwP_2026-aug-contributor-list.webp)
 
-<img alt="新晋贡献者" src="/TODO_NEW_CONTRIBUTORS_IMAGE" />
+![新晋贡献者](https://static.api7.ai/uploads/2026/09/01/xxM9t0jy_2026-aug-new-contributors.webp)
 
 ## 近期亮点功能
 

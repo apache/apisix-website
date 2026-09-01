@@ -3,7 +3,7 @@ title: "2026 Monthly Report (August 01 - August 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: /TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/09/01/fnMEaJFl_2026-aug-monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated some new features, including advanced LDAP and OIDC authentication, stronger encryption and upstream TLS verification, faster and more resilient AI traffic, and richer traffic governance and observability. For more details, please read this month's newsletter.
@@ -14,13 +14,13 @@ image: /TODO_COVER_IMAGE_EN
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From August 1st to August 31st, 10 contributors made 69 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From August 1st to August 31st, 13 contributors made 117 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
 ## Contributor Statistics
 
-<img alt="Apache APISIX Contributors List" src="/TODO_CONTRIBUTOR_LIST_IMAGE" />
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/09/01/N8c2DgwP_2026-aug-contributor-list.webp)
 
-<img alt="New Contributors List" src="/TODO_NEW_CONTRIBUTORS_IMAGE" />
+![New Contributors List](https://static.api7.ai/uploads/2026/09/01/xxM9t0jy_2026-aug-new-contributors.webp)
 
 ## Feature Highlights
 
