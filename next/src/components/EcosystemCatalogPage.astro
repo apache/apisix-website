@@ -1,0 +1,225 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  cookbookCategoryLabels,
+  getCookbooks,
+  getIntegrations,
+  integrationCategoryLabels,
+  localize,
+  verificationLabels,
+  type CookbookEntry,
+  type IntegrationEntry,
+} from '../lib/ecosystem';
+import { SITE, localePrefix, t, type Locale } from '../lib/site';
+
+interface Props {
+  kind: 'integrations' | 'cookbooks';
+  locale: Locale;
+}
+
+const { kind, locale } = Astro.props;
+const p = localePrefix(locale);
+const isIntegrations = kind === 'integrations';
+const entries = isIntegrations ? getIntegrations(locale) : getCookbooks(locale);
+const labels = isIntegrations ? integrationCategoryLabels : cookbookCategoryLabels;
+const path = isIntegrations ? '/integrations/' : '/cookbooks/';
+const title = isIntegrations
+  ? t(locale, 'Apache APISIX Integrations', 'Apache APISIX 集成')
+  : t(locale, 'Apache APISIX Cookbooks', 'Apache APISIX Cookbook');
+const heading = isIntegrations
+  ? t(locale, 'Connect APISIX to your stack', '将 APISIX 接入现有系统')
+  : t(locale, 'Practical guides for Apache APISIX', 'Apache APISIX 实践指南');
+const description = isIntegrations
+  ? t(
+    locale,
+    'See how Apache APISIX connects to other systems, including setup methods, supported versions, current test status, and hands-on guides.',
+    '了解 Apache APISIX 如何连接其他系统，包括接入方式、适用版本、当前验证状态和实践指南。',
+  )
+  : t(
+    locale,
+    'Step-by-step Apache APISIX guides with version details, expected results, failure cases, security notes, and cleanup steps.',
+    '按步骤复现常见的 APISIX 使用场景。每篇指南都注明版本、预期结果、故障处理、安全事项和清理步骤。',
+  );
+
+const categoryOrder = Object.keys(labels);
+const groups = categoryOrder
+  .map((category) => ({
+    category,
+    label: localize(locale, labels[category as keyof typeof labels]),
+    entries: entries.filter((entry) => entry.category === category),
+  }))
+  .filter((group) => group.entries.length > 0);
+
+const localizedHref = (href: string) => (href.startsWith('http') ? href : `${p}${href}`);
+const nameOf = (entry: IntegrationEntry | CookbookEntry) => (
+  entry.kind === 'integration' ? entry.name : entry.title
+);
+const descriptionOf = (entry: IntegrationEntry | CookbookEntry) => entry.description;
+const canonicalUrl = (href: string) => (href.startsWith('http') ? href : `${SITE}${p}${href}`);
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE}${p}${path}`,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: entries.length,
+    itemListElement: entries.map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: nameOf(entry),
+      url: canonicalUrl(entry.href),
+    })),
+  },
+};
+---
+<Base title={title} description={description} locale={locale} path={path} jsonLd={[collectionSchema]}>
+  <header class="page-head ecosystem-head">
+    <div class="container ecosystem-head-layout">
+      <div class="page-title">
+        <p class="kicker">
+          {isIntegrations
+            ? t(locale, 'Integration Hub', '集成中心')
+            : t(locale, 'Cookbooks', '实践指南')}
+        </p>
+        <h1>{heading}</h1>
+        <p>{description}</p>
+      </div>
+      <dl class="ecosystem-summary" aria-label={t(locale, 'Catalog summary', '目录概览')}>
+        <div><dt>{entries.length}</dt><dd>{isIntegrations ? t(locale, 'integrations', '项集成') : t(locale, 'cookbooks', '篇 Cookbook')}</dd></div>
+        <div><dt>{groups.length}</dt><dd>{t(locale, 'categories', '个类别')}</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="container ecosystem-layout">
+    <aside class="ecosystem-nav" aria-label={t(locale, 'Categories', '类别')}>
+      <p>{t(locale, 'Categories', '类别')}</p>
+      <nav>
+        {groups.map((group) => (
+          <a href={`#${group.category}`}>
+            <span>{group.label}</span>
+            <span>{group.entries.length}</span>
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <section class="ecosystem-catalog" data-testid={`${kind}-catalog`}>
+      {groups.map((group) => (
+        <section class="ecosystem-group" id={group.category} data-testid="ecosystem-group">
+          <div class="ecosystem-group-heading">
+            <h2>{group.label}</h2>
+            <p>{group.entries.length} {t(locale, 'items', '项')}</p>
+          </div>
+          <div class="ecosystem-grid">
+            {group.entries.map((entry) => (
+              <a
+                class="ecosystem-card"
+                href={localizedHref(entry.href)}
+                data-testid="ecosystem-card"
+                data-resource={entry.slug}
+              >
+                <div class="card-topline">
+                  {entry.kind === 'integration' && (
+                    <span class="resource-icon" aria-hidden="true">
+                      {entry.icon
+                        ? <img src={entry.icon} alt="" width="36" height="36" loading="lazy" />
+                        : <span>{entry.name.slice(0, 1)}</span>}
+                    </span>
+                  )}
+                  <span class={`verification ${entry.verification}`}>
+                    {localize(locale, verificationLabels[entry.verification])}
+                  </span>
+                </div>
+                <h3>{nameOf(entry)}</h3>
+                <p class="card-description">{descriptionOf(entry)}</p>
+                {entry.kind === 'integration' ? (
+                  <dl class="card-meta">
+                    <div><dt>{t(locale, 'Method', '接入方式')}</dt><dd>{entry.method}</dd></div>
+                    <div><dt>APISIX</dt><dd>{entry.apisixVersion}</dd></div>
+                    <div><dt>{t(locale, 'Protocols', '协议')}</dt><dd>{entry.protocols.join(', ')}</dd></div>
+                  </dl>
+                ) : (
+                  <dl class="card-meta">
+                    <div><dt>{t(locale, 'Difficulty', '难度')}</dt><dd>{entry.difficulty}</dd></div>
+                    <div><dt>{t(locale, 'Time', '时间')}</dt><dd>{entry.duration}</dd></div>
+                    <div><dt>APISIX</dt><dd>{entry.apisixVersion}</dd></div>
+                  </dl>
+                )}
+                <span class="card-link">
+                  {entry.kind === 'integration'
+                    ? t(locale, 'View integration', '查看集成')
+                    : t(locale, 'View cookbook', '查看指南')} <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </section>
+  </div>
+</Base>
+
+<style>
+  .ecosystem-head { padding: 3.5rem 0 2.5rem; }
+  .ecosystem-head-layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3rem; align-items: end; }
+  .page-title h1 { max-width: 19ch; font-size: 2.8rem; line-height: 1.12; }
+  .ecosystem-summary { display: flex; gap: 2rem; margin: 0; padding: 1rem 0; }
+  .ecosystem-summary div { min-width: 84px; }
+  .ecosystem-summary dt { color: var(--color-primary-dark); font-size: 1.7rem; font-weight: 750; line-height: 1.1; }
+  .ecosystem-summary dd { margin: .25rem 0 0; color: var(--color-text-soft); font-size: .78rem; }
+  .ecosystem-layout { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 3rem; align-items: start; padding-top: 2.5rem; }
+  .ecosystem-nav { position: sticky; top: calc(var(--header-height) + 1.5rem); }
+  .ecosystem-nav > p { margin: 0 0 .65rem; color: var(--color-text-soft); font-size: .75rem; font-weight: 750; text-transform: uppercase; }
+  .ecosystem-nav nav { display: grid; }
+  .ecosystem-nav a { display: flex; justify-content: space-between; gap: .75rem; min-height: 40px; padding: .45rem .55rem; border-left: 2px solid var(--color-border); color: var(--color-text-soft); font-size: .86rem; }
+  .ecosystem-nav a:hover { border-left-color: var(--color-primary); color: var(--color-primary); text-decoration: none; }
+  .ecosystem-catalog { min-width: 0; }
+  .ecosystem-group { padding: 0 0 3.5rem; scroll-margin-top: calc(var(--header-height) + 1rem); }
+  .ecosystem-group + .ecosystem-group { padding-top: 1rem; border-top: 1px solid var(--color-border); }
+  .ecosystem-group-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.1rem; }
+  .ecosystem-group-heading h2 { margin: 0; font-size: 1.55rem; }
+  .ecosystem-group-heading p { margin: 0; color: var(--color-text-soft); font-size: .82rem; }
+  .ecosystem-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .ecosystem-card { display: flex; flex-direction: column; min-width: 0; min-height: 330px; padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: #fff; color: var(--color-text); transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .ecosystem-card:hover { border-color: var(--color-hover-border); box-shadow: var(--shadow-card-hover); text-decoration: none; transform: translateY(-3px); }
+  .ecosystem-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+  .card-topline { display: flex; align-items: center; justify-content: space-between; min-height: 42px; gap: .75rem; }
+  .resource-icon { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface-alt); color: var(--color-primary-dark); font-weight: 750; }
+  .resource-icon img { width: 34px; height: 34px; object-fit: contain; }
+  .verification { margin-left: auto; padding: .22rem .55rem; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-text-soft); background: var(--color-surface-alt); font-size: .7rem; font-weight: 700; white-space: nowrap; }
+  .verification.verified { border-color: #a7d7c5; color: #067647; background: #ecfdf3; }
+  .verification.validation-in-progress { border-color: #fedf89; color: #934f00; background: #fffaeb; }
+  .ecosystem-card h3 { margin: 1rem 0 .55rem; font-size: 1.16rem; line-height: 1.35; }
+  .card-description { margin: 0 0 1rem; color: var(--color-text-soft); font-size: .88rem; }
+  .card-meta { display: grid; gap: .35rem; margin: auto 0 1rem; padding-top: .8rem; border-top: 1px solid var(--color-border); font-size: .78rem; }
+  .card-meta div { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: .65rem; }
+  .card-meta dt { color: var(--color-text-soft); }
+  .card-meta dd { margin: 0; overflow-wrap: anywhere; }
+  .card-link { color: var(--color-primary-dark); font-size: .8rem; font-weight: 700; }
+  @media (max-width: 900px) {
+    .ecosystem-head-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+    .ecosystem-summary { padding: 0; }
+    .ecosystem-layout { display: block; padding-top: 0; }
+    .ecosystem-nav { position: sticky; z-index: 20; top: var(--header-height); margin: 0 -1.25rem 2.25rem; overflow: hidden; border-bottom: 1px solid var(--color-border); background: #fff; }
+    .ecosystem-nav > p { display: none; }
+    .ecosystem-nav nav { display: flex; overflow-x: auto; padding: .6rem 1.25rem; }
+    .ecosystem-nav a { flex: 0 0 auto; border: 0; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .ecosystem-nav a:hover { border-bottom-color: var(--color-primary); }
+  }
+  @media (max-width: 650px) {
+    .ecosystem-head { padding: 2.5rem 0 2rem; }
+    .page-title h1 { font-size: 2.15rem; }
+    .ecosystem-summary { justify-content: space-between; gap: .75rem; }
+    .ecosystem-summary div { min-width: 0; }
+    .ecosystem-summary dt { font-size: 1.4rem; }
+    .ecosystem-grid { grid-template-columns: 1fr; }
+    .ecosystem-card { min-height: 310px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ecosystem-card:hover { transform: none; }
+  }
+</style>

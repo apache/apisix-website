@@ -23,7 +23,7 @@ const switchUrl = switchPath ?? (locale === 'zh' ? path : `/zh${path}`);
         <details class="nav-drop">
           <summary>{label(item)} ▾</summary>
           <div class="menu">
-            {item.items.map((sub) => <a href={href(sub.href)}>{sub.label}</a>)}
+            {item.items.map((sub) => <a href={href(sub.href)}>{label(sub)}</a>)}
           </div>
         </details>
       ) : (
@@ -47,10 +47,57 @@ const switchUrl = switchPath ?? (locale === 'zh' ? path : `/zh${path}`);
     <details class="mobile-toggle">
       <summary aria-label="Menu">☰</summary>
       <div class="menu">
-        {NAV.map((item) => <a href={href(item.href)}>{label(item)}</a>)}
+        {NAV.map((item) => item.items ? (
+          <details class="mobile-nav-group">
+            <summary>{label(item)}</summary>
+            <div>
+              {!item.items.some((sub) => sub.href === item.href) && (
+                <a class="mobile-subnav" href={href(item.href)}>{label(item)}</a>
+              )}
+              {item.items.map((sub) => <a class="mobile-subnav" href={href(sub.href)}>{label(sub)}</a>)}
+            </div>
+          </details>
+        ) : (
+          <a href={href(item.href)}>{label(item)}</a>
+        ))}
         <a href="https://github.com/apache/apisix">GitHub</a>
         <a href={switchUrl}>{locale === 'zh' ? 'English' : '简体中文'}</a>
       </div>
     </details>
   </div>
 </header>
+
+<style>
+  @media (max-width: 996px) {
+    .mobile-nav-group {
+      border: 0;
+    }
+
+    .mobile-nav-group > summary {
+      padding: .6rem 0;
+      color: var(--color-text);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .mobile-nav-group > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .mobile-nav-group > summary::after {
+      float: right;
+      color: var(--color-text-soft);
+      content: '+';
+    }
+
+    .mobile-nav-group[open] > summary::after {
+      content: '−';
+    }
+
+    .mobile-toggle .menu .mobile-subnav {
+      padding: .4rem 0 .4rem 1rem;
+      color: var(--color-text-soft);
+      font-size: .9rem;
+    }
+  }
+</style>

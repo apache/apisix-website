@@ -1,0 +1,209 @@
+consumers:
+  - username: redis-lab-a
+    plugins:
+      key-auth:
+        key: "$env://CONSUMER_A_KEY"
+  - username: redis-lab-b
+    plugins:
+      key-auth:
+        key: "$env://CONSUMER_B_KEY"
+
+routes:
+  - id: shared-token-quota
+    uri: /labs/shared-quota
+    methods: [POST]
+    plugins:
+      key-auth:
+        hide_credentials: true
+      proxy-rewrite:
+        headers:
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
+      ai-proxy:
+        provider: openai
+        auth:
+          header:
+            Authorization: "$env://OPENAI_AUTHORIZATION"
+        options:
+          model: "$env://OPENAI_CHAT_MODEL"
+          temperature: 0
+        override:
+          llm_options:
+            max_tokens: 32
+        timeout: 60000
+        max_req_body_size: 65536
+        max_response_bytes: 262144
+        max_stream_duration_ms: 60000
+        ssl_verify: true
+      ai-rate-limiting:
+        # Deliberately tiny so one real response crosses the quota.
+        limit: 1
+        time_window: 600
+        limit_strategy: total_tokens
+        rejected_code: 429
+        rejected_msg: shared token quota exhausted
+        show_limit_quota_header: true
+        policy: redis
+        redis_host: redis
+        redis_port: 6379
+        redis_database: 1
+        redis_password: "$env://REDIS_PASSWORD"
+        allow_degradation: false
+
+  - id: shared-token-quota-degraded
+    uri: /labs/shared-quota-degraded
+    methods: [POST]
+    plugins:
+      key-auth:
+        hide_credentials: true
+      proxy-rewrite:
+        headers:
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
+      ai-proxy:
+        provider: openai
+        auth:
+          header:
+            Authorization: "$env://OPENAI_AUTHORIZATION"
+        options:
+          model: "$env://OPENAI_CHAT_MODEL"
+          temperature: 0
+        override:
+          llm_options:
+            max_tokens: 32
+        timeout: 60000
+        max_req_body_size: 65536
+        max_response_bytes: 262144
+        max_stream_duration_ms: 60000
+        ssl_verify: true
+      ai-rate-limiting:
+        limit: 1000
+        time_window: 600
+        limit_strategy: total_tokens
+        rejected_code: 429
+        policy: redis
+        redis_host: redis
+        redis_port: 6379
+        redis_database: 3
+        redis_password: "$env://REDIS_PASSWORD"
+        allow_degradation: true
+
+  - id: exact-cache
+    uri: /labs/cache/exact
+    methods: [POST]
+    plugins:
+      key-auth:
+        hide_credentials: true
+      proxy-rewrite:
+        headers:
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
+      ai-proxy:
+        provider: openai
+        auth:
+          header:
+            Authorization: "$env://OPENAI_AUTHORIZATION"
+        options:
+          model: "$env://OPENAI_CHAT_MODEL"
+          temperature: 0
+        override:
+          llm_options:
+            max_tokens: 32
+        timeout: 60000
+        max_req_body_size: 65536
+        max_response_bytes: 262144
+        max_stream_duration_ms: 60000
+        ssl_verify: true
+      ai-cache:
+        layers: [exact]
+        exact:
+          ttl: 600
+        cache_key:
+          include_consumer: true
+        cache_headers: true
+        fail_mode: error
+        max_cache_body_size: 262144
+        redis_host: redis
+        redis_port: 6379
+        redis_database: 2
+        redis_password: "$env://REDIS_PASSWORD"
+
+  - id: semantic-cache
+    uri: /labs/cache/semantic
+    methods: [POST]
+    plugins:
+      key-auth:
+        hide_credentials: true
+      proxy-rewrite:
+        headers:
+          remove:
+            - Authorization
+            - Cookie
+            - X-API-Key
+            - apikey
+            - OpenAI-Organization
+            - OpenAI-Project
+            - OpenAI-Beta
+      ai-proxy:
+        provider: openai
+        auth:
+          header:
+            Authorization: "$env://OPENAI_AUTHORIZATION"
+        options:
+          model: "$env://OPENAI_CHAT_MODEL"
+          temperature: 0
+        override:
+          llm_options:
+            max_tokens: 32
+        timeout: 60000
+        max_req_body_size: 65536
+        max_response_bytes: 262144
+        max_stream_duration_ms: 60000
+        ssl_verify: true
+      ai-cache:
+        layers: [exact, semantic]
+        exact:
+          ttl: 600
+        cache_key:
+          include_consumer: true
+        cache_headers: true
+        fail_mode: error
+        max_cache_body_size: 262144
+        redis_host: redis
+        redis_port: 6379
+        redis_database: 0
+        redis_password: "$env://REDIS_PASSWORD"
+        semantic:
+          # Lab threshold only. Calibrate production thresholds against false matches.
+          similarity_threshold: 0.80
+          top_k: 1
+          ttl: 600
+          embedding:
+            openai:
+              model: "$env://OPENAI_EMBEDDING_MODEL"
+              api_key: "$env://OPENAI_API_KEY"
+              ssl_verify: true
+              timeout: 10000
+          vector_search:
+            redis:
+              index: apisix-cookbook-semantic
+# eslint-disable-next-line yml/spaced-comment -- APISIX requires the exact marker below.
+#END

@@ -35,6 +35,10 @@ const COLLECTIONS = [
   // to these URLs directly; retired /zh/learning-center/<slug>/ pages redirect.
   ['learning-center', ['/learning-center']],
   ['articles', ['/articles', '/zh/articles']],
+  ['integrations-en', ['/integrations']],
+  ['integrations-zh', ['/zh/integrations']],
+  ['cookbooks-en', ['/cookbooks']],
+  ['cookbooks-zh', ['/zh/cookbooks']],
   ['docs-general', ['/docs/general', '/zh/docs/general']],
   // The zh APISIX docs fall back to the English source where no translation
   // exists, so the English collection is also offered the zh prefix. The zh
@@ -171,15 +175,19 @@ const llms = [
   '',
   '> Apache APISIX is a dynamic, real-time, high-performance API gateway and AI gateway.',
   '',
-  'Every page below is available as Markdown — append `index.md` to any page URL.',
-  '',
   ...(curated ? [curated, ''] : []),
   ...(curated ? ['# Full index', ''] : []),
+  'Every content-detail page in the full index below is available as Markdown — append `index.md` to its page URL.',
+  '',
   ...section('Documentation', group(en, '/docs/')),
   ...section('Learning center', group(en, '/learning-center/')),
+  ...section('Integrations', group(en, '/integrations/')),
+  ...section('Cookbooks', group(en, '/cookbooks/')),
   ...section('Blog', group(en, '/blog/')),
   ...section('Articles', group(en, '/articles/')),
   ...section('中文文档', group(zh, '/docs/')),
+  ...section('中文集成', group(zh, '/integrations/')),
+  ...section('中文 Cookbook', group(zh, '/cookbooks/')),
   ...section('中文博客', group(zh, '/blog/')),
   ...section('中文技术文章', group(zh, '/articles/')),
 ].join('\n');
@@ -189,9 +197,8 @@ fs.writeFileSync(path.join(dist, 'llms.txt'), `${llms}\n`);
 console.log(`markdown twins: ${written.size} written, ${skipped} source files had no built page`);
 console.log(`llms.txt: ${en.length} en + ${zh.length} zh pages indexed`);
 
-// Every content page must have a twin, and every twin must be indexed —
-// otherwise the "append index.md to any page URL" promise is a lie for some
-// subset of pages. Fail the build rather than shipping a partial surface.
+// Every content-detail page must have a twin, and every twin must be indexed.
+// Section landing pages are intentionally excluded from this promise.
 const llmsText = fs.readFileSync(path.join(dist, 'llms.txt'), 'utf8');
 const indexedUrls = [...llmsText.matchAll(/\]\(https:\/\/apisix\.apache\.org([^)]*?)index\.md\)/g)].map((m) => m[1]);
 const indexed = new Set(indexedUrls);
@@ -202,8 +209,8 @@ if (indexedUrls.length !== indexed.size) {
   for (const u of dupes.slice(0, 10)) console.error(`  ${u}`);
   process.exit(1);
 }
-const CONTENT_PREFIXES = ['/blog/', '/learning-center/', '/articles/', '/docs/',
-  '/zh/blog/', '/zh/learning-center/', '/zh/articles/', '/zh/docs/'];
+const CONTENT_PREFIXES = ['/blog/', '/learning-center/', '/articles/', '/integrations/', '/cookbooks/', '/docs/',
+  '/zh/blog/', '/zh/learning-center/', '/zh/articles/', '/zh/integrations/', '/zh/cookbooks/', '/zh/docs/'];
 // Section landing pages (/blog/, /docs/, …) are component-rendered indexes
 // with no markdown source, as are listing, tag, and archive pages.
 const SECTION_INDEX = new Set([...CONTENT_PREFIXES,

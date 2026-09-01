@@ -163,6 +163,10 @@ copyTree(path.join(WEBSITE_REPO, 'blog/en/blog'), path.join(OUT, 'blog-en'), { b
 copyTree(path.join(WEBSITE_REPO, 'blog/zh/blog'), path.join(OUT, 'blog-zh'), { blogBase: '/zh/blog' });
 copyTree(path.join(WEBSITE_REPO, 'website/learning-center'), path.join(OUT, 'learning-center'));
 copyTree(path.join(WEBSITE_REPO, 'website/articles'), path.join(OUT, 'articles'));
+copyTree(path.join(WEBSITE_REPO, 'website/integrations/en'), path.join(OUT, 'integrations-en'));
+copyTree(path.join(WEBSITE_REPO, 'website/integrations/zh'), path.join(OUT, 'integrations-zh'));
+copyTree(path.join(WEBSITE_REPO, 'website/cookbooks/en'), path.join(OUT, 'cookbooks-en'));
+copyTree(path.join(WEBSITE_REPO, 'website/cookbooks/zh'), path.join(OUT, 'cookbooks-zh'));
 copyTree(path.join(WEBSITE_REPO, 'website/docs/general'), path.join(OUT, 'docs-general'),
   { docBase: '/docs/general', ghProject: 'apisix-website' });
 

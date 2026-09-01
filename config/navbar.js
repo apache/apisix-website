@@ -93,6 +93,16 @@ module.exports = [
     position: 'right',
     items: [
       {
+        to: '/integrations',
+        label: 'Integrations',
+        target: '_parent',
+      },
+      {
+        to: '/cookbooks',
+        label: 'Cookbooks',
+        target: '_parent',
+      },
+      {
         to: '/plugins',
         label: 'Plugin Hub',
         target: '_parent',

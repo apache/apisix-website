@@ -19,6 +19,14 @@
     "message": "相关资源",
     "description": "Navbar item with label Resources"
   },
+  "item.label.Integrations": {
+    "message": "集成",
+    "description": "Navbar item with label Integrations"
+  },
+  "item.label.Cookbooks": {
+    "message": "Cookbook",
+    "description": "Navbar item with label Cookbooks"
+  },
   "item.label.PluginHub": {
     "message": "插件市场",
     "description": "Navbar item with label Plugin Hub"

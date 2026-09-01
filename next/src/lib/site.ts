@@ -44,7 +44,16 @@ export const NAV: NavItem[] = [
   { label: 'Comparisons', labelZh: '对比', href: '/comparisons/' },
   { label: 'AI Gateway', href: '/ai-gateway/' },
   { label: 'Blog', labelZh: '博客', href: '/blog/' },
-  { label: 'Plugin Hub', labelZh: '插件中心', href: '/plugins/' },
+  {
+    label: 'Ecosystem',
+    labelZh: '生态',
+    href: '/integrations/',
+    items: [
+      { label: 'Integrations', labelZh: '集成', href: '/integrations/' },
+      { label: 'Cookbooks', labelZh: 'Cookbook', href: '/cookbooks/' },
+      { label: 'Plugin Hub', labelZh: '插件中心', href: '/plugins/' },
+    ],
+  },
   { label: 'Downloads', labelZh: '下载', href: '/downloads/' },
   { label: 'Team', labelZh: '团队', href: '/team/' },
 ];
@@ -77,6 +86,8 @@ export const FOOTER = {
         { label: 'Blog', href: '/blog/' },
         { label: 'Learning Center', href: '/learning-center/' },
         { label: 'Comparisons', href: '/comparisons/' },
+        { label: 'Integrations', href: '/integrations/' },
+        { label: 'Cookbooks', href: '/cookbooks/' },
         { label: 'Events', href: '/docs/general/events/' },
         { label: 'Case Studies', href: '/blog/tags/case-studies/' },
       ],

@@ -1,0 +1,11 @@
+---
+import EcosystemArticlePage from '../../components/EcosystemArticlePage.astro';
+import { getCookbooks } from '../../lib/ecosystem';
+
+export function getStaticPaths() {
+  return getCookbooks('en').map((resource) => ({ params: { slug: resource.slug }, props: { resource } }));
+}
+
+const { resource } = Astro.props;
+---
+<EcosystemArticlePage locale="en" resource={resource} />

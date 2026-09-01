@@ -34,6 +34,16 @@
 - [AI Proxy Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-proxy/): Route requests to 20+ LLM providers
 - [AI RAG Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-rag/): Retrieval-augmented generation support
 
+## Integrations & Cookbooks
+
+- [Integration Hub](https://apisix.apache.org/integrations/): How Apache APISIX connects to external products, with version and testing details
+- [Apache APISIX with LocalAI](https://apisix.apache.org/integrations/localai/): Route OpenAI-compatible LocalAI chat traffic through Apache APISIX
+- [Apache APISIX with Redis](https://apisix.apache.org/integrations/redis/): Redis-backed AI response caching, shared token counters, and distributed request quotas
+- [Cookbooks](https://apisix.apache.org/cookbooks/): Step-by-step guides for common Apache APISIX tasks
+- [LocalAI chat completions](https://apisix.apache.org/cookbooks/localai-chat-completions/): Put APISIX in front of a private LocalAI chat endpoint
+- [Redis exact and semantic AI cache](https://apisix.apache.org/cookbooks/redis-ai-cache/): Set up and test exact hits, semantic matches, tenant isolation, and Redis failures
+- [Shared Redis token quota](https://apisix.apache.org/cookbooks/redis-shared-token-quota/): Share an LLM token counter across APISIX nodes with Redis
+
 ## Observability
 
 - [Prometheus](https://apisix.apache.org/docs/apisix/plugins/prometheus/): Metrics export for monitoring
