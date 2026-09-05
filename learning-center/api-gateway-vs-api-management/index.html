@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Gateway vs API Management: Key Differences | Apache APISIX</title><meta name="description" content="Compare API gateways and API management across runtime traffic control, API lifecycle, governance, developer experience, and when teams need both."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/learning-center/api-gateway-vs-api-management/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API Gateway vs API Management: Key Differences | Apache APISIX"><meta property="og:description" content="Compare API gateways and API management across runtime traffic control, API lifecycle, governance, developer experience, and when teams need both."><meta property="og:url" content="https://apisix.apache.org/learning-center/api-gateway-vs-api-management/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"API Gateway vs API Management: Key Differences","description":"Compare API gateways and API management across runtime traffic control, API lifecycle, governance, developer experience, and when teams need both.","datePublished":"2026-08-20","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/api-gateway-vs-api-management/"}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/learning-center/" title="简体中文" data-astro-cid-3ef6ksr2>中</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/docs/" data-astro-cid-3ef6ksr2>Docs</a> <a class="mobile-subnav" href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a class="mobile-subnav" href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a class="mobile-subnav" href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a><a class="tag" href="/learning-center/tags/api-management/">api-management</a><a class="tag" href="/learning-center/tags/comparison/">comparison</a> </div>  <a class="cta-link side-back" href="/learning-center/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>API Gateway vs API Management: Key Differences</h1> <p class="article-meta"> <time datetime="2026-08-20">Aug 20, 2026</time>  · 7 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a><a class="tag" href="/learning-center/tags/api-management/">api-management</a><a class="tag" href="/learning-center/tags/comparison/">comparison</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#what-is-an-api-gateway">What Is an API Gateway?</a></li><li class><a href="#what-is-api-management">What Is API Management?</a></li><li class><a href="#api-gateway-vs-api-management-at-a-glance">API Gateway vs API Management at a Glance</a></li><li class><a href="#the-architectural-difference">The Architectural Difference</a></li><li class><a href="#where-their-capabilities-overlap">Where Their Capabilities Overlap</a></li><li class="d3"><a href="#access-and-consumer-policies">Access and Consumer Policies</a></li><li class="d3"><a href="#analytics">Analytics</a></li><li class="d3"><a href="#governance">Governance</a></li><li class="d3"><a href="#developer-experience">Developer Experience</a></li><li class><a href="#when-an-api-gateway-is-enough">When an API Gateway Is Enough</a></li><li class><a href="#when-broader-api-management-is-needed">When Broader API Management Is Needed</a></li><li class><a href="#why-teams-often-need-both">Why Teams Often Need Both</a></li><li class><a href="#where-apache-apisix-fits">Where Apache APISIX Fits</a></li><li class><a href="#selection-checklist">Selection Checklist</a></li> </ul> </details> </header>  <p>An API gateway and API management solve related but different problems. An API gateway sits in the request path and applies runtime policies such as routing, authentication, rate limiting, and observability. API management covers the wider API lifecycle, which can include design standards, publishing, discovery, developer onboarding, governance, analytics, and retirement. A gateway can be a component of an API management program, but it is not the entire program.</p>
+<p>The distinction matters when teams evaluate products or design an API platform. A team may need only a reliable runtime gateway, or it may need a broader operating model that coordinates API work across many teams and consumers.</p>
+<h2 id="what-is-an-api-gateway">What Is an API Gateway?</h2>
+<p>An API gateway is infrastructure that receives API requests, evaluates configured policies, and forwards accepted requests to backend services. It operates at runtime, so its decisions affect live traffic.</p>
+<p>Typical responsibilities include:</p>
+<ul>
+<li>Matching requests to routes and upstream services</li>
+<li>Authenticating callers and applying common access policies</li>
+<li>Enforcing rate limits and quotas</li>
+<li>Rewriting headers, paths, or payloads when configured</li>
+<li>Terminating TLS and managing gateway trust boundaries</li>
+<li>Balancing traffic and supporting canary delivery</li>
+<li>Exporting metrics, logs, and trace data for requests that pass through it</li>
+</ul>
+<p>The gateway is therefore a policy enforcement point. It does not automatically define who owns an API, approve a breaking schema change, maintain an API catalog, or manage the full consumer relationship.</p>
+<h2 id="what-is-api-management">What Is API Management?</h2>
+<p>API management is the set of practices and supporting tools used to operate APIs throughout their lifecycle. Depending on the organization and platform, it can include:</p>
+<ul>
+<li>API design standards and contract review</li>
+<li>An inventory or catalog of APIs and owners</li>
+<li>Documentation and publishing workflows</li>
+<li>Developer onboarding and credential issuance</li>
+<li>Runtime gateway policies</li>
+<li>Usage analytics and API product reporting</li>
+<li>Versioning, deprecation, and retirement processes</li>
+<li><a href="/learning-center/api-governance/">API governance</a> and exception management</li>
+<li>Subscription, entitlement, or monetization workflows</li>
+</ul>
+<p>Not every API management product includes every capability, and some organizations assemble these functions from multiple tools. The defining difference is scope: API management coordinates the API lifecycle, while the gateway controls traffic during API consumption.</p>
+<h2 id="api-gateway-vs-api-management-at-a-glance">API Gateway vs API Management at a Glance</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Dimension</th><th>API Gateway</th><th>API Management</th></tr></thead><tbody><tr><td>Primary scope</td><td>Runtime API traffic</td><td>API lifecycle and operating model</td></tr><tr><td>Position</td><td>In the request and response path</td><td>Across design, publication, runtime, and retirement</td></tr><tr><td>Main users</td><td>Platform engineers, SREs, application teams</td><td>API platform teams, API owners, developers, security, and product teams</td></tr><tr><td>Core concerns</td><td>Routing, authentication, rate limiting, transformation, traffic telemetry</td><td>Standards, discovery, onboarding, governance, analytics, lifecycle, and runtime control</td></tr><tr><td>Required for every request</td><td>Yes, for APIs routed through it</td><td>No; many management activities happen outside the request path</td></tr><tr><td>API catalog</td><td>Usually outside gateway scope</td><td>Common capability or connected system</td></tr><tr><td>Developer portal</td><td>Usually outside gateway scope</td><td>Common for partner or public API programs</td></tr><tr><td>Runtime policy enforcement</td><td>Core responsibility</td><td>Usually provided by an integrated or connected gateway</td></tr><tr><td>Design-time checks</td><td>Usually handled by CI or design tools</td><td>Often part of the management process</td></tr><tr><td>Business analytics and monetization</td><td>Gateway can emit usage data</td><td>May add products, plans, subscriptions, and billing integration</td></tr></tbody></table>
+<p>These categories overlap because many API management platforms include a gateway. Conversely, an API gateway can integrate with design, catalog, portal, analytics, and identity tools without being sold as a single API management suite.</p>
+<h2 id="the-architectural-difference">The Architectural Difference</h2>
+<p>The gateway belongs on the runtime data path:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>API client -> API gateway -> backend service</span></span>
+<span class="line"><span>                 |</span></span>
+<span class="line"><span>                 +-> runtime policies and telemetry</span></span></code></pre>
+<p>API management spans systems and workflows around that path:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>Design and review -> publish and discover -> gateway runtime -> observe -> version or retire</span></span>
+<span class="line"><span>        |                    |                    |               |</span></span>
+<span class="line"><span>   API contracts       catalog or portal     policies       lifecycle decisions</span></span></code></pre>
+<p>This separation prevents two common design mistakes. First, sending traffic through a gateway does not establish an API lifecycle process. Second, adopting a large management platform does not remove the need to design and operate the runtime gateway carefully.</p>
+<h2 id="where-their-capabilities-overlap">Where Their Capabilities Overlap</h2>
+<h3 id="access-and-consumer-policies">Access and Consumer Policies</h3>
+<p>A gateway can authenticate requests, associate credentials with consumers, and enforce limits. An API management program defines how consumers are approved, how credentials are issued and rotated, which service levels apply, and how access is revoked. The gateway implements the runtime part of that policy.</p>
+<h3 id="analytics">Analytics</h3>
+<p>A gateway can produce request counts, latency, status codes, route information, and consumer identifiers when the relevant telemetry is configured. API management may enrich that data with API ownership, plans, business context, adoption funnels, or product-level reporting. Gateway telemetry is an input, not a complete business analytics system.</p>
+<h3 id="governance">Governance</h3>
+<p>A gateway can enforce runtime controls consistently across configured APIs. Broader governance also covers design standards, ownership, contract compatibility, documentation, exceptions, and deprecation. A policy that is never translated into a design check, deployment gate, or runtime rule remains difficult to enforce.</p>
+<h3 id="developer-experience">Developer Experience</h3>
+<p>A gateway exposes stable endpoints and applies access policies, but consumer onboarding often requires additional capabilities: documentation, searchable API discovery, application registration, credential workflows, and support processes. Those functions may be provided by an API portal or assembled from existing developer tooling.</p>
+<h2 id="when-an-api-gateway-is-enough">When an API Gateway Is Enough</h2>
+<p>A focused gateway may be sufficient when:</p>
+<ul>
+<li>The primary need is to route and secure internal or service APIs.</li>
+<li>API ownership and documentation already live in established engineering systems.</li>
+<li>Consumers are known teams rather than a large external developer community.</li>
+<li>Existing identity, CI/CD, observability, and catalog tools cover lifecycle needs.</li>
+<li>The organization prefers composable open-source infrastructure over a bundled platform.</li>
+<li>Platform engineers need direct control over deployment topology and runtime policies.</li>
+</ul>
+<p>“Enough” does not mean the lifecycle work disappears. It means the organization has decided to handle that work through process and complementary tools instead of one API management product.</p>
+<h2 id="when-broader-api-management-is-needed">When Broader API Management Is Needed</h2>
+<p>Consider a broader API management program when:</p>
+<ul>
+<li>Many teams publish APIs and need shared design and ownership standards.</li>
+<li>Partners or external developers need self-service discovery and onboarding.</li>
+<li>APIs are managed as products with plans, entitlements, service levels, or monetization.</li>
+<li>Compliance requires formal approvals, traceable exceptions, and lifecycle evidence.</li>
+<li>API versions and deprecations must be coordinated across many consumers.</li>
+<li>Business stakeholders need adoption and product analytics beyond runtime metrics.</li>
+<li>Multiple gateways or environments need a consistent organizational control model.</li>
+</ul>
+<p>These needs do not dictate a single product architecture. Teams can select an integrated platform or combine a gateway with contract tooling, a catalog, a portal, identity systems, analytics, and workflow automation.</p>
+<h2 id="why-teams-often-need-both">Why Teams Often Need Both</h2>
+<p>The gateway and management layer work best when their responsibilities are explicit:</p>
+<ol>
+<li>API owners define a contract, owner, audience, and lifecycle state.</li>
+<li>Automated checks validate the contract and organizational standards.</li>
+<li>Approved API configuration is deployed to the gateway.</li>
+<li>The gateway enforces runtime policies and emits telemetry.</li>
+<li>Management systems use that evidence to monitor adoption, risk, and lifecycle decisions.</li>
+<li>Policy or contract changes return through review and deployment instead of being edited ad hoc in production.</li>
+</ol>
+<p>This model lets each layer do what it is designed for. Lifecycle systems remain outside the latency-sensitive request path, while the gateway turns approved runtime policy into repeatable traffic behavior.</p>
+<h2 id="where-apache-apisix-fits">Where Apache APISIX Fits</h2>
+<p><a href="/">Apache APISIX</a> is an open-source API gateway. It provides the runtime layer rather than a complete API management suite.</p>
+<p>APISIX <a href="/docs/apisix/terminology/route/">Routes</a> match requests and run configured plugins before forwarding traffic to upstream services. <a href="/docs/apisix/terminology/service/">Services</a> let related routes share upstream and plugin configuration. <a href="/docs/apisix/terminology/consumer/">Consumers</a> identify API callers, <a href="/docs/apisix/terminology/credential/">Credentials</a> hold consumer authentication configurations, and <a href="/docs/apisix/terminology/consumer-group/">Consumer Groups</a> share reusable plugin policies across consumers.</p>
+<p>Teams can reuse plugin configurations across routes with <a href="/docs/apisix/terminology/plugin-config/">Plugin Configs</a> and apply plugins globally with <a href="/docs/apisix/terminology/global-rule/">Global Rules</a>. The <a href="/docs/apisix/admin-api/">Admin API</a> manages these runtime resources in traditional and decoupled deployment modes. Authentication, rate limiting, logging, metrics, and traffic-control plugins supply enforcement and evidence for APIs routed through APISIX.</p>
+<p>APISIX does not, by itself, replace organization-wide design review, a source-of-truth API catalog, a developer portal, product subscription workflows, or lifecycle approval processes. Teams that need those capabilities integrate APISIX with the tools responsible for them.</p>
+<h2 id="selection-checklist">Selection Checklist</h2>
+<p>Use these questions to define the required scope before comparing products:</p>
+<ol>
+<li>Do you need runtime traffic control, lifecycle coordination, or both?</li>
+<li>Are the API consumers internal teams, partners, public developers, or a mix?</li>
+<li>Where are API contracts, ownership, and lifecycle state recorded today?</li>
+<li>Which runtime policies must be consistent across routes, teams, or environments?</li>
+<li>Do consumers need self-service discovery, registration, or credential issuance?</li>
+<li>Is gateway telemetry sufficient, or do you need business-level API analytics?</li>
+<li>Are monetization, entitlements, and billing part of the API program?</li>
+<li>Which controls must be automated in design review, CI/CD, and runtime?</li>
+<li>Do you prefer an integrated platform or composable tools with clear interfaces?</li>
+<li>Who owns each layer after launch, including exceptions and deprecations?</li>
+</ol>
+<p>The answers usually make the category decision clearer. Choose a gateway for runtime policy enforcement. Build or adopt API management capabilities when the organizational and lifecycle requirements extend beyond the request path.</p>  <footer class="article-footer"> <a class="cta-link" href="/learning-center/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <span></span> <a class="post-nav-card older" href="/learning-center/api-governance/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">API Governance: Framework and Best Practices</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#what-is-an-api-gateway">What Is an API Gateway?</a></li><li class><a href="#what-is-api-management">What Is API Management?</a></li><li class><a href="#api-gateway-vs-api-management-at-a-glance">API Gateway vs API Management at a Glance</a></li><li class><a href="#the-architectural-difference">The Architectural Difference</a></li><li class><a href="#where-their-capabilities-overlap">Where Their Capabilities Overlap</a></li><li class="d3"><a href="#access-and-consumer-policies">Access and Consumer Policies</a></li><li class="d3"><a href="#analytics">Analytics</a></li><li class="d3"><a href="#governance">Governance</a></li><li class="d3"><a href="#developer-experience">Developer Experience</a></li><li class><a href="#when-an-api-gateway-is-enough">When an API Gateway Is Enough</a></li><li class><a href="#when-broader-api-management-is-needed">When Broader API Management Is Needed</a></li><li class><a href="#why-teams-often-need-both">Why Teams Often Need Both</a></li><li class><a href="#where-apache-apisix-fits">Where Apache APISIX Fits</a></li><li class><a href="#selection-checklist">Selection Checklist</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/learning-center/apisix-vs-apigee/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Apigee: Gateway vs API Management Platform</h3> <p class="desc">Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-aws-api-gateway/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed</h3> <p class="desc">Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-envoy/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Envoy: API Gateway vs Service Proxy</h3> <p class="desc">Compare Apache APISIX and Envoy: a turnkey API gateway with a built-in control plane vs a high-performance proxy that needs one (Istio, Gloo).</p> <p class="meta">Jun 24, 2026</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/comparisons/">Comparisons</a></li><li><a href="/integrations/">Integrations</a></li><li><a href="/cookbooks/">Cookbooks</a></li><li><a href="/docs/general/events/">Events</a></li><li><a href="/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/plugins/">Plugin Hub</a></li><li><a href="/downloads/">Downloads</a></li><li><a href="/team/">Team</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cache LLM responses with Redis: exact and semantic matching | Apache APISIX</title><meta name="description" content="Test exact and semantic response caching in APISIX 3.18, including tenant isolation, streaming responses, and Redis failures."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/cookbooks/redis-ai-cache/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/cookbooks/redis-ai-cache/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/cookbooks/redis-ai-cache/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/cookbooks/redis-ai-cache/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Cache LLM responses with Redis: exact and semantic matching | Apache APISIX"><meta property="og:description" content="Test exact and semantic response caching in APISIX 3.18, including tenant isolation, streaming responses, and Redis failures."><meta property="og:url" content="https://apisix.apache.org/cookbooks/redis-ai-cache/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"Cache LLM responses with Redis: exact and semantic matching","description":"Test exact and semantic response caching in APISIX 3.18, including tenant isolation, streaming responses, and Redis failures.","url":"https://apisix.apache.org/cookbooks/redis-ai-cache/","mainEntityOfPage":"https://apisix.apache.org/cookbooks/redis-ai-cache/","inLanguage":"en","about":{"@type":"SoftwareApplication","name":"Apache APISIX cookbook","applicationCategory":"DeveloperApplication"},"author":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"isPartOf":{"@type":"CollectionPage","name":"Cookbooks","url":"https://apisix.apache.org/cookbooks/"},"dateModified":"2026-08-25"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Apache APISIX","item":"https://apisix.apache.org/"},{"@type":"ListItem","position":2,"name":"Cookbooks","item":"https://apisix.apache.org/cookbooks/"},{"@type":"ListItem","position":3,"name":"Cache LLM responses with Redis: exact and semantic matching","item":"https://apisix.apache.org/cookbooks/redis-ai-cache/"}]}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css">
+<link rel="stylesheet" href="/_astro/EcosystemArticlePage.pZesxsBd.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/cookbooks/redis-ai-cache/" title="简体中文" data-astro-cid-3ef6ksr2>中</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/docs/" data-astro-cid-3ef6ksr2>Docs</a> <a class="mobile-subnav" href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a class="mobile-subnav" href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a class="mobile-subnav" href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/cookbooks/redis-ai-cache/" data-astro-cid-3ef6ksr2>简体中文</a> </div> </details> </div> </header> <main>  <header class="resource-head" data-astro-cid-kazxytet> <div class="container resource-head-layout" data-astro-cid-kazxytet> <div class="resource-title" data-astro-cid-kazxytet> <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-kazxytet> <a href="/" data-astro-cid-kazxytet>Home</a> <span aria-hidden="true" data-astro-cid-kazxytet>/</span> <a href="/cookbooks/" data-astro-cid-kazxytet>Cookbooks</a> </nav> <p class="kicker" data-astro-cid-kazxytet>Cost and quotas</p> <h1 data-astro-cid-kazxytet>Cache LLM responses with Redis: exact and semantic matching</h1> <p class="lead" data-astro-cid-kazxytet>Test exact and semantic response caching in APISIX 3.18, including tenant isolation, streaming responses, and Redis failures.</p> <div class="resource-status-row" data-astro-cid-kazxytet> <span class="verification validation-in-progress" data-astro-cid-kazxytet> Validation in progress </span> <span data-astro-cid-kazxytet>Maintained by Apache APISIX community</span> </div> </div> <dl class="resource-facts" aria-label="Version details" data-astro-cid-kazxytet> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>APISIX</dt><dd data-astro-cid-kazxytet>3.18.0</dd></div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>Dependency</dt><dd data-astro-cid-kazxytet>Redis Open Source 8.10.1</dd></div>  <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>Difficulty</dt><dd data-astro-cid-kazxytet>Intermediate</dd></div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>Time</dt><dd data-astro-cid-kazxytet>45 minutes</dd></div> <div data-astro-cid-kazxytet> <dt data-astro-cid-kazxytet>Last verified</dt> <dd data-astro-cid-kazxytet>Pending</dd> </div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>Code reviewed</dt><dd data-astro-cid-kazxytet><a href="https://github.com/apache/apisix/blob/0796d9c2cbedb1f8bf8194292ff526599f4fde20/apisix/plugins/ai-cache.lua" data-astro-cid-kazxytet>2026-08-25</a></dd></div> </dl> </div> </header> <div class="container resource-body" data-astro-cid-kazxytet> <aside class="validation-note" role="note" data-astro-cid-kazxytet> <strong data-astro-cid-kazxytet>Verification note:</strong>  this page has been checked against the APISIX source, but the documented scenario has not yet completed end-to-end runtime validation. </aside> <article class="prose resource-prose" data-astro-cid-kazxytet>  <p>A <code>MISS</code> followed by a <code>HIT</code> is not enough to validate an AI cache. This cookbook checks that cache hits avoid model calls, semantic matching stays within the supported request format, tenants remain isolated, incomplete streams are not cached, and Redis failures fall back to the LLM.</p>
+<h2 id="what-youll-test">What you’ll test</h2>
+<p>Starting with an empty Redis database, run the lab against the live OpenAI Chat and Embeddings APIs and check the following:</p>
+<ol>
+<li>The first identical request is a miss and calls the chat provider once.</li>
+<li>The second identical request is an exact hit and does not call the chat provider.</li>
+<li>A paraphrased prompt produces a semantic hit; an unrelated prompt produces a miss.</li>
+<li>After a semantic hit is copied into the exact cache, repeating the paraphrase produces an exact hit without another embedding call. If that copy fails, APISIX still serves the semantic hit and logs the error.</li>
+<li>Consumer B cannot hit an entry warmed by Consumer A.</li>
+<li>A complete supported SSE response can be reused, while an interrupted response cannot.</li>
+<li>When the Redis service or the embedding endpoint is unavailable, APISIX continues to the live chat provider as a miss.</li>
+</ol>
+<h2 id="version-and-test-requirements">Version and test requirements</h2>
+<p>The gateway code is pinned to the <a href="https://github.com/apache/apisix/commit/0796d9c2cbedb1f8bf8194292ff526599f4fde20">APISIX 3.18.0 tag commit</a>. Keep this page at <strong>Validation in progress</strong> until the lab records:</p>
+<ul>
+<li>the immutable APISIX and Redis image digests;</li>
+<li>the Redis server version and successful <code>FT.CREATE</code>/<code>FT.SEARCH</code> smoke test;</li>
+<li>chat and embedding provider names, model identifiers, region, and test time;</li>
+<li>provider-side call counts that do not rely on APISIX response headers;</li>
+<li>two runs from an empty environment and an independent retest by another operator.</li>
+</ul>
+<p>A mock or fixture server cannot replace these checks. Without provider credentials, you can run the container and Redis Search preflight, but the cache result remains unverified.</p>
+<p><a href="https://github.com/apache/apisix-website/tree/master/examples/redis-ai-gateway">Open the pinned lab</a>. Its <code>check-infra.sh</code> can run without provider credentials; <code>test-cache.sh</code> requires the live OpenAI Chat and Embeddings APIs.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Start with the following <code>ai-cache</code> settings:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ai-cache"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "layers"</span><span style="color:#E6EDF3">: [</span><span style="color:#A5D6FF">"exact"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"semantic"</span><span style="color:#E6EDF3">],</span></span>
+<span class="line"><span style="color:#7EE787">    "cache_key"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "include_consumer"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#E6EDF3">    },</span></span>
+<span class="line"><span style="color:#7EE787">    "max_cache_body_size"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1048576</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"redis"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6379</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_ssl"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "semantic"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">      "similarity_threshold"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.95</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "embedding"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "openai"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"&#x3C;pinned-embedding-model>"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">          "api_key"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"$secret://&#x3C;secret-resource>/&#x3C;key>"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "vector_search"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "redis"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">          "index"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"apisix-cookbook-cache"</span></span>
+<span class="line"><span style="color:#E6EDF3">        }</span></span>
+<span class="line"><span style="color:#E6EDF3">      }</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>This snippet shows the cache settings only. The linked lab also configures the Route, Consumer authentication, provider credentials, private networks, and cleanup. It checks response headers and Redis state, but does not enable or scrape the APISIX Prometheus plugin. <code>include_consumer</code> works only after APISIX authenticates a Consumer. For production TLS connections, set <code>redis_ssl_verify: true</code>.</p>
+<p>APISIX can forward client headers that are not part of the default AI cache key. The lab strips OpenAI organization, project, and beta-selection headers before proxying. In production, strip every client-controlled header that can change the provider response, or derive the value from trusted server-side state and add it to <code>cache_key.include_vars</code>.</p>
+<h2 id="test-checklist">Test checklist</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Check</th><th>Expected result</th><th>What is not enough</th></tr></thead><tbody><tr><td>Exact cache</td><td><code>MISS</code> then <code>HIT</code>, byte-identical response body, chat-provider counter delta <code>+1</code> then <code>+0</code></td><td>Inferring provider calls from the cache header alone</td></tr><tr><td>Semantic cache</td><td>Different prompt returns <code>HIT</code> with a similarity header at or above the configured threshold; unrelated prompt returns <code>MISS</code></td><td>Hard-coding a similarity score that is not reproduced by the pinned embedding model</td></tr><tr><td>Semantic hit copied to exact cache</td><td>The repeated paraphrase is an exact <code>HIT</code> with embedding counter delta <code>+0</code></td><td>A copy warning, or another embedding call on the repeat</td></tr><tr><td>Tenant isolation</td><td>Consumer B gets <code>MISS</code>; Consumer A still gets <code>HIT</code></td><td>Trusting a caller-supplied tenant header without server-side validation</td></tr><tr><td>Streaming</td><td>Complete SSE is reusable; a deliberately interrupted SSE remains <code>MISS</code> on retry</td><td>Calling a partial stream cacheable or claiming token-paced replay</td></tr><tr><td>Failure behavior</td><td>A Redis outage returns a live model response with <code>MISS</code>; logs identify the backend failure without request bodies or secrets</td><td>Treating <code>MISS</code> as proof that the Redis service is healthy</td></tr></tbody></table>
+<h2 id="measure-the-result">Measure the result</h2>
+<p>Use the provider’s own logs or counters to measure chat and embedding calls. If your test deployment also enables and scrapes the APISIX Prometheus plugin, use these metrics to inspect cache behavior:</p>
+<ul>
+<li><code>apisix_ai_cache_hits_total{layer="exact"}</code></li>
+<li><code>apisix_ai_cache_hits_total{layer="semantic"}</code></li>
+<li><code>apisix_ai_cache_misses_total</code></li>
+<li><code>apisix_ai_cache_bypasses_total</code></li>
+<li><code>apisix_ai_cache_embedding_latency_bucket</code></li>
+</ul>
+<p>Calculate hit ratio as <code>hits / (hits + misses)</code> and report bypass coverage separately. Do not estimate savings from cache headers or cached <code>usage</code> fields alone. Compare the same fixed workload with caching enabled and disabled, using provider-reported usage, the workload’s repetition rate, and a disclosed sample size.</p>
+<h2 id="before-using-this-in-production">Before using this in production</h2>
+<ul>
+<li>APISIX 3.18 cache storage uses a single Redis endpoint; this cookbook does not claim Redis Cluster or Sentinel support for <code>ai-cache</code>.</li>
+<li>Semantic matching applies only to plain-text OpenAI Chat requests. Tool calls, multimodal inputs, and other protocols are not supported by semantic caching.</li>
+<li>A cache hit bypasses any lower-priority guardrail plugin. When a guardrail policy changes, invalidate responses cached under the previous policy before serving them again.</li>
+<li>Never publish full prompts, cached responses, embeddings, API keys, provider request IDs, or full Redis keys.</li>
+</ul>
+<h2 id="cleanup">Cleanup</h2>
+<p>Delete the lab Routes and Consumers, remove only the cache index and keys created by this lab, and stop the isolated containers. Confirm that no file containing credentials is tracked. Never flush a shared Redis database.</p>
+<p>Redis is a registered trademark of Redis Ltd. This community cookbook is not endorsed, supported, or certified by Redis Ltd.</p> <section aria-labelledby="related-integrations"> <h2 id="related-integrations">Related integrations</h2> <ul class="resource-links"> <li><a href="/integrations/redis/">Redis</a></li> </ul> </section> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/comparisons/">Comparisons</a></li><li><a href="/integrations/">Integrations</a></li><li><a href="/cookbooks/">Cookbooks</a></li><li><a href="/docs/general/events/">Events</a></li><li><a href="/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/plugins/">Plugin Hub</a></li><li><a href="/downloads/">Downloads</a></li><li><a href="/team/">Team</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

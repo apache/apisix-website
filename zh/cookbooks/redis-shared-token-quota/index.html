@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>使用 Redis 在多个 APISIX 节点间共享 LLM token 配额 | Apache APISIX</title><meta name="description" content="验证两个 APISIX 3.18 节点能否通过 Redis 共享 LLM Token 用量，并正确执行跨节点限流与故障降级。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/cookbooks/redis-shared-token-quota/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/cookbooks/redis-shared-token-quota/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="使用 Redis 在多个 APISIX 节点间共享 LLM token 配额 | Apache APISIX"><meta property="og:description" content="验证两个 APISIX 3.18 节点能否通过 Redis 共享 LLM Token 用量，并正确执行跨节点限流与故障降级。"><meta property="og:url" content="https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"使用 Redis 在多个 APISIX 节点间共享 LLM token 配额","description":"验证两个 APISIX 3.18 节点能否通过 Redis 共享 LLM Token 用量，并正确执行跨节点限流与故障降级。","url":"https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/","mainEntityOfPage":"https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/","inLanguage":"zh-CN","about":{"@type":"SoftwareApplication","name":"Apache APISIX cookbook","applicationCategory":"DeveloperApplication"},"author":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"isPartOf":{"@type":"CollectionPage","name":"Cookbook","url":"https://apisix.apache.org/zh/cookbooks/"},"dateModified":"2026-08-25"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Apache APISIX","item":"https://apisix.apache.org/zh/"},{"@type":"ListItem","position":2,"name":"Cookbook","item":"https://apisix.apache.org/zh/cookbooks/"},{"@type":"ListItem","position":3,"name":"使用 Redis 在多个 APISIX 节点间共享 LLM token 配额","item":"https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/"}]}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css">
+<link rel="stylesheet" href="/_astro/EcosystemArticlePage.pZesxsBd.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/zh/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/cookbooks/redis-shared-token-quota/" title="English" data-astro-cid-3ef6ksr2>EN</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/zh/docs/" data-astro-cid-3ef6ksr2>文档</a> <a class="mobile-subnav" href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a class="mobile-subnav" href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a class="mobile-subnav" href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/cookbooks/redis-shared-token-quota/" data-astro-cid-3ef6ksr2>English</a> </div> </details> </div> </header> <main>  <header class="resource-head" data-astro-cid-kazxytet> <div class="container resource-head-layout" data-astro-cid-kazxytet> <div class="resource-title" data-astro-cid-kazxytet> <nav class="breadcrumbs" aria-label="面包屑" data-astro-cid-kazxytet> <a href="/zh/" data-astro-cid-kazxytet>首页</a> <span aria-hidden="true" data-astro-cid-kazxytet>/</span> <a href="/zh/cookbooks/" data-astro-cid-kazxytet>Cookbook</a> </nav> <p class="kicker" data-astro-cid-kazxytet>可靠性</p> <h1 data-astro-cid-kazxytet>使用 Redis 在多个 APISIX 节点间共享 LLM token 配额</h1> <p class="lead" data-astro-cid-kazxytet>验证两个 APISIX 3.18 节点能否通过 Redis 共享 LLM Token 用量，并正确执行跨节点限流与故障降级。</p> <div class="resource-status-row" data-astro-cid-kazxytet> <span class="verification validation-in-progress" data-astro-cid-kazxytet> 验证进行中 </span> <span data-astro-cid-kazxytet>维护者 Apache APISIX community</span> </div> </div> <dl class="resource-facts" aria-label="版本信息" data-astro-cid-kazxytet> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>APISIX</dt><dd data-astro-cid-kazxytet>3.18.0</dd></div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>依赖</dt><dd data-astro-cid-kazxytet>Redis Open Source 8.10.1</dd></div>  <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>难度</dt><dd data-astro-cid-kazxytet>中等</dd></div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>时间</dt><dd data-astro-cid-kazxytet>35 分钟</dd></div> <div data-astro-cid-kazxytet> <dt data-astro-cid-kazxytet>最近验证</dt> <dd data-astro-cid-kazxytet>尚未验证</dd> </div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>源码审查</dt><dd data-astro-cid-kazxytet><a href="https://github.com/apache/apisix/blob/0796d9c2cbedb1f8bf8194292ff526599f4fde20/apisix/plugins/ai-rate-limiting.lua" data-astro-cid-kazxytet>2026-08-25</a></dd></div> </dl> </div> </header> <div class="container resource-body" data-astro-cid-kazxytet> <aside class="validation-note" role="note" data-astro-cid-kazxytet> <strong data-astro-cid-kazxytet>验证说明：</strong>  本文已对照 APISIX 源码检查，但文中场景尚未完成端到端运行验证。 </aside> <article class="prose resource-prose" data-astro-cid-kazxytet>  <p>两个 APISIX 节点可以通过 Redis 共用一份 LLM Token 计数。APISIX 会在代理请求前读取当前计数，但只在模型返回后记录 Provider 上报的实际用量。因此，某个请求可能先让用量超过上限，后续请求才会被拒绝。它适合限制共享用量，不能当作预付预算。</p>
+<h2 id="实验内容">实验内容</h2>
+<p>使用真实 Provider 运行实验，并检查以下行为：</p>
+<ol>
+<li>发往 APISIX 节点 A 的请求成功，Provider 返回的 Token 用量被写入 Redis 数据库。</li>
+<li>节点 B 能读取节点 A 已消耗的用量和对应的剩余额度。</li>
+<li>导致用量超限的请求本身仍可能成功；后续请求才会返回配置的 <code>429</code>。</li>
+<li>Provider 响应没有可用 <code>usage</code> 时，计数不会增加，并明确记录为记账缺口。</li>
+<li><code>allow_degradation: false</code> 时，请求前 Redis 检查失败会返回错误，而不是静默绕过配额。</li>
+<li><code>allow_degradation: true</code> 时，请求会到达 Provider；测试结果应注明该请求绕过了配额限制。</li>
+</ol>
+<h2 id="版本与测试要求">版本与测试要求</h2>
+<p>网关固定到 <a href="https://github.com/apache/apisix/commit/0796d9c2cbedb1f8bf8194292ff526599f4fde20">APISIX 3.18.0 标签提交</a>。本指南只测试使用单个 Redis 端点的 <code>redis</code> policy。插件 Schema 也支持 Redis Cluster 和 Redis Sentinel，但需要分别完成真实拓扑与故障切换测试，才能标记为已验证。</p>
+<p>实验环境使用指定的 APISIX 与 Redis 镜像摘要（digest）、会返回 Token 用量的 LLM，以及仅供本次测试使用的空计数器。从空环境重复运行两次，并由另一位操作者独立复测。带伪造 <code>usage</code> 的 Mock 响应不能验证完整链路。</p>
+<p><a href="https://github.com/apache/apisix-website/tree/master/examples/redis-ai-gateway">打开固定版本的双节点实验</a>。基础设施预检无需 Provider key；<code>test-shared-quota.sh</code> 需要真实 OpenAI 响应中的 token usage。</p>
+<h2 id="配置示例">配置示例</h2>
+<p>请显式设置拒绝状态码和降级策略：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "ai-rate-limiting"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "limit"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">100</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "time_window"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">300</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "limit_strategy"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"total_tokens"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "policy"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"redis"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_host"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"redis"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_port"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">6379</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "redis_database"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "rejected_code"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">429</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "show_limit_quota_header"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "allow_degradation"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">false</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>配套实验通过 Secret 引用配置 <code>ai-proxy</code> Provider 与凭据。两个 APISIX 节点使用相同的 Route 和 Redis 配置，只对外暴露 Gateway 端口；Admin API、Control API 和 Redis 端口都保留在私有网络。</p>
+<h2 id="测试清单">测试清单</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>步骤</th><th>节点</th><th>预期结果</th></tr></thead><tbody><tr><td>基线</td><td>A</td><td>HTTP 200、Provider 响应、配额响应头、Provider <code>usage</code>，以及一次对应的 Redis 计数增加</td></tr><tr><td>跨节点读取</td><td>B</td><td>剩余额度包含节点 A 的用量，而不是一份新的本地预算</td></tr><tr><td>越过阈值</td><td>A 或 B</td><td>越界响应可能仍为 HTTP 200；Redis 数据库中已提交的数值超过配置阈值</td></tr><tr><td>执行拒绝</td><td>另一个节点</td><td>下一个请求返回 HTTP 429，Provider 调用数不增加</td></tr><tr><td>窗口重置</td><td>两个节点</td><td>固定窗口过期后，两边才会在新窗口内重新接受流量</td></tr><tr><td>请求前故障关闭</td><td>A</td><td>Redis 服务在配额检查前不可用，禁用降级时返回错误，Provider 调用数不增加</td></tr><tr><td>故障放行</td><td>B</td><td>Redis 服务在配额检查前不可用，启用降级时到达 Provider；测试结果注明该请求绕过了配额限制</td></tr></tbody></table>
+<p>每次模型响应成功后，先轮询 Redis，确认计数已写入，再进行下一项检查。记账发生在 log 阶段，若立即读取，可能误判为漏记。</p>
+<h2 id="不要只看响应头">不要只看响应头</h2>
+<p>配额响应头只能告诉客户端剩余额度，不能单独证明用量已经记账。对同一个请求，应同时保存响应头、Provider <code>usage</code>、Redis 中的值与 TTL、APISIX error log 和 Provider 调用次数变化。若完整 Redis key 包含 Consumer、Route 或模型标识，不要公开。</p>
+<h2 id="生产环境注意事项">生产环境注意事项</h2>
+<ul>
+<li>固定窗口计数不会在调用上游前按请求可能生成的最大 Token 数预留额度；并发请求可能超限。</li>
+<li>Provider 不返回 Token 用量时，此机制无法给响应记账。</li>
+<li>Redis 故障时，<code>allow_degradation: true</code> 会放行请求，但此时不再提供配额保护；应对此状态告警。</li>
+<li><code>allow_degradation: false</code> 只在请求前 Redis 检查失败时拒绝请求。响应后的异步写入失败无法撤回已返回的响应，也可能导致用量未记录。应监控 APISIX 写入错误，并与 Provider 用量对账。</li>
+<li><code>ai-cache</code> 命中会在限流插件之前返回，不消耗这份上游 token 配额。</li>
+<li>每租户配额必须先认证调用方，并用可信的服务端身份（例如 <code>$consumer_name</code>）配置 <code>rules.key</code>。仅启用认证不会为每个租户创建独立计数；付费配额不得使用调用方可伪造的请求头作为键。</li>
+</ul>
+<h2 id="清理">清理</h2>
+<p>删除实验 Route，只清理本实验创建的 Redis counter key，然后停止两个 APISIX 节点与 Redis。确认含凭据的文件没有被 Git 跟踪。不要对共享 Redis 服务执行 <code>FLUSHALL</code>。</p>
+<p>Redis 是 Redis Ltd. 的注册商标。本社区指南与 Redis Ltd. 无隶属关系，也未获得其认可、支持或认证。</p> <section aria-labelledby="related-integrations"> <h2 id="related-integrations">相关集成</h2> <ul class="resource-links"> <li><a href="/zh/integrations/redis/">Redis</a></li> </ul> </section> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/integrations/">Integrations</a></li><li><a href="/zh/cookbooks/">Cookbooks</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
