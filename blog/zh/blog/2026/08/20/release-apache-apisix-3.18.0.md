@@ -35,7 +35,7 @@ tags: [Community]
 
 `Apisix-Plugins` 响应头不再返回去重后的插件名称列表，而是按执行顺序返回 `plugin-name#phase`。依赖该响应头的解析工具需要相应更新。
 
-**升级计划：** 如果系统会读取 `Apisix-Plugins`，请让解析逻辑支持 `plugin-name#phase`、同一插件出现在多个阶段以及有序条目。`body_filter`、`log` 等响应头发送后的阶段是提前推算的，不能作为阶段实际执行的依据；如果工具会根据该响应头作出判断，请使用代表性路由验证结果。
+**升级计划：** 如果系统会读取 `Apisix-Plugins`，请让解析逻辑支持 `plugin-name#phase`、同一插件出现在多个阶段以及有序条目。`body_filter`、`log` 等属于在响应头中推断列出的后续阶段，不能作为阶段实际执行的依据；如果工具会根据该响应头作出判断，请使用代表性路由验证结果。
 
 更多信息，请参阅 [PR #13710](https://github.com/apache/apisix/pull/13710)。
 
@@ -89,7 +89,7 @@ tags: [Community]
 
 ### 写入时检查重复的 Consumer 身份验证键
 
-Admin API 现在会在写入时检查 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` 与 LDAP 身份验证中跨 Consumer 或凭证重复的查找键，并以 400 拒绝检测到的冲突。该保护是尽力而为：本地监听到的 Consumer 数据可能滞后于快速或并发写入，传入的 Secret 或环境变量引用也无法在此检查中解析。
+Admin API 现在会在写入时检查 `key-auth`、`basic-auth`、`jwt-auth`、`hmac-auth` 与 LDAP 身份验证中跨 Consumer 或凭证重复的查找键，并以 400 拒绝检测到的冲突。该保护属于尽力而为（best-effort）性质：本地监听到的 Consumer 数据可能滞后于快速或并发写入，传入的 Secret 或环境变量引用也无法在此检查中解析。
 
 **升级计划：** 上线前应独立审计现有 Consumer 与凭证中的重复身份验证键，包括通过 Secret 或环境变量引用提供的值，并先解决冲突。不要将新的 Admin API 检查作为唯一的唯一性保障；可行时应串行执行敏感迁移，随后更新每个受影响的 Consumer，并实际发起认证以确认身份归属正确。
 
@@ -113,7 +113,7 @@ Admin API 现在会在写入时检查 `key-auth`、`basic-auth`、`jwt-auth`、`
 
 ### 现有 LDAP TLS 验证开始真正生效
 
-LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证书验证，而不再是无效配置。使用自签名证书或证书主机名不匹配的部署，需要安装受信任且匹配的证书，或在适当场景显式关闭验证。
+LDAP 客户端依赖升级后，`ldap-auth.tls_verify: true` 会真正执行证书验证，而不再是空操作（no-op）。使用自签名证书或证书主机名不匹配的部署，需要安装受信任且匹配的证书，或在适当场景显式关闭验证。
 
 **升级计划：** 如果现有 `ldap-auth` 部署启用了 `tls_verify`，请在上线前根据 `ldap_uri` 验证证书链和 SAN，并配置所需的受信任 CA。只需测试实际使用的加密连接模式，例如 LDAPS 或 StartTLS；关闭证书验证的配置不会新增此失败路径。
 
@@ -151,7 +151,7 @@ APISIX 3.18.0 扩展了 AI Gateway、身份验证、L4 代理、可观测性、�
 
 `ai-proxy`、`ai-proxy-multi` 与 `ai-request-rewrite` 现在默认通过 `ngx_http_ffi_client` 向上游 LLM 发送请求。该客户端基于 C 实现，可降低出站 HTTP 开销，同时支持与 `lua-resty-http` 相同的缓冲、流式、TLS 和连接复用路径。
 
-APISIX 3.18.0 固定的 APISIX-Runtime 已包含兼容的 v0.1.3 客户端及其 APISIX 域名解析钩子。该钩子可保持网关原有的 DNS 行为，包括 `dns_resolver`、`/etc/hosts` 和搜索域处理，同时为 `Host` 请求头与 SNI 保留原始主机名。
+APISIX 3.18.0 固定使用的 APISIX-Runtime 已包含兼容的 v0.1.3 客户端及其 APISIX 域名解析钩子。该钩子可保持网关原有的 DNS 行为，包括 `dns_resolver`、`/etc/hosts` 和搜索域处理，同时为 `Host` 请求头与 SNI 保留原始主机名。
 
 使用自行构建或旧版 APISIX-Runtime 的运维人员可以显式保留 Lua 客户端：
 
@@ -161,7 +161,7 @@ plugin_attr:
     http_client: lua-resty-http
 ```
 
-配置的客户端不可用时，传输层不会静默切换到另一客户端。本版本固定的 APISIX-Runtime 无需兼容性调整；自定义 APISIX-Runtime 用户应确认客户端版本，或选择 `lua-resty-http`，随后测试实际提供商使用的 DNS、TLS、缓冲响应和流式路径。
+配置的客户端不可用时，传输层不会静默切换到另一客户端。本版本固定使用的 APISIX-Runtime 无需兼容性调整；自定义 APISIX-Runtime 用户应确认客户端版本，或选择 `lua-resty-http`，随后测试实际提供商使用的 DNS、TLS、缓冲响应和流式路径。
 
 更多信息，请参阅 [PR #13778](https://github.com/apache/apisix/pull/13778)。
 
@@ -203,7 +203,7 @@ plugin_attr:
 
 ### 根据语义将提示词路由到不同模型
 
-`ai-proxy-multi` 新增 `semantic` 负载均衡算法，适用于多个模型能力、成本和延迟并不相同的部署。一个统一端点可以将编程问题路由到能力更强的模型，将翻译请求路由到低成本模型，并将无法归类的流量交给通用回退实例，而无需向客户端暴露提供商拓扑。
+`ai-proxy-multi` 新增 `semantic` 负载均衡算法，适用于可用模型不可互换的部署。一个统一端点可以将编程问题路由到能力更强的模型，将翻译请求路由到低成本模型，并将无法归类的流量交给通用回退实例，而无需向客户端暴露提供商拓扑。
 
 APISIX 会为每个实例的自然语言示例生成一次嵌入向量，并按配置版本缓存参考向量。每个请求只需生成一次提示词嵌入向量，随后在进程内完成余弦相似度比较，不需要向量数据库。如果嵌入向量生成失败或没有分数超过阈值，请求会交给配置的回退实例。
 
@@ -250,7 +250,7 @@ APISIX 会为每个实例的自然语言示例生成一次嵌入向量，并按�
 }
 ```
 
-语义选择是尽力而为的路由能力，并非内容安全控制；实例选定后目前也不提供基于健康状态的重试。
+语义选择是一种尽力而为（best-effort）的路由方式，并非内容安全控制；实例选定后目前也不提供基于健康状态的重试。
 
 更多信息，请参阅 [PR #13676](https://github.com/apache/apisix/pull/13676)。
 
@@ -423,7 +423,7 @@ Prometheus 新增 AI 缓存命中、未命中和绕过计数器、嵌入向量�
 }
 ```
 
-浏览器流程故障也会得到更友好的恢复。过期回调或 `temporarily_unavailable` 响应可以从原始 URL 重新启动认证，并通过受限重试计数器避免重定向循环。`access_denied` 等明确拒绝结果不会重试。
+浏览器流程故障也能更优雅地恢复。过期回调或 `temporarily_unavailable` 响应可以从原始 URL 重新启动认证，并通过受限重试计数器避免重定向循环。`access_denied` 等明确拒绝结果不会重试。
 
 更多信息，请参阅 [PR #13649](https://github.com/apache/apisix/pull/13649)、[PR #13616](https://github.com/apache/apisix/pull/13616)、[PR #13712](https://github.com/apache/apisix/pull/13712) 和 [PR #13825](https://github.com/apache/apisix/pull/13825)。
 
@@ -475,20 +475,20 @@ APISIX 可以在匹配参数化路由时保留 `%2F` 编码，使 `cat%2Fdog` �
 
 ### AI Gateway 正确性与协议兼容性
 
-AI 代理现在能够保留更多上游提供商的原始语义，并使重试与前一次尝试相互隔离。请求未重试时，客户端会收到原始 429/5xx 错误体和 Content-Type；发生回退时，每个实例都从未被修改的客户端请求体重新构造请求，避免模型选项在实例之间泄漏。AI 延迟变量在成功和错误响应上也统一使用毫秒。参阅 [PR #13565](https://github.com/apache/apisix/pull/13565)、[PR #13793](https://github.com/apache/apisix/pull/13793) 和 [PR #13711](https://github.com/apache/apisix/pull/13711)。
+AI 代理现在能够更好地保留上游提供商的原始意图，并使重试与前一次尝试相互隔离。请求未重试时，客户端会收到原始 429/5xx 错误体和 Content-Type；发生回退时，每个实例都从未被修改的客户端请求体重新构造请求，避免模型选项在实例之间泄漏。AI 延迟变量在成功和错误响应上也统一使用毫秒。参阅 [PR #13565](https://github.com/apache/apisix/pull/13565)、[PR #13793](https://github.com/apache/apisix/pull/13793) 和 [PR #13711](https://github.com/apache/apisix/pull/13711)。
 
-协议转换变得更加可靠和忠实：
+协议转换变得更加可靠，也更贴合上游原意：
 
 - 上游流在打开内容块前结束时，Anthropic 客户端不再挂起；无效的 `tool_call` 参数也不会丢弃原本可用的响应。参阅 [PR #13583](https://github.com/apache/apisix/pull/13583) 和 [PR #13599](https://github.com/apache/apisix/pull/13599)。
 - Anthropic 工具结果顺序、工具名称映射、推理强度、结构化输出和消息形态现在更符合 OpenAI 兼容上游的预期。参阅 [PR #13674](https://github.com/apache/apisix/pull/13674)。
-- 结构化与多模态消息内容会为文本消费者进行一致展开，同时在精确缓存键中保持区别；包含非文本状态的提示词会绕过语义缓存。参阅 [PR #13634](https://github.com/apache/apisix/pull/13634) 和 [PR #13654](https://github.com/apache/apisix/pull/13654)。
-- 协议转换将一个上游数据块展开为多个客户端事件时，实时审核不再重复计算同一数据块。参阅 [PR #13765](https://github.com/apache/apisix/pull/13765)。
+- 结构化与多模态消息内容会为文本消费者一致地展平，同时在精确缓存键中保持区别；包含非文本状态的提示词会绕过语义缓存。参阅 [PR #13634](https://github.com/apache/apisix/pull/13634) 和 [PR #13654](https://github.com/apache/apisix/pull/13654)。
+- 协议转换将一个上游数据块扇出为多个客户端事件时，实时审核不再重复计算同一数据块。参阅 [PR #13765](https://github.com/apache/apisix/pull/13765)。
 
 `ai-request-rewrite` 的内部请求现在只携带插件中配置的提供商凭证，不再转发下游客户端的 `Cookie` 及其他请求头；当提供商通过查询参数、`api-key` 或 SigV4 进行身份验证，而不会覆盖 `Authorization` 请求头时，客户端的 `Authorization` 也不会再被转发。透明代理的 `ai-proxy` 路径仍会按文档转发客户端请求头。参阅 [PR #13699](https://github.com/apache/apisix/pull/13699)。
 
 ### 身份验证与身份安全
 
-身份验证插件现在可以干净地拒绝异常输入，并防止客户端控制的身份数据到达上游服务：
+身份验证插件现在可以干净地拒绝畸形输入，并防止客户端控制的身份数据到达上游服务：
 
 - 异常 JWT 签名返回 401，而不再触发 500；`jwe-decrypt` 在关闭 `strict` 时也会正确允许缺少令牌的请求。参阅 [PR #13518](https://github.com/apache/apisix/pull/13518) 和 [PR #13822](https://github.com/apache/apisix/pull/13822)。
 - `wolf-rbac` 与 `attach-consumer-label` 会在应用受信任身份数据前始终删除客户端传入的身份请求头。参阅 [PR #13696](https://github.com/apache/apisix/pull/13696) 和 [PR #13590](https://github.com/apache/apisix/pull/13590)。
@@ -525,7 +525,7 @@ CAS 单点登出回调现在会在插件处终止，不再转发到上游；Casd
 
 内存 `proxy-cache` 策略现在使用具有唯一映射关系的存储键格式，使构造请求无法读取或覆盖其他请求的 Vary 变体。布局版本也已升级，因此升级前的内存缓存条目在过期前将无法命中。`graphql-proxy-cache` 的 PURGE 也会删除索引中的所有 Vary 变体，而不再只删除旧的基础条目。参阅 [PR #13831](https://github.com/apache/apisix/pull/13831) 和 [PR #13523](https://github.com/apache/apisix/pull/13523)。
 
-缓冲后的请求体现在会在内部 HTTP 调用前重新生成正确的消息边界信息。`forward-auth`、AWS Lambda、Azure Functions 与 OpenFunction 会移除已经不再适用的客户端 `Transfer-Encoding` 和 `Content-Length`，由 HTTP 客户端根据实际缓冲请求体重新生成 `Content-Length`。参阅 [PR #13642](https://github.com/apache/apisix/pull/13642) 和 [PR #13798](https://github.com/apache/apisix/pull/13798)。
+缓冲后的请求体现在会在内部 HTTP 调用前被正确重新封装。`forward-auth`、AWS Lambda、Azure Functions 与 OpenFunction 会移除已经不再适用的客户端 `Transfer-Encoding` 和 `Content-Length`，由 HTTP 客户端根据实际缓冲请求体重新生成 `Content-Length`。参阅 [PR #13642](https://github.com/apache/apisix/pull/13642) 和 [PR #13798](https://github.com/apache/apisix/pull/13798)。
 
 其他数据处理修复包括：
 
@@ -537,7 +537,7 @@ CAS 单点登出回调现在会在插件处终止，不再转发到上游；Casd
 
 ### 日志与可观测性
 
-日志负载和凭证更不容易泄漏或跨配置串用：
+日志负载和凭证更不容易泄漏或跨配置边界混用：
 
 - Elasticsearch、Kafka、RocketMQ、SLS 与 Syslog 不再把序列化日志负载写入错误日志；Kafka SASL 凭证也会在错误路径中脱敏。参阅 [PR #13502](https://github.com/apache/apisix/pull/13502) 和 [PR #13786](https://github.com/apache/apisix/pull/13786)。
 - Loki 会按请求解析动态标签，并按解析后的标签集合对批次中的条目分组，避免一个服务的标签泄漏到另一个服务。参阅 [PR #13562](https://github.com/apache/apisix/pull/13562)。
@@ -557,9 +557,9 @@ OpenTelemetry Tracer 会在元数据变更后重建，核心 Span 注入也会�
 
 环境变量与 Secret 处理也获得多项修复：
 
-- 精确键环境变量查找可避免前缀冲突；配置键替换会移除未解析旧键；`nginx_config.envs` 也会安全引用包含空格的值。参阅 [PR #13595](https://github.com/apache/apisix/pull/13595)、[PR #12885](https://github.com/apache/apisix/pull/12885) 和 [PR #13713](https://github.com/apache/apisix/pull/13713)。
+- 精确键环境变量查找可避免前缀冲突；配置键替换会移除未解析的键；`nginx_config.envs` 也会安全引用包含空格的值。参阅 [PR #13595](https://github.com/apache/apisix/pull/13595)、[PR #12885](https://github.com/apache/apisix/pull/12885) 和 [PR #13713](https://github.com/apache/apisix/pull/13713)。
 - `/secrets` 变化时 Secret 缓存会失效；未解析引用会生成包含字段信息的错误，而不再静默失败。参阅 [PR #13668](https://github.com/apache/apisix/pull/13668) 和 [PR #13737](https://github.com/apache/apisix/pull/13737)。
-- Secret 引用仍未解析时，Consumer 身份验证会拒绝请求，而不再使用引用字符串继续认证。Stream TLS 与引用的上游 SSL 对象也会正确初始化和解析由环境变量或 Secret 提供的证书材料。参阅 [PR #13667](https://github.com/apache/apisix/pull/13667)、[PR #12935](https://github.com/apache/apisix/pull/12935) 和 [PR #13062](https://github.com/apache/apisix/pull/13062)。
+- Secret 引用仍未解析时，Consumer 身份验证会直接拒绝请求（fail closed），而不是继续完成认证。Stream TLS 与引用的上游 SSL 对象也会正确初始化和解析由环境变量或 Secret 提供的证书材料。参阅 [PR #13667](https://github.com/apache/apisix/pull/13667)、[PR #12935](https://github.com/apache/apisix/pull/12935) 和 [PR #13062](https://github.com/apache/apisix/pull/13062)。
 
 合并 Consumer 与 Route 配置后，插件状态会被保留；父资源查找也支持所有可携带插件的资源类型。参阅 [PR #13757](https://github.com/apache/apisix/pull/13757) 和 [PR #13663](https://github.com/apache/apisix/pull/13663)。
 

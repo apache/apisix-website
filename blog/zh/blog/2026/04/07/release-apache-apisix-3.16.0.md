@@ -15,17 +15,17 @@ keywords:
 - API Management Platform
 - New Release
 - Cloud Native
-description: Apache APISIX 3.16.0 版本于 2026 年 4 月 7 日发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。
+description: Apache APISIX 3.16.0 版本于 2026 年 4 月 7 日发布。该版本带来了一系列新功能、缺陷修复、以及相关用户体验优化。
 tags: [Community]
 ---
 
-我们很高兴地宣布 Apache APISIX 3.16.0 版本已经发布。该版本带来了一系列新功能、修复、以及相关用户体验优化。
+我们很高兴地宣布 Apache APISIX 3.16.0 版本已经发布。该版本带来了一系列新功能、缺陷修复、以及相关用户体验优化。
 
 <!--truncate-->
 
 本次版本扩展了速率限制能力，增强了 OpenTelemetry 可观测性，新增了认证、日志记录和服务发现等方面的插件功能，同时包含多项缺陷修复和稳定性改进。
 
-此外，该版本还包含了两项重大变更。如果您发现这些变更会对您的使用产生影响，请进行相应的计划升级。
+此外，该版本还包含了两项重大变更，可能会影响现有部署。请审阅这些变更并相应地规划您的升级。
 
 ## 重大变更
 
@@ -66,7 +66,7 @@ tags: [Community]
 
 OpenTelemetry 插件现在可以生成更多 span，覆盖各个 NGINX 阶段、每个插件的执行过程、DNS 解析、密钥获取、SSL client hello 处理以及路由匹配。这为请求处理提供了更深入的可观测性。
 
-同时新增了全局 `tracing: false` 配置项，可用于选择性地禁用追踪。此外，OTel 语义规范属性已更新，与最新规范保持一致。
+同时新增了全局 `tracing: false` 配置项，可用于选择性地禁用追踪。此外，OTel 语义约定属性已更新，与最新规范保持一致。
 
 更多信息，请参阅 [PR #12686](https://github.com/apache/apisix/pull/12686)。
 
@@ -90,7 +90,7 @@ OpenTelemetry 插件现在可以生成更多 span，覆盖各个 NGINX 阶段、
 
 ### Eureka 服务发现支持基于主机名的节点
 
-Eureka 服务发现模块现在除了支持 IP 地址节点外，还支持以主机名（域名）注册的节点。此前，只有使用 IP 地址的节点才能被正确处理。这使 APISIX 能够与服务使用 DNS 名称注册的 Eureka 部署集成。
+Eureka 服务发现模块现在除了支持 IP 地址节点外，还支持以主机名（域名）注册的节点。此前，只有使用 IP 地址的节点才能被正确处理。这使 APISIX 能够集成那些服务使用 DNS 名称注册的 Eureka 部署。
 
 更多信息，请参阅 [PR #12993](https://github.com/apache/apisix/pull/12993)。
 
@@ -108,7 +108,7 @@ Eureka 服务发现模块现在除了支持 IP 地址节点外，还支持以主
 
 ### `jwt-auth` 插件支持更多签名算法
 
-`jwt-auth` 插件现在通过新增的 `jwt-auth/parser.lua` 模块支持更多 JWT 签名算法，包括 RS256、ES256 等。此前仅较好地支持 HS256。这使 APISIX 能够与使用非对称密钥签发 Token 的身份提供商集成。
+`jwt-auth` 插件现在通过新增的 `jwt-auth/parser.lua` 模块支持更多 JWT 签名算法，包括 RS256、ES256 等。此前仅 HS256 得到了良好支持。这使 APISIX 能够与使用非对称密钥签发 Token 的身份提供商集成。
 
 更多信息，请参阅 [PR #12944](https://github.com/apache/apisix/pull/12944)。
 
@@ -142,7 +142,7 @@ Eureka 服务发现模块现在除了支持 IP 地址节点外，还支持以主
 - 修复 `limit-req` 消费者隔离问题，使用 `parent.resource_key` 确保消费者在不同路由间共享正确的计数器 (PR [#13019](https://github.com/apache/apisix/pull/13019))
 - 移除 `ai-rate-limiting` 插件 schema 中错误存在的 `sync_interval` 字段 (PR [#12959](https://github.com/apache/apisix/pull/12959))
 - 将 Docker 独立模式的 YAML 配置校验从 Shell 脚本迁移至 Lua，以更稳健地处理所有合法 YAML 变体 (PR [#12949](https://github.com/apache/apisix/pull/12949))
-- 修正 `config.yaml.example` 中 AI 插件优先级注释和排序 (PR [#12926](https://github.com/apache/apisix/pull/12926))
+- 修正 `config.yaml.example` 中 AI 插件的优先级排序 (PR [#12926](https://github.com/apache/apisix/pull/12926))
 
 ## 更新日志
 

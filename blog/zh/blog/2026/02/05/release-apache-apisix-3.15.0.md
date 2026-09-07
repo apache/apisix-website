@@ -25,7 +25,7 @@ tags: [Community]
 
 本次版本新增了对多种 AI 提供商的支持，增强了日志记录能力，并在服务发现、安全性和插件功能等方面进行了多项改进。
 
-此外，该版本还包含了一项重大变更。如果您发现这项变更会对您的使用产生影响，请进行相应的计划升级。
+此外，该版本还包含了一项重大变更，可能会影响现有部署。请查看该变更并相应地规划升级。
 
 ## 重大变更
 
@@ -120,13 +120,13 @@ API 驱动的独立模式（主要用于 Ingress 控制器）现在支持新的�
 
 - 支持 file-driven standalone 模式下的状态 API (PR [#12810](https://github.com/apache/apisix/pull/12810))
 - 正确处理 Kubernetes 服务发现中的 EndpointSlices (PR [#12634](https://github.com/apache/apisix/pull/12634))
-- 将资源名称长度从 100 个字符放宽至 256 个字符，以更好地支持入口控制器名称生成模式 (PR [#11822](https://github.com/apache/apisix/pull/11822))
+- 将资源名称长度从 100 个字符放宽至 256 个字符，以更好地支持 Ingress 控制器名称生成模式 (PR [#11822](https://github.com/apache/apisix/pull/11822))
 - 为流路由添加验证和删除保护 (PR [#12794](https://github.com/apache/apisix/pull/12794))
 - 通过在 `limit-conn` 插件中配置 Redis 密钥过期时间来防止永久配额阻塞 (PR [#12872](https://github.com/apache/apisix/pull/12872))
 - 通过在 SkyWalking 集成中路由命中时启动计时器来提高计时精度 (PR [#12855](https://github.com/apache/apisix/pull/12855))
 - 通过在销毁 Prometheus 时移除不必要的深拷贝来提高性能 (PR [#12905](https://github.com/apache/apisix/pull/12905))
 - 通过在 `limit-req` 插件中确保安全的 Redis 键驱逐来防止数据损坏 (PR [#12911](https://github.com/apache/apisix/pull/12911))
-- 通过在 `limit-count` 插件中使用元父级来识别插件源来改进调试 (PR [#12900](https://github.com/apache/apisix/pull/12900))
+- 通过在 `limit-count` 插件中使用父级元数据来识别插件源来改进调试 (PR [#12900](https://github.com/apache/apisix/pull/12900))
 - 在 MQTT 插件中，将 `protocol_name` 设置为可选，并将其默认值设为 `MQTT` (PR [#12831](https://github.com/apache/apisix/pull/12831))
 - 在 `batch-requests` 插件中，确保子响应的数量与子请求的数量匹配 (PR [#12779](https://github.com/apache/apisix/pull/12779))
 - 修正 `ai-proxy-multi` 插件中的日志模式键 (PR [#12795](https://github.com/apache/apisix/pull/12795))
