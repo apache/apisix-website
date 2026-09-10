@@ -8,9 +8,9 @@ const { locale } = Astro.props;
 const p = localePrefix(locale);
 
 const STATS = [
-  ['100+', t(locale, 'plugins', '插件')],
-  ['~18k', t(locale, 'QPS / core', '单核 QPS')],
-  ['0.2 ms', t(locale, 'added latency', '额外延迟')],
+  ['100+', t(locale, 'open-source plugins', '开源插件')],
+  [t(locale, 'Dynamic', '动态'), t(locale, 'routing and configuration', '路由与配置')],
+  [t(locale, 'Hot-reloadable', '热加载'), t(locale, 'plugins', '插件')],
   ['Apache 2.0', t(locale, 'licensed', '开源协议')],
 ];
 
@@ -28,7 +28,7 @@ const AI_CARDS: [string, string, string][] = [
   ['Retry & fallback', 'Fail over to a backup model or provider automatically when one is unavailable.', '/docs/apisix/plugins/ai-proxy-multi/'],
   ['Token rate limiting', 'Cap usage and cost with token-based rate limits per consumer.', '/docs/apisix/plugins/ai-rate-limiting/'],
   ['Prompt security', 'Guardrails, content moderation, and prompt decoration before requests reach the model.', '/docs/apisix/plugins/ai-prompt-guard/'],
-  ['MCP support', 'Expose and govern Model Context Protocol tools through the gateway.', '/ai-gateway/'],
+  ['Prompt transformation', 'Apply predefined prompt templates before requests reach the configured LLM provider.', '/docs/apisix/plugins/ai-prompt-template/'],
 ];
 
 // name, brand icon/logo under /img/integrations/ (null = text-only chip), and
@@ -93,8 +93,8 @@ const PILLARS = [
     kicker: t(locale, 'Multi-platform and protocol', '多平台、多协议'),
     title: t(locale, 'Create once, run anywhere', '一次创建，随处运行'),
     body: t(locale,
-      "Platform agnostic, no vendor lock-in. Apache APISIX as API Management solution, can run from bare-metal to Kubernetes. It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo, MQTT proxy and multiple platforms including ARM64, don't worry about the lock-in of the infra technology.",
-      'Apache APISIX 提供了多平台解决方案，它不但支持在裸机运行，也支持在 Kubernetes 中使用。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。'),
+      "Platform agnostic, no vendor lock-in. Apache APISIX is an API gateway that can run from bare metal to Kubernetes. It supports HTTP-to-gRPC transcoding, WebSocket, gRPC, Dubbo, MQTT proxy, and multiple platforms including ARM64.",
+      'Apache APISIX 作为 API 网关，可运行于裸机和 Kubernetes。它支持 HTTP 到 gRPC 转换、WebSocket、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，避免被单一基础设施技术锁定。'),
   },
 ];
 
