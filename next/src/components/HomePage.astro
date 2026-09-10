@@ -16,7 +16,12 @@ const STATS = [
 
 const QUICK_CARDS = [
   { title: t(locale, 'Get started', '快速开始'), body: t(locale, 'Install APISIX and configure your first route in minutes.', '几分钟内安装 APISIX 并配置你的第一条路由。'), link: t(locale, 'Read the docs →', '阅读文档 →'), href: `${p}/docs/apisix/getting-started/README/` },
-  { title: t(locale, 'Learn the concepts', '学习核心概念'), body: t(locale, 'API gateway, AI gateway, rate limiting, mTLS, Kubernetes and more.', 'API 网关、AI 网关、限流限速、mTLS、Kubernetes 等。'), link: t(locale, 'Explore the learning center →', '进入学习中心 →'), href: `${p}/learning-center/` },
+  {
+    title: t(locale, 'Understand API gateways', '学习核心概念'),
+    body: t(locale, 'Learn how an API gateway routes, secures, and observes traffic, and where Apache APISIX fits.', 'API 网关、AI 网关、限流限速、mTLS、Kubernetes 等。'),
+    link: t(locale, 'Read the API gateway guide →', '进入学习中心 →'),
+    href: locale === 'zh' ? '/zh/learning-center/' : '/learning-center/what-is-an-api-gateway/',
+  },
   { title: t(locale, 'Case studies', '用户案例'), body: t(locale, 'See how teams run Apache APISIX in production at scale.', '看看各团队如何在生产环境大规模运行 Apache APISIX。'), link: t(locale, 'Read case studies →', '阅读用户案例 →'), href: `${p}/blog/` },
 ];
 
@@ -218,6 +223,18 @@ const SOFTWARE_APPLICATION_SCHEMA = {
         <p class="feature-lead">{t(locale,
           'APISIX API Gateway offers 100+ open-source plugins, comprehensive API management capabilities, and advanced technical advantages.',
           'APISIX API 网关提供 100+ 开源插件、全面的 API 管理能力和先进的技术优势。')}</p>
+        <p>
+          {t(locale, 'Evaluating open-source options?', '正在评估开源方案？')}
+          {' '}
+          <a
+            class="cta-link"
+            href={locale === 'zh' ? '/zh/comparisons/' : '/learning-center/open-source-api-gateway-comparison/'}
+          >
+            {t(locale,
+              'Compare API gateway architectures, extensibility, Kubernetes support, and operations →',
+              '查看 API 网关对比与选型内容 →')}
+          </a>
+        </p>
       </div>
     </div>
   </section>

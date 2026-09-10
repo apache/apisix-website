@@ -45,6 +45,49 @@ async function expectSocialImage(page) {
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
 }
 
+test('homepage keeps verified positioning and distinct search-intent paths', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page).toHaveTitle('Apache APISIX - Open Source API Gateway & AI Gateway');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Apache APISIX is a dynamic, high-performance, open-source API gateway and AI gateway. Features include load balancing, authentication, rate limiting, AI proxying, LLM load balancing, and 100+ plugins.',
+  );
+  await expect(page.getByRole('heading', {
+    level: 1,
+    name: 'The open-source API Gateway & AI Gateway',
+  })).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/');
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/');
+  await expect(page.locator('link[rel="alternate"][hreflang="zh"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/zh/');
+  await expect(page.locator('link[rel="alternate"][hreflang="x-default"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/');
+
+  await expect(page.locator('.stat')).toHaveCount(4);
+  await expect(page.locator('.stat').nth(0)).toContainText('100+');
+  await expect(page.locator('.stat').nth(0)).toContainText('open-source plugins');
+  await expect(page.locator('.stat').nth(1)).toContainText('Dynamic');
+  await expect(page.locator('.stat').nth(1)).toContainText('routing and configuration');
+  await expect(page.locator('.stat').nth(2)).toContainText('Hot-reloadable');
+  await expect(page.locator('.stat').nth(2)).toContainText('plugins');
+  await expect(page.locator('.stat').nth(3)).toContainText('Apache 2.0');
+  await expect(page.locator('.stat').nth(3)).toContainText('licensed');
+
+  await expect(page.locator('main').getByText(/MCP/i)).toHaveCount(0);
+  await expect(page.getByText('~18k', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('0.2 ms', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Prompt transformation' }))
+    .toHaveAttribute('href', '/docs/apisix/plugins/ai-prompt-template/');
+  await expect(page.getByRole('link', { name: /Understand API gateways/ }))
+    .toHaveAttribute('href', '/learning-center/what-is-an-api-gateway/');
+  await expect(page.getByRole('link', { name: /Compare API gateway architectures/ }))
+    .toHaveAttribute('href', '/learning-center/open-source-api-gateway-comparison/');
+  await expectNoPageOverflow(page);
+});
+
 test('AI Gateway has complete responsive content and valid footer links', async ({ page }, testInfo) => {
   await page.goto('/ai-gateway/');
 
@@ -117,6 +160,27 @@ test('Downloads exposes release artifacts, signatures, and checksums', async ({ 
 });
 
 test('Chinese routes keep localized primary content', async ({ page }) => {
+  await page.goto('/zh/');
+  await expect(page).toHaveTitle('Apache APISIX - 开源 API 网关与 AI 网关');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Apache APISIX 是一个动态、高性能的开源 API 网关和 AI 网关，提供负载均衡、身份认证、限流限速、AI 代理、LLM 负载均衡等能力和 100+ 插件。',
+  );
+  await expect(page.getByRole('heading', { level: 1, name: '开源 API 网关与 AI 网关' }))
+    .toBeVisible();
+  await expect(page.locator('link[rel="canonical"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/zh/');
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/');
+  await expect(page.locator('link[rel="alternate"][hreflang="zh"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/zh/');
+  await expect(page.getByRole('link', { name: /学习核心概念/ }))
+    .toHaveAttribute('href', '/zh/learning-center/');
+  await expect(page.getByRole('link', { name: /查看 API 网关对比与选型内容/ }))
+    .toHaveAttribute('href', '/zh/comparisons/');
+  await expect(page.locator('main').getByText(/MCP/i)).toHaveCount(0);
+  await expectNoPageOverflow(page);
+
   await page.goto('/zh/ai-gateway/');
   await expect(page.getByRole('heading', { level: 1, name: '面向 LLM 与 AI Agent 的开源 AI 网关' }))
     .toBeVisible();
