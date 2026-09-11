@@ -9,8 +9,8 @@ const p = localePrefix(locale);
 
 const STATS = [
   ['100+', t(locale, 'open-source plugins', '开源插件')],
-  [t(locale, 'Dynamic', '动态'), t(locale, 'routing and configuration', '路由与配置')],
-  [t(locale, 'Hot-reloadable', '热加载'), t(locale, 'plugins', '插件')],
+  ['50k+', t(locale, 'QPS in a published four-core benchmark', '官方四核基准测试 QPS')],
+  ['<1 ms', t(locale, 'average latency in the same benchmark', '同一基准测试的平均延迟')],
   ['Apache 2.0', t(locale, 'licensed', '开源协议')],
 ];
 
@@ -98,8 +98,8 @@ const PILLARS = [
     kicker: t(locale, 'Multi-platform and protocol', '多平台、多协议'),
     title: t(locale, 'Create once, run anywhere', '一次创建，随处运行'),
     body: t(locale,
-      "Platform agnostic, no vendor lock-in. Apache APISIX is an API gateway that can run from bare metal to Kubernetes. It supports HTTP-to-gRPC transcoding, WebSocket, gRPC, Dubbo, MQTT proxy, and multiple platforms including ARM64.",
-      'Apache APISIX 作为 API 网关，可运行于裸机和 Kubernetes。它支持 HTTP 到 gRPC 转换、WebSocket、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，避免被单一基础设施技术锁定。'),
+      'Apache APISIX can run on bare metal or Kubernetes, giving teams deployment flexibility across infrastructure environments. It supports HTTP-to-gRPC transcoding, WebSocket, gRPC, Dubbo, MQTT proxy, and ARM64.',
+      'Apache APISIX 可运行于裸机和 Kubernetes，为团队在不同基础设施环境中部署网关提供灵活性。它支持 HTTP 到 gRPC 转换、WebSocket、gRPC、Dubbo、MQTT 代理和 ARM64。'),
   },
 ];
 
@@ -162,6 +162,15 @@ const SOFTWARE_APPLICATION_SCHEMA = {
       <ul class="stat-row" role="list">
         {STATS.map(([v, l]) => <li class="stat"><strong>{v}</strong><span>{l}</span></li>)}
       </ul>
+      <p style="max-width:42rem; margin:.75rem 0 0; color:var(--color-text-soft); font-size:.78rem; line-height:1.5">
+        {t(locale,
+          'Published benchmark: four APISIX cores on a Google Cloud n1-highcpu-8 VM, 1 KB responses, and no plugins enabled. Results vary by workload and environment.',
+          '官方基准测试使用 Google Cloud n1-highcpu-8 虚拟机中的四个核心运行 APISIX，响应大小为 1 KB，且未启用插件；实际结果会因工作负载和环境而异。')}
+        {' '}
+        <a href={`${p}/docs/apisix/benchmark/`}>
+          {t(locale, 'See benchmark details →', '查看基准测试详情 →')}
+        </a>
+      </p>
     </div>
   </section>
 
@@ -221,8 +230,8 @@ const SOFTWARE_APPLICATION_SCHEMA = {
           'Reduce time fighting bugs, focus on designing world-class systems with API Gateway',
           'Apache APISIX 值得信赖，你只需专注在具体业务中，而无需考虑 API 处理基础组件。')}</h3>
         <p class="feature-lead">{t(locale,
-          'APISIX API Gateway offers 100+ open-source plugins, comprehensive API management capabilities, and advanced technical advantages.',
-          'APISIX API 网关提供 100+ 开源插件、全面的 API 管理能力和先进的技术优势。')}</p>
+          'Apache APISIX provides 100+ open-source plugins and gateway-level capabilities for traffic management, security, observability, and protocol handling.',
+          'Apache APISIX 提供 100+ 开源插件，以及面向流量管理、安全、可观测性和协议处理的网关能力。')}</p>
         <p>
           {t(locale, 'Evaluating open-source options?', '正在评估开源方案？')}
           {' '}
