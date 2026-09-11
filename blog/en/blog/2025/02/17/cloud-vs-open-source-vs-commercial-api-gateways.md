@@ -25,9 +25,9 @@ image: https://static.api7.ai/uploads/2025/02/17/gWz2QJYq_api-gateway-comparison
 
 Cloud-managed, open-source, and commercial API gateways are not mutually exclusive categories. A vendor can offer a managed service built on open-source software, while a commercial gateway can support self-managed and hosted deployments. The useful question is therefore not which label is universally best, but which operating and support model matches your requirements.
 
-For a product-by-product evaluation, compare Apache APISIX, Kong, Envoy, and Traefik in the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/).
-
 <!--truncate-->
+
+For a product-by-product evaluation, compare Apache APISIX, Kong, Envoy, and Traefik in the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/).
 
 ## What Are You Comparing?
 

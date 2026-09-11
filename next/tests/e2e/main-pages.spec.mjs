@@ -85,6 +85,11 @@ test('homepage keeps positioning and distinct search-intent paths', async ({ pag
     .toHaveAttribute('href', '/learning-center/what-is-an-api-gateway/');
   await expect(page.getByRole('link', { name: /Compare API gateway architectures/ }))
     .toHaveAttribute('href', '/learning-center/open-source-api-gateway-comparison/');
+  await expect(page.getByText(
+    'Apache APISIX is an open-source API gateway for routing, securing, and managing traffic to APIs and microservices at scale.',
+    { exact: true },
+  )).toBeVisible();
+  await expect(page.getByText(/scalable platform for all your APIs/i)).toHaveCount(0);
   await expectNoPageOverflow(page);
 });
 
@@ -178,6 +183,11 @@ test('Chinese routes keep localized primary content', async ({ page }) => {
     .toHaveAttribute('href', '/zh/learning-center/');
   await expect(page.getByRole('link', { name: /查看 API 网关对比与选型内容/ }))
     .toHaveAttribute('href', '/zh/comparisons/');
+  await expect(page.getByText(
+    'Apache APISIX 是云原生开源 API 网关，可用于大规模 API 和微服务流量的路由、安全与流量管理。',
+    { exact: true },
+  )).toBeVisible();
+  await expect(page.getByText(/可扩展的管理平台/)).toHaveCount(0);
   await expect(page.locator('main').getByText(/MCP/i)).toHaveCount(0);
   await expectNoPageOverflow(page);
 
