@@ -8,7 +8,7 @@ const { locale } = Astro.props;
 const p = localePrefix(locale);
 
 const STATS = [
-  ['100+', t(locale, 'plugins', '插件')],
+  ['100+', t(locale, 'open-source plugins', '开源插件')],
   ['~18k', t(locale, 'QPS / core', '单核 QPS')],
   ['0.2 ms', t(locale, 'added latency', '额外延迟')],
   ['Apache 2.0', t(locale, 'licensed', '开源协议')],
@@ -16,7 +16,12 @@ const STATS = [
 
 const QUICK_CARDS = [
   { title: t(locale, 'Get started', '快速开始'), body: t(locale, 'Install APISIX and configure your first route in minutes.', '几分钟内安装 APISIX 并配置你的第一条路由。'), link: t(locale, 'Read the docs →', '阅读文档 →'), href: `${p}/docs/apisix/getting-started/README/` },
-  { title: t(locale, 'Learn the concepts', '学习核心概念'), body: t(locale, 'API gateway, AI gateway, rate limiting, mTLS, Kubernetes and more.', 'API 网关、AI 网关、限流限速、mTLS、Kubernetes 等。'), link: t(locale, 'Explore the learning center →', '进入学习中心 →'), href: `${p}/learning-center/` },
+  {
+    title: t(locale, 'Understand API gateways', '学习核心概念'),
+    body: t(locale, 'Learn how an API gateway routes, secures, and observes traffic, and where Apache APISIX fits.', 'API 网关、AI 网关、限流限速、mTLS、Kubernetes 等。'),
+    link: t(locale, 'Read the API gateway guide →', '进入学习中心 →'),
+    href: locale === 'zh' ? '/zh/learning-center/' : '/learning-center/what-is-an-api-gateway/',
+  },
   { title: t(locale, 'Case studies', '用户案例'), body: t(locale, 'See how teams run Apache APISIX in production at scale.', '看看各团队如何在生产环境大规模运行 Apache APISIX。'), link: t(locale, 'Read case studies →', '阅读用户案例 →'), href: `${p}/blog/` },
 ];
 
@@ -28,7 +33,7 @@ const AI_CARDS: [string, string, string][] = [
   ['Retry & fallback', 'Fail over to a backup model or provider automatically when one is unavailable.', '/docs/apisix/plugins/ai-proxy-multi/'],
   ['Token rate limiting', 'Cap usage and cost with token-based rate limits per consumer.', '/docs/apisix/plugins/ai-rate-limiting/'],
   ['Prompt security', 'Guardrails, content moderation, and prompt decoration before requests reach the model.', '/docs/apisix/plugins/ai-prompt-guard/'],
-  ['MCP support', 'Expose and govern Model Context Protocol tools through the gateway.', '/ai-gateway/'],
+  ['Prompt transformation', 'Apply predefined prompt templates before requests reach the configured LLM provider.', '/docs/apisix/plugins/ai-prompt-template/'],
 ];
 
 // name, brand icon/logo under /img/integrations/ (null = text-only chip), and
@@ -93,8 +98,8 @@ const PILLARS = [
     kicker: t(locale, 'Multi-platform and protocol', '多平台、多协议'),
     title: t(locale, 'Create once, run anywhere', '一次创建，随处运行'),
     body: t(locale,
-      "Platform agnostic, no vendor lock-in. Apache APISIX as API Management solution, can run from bare-metal to Kubernetes. It supports HTTP to gRPC transcoding, websockets, gRPC, Dubbo, MQTT proxy and multiple platforms including ARM64, don't worry about the lock-in of the infra technology.",
-      'Apache APISIX 提供了多平台解决方案，它不但支持在裸机运行，也支持在 Kubernetes 中使用。它支持 HTTP 到 gRPC 的转换、WebSockets、gRPC、Dubbo、MQTT 代理和包括 ARM64 在内的多个平台，无需担心供应商对基础设施技术的锁定。'),
+      'Apache APISIX can run on bare metal or Kubernetes, giving teams deployment flexibility across infrastructure environments. It supports HTTP-to-gRPC transcoding, WebSocket, gRPC, Dubbo, MQTT proxy, and ARM64.',
+      'Apache APISIX 可运行于裸机和 Kubernetes，为团队在不同基础设施环境中部署网关提供灵活性。它支持 HTTP 到 gRPC 转换、WebSocket、gRPC、Dubbo、MQTT 代理和 ARM64。'),
   },
 ];
 
@@ -208,16 +213,28 @@ const SOFTWARE_APPLICATION_SCHEMA = {
     <div class="container">
       <h2>{t(locale, 'Building for large-scale, high value systems', '适用于超大规模、复杂的业务系统')}</h2>
       <p class="sub">{t(locale,
-        'Apache APISIX provides open source API Gateway to help you manage microservices, delivering the ultimate performance, security, and scalable platform for all your APIs and microservices.',
-        'Apache APISIX 作为云原生架构的开源 API 网关，可以为海量 API 和微服务提供安全可靠的动态、高性能、可扩展的管理平台。')}</p>
+        'Apache APISIX is an open-source API gateway for routing, securing, and managing traffic to APIs and microservices at scale.',
+        'Apache APISIX 是云原生开源 API 网关，可用于大规模 API 和微服务流量的路由、安全与流量管理。')}</p>
       <div class="why-block">
         <p class="badge solid">{t(locale, 'Why APISIX API Gateway?', '为什么选择 APISIX API 网关？')}</p>
         <h3 class="feature-headline">{t(locale,
           'Reduce time fighting bugs, focus on designing world-class systems with API Gateway',
           'Apache APISIX 值得信赖，你只需专注在具体业务中，而无需考虑 API 处理基础组件。')}</h3>
         <p class="feature-lead">{t(locale,
-          'APISIX API Gateway offers 100+ open-source plugins, comprehensive API management capabilities, and advanced technical advantages.',
-          'APISIX API 网关提供 100+ 开源插件、全面的 API 管理能力和先进的技术优势。')}</p>
+          'Apache APISIX provides 100+ open-source plugins and gateway-level capabilities for traffic management, security, observability, and protocol handling.',
+          'Apache APISIX 提供 100+ 开源插件，以及面向流量管理、安全、可观测性和协议处理的网关能力。')}</p>
+        <p>
+          {t(locale, 'Evaluating open-source options?', '正在评估开源方案？')}
+          {' '}
+          <a
+            class="cta-link"
+            href={locale === 'zh' ? '/zh/comparisons/' : '/learning-center/open-source-api-gateway-comparison/'}
+          >
+            {t(locale,
+              'Compare API gateway architectures, extensibility, Kubernetes support, and operations →',
+              '查看 API 网关对比与选型内容 →')}
+          </a>
+        </p>
       </div>
     </div>
   </section>

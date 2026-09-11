@@ -20,7 +20,7 @@ faq:
       There is no universal winner. Compare the maintained controller or integration for each project, its Gateway API conformance, supported policies and custom resources, upgrade lifecycle, and the operational model required by your platform.
 ---
 
-This open-source [API gateway comparison](/learning-center/what-is-an-api-gateway/) evaluates Apache APISIX, Kong, Envoy, and Traefik across architecture, extensibility, Kubernetes integration, and day-two operations. Each project can route and protect service traffic, but its control plane, extension model, and deployment assumptions create different tradeoffs for platform teams.
+This guide compares Apache APISIX, Kong, Envoy, and Traefik across architecture, extensibility, Kubernetes integration, and day-two operations. The best open-source API gateway depends on your deployment model, extension requirements, and operational constraints. If you are new to the category, start with [how an API gateway works](/learning-center/what-is-an-api-gateway/).
 
 ## Why the Choice of API Gateway Matters
 
@@ -47,7 +47,7 @@ Note: Feature details change across releases and editions. Verify required capab
 
 ### Apache APISIX
 
-Apache APISIX is built on NGINX and LuaJIT. Its traditional mode uses etcd to distribute route and plugin configuration dynamically, while standalone mode loads declarative configuration from a local file.
+[Apache APISIX](/) is built on NGINX and LuaJIT. Its traditional mode uses etcd to distribute route and plugin configuration dynamically, while standalone mode loads declarative configuration from a local file.
 
 The [plugin ecosystem](/plugins/) spans authentication (JWT, key-auth, OpenID Connect), traffic management (rate limiting, circuit breaking), observability (Prometheus, Zipkin, OpenTelemetry), and transformation (request/response rewriting, gRPC transcoding). APISIX also supports several external plugin runners and WebAssembly extensions in addition to native Lua plugins.
 

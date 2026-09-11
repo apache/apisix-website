@@ -27,6 +27,8 @@ Cloud-managed, open-source, and commercial API gateways are not mutually exclusi
 
 <!--truncate-->
 
+For a product-by-product evaluation, compare Apache APISIX, Kong, Envoy, and Traefik in the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/).
+
 ## What Are You Comparing?
 
 An API gateway sits between API clients and upstream services. Depending on the product and configuration, it can handle routing, authentication, traffic limits, protocol translation, observability integrations, and other cross-cutting policies.
@@ -123,7 +125,7 @@ Run a proof of concept with representative authentication, routing, failure, and
 
 That model can be useful when deployment control, open governance, or extensibility is important. It also means the operating team remains responsible for designing and running a reliable deployment unless it purchases an appropriate managed service or support offering.
 
-Before selecting it, validate the plugins, deployment mode, configuration workflow, performance profile, and operational model against your own requirements. For a product-focused comparison, see the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/). To distinguish gateway functions from broader lifecycle tooling, see [API gateway vs API management](/learning-center/api-gateway-vs-api-management/).
+Before selecting it, validate the plugins, deployment mode, configuration workflow, performance profile, and operational model against your own requirements. To distinguish gateway functions from broader lifecycle tooling, see [API gateway vs API management](/learning-center/api-gateway-vs-api-management/).
 
 ## Frequently Asked Questions
 
