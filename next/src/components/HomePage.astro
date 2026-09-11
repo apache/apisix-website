@@ -9,8 +9,8 @@ const p = localePrefix(locale);
 
 const STATS = [
   ['100+', t(locale, 'open-source plugins', '开源插件')],
-  ['50k+', t(locale, 'QPS in a published four-core benchmark', '官方四核基准测试 QPS')],
-  ['<1 ms', t(locale, 'average latency in the same benchmark', '同一基准测试的平均延迟')],
+  ['~18k', t(locale, 'QPS / core', '单核 QPS')],
+  ['0.2 ms', t(locale, 'added latency', '额外延迟')],
   ['Apache 2.0', t(locale, 'licensed', '开源协议')],
 ];
 
@@ -162,15 +162,6 @@ const SOFTWARE_APPLICATION_SCHEMA = {
       <ul class="stat-row" role="list">
         {STATS.map(([v, l]) => <li class="stat"><strong>{v}</strong><span>{l}</span></li>)}
       </ul>
-      <p style="max-width:42rem; margin:.75rem 0 0; color:var(--color-text-soft); font-size:.78rem; line-height:1.5">
-        {t(locale,
-          'Published benchmark: four APISIX cores on a Google Cloud n1-highcpu-8 VM, 1 KB responses, and no plugins enabled. Results vary by workload and environment.',
-          '官方基准测试使用 Google Cloud n1-highcpu-8 虚拟机中的四个核心运行 APISIX，响应大小为 1 KB，且未启用插件；实际结果会因工作负载和环境而异。')}
-        {' '}
-        <a href={`${p}/docs/apisix/benchmark/`}>
-          {t(locale, 'See benchmark details →', '查看基准测试详情 →')}
-        </a>
-      </p>
     </div>
   </section>
 

@@ -45,7 +45,7 @@ async function expectSocialImage(page) {
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
 }
 
-test('homepage keeps verified positioning and distinct search-intent paths', async ({ page }) => {
+test('homepage keeps positioning and distinct search-intent paths', async ({ page }) => {
   await page.goto('/');
 
   await expect(page).toHaveTitle('Apache APISIX - Open Source API Gateway & AI Gateway');
@@ -69,22 +69,16 @@ test('homepage keeps verified positioning and distinct search-intent paths', asy
   await expect(page.locator('.stat')).toHaveCount(4);
   await expect(page.locator('.stat').nth(0)).toContainText('100+');
   await expect(page.locator('.stat').nth(0)).toContainText('open-source plugins');
-  await expect(page.locator('.stat').nth(1)).toContainText('50k+');
-  await expect(page.locator('.stat').nth(1)).toContainText('four-core benchmark');
-  await expect(page.locator('.stat').nth(2)).toContainText('<1 ms');
-  await expect(page.locator('.stat').nth(2)).toContainText('average latency');
+  await expect(page.locator('.stat').nth(1)).toContainText('~18k');
+  await expect(page.locator('.stat').nth(1)).toContainText('QPS / core');
+  await expect(page.locator('.stat').nth(2)).toContainText('0.2 ms');
+  await expect(page.locator('.stat').nth(2)).toContainText('added latency');
   await expect(page.locator('.stat').nth(3)).toContainText('Apache 2.0');
   await expect(page.locator('.stat').nth(3)).toContainText('licensed');
 
   await expect(page.locator('main').getByText(/MCP/i)).toHaveCount(0);
-  await expect(page.getByText('~18k', { exact: true })).toHaveCount(0);
-  await expect(page.getByText('0.2 ms', { exact: true })).toHaveCount(0);
-  await expect(page.getByText('50k+', { exact: true })).toBeVisible();
-  await expect(page.getByText('<1 ms', { exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'See benchmark details →' })).toHaveAttribute(
-    'href',
-    '/docs/apisix/benchmark/',
-  );
+  await expect(page.getByText('~18k', { exact: true })).toBeVisible();
+  await expect(page.getByText('0.2 ms', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Prompt transformation' }))
     .toHaveAttribute('href', '/docs/apisix/plugins/ai-prompt-template/');
   await expect(page.getByRole('link', { name: /Understand API gateways/ }))
@@ -184,8 +178,6 @@ test('Chinese routes keep localized primary content', async ({ page }) => {
     .toHaveAttribute('href', '/zh/learning-center/');
   await expect(page.getByRole('link', { name: /查看 API 网关对比与选型内容/ }))
     .toHaveAttribute('href', '/zh/comparisons/');
-  await expect(page.getByRole('link', { name: '查看基准测试详情 →' }))
-    .toHaveAttribute('href', '/zh/docs/apisix/benchmark/');
   await expect(page.locator('main').getByText(/MCP/i)).toHaveCount(0);
   await expectNoPageOverflow(page);
 
