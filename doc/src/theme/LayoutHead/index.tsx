@@ -8,6 +8,8 @@ import OriginalLayoutHead from '@theme-original/LayoutHead';
 import { useActivePlugin } from '@theme/hooks/useDocs';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useLocation } from '@docusaurus/router';
+// eslint-disable-next-line import/extensions
+import { getVersionedDocSignals, versionedDocPath } from './versionedDocSignals.mjs';
 
 /**
  * Matches the version segment of versioned doc URLs, e.g.
@@ -17,8 +19,6 @@ import { useLocation } from '@docusaurus/router';
  *   /docs/apisix/next/...                    -> next
  * Keeps the same version-segment pattern as scripts/update-sitemap-loc.js.
  */
-const versionedDocPath = /^((?:\/zh)?\/docs\/[\w-]+\/)(?:(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?|next)(\/.*)?$/;
-
 const normalizePath = (value: string) => value.replace(/\/$/, '');
 
 /**
@@ -51,17 +51,16 @@ const LayoutHead: FC<{ [key: string]: unknown }> = (props) => {
     && latestDoc.path.startsWith(latestRelease.path)
     ? `${activePlugin.path}${latestDoc.path.slice(latestRelease.path.length)}`
     : null;
-  const latestUrl = latestPath ? `${siteUrl}${latestPath.replace(/\/?$/, '/')}` : null;
-  const canonicalUrl = match ? latestUrl ?? `${siteUrl}${pathname}` : null;
+  const signals = getVersionedDocSignals(pathname, siteUrl, latestPath);
 
   return (
     <>
       <OriginalLayoutHead {...props} />
-      {match && (
+      {signals && (
         <Head>
-          <meta name="robots" content="noindex,follow" />
-          <meta property="og:url" content={canonicalUrl} />
-          <link rel="canonical" href={canonicalUrl} />
+          <meta name="robots" content={signals.robots} />
+          <meta property="og:url" content={signals.canonicalUrl} />
+          <link rel="canonical" href={signals.canonicalUrl} />
         </Head>
       )}
     </>
