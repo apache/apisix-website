@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const htaccessPath = path.resolve(scriptDirectory, '../../.htaccess');
-const directives = fs
-  .readFileSync(htaccessPath, 'utf8')
+const htaccess = fs.readFileSync(htaccessPath, 'utf8');
+const directives = htaccess
   .split('\n')
   .map((line) => line.trim())
   .filter(
@@ -60,6 +60,14 @@ function firstRedirect(requestPath) {
 }
 
 const directRedirects = [
+  [
+    '/docs/apisix/',
+    '/docs/apisix/getting-started/README/',
+  ],
+  [
+    '/zh/docs/apisix/',
+    '/zh/docs/apisix/getting-started/README/',
+  ],
   [
     '/docs/ingress-controller/concepts/apisix_route/',
     '/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/',
@@ -146,6 +154,24 @@ for (const [source, expectedDestination] of directRedirects) {
   );
 }
 
+directives.forEach(({ destination }) => {
+  assert.equal(
+    /^https:\/\/docs\.(?:api7\.ai|apiseven\.com)(?:\/|$)/.test(destination),
+    false,
+    `APISIX-hosted documentation copies must not redirect to ${destination}`,
+  );
+});
+
+const api7BrowserRedirect = htaccess.split('\n').find((line) => (
+  /^\s*Redirect(?:Match)?\s+3\d{2}\b/.test(line)
+    && /https:\/\/docs\.(?:api7\.ai|apiseven\.com)(?:\/|["'\s]|$)/.test(line)
+));
+assert.equal(
+  api7BrowserRedirect,
+  undefined,
+  `API7-owned documentation must remain hosted copies: ${api7BrowserRedirect}`,
+);
+
 assert.deepEqual(
   firstRedirect('/docs/ingress-controller/1.8.0/unmapped-page/'),
   {
@@ -161,4 +187,4 @@ assert.equal(
   'Redirect directives should only match complete path segments',
 );
 
-console.log(`Validated ${directRedirects.length} direct Ingress documentation redirects.`);
+console.log(`Validated ${directRedirects.length} direct documentation redirects.`);

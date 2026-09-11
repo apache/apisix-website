@@ -34,6 +34,26 @@ jobs:
             https://github.com/apache/apisix.git \
             .sync/apisix
           (cd .sync/apisix && git sparse-checkout set docs)
+          INGRESS_VERSION=$(
+            git ls-remote --refs \
+              https://github.com/apache/apisix-ingress-controller.git \
+              'refs/heads/v*' 'refs/tags/v*' \
+              | sed 's|.*refs/[a-z]*/v||' \
+              | node -e "
+                  const semver = require('semver');
+                  const versions = require('fs').readFileSync(0, 'utf8').split('\\n')
+                    .map((version) => version.trim())
+                    .filter((version) => semver.valid(semver.coerce(version)));
+                  versions.sort((left, right) => semver.compare(semver.coerce(left), semver.coerce(right)));
+                  if (versions.length) console.log(versions[versions.length - 1]);
+                "
+          )
+          test -n "$INGRESS_VERSION"
+          git clone --depth 1 --filter=blob:none --sparse -q \
+            -b "v$INGRESS_VERSION" \
+            https://github.com/apache/apisix-ingress-controller.git \
+            .sync/apisix-ingress-controller
+          (cd .sync/apisix-ingress-controller && git sparse-checkout set docs)
       - name: Sync site content
         working-directory: next
         run: node scripts/sync-content.mjs
@@ -42,6 +62,9 @@ jobs:
       - name: Build Astro site
         working-directory: next
         run: npm run build
+      - name: Verify documentation ownership signals
+        working-directory: next
+        run: npm run test:doc-signals
       - name: Assert Chinese learning-center retirement contract
         working-directory: next
         run: |
