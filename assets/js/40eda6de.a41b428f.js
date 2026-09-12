@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[8916],{5823(e){e.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/best-practices","name":"best-practices","count":1,"permalink":"/learning-center/tags/best-practices"}')}}]);

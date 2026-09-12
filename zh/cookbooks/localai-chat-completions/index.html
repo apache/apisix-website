@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>通过 APISIX 代理 LocalAI Chat Completions | Apache APISIX</title><meta name="description" content="在私有 LocalAI Chat Completions 接口前部署 APISIX 3.18，并分开管理客户端与上游凭据。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/cookbooks/localai-chat-completions/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/cookbooks/localai-chat-completions/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/cookbooks/localai-chat-completions/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/cookbooks/localai-chat-completions/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="通过 APISIX 代理 LocalAI Chat Completions | Apache APISIX"><meta property="og:description" content="在私有 LocalAI Chat Completions 接口前部署 APISIX 3.18，并分开管理客户端与上游凭据。"><meta property="og:url" content="https://apisix.apache.org/zh/cookbooks/localai-chat-completions/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"通过 APISIX 代理 LocalAI Chat Completions","description":"在私有 LocalAI Chat Completions 接口前部署 APISIX 3.18，并分开管理客户端与上游凭据。","url":"https://apisix.apache.org/zh/cookbooks/localai-chat-completions/","mainEntityOfPage":"https://apisix.apache.org/zh/cookbooks/localai-chat-completions/","inLanguage":"zh-CN","about":{"@type":"SoftwareApplication","name":"Apache APISIX cookbook","applicationCategory":"DeveloperApplication"},"author":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"isPartOf":{"@type":"CollectionPage","name":"Cookbook","url":"https://apisix.apache.org/zh/cookbooks/"},"dateModified":"2026-08-28"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Apache APISIX","item":"https://apisix.apache.org/zh/"},{"@type":"ListItem","position":2,"name":"Cookbook","item":"https://apisix.apache.org/zh/cookbooks/"},{"@type":"ListItem","position":3,"name":"通过 APISIX 代理 LocalAI Chat Completions","item":"https://apisix.apache.org/zh/cookbooks/localai-chat-completions/"}]}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css">
+<link rel="stylesheet" href="/_astro/EcosystemArticlePage.pZesxsBd.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/zh/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/cookbooks/localai-chat-completions/" title="English" data-astro-cid-3ef6ksr2>EN</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/zh/docs/" data-astro-cid-3ef6ksr2>文档</a> <a class="mobile-subnav" href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a class="mobile-subnav" href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a class="mobile-subnav" href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/cookbooks/localai-chat-completions/" data-astro-cid-3ef6ksr2>English</a> </div> </details> </div> </header> <main>  <header class="resource-head" data-astro-cid-kazxytet> <div class="container resource-head-layout" data-astro-cid-kazxytet> <div class="resource-title" data-astro-cid-kazxytet> <nav class="breadcrumbs" aria-label="面包屑" data-astro-cid-kazxytet> <a href="/zh/" data-astro-cid-kazxytet>首页</a> <span aria-hidden="true" data-astro-cid-kazxytet>/</span> <a href="/zh/cookbooks/" data-astro-cid-kazxytet>Cookbook</a> </nav> <p class="kicker" data-astro-cid-kazxytet>部署与模型服务</p> <h1 data-astro-cid-kazxytet>通过 APISIX 代理 LocalAI Chat Completions</h1> <p class="lead" data-astro-cid-kazxytet>在私有 LocalAI Chat Completions 接口前部署 APISIX 3.18，并分开管理客户端与上游凭据。</p> <div class="resource-status-row" data-astro-cid-kazxytet> <span class="verification validation-in-progress" data-astro-cid-kazxytet> 验证进行中 </span> <span data-astro-cid-kazxytet>维护者 Apache APISIX community</span> </div> </div> <dl class="resource-facts" aria-label="版本信息" data-astro-cid-kazxytet> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>APISIX</dt><dd data-astro-cid-kazxytet>3.18.0</dd></div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>依赖</dt><dd data-astro-cid-kazxytet>LocalAI 4.7.1</dd></div>  <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>难度</dt><dd data-astro-cid-kazxytet>中等</dd></div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>时间</dt><dd data-astro-cid-kazxytet>30 分钟</dd></div> <div data-astro-cid-kazxytet> <dt data-astro-cid-kazxytet>最近验证</dt> <dd data-astro-cid-kazxytet>尚未验证</dd> </div> <div data-astro-cid-kazxytet><dt data-astro-cid-kazxytet>源码审查</dt><dd data-astro-cid-kazxytet><a href="https://github.com/apache/apisix/blob/0796d9c2cbedb1f8bf8194292ff526599f4fde20/apisix/plugins/ai-providers/openai-compatible.lua" data-astro-cid-kazxytet>2026-08-28</a></dd></div> </dl> </div> </header> <div class="container resource-body" data-astro-cid-kazxytet> <aside class="validation-note" role="note" data-astro-cid-kazxytet> <strong data-astro-cid-kazxytet>验证说明：</strong>  本文已对照 APISIX 源码检查，但文中场景尚未完成端到端运行验证。 </aside> <article class="prose resource-prose" data-astro-cid-kazxytet>  <p>本指南只创建一条对外的 Chat Completions Route。客户端使用 OpenAI 风格的 Bearer Token 向 APISIX 认证；APISIX 删除该 Token，再使用另一份 LocalAI 凭据访问上游。</p>
+<h2 id="准备工作">准备工作</h2>
+<p>准备 APISIX 3.18.0、已安装 Chat 模型的 LocalAI 4.7.1，并确保 APISIX 能访问 <code>localai:8080</code>。LocalAI 端口不应公开。先在同一私有网络的运维终端中查询模型别名：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://localai:8080/v1/models"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Authorization: Bearer &#x3C;localai-api-key>"</span></span></code></pre>
+<p>从返回结果中选择模型 ID。下文使用 <code>&#x3C;localai-model></code> 作为占位符。</p>
+<p>启动 APISIX 前，把完整的 LocalAI Authorization 值注入 APISIX 进程：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>LOCALAI_AUTHORIZATION=Bearer &#x3C;localai-api-key></span></span></code></pre>
+<p>Route 通过 <code>$ENV://LOCALAI_AUTHORIZATION</code> 读取该值，避免把凭据明文保存在 Route 文档中。</p>
+<p>如果该值来自 LocalAI 旧版 <code>LOCALAI_API_KEY</code>，应将其视为完整管理凭据。条件允许时，优先启用 LocalAI 用户认证并使用最小权限的 API key。</p>
+<h2 id="创建网关客户端">创建网关客户端</h2>
+<p>创建 Consumer 和 <code>key-auth</code> Credential。<code>key-auth</code> 会按原值比较 header，因此这里保存完整的 Bearer 值：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "username": "localai-client"</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/localai-client/credentials"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "cred-localai-key-auth",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "key": "Bearer &#x3C;gateway-client-key>"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>生产环境中的 Consumer 凭据应改用真实的 Secret 引用。</p>
+<h2 id="创建-chat-completions-route">创建 Chat Completions Route</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "localai-chat",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/v1/chat/completions",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "methods": ["POST"],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "key-auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "header": "Authorization",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "hide_credentials": true</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "proxy-rewrite": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "headers": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "remove": ["Cookie", "x-api-key", "xi-api-key"]</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "provider": "openai-compatible",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "auth": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "header": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "Authorization": "$ENV://LOCALAI_AUTHORIZATION"</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "override": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "endpoint": "http://localai:8080"</span></span>
+<span class="line"><span style="color:#A5D6FF">        },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "timeout": 300000</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Endpoint 应填写 LocalAI origin。APISIX 会根据请求格式追加 <code>/v1/chat/completions</code>；如果 endpoint 已包含 <code>/v1</code>，APISIX 会直接使用该路径，不再追加。</p>
+<p><code>proxy-rewrite</code> 会移除 LocalAI 同样接受的 Cookie 和 API key header。缺少这一步时，客户端传入的 LocalAI 凭据可能优先于网关配置的身份。</p>
+<p>上面的 Route 没有设置 <code>options.model</code>，客户端模型会传给 LocalAI。若只允许一个模型，可以在 <code>ai-proxy</code> 中添加以下配置；此时 APISIX 会覆盖客户端传入的模型：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#A5D6FF">"options"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">  "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"&#x3C;localai-model>"</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<h2 id="发送请求">发送请求</h2>
+<p>先测试非流式响应：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/v1/chat/completions"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Authorization: Bearer &#x3C;gateway-client-key>"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "model": "&#x3C;localai-model>",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "messages": [{"role": "user", "content": "请用一句话回答。"}]</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>再测试 SSE：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --no-buffer</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/v1/chat/completions"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Authorization: Bearer &#x3C;gateway-client-key>"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "model": "&#x3C;localai-model>",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "messages": [{"role": "user", "content": "从一数到五。"}],</span></span>
+<span class="line"><span style="color:#A5D6FF">    "stream": true</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>OpenAI SDK 也可以使用同一条 Route：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#FF7B72">from</span><span style="color:#E6EDF3"> openai </span><span style="color:#FF7B72">import</span><span style="color:#E6EDF3"> OpenAI</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">client </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> OpenAI(</span></span>
+<span class="line"><span style="color:#FFA657">    base_url</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"https://gateway.example.com/v1"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA657">    api_key</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"&#x3C;gateway-client-key>"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">response </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> client.chat.completions.create(</span></span>
+<span class="line"><span style="color:#FFA657">    model</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">"&#x3C;localai-model>"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#FFA657">    messages</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">[{</span><span style="color:#A5D6FF">"role"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"user"</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"content"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Hello from APISIX"</span><span style="color:#E6EDF3">}],</span></span>
+<span class="line"><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#79C0FF">print</span><span style="color:#E6EDF3">(response.choices[</span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">].message.content)</span></span></code></pre>
+<h2 id="检查边界">检查边界</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>检查</th><th>预期结果</th></tr></thead><tbody><tr><td>网关 key 缺失或错误</td><td>APISIX 返回 <code>401</code>，且不调用 LocalAI。</td></tr><tr><td>网关 key 正确</td><td>APISIX 移除客户端凭据和其他 LocalAI 认证 header；LocalAI 只收到网关配置的 Bearer 身份。</td></tr><tr><td>LocalAI 凭据错误</td><td>请求到达 LocalAI 后认证失败；不要自动换用另一份凭据重试。</td></tr><tr><td>流式请求</td><td>返回 SSE，并以 LocalAI 的正常终止事件结束。缺少终止事件表示流不完整。</td></tr><tr><td>其他 LocalAI 路径</td><td>不匹配此 Route，模型列表和管理接口仍保持私有。</td></tr></tbody></table>
+<p>除非 Prompt 和响应已经获准写入日志，否则不要启用 <code>logging.payloads</code>。生产环境还应设置明确的流式时长与响应大小上限，监控上游延迟和错误；若 LocalAI 连接离开可信网络，应使用 TLS 并校验证书。</p>
+<h2 id="验证说明">验证说明</h2>
+<p><a href="https://github.com/mudler/LocalAI/pull/11294">LocalAI 已合并的文档</a>和 <a href="https://github.com/apache/apisix/pull/13770">APISIX 文档 PR #13770</a>覆盖透明代理链路，后者记录了 APISIX 3.17.0 与 LocalAI 4.7.1 的真实运行结果。本文的 APISIX 3.18 原生 Route 已完成源码核对，但尚未完成运行时验证。更新状态前，需要从干净环境运行两次非流式与 SSE 请求，验证两层认证，并由另一位操作者复现。</p>
+<h2 id="清理">清理</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/localai-chat"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> DELETE</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/consumers/localai-client"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> DELETE</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span></span></code></pre>
+<p>不再使用该集成后，从 APISIX 部署中移除 LocalAI authorization 环境变量。</p> <section aria-labelledby="related-integrations"> <h2 id="related-integrations">相关集成</h2> <ul class="resource-links"> <li><a href="/zh/integrations/localai/">LocalAI</a></li> </ul> </section> </article> </div>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/integrations/">Integrations</a></li><li><a href="/zh/cookbooks/">Cookbooks</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[7899],{7573(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/kubernetes","name":"kubernetes","count":1,"permalink":"/zh/learning-center/tags/kubernetes"}')}}]);

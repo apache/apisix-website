@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[1695],{8505(e){e.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/traffic-control","name":"traffic-control","count":1,"permalink":"/learning-center/tags/traffic-control"}')}}]);
