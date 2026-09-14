@@ -7,11 +7,20 @@ import { spawnSync } from 'node:child_process';
 // Test-only XML parser; production sitemap generation has no parser dependency.
 // eslint-disable-next-line import/no-extraneous-dependencies
 import sax from 'sax';
+import {
+  API7_OWNED_DOC_SAMPLES,
+  APISIX_OWNED_DOCS,
+  HISTORICAL_NOINDEX_DOCS,
+} from '../tests/fixtures/documentation-search-signals.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const generator = path.join(root, 'scripts/generate-sitemaps.mjs');
 const dist = fs.mkdtempSync(path.join(os.tmpdir(), 'apisix-sitemap-'));
 const SITE = 'https://apisix.apache.org';
+
+function pathToDirectory(urlPath) {
+  return urlPath.replace(/^\//, '').replace(/\/$/, '');
+}
 
 function writePage(url, { canonical, robots } = {}) {
   const dir = path.join(dist, url);
@@ -74,6 +83,13 @@ const pages = [
 try {
   pages.forEach(writePage);
   writePage('external-canonical', { canonical: 'https://docs.api7.ai/hub/cors' });
+  API7_OWNED_DOC_SAMPLES.forEach(({ path: urlPath, canonical }) => {
+    writePage(pathToDirectory(urlPath), { canonical });
+  });
+  APISIX_OWNED_DOCS.forEach((urlPath) => writePage(pathToDirectory(urlPath)));
+  HISTORICAL_NOINDEX_DOCS.forEach((urlPath) => {
+    writePage(pathToDirectory(urlPath), { robots: 'noindex,follow' });
+  });
   writePage('zh/untranslated-doc', { canonical: `${SITE}/docs/untranslated-doc/` });
   writePage('noindex-page', { robots: 'noindex,follow' });
   writePage('missing-canonical', { canonical: false });
@@ -111,6 +127,8 @@ try {
     '/search/',
     '/zh/search/',
     'external-canonical',
+    ...API7_OWNED_DOC_SAMPLES.map(({ path: urlPath }) => pathToDirectory(urlPath)),
+    ...HISTORICAL_NOINDEX_DOCS.map(pathToDirectory),
     'zh/untranslated-doc',
     'noindex-page',
     'missing-canonical',
@@ -123,6 +141,9 @@ try {
   assert.match(en, /blog\/2026\/07\/28\/release-notes/);
   assert.match(en, /docs\/general\/blog\/page\/overview/);
   assert.match(en, /docs\/apisix\/upgrade-guide-from-2\.15\.x-to-3\.0\.0/);
+  APISIX_OWNED_DOCS.forEach((urlPath) => {
+    assert.ok(en.includes(`<loc>${SITE}${urlPath}</loc>`), urlPath);
+  });
   assert.match(en, /apisix-unity-group-q&amp;a/);
   assert.match(zh, /zh\/learning-center\/<\/loc>/);
   assert.match(zh, /zh\/integrations\/redis/);

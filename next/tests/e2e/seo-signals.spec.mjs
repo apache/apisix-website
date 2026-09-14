@@ -1,4 +1,9 @@
 import { expect, test } from '@playwright/test';
+import {
+  API7_OWNED_DOC_SAMPLES,
+  APISIX_OWNED_DOCS,
+  SITE,
+} from '../fixtures/documentation-search-signals.mjs';
 
 async function alternateMap(page) {
   return page.locator('link[rel="alternate"][hreflang]').evaluateAll((links) => Object.fromEntries(
@@ -28,20 +33,29 @@ test('untranslated Chinese fallback docs canonicalize to English without hreflan
   await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
 });
 
-test('plugin docs retain their API7 canonical contract', async ({ page }) => {
-  await page.goto('/docs/apisix/plugins/jwt-auth/');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    'href',
-    'https://docs.api7.ai/hub/jwt-auth',
-  );
-  await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
+API7_OWNED_DOC_SAMPLES.forEach(({ path, canonical }) => {
+  test(`API7-owned APISIX doc retains its cross-site canonical: ${path}`, async ({ page }) => {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+    expect(new URL(page.url()).pathname, path).toBe(path);
+    expect(new URL(page.url()).hostname, path).not.toBe(new URL(canonical).hostname);
+    await expect(page.locator('link[rel="canonical"]'), path).toHaveAttribute('href', canonical);
+    await expect(page.locator('meta[name="robots"]'), path).toHaveAttribute('content', 'index,follow');
+    await expect(page.locator('link[rel="alternate"][hreflang]'), path).toHaveCount(0);
+  });
+});
 
-  await page.goto('/zh/docs/apisix/plugins/jwt-auth/');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    'href',
-    'https://docs.apiseven.com/hub/jwt-auth',
-  );
-  await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(0);
+APISIX_OWNED_DOCS.forEach((path) => {
+  test(`APISIX-owned current doc remains self-canonical: ${path}`, async ({ page }) => {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+    expect(new URL(page.url()).pathname, path).toBe(path);
+    await expect(page.locator('link[rel="canonical"]'), path).toHaveAttribute(
+      'href',
+      `${SITE}${path}`,
+    );
+    await expect(page.locator('meta[name="robots"]'), path).toHaveAttribute('content', 'index,follow');
+  });
 });
 
 test('blog hreflang exists only for verified source pairs', async ({ page }) => {
