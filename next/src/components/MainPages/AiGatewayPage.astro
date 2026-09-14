@@ -21,8 +21,8 @@ const features = [
     title: t(locale, 'Token rate limiting', 'Token 限流'),
     description: t(
       locale,
-      'Apply token-based limits with local or Redis-backed counters to control usage before requests reach an LLM provider.',
-      '使用本地或 Redis 计数器实施基于 token 的限制，在请求到达 LLM 提供商之前控制用量。',
+      'Track provider-reported token usage with local or Redis-backed counters, then reject subsequent requests after the configured quota is consumed.',
+      '使用本地或 Redis 计数器记录提供商返回的 token 用量，并在配置额度耗尽后拒绝后续请求。',
     ),
     icon: '/img/ai-gateway/token-rate-limiting.svg',
     href: '/docs/apisix/plugins/ai-rate-limiting/',
@@ -71,18 +71,18 @@ const features = [
     title: t(locale, 'AI response caching', 'AI 响应缓存'),
     description: t(
       locale,
-      'With AI Proxy, cache completed LLM responses using Redis-backed exact matching and optional semantic matching.',
-      '与 AI Proxy 配合，使用 Redis 支持的精确匹配和可选语义匹配缓存完整的 LLM 响应。',
+      'With ai-proxy or ai-proxy-multi, cache completed LLM responses using Redis-backed exact matching and optional semantic matching.',
+      '与 ai-proxy 或 ai-proxy-multi 配合，使用 Redis 支持的精确匹配和可选语义匹配缓存完整的 LLM 响应。',
     ),
-    icon: '/img/ai-gateway/token-rate-limiting.svg',
+    icon: '/img/ai-gateway/ai-cache.svg',
     href: '/docs/apisix/plugins/ai-cache/',
   },
   {
     title: t(locale, 'Lakera Guard integration', 'Lakera Guard 集成'),
     description: t(
       locale,
-      'With AI Proxy, use the Lakera Guard v2 API to inspect supported LLM requests, responses, or both.',
-      '与 AI Proxy 配合，使用 Lakera Guard v2 API 检查受支持的 LLM 请求、响应或两者。',
+      'With ai-proxy or ai-proxy-multi, use the Lakera Guard v2 API to inspect supported LLM requests, responses, or both.',
+      '与 ai-proxy 或 ai-proxy-multi 配合，使用 Lakera Guard v2 API 检查受支持的 LLM 请求、响应或两者。',
     ),
     icon: '/img/ai-gateway/security.svg',
     href: '/docs/apisix/plugins/ai-lakera-guard/',
@@ -103,7 +103,7 @@ const capabilities = [
   {
     need: t(locale, 'Control token consumption', '控制 token 消耗'),
     plugin: 'ai-rate-limiting',
-    description: t(locale, 'Enforce token-based limits with local or Redis-backed counters.', '使用本地或 Redis 计数器实施 token 限制。'),
+    description: t(locale, 'Count provider-reported token usage and reject subsequent requests after the configured quota is consumed.', '记录提供商返回的 token 用量，并在配置额度耗尽后拒绝后续请求。'),
   },
   {
     need: t(locale, 'Add retrieval context', '增加检索上下文'),

@@ -80,8 +80,12 @@ test('AI gateway feature guides map claims to current plugins', async ({ page })
   await expect(page.locator('main a[href*="/ai-lakera-guard/"]')).toBeVisible();
   await expect(page.locator('main a[href*="/ai-aws-content-moderation/"]')).toBeVisible();
   await expect(page.locator('main')).toContainText('Semantic routing does not participate in health checks, retry, or the normal fallback strategy.');
+  await expect(page.locator('main')).toContainText('records provider-reported usage after a response');
   await expect(page.locator('main')).toContainText('Cache entries are scoped by Route by default, not by Consumer.');
   await expect(page.locator('main')).toContainText('cache_key.include_consumer');
+  await expect(page.locator('main')).toContainText('a client-controlled header alone is not a tenant boundary');
+  await expect(page.locator('main')).toContainText('Redis Search commands');
+  await expect(page.locator('main')).not.toContainText('requires Redis Stack with RediSearch');
   await expect(page.locator('main')).toContainText('when used with ai-proxy or ai-proxy-multi');
   await expect(page.locator('main')).not.toContainText(/best choice|ensure business continuity|dynamically adjust LLM weights based on cost/i);
 
@@ -90,8 +94,11 @@ test('AI gateway feature guides map claims to current plugins', async ({ page })
   await expect(page.locator('main a[href*="/ai-cache/"]')).toBeVisible();
   await expect(page.locator('main a[href*="/ai-lakera-guard/"]')).toBeVisible();
   await expect(page.locator('main')).toContainText('语义路由不参与健康检查、重试或常规 fallback 策略。');
+  await expect(page.locator('main')).toContainText('在收到响应后记录提供商返回的用量');
   await expect(page.locator('main')).toContainText('缓存条目默认按 Route 隔离，而不是按 Consumer 隔离。');
   await expect(page.locator('main')).toContainText('cache_key.include_consumer');
+  await expect(page.locator('main')).toContainText('仅由客户端控制的请求头不能作为租户隔离边界');
+  await expect(page.locator('main')).toContainText('Redis Search 命令');
   await expect(page.locator('main')).toContainText('与 ai-proxy 或 ai-proxy-multi 配合后');
   await expect(page.locator('main')).not.toContainText(/最佳选择|确保.*业务不中断|根据成本、延迟、稳定性.*动态调整/);
 });

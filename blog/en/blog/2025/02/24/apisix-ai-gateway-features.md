@@ -48,15 +48,15 @@ These controls can reduce provider-specific routing logic in applications, but t
 
 LLM requests can consume very different numbers of prompt and completion tokens. The [`ai-rate-limiting`](https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/) plugin applies limits based on token consumption rather than request count alone.
 
-APISIX supports local and Redis-backed counters for this plugin. Operators can scope policies through gateway configuration and choose limits appropriate for their applications. The plugin enforces configured consumption boundaries; model pricing, budgets, billing, and chargeback remain external responsibilities.
+APISIX supports local and Redis-backed counters for this plugin. Operators can scope policies through gateway configuration and choose limits appropriate for their applications. The plugin records provider-reported usage after a response and rejects later requests once the observed counter has consumed the quota. A large response or concurrent requests can therefore take observed usage beyond the configured limit before later requests are rejected. Model pricing, budgets, billing, and chargeback remain external responsibilities.
 
 ## Cache Completed LLM Responses
 
-The [`ai-cache`](https://apisix.apache.org/docs/apisix/plugins/ai-cache/) plugin works with `ai-proxy` or `ai-proxy-multi` to cache completed LLM responses in Redis. Exact matching is enabled by default. Teams can optionally add semantic matching, which requires Redis Stack with RediSearch and a configured embedding service.
+The [`ai-cache`](https://apisix.apache.org/docs/apisix/plugins/ai-cache/) plugin works with `ai-proxy` or `ai-proxy-multi` to cache completed LLM responses in Redis. Exact matching is enabled by default. Teams can optionally add semantic matching, which requires a Redis deployment that provides the required Redis Search commands and a configured embedding service. The [Redis integration guide](https://apisix.apache.org/integrations/redis/) pins Redis Open Source 8.10.1 for its companion lab; earlier Redis Open Source or Redis Stack releases should be pinned and tested explicitly.
 
 Streaming responses are written only after the terminal event is received. Interrupted streams are not cached, so the plugin does not replay partial responses. Cache eligibility, isolation, expiration, bypass rules, and semantic thresholds still need to be configured for the application's data and freshness requirements.
 
-Cache entries are scoped by Route by default, not by Consumer. If multiple consumers share a Route, enable `cache_key.include_consumer` or add a trusted tenant-identifying variable through `cache_key.include_vars` to prevent cached responses from being reused across tenants.
+Cache entries are scoped by Route by default, not by Consumer. On a multi-tenant Route, authenticate each tenant and enable `cache_key.include_consumer` to scope entries by Consumer identity. If tenant identity comes from another trusted server-side source, add its NGINX variable through `cache_key.include_vars`. Unauthenticated traffic still shares the Route-level cache unless a trusted server-side variable is included; a client-controlled header alone is not a tenant boundary.
 
 ## Apply Purpose-Specific Prompt and Content Controls
 

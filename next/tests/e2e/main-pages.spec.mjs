@@ -135,6 +135,13 @@ test('AI Gateway has complete responsive content and valid footer links', async 
   await expect(page.locator('main')).not.toContainText('MCP support');
   await expect(page.locator('main')).not.toContainText('0 vendor lock-in');
   await expect(page.locator('main')).not.toContainText(/20\+\s+(model\s+)?providers/i);
+  await expect(page.locator('main')).not.toContainText('before requests reach an LLM provider');
+  const cacheFeature = page.locator('.feature').filter({ hasText: 'AI response caching' });
+  await expect(cacheFeature).toContainText('ai-proxy or ai-proxy-multi');
+  await expect(cacheFeature.locator('img')).toHaveAttribute('src', '/img/ai-gateway/ai-cache.svg');
+  await expectImageLoaded(cacheFeature.locator('img'));
+  await expect(page.locator('.feature').filter({ hasText: 'Lakera Guard integration' }))
+    .toContainText('ai-proxy or ai-proxy-multi');
   await expectImageLoaded(page.locator('.architecture-image'));
   await expectNoPageOverflow(page);
 
@@ -171,6 +178,9 @@ test('Chinese AI Gateway preserves localized ownership and documented capabiliti
   await expect(page.locator('main')).not.toContainText('MCP Gateway');
   await expect(page.locator('main')).not.toContainText('MCP support');
   await expect(page.locator('main')).not.toContainText(/20\+\s+(model\s+)?providers/i);
+  await expect(page.locator('main')).not.toContainText('在请求到达 LLM 提供商之前');
+  await expect(page.locator('.feature').filter({ hasText: 'AI 响应缓存' }))
+    .toContainText('ai-proxy 或 ai-proxy-multi');
   await expectNoPageOverflow(page);
 });
 

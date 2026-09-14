@@ -47,15 +47,15 @@ APISIX 3.18 还支持语义路由算法。运维人员为每个实例提供示�
 
 不同 LLM 请求消耗的输入和输出 Token 数量可能相差很大。[`ai-rate-limiting`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-rate-limiting/) 插件可根据 Token 消耗而不只是请求次数执行限流。
 
-该插件支持本地和 Redis 计数器。运维人员可以通过网关配置设定适合应用的用量边界。模型定价、预算、账单核对和成本分摊仍需由外部系统负责。
+该插件支持本地和 Redis 计数器。运维人员可以通过网关配置设定适合应用的用量边界。插件会在收到响应后记录提供商返回的用量，并在观察到的计数已耗尽额度后拒绝后续请求。因此，单个大响应或并发请求仍可能使观察到的用量超过配置限制，之后的请求才会被拒绝。模型定价、预算、账单核对和成本分摊仍需由外部系统负责。
 
 ## 缓存完整的 LLM 响应
 
-[`ai-cache`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-cache/) 插件与 `ai-proxy` 或 `ai-proxy-multi` 配合，将完整的 LLM 响应缓存到 Redis。精确匹配默认启用。团队也可以选择增加语义匹配，但这要求使用带 RediSearch 的 Redis Stack，并配置 embedding 服务。
+[`ai-cache`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-cache/) 插件与 `ai-proxy` 或 `ai-proxy-multi` 配合，将完整的 LLM 响应缓存到 Redis。精确匹配默认启用。团队也可以选择增加语义匹配，这要求 Redis 部署提供所需的 Redis Search 命令，并配置 embedding 服务。[Redis 集成指南](https://apisix.apache.org/zh/integrations/redis/) 的配套实验固定使用 Redis Open Source 8.10.1；若使用更早的 Redis Open Source 或 Redis Stack 版本，应固定并明确测试具体版本。
 
 对于流式响应，插件只有在收到终止事件后才会写入缓存；中断的流不会被缓存，因此不会回放不完整响应。团队仍需根据应用的数据和时效要求配置缓存资格、隔离范围、过期时间、绕过规则和语义阈值。
 
-缓存条目默认按 Route 隔离，而不是按 Consumer 隔离。如果多个 Consumer 共享同一个 Route，应启用 `cache_key.include_consumer`，或通过 `cache_key.include_vars` 加入可信的租户标识变量，避免在不同租户之间复用缓存响应。
+缓存条目默认按 Route 隔离，而不是按 Consumer 隔离。在多租户 Route 上，应先认证每个租户，再启用 `cache_key.include_consumer`，按 Consumer 身份划分缓存。如果租户身份来自其他可信服务端来源，可通过 `cache_key.include_vars` 加入对应的 NGINX 变量。未经认证的流量仍会共享 Route 级缓存，除非加入可信服务端变量；仅由客户端控制的请求头不能作为租户隔离边界。
 
 ## 使用职责明确的提示词与内容控制
 
