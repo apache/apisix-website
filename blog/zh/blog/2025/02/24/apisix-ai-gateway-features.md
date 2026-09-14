@@ -1,135 +1,95 @@
 ---
-title: "APISIX 的 AI Gateway 功能一览：LLM 代理、Token 限流、安全防护"
+title: "Apache APISIX AI 网关核心功能"
 keywords:
   - APISIX
-  - AI Gateway
-  - LLM Proxy
-  - API Gateway for AI
-  - Token Rate Limiting
-  - AI Security
-  - AI Traffic Management
-  - Open-Source API Gateway
-  - Multi-LLM Load Balancing
-  - AI API Protection
-  - AI Request Throttling
-description: 探索 APISIX AI Gateway 的强大功能，包括 LLM 代理、智能流量调度、Token 限流、安全防护等。通过开源插件实现多 LLM 负载均衡、API 速率控制、内容审核，优化 AI 应用的性能、安全性和成本控制。
+  - AI 网关
+  - LLM API
+  - Token 限流
+  - 模型路由
+  - 多 LLM 代理
+  - 提示词控制
+  - AI 响应缓存
+  - 语义路由
+  - AI 可观测性
+description: "了解 Apache APISIX AI 网关如何通过模型代理、配置型路由、响应缓存、Token 限制、提示词控制、RAG 和可观测性管理 LLM 流量。"
 tags: [Ecosystem]
 ---
 
-> 本文将详细介绍当前及未来几个版本 APISIX 的 AI 网关功能。作为一个多功能的 API 和 AI 网关，Apache APISIX 将为 AI 应用提供了高效且安全的 LLM API 调用。
+[Apache APISIX AI 网关](/zh/ai-gateway/)通过开源插件为 LLM 流量提供模型代理、配置型路由、响应缓存、Token 限制、提示词控制、检索和网关层可观测能力。本文将这些能力与对应的 APISIX 插件逐一关联。
 
 <!--truncate-->
 
-## 引言：AI 代理的崛起与 AI Gateway 的演进
+## 为什么 AI 流量需要额外的网关控制
 
-近年来，AI 代理发展迅猛，如 AutoGPT、Chatbots、AI Assistants 等应用不断涌现。它们依赖于大语言模型（LLM）的 API 调用，而高并发、成本控制、安全等挑战也随之而来。
+LLM 请求与普通 API 流量一样，需要身份认证、路由、限流、故障处理和可观测性。同时，它还涉及供应商特定的请求格式、按 Token 计算的用量、持续时间较长的流式响应，以及提示词处理等要求。
 
-传统的 API 网关主要服务于 Web API 和微服务，并未针对 AI 应用的特殊需求进行优化，因此催生了 AI Gateway 的概念。AI Gateway 需要在以下几个方面提供增强能力：
+Apache APISIX 在已授权应用和已配置模型端点之间的网络路径上处理这些问题。它不负责选择工具、编排 Agent 工作流、评估回答质量，也不能替代应用层授权。这些职责仍属于应用和 AI 平台层。
 
-- **多 LLM 代理**：支持多个 LLM 供应商，避免供应商锁定
-- **Token 速率限制**：防止 API 滥用，优化成本管理
-- **安全防护**：包括提示词过滤、内容审核等，确保 AI 应用的合规性
-- **智能流量管理**：根据成本、延迟、稳定性，动态调整 LLM 权重
+## 代理到受支持的模型供应商
 
-Apache APISIX 不仅是 API 网关，也通过插件成为了 AI 网关，帮助 AI 应用更高效、安全地调用 LLM API。
+[`ai-proxy`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy/) 插件可将请求转发到文档列出的模型供应商和 OpenAI 兼容端点。它可以转换受支持的请求格式、从网关配置中附加供应商凭证，并向应用提供一致的访问端点。
 
-## LLM Proxy：高效管理多个 LLM 后端
+实际兼容性取决于所选的 APISIX provider 类型和上游 API。团队应核对每个供应商的请求和响应字段，而不应假设所有模型都实现相同接口。
 
-AI 应用通常不会只依赖一个 LLM 供应商，而是需要根据需求动态选择最佳模型。例如：
+## 配置多模型路由与故障处理
 
-- 使用 OpenAI GPT-4 进行通用文本生成，使用 Claude 进行法律文档处理
-- 在 Mistral 和 Gemini 之间切换，以优化成本和吞吐量
+[`ai-proxy-multi`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy-multi/) 插件在已配置的模型实例之间分配请求。其文档列出的策略包括加权轮询和一致性哈希，并可配置健康检查、有限重试和 fallback 行为。
 
-**Apache APISIX 的 LLM Proxy 提供以下能力：**
+APISIX 3.18 还支持语义路由算法。运维人员为每个实例提供示例提示词并配置 embedding 服务；插件会比较请求提示词与这些示例的相似度，选择达到阈值且最相近的实例。这是显式配置的意图路由，不是基于模型成本、延迟、回答质量或业务结果的自动优化。
 
-✅ 支持多个 LLM 供应商（OpenAI, DeepSeek, Claude, Mistral, Gemini, etc.），避免供应商锁定
+语义路由不参与健康检查、重试或常规 fallback 策略。只有在没有实例达到相似度阈值或 embedding 请求失败时，才会使用其指定的 fallback。加权轮询和一致性哈希仍使用各自文档所述的故障处理选项。
 
-✅ LLM 权重和优先级管理，基于业务需求调整流量分配
+![AI Proxy Multi 工作流](https://static.api7.ai/uploads/2025/08/01/TmTsNypy_ai-proxy-multi-workflow.webp)
 
-✅ 智能负载均衡，依据延迟、成本、稳定性 动态调整 LLM 权重
+这些能力可以减少应用中的供应商特定路由逻辑，但不能保证服务永不中断。可用性仍取决于上游健康状态、网络条件、超时、重试上限和配置的 fallback 路径。
 
-✅ 重试与备用机制，确保某个 LLM API 发生故障时业务不中断
+## 执行基于 Token 的用量限制
 
-✅ 支持同一 LLM 不同供应商之间的负载均衡，例如：
+不同 LLM 请求消耗的输入和输出 Token 数量可能相差很大。[`ai-rate-limiting`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-rate-limiting/) 插件可根据 Token 消耗而不只是请求次数执行限流。
 
-- 私有部署的 DeepSeek
-- 官方 DeepSeek API
-- 火山引擎的 DeepSeek API
+该插件支持本地和 Redis 计数器。运维人员可以通过网关配置设定适合应用的用量边界。模型定价、预算、账单核对和成本分摊仍需由外部系统负责。
 
-用户可以根据延迟、稳定性、价格等因素，灵活分配不同 DeepSeek 供应商的流量权重，实现最佳调用策略。
+## 缓存完整的 LLM 响应
 
-这些能力让 AI 应用能够灵活适配不同的 LLM，提高可靠性，降低 API 调用成本。
+[`ai-cache`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-cache/) 插件与 `ai-proxy` 或 `ai-proxy-multi` 配合，将完整的 LLM 响应缓存到 Redis。精确匹配默认启用。团队也可以选择增加语义匹配，但这要求使用带 RediSearch 的 Redis Stack，并配置 embedding 服务。
 
-## AI 安全防护：确保 AI 使用安全与合规
+对于流式响应，插件只有在收到终止事件后才会写入缓存；中断的流不会被缓存，因此不会回放不完整响应。团队仍需根据应用的数据和时效要求配置缓存资格、隔离范围、过期时间、绕过规则和语义阈值。
 
-AI API 可能会涉及敏感数据和误导性信息，甚至可能被滥用。因此，AI 网关需要在多个层面提供安全保障。
+缓存条目默认按 Route 隔离，而不是按 Consumer 隔离。如果多个 Consumer 共享同一个 Route，应启用 `cache_key.include_consumer`，或通过 `cache_key.include_vars` 加入可信的租户标识变量，避免在不同租户之间复用缓存响应。
 
-**Apache APISIX 提供的 AI 安全能力包括：**
+## 使用职责明确的提示词与内容控制
 
-✅ AI RAG（Retrieval-Augmented Generation），支持企业自有知识库，降低 LLM 幻觉，提高输出可靠性
+APISIX 为不同的提示词处理需求提供了独立插件：
 
-✅ 提示词防护，自动拦截敏感、违法、不适当的提示词，防止用户恶意使用
+- [`ai-prompt-template`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-template/) 应用预定义的提示词模板。
+- [`ai-prompt-decorator`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-decorator/) 在提示词前后添加配置内容。
+- [`ai-prompt-guard`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-guard/) 根据配置的正则表达式允许或拒绝提示词。
+- [`ai-aws-content-moderation`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-aws-content-moderation/) 按文档所述流程集成 Amazon Comprehend。
+- [`ai-aliyun-content-moderation`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-aliyun-content-moderation/) 按文档所述流程集成阿里云内容审核服务。
+- [`ai-lakera-guard`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-lakera-guard/) 集成 Lakera Guard v2 API，与 `ai-proxy` 或 `ai-proxy-multi` 配合后，可按配置检查受支持的 LLM 请求、响应或两者。
 
-✅ 提示词装饰器，自动在用户的输入前后添加内容，增强 LLM 生成质量
+这些控制具有不同的范围和失败处理方式。模式匹配和供应商特定的内容审核无法保证内容绝对安全或符合所有合规要求。团队仍需实施应用授权、数据分类、密钥管理、供应商治理，并在必要时安排人工审核。
 
-✅ 提示词模版，让用户更方便地复用标准化提示词，提升交互体验
+## 添加文档支持的 RAG 检索步骤
 
-✅ 返回内容审核，拦截敏感或违规 的 AI 生成内容
+[`ai-rag`](https://apisix.apache.org/zh/docs/apisix/plugins/ai-rag/) 插件实现了当前文档中基于 Azure OpenAI Embeddings 和 Azure AI Search 的检索流程。它会检索相关上下文，并将其加入受支持的模型请求。
 
-✅ 日志与审计，提供完整 API 请求日志，便于合规审计
+该能力可以为兼容部署集中处理文档所述的检索步骤，但它不是适用于所有知识库的通用连接器，也不能评估事实准确性或消除模型幻觉。
 
-这些安全措施确保 AI 应用符合企业级安全要求，避免因 AI 误导性内容导致合规风险。
+## 在网关层观察 AI 流量
 
-## Token 可观测性与管理：防止 API 滥用导致高额账单
+启用 AI 代理日志后，如果上游响应提供相应信息，APISIX 可以记录模型、请求耗时、输入和输出 Token 数量，以及首个 Token 返回时间。现有日志和可观测性插件可以将这些网关数据导出到团队的监控系统。
 
-调用 LLM API 需要消耗 Token，滥用 API 可能导致巨额成本。Apache APISIX 提供精细化的 Token 监控和管理机制。
+网关遥测只覆盖经过 APISIX 的请求。它补充而非替代应用链路追踪、供应商侧监控、用户反馈和模型质量评估。
 
-**Apache APISIX 的 Token 管理能力：**
+## 使用同一网关管理 API 与 AI 流量
 
-✅ 按 Route/Service/Consumer/Consumer Group/自定义维度进行 Token 限流限速
+Apache APISIX 可以将现有的路由、身份认证、流量管理和可观测能力与 AI 专用插件结合使用。当这种架构符合团队需求时，可以通过同一个开源网关管理 API 和已配置的模型流量。
 
-✅ 支持多种限流模式：
+其价值来自明确且可审查的策略，而不是自动决策。团队需要配置 APISIX 使用的供应商、路由、缓存策略、限制、提示词控制、检索服务和可观测性集成。
 
-- 单机 vs. 集群限流，适应不同规模的 AI API 服务
-- 固定时间窗口 vs. 滑动时间窗口，灵活控制 API 速率
+## 总结
 
-✅ 对不同 LLM 设置不同的限流策略，避免成本失控
+Apache APISIX 通过职责明确的插件增加 AI 流量控制，包括供应商代理、配置型多模型与语义路由、响应缓存、有限重试与 fallback、Token 限制、提示词处理、外部内容审核集成、文档支持的 Azure RAG 流程和网关层遥测。
 
-通过 Apache APISIX，企业可以实现 Token 资源的精细化管理，防止 API 滥用带来的高额账单。
-
-## 智能路由：AI API 的动态流量管理
-
-在 AI API 调用过程中，不同的任务可能需要不同的 LLM。例如：
-
-- 代码生成请求 → 发送至 GPT-4 或 DeepSeek
-- 长篇摘要任务 → 发送至 Claude
-- 普通对话 → 发送至 GPT-3.5 或 Gemini
-
-**Apache APISIX 的智能路由能力：**
-
-✅ 基于请求内容的智能路由（Context-Aware Routing）
-
-- 根据提示词（Prompt）类型 选择最优 LLM
-- 按用户级别（付费用户 vs. 免费用户） 分配不同的模型（GPT-4 Turbo vs. GPT-3.5）
-
-✅ 缓存优化（Response Caching），减少重复 API 调用，提升响应速度
-
-这些能力帮助 AI API 运行更加高效，降低 API 延迟，提高吞吐量。
-
-## 结语
-
-随着 AI 技术的快速发展，API Gateway 也需要不断进化，适应 AI 应用的特殊需求。Apache APISIX 通过 LLM Proxy、Token 速率限制、安全防护和智能路由等功能，成为 AI Gateway 的最佳选择。
-
-**Apache APISIX 相较于传统 API Gateway 的核心优势**
-
-🚀 支持多 LLM 供应商，避免供应商锁定
-
-⚡️ 智能流量调度，动态负载均衡，提高 API 可靠性
-
-🔒 内置安全能力，包括提示词防护、内容审核，确保 AI API 安全合规
-
-💰 Token 限流限速，避免 API 滥用导致高额账单
-
-📊 高性能架构，满足 AI 应用的高并发需求
-
-如果你正在构建 AI 相关应用，并希望同时拥有强大的 API Gateway 和 AI Gateway，不妨试试 Apache APISIX！🎯
+这些能力应在各自的文档边界内使用。APISIX 管理到模型服务的流量；业务授权、Agent 编排、工作流状态、模型评估和合规决策仍由外围应用系统负责。
