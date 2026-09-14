@@ -11,55 +11,119 @@ const features = [
     title: t(locale, 'Multi-LLM load balancing', '多 LLM 负载均衡'),
     description: t(
       locale,
-      'Route across OpenAI, DeepSeek, Claude, Mistral, Gemini, and other providers with health checks and weighted balancing.',
-      '通过健康检查和权重负载均衡，在 OpenAI、DeepSeek、Claude、Mistral、Gemini 等模型提供商之间路由。',
+      'Use weighted round robin or consistent hashing, or configure semantic routing from prompt similarity to per-instance examples.',
+      '使用加权轮询或一致性哈希，或根据提示词与各实例示例的相似度配置语义路由。',
     ),
     icon: '/img/ai-gateway/load-balancing.svg',
+    href: '/docs/apisix/plugins/ai-proxy-multi/',
   },
   {
     title: t(locale, 'Token rate limiting', 'Token 限流'),
     description: t(
       locale,
-      'Control token consumption by Route, Service, Consumer, Consumer Group, or custom attributes in standalone and cluster deployments.',
-      '按 Route、Service、Consumer、Consumer Group 或自定义属性控制 token 消耗，支持单机与集群部署。',
+      'Apply token-based limits with local or Redis-backed counters to control usage before requests reach an LLM provider.',
+      '使用本地或 Redis 计数器实施基于 token 的限制，在请求到达 LLM 提供商之前控制用量。',
     ),
     icon: '/img/ai-gateway/token-rate-limiting.svg',
+    href: '/docs/apisix/plugins/ai-rate-limiting/',
   },
   {
     title: 'AI RAG',
     description: t(
       locale,
-      'Connect enterprise knowledge to model requests at the gateway layer for grounded, context-aware responses.',
-      '在网关层为模型请求连接企业知识库，生成有依据、具备上下文的响应。',
+      'Augment requests with context retrieved through the plugin\'s documented Azure OpenAI and Azure AI Search integration.',
+      '通过插件当前支持的 Azure OpenAI 与 Azure AI Search 集成，为请求补充检索到的上下文。',
     ),
     icon: '/img/ai-gateway/ai-rag.svg',
+    href: '/docs/apisix/plugins/ai-rag/',
   },
   {
     title: t(locale, 'Token observability', 'Token 可观测性'),
     description: t(
       locale,
-      'Track token usage through access logs and existing observability tools to control abuse and unexpected cost.',
-      '通过访问日志和现有可观测工具追踪 token 使用，控制滥用和意外成本。',
+      'Record model, latency, token usage, and time-to-first-token summaries when AI proxy logging is enabled.',
+      '启用 AI 代理日志后，记录模型、延迟、token 用量和首 token 响应时间等摘要。',
     ),
     icon: '/img/ai-gateway/observability.svg',
+    href: '/docs/apisix/plugins/ai-proxy/',
   },
   {
     title: t(locale, 'Retry and fallback', '重试与回退'),
     description: t(
       locale,
-      'Use health checks, automatic retries, and fallback providers to keep AI applications available when an upstream model fails.',
-      '通过健康检查、自动重试和备用模型提供商，在上游模型故障时保持 AI 应用可用。',
+      'Configure bounded retries and fallback strategies for selected upstream failures without changing application endpoints.',
+      '针对指定的上游故障配置有限次数的重试和回退策略，无需更改应用访问端点。',
     ),
     icon: '/img/ai-gateway/retry-fallback.svg',
+    href: '/docs/apisix/plugins/ai-proxy-multi/',
   },
   {
-    title: t(locale, 'Prompt security', '提示词安全'),
+    title: t(locale, 'Prompt and content controls', '提示词与内容控制'),
     description: t(
       locale,
-      'Apply prompt guards, decorators, templates, content moderation, logging, and auditing before traffic reaches a model.',
-      '在流量到达模型之前应用提示词防护、装饰、模板、内容审核、日志和审计。',
+      'Apply allow and deny patterns with Prompt Guard, and compose separate plugins for templates, decoration, or moderation.',
+      '使用 Prompt Guard 配置允许与拒绝规则，并按需组合模板、装饰或内容审核插件。',
     ),
     icon: '/img/ai-gateway/security.svg',
+    href: '/docs/apisix/plugins/ai-prompt-guard/',
+  },
+  {
+    title: t(locale, 'AI response caching', 'AI 响应缓存'),
+    description: t(
+      locale,
+      'With AI Proxy, cache completed LLM responses using Redis-backed exact matching and optional semantic matching.',
+      '与 AI Proxy 配合，使用 Redis 支持的精确匹配和可选语义匹配缓存完整的 LLM 响应。',
+    ),
+    icon: '/img/ai-gateway/token-rate-limiting.svg',
+    href: '/docs/apisix/plugins/ai-cache/',
+  },
+  {
+    title: t(locale, 'Lakera Guard integration', 'Lakera Guard 集成'),
+    description: t(
+      locale,
+      'With AI Proxy, use the Lakera Guard v2 API to inspect supported LLM requests, responses, or both.',
+      '与 AI Proxy 配合，使用 Lakera Guard v2 API 检查受支持的 LLM 请求、响应或两者。',
+    ),
+    icon: '/img/ai-gateway/security.svg',
+    href: '/docs/apisix/plugins/ai-lakera-guard/',
+  },
+];
+
+const capabilities = [
+  {
+    need: t(locale, 'Connect to model providers', '连接模型提供商'),
+    plugin: 'ai-proxy',
+    description: t(locale, 'Proxy requests to documented providers and OpenAI-compatible endpoints.', '代理请求到文档列出的提供商及 OpenAI 兼容端点。'),
+  },
+  {
+    need: t(locale, 'Route across model instances', '在模型实例间路由'),
+    plugin: 'ai-proxy-multi',
+    description: t(locale, 'Configure load balancing or semantic routing; retry and health-check behavior depends on the selected algorithm.', '配置负载均衡或语义路由；重试和健康检查行为取决于所选算法。'),
+  },
+  {
+    need: t(locale, 'Control token consumption', '控制 token 消耗'),
+    plugin: 'ai-rate-limiting',
+    description: t(locale, 'Enforce token-based limits with local or Redis-backed counters.', '使用本地或 Redis 计数器实施 token 限制。'),
+  },
+  {
+    need: t(locale, 'Add retrieval context', '增加检索上下文'),
+    plugin: 'ai-rag',
+    description: t(locale, 'Use the documented Azure OpenAI and Azure AI Search RAG flow.', '使用文档支持的 Azure OpenAI 与 Azure AI Search RAG 流程。'),
+  },
+  {
+    need: t(locale, 'Check prompt patterns', '检查提示词规则'),
+    plugin: 'ai-prompt-guard',
+    description: t(locale, 'Allow or deny requests using configured regular-expression patterns.', '使用已配置的正则表达式规则允许或拒绝请求。'),
+  },
+  {
+    need: t(locale, 'Cache completed responses', '缓存完整响应'),
+    plugin: 'ai-cache',
+    description: t(locale, 'Pair with ai-proxy or ai-proxy-multi for Redis-backed exact and optional semantic caching.', '与 ai-proxy 或 ai-proxy-multi 配合，实现 Redis 支持的精确缓存和可选语义缓存。'),
+  },
+  {
+    need: t(locale, 'Inspect supported AI traffic', '检查受支持的 AI 流量'),
+    plugin: 'ai-lakera-guard',
+    description: t(locale, 'Pair with ai-proxy or ai-proxy-multi to inspect supported traffic through the Lakera Guard v2 API.', '与 ai-proxy 或 ai-proxy-multi 配合，通过 Lakera Guard v2 API 检查受支持的流量。'),
   },
 ];
 
@@ -70,8 +134,8 @@ const pageTitle = t(
 );
 const description = t(
   locale,
-  'Use Apache APISIX as an open-source LLM gateway and proxy for model routing, load balancing, retries, fallback, token rate limiting, security, and observability.',
-  '使用 Apache APISIX 构建开源 LLM 网关与代理，提供模型路由、负载均衡、重试、回退、token 限流、安全和可观测能力。',
+  'Use Apache APISIX as an open-source AI and LLM gateway for multi-provider proxying, load balancing, retries, token limits, prompt controls, RAG, and gateway-level observability.',
+  '使用 Apache APISIX 构建开源 AI 与 LLM 网关，提供多提供商代理、负载均衡、重试、token 限制、提示词控制、RAG 和网关层可观测能力。',
 );
 ---
 <Base
@@ -96,9 +160,9 @@ const description = t(
           </a>
         </div>
         <dl class="hero-facts" aria-label={t(locale, 'AI Gateway facts', 'AI 网关数据')}>
-          <div><dt>20+</dt><dd>{t(locale, 'model providers', '模型提供商')}</dd></div>
+          <div><dt>Apache 2.0</dt><dd>{t(locale, 'open-source license', '开源许可证')}</dd></div>
           <div><dt>100+</dt><dd>{t(locale, 'gateway plugins', '网关插件')}</dd></div>
-          <div><dt>0</dt><dd>{t(locale, 'vendor lock-in', '厂商锁定')}</dd></div>
+          <div><dt>API + AI</dt><dd>{t(locale, 'traffic in one gateway', '统一承载两类流量')}</dd></div>
         </dl>
       </div>
     </div>
@@ -118,11 +182,11 @@ const description = t(
       <div class="advantage-grid">
         <article class="advantage primary">
           <p class="metric">Apache APISIX</p>
-          <h3>{t(locale, 'No vendor lock-in', '无厂商锁定')}</h3>
+          <h3>{t(locale, 'Open-source deployment control', '开源部署控制')}</h3>
           <p>{t(
             locale,
-            'Open-source data plane, open plugin model, and portable configuration for APIs and AI workloads.',
-            '开源数据面、开放插件模型和可移植配置，同时服务 API 与 AI 工作负载。',
+            'Run the Apache 2.0-licensed gateway in infrastructure you control and extend it through its open plugin model.',
+            '在自主管理的基础设施中运行 Apache 2.0 许可的网关，并通过开放插件模型进行扩展。',
           )}</p>
         </article>
         <article class="advantage">
@@ -134,8 +198,8 @@ const description = t(
           <h3>{t(locale, 'Open AI plugin ecosystem', '开放的 AI 插件生态')}</h3>
           <p>{t(
             locale,
-            'Load balancing, fallback, token controls, RAG, prompt policies, moderation, and auditing are all available as open-source plugins.',
-            '负载均衡、回退、token 控制、RAG、提示词策略、内容审核和审计均以开源插件提供。',
+            'Compose documented AI plugins for provider access, routing, token controls, retrieval augmentation, prompt processing, moderation, and gateway logging.',
+            '按需组合已有文档的 AI 插件，实现提供商接入、路由、token 控制、检索增强、提示词处理、内容审核和网关日志。',
           )}</p>
           <img
             src="/img/ai-gateway/ai-llms.svg"
@@ -145,6 +209,53 @@ const description = t(
             loading="lazy"
           />
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section definition-section">
+    <div class="container definition-layout">
+      <div>
+        <p class="eyebrow">{t(locale, 'AI Gateway explained', 'AI 网关解析')}</p>
+        <h2>{t(locale, 'What is an AI gateway?', '什么是 AI 网关？')}</h2>
+        <p>{t(
+          locale,
+          'An AI gateway is a traffic control layer between applications and model providers. It gives teams one place to apply provider access, routing, usage limits, prompt processing, and telemetry to model requests.',
+          'AI 网关是位于应用与模型提供商之间的流量控制层，让团队可以集中为模型请求配置提供商接入、路由、用量限制、提示词处理和遥测能力。',
+        )}</p>
+        <p>{t(
+          locale,
+          'Apache APISIX applies configured policies to AI and LLM traffic that passes through the gateway. Application authorization, tool selection, workflow state, agent orchestration, and model-quality evaluation remain responsibilities of the surrounding application stack.',
+          'Apache APISIX 对经过网关的 AI 与 LLM 流量应用已配置的策略。应用授权、工具选择、工作流状态、Agent 编排和模型质量评估仍由外围应用技术栈负责。',
+        )}</p>
+        <div class="context-links">
+          <a class="text-link" href={`${p}/blog/2025/03/06/what-is-an-ai-gateway/`}>
+            {t(locale, 'Understand how AI gateways work', '了解 AI 网关如何工作')} <span aria-hidden="true">→</span>
+          </a>
+          <a class="text-link" href={`${p}/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/`}>
+            {t(locale, 'Compare AI gateways and API gateways', '比较 AI 网关与 API 网关')} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="capability-table-wrap">
+        <table class="capability-table">
+          <thead>
+            <tr>
+              <th>{t(locale, 'Requirement', '需求')}</th>
+              <th>{t(locale, 'APISIX plugin', 'APISIX 插件')}</th>
+              <th>{t(locale, 'What it configures', '配置内容')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {capabilities.map((capability) => (
+              <tr>
+                <td>{capability.need}</td>
+                <td><a href={`${p}/docs/apisix/plugins/${capability.plugin}/`}><code>{capability.plugin}</code></a></td>
+                <td>{capability.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -186,6 +297,9 @@ const description = t(
             <img src={feature.icon} alt="" width="32" height="32" loading="lazy" />
             <h3>{feature.title}</h3>
             <p>{feature.description}</p>
+            <a class="feature-link" href={`${p}${feature.href}`}>
+              {t(locale, 'View plugin docs', '查看插件文档')} <span aria-hidden="true">→</span>
+            </a>
           </article>
         ))}
       </div>
@@ -196,11 +310,11 @@ const description = t(
     <div class="container provider-layout">
       <div>
         <p class="eyebrow">{t(locale, 'Provider choice', '模型选择')}</p>
-        <h2>{t(locale, 'Route to the model that fits each request', '为每个请求选择合适的模型')}</h2>
+        <h2>{t(locale, 'Connect supported and OpenAI-compatible providers', '连接已支持及 OpenAI 兼容的提供商')}</h2>
         <p>{t(
           locale,
-          'Use OpenAI, DeepSeek, Claude, Mistral, Gemini, self-hosted models, or a mix of providers without changing the application-facing gateway.',
-          '使用 OpenAI、DeepSeek、Claude、Mistral、Gemini、自托管模型或多提供商组合，无需改变应用侧网关。',
+          'Connect the providers documented by the AI Proxy plugin, or use an OpenAI-compatible endpoint for additional hosted or self-managed services. Provider selection follows the routing policy you configure.',
+          '连接 AI Proxy 插件文档列出的提供商，或通过 OpenAI 兼容端点接入其他托管或自主管理的服务。提供商选择由你配置的路由策略决定。',
         )}</p>
         <a class="text-link" href={`${p}/blog/2025/02/24/apisix-ai-gateway-features/`}>
           {t(locale, 'See the AI Gateway capabilities', '了解 AI 网关能力')} <span aria-hidden="true">→</span>
@@ -294,6 +408,18 @@ const description = t(
   .advantage.primary { border-top: 4px solid var(--color-primary); }
   .advantage.visual { display: flex; flex-direction: column; }
   .advantage.visual img { width: 100%; height: auto; margin-top: auto; padding-top: 2rem; }
+  .definition-section { background: #fff; }
+  .definition-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 3rem; align-items: start; }
+  .definition-layout h2 { margin: 0; font-size: 2.35rem; line-height: 1.18; letter-spacing: 0; }
+  .definition-layout p { color: var(--color-text-soft); }
+  .context-links { display: flex; flex-direction: column; align-items: flex-start; margin-top: 1rem; }
+  .capability-table-wrap { overflow-x: auto; border: 1px solid var(--color-border); border-radius: 8px; }
+  .capability-table { width: 100%; min-width: 620px; border-collapse: collapse; background: #fff; }
+  .capability-table th, .capability-table td { padding: 1rem; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+  .capability-table th { background: #f7f7f8; color: var(--color-text); font-size: .82rem; }
+  .capability-table td { color: var(--color-text-soft); font-size: .9rem; }
+  .capability-table tr:last-child td { border-bottom: 0; }
+  .capability-table code { white-space: nowrap; color: var(--color-primary-dark); }
   .architecture-section { padding: 4.25rem 0; background: #fff; }
   .architecture-image { display: block; width: 100%; height: auto; margin: 0 auto; }
   .feature-band { padding: 4.5rem 0; background: #16181d; color: #fff; }
@@ -304,6 +430,7 @@ const description = t(
   .feature img { display: block; width: 32px; height: 32px; margin-bottom: 1.25rem; object-fit: contain; }
   .feature h3 { color: #fff; }
   .feature p { margin: 0; color: #c9ccd3; font-size: .92rem; }
+  .feature-link { display: inline-flex; gap: .35rem; align-items: center; min-height: 44px; margin-top: 1rem; color: #ffaaa7; font-size: .9rem; font-weight: 650; }
   .provider-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 4rem; align-items: center; }
   .provider-layout h2 { margin: 0; font-size: 2.35rem; line-height: 1.18; letter-spacing: 0; }
   .provider-layout p { color: var(--color-text-soft); }
@@ -321,6 +448,7 @@ const description = t(
     .lead { max-width: 660px; }
     .advantage-grid { grid-template-columns: 1fr 1fr; }
     .advantage.visual { grid-column: 1 / -1; }
+    .definition-layout { grid-template-columns: 1fr; }
     .feature-grid { grid-template-columns: repeat(2, 1fr); }
     .provider-layout { gap: 2rem; }
   }
@@ -335,7 +463,7 @@ const description = t(
     .hero-facts { gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; }
     .hero-facts div { flex: 1 1 28%; min-width: 82px; }
     .hero-facts dt { font-size: 1.35rem; }
-    .section-heading h2, .provider-layout h2 { font-size: 1.85rem; }
+    .section-heading h2, .definition-layout h2, .provider-layout h2 { font-size: 1.85rem; }
     .advantage-grid, .feature-grid, .provider-layout { grid-template-columns: 1fr; }
     .advantage.visual { grid-column: auto; }
     .advantage { min-height: 0; }

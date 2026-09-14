@@ -31,7 +31,7 @@
 ## AI Gateway
 
 - [AI Gateway Overview](https://apisix.apache.org/ai-gateway/): LLM proxy for AI workloads
-- [AI Proxy Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-proxy/): Route requests to 20+ LLM providers
+- [AI Proxy Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-proxy/): Route requests to documented LLM providers and OpenAI-compatible endpoints
 - [AI RAG Plugin](https://apisix.apache.org/docs/apisix/plugins/ai-rag/): Retrieval-augmented generation support
 
 ## Integrations & Cookbooks

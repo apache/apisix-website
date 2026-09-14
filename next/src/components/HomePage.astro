@@ -28,7 +28,7 @@ const QUICK_CARDS = [
 const AI_PROVIDERS = ['OpenAI', 'Anthropic', 'AWS Bedrock', 'DeepSeek', 'Ollama', '+ more'];
 // title, description, doc link. Mirrors website/src/.../AIGatewaySection.tsx.
 const AI_CARDS: [string, string, string][] = [
-  ['Multi-LLM proxy', 'Route to OpenAI, Anthropic, AWS Bedrock, DeepSeek, Ollama and 20+ providers through one endpoint.', '/docs/apisix/plugins/ai-proxy/'],
+  ['Multi-LLM proxy', 'Proxy requests to documented providers and OpenAI-compatible endpoints through one gateway.', '/docs/apisix/plugins/ai-proxy/'],
   ['LLM load balancing', 'Distribute traffic across providers and models for throughput and resilience.', '/docs/apisix/plugins/ai-proxy-multi/'],
   ['Retry & fallback', 'Fail over to a backup model or provider automatically when one is unavailable.', '/docs/apisix/plugins/ai-proxy-multi/'],
   ['Token rate limiting', 'Cap usage and cost with token-based rate limits per consumer.', '/docs/apisix/plugins/ai-rate-limiting/'],
@@ -179,8 +179,8 @@ const SOFTWARE_APPLICATION_SCHEMA = {
       <p class="badge">AI Gateway</p>
       <h2>{t(locale, 'The same gateway, now for your LLM traffic', '同一个网关，现在服务你的 LLM 流量')}</h2>
       <p class="sub">{t(locale,
-        'Proxy, secure, and govern traffic to 20+ LLM providers — with the performance, plugins, and observability you already run for your APIs.',
-        '代理、保护并治理发往 20+ LLM 提供商的流量——复用你已经在 API 上运行的性能、插件与可观测能力。')}</p>
+        'Proxy, secure, and govern traffic to documented LLM providers and OpenAI-compatible endpoints with the plugins and observability you already use for APIs.',
+        '代理、保护并治理发往文档所列 LLM 提供商及 OpenAI 兼容端点的流量，复用你已用于 API 的插件与可观测能力。')}</p>
       <p class="chip-row">
         <span class="flow-step"><span class="chip flow">{t(locale, 'AI apps & agents', 'AI 应用与智能体')}</span><span class="arrow">→</span></span>
         <span class="flow-step"><span class="chip flow strong">Apache APISIX</span><span class="arrow">→</span></span>
