@@ -5,6 +5,16 @@ slug: apisix-vs-kong
 date: 2026-04-14
 tags: [comparison, apisix, kong, api-gateway]
 hide_table_of_contents: false
+faq:
+  - q: "Does Apache APISIX always require etcd?"
+    a: >-
+      No. APISIX uses etcd in its traditional and decoupled deployment modes, but its standalone modes use a complete local configuration file or full-state API updates instead. Teams should compare the automation, recovery, and state-management tradeoffs of the specific mode they plan to operate.
+  - q: "Can Kong configuration be imported directly into Apache APISIX?"
+    a: >-
+      There is no universal direct conversion because the gateways use different entity schemas, route matching rules, plugin phases, credentials, and state models. A migration should map and test each service, route, consumer, plugin, certificate, and operational behavior before traffic is shifted.
+  - q: "Which gateway is a better fit for Kubernetes?"
+    a: >-
+      Both projects provide Kubernetes ingress controllers, so the decision depends on the exact Ingress, Gateway API, and custom resources your platform requires. Test the relevant support matrix, status reporting, secret handling, upgrade behavior, and configuration convergence for the controller version you intend to deploy.
 ---
 
 Apache APISIX and Kong are open-source API gateways with mature routing, traffic management, authentication, observability, and Kubernetes integrations. Their most important differences are not a single feature count or benchmark result, but how they store and distribute configuration, which deployment models they support, and how their plugin ecosystems are packaged.
@@ -35,7 +45,7 @@ Apache APISIX is built on NGINX and LuaJIT. In its traditional mode, a node hand
 
 APISIX also provides [standalone deployment modes](/docs/apisix/deployment-modes/) that do not use etcd as the configuration center. File-driven standalone mode loads a complete YAML or JSON configuration, while API-driven standalone mode accepts full-state updates through its dedicated configuration API. These modes have different automation and state-management tradeoffs from the default etcd-backed model.
 
-The current APISIX distribution includes an [embedded Dashboard](/docs/apisix/dashboard/) for managing routes, plugins, and upstreams through the Admin API. Production deployments still need to restrict access to the Admin API and protect its credentials.
+APISIX supports an [embedded Dashboard UI](/docs/apisix/dashboard/) for managing routes, plugins, and upstreams through the Admin API. Its availability depends on whether the selected APISIX package or build includes the compiled UI assets. When enabled, production deployments still need to restrict access to the Admin API and protect its credentials.
 
 ### Kong
 
