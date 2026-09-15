@@ -84,5 +84,5 @@ AI 智能体正在成为操作基础设施的一种重要交互界面。用开�
 
 ## 延伸阅读
 
-- [Apache APISIX AI Gateway](https://apisix.apache.org/ai-gateway/)——LLM 代理、负载均衡、基于 token 的限流，以及 MCP 支持
+- [Apache APISIX AI Gateway](https://apisix.apache.org/zh/ai-gateway/)——LLM 代理、负载均衡、基于 Token 的限流、提示词控制和网关层可观测能力
 - [Apache APISIX 的 AI Agent Skills](https://docs.api7.ai/apisix/ai-agent-skills)——完整的、可搜索的 skills 目录

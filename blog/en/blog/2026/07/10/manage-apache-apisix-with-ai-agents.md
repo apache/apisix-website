@@ -84,5 +84,5 @@ AI agents are becoming a primary interface for infrastructure. Teaching them to 
 
 ## Further reading
 
-- [Apache APISIX AI Gateway](https://apisix.apache.org/ai-gateway/) — LLM proxying, load balancing, token-based rate limiting, and MCP support
+- [Apache APISIX AI Gateway](https://apisix.apache.org/ai-gateway/) - LLM proxying, load balancing, token-based rate limiting, prompt controls, and gateway-level observability
 - [AI Agent Skills for Apache APISIX](https://docs.api7.ai/apisix/ai-agent-skills) — the full, searchable skills catalog

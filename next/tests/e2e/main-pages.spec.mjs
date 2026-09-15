@@ -96,11 +96,52 @@ test('homepage keeps positioning and distinct search-intent paths', async ({ pag
 test('AI Gateway has complete responsive content and valid footer links', async ({ page }, testInfo) => {
   await page.goto('/ai-gateway/');
 
+  await expect(page).toHaveTitle('Open-Source AI Gateway for LLMs and AI Agents | Apache APISIX');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Use Apache APISIX as an open-source AI and LLM gateway for multi-provider proxying, load balancing, retries, token limits, prompt controls, RAG, and gateway-level observability.',
+  );
   await expect(page.getByRole('heading', {
     level: 1,
     name: 'Open-Source AI Gateway for LLMs and AI Agents',
   })).toBeVisible();
-  await expect(page.locator('.feature')).toHaveCount(6);
+  await expect(page.locator('link[rel="canonical"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/ai-gateway/');
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/ai-gateway/');
+  await expect(page.locator('link[rel="alternate"][hreflang="zh"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/zh/ai-gateway/');
+  await expect(page.locator('link[rel="alternate"][hreflang="x-default"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/ai-gateway/');
+
+  await expect(page.locator('.feature')).toHaveCount(8);
+  const documentedPlugins = [
+    'ai-proxy',
+    'ai-proxy-multi',
+    'ai-rate-limiting',
+    'ai-rag',
+    'ai-prompt-guard',
+    'ai-cache',
+    'ai-lakera-guard',
+  ];
+  await Promise.all(documentedPlugins.map((plugin) => (
+    expect(page.locator(`main a[href="/docs/apisix/plugins/${plugin}/"]`).first()).toBeVisible()
+  )));
+  await expect(page.locator('main a[href="/blog/2025/03/06/what-is-an-ai-gateway/"]'))
+    .toBeVisible();
+  await expect(page.locator('main a[href="/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"]'))
+    .toBeVisible();
+  await expect(page.locator('main')).not.toContainText('MCP Gateway');
+  await expect(page.locator('main')).not.toContainText('MCP support');
+  await expect(page.locator('main')).not.toContainText('0 vendor lock-in');
+  await expect(page.locator('main')).not.toContainText(/20\+\s+(model\s+)?providers/i);
+  await expect(page.locator('main')).not.toContainText('before requests reach an LLM provider');
+  const cacheFeature = page.locator('.feature').filter({ hasText: 'AI response caching' });
+  await expect(cacheFeature).toContainText('ai-proxy or ai-proxy-multi');
+  await expect(cacheFeature.locator('img')).toHaveAttribute('src', '/img/ai-gateway/ai-cache.svg');
+  await expectImageLoaded(cacheFeature.locator('img'));
+  await expect(page.locator('.feature').filter({ hasText: 'Lakera Guard integration' }))
+    .toContainText('ai-proxy or ai-proxy-multi');
   await expectImageLoaded(page.locator('.architecture-image'));
   await expectNoPageOverflow(page);
 
@@ -115,6 +156,32 @@ test('AI Gateway has complete responsive content and valid footer links', async 
 
   await expect(page.locator('footer a[href="/docs/general/events/"]')).toHaveText('Events');
   await expect(page.locator('footer a[href="/user-stories/"]')).toHaveCount(0);
+});
+
+test('Chinese AI Gateway preserves localized ownership and documented capabilities', async ({ page }) => {
+  await page.goto('/zh/ai-gateway/');
+
+  await expect(page).toHaveTitle('面向 LLM 与 AI Agent 的开源 AI 网关 | Apache APISIX');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    '使用 Apache APISIX 构建开源 AI 与 LLM 网关，提供多提供商代理、负载均衡、重试、token 限制、提示词控制、RAG 和网关层可观测能力。',
+  );
+  await expect(page.getByRole('heading', {
+    level: 1,
+    name: '面向 LLM 与 AI Agent 的开源 AI 网关',
+  })).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]'))
+    .toHaveAttribute('href', 'https://apisix.apache.org/zh/ai-gateway/');
+  await expect(page.locator('main a[href="/zh/docs/apisix/plugins/ai-proxy/"]').first()).toBeVisible();
+  await expect(page.locator('main a[href="/zh/blog/2025/03/06/what-is-an-ai-gateway/"]'))
+    .toBeVisible();
+  await expect(page.locator('main')).not.toContainText('MCP Gateway');
+  await expect(page.locator('main')).not.toContainText('MCP support');
+  await expect(page.locator('main')).not.toContainText(/20\+\s+(model\s+)?providers/i);
+  await expect(page.locator('main')).not.toContainText('在请求到达 LLM 提供商之前');
+  await expect(page.locator('.feature').filter({ hasText: 'AI 响应缓存' }))
+    .toContainText('ai-proxy 或 ai-proxy-multi');
+  await expectNoPageOverflow(page);
 });
 
 test('Plugin Hub renders the complete catalog without page overflow', async ({ page }, testInfo) => {
