@@ -17,7 +17,7 @@ const COMPARISONS: Comparison[] = [
   {
     title: 'Apache APISIX vs Kong',
     description:
-      'Architecture, performance benchmarks, plugin ecosystem, Kubernetes support, and when to choose each.',
+      'Deployment topology, configuration, plugins, Kubernetes integration, performance testing, and migration tradeoffs.',
     to: '/learning-center/apisix-vs-kong/',
   },
   {
