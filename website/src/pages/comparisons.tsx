@@ -41,7 +41,7 @@ const COMPARISONS: Comparison[] = [
   {
     title: 'Apache APISIX vs Traefik',
     description:
-      'Throughput and plugin breadth vs container-native auto-discovery and automatic TLS.',
+      'Configuration models, service discovery, Kubernetes support, extensibility, and operational tradeoffs.',
     to: '/learning-center/apisix-vs-traefik/',
   },
   {
