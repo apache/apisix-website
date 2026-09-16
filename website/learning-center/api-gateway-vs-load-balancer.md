@@ -7,131 +7,108 @@ tags: [api-gateway, load-balancer, architecture]
 hide_table_of_contents: false
 ---
 
-An API gateway and a load balancer serve different primary purposes. A load balancer distributes network traffic across multiple backend servers to maximize throughput and availability. An API gateway operates at the application layer to manage, secure, and transform API traffic with features like authentication, rate limiting, and request routing. In modern architectures, they complement each other and are frequently deployed together.
+A load balancer distributes traffic across healthy backend instances. An API gateway controls how clients use APIs through routing and policies such as authentication, rate limiting, transformation, and observability. Their capabilities overlap at Layer 7, but they solve different architectural problems. Many production systems use both: a network or cloud load balancer exposes a highly available gateway cluster, and the gateway applies API policies before balancing requests across services.
 
-## What is a Load Balancer
+## What Is a Load Balancer?
 
-A load balancer sits between clients and a pool of backend servers, distributing incoming requests to ensure no single server becomes overwhelmed. Load balancers operate at either Layer 4 (TCP/UDP) or Layer 7 (HTTP/HTTPS) of the OSI model.
+A load balancer presents one endpoint in front of multiple servers and selects a healthy target for each connection or request. Its primary goals are availability, horizontal scaling, and efficient traffic distribution.
 
-Layer 4 load balancers route traffic based on IP address and port number without inspecting the request content. They are fast, protocol-agnostic, and add minimal latency. Layer 7 load balancers inspect HTTP headers, URLs, and sometimes request bodies to make more intelligent routing decisions.
+Load balancers commonly operate at one of two layers:
 
-Load balancers are foundational infrastructure. The vast majority of organizations use some form of load balancing in their production environments. The technology has been a networking staple for over two decades, with the core algorithms (round-robin, least connections, weighted distribution) remaining largely unchanged.
+- **Layer 4 load balancing** uses transport information such as IP addresses, ports, and TCP or UDP connections. It can distribute traffic without interpreting an HTTP request.
+- **Layer 7 load balancing** understands application protocols such as HTTP and HTTPS. Depending on the product, it can route by host, path, header, or other request attributes and may provide selected security or traffic-management features.
 
-The primary value of a load balancer is availability. By distributing traffic and performing health checks, load balancers ensure that the failure of a single backend instance does not cause a service outage. They also enable horizontal scaling: adding more backend instances to handle increased traffic without changing the client-facing endpoint.
+The exact boundary depends on the implementation. A modern application load balancer may support TLS termination, identity integration, redirects, header modification, or weighted routing. It should not be treated as a featureless network component.
 
-## What is an API Gateway
+## What Is an API Gateway?
 
-An [API gateway](/learning-center/what-is-an-api-gateway/) is an application-layer proxy that acts as the single entry point for API consumers. Beyond routing requests to the correct backend service, an API gateway provides a rich set of cross-cutting concerns: authentication, authorization, rate limiting, request and response transformation, caching, logging, and monitoring.
+An [API gateway](/learning-center/what-is-an-api-gateway/) is an application-aware entry point for APIs. It routes requests to services and provides a policy layer for concerns that would otherwise be implemented repeatedly across clients or backends.
 
-API gateways emerged from the needs of microservices architectures and API-first product strategies. When an organization exposes dozens or hundreds of microservices, a gateway centralizes the operational concerns that would otherwise be duplicated across every service.
+Typical gateway responsibilities include authenticating callers, enforcing general access policies, applying per-consumer or per-route limits, rewriting requests and responses, collecting gateway telemetry, and managing traffic between API versions or upstream services. Services still own business authorization, resource ownership, and domain-specific rules.
 
-An API gateway typically operates exclusively at Layer 7 and understands application-level protocols like HTTP, gRPC, WebSocket, and GraphQL. It makes routing decisions based on URL paths, headers, query parameters, and even request body content.
+API gateways primarily work at Layer 7. Some products can also proxy TCP or UDP traffic, but their API-specific policies generally apply to the protocols and request phases supported by that gateway.
 
-## Feature Comparison
+## API Gateway vs Load Balancer
 
-| Capability | Load Balancer | API Gateway |
-|-----------|--------------|-------------|
-| Traffic distribution | Yes (core function) | Yes (built-in) |
-| Health checks | Yes | Yes |
-| SSL/TLS termination | Yes | Yes |
-| Layer 4 routing | Yes | Typically no |
-| Layer 7 routing | L7 LB only | Yes (core function) |
-| Authentication | No | Yes |
-| Authorization | No | Yes |
-| Rate limiting | Basic (some L7 LBs) | Yes (granular) |
-| Request transformation | No | Yes |
-| Response transformation | No | Yes |
-| API versioning | No | Yes |
-| Protocol translation | Limited | Yes (HTTP to gRPC, REST to GraphQL) |
-| Caching | Limited | Yes |
-| Developer portal | No | Yes (with management layer) |
-| Analytics and monitoring | Basic metrics | Detailed API analytics |
-| Circuit breaking | Some implementations | Yes |
-| Canary/blue-green deploys | Some implementations | Yes |
+The table describes common product roles, not a universal feature checklist. Layer 7 load balancers and API gateways continue to adopt overlapping capabilities, so a product evaluation should verify the exact policy model and protocol support you need.
 
-The table makes the distinction clear: load balancers focus on network-level traffic distribution, while API gateways focus on application-level API management. The overlap exists primarily in Layer 7 load balancers, which have gradually added some application-aware features.
+| Dimension | Load Balancer | API Gateway |
+| --- | --- | --- |
+| Primary purpose | Distribute traffic across healthy targets | Route and govern API traffic |
+| Common operating layer | Layer 4 or Layer 7 | Primarily Layer 7 |
+| Routing model | Listener and target-pool rules | API routes, methods, headers, consumers, and other request attributes |
+| Health checks | Core capability in most products | Commonly available for gateway upstreams |
+| TLS termination | Common | Common |
+| Authentication | Available in some Layer 7 products | Common gateway policy |
+| Rate limiting | Product-dependent | Commonly configurable by route, consumer, credential, or other keys |
+| Request and response changes | Product-dependent | Common through explicit gateway policies or plugins |
+| Protocol conversion | Not a typical load-balancing concern | Available only when the gateway supports and is configured for a specific conversion |
+| Observability | Connection, target, and request metrics vary by product | API route, consumer, plugin, and upstream telemetry varies by configuration |
+| Traffic releases | Weighted target routing in many products | Route- and upstream-level traffic controls, depending on the gateway |
 
-## Key Differences Explained
+The most useful distinction is the operating model. A load balancer is centered on listeners, target groups, and target health. An API gateway is centered on APIs, routes, consumers, credentials, and reusable policies.
 
-### Scope of Concern
+## Where the Capabilities Overlap
 
-A load balancer answers the question: which backend server should handle this connection? An API gateway answers a broader set of questions: is this client authenticated? Are they authorized for this endpoint? Have they exceeded their rate limit? Does the request need transformation before forwarding? Should the response be cached?
+Both components can terminate TLS, route HTTP traffic, check backend health, retry selected failures, and distribute requests among targets. A Layer 7 load balancer may be sufficient when an application needs host- or path-based routing but only a small set of API policies.
 
-In practice, most organizations using API gateways configure multiple cross-cutting policies (authentication, rate limiting, logging, and CORS), none of which fall within a traditional load balancer's responsibility.
+An API gateway becomes useful when policies need to follow API semantics. Examples include applying different authentication methods to different routes, enforcing quotas for individual consumers, transforming a request for a specific upstream, or recording metrics by API route. Protocol conversion is not automatic: it requires a supported capability and an explicit mapping. For example, Apache APISIX provides a [`grpc-transcode` plugin](/docs/apisix/plugins/grpc-transcode/) for configured HTTP-to-gRPC mappings.
 
-### Protocol Awareness
+## Where Should a Load Balancer Sit Relative to an API Gateway?
 
-Load balancers, especially at Layer 4, are largely protocol-agnostic. They route TCP connections without understanding the application protocol. API gateways are deeply protocol-aware. They parse HTTP methods, match URL patterns, inspect headers, and in many cases understand domain-specific protocols like gRPC and GraphQL.
+There is no single correct placement. Three patterns are common.
 
-This protocol awareness enables capabilities that load balancers cannot provide. For example, an API gateway can route GraphQL queries to different backend services based on the query's requested fields, or translate between REST and gRPC protocols transparently.
+### Load Balancer in Front of an API Gateway Cluster
 
-### Configuration Granularity
+```text
+Clients -> Load balancer -> API gateway nodes -> Backend services
+```
 
-Load balancer configuration centers on server pools, health check parameters, and distribution algorithms. API gateway configuration is far more granular: per-route authentication requirements, per-consumer rate limits, request header injection, response body transformation, and conditional plugin execution.
+The load balancer exposes a stable network endpoint and distributes connections across multiple gateway nodes. The gateway nodes then apply API policies and select backend services. This pattern is useful when a cloud platform, Kubernetes environment, or network team provides the external entry point and the gateway must be deployed for high availability.
 
-A typical enterprise API gateway configuration manages 50-200 routes with distinct policy combinations, compared to a load balancer managing 10-30 server pools. The operational complexity reflects the difference in scope.
+### API Gateway Balancing Across Service Instances
 
-### Performance Profile
+```text
+Clients -> API gateway -> Service instances
+```
 
-Layer 4 load balancers add microsecond-level latency because they operate below the HTTP layer. API gateways add millisecond-level latency because they must parse, inspect, and potentially transform HTTP requests. High-performance gateways like Apache APISIX, built on NGINX and LuaJIT, keep this overhead under 1ms for typical configurations. According to APISIX benchmark data, the gateway processes over 20,000 requests per second per core with authentication and rate limiting enabled.
+If the gateway already receives traffic through a suitable highly available endpoint, it can balance requests across the instances of each upstream service. This can remove a separate Layer 7 load-balancing hop between the gateway and those services. It does not remove the need to design availability for the gateway nodes themselves.
 
-## When to Use Which
+### Load Balancer Without an API Gateway
 
-### Use a Load Balancer When
+```text
+Clients -> Load balancer -> Application instances
+```
 
-- You need to distribute TCP or UDP traffic across backend instances.
-- Your primary concern is availability and horizontal scaling.
-- You are load balancing non-HTTP protocols (databases, message queues, custom TCP services).
-- You want minimal latency overhead with no application-layer processing.
+This is often sufficient for applications that primarily need availability and scaling, have no shared API policy requirements, or already implement the necessary controls elsewhere.
 
-### Use an API Gateway When
+## When to Use Each
 
-- You expose APIs to external consumers who need authentication and rate limiting.
-- You run a microservices architecture and need centralized cross-cutting concerns.
-- You need request or response transformation between clients and services.
-- You require detailed API analytics, logging, and monitoring.
-- You manage multiple API versions or need protocol translation.
+Use a load balancer when the main requirement is to distribute TCP, UDP, HTTP, or HTTPS traffic across healthy targets, expose a stable endpoint, or provide network-level availability for a cluster.
 
-### Use Both Together
+Use an API gateway when you need consistent API routing and policies across services, such as caller authentication, granular rate limits, request transformation, API-specific telemetry, or controlled traffic migration.
 
-In most production architectures, load balancers and API gateways coexist at different layers. A common deployment pattern places a Layer 4 or cloud-native load balancer (AWS NLB, Google Cloud Load Balancing) in front of a cluster of API gateway instances. The load balancer distributes traffic across gateway nodes for high availability, while the gateway handles application-level API management.
+Use both when the gateway itself needs a highly available network entry point or when infrastructure and API policy have separate owners. Before adding both layers, verify that each component has a distinct responsibility; duplicate retries, timeouts, health checks, and routing rules can make failures harder to diagnose.
 
-This separation of concerns allows each component to do what it does best.
+## How Apache APISIX Handles Load Balancing
 
-## How Apache APISIX Combines Both
+Apache APISIX is an open-source API gateway with load balancing in its core request-processing path. An APISIX [Upstream](/docs/apisix/terminology/upstream/) represents a set of service nodes and the rules used to select among them. Supported algorithms include:
 
-Apache APISIX is an API gateway that includes built-in load balancing capabilities, effectively combining both roles into a single component for many use cases.
+- **Weighted round robin (`roundrobin`)** to distribute requests according to node weights.
+- **Consistent hashing (`chash`)** to select nodes from a configurable key such as a request variable, header, cookie, or authenticated consumer.
+- **Exponentially weighted moving average (`ewma`)** to prefer nodes with lower observed latency.
+- **Least connections (`least_conn`)** to account for active connections and configured node weights.
 
-APISIX supports multiple load balancing algorithms natively, documented in its [load balancing guide](/docs/apisix/getting-started/load-balancing/):
+Upstreams can also use active and passive [health checks](/docs/apisix/tutorials/health-check/) and retries. For controlled releases across different upstreams, the [`traffic-split` plugin](/docs/apisix/plugins/traffic-split/) provides condition- and weight-based traffic distribution.
 
-- **Round-robin (weighted):** Distributes requests across upstream nodes based on configured weights.
-- **Consistent hashing:** Routes requests to the same backend based on a configurable key (IP, header, URI), useful for cache-friendly distributions.
-- **Least connections:** Sends requests to the upstream node with the fewest active connections.
-- **EWMA (Exponential Weighted Moving Average):** Selects the upstream node with the lowest response latency, adapting to real-time backend performance.
+APISIX can therefore perform application-layer routing, API policy enforcement, and upstream load balancing in the same gateway layer. It does not automatically replace an external load balancer. A separate cloud, hardware, or Layer 4 load balancer may still provide the public entry point, distribute connections across APISIX nodes, or supply network services outside the gateway's scope. APISIX can also be configured as a [stream proxy](/docs/apisix/stream-proxy/) for TCP and UDP traffic, but stream routes and HTTP routes have different capabilities and configuration models.
 
-By combining API gateway features with production-grade load balancing, APISIX reduces architectural complexity for many deployments. Organizations that would otherwise deploy a separate load balancer and a separate API gateway can consolidate into a single APISIX layer, reducing operational overhead and network hops.
+## Compare Performance in Your Own Traffic Path
 
-For large-scale deployments, a dedicated Layer 4 load balancer in front of APISIX nodes still makes sense for TCP-level high availability and DDoS protection. But within the application layer, APISIX handles both traffic distribution and API management without requiring an additional component.
+Adding application-layer inspection and policies requires work that a simple Layer 4 forwarding path does not perform. The actual latency and throughput difference depends on the products, protocols, TLS configuration, enabled gateway policies, logging, upstream behavior, hardware, and traffic shape. A universal microsecond or millisecond estimate is not reliable enough for architecture decisions.
 
-## FAQ
+Benchmark the configurations you intend to operate. Compare at least the load balancer alone, the gateway with routing only, and the gateway with the production policy set. Measure tail latency as well as average latency, and test failure behavior such as unhealthy upstreams, retries, and gateway-node loss. This reveals whether an additional layer creates meaningful cost in your environment and whether its policy benefits justify that cost.
 
-### Can an API gateway replace a load balancer entirely?
+## Conclusion
 
-For HTTP and gRPC traffic, a modern API gateway like Apache APISIX can replace a Layer 7 load balancer because it includes equivalent load balancing algorithms. However, for non-HTTP protocols (raw TCP, UDP, database connections) or for Layer 4 DDoS protection, a dedicated load balancer remains necessary. The most common production pattern uses both: a Layer 4 load balancer for network-level distribution and an API gateway for application-level management.
-
-### Does adding an API gateway increase latency compared to a load balancer alone?
-
-Yes, but the increase is typically small. A Layer 4 load balancer adds microseconds of latency. An API gateway adds 0.5-2ms depending on the number of active plugins. For most APIs where upstream service response times are 10-500ms, the gateway overhead is negligible. The operational benefits of centralized authentication, rate limiting, and observability far outweigh the minor latency cost.
-
-### Should I use a cloud provider's managed API gateway or deploy my own?
-
-Managed gateways (AWS API Gateway, Google Apigee) reduce operational burden but limit customization and can become expensive at high traffic volumes. AWS API Gateway charges per million requests, which can reach thousands of dollars monthly for high-traffic APIs. Self-managed gateways like Apache APISIX offer full control, unlimited throughput on your infrastructure, and no per-request fees, but require your team to operate the gateway cluster. Evaluate based on your traffic volume, customization needs, and operations capacity.
-
-### How does an API gateway differ from a reverse proxy?
-
-A reverse proxy forwards client requests to backend servers and is the foundation of both load balancers and API gateways. An API gateway is a specialized reverse proxy that adds API-specific features: authentication, rate limiting, request transformation, API versioning, and developer-facing analytics. NGINX, for example, can function as a reverse proxy, load balancer, or (with extensions) an API gateway. Apache APISIX is purpose-built as an API gateway with load balancing built in.
-
-## Related
-
-- [Compare API gateways](/comparisons/)
-- [API gateway for microservices](/learning-center/api-gateway-for-microservices/)
+A load balancer answers where a connection or request should go among healthy targets. An API gateway also decides how an API request should be admitted, shaped, observed, and routed. Use the smallest architecture that satisfies both availability and API policy requirements. When both are needed, give the load balancer responsibility for the gateway cluster's network entry point and give the gateway responsibility for APIs and their upstream services.
