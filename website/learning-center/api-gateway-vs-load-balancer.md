@@ -5,6 +5,16 @@ slug: api-gateway-vs-load-balancer
 date: 2026-04-14
 tags: [api-gateway, load-balancer, architecture]
 hide_table_of_contents: false
+faq:
+  - q: "Does upstream load balancing make an API gateway highly available?"
+    a: >-
+      No. Upstream load balancing distributes requests from the gateway to backend instances. The gateway tier still needs multiple nodes, a stable entry point, health checks, and a failure-handling plan so that the gateway itself does not become a single point of failure.
+  - q: "Who should own health checks when a load balancer and API gateway are both deployed?"
+    a: >-
+      A common division is for the external load balancer to check gateway nodes while the gateway checks its service upstreams. Define ownership at each boundary and avoid overlapping checks that can remove healthy targets for different reasons or create conflicting recovery behavior.
+  - q: "How should retries be configured across a load balancer and an API gateway?"
+    a: >-
+      Assign a bounded retry budget to the layer that has the best view of each failure boundary. Uncoordinated retries at both layers can multiply requests, increase latency, and replay operations that are not safe to repeat. Test timeout and retry behavior together under partial failures.
 ---
 
 A load balancer distributes traffic across healthy backend instances. An API gateway controls how clients use APIs through routing and policies such as authentication, rate limiting, transformation, and observability. Their capabilities overlap at Layer 7, but they solve different architectural problems. Many production systems use both: a network or cloud load balancer exposes a highly available gateway cluster, and the gateway applies API policies before balancing requests across services.

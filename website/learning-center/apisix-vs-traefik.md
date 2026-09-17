@@ -5,6 +5,16 @@ slug: apisix-vs-traefik
 date: 2026-06-24
 tags: [comparison, apisix, traefik, api-gateway]
 hide_table_of_contents: false
+faq:
+  - q: "Can Apache APISIX read Docker labels the way Traefik does?"
+    a: >-
+      No. Traefik can build dynamic routing configuration from Docker labels through its provider model. APISIX uses explicit gateway configuration, Kubernetes resources translated by APISIX Ingress Controller, or supported service discovery integrations. Teams should choose based on where routing intent should live and how it should be reviewed and promoted.
+  - q: "Does Traefik's built-in ACME issue certificates for Gateway API listeners?"
+    a: >-
+      Not in the current Traefik documentation. Traefik recommends using a certificate controller such as cert-manager for Gateway API listeners. Verify this behavior against the exact Traefik release you plan to deploy because certificate support can change between versions.
+  - q: "Can Apache APISIX and Traefik run in the same architecture?"
+    a: >-
+      Yes, when each gateway has a distinct traffic boundary or responsibility, such as during a migration or for separate application platforms. Avoid configuring both layers to own the same routing, retry, TLS, or authentication policy, and measure the operational cost and latency of the additional hop.
 ---
 
 Apache APISIX and Traefik Proxy are open-source gateways that can route traffic in Kubernetes and other environments. They differ most in how teams define and distribute configuration. Traefik emphasizes provider-driven discovery, while APISIX combines explicit gateway resources with multiple deployment and service discovery options.
