@@ -8,7 +8,7 @@ hide_table_of_contents: false
 faq:
   - q: "Does Apache APISIX always require etcd?"
     a: >-
-      No. APISIX uses etcd in its traditional and decoupled deployment modes, but its standalone modes use a complete local configuration file or full-state API updates instead. Teams should compare the automation, recovery, and state-management tradeoffs of the specific mode they plan to operate.
+      No. APISIX uses etcd in its traditional and decoupled deployment modes. File-driven standalone is the general etcd-free option and loads complete local YAML or JSON configuration. API-driven standalone is designed for APISIX Ingress Controller and ADC integrations, which replace full routing state through a dedicated API rather than using it as a general operator-facing mode.
   - q: "Can Kong configuration be imported directly into Apache APISIX?"
     a: >-
       There is no universal direct conversion because the gateways use different entity schemas, route matching rules, plugin phases, credentials, and state models. A migration should map and test each service, route, consumer, plugin, certificate, and operational behavior before traffic is shifted.
@@ -29,8 +29,8 @@ For a broader shortlist, see the [open-source API gateway comparison](/learning-
 | --- | --- | --- |
 | Project and product model | Apache Software Foundation open-source project | Open-source gateway with vendor-backed commercial products and services |
 | Deployment topology | Traditional, decoupled control/data plane, and standalone modes | Traditional database-backed, DB-less, and hybrid control/data plane modes |
-| Configuration state | etcd in traditional and decoupled modes; local YAML/JSON or full-state API updates in standalone mode | Database in traditional mode; declarative configuration held by each node in DB-less mode; control plane distributes configuration to data planes in hybrid mode |
-| Runtime configuration | Admin API with etcd-backed updates; standalone behavior depends on file-driven or API-driven mode | Admin API in database-backed deployments; full declarative reloads in DB-less mode; control-plane updates in hybrid mode |
+| Configuration state | etcd in traditional and decoupled modes; local YAML/JSON in file-driven standalone; in-memory full-state updates for API-driven integrations | Database in traditional mode; declarative configuration held by each node in DB-less mode; control plane distributes configuration to data planes in hybrid mode |
+| Runtime configuration | Admin API with etcd-backed updates; file detection in general standalone deployments; a dedicated full-state API for Ingress Controller or ADC integrations | Admin API in database-backed deployments; full declarative reloads in DB-less mode; control-plane updates in hybrid mode |
 | Plugin ecosystem | 100+ open-source plugins, native Lua plugins, external plugin runners, and experimental Wasm support | Plugin Hub with open-source, Enterprise-only, and license-required plugins; custom plugins through supported PDKs |
 | Kubernetes | APISIX Ingress Controller supports Kubernetes Ingress, supported Gateway API resources, and APISIX custom resources | Kong Ingress Controller translates Ingress, Gateway API, and Kong custom resources into Kong Gateway configuration |
 | Performance evaluation | Official APISIX benchmarks are available, but must be interpreted using their documented environment and workload | Official Kong benchmarks are available, with results that depend on version, topology, plugins, and test environment |
@@ -43,7 +43,7 @@ Feature availability changes across versions and Kong editions. Verify any requi
 
 Apache APISIX is built on NGINX and LuaJIT. In its traditional mode, a node handles both control-plane and data-plane responsibilities, while decoupled mode separates those roles. Both modes can use etcd as the configuration provider. APISIX nodes watch configuration changes in etcd and update in-memory routing and plugin state without replacing worker processes.
 
-APISIX also provides [standalone deployment modes](/docs/apisix/deployment-modes/) that do not use etcd as the configuration center. File-driven standalone mode loads a complete YAML or JSON configuration, while API-driven standalone mode accepts full-state updates through its dedicated configuration API. These modes have different automation and state-management tradeoffs from the default etcd-backed model.
+APISIX also provides [standalone deployment modes](/docs/apisix/deployment-modes/) that do not use etcd as the configuration center. File-driven standalone is the general etcd-free option: it loads a complete YAML or JSON configuration and watches the local file for changes. API-driven standalone stores the configuration in memory and replaces it through a dedicated full-state API, but it is designed specifically for APISIX Ingress Controller and ADC integrations rather than as a general operator-facing alternative.
 
 APISIX supports an [embedded Dashboard UI](/docs/apisix/dashboard/) for managing routes, plugins, and upstreams through the Admin API. Its availability depends on whether the selected APISIX package or build includes the compiled UI assets. When enabled, production deployments still need to restrict access to the Admin API and protect its credentials.
 
@@ -61,7 +61,7 @@ These topologies have materially different failure modes and workflows. A compar
 
 ### Configuration dependencies
 
-APISIX deployments that use etcd need a properly sized and monitored etcd cluster, including backup and recovery procedures. Kubernetes uses etcd internally, but that does not remove the need to design and operate the configuration store used by APISIX. Standalone modes avoid this dependency, but shift configuration ownership toward complete declarative state or full-state API updates.
+APISIX deployments that use etcd need a properly sized and monitored etcd cluster, including backup and recovery procedures. Kubernetes uses etcd internally, but that does not remove the need to design and operate the configuration store used by APISIX. File-driven standalone avoids this dependency by making a complete local configuration file authoritative. API-driven standalone also avoids etcd, but its full-state in-memory update model is intended for Ingress Controller or ADC integrations.
 
 Kong's traditional mode requires operating its database and handling the supported upgrade and migration workflow. DB-less mode removes that database dependency from gateway nodes, but configuration is replaced as a complete declarative document and database-dependent plugin behavior is limited. Hybrid mode separates control and data planes, while adding control-plane connectivity, certificate, version-compatibility, and plugin-distribution considerations.
 
@@ -69,7 +69,7 @@ There is no universal lowest-cost topology. Compare the infrastructure, recovery
 
 ### Configuration propagation
 
-APISIX's etcd-backed modes use watch-based updates, while standalone modes use file detection or full-state API updates. Kong's propagation behavior depends on whether the deployment is traditional, DB-less, or hybrid. In either product, measure configuration convergence under failure, rollout, and recovery conditions instead of relying on an unqualified "instant" claim.
+APISIX's etcd-backed modes use watch-based updates, while file-driven standalone uses local file detection. In APISIX Ingress Controller or ADC integrations that use API-driven standalone, a dedicated API replaces the in-memory full state. Kong's propagation behavior depends on whether the deployment is traditional, DB-less, or hybrid. In either product, measure configuration convergence under failure, rollout, and recovery conditions instead of relying on an unqualified "instant" claim.
 
 ## Plugins and Extensibility
 
@@ -136,7 +136,7 @@ Parallel operation and gradual traffic shifting can reduce migration risk, but t
 Consider Apache APISIX when:
 
 - you want an Apache-governed open-source gateway with a large open-source plugin catalog;
-- etcd-backed dynamic configuration fits your operating model, or APISIX's standalone modes match your declarative workflow;
+- etcd-backed dynamic configuration fits your operating model, or file-driven standalone matches your declarative workflow;
 - you need a specific APISIX plugin, external plugin runner, or documented protocol capability;
 - the APISIX Ingress Controller supports the Kubernetes and Gateway API resources your platform uses.
 
