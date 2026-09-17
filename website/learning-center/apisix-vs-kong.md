@@ -26,7 +26,7 @@ For a broader shortlist, see the [open-source API gateway comparison](/learning-
 ## APISIX vs Kong at a Glance
 
 | Dimension | Apache APISIX | Kong Gateway |
-|---|---|---|
+| --- | --- | --- |
 | Project and product model | Apache Software Foundation open-source project | Open-source gateway with vendor-backed commercial products and services |
 | Deployment topology | Traditional, decoupled control/data plane, and standalone modes | Traditional database-backed, DB-less, and hybrid control/data plane modes |
 | Configuration state | etcd in traditional and decoupled modes; local YAML/JSON or full-state API updates in standalone mode | Database in traditional mode; declarative configuration held by each node in DB-less mode; control plane distributes configuration to data planes in hybrid mode |
