@@ -26,6 +26,8 @@ image: https://static.apiseven.com/2022/10/19/634f6677742a1.png
 
 APISIX Ingress Controller is a Kubernetes Ingress Controller based on Apache APISIX. It has the capability to convert Ingress/CRDs resources from Kubernetes into routing rules for Apache APISIX, synchronizing them with the Apache APISIX cluster. As a result, users can harness the robust functionalities of Apache APISIX, including plugins, load balancing, health checks, and more, for the management of inbound traffic in Kubernetes.
 
+For a current overview of Ingress, Gateway API, and controller selection, see the [Kubernetes API gateway guide](/learning-center/kubernetes-api-gateway/). This article continues with the architecture introduced in APISIX Ingress Controller 1.7.0.
+
 ![APISIX Ingress Controller Architecture](https://static.apiseven.com/uploads/2023/10/24/aezup4a9_APISIX-Ingress-1.png)
 
 ![Architecture of APISIX Ingress Controller with Gateway API](https://static.apiseven.com/uploads/2023/10/24/ZtjVM6dH_APISIX-Ingress-2.png)

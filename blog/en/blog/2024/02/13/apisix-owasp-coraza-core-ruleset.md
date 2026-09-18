@@ -37,6 +37,8 @@ For more details, please check the complete [report](https://owasp.org/www-proje
 
 Fixing a vulnerability depends on its exact nature. For example, fixing _Vulnerable and Outdated Components_ is process-driven, requiring discipline in managing versions and retiring older ones. Some, however, are technical and only require proper configuration in the reverse proxy or API Gateway, _e.g._, _Server Side Request Forgery_.
 
+A WAF addresses only part of the threat model. The [API gateway security guide](/learning-center/api-gateway-security/) places request filtering alongside authentication, authorization, rate limiting, mTLS, and service-level controls.
+
 ## Nobody cares about security
 
 Security is a touchy subject because hardening security doesn't bring any value to the business. Career-driven managers won't care about security as they won't be able to showcase they increased the company's profit by X% on their next yearly evaluation. Unless the board considers security seriously, chances are nobody will care. For this reason, most organizations implement checkbox-based security, aka plausible deniability. If you're interested in implementing security properly, I've written some thoughts in a previous blog post: [Treat security as a risk](https://blog.frankel.ch/treat-security-as-risk/).

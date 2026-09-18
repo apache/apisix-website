@@ -110,3 +110,5 @@ Our mission with APISIX was never just about building a product—it was about r
 With a thriving global community, rapid innovation, and enterprise adoption, Apache APISIX is set to become the de facto API gateway for modern applications.
 
 Whether you're a startup, enterprise, or open-source enthusiast, if you're looking for a high-performance, cloud-native API gateway, we invite you to explore APISIX.
+
+For a criteria-based evaluation of Apache APISIX, Kong, Envoy, and Traefik, see the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/).
