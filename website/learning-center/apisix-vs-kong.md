@@ -1,144 +1,156 @@
 ---
-title: "Apache APISIX vs Kong: Feature Comparison & Performance Benchmarks"
-description: "Compare Apache APISIX and Kong API Gateway across architecture, performance, plugin ecosystem, Kubernetes support, and migration tradeoffs."
+title: "Apache APISIX vs Kong: Architecture, Features, and Tradeoffs"
+description: "Compare Apache APISIX and Kong across deployment topology, configuration, plugins, Kubernetes integration, performance testing, and migration tradeoffs."
 slug: apisix-vs-kong
 date: 2026-04-14
 tags: [comparison, apisix, kong, api-gateway]
 hide_table_of_contents: false
 faq:
-  - q: "Can APISIX and Kong run side by side during a migration?"
+  - q: "Does Apache APISIX always require etcd?"
     a: >-
-      Yes. Both gateways can operate in parallel by splitting traffic at the load balancer level. A common migration strategy routes new services through APISIX while existing services continue running through Kong. Gradual traffic shifting with health checks ensures zero-downtime migration. The timeline depends on the number of routes, custom plugins, and testing requirements.
-  - q: "Is APISIX harder to operate because it requires etcd?"
+      No. APISIX uses etcd in its traditional and decoupled deployment modes. File-driven standalone is the general etcd-free option and loads complete local YAML or JSON configuration. API-driven standalone is designed for APISIX Ingress Controller and ADC integrations, which replace full routing state through a dedicated API rather than using it as a general operator-facing mode.
+  - q: "Can Kong configuration be imported directly into Apache APISIX?"
     a: >-
-      etcd adds a dependency compared to Kong's DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong's DB-mode.
-  - q: "How do the two gateways compare on gRPC and streaming support?"
+      There is no universal direct conversion because the gateways use different entity schemas, route matching rules, plugin phases, credentials, and state models. A migration should map and test each service, route, consumer, plugin, certificate, and operational behavior before traffic is shifted.
+  - q: "Which gateway is a better fit for Kubernetes?"
     a: >-
-      APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX's broader built-in protocol support reduces the need for custom plugins or sidecars.
+      Both projects provide Kubernetes ingress controllers, so the decision depends on the exact Ingress, Gateway API, and custom resources your platform requires. Test the relevant support matrix, status reporting, secret handling, upgrade behavior, and configuration convergence for the controller version you intend to deploy.
 ---
 
-Apache APISIX and Kong are the two most widely adopted open-source API gateways, both built on NGINX and Lua. APISIX differentiates itself with a fully dynamic architecture powered by etcd, higher single-core throughput, and a broader protocol support matrix, while Kong offers a mature enterprise ecosystem with extensive third-party integrations and a large plugin marketplace.
+Apache APISIX and Kong are open-source API gateways with mature routing, traffic management, authentication, observability, and Kubernetes integrations. Their most important differences are not a single feature count or benchmark result, but how they store and distribute configuration, which deployment models they support, and how their plugin ecosystems are packaged.
 
-## Overview
+Apache APISIX combines an Apache-governed project and [100+ open-source plugins](/plugins/) with etcd-backed and standalone deployment modes. Kong offers database-backed, DB-less, and hybrid control-plane/data-plane topologies, plus an ecosystem that includes open-source, Enterprise-only, and separately licensed plugins. The right choice depends on the topology, policies, extensions, and operating model your team needs.
 
-Both projects serve as high-performance, extensible API gateways for microservices architectures. Kong was open-sourced in 2015 and has built a substantial commercial ecosystem around Kong Gateway Enterprise, Kong Konnect, and the Kong Plugin Hub. Apache APISIX entered the Apache Software Foundation incubator in 2019 and graduated as a top-level project in 2020, with rapid community growth.
+For a broader shortlist, see the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/).
 
-Both projects are recognized as production-grade gateways and see active production deployments worldwide.
+## APISIX vs Kong at a Glance
 
-## Architecture Comparison
+| Dimension | Apache APISIX | Kong Gateway |
+| --- | --- | --- |
+| Project and product model | Apache Software Foundation open-source project | Open-source gateway with vendor-backed commercial products and services |
+| Deployment topology | Traditional, decoupled control/data plane, and standalone modes | Traditional database-backed, DB-less, and hybrid control/data plane modes |
+| Configuration state | etcd in traditional and decoupled modes; local YAML/JSON in file-driven standalone; in-memory full-state updates for API-driven integrations | Database in traditional mode; declarative configuration held by each node in DB-less mode; control plane distributes configuration to data planes in hybrid mode |
+| Runtime configuration | Admin API with etcd-backed updates; file detection in general standalone deployments; a dedicated full-state API for Ingress Controller or ADC integrations | Admin API in database-backed deployments; full declarative reloads in DB-less mode; control-plane updates in hybrid mode |
+| Plugin ecosystem | 100+ open-source plugins, native Lua plugins, external plugin runners, and experimental Wasm support | Plugin Hub with open-source, Enterprise-only, and license-required plugins; custom plugins through supported PDKs |
+| Kubernetes | APISIX Ingress Controller supports Kubernetes Ingress, supported Gateway API resources, and APISIX custom resources | Kong Ingress Controller translates Ingress, Gateway API, and Kong custom resources into Kong Gateway configuration |
+| Performance evaluation | Official APISIX benchmarks are available, but must be interpreted using their documented environment and workload | Official Kong benchmarks are available, with results that depend on version, topology, plugins, and test environment |
 
-The architectural differences between APISIX and Kong are fundamental and affect day-to-day operations, scalability, and deployment complexity.
+Feature availability changes across versions and Kong editions. Verify any requirement against the current documentation for the exact version and distribution you plan to deploy.
 
-### Apache APISIX Architecture
+## Architecture and Configuration
 
-APISIX uses NGINX as its data plane with Lua plugins running in the request lifecycle. Configuration is stored in **etcd**, a distributed key-value store that pushes changes to all gateway nodes in real time via watch mechanisms. This architecture means that route changes, plugin updates, and upstream modifications take effect within milliseconds without requiring restarts or reloads. There is no relational database dependency.
+### Apache APISIX
 
-The etcd-based design gives APISIX a stateless data plane: any node can be added or removed without migration steps or database schema changes. This makes horizontal scaling straightforward and reduces operational overhead significantly in Kubernetes environments where pods are ephemeral.
+Apache APISIX is built on NGINX and LuaJIT. In its traditional mode, a node handles both control-plane and data-plane responsibilities, while decoupled mode separates those roles. Both modes can use etcd as the configuration provider. APISIX nodes watch configuration changes in etcd and update in-memory routing and plugin state without replacing worker processes.
 
-### Kong Architecture
+APISIX also provides [standalone deployment modes](/docs/apisix/deployment-modes/) that do not use etcd as the configuration center. File-driven standalone is the general etcd-free option: it loads a complete YAML or JSON configuration and watches the local file for changes. API-driven standalone stores the configuration in memory and replaces it through a dedicated full-state API, but it is designed specifically for APISIX Ingress Controller and ADC integrations rather than as a general operator-facing alternative.
 
-Kong also uses NGINX and Lua for its data plane. Configuration is stored in **PostgreSQL** or **Cassandra** (though Cassandra support has been deprecated in newer versions). Kong's DB-mode requires database migrations when upgrading, and configuration changes propagate through a polling mechanism with a configurable cache TTL, which introduces a delay between API calls to the Admin API and actual enforcement at the proxy layer.
+APISIX supports an [embedded Dashboard UI](/docs/apisix/dashboard/) for managing routes, plugins, and upstreams through the Admin API. Its availability depends on whether the selected APISIX package or build includes the compiled UI assets. When enabled, production deployments still need to restrict access to the Admin API and protect its credentials.
 
-Kong also offers a DB-less mode where configuration is loaded from a declarative YAML file, which eliminates the database dependency but sacrifices the ability to modify configuration dynamically through the Admin API at runtime. Kong's commercial offering, Konnect, provides a managed control plane that addresses many of these operational concerns.
+### Kong
 
-## Performance Benchmarks
+Kong documents three main [deployment topologies](https://developer.konghq.com/gateway/deployment-topologies/):
 
-Performance characteristics matter at scale, where even small per-request overhead compounds into significant infrastructure costs.
+- **Traditional mode:** Gateway nodes connect to a database that stores configured entities. Each node performs both control-plane and data-plane responsibilities.
+- **DB-less mode:** Each node holds declarative configuration in memory. Operators load a complete YAML or JSON configuration at startup or through the `/config` endpoint. Entity management through the Admin API is read-only in this mode, and plugins that require database-backed state have limitations.
+- **Hybrid mode:** Control-plane nodes manage configuration and distribute it to data-plane nodes. Data planes do not connect directly to the control-plane database and cache the latest configuration they receive.
 
-Key architectural differences that affect performance:
+These topologies have materially different failure modes and workflows. A comparison that treats all Kong deployments as database polling, or all Kong deployments as DB-less, misses the choices Kong operators actually make.
 
-- **Route matching**: APISIX uses a radix tree-based routing algorithm. Kong uses a different matching approach. The routing algorithm affects lookup time as the number of routes grows.
-- **Configuration propagation**: APISIX pushes configuration changes from etcd to all nodes in real time. Kong's DB-mode polls the database on a configurable interval, introducing a delay between configuration changes and enforcement.
-- **Memory model**: Both use NGINX's event-driven architecture, but their plugin execution models differ in per-request allocation patterns.
+## Operational Tradeoffs
 
-We recommend benchmarking both gateways with your actual workload, plugin chain, and hardware to get meaningful performance comparisons. Vendor-published benchmarks often test under ideal conditions that may not reflect your production environment.
+### Configuration dependencies
 
-For many production deployments, both gateways provide sufficient throughput, and the choice often depends on factors beyond raw performance such as ecosystem maturity, plugin availability, and operational familiarity.
+APISIX deployments that use etcd need a properly sized and monitored etcd cluster, including backup and recovery procedures. Kubernetes uses etcd internally, but that does not remove the need to design and operate the configuration store used by APISIX. File-driven standalone avoids this dependency by making a complete local configuration file authoritative. API-driven standalone also avoids etcd, but its full-state in-memory update model is intended for Ingress Controller or ADC integrations.
 
-## Feature Comparison
+Kong's traditional mode requires operating its database and handling the supported upgrade and migration workflow. DB-less mode removes that database dependency from gateway nodes, but configuration is replaced as a complete declarative document and database-dependent plugin behavior is limited. Hybrid mode separates control and data planes, while adding control-plane connectivity, certificate, version-compatibility, and plugin-distribution considerations.
 
-| Feature | Apache APISIX | Kong (OSS) |
-|---------|--------------|-------------|
-| Plugin count (built-in) | 80+ | 40+ (OSS), 200+ (Enterprise) |
-| Protocol support | HTTP/1.1, HTTP/2, HTTP/3, gRPC, WebSocket, TCP/UDP, MQTT, Dubbo | HTTP/1.1, HTTP/2, gRPC, WebSocket, TCP/UDP |
-| Dashboard | Apache APISIX Dashboard (OSS) | Kong Manager (Enterprise only) |
-| Admin API | Full REST API, fully dynamic | REST API, DB-mode or DB-less |
-| Service discovery | Nacos, Consul, Eureka, DNS, Kubernetes | DNS, Consul (others via plugins) |
-| Kubernetes ingress | APISIX Ingress Controller (CRD-based) | Kong Ingress Controller (KIC) |
-| Multi-language plugin support | Go, Java, Python, Wasm, Lua | Go, JavaScript, Python (PDK) |
-| Configuration storage | etcd (distributed, real-time) | PostgreSQL (requires migrations) |
-| Canary/traffic splitting | Built-in traffic-split plugin | Canary plugin (Enterprise) |
+There is no universal lowest-cost topology. Compare the infrastructure, recovery objectives, team expertise, configuration workflow, and required plugin state for the specific mode you intend to run.
 
-Both gateways support core functionality like rate limiting, authentication (JWT, OAuth 2.0, API key, LDAP), load balancing, health checks, and circuit breaking. The primary differences lie in the breadth of built-in features available in the open-source edition versus features gated behind enterprise licensing.
+### Configuration propagation
 
-## Plugin Ecosystem
+APISIX's etcd-backed modes use watch-based updates, while file-driven standalone uses local file detection. In APISIX Ingress Controller or ADC integrations that use API-driven standalone, a dedicated API replaces the in-memory full state. Kong's propagation behavior depends on whether the deployment is traditional, DB-less, or hybrid. In either product, measure configuration convergence under failure, rollout, and recovery conditions instead of relying on an unqualified "instant" claim.
 
-APISIX ships with over 80 built-in plugins covering authentication, security, traffic management, observability, and protocol transformation. Notably, plugins for serverless functions (running custom Lua, Java, or Go code inline) and advanced traffic management are available in the open-source edition.
+## Plugins and Extensibility
 
-Kong's open-source edition includes approximately 40 built-in plugins, with a substantial number of additional plugins available through Kong Plugin Hub and the enterprise edition. Kong's plugin marketplace includes many third-party and partner-contributed plugins, giving it a broader ecosystem for specific vendor integrations like Datadog, PagerDuty, and Moesif.
+Apache APISIX lists [100+ open-source plugins](/plugins/) across traffic management, authentication, security, observability, transformation, serverless integration, AI traffic, and other protocols. Native plugins use Lua. APISIX also supports custom plugins through Java, Python, and Go plugin runners, with experimental Wasm support. Runner-based plugins introduce a separate process and communication boundary that teams should include in performance and failure testing.
 
-For custom plugin development, APISIX supports external plugins via gRPC-based plugin runners in Go, Java, and Python, as well as Wasm-based plugins that run in a sandboxed environment. Kong offers a Plugin Development Kit (PDK) supporting Go, JavaScript, and Python alongside native Lua plugins. Both projects accept community-contributed plugins, and their ecosystems continue to grow.
+Kong's [Plugin Hub](https://developer.konghq.com/plugins/) includes open-source plugins as well as plugins marked Enterprise-only or license-required. Because the catalog and packaging change, evaluate the exact plugins required by your deployment rather than comparing a frozen total. Kong documents custom plugin development through Lua, Go, Python, and JavaScript PDKs; installation and availability can differ by deployment topology.
+
+For both gateways, build a requirement-level plugin matrix that records:
+
+- whether the feature is available in the intended version and distribution;
+- whether it requires external storage or another service;
+- whether it works in the selected control-plane/data-plane topology;
+- how configuration, upgrades, and rollback are handled;
+- what latency and failure behavior it adds to your actual request path.
+
+## Protocol Support
+
+APISIX supports HTTP and HTTPS routing, stream proxying for TCP and UDP, WebSocket, and gRPC proxying. Specific plugins add capabilities such as gRPC-Web handling and HTTP-to-gRPC transcoding. Other protocol plugins have narrower scopes; for example, `mqtt-proxy` performs MQTT load balancing in stream mode rather than general MQTT-to-HTTP transformation.
+
+Kong documents native routing for HTTP/HTTPS, TCP/TLS, and gRPC/GRPCS. [WebSocket traffic](https://developer.konghq.com/gateway/traffic-control/proxying/) can use regular HTTP(S) Services and Routes, or dedicated WS(S) Services and Routes when message-level WebSocket plugin processing is required. Additional behavior depends on installed plugins and the selected distribution.
+
+Protocol names alone do not prove that one gateway can replace an application adapter. Verify the exact direction of translation, supported message format, streaming behavior, authentication path, and plugin compatibility required by the workload.
 
 ## Kubernetes Integration
 
-Both gateways offer mature Kubernetes ingress controllers, though they differ in design philosophy.
+The [APISIX Ingress Controller](/docs/ingress-controller/overview/) translates supported Kubernetes Ingress, Gateway API, and APISIX custom resources into APISIX configuration. Gateway API support varies by resource and field, so use the [current support matrix](/docs/ingress-controller/concepts/gateway-api/) when planning a deployment.
 
-The **APISIX Ingress Controller** supports both custom resource definitions (CRDs) specific to APISIX and standard Kubernetes Ingress resources. It communicates with the APISIX data plane through the Admin API and supports Gateway API, the emerging Kubernetes standard for traffic management. Configuration changes propagate instantly through etcd.
+The [Kong Ingress Controller](https://developer.konghq.com/kubernetes-ingress-controller/) translates resources such as `Ingress` and `HTTPRoute`, along with Kong custom resources, into Kong Gateway configuration. Its supported resources and behavior vary by controller version and deployment model.
 
-The **Kong Ingress Controller (KIC)** also supports CRDs and standard Kubernetes Ingress resources, with Kong-specific annotations for extended functionality. KIC translates Kubernetes resources into Kong configuration, applying them through the Admin API. KIC has a longer track record in production Kubernetes environments and benefits from extensive documentation and community resources.
+For a Kubernetes evaluation, compare more than whether each project has a controller. Test the Gateway API resources and policies you need, failure handling for invalid configuration, status conditions, upgrade compatibility, secret handling, and how quickly the controller and data plane converge after a change.
 
-Both controllers are actively maintained and see regular releases aligned with Kubernetes version updates.
+## How to Compare Performance
 
-## Community and Ecosystem
+Neither project's published benchmark establishes a universal winner. The [APISIX benchmark](/docs/apisix/benchmark/) and [Kong benchmark](https://developer.konghq.com/gateway/performance/benchmarks/) use their own infrastructure, versions, tuning, routes, plugins, and traffic generators. Results from different test environments are not a valid head-to-head comparison.
 
-| Metric | Apache APISIX | Kong |
-|--------|--------------|------|
-| License | Apache 2.0 | Apache 2.0 (OSS) |
-| Governance | Apache Software Foundation | Kong Inc. |
-| First release | 2019 | 2015 |
+Run both gateways in the topology you would operate and keep these variables equivalent:
 
-APISIX benefits from Apache Software Foundation governance, which ensures vendor-neutral development and community-driven roadmap decisions. Kong benefits from the backing of Kong Inc., which provides dedicated engineering resources, enterprise support, and a commercial ecosystem that many large organizations value.
+1. CPU, memory, network placement, TLS settings, and worker configuration.
+2. Number and complexity of routes, upstreams, and consumers.
+3. Authentication, rate limiting, logging, tracing, and transformation plugins.
+4. Request and response sizes, keepalive behavior, connection concurrency, and protocol.
+5. Configuration storage and control-plane topology.
+6. Test duration, warm-up period, error rate, throughput, and latency percentiles.
 
-Both projects maintain active community forums, Slack channels, and regular release cadences. Kong's longer market presence gives it an advantage in terms of available tutorials, third-party integrations, and consultant familiarity.
+Report P50, P95, and P99 latency together with throughput and errors. A gateway that performs well with no plugins may behave differently with the policy chain required in production.
 
-## When to Choose Apache APISIX
+## Migration Considerations
 
-APISIX is the stronger choice when your requirements include:
+A migration from Kong to APISIX is a configuration and behavior migration, not a direct file conversion. Similar concepts often exist on both sides, but their schemas, matching rules, plugin phases, credentials, and state models differ.
 
-- **Dynamic configuration at scale:** Environments where routes and plugins change frequently benefit from etcd-based instant propagation without restarts.
-- **Maximum open-source functionality:** Teams that need advanced features like traffic splitting and multi-protocol support without enterprise licensing.
-- **High-performance requirements:** Workloads where per-request latency and single-core throughput directly impact infrastructure costs.
-- **Kubernetes-native deployments:** Organizations adopting Gateway API and wanting tight integration with cloud-native service discovery (Nacos, Consul, Eureka).
-- **Vendor-neutral governance:** Teams that prefer Apache Software Foundation stewardship over single-vendor control.
+Use a staged process:
 
-## When to Choose Kong
+1. Inventory Kong Services, Routes, Consumers, credentials, plugins, certificates, and deployment topology.
+2. Map each item to APISIX Routes, Services, Upstreams, Consumers, credentials, SSL resources, and plugins.
+3. Identify plugins without equivalent behavior and design replacements before moving traffic.
+4. Reproduce routing precedence, path handling, retries, timeouts, health checks, and observability in a test environment.
+5. Run both gateways in parallel and shift selected traffic gradually using an upstream load balancer, DNS, or another controlled entry point.
+6. Compare responses, logs, metrics, traces, and failure behavior, and keep a tested rollback path.
 
-Kong is the stronger choice when your requirements include:
+Parallel operation and gradual traffic shifting can reduce migration risk, but they do not guarantee zero downtime. The outcome depends on the surrounding architecture, stateful plugins, change controls, and rollback design.
 
-- **Mature enterprise ecosystem:** Organizations that need commercial support, SLA guarantees, and a proven enterprise deployment track record.
-- **Extensive third-party integrations:** Environments with specific vendor integration needs covered by Kong's plugin marketplace.
-- **Existing Kong investment:** Teams already running Kong in production where migration cost outweighs technical advantages.
-- **Managed control plane:** Organizations that prefer a SaaS-managed control plane (Kong Konnect) to reduce operational burden.
-- **Broad hiring market:** Teams that can more easily find engineers with Kong experience due to its longer market presence.
+## When APISIX May Be a Better Fit
 
-## FAQ
+Consider Apache APISIX when:
 
-### Can APISIX and Kong run side by side during a migration?
+- you want an Apache-governed open-source gateway with a large open-source plugin catalog;
+- etcd-backed dynamic configuration fits your operating model, or file-driven standalone matches your declarative workflow;
+- you need a specific APISIX plugin, external plugin runner, or documented protocol capability;
+- the APISIX Ingress Controller supports the Kubernetes and Gateway API resources your platform uses.
 
-Yes. Both gateways can operate in parallel by splitting traffic at the load balancer level. A common migration strategy routes new services through APISIX while existing services continue running through Kong. Gradual traffic shifting with health checks ensures zero-downtime migration. The timeline depends on the number of routes, custom plugins, and testing requirements.
+## When Kong May Be a Better Fit
 
-### Is APISIX harder to operate because it requires etcd?
+Consider Kong when:
 
-etcd adds a dependency compared to Kong's DB-less mode, but in practice, etcd is a well-understood, battle-tested component already present in most Kubernetes clusters (it is the backing store for Kubernetes itself). Operating etcd requires standard distributed systems practices: run an odd number of nodes (3 or 5), monitor disk latency, and maintain regular snapshots. For teams already running Kubernetes, etcd operational knowledge is typically already available. The operational cost of etcd is generally lower than managing PostgreSQL migrations required by Kong's DB-mode.
+- your organization already operates Kong configuration, plugins, and deployment tooling;
+- a specific Kong plugin or integration is available in the distribution you plan to use;
+- Kong's traditional, DB-less, or hybrid topology matches your configuration and control-plane requirements;
+- you want Kong's commercial support or managed-service options and have evaluated their licensing and operational model.
 
-### How do the two gateways compare on gRPC and streaming support?
+## Make the Decision with Your Own Requirements
 
-APISIX provides native gRPC proxying, gRPC-Web transcoding, and HTTP-to-gRPC transformation out of the box, along with support for HTTP/3 (QUIC), Dubbo, and MQTT protocols. Kong supports gRPC proxying and gRPC-Web through plugins, with HTTP/2 support on both client and upstream connections. For teams heavily invested in gRPC or multi-protocol architectures, APISIX's broader built-in protocol support reduces the need for custom plugins or sidecars.
+Start with the deployment topology and policy chain you will actually operate. Build a short proof of concept for both gateways, test configuration recovery as well as request traffic, and verify every required plugin against the intended version and distribution. The better choice is the one that meets those requirements with acceptable operational complexity, not the one with the longest feature table.
 
-## Related
-
-- [All API gateway comparisons](/comparisons/)
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [Apache APISIX vs NGINX](/learning-center/apisix-vs-nginx/)
-- [Apache APISIX vs AWS API Gateway](/learning-center/apisix-vs-aws-api-gateway/)
-- [Get started with Apache APISIX](/docs/apisix/getting-started/)
+You can review the [full set of API gateway comparisons](/comparisons/) or [learn how an API gateway works](/learning-center/what-is-an-api-gateway/) before building a test plan.

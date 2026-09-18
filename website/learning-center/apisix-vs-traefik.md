@@ -1,103 +1,123 @@
 ---
-title: "Apache APISIX vs Traefik: Performance vs Auto-Discovery"
-description: "Compare Apache APISIX and Traefik: APISIX for higher throughput and a larger plugin ecosystem, Traefik for container-native auto-discovery and TLS."
+title: "Apache APISIX vs Traefik: Architecture, Routing, and Kubernetes"
+description: "Compare Apache APISIX and Traefik Proxy across configuration, service discovery, Kubernetes, Gateway API, extensibility, TLS, and performance testing."
 slug: apisix-vs-traefik
 date: 2026-06-24
 tags: [comparison, apisix, traefik, api-gateway]
 hide_table_of_contents: false
 faq:
-  - q: "Is Traefik easier to set up than Apache APISIX?"
+  - q: "Can Apache APISIX read Docker labels the way Traefik does?"
     a: >-
-      Traefik is known for fast setup in container environments because it auto-discovers services from Docker labels or Kubernetes resources and configures itself, with automatic HTTPS through Let's Encrypt. For a small containerized setup this is very convenient. APISIX requires defining routes and upstreams explicitly, but provides more control and a richer feature set in return. For simple auto-wired deployments Traefik feels lighter; for feature-rich gateways APISIX's explicit model pays off.
-  - q: "How do Apache APISIX and Traefik compare on performance?"
+      No. Traefik can build dynamic routing configuration from Docker labels through its provider model. APISIX uses explicit gateway configuration, Kubernetes resources translated by APISIX Ingress Controller, or supported service discovery integrations. Teams should choose based on where routing intent should live and how it should be reviewed and promoted.
+  - q: "Does Traefik's built-in ACME issue certificates for Gateway API listeners?"
     a: >-
-      APISIX is built on NGINX and LuaJIT, while Traefik is written in Go. APISIX generally achieves higher single-node throughput and lower, more predictable latency, which matters most at high request volumes where per-request overhead compounds. Traefik performs well for many workloads, but teams prioritizing maximum throughput and a low latency floor tend to favor APISIX. As always, benchmark with your own workload and hardware.
-  - q: "Which has a larger plugin ecosystem, Apache APISIX or Traefik?"
+      Not in the current Traefik documentation. Traefik recommends using a certificate controller such as cert-manager for Gateway API listeners. Verify this behavior against the exact Traefik release you plan to deploy because certificate support can change between versions.
+  - q: "Can Apache APISIX and Traefik run in the same architecture?"
     a: >-
-      APISIX ships with 100+ built-in plugins and supports custom plugins in Lua, Go, Java, Python, and Wasm. Traefik uses middlewares for cross-cutting concerns and supports plugins through a Go interpreter and Wasm, with a smaller catalog. Teams needing a broad set of ready-made capabilities, including AI gateway features, generally find more available in APISIX out of the box.
-  - q: "Do both Apache APISIX and Traefik support Kubernetes and the Gateway API?"
-    a: >-
-      Yes. Both run as Kubernetes ingress controllers and both support the Kubernetes Gateway API. Traefik is known for automatically discovering Kubernetes services and configuring routes from annotations and CRDs. APISIX provides its own ingress controller with CRDs, standard Ingress support, and Gateway API support, with configuration propagated through etcd in real time.
+      Yes, when each gateway has a distinct traffic boundary or responsibility, such as during a migration or for separate application platforms. Avoid configuring both layers to own the same routing, retry, TLS, or authentication policy, and measure the operational cost and latency of the additional hop.
 ---
 
-Apache APISIX and Traefik are both modern, cloud-native gateways, but they optimize for different things. APISIX prioritizes raw performance and a broad, ready-to-use feature set. Traefik prioritizes developer experience through automatic service discovery and configuration. For most production API workloads — where throughput, feature breadth, and predictable, auditable configuration matter — APISIX is the stronger choice; Traefik is most compelling for container-native setups that value automatic discovery over fine-grained control.
+Apache APISIX and Traefik Proxy are open-source gateways that can route traffic in Kubernetes and other environments. They differ most in how teams define and distribute configuration. Traefik emphasizes provider-driven discovery, while APISIX combines explicit gateway resources with multiple deployment and service discovery options.
 
-## Overview
+This comparison covers the open-source projects. Traefik Hub and Traefik Enterprise have additional commercial capabilities that are outside this article's scope.
 
-Traefik (Traefik Proxy) is an open-source edge router written in Go. Its signature feature is automatic configuration: it discovers services from providers such as Docker labels, Kubernetes resources, and Consul, and wires up routes without manual definitions. It includes automatic HTTPS through Let's Encrypt, a dashboard, and middlewares for cross-cutting concerns. Commercial tiers (Traefik Hub and Traefik Enterprise) add further capabilities.
+## Quick comparison
 
-Apache APISIX is an Apache Software Foundation top-level project built on NGINX and LuaJIT, with configuration stored in etcd and a 100+ plugin ecosystem. It targets high throughput, low latency, broad protocol support, and rich gateway features, configured explicitly through an Admin API, declarative YAML, or a dashboard.
+| Area | Apache APISIX | Traefik Proxy |
+| --- | --- | --- |
+| Primary focus | API gateway with traffic management, security, observability, and protocol plugins | Application proxy and load balancer with provider-driven routing |
+| Routing model | Explicit Routes, Upstreams, Services, Consumers, and Plugins | Routers, Services, and Middlewares generated from providers or files |
+| Configuration storage | etcd in traditional and decoupled modes; YAML or JSON in standalone mode | Install configuration plus dynamic routing configuration from providers or files |
+| Service discovery | DNS, Kubernetes, Consul, Nacos, Eureka, and other integrations | Docker, Kubernetes, Consul Catalog, ECS, file, KV, and other providers |
+| Extensibility | 100+ open-source plugins; Lua plugins and external plugin runners | Built-in middlewares plus Yaegi and WebAssembly plugins |
+| Kubernetes | Ingress, APISIX custom resources, and Gateway API through APISIX Ingress Controller | Ingress, Traefik custom resources, and Gateway API through Kubernetes providers |
+| TLS automation | TLS resources and certificate integrations depend on the deployment | Built-in ACME for supported routing configurations; external certificate controllers can also be used |
+| License | Apache License 2.0 | MIT License |
 
-## Architecture Comparison
+## Architecture and configuration
 
-### Apache APISIX Architecture
+Apache APISIX separates its data plane from configuration management. In traditional and decoupled deployment modes, APISIX stores configuration in etcd and distributes changes to gateway instances. [Standalone mode](https://apisix.apache.org/docs/apisix/deployment-modes/) instead loads declarative YAML or JSON without requiring etcd. Teams model gateway behavior explicitly through Routes, Upstreams, Services, Consumers, and Plugins.
 
-APISIX uses NGINX's event-driven data plane with Lua plugins and stores configuration in etcd, which propagates changes to all nodes in real time. Routes, upstreams, and plugins are defined explicitly, which gives precise control over behavior. The architecture is tuned for high single-node throughput and predictable latency, and it supports a wide range of protocols beyond HTTP.
+Traefik separates installation configuration from dynamic routing configuration. Its [providers](https://doc.traefik.io/traefik/reference/install-configuration/providers/overview/) watch sources such as Docker, Kubernetes, Consul Catalog, files, or key-value stores and update routers, services, and middlewares when the source changes. This can reduce separate gateway configuration in provider-centric environments, but teams still need review and ownership rules for labels, annotations, custom resources, or files.
 
-### Traefik Architecture
+The practical choice is therefore not "automatic" versus "manual." It is where your team wants routing intent to live and how that intent should be reviewed, promoted, and audited.
 
-Traefik is built around providers and dynamic discovery. Instead of defining routes by hand, you label your containers or annotate your Kubernetes resources, and Traefik builds its routing table automatically and keeps it in sync as services come and go. This is excellent for fast-moving container environments. Being written in Go, Traefik benefits from a simple deployment model (a single binary) but generally trades some raw throughput compared to an OpenResty-based data plane.
+## Service discovery and dynamic environments
 
-## Performance
+Traefik's provider model is a natural fit when routing should follow Docker labels or Kubernetes resources. It can watch those sources and update its dynamic configuration as workloads change.
 
-Performance is a frequent reason teams choose APISIX. Its NGINX and LuaJIT foundation and radix-tree route matching deliver high throughput and low per-request overhead, which becomes important at scale where small overheads multiply into real infrastructure cost. Traefik is fast enough for a large share of workloads, but Go's runtime characteristics typically place its peak throughput below an OpenResty-based gateway. For latency-sensitive or very high-volume APIs, APISIX usually has the edge; for moderate traffic, both perform comfortably. Benchmark with your own workload to be sure.
+APISIX keeps gateway policy in explicit resources while supporting [DNS discovery](https://apisix.apache.org/docs/apisix/discovery/dns/), [Kubernetes discovery](https://apisix.apache.org/docs/apisix/discovery/kubernetes/), and other discovery integrations. In Kubernetes, APISIX Ingress Controller translates Ingress, Gateway API, and APISIX custom resources into APISIX configuration.
 
-## Developer Experience and Configuration
+During a proof of concept, test how each model handles deleted services, stale endpoints, configuration rollback, and changes made outside your normal deployment process.
 
-Traefik's strength is auto-discovery: a developer can deploy a container with a few labels and have it routed and served over HTTPS automatically, with minimal gateway knowledge. In container-heavy environments this is genuinely convenient, but it is a tradeoff — implicit, label-driven configuration is harder to audit, and behavior can shift as labels change.
+## Kubernetes and Gateway API
 
-APISIX favors explicit configuration. Routes and plugins are declared deliberately, which is more setup up front but yields fine-grained control, clearer auditability, and behavior that does not change implicitly as labels change. APISIX also supports service discovery integrations (Nacos, Consul, Eureka, Kubernetes), narrowing the gap for dynamic environments while keeping configuration explicit.
+Both projects can serve as Kubernetes ingress and Gateway API implementations. Support is release-specific, so a simple "Gateway API supported" checkbox is not enough.
 
-## Feature Comparison
+For APISIX, review the [Gateway API support matrix](https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/) for the resource kinds, filters, and features your workloads require. For Traefik, review its current [Kubernetes Gateway provider documentation](https://doc.traefik.io/traefik/reference/install-configuration/providers/kubernetes/kubernetes-gateway/) and conformance information.
 
-| Feature | Apache APISIX | Traefik |
-|---------|--------------|---------|
-| Implementation | NGINX + LuaJIT | Go |
-| Configuration style | Explicit (Admin API, YAML) | Auto-discovery from providers |
-| Plugin ecosystem | 100+ built-in plugins | Middlewares + Go/Wasm plugins |
-| Protocol support | HTTP/1.1, HTTP/2, HTTP/3, gRPC, WebSocket, TCP/UDP, MQTT, Dubbo | HTTP/1.1, HTTP/2, HTTP/3, gRPC, TCP/UDP |
-| Automatic TLS | Via plugins / cert management | Built-in Let's Encrypt (ACME) |
-| Service discovery | Nacos, Consul, Eureka, DNS, Kubernetes | Docker, Kubernetes, Consul, others |
-| AI gateway capabilities | ai-proxy plugin, multi-LLM routing | Not built in |
-| Kubernetes / Gateway API | Ingress controller + Gateway API | Ingress controller + Gateway API |
-| License | Apache 2.0 | MIT |
+Validate the exact release you plan to deploy, especially if you depend on extended filters, TCP or UDP routes, cross-namespace references, or experimental Gateway API resources.
 
-## When to Choose Apache APISIX
+## Extensibility and gateway policies
 
-- **High throughput and low latency** are priorities, especially at scale.
-- **A broad, built-in feature set** including advanced traffic management and AI gateway capabilities.
-- **Multi-protocol support** beyond HTTP (gRPC, MQTT, Dubbo, TCP/UDP).
-- **Explicit, auditable configuration** with real-time dynamic updates.
+Apache APISIX provides more than 100 open-source plugins for authentication, authorization, traffic control, observability, transformations, and upstream integration. Custom logic can be implemented in Lua, while [external plugin runners](https://apisix.apache.org/docs/apisix/external-plugin/) support selected non-Lua languages through separate runner processes.
 
-## When to Choose Traefik
+Traefik composes routing behavior with built-in middlewares and supports community plugins. Its plugin system supports Go plugins interpreted with Yaegi and plugins compiled to WebAssembly. Review plugin maintenance, compatibility, execution model, and operational ownership rather than comparing catalog size alone.
 
-- **Container-native auto-discovery** with minimal manual configuration.
-- **Automatic HTTPS** through built-in Let's Encrypt integration.
-- **Docker and Kubernetes label-driven** workflows where convention beats configuration.
-- **A simple single-binary Go deployment** for small to moderate workloads.
+For either gateway, test the complete policy chain you intend to run. A gateway with no plugins or middlewares enabled does not represent the latency, memory use, or failure behavior of a production configuration.
 
-## FAQ
+## TLS and certificate operations
 
-### Is Traefik easier to set up than Apache APISIX?
+Traefik includes ACME certificate resolution for supported routing configurations. That can simplify certificate issuance when its resolver, challenge, DNS, and storage requirements match the environment. However, Traefik's built-in ACME resolver does not issue certificates for Gateway API listeners; its [Kubernetes setup documentation](https://doc.traefik.io/traefik/setup/kubernetes/#gateway-api--acme) recommends a certificate controller such as cert-manager for that case.
 
-Traefik is known for fast setup in container environments because it auto-discovers services from Docker labels or Kubernetes resources and configures itself, with automatic HTTPS through Let's Encrypt. For a small containerized setup this is very convenient. APISIX requires defining routes and upstreams explicitly, but provides more control and a richer feature set in return. For simple auto-wired deployments Traefik feels lighter; for feature-rich gateways APISIX's explicit model pays off.
+APISIX represents certificates through [SSL resources](https://apisix.apache.org/docs/apisix/certificate/) and can consume certificates managed by the surrounding platform. In Kubernetes deployments, certificate lifecycle automation is commonly handled by a controller and referenced by ingress or gateway resources.
 
-### How do Apache APISIX and Traefik compare on performance?
+Compare renewal behavior, secret storage, multi-instance coordination, failure recovery, and Gateway API integration instead of treating "automatic TLS" as a single feature.
 
-APISIX is built on NGINX and LuaJIT, while Traefik is written in Go. APISIX generally achieves higher single-node throughput and lower, more predictable latency, which matters most at high request volumes where per-request overhead compounds. Traefik performs well for many workloads, but teams prioritizing maximum throughput and a low latency floor tend to favor APISIX. As always, benchmark with your own workload and hardware.
+## Performance: test the workload, not the implementation language
 
-### Which has a larger plugin ecosystem, Apache APISIX or Traefik?
+APISIX uses NGINX and LuaJIT, while Traefik is implemented in Go. That architectural difference alone does not establish which gateway will be faster for a specific workload.
 
-APISIX ships with 100+ built-in plugins and supports custom plugins in Lua, Go, Java, Python, and Wasm. Traefik uses middlewares for cross-cutting concerns and supports plugins through a Go interpreter and Wasm, with a smaller catalog. Teams needing a broad set of ready-made capabilities, including AI gateway features, generally find more available in APISIX out of the box.
+A useful comparison keeps these conditions equivalent:
 
-### Do both Apache APISIX and Traefik support Kubernetes and the Gateway API?
+- gateway version, CPU and memory limits, and instance count;
+- HTTP, HTTPS, HTTP/2, HTTP/3, gRPC, TCP, or UDP protocol settings;
+- route count and matching complexity;
+- enabled plugins, middlewares, authentication, and rate limits;
+- TLS termination, connection reuse, and upstream latency;
+- access logs, metrics, tracing, and sampling settings;
+- concurrency, payload size, test duration, and configuration changes during the test.
 
-Yes. Both run as Kubernetes ingress controllers and both support the Kubernetes Gateway API. Traefik is known for automatically discovering Kubernetes services and configuring routes from annotations and CRDs. APISIX provides its own ingress controller with CRDs, standard Ingress support, and Gateway API support, with configuration propagated through etcd in real time.
+Measure throughput, p50 and tail latency, CPU, memory, error rate, and recovery during upstream or configuration changes. Published project benchmarks can help design a test, but results from different environments should not be used as a direct head-to-head comparison.
 
-## Related
+## When to evaluate Apache APISIX
 
-- [All API gateway comparisons](/comparisons/)
-- [What is an API gateway?](/learning-center/what-is-an-api-gateway/)
-- [Apache APISIX vs NGINX](/learning-center/apisix-vs-nginx/)
-- [Apache APISIX vs Envoy](/learning-center/apisix-vs-envoy/)
-- [Get started with Apache APISIX](/docs/apisix/getting-started/)
+Apache APISIX is a strong candidate when you need:
+
+- a broad set of gateway policies available as open-source plugins;
+- explicit Routes, Upstreams, Consumers, and reusable plugin configuration;
+- deployment choices that include etcd-backed and standalone configuration;
+- service discovery integrations alongside API gateway policy;
+- Apache Software Foundation governance and an Apache 2.0-licensed project.
+
+See [what an API gateway does](/learning-center/what-is-an-api-gateway/) and compare APISIX with other projects in the [open-source API gateway comparison](/learning-center/open-source-api-gateway-comparison/).
+
+## When to evaluate Traefik
+
+Traefik Proxy is a strong candidate when you need:
+
+- routing configuration derived directly from Docker or Kubernetes providers;
+- built-in ACME certificate resolution for supported routing configurations;
+- a single Go binary with provider-based dynamic configuration;
+- Traefik routers, services, and middlewares as the team's preferred operating model.
+
+## Proof-of-concept checklist
+
+Before choosing either gateway, run the same representative workload and verify:
+
+1. Required protocols, Gateway API resources, and routing filters.
+2. Authentication, rate limiting, transformations, retries, and observability policies.
+3. Configuration review, rollout, rollback, and disaster recovery.
+4. Certificate issuance, rotation, and multi-instance behavior.
+5. Throughput, tail latency, resource use, and failure recovery under realistic load.
+6. Upgrade procedures and compatibility for required plugins or middlewares.
