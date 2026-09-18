@@ -26,6 +26,8 @@ Rate limiting can also be part of your business requirement where you want separ
 
 If you are using [Apache APISIX](https://apisix.apache.org) as your API gateway, you can leverage the rate limiting plugins, [limit-req](https://apisix.apache.org/docs/apisix/plugins/limit-req/), [limit-conn](https://apisix.apache.org/docs/apisix/plugins/limit-conn/), and [limit-count](https://apisix.apache.org/docs/apisix/plugins/limit-count/) to achieve this.
 
+Before choosing a plugin, review the [API gateway rate limiting guide](/learning-center/api-gateway-rate-limiting/) for the tradeoffs among request rate, request count, concurrency, quota, and distributed-counter strategies.
+
 You can always set this up in your services directly without configuring it in APISIX. But as the number of your services increases, with each service having different constraints, setting up and managing different rate limits and updating them in each of these services becomes a pain point for development teams.
 
 In this article, we will look at examples of how we can use the rate limiting plugins in APISIX. You can find the complete configuration files and instructions to deploy for this article in [this repository](https://github.com/navendu-pottekkat/rate-limit).
