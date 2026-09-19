@@ -1,0 +1,672 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ai-cache | Apache APISIX</title><meta name="description" content="The ai-cache Plugin caches LLM responses in Redis and replays them for later requests that resolve to the same prompt, cutting upstream token cost and latency."><meta name="robots" content="index,follow"><link rel="canonical" href="https://docs.api7.ai/hub/ai-cache"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="website"><meta property="og:title" content="ai-cache | Apache APISIX"><meta property="og:description" content="The ai-cache Plugin caches LLM responses in Redis and replays them for later requests that resolve to the same prompt, cutting upstream token cost and latency."><meta property="og:url" content="https://apisix.apache.org/docs/apisix/plugins/ai-cache/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"ai-cache","description":"The ai-cache Plugin caches LLM responses in Redis and replays them for later requests that resolve to the same prompt, cutting upstream token cost and latency.","author":{"@type":"Organization","name":"Apache APISIX"},"mainEntityOfPage":"https://apisix.apache.org/docs/apisix/plugins/ai-cache/"}]</script><link rel="preconnect" href="https://38VC84A2WJ-dsn.algolia.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/docs/apisix/plugins/ai-cache/" title="简体中文" data-astro-cid-3ef6ksr2>中</a> <div id="docsearch" class="docsearch-slot" data-astro-cid-3ef6ksr2></div> <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3" data-appid="38VC84A2WJ" data-apikey="73248b6e5908d49bb7986c4aef5fd30d" data-indexname="apache_apisix" defer onload="docsearch({container:'#docsearch',appId:this.dataset.appid,apiKey:this.dataset.apikey,indexName:this.dataset.indexname})"></script> </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/docs/" data-astro-cid-3ef6ksr2>Docs</a> <a class="mobile-subnav" href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a class="mobile-subnav" href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a class="mobile-subnav" href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/docs/apisix/plugins/ai-cache/" data-astro-cid-3ef6ksr2>简体中文</a> </div> </details> </div> </header> <main>  <div class="container docs-layout"> <nav class="docs-sidebar" aria-label="Docs sidebar"> <details class="version-picker"> <summary>APISIX 3.18.0</summary> <ul> <li><a href="/docs/apisix/getting-started/README/" aria-current="true">APISIX 3.18.0</a></li><li><a href="/docs/apisix/3.16/getting-started/README/">3.16</a></li><li><a href="/docs/apisix/3.15/getting-started/README/">3.15</a></li><li><a href="/docs/apisix/3.14/getting-started/README/">3.14</a></li><li><a href="/docs/apisix/3.13/getting-started/README/">3.13</a></li><li><a href="/docs/apisix/3.12/getting-started/README/">3.12</a></li><li><a href="/docs/apisix/3.11/getting-started/README/">3.11</a></li><li><a href="/docs/apisix/3.10/getting-started/README/">3.10</a></li><li><a href="/docs/apisix/next/getting-started/README/">Next (unreleased)</a></li> </ul> </details> <ul> <li class="cat"> <details class="sidebar-category"> <summary>Getting Started</summary> <ul> <li class> <a href="/docs/apisix/getting-started/README/" class>Getting Started with Apache APISIX</a> </li><li class> <a href="/docs/apisix/getting-started/configure-routes/" class>Configure Routes</a> </li><li class> <a href="/docs/apisix/getting-started/load-balancing/" class>Load Balancing</a> </li><li class> <a href="/docs/apisix/getting-started/key-authentication/" class>Key Authentication</a> </li><li class> <a href="/docs/apisix/getting-started/rate-limiting/" class>Rate Limiting</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/installation-guide/" class>Installation</a> </li><li class> <a href="/docs/apisix/architecture-design/apisix/" class>Architecture</a> </li><li class="cat"> <details class="sidebar-category"> <summary>Tutorials</summary> <ul> <li class> <a href="/docs/apisix/tutorials/expose-api/" class>Expose API</a> </li><li class> <a href="/docs/apisix/tutorials/protect-api/" class>Protect API</a> </li><li class="cat"> <details class="sidebar-category"> <summary>Observability</summary> <ul> <li class> <a href="/docs/apisix/tutorials/observe-your-api/" class>Observe APIs</a> </li><li class> <a href="/docs/apisix/tutorials/health-check/" class>Health Check</a> </li><li class> <a href="/docs/apisix/tutorials/monitor-api-health-check/" class>Monitor API Health Check with Prometheus</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/tutorials/manage-api-consumers/" class>Manage API Consumers</a> </li><li class> <a href="/docs/apisix/tutorials/cache-api-responses/" class>Cache API responses</a> </li><li class> <a href="/docs/apisix/tutorials/add-multiple-api-versions/" class>Add multiple API versions</a> </li><li class> <a href="/docs/apisix/tutorials/client-to-apisix-mtls/" class>Configure mTLS for client to APISIX</a> </li><li class> <a href="/docs/apisix/tutorials/websocket-authentication/" class>WebSocket Authentication</a> </li><li class> <a href="/docs/apisix/tutorials/keycloak-oidc/" class>Set Up SSO with Keycloak (OIDC)</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Terminology</summary> <ul> <li class> <a href="/docs/apisix/terminology/api-gateway/" class>API Gateway</a> </li><li class> <a href="/docs/apisix/terminology/consumer/" class>Consumer</a> </li><li class> <a href="/docs/apisix/terminology/consumer-group/" class>Consumer Group</a> </li><li class> <a href="/docs/apisix/terminology/credential/" class>Credential</a> </li><li class> <a href="/docs/apisix/terminology/global-rule/" class>Global Rules</a> </li><li class> <a href="/docs/apisix/terminology/plugin/" class>Plugin</a> </li><li class> <a href="/docs/apisix/terminology/plugin-config/" class>Plugin Config</a> </li><li class> <a href="/docs/apisix/terminology/plugin-metadata/" class>Plugin Metadata</a> </li><li class> <a href="/docs/apisix/terminology/route/" class>Route</a> </li><li class> <a href="/docs/apisix/terminology/router/" class>Router</a> </li><li class> <a href="/docs/apisix/terminology/script/" class>Script</a> </li><li class> <a href="/docs/apisix/terminology/service/" class>Service</a> </li><li class> <a href="/docs/apisix/terminology/upstream/" class>Upstream</a> </li><li class> <a href="/docs/apisix/terminology/secret/" class>Secret</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Plugins</summary> <ul> <li class="cat"> <details class="sidebar-category"> <summary>AI</summary> <ul> <li class> <a href="/docs/apisix/plugins/ai-proxy/" class>ai-proxy</a> </li><li class> <a href="/docs/apisix/plugins/ai-proxy-multi/" class>ai-proxy-multi</a> </li><li class> <a href="/docs/apisix/plugins/ai-cache/" class="active">ai-cache</a> </li><li class> <a href="/docs/apisix/plugins/ai-rate-limiting/" class>ai-rate-limiting</a> </li><li class> <a href="/docs/apisix/plugins/ai-prompt-guard/" class>ai-prompt-guard</a> </li><li class> <a href="/docs/apisix/plugins/ai-aws-content-moderation/" class>ai-aws-content-moderation</a> </li><li class> <a href="/docs/apisix/plugins/ai-aliyun-content-moderation/" class>ai-aliyun-content-moderation</a> </li><li class> <a href="/docs/apisix/plugins/ai-lakera-guard/" class>ai-lakera-guard</a> </li><li class> <a href="/docs/apisix/plugins/ai-prompt-decorator/" class>ai-prompt-decorator</a> </li><li class> <a href="/docs/apisix/plugins/ai-prompt-template/" class>ai-prompt-template</a> </li><li class> <a href="/docs/apisix/plugins/ai-rag/" class>ai-rag</a> </li><li class> <a href="/docs/apisix/plugins/ai-request-rewrite/" class>ai-request-rewrite</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>General</summary> <ul> <li class> <a href="/docs/apisix/plugins/batch-requests/" class>batch-requests</a> </li><li class> <a href="/docs/apisix/plugins/redirect/" class>redirect</a> </li><li class> <a href="/docs/apisix/plugins/echo/" class>echo</a> </li><li class> <a href="/docs/apisix/plugins/gzip/" class>Gzip Compression (gzip)</a> </li><li class> <a href="/docs/apisix/plugins/brotli/" class>Brotli Compression (brotli)</a> </li><li class> <a href="/docs/apisix/plugins/real-ip/" class>real-ip</a> </li><li class> <a href="/docs/apisix/plugins/server-info/" class>server-info</a> </li><li class> <a href="/docs/apisix/plugins/ext-plugin-pre-req/" class>External Plugin Pre-Request (ext-plugin-pre-req)</a> </li><li class> <a href="/docs/apisix/plugins/ext-plugin-post-req/" class>External Plugin Post-Request (ext-plugin-post-req)</a> </li><li class> <a href="/docs/apisix/plugins/ext-plugin-post-resp/" class>External Plugin Post-Response (ext-plugin-post-resp)</a> </li><li class> <a href="/docs/apisix/plugins/inspect/" class>inspect</a> </li><li class> <a href="/docs/apisix/plugins/ocsp-stapling/" class>ocsp-stapling</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Transformation</summary> <ul> <li class> <a href="/docs/apisix/plugins/response-rewrite/" class>response-rewrite</a> </li><li class> <a href="/docs/apisix/plugins/error-page/" class>error-page</a> </li><li class> <a href="/docs/apisix/plugins/proxy-rewrite/" class>proxy-rewrite</a> </li><li class> <a href="/docs/apisix/plugins/grpc-transcode/" class>gRPC Transcoding (grpc-transcode)</a> </li><li class> <a href="/docs/apisix/plugins/grpc-web/" class>grpc-web</a> </li><li class> <a href="/docs/apisix/plugins/fault-injection/" class>fault-injection</a> </li><li class> <a href="/docs/apisix/plugins/mocking/" class>API Mocking (mocking)</a> </li><li class> <a href="/docs/apisix/plugins/degraphql/" class>degraphql</a> </li><li class> <a href="/docs/apisix/plugins/body-transformer/" class>body-transformer</a> </li><li class> <a href="/docs/apisix/plugins/attach-consumer-label/" class>attach-consumer-label</a> </li><li class> <a href="/docs/apisix/plugins/exit-transformer/" class>exit-transformer</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Authentication</summary> <ul> <li class> <a href="/docs/apisix/plugins/key-auth/" class>key-auth</a> </li><li class> <a href="/docs/apisix/plugins/jwt-auth/" class>jwt-auth</a> </li><li class> <a href="/docs/apisix/plugins/jwe-decrypt/" class>jwe-decrypt</a> </li><li class> <a href="/docs/apisix/plugins/basic-auth/" class>basic-auth</a> </li><li class> <a href="/docs/apisix/plugins/authz-keycloak/" class>Keycloak Authorization (authz-keycloak)</a> </li><li class> <a href="/docs/apisix/plugins/authz-casdoor/" class>Casdoor Authorization (authz-casdoor)</a> </li><li class> <a href="/docs/apisix/plugins/wolf-rbac/" class>wolf-rbac</a> </li><li class> <a href="/docs/apisix/plugins/openid-connect/" class>openid-connect</a> </li><li class> <a href="/docs/apisix/plugins/cas-auth/" class>cas-auth</a> </li><li class> <a href="/docs/apisix/plugins/dingtalk-auth/" class>dingtalk-auth</a> </li><li class> <a href="/docs/apisix/plugins/feishu-auth/" class>feishu-auth</a> </li><li class> <a href="/docs/apisix/plugins/hmac-auth/" class>hmac-auth</a> </li><li class> <a href="/docs/apisix/plugins/authz-casbin/" class>Casbin Authorization (authz-casbin)</a> </li><li class> <a href="/docs/apisix/plugins/ldap-auth/" class>ldap-auth</a> </li><li class> <a href="/docs/apisix/plugins/ldap-auth-advanced/" class>ldap-auth-advanced</a> </li><li class> <a href="/docs/apisix/plugins/opa/" class>Open Policy Agent (opa)</a> </li><li class> <a href="/docs/apisix/plugins/forward-auth/" class>Forward Authentication (forward-auth)</a> </li><li class> <a href="/docs/apisix/plugins/multi-auth/" class>multi-auth</a> </li><li class> <a href="/docs/apisix/plugins/saml-auth/" class>saml-auth</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Security</summary> <ul> <li class> <a href="/docs/apisix/plugins/cors/" class>cors</a> </li><li class> <a href="/docs/apisix/plugins/uri-blocker/" class>uri-blocker</a> </li><li class> <a href="/docs/apisix/plugins/ip-restriction/" class>ip-restriction</a> </li><li class> <a href="/docs/apisix/plugins/ua-restriction/" class>User-Agent Restriction (ua-restriction)</a> </li><li class> <a href="/docs/apisix/plugins/referer-restriction/" class>referer-restriction</a> </li><li class> <a href="/docs/apisix/plugins/consumer-restriction/" class>consumer-restriction</a> </li><li class> <a href="/docs/apisix/plugins/acl/" class>acl</a> </li><li class> <a href="/docs/apisix/plugins/csrf/" class>CSRF Protection (csrf)</a> </li><li class> <a href="/docs/apisix/plugins/public-api/" class>public-api</a> </li><li class> <a href="/docs/apisix/plugins/gm/" class>GM Encryption (gm)</a> </li><li class> <a href="/docs/apisix/plugins/chaitin-waf/" class>chaitin-waf</a> </li><li class> <a href="/docs/apisix/plugins/data-mask/" class>data-mask</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Traffic</summary> <ul> <li class> <a href="/docs/apisix/plugins/limit-req/" class>Rate Limiting (limit-req)</a> </li><li class> <a href="/docs/apisix/plugins/limit-conn/" class>Concurrency Limiting (limit-conn)</a> </li><li class> <a href="/docs/apisix/plugins/limit-count/" class>Rate Limiting by Count (limit-count)</a> </li><li class> <a href="/docs/apisix/plugins/graphql-limit-count/" class>graphql-limit-count</a> </li><li class> <a href="/docs/apisix/plugins/proxy-cache/" class>proxy-cache</a> </li><li class> <a href="/docs/apisix/plugins/graphql-proxy-cache/" class>graphql-proxy-cache</a> </li><li class> <a href="/docs/apisix/plugins/request-validation/" class>request-validation</a> </li><li class> <a href="/docs/apisix/plugins/oas-validator/" class>oas-validator</a> </li><li class> <a href="/docs/apisix/plugins/proxy-mirror/" class>proxy-mirror</a> </li><li class> <a href="/docs/apisix/plugins/api-breaker/" class>API Circuit Breaker (api-breaker)</a> </li><li class> <a href="/docs/apisix/plugins/traffic-split/" class>traffic-split</a> </li><li class> <a href="/docs/apisix/plugins/traffic-label/" class>traffic-label</a> </li><li class> <a href="/docs/apisix/plugins/request-id/" class>request-id</a> </li><li class> <a href="/docs/apisix/plugins/proxy-control/" class>proxy-control</a> </li><li class> <a href="/docs/apisix/plugins/proxy-buffering/" class>proxy-buffering</a> </li><li class> <a href="/docs/apisix/plugins/client-control/" class>client-control</a> </li><li class> <a href="/docs/apisix/plugins/workflow/" class>workflow</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Observability</summary> <ul> <li class="cat"> <details class="sidebar-category"> <summary>Tracers</summary> <ul> <li class> <a href="/docs/apisix/plugins/zipkin/" class>zipkin</a> </li><li class> <a href="/docs/apisix/plugins/skywalking/" class>skywalking</a> </li><li class> <a href="/docs/apisix/plugins/opentelemetry/" class>opentelemetry</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Metrics</summary> <ul> <li class> <a href="/docs/apisix/plugins/prometheus/" class>prometheus</a> </li><li class> <a href="/docs/apisix/plugins/node-status/" class>node-status</a> </li><li class> <a href="/docs/apisix/plugins/datadog/" class>datadog</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Loggers</summary> <ul> <li class> <a href="/docs/apisix/plugins/http-logger/" class>http-logger</a> </li><li class> <a href="/docs/apisix/plugins/skywalking-logger/" class>skywalking-logger</a> </li><li class> <a href="/docs/apisix/plugins/tcp-logger/" class>tcp-logger</a> </li><li class> <a href="/docs/apisix/plugins/kafka-logger/" class>kafka-logger</a> </li><li class> <a href="/docs/apisix/plugins/rocketmq-logger/" class>rocketmq-logger</a> </li><li class> <a href="/docs/apisix/plugins/udp-logger/" class>udp-logger</a> </li><li class> <a href="/docs/apisix/plugins/clickhouse-logger/" class>clickhouse-logger</a> </li><li class> <a href="/docs/apisix/plugins/syslog/" class>syslog</a> </li><li class> <a href="/docs/apisix/plugins/log-rotate/" class>log-rotate</a> </li><li class> <a href="/docs/apisix/plugins/error-log-logger/" class>error-log-logger</a> </li><li class> <a href="/docs/apisix/plugins/sls-logger/" class>Alibaba Cloud SLS Logger (sls-logger)</a> </li><li class> <a href="/docs/apisix/plugins/google-cloud-logging/" class>google-cloud-logging</a> </li><li class> <a href="/docs/apisix/plugins/splunk-hec-logging/" class>splunk-hec-logging</a> </li><li class> <a href="/docs/apisix/plugins/file-logger/" class>file-logger</a> </li><li class> <a href="/docs/apisix/plugins/loggly/" class>loggly</a> </li><li class> <a href="/docs/apisix/plugins/elasticsearch-logger/" class>elasticsearch-logger</a> </li><li class> <a href="/docs/apisix/plugins/tencent-cloud-cls/" class>tencent-cloud-cls</a> </li><li class> <a href="/docs/apisix/plugins/loki-logger/" class>loki-logger</a> </li><li class> <a href="/docs/apisix/plugins/lago/" class>Lago Billing (lago)</a> </li> </ul> </details> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Serverless</summary> <ul> <li class> <a href="/docs/apisix/plugins/serverless/" class>Serverless Functions (serverless)</a> </li><li class> <a href="/docs/apisix/plugins/azure-functions/" class>azure-functions</a> </li><li class> <a href="/docs/apisix/plugins/openwhisk/" class>Apache OpenWhisk (openwhisk)</a> </li><li class> <a href="/docs/apisix/plugins/aws-lambda/" class>aws-lambda</a> </li><li class> <a href="/docs/apisix/plugins/openfunction/" class>openfunction</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>Other protocols</summary> <ul> <li class> <a href="/docs/apisix/plugins/dubbo-proxy/" class>dubbo-proxy</a> </li><li class> <a href="/docs/apisix/plugins/mqtt-proxy/" class>mqtt-proxy</a> </li><li class> <a href="/docs/apisix/plugins/kafka-proxy/" class>kafka-proxy</a> </li><li class> <a href="/docs/apisix/plugins/http-dubbo/" class>HTTP to Dubbo (http-dubbo)</a> </li><li class> <a href="/docs/apisix/plugins/mcp-bridge/" class>mcp-bridge</a> </li> </ul> </details> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>API</summary> <ul> <li class> <a href="/docs/apisix/admin-api/" class>Admin API</a> </li><li class> <a href="/docs/apisix/control-api/" class>Control API</a> </li><li class> <a href="/docs/apisix/status-api/" class>Status API</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/dashboard/" class>Apache APISIX Dashboard</a> </li><li class="cat"> <details class="sidebar-category"> <summary>Development</summary> <ul> <li class> <a href="/docs/apisix/build-apisix-dev-environment-devcontainers/" class>Build development environment with Dev Containers</a> </li><li class> <a href="/docs/apisix/building-apisix/" class>Building APISIX from source</a> </li><li class> <a href="/docs/apisix/build-apisix-dev-environment-on-mac/" class>Build development environment on Mac</a> </li><li class> <a href="/docs/apisix/support-fips-in-apisix/" class>Support FIPS in APISIX</a> </li><li class> <a href="/docs/apisix/external-plugin/" class>External Plugin</a> </li><li class> <a href="/docs/apisix/wasm/" class>Wasm</a> </li><li class="cat"> <details class="sidebar-category"> <summary>internal</summary> <ul> <li class> <a href="/docs/apisix/internal/plugin-runner/" class>The Implementation of Plugin Runner</a> </li><li class> <a href="/docs/apisix/internal/testing-framework/" class>Introducing APISIX&#39;s testing framework</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/plugin-develop/" class>Plugin Develop</a> </li><li class> <a href="/docs/apisix/debug-mode/" class>Debug mode</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/deployment-modes/" class>Deployment modes</a> </li><li class> <a href="/docs/apisix/FAQ/" class>FAQ</a> </li><li class="cat"> <details class="sidebar-category"> <summary>Others</summary> <ul> <li class="cat"> <details class="sidebar-category"> <summary>Discovery</summary> <ul> <li class> <a href="/docs/apisix/discovery/" class>Integration service discovery registry</a> </li><li class> <a href="/docs/apisix/discovery/dns/" class>DNS</a> </li><li class> <a href="/docs/apisix/discovery/consul/" class>consul</a> </li><li class> <a href="/docs/apisix/discovery/consul_kv/" class>consul_kv</a> </li><li class> <a href="/docs/apisix/discovery/nacos/" class>nacos</a> </li><li class> <a href="/docs/apisix/discovery/eureka/" class>eureka</a> </li><li class> <a href="/docs/apisix/discovery/control-plane-service-discovery/" class>Control Plane Service Discovery</a> </li><li class> <a href="/docs/apisix/discovery/kubernetes/" class>Kubernetes</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>PubSub</summary> <ul> <li class> <a href="/docs/apisix/pubsub/" class>PubSub</a> </li><li class> <a href="/docs/apisix/pubsub/kafka/" class>Apache Kafka</a> </li> </ul> </details> </li><li class="cat"> <details class="sidebar-category"> <summary>xRPC</summary> <ul> <li class> <a href="/docs/apisix/xrpc/redis/" class>redis</a> </li><li class> <a href="/docs/apisix/xrpc/" class>xRPC</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/router-radixtree/" class>router-radixtree</a> </li><li class> <a href="/docs/apisix/stream-proxy/" class>Stream Proxy</a> </li><li class> <a href="/docs/apisix/grpc-proxy/" class>gRPC Proxy</a> </li><li class> <a href="/docs/apisix/customize-nginx-configuration/" class>Customize Nginx configuration</a> </li><li class> <a href="/docs/apisix/certificate/" class>Certificate</a> </li><li class> <a href="/docs/apisix/batch-processor/" class>Batch Processor</a> </li><li class> <a href="/docs/apisix/benchmark/" class>Benchmark</a> </li><li class> <a href="/docs/apisix/install-dependencies/" class>Install Dependencies</a> </li><li class> <a href="/docs/apisix/apisix-variable/" class>APISIX variable</a> </li><li class> <a href="/docs/apisix/aws/" class>Running APISIX in AWS with AWS CDK</a> </li><li class> <a href="/docs/apisix/mtls/" class>Mutual TLS Authentication</a> </li><li class> <a href="/docs/apisix/debug-function/" class>Debug Function</a> </li><li class> <a href="/docs/apisix/profile/" class>Configuration based on environments</a> </li><li class> <a href="/docs/apisix/ssl-protocol/" class>SSL Protocol</a> </li><li class> <a href="/docs/apisix/security-threat-model/" class>security-threat-model</a> </li><li class> <a href="/docs/apisix/http3/" class>HTTP/3 Protocol</a> </li> </ul> </details> </li><li class> <a href="/docs/apisix/upgrade-guide-from-2.15.x-to-3.0.0/" class>Upgrade Guide</a> </li> </ul> </nav> <article class="docs-content prose"> <h1>ai-cache</h1> <!--
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+-->
+<h2 id="description">Description</h2>
+<p>The <code>ai-cache</code> Plugin caches LLM responses and replays them for later requests that resolve to the same prompt, cutting upstream token cost and latency for repetitive workloads (FAQ bots, document Q&#x26;A, translation).</p>
+<p>This Plugin supports two cache layers:</p>
+<ul>
+<li><strong>Exact (L1):</strong> A SHA-256 fingerprint of the effective prompt is used as the Redis key. An identical prompt always hits the same entry.</li>
+<li><strong>Semantic (L2):</strong> When L1 misses, the prompt is embedded into a vector and a nearest-neighbour search retrieves a past response whose embedding is within the configured similarity threshold. L2 is disabled by default; enable it by adding <code>"semantic"</code> to <code>layers</code>.</li>
+</ul>
+<p>The <code>ai-cache</code> Plugin must be used with the <a href="/docs/apisix/plugins/ai-proxy/"><code>ai-proxy</code></a> or <a href="/docs/apisix/plugins/ai-proxy-multi/"><code>ai-proxy-multi</code></a> Plugin.</p>
+<h3 id="streaming">Streaming</h3>
+<p>Streaming (SSE) responses are cached and replayed. A streamed response is written to the cache only after it completes — that is, the terminal event for the client protocol is received (<code>data: [DONE]</code> for OpenAI, <code>message_stop</code> for Anthropic, <code>response.completed</code> for OpenAI Responses). A stream that is interrupted (client disconnect, or the <code>ai-proxy</code> <code>max_stream_duration_ms</code> / <code>max_response_bytes</code> limits) is never cached, so partial responses are never served. On a hit, the stored response is replayed as a single <code>text/event-stream</code> body with its terminal event intact.</p>
+<p>Streaming and non-streaming requests for the same prompt are cached as <strong>separate</strong> entries at both layers, so a streaming client always receives a stream and a non-streaming client always receives a single JSON response. This applies whether streaming is requested by the client (<code>"stream": true</code>) or forced by the route via <code>options.stream</code>.</p>
+<p>Limitations: binary streaming formats without an SSE terminal event (for example Bedrock ConverseStream) are not cached. Replay is immediate (the full stored response is sent at once) rather than re-timed token-by-token.</p>
+<div class="admonition admonition-note"><p class="admonition-title">NOTE</p><p>By default the cache is isolated per route, so two routes never serve each other’s entries even when they see the same protocol, model and messages. Set <code>cache_key.share_across_routes</code> to <code>true</code> to share one cache space across routes.</p><p>Even with <code>cache_key.share_across_routes</code> enabled, the cache key identifies the <em>effective</em> upstream request — the request <code>ai-proxy</code> actually sends after applying the AI instance’s <code>provider</code>, <code>options</code> (model, temperature, and other model parameters) and <code>override</code>. Routes that would call the model differently therefore keep separate cache entries, so one route’s response is never served for another.</p></div>
+<h2 id="attributes">Attributes</h2>
+<div class="table-shell table-shell--attributes" data-overflow="unknown" data-at-start="true" data-at-end="false" data-table-label="Attributes"><div class="table-scroll" role="region" tabindex="0" aria-label="Attributes">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="docs-table docs-table--attributes"><thead><tr><th class="docs-table__col--name">Name</th><th class="docs-table__col--type">Type</th><th class="docs-table__col--required">Required</th><th class="docs-table__col--default">Default</th><th class="docs-table__col--valid-values">Valid values</th><th class="docs-table__col--description">Description</th></tr></thead><tbody><tr><td class="docs-table__col--name">exact.ttl</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">3600</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Time-to-live, in seconds, of an exact-cache entry.</td></tr><tr><td class="docs-table__col--name">cache_key.share_across_routes</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">false</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">By default the cache is isolated per route. If true, entries are shared across every route that computes the same key.</td></tr><tr><td class="docs-table__col--name">cache_key.include_consumer</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">false</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, scope the cache per consumer so entries are not shared across consumers.</td></tr><tr><td class="docs-table__col--name">cache_key.include_vars</td><td class="docs-table__col--type">array[string]</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">[]</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">NGINX variables added to the cache scope (for example <code>["http_x_tenant"]</code>), isolating entries by their values.</td></tr><tr><td class="docs-table__col--name">max_cache_body_size</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">1048576</td><td class="docs-table__col--valid-values">>= 0</td><td class="docs-table__col--description">Maximum response body size, in bytes, to cache. Larger responses are not cached.</td></tr><tr><td class="docs-table__col--name">cache_headers</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">true</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, emit the following response headers: <code>X-AI-Cache-Status</code> (always), one of <code>MISS</code>, <code>HIT</code> (exact or semantic cache hit), or <code>BYPASS</code>; <code>X-AI-Cache-Age</code>, the entry age in seconds, on any cache hit; <code>X-AI-Cache-Similarity</code>, the cosine similarity score (0–1) between the incoming prompt and the matched entry, on a semantic cache hit only.</td></tr><tr><td class="docs-table__col--name">fail_mode</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"><code>"skip"</code></td><td class="docs-table__col--valid-values"><code>skip</code>, <code>warn</code>, <code>error</code></td><td class="docs-table__col--description">Behavior when the request is not a recognized AI request that this Plugin can cache (for example, a request that did not pass through <code>ai-proxy</code> or <code>ai-proxy-multi</code>). <code>skip</code>: let the request pass through uncached; <code>warn</code>: pass through uncached and log a warning; <code>error</code>: reject the request.</td></tr><tr><td class="docs-table__col--name">bypass_on</td><td class="docs-table__col--type">array[object]</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Rules that skip the cache entirely (no lookup, no write-back) when any rule matches.</td></tr><tr><td class="docs-table__col--name">bypass_on[].header</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">True</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Request header name to match.</td></tr><tr><td class="docs-table__col--name">bypass_on[].equals</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">True</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Bypass when the request header’s value exactly equals this string.</td></tr><tr><td class="docs-table__col--name">policy</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">redis</td><td class="docs-table__col--valid-values">redis</td><td class="docs-table__col--description">Storage backend. Only single-node <code>redis</code> is available in this release.</td></tr><tr><td class="docs-table__col--name">layers</td><td class="docs-table__col--type">array[string]</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">[“exact”]</td><td class="docs-table__col--valid-values">exact, semantic</td><td class="docs-table__col--description">Cache layers to activate. <code>exact</code> performs an exact-match fingerprint lookup (L1) and is always active; <code>"exact"</code> must always be present in this array. <code>semantic</code> enables a vector-similarity lookup (L2) that is consulted only on an L1 miss. At least one value is required; values must be unique.</td></tr><tr><td class="docs-table__col--name">redis_host</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">True</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Address of the Redis node.</td></tr><tr><td class="docs-table__col--name">redis_port</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">6379</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Port of the Redis node.</td></tr><tr><td class="docs-table__col--name">redis_username</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Username for Redis if Redis ACL is used. For the legacy <code>requirepass</code> method, configure only <code>redis_password</code>.</td></tr><tr><td class="docs-table__col--name">redis_password</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Password of the Redis node. Encrypted with AES before being stored in etcd.</td></tr><tr><td class="docs-table__col--name">redis_database</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">0</td><td class="docs-table__col--valid-values">>= 0</td><td class="docs-table__col--description">Database number in Redis.</td></tr><tr><td class="docs-table__col--name">redis_timeout</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">1000</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Redis timeout value in milliseconds.</td></tr><tr><td class="docs-table__col--name">redis_ssl</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">false</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, use SSL to connect to Redis.</td></tr><tr><td class="docs-table__col--name">redis_ssl_verify</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">false</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, verify the Redis server SSL certificate.</td></tr><tr><td class="docs-table__col--name">redis_keepalive_timeout</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">10000</td><td class="docs-table__col--valid-values">>= 1000</td><td class="docs-table__col--description">Keepalive timeout, in milliseconds, for the Redis connection pool.</td></tr><tr><td class="docs-table__col--name">redis_keepalive_pool</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">100</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Maximum number of connections in the Redis keepalive pool.</td></tr></tbody></table></div></div>
+<h3 id="semantic-l2-attributes">Semantic (L2) Attributes</h3>
+<div class="admonition admonition-caution"><p class="admonition-title">Redis Stack required for semantic caching</p><p>When <code>"semantic"</code> is included in <code>layers</code>, the configured Redis instance <strong>must</strong> be <a href="https://redis.io/docs/stack/">Redis Stack</a> (with the RediSearch module). The L1 exact cache and the L2 semantic cache share the same Redis connection configured by <code>redis_host</code> / <code>redis_port</code> etc.</p><p>Vanilla Redis is sufficient when <code>layers</code> is omitted or contains only <code>"exact"</code> (the default).</p></div>
+<p>The <code>semantic</code> object is required when <code>"semantic"</code> is present in <code>layers</code>. It accepts the following attributes:</p>
+<div class="table-shell table-shell--attributes" data-overflow="unknown" data-at-start="true" data-at-end="false" data-table-label="Semantic (L2) Attributes"><div class="table-scroll" role="region" tabindex="0" aria-label="Semantic (L2) Attributes">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="docs-table docs-table--attributes"><thead><tr><th class="docs-table__col--name">Name</th><th class="docs-table__col--type">Type</th><th class="docs-table__col--required">Required</th><th class="docs-table__col--default">Default</th><th class="docs-table__col--valid-values">Valid values</th><th class="docs-table__col--description">Description</th></tr></thead><tbody><tr><td class="docs-table__col--name">semantic.similarity_threshold</td><td class="docs-table__col--type">number</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">0.95</td><td class="docs-table__col--valid-values">[0, 1]</td><td class="docs-table__col--description">Minimum cosine similarity (equivalently, 1 − distance) required to consider a retrieved vector a match. Requests below this threshold fall through to the upstream.</td></tr><tr><td class="docs-table__col--name">semantic.top_k</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">1</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Number of nearest-neighbour candidates to retrieve from the vector index. Only the highest-scoring result is evaluated against <code>similarity_threshold</code>.</td></tr><tr><td class="docs-table__col--name">semantic.distance_metric</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"><code>"cosine"</code></td><td class="docs-table__col--valid-values"><code>cosine</code></td><td class="docs-table__col--description">Vector distance metric. Only <code>cosine</code> is currently supported.</td></tr><tr><td class="docs-table__col--name">semantic.ttl</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">86400</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Time-to-live, in seconds, of a semantic (L2) cache entry.</td></tr><tr><td class="docs-table__col--name">semantic.match.message_countback</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">1</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Number of trailing <code>user</code>-role messages to include in the embedding input.</td></tr><tr><td class="docs-table__col--name">semantic.match.ignore_system_prompts</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">true</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, <code>system</code>-role messages are excluded from the embedding input.</td></tr><tr><td class="docs-table__col--name">semantic.match.ignore_assistant_prompts</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">true</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, <code>assistant</code>-role messages are excluded from the embedding input.</td></tr><tr><td class="docs-table__col--name">semantic.match.ignore_tool_prompts</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">true</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, <code>tool</code>-role messages are excluded from the embedding input.</td></tr><tr><td class="docs-table__col--name">semantic.embedding</td><td class="docs-table__col--type">object</td><td class="docs-table__col--required"><strong>True</strong></td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Embedding provider configuration. Exactly one of <code>openai</code> or <code>azure_openai</code> must be specified.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.openai.endpoint</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">OpenAI-compatible embedding API endpoint URL. Defaults to the public OpenAI API when omitted.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.openai.model</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required"><strong>True</strong></td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Embedding model name (for example, <code>text-embedding-3-small</code>).</td></tr><tr><td class="docs-table__col--name">semantic.embedding.openai.api_key</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required"><strong>True</strong></td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">OpenAI API key. Encrypted at rest in etcd.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.openai.dimensions</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Override the embedding output dimension for models that support it.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.openai.ssl_verify</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">true</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, verifies the embedding service’s certificate.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.openai.timeout</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">5000</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Request timeout in milliseconds for the embedding service.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.azure_openai.endpoint</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required"><strong>True</strong></td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Azure OpenAI deployment endpoint URL.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.azure_openai.api_key</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required"><strong>True</strong></td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Azure OpenAI API key. Encrypted at rest in etcd.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.azure_openai.dimensions</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Override the embedding output dimension.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.azure_openai.ssl_verify</td><td class="docs-table__col--type">boolean</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">true</td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">If true, verifies the embedding service’s certificate.</td></tr><tr><td class="docs-table__col--name">semantic.embedding.azure_openai.timeout</td><td class="docs-table__col--type">integer</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default">5000</td><td class="docs-table__col--valid-values">>= 1</td><td class="docs-table__col--description">Request timeout in milliseconds for the embedding service.</td></tr><tr><td class="docs-table__col--name">semantic.vector_search</td><td class="docs-table__col--type">object</td><td class="docs-table__col--required"><strong>True</strong></td><td class="docs-table__col--default"></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">Vector index configuration.</td></tr><tr><td class="docs-table__col--name">semantic.vector_search.redis.index</td><td class="docs-table__col--type">string</td><td class="docs-table__col--required">False</td><td class="docs-table__col--default"><code>"ai-cache"</code></td><td class="docs-table__col--valid-values"></td><td class="docs-table__col--description">RediSearch index name used as the vector store.</td></tr></tbody></table></div></div>
+<div class="admonition admonition-note"><p class="admonition-title">Security: multi-tenant deployments</p><p>Cache entries are scoped per route by default. In a multi-tenant deployment where multiple consumers share a route, a cached response produced for one consumer could be served to another. To prevent cross-tenant leakage:</p><ul>
+<li>Set <code>cache_key.include_consumer: true</code> to scope entries per consumer identity.</li>
+<li>Use <code>cache_key.include_vars</code> to add tenant-identifying NGINX variables (for example <code>["http_x_tenant_id"]</code>) to the cache scope.</li>
+</ul><p>Both L1 and L2 entries respect the same <code>cache_key</code> scoping rules.</p></div>
+<h2 id="example">Example</h2>
+<p>The example below uses OpenAI as the Upstream LLM provider. Obtain an <a href="https://openai.com/blog/openai-api">OpenAI API key</a> and save it, along with your Admin API key, to environment variables:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> OPENAI_API_KEY</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">your-openai-api-key</span></span>
+<span class="line"><span style="color:#FF7B72">export</span><span style="color:#E6EDF3"> admin_key</span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3">$(</span><span style="color:#FFA657">yq</span><span style="color:#A5D6FF"> '.deployment.admin.admin_key[0].key'</span><span style="color:#A5D6FF"> conf/config.yaml</span><span style="color:#FF7B72"> |</span><span style="color:#FFA657"> sed</span><span style="color:#A5D6FF"> 's/"//g'</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>A Redis instance must be reachable at the configured <code>redis_host</code>.</p>
+<h3 id="cache-llm-responses">Cache LLM Responses</h3>
+<p>Create a Route to the LLM chat completion endpoint with the <a href="/docs/apisix/plugins/ai-proxy/"><code>ai-proxy</code></a> and <code>ai-cache</code> Plugins.</p>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "ai-cache-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "provider": "openai",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "auth": { "header": { "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$OPENAI_API_KEY</span><span style="color:#A5D6FF">"'" } },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "options": { "model": "gpt-4o" }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-cache": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redis_host": "127.0.0.1"</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">POST</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          ai-proxy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openai</span></span>
+<span class="line"><span style="color:#7EE787">            auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              header</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                Authorization</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer ${OPENAI_API_KEY}"</span></span>
+<span class="line"><span style="color:#7EE787">            options</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              model</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gpt-4o</span></span>
+<span class="line"><span style="color:#7EE787">          ai-cache</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            redis_host</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span></span></code></pre>
+<p>Synchronize the configuration to the gateway:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p><strong>aic</strong></p>
+<p><strong>gateway-api</strong></p>
+<div class="code-title">ai-cache-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v1alpha1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-plugin-config</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        redis_host</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-proxy</span></span>
+<span class="line"><span style="color:#7EE787">      config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openai</span></span>
+<span class="line"><span style="color:#7EE787">        auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          header</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            Authorization</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer your-openai-api-key"</span></span>
+<span class="line"><span style="color:#7EE787">        options</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          model</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gpt-4o</span></span>
+<span class="line"><span style="color:#79C0FF">---</span></span>
+<span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gateway.networking.k8s.io/v1</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">HTTPRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  parentRefs</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  rules</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">matches</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">path</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">Exact</span></span>
+<span class="line"><span style="color:#7EE787">            value</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">          method</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">POST</span></span>
+<span class="line"><span style="color:#7EE787">      filters</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">type</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ExtensionRef</span></span>
+<span class="line"><span style="color:#7EE787">          extensionRef</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            group</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org</span></span>
+<span class="line"><span style="color:#7EE787">            kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">PluginConfig</span></span>
+<span class="line"><span style="color:#7EE787">            name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-plugin-config</span></span></code></pre>
+<p>Apply the configuration to your cluster:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> ai-cache-ic.yaml</span></span></code></pre>
+<p><strong>apisix-crd</strong></p>
+<div class="code-title">ai-cache-ic.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">apiVersion</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix.apache.org/v2</span></span>
+<span class="line"><span style="color:#7EE787">kind</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ApisixRoute</span></span>
+<span class="line"><span style="color:#7EE787">metadata</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  namespace</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">aic</span></span>
+<span class="line"><span style="color:#7EE787">  name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-route</span></span>
+<span class="line"><span style="color:#7EE787">spec</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  ingressClassName</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">apisix</span></span>
+<span class="line"><span style="color:#7EE787">  http</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-route</span></span>
+<span class="line"><span style="color:#7EE787">      match</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">        paths</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">POST</span></span>
+<span class="line"><span style="color:#7EE787">      plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            redis_host</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#E6EDF3">        - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-proxy</span></span>
+<span class="line"><span style="color:#7EE787">          enable</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">true</span></span>
+<span class="line"><span style="color:#7EE787">          config</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openai</span></span>
+<span class="line"><span style="color:#7EE787">            auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              header</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                Authorization</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer your-openai-api-key"</span></span>
+<span class="line"><span style="color:#7EE787">            options</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              model</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gpt-4o</span></span></code></pre>
+<p>Apply the configuration to your cluster:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">kubectl</span><span style="color:#A5D6FF"> apply</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> ai-cache-ic.yaml</span></span></code></pre>
+<p>Send a request to the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{ "messages": [{ "role": "user", "content": "What is Apache APISIX? Answer in one sentence." }] }'</span></span></code></pre>
+<p>The first request is a cache miss and is proxied to the LLM. The response carries the <code>X-AI-Cache-Status: MISS</code> header and a body similar to the following:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"><span style="color:#7EE787">  "id"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"chatcmpl-DtmdUDZeSZ0t62y6BvLkSk5qfH3zA"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "object"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"chat.completion"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "created"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">1782187368</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "model"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"gpt-4o-2024-08-06"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">  "choices"</span><span style="color:#E6EDF3">: [</span></span>
+<span class="line"><span style="color:#E6EDF3">    {</span></span>
+<span class="line"><span style="color:#7EE787">      "index"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">      "message"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">        "role"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"assistant"</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">        "content"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Apache APISIX is a dynamic, cloud-native API gateway that provides high performance, scalability, and security for API management."</span></span>
+<span class="line"><span style="color:#E6EDF3">      },</span></span>
+<span class="line"><span style="color:#7EE787">      "finish_reason"</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"stop"</span></span>
+<span class="line"><span style="color:#E6EDF3">    }</span></span>
+<span class="line"><span style="color:#E6EDF3">  ],</span></span>
+<span class="line"><span style="color:#7EE787">  "usage"</span><span style="color:#E6EDF3">: {</span></span>
+<span class="line"><span style="color:#7EE787">    "prompt_tokens"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">19</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "completion_tokens"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">25</span><span style="color:#E6EDF3">,</span></span>
+<span class="line"><span style="color:#7EE787">    "total_tokens"</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">44</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>Send the same request again. It is served from the cache without calling the LLM, returning the identical body with the headers:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>X-AI-Cache-Status: HIT</span></span>
+<span class="line"><span>X-AI-Cache-Age: 8</span></span></code></pre>
+<h3 id="bypass-the-cache">Bypass the Cache</h3>
+<p>To skip the cache for selected requests, add a <code>bypass_on</code> rule and update the Route:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/ai-cache-route"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PATCH</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-cache": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redis_host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "bypass_on": [{ "header": "X-Cache-Bypass", "equals": "1" }]</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>Send a request with the matching header:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-Cache-Bypass: 1"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{ "messages": [{ "role": "user", "content": "What is Apache APISIX? Answer in one sentence." }] }'</span></span></code></pre>
+<p>The cache is skipped entirely (no lookup and no write-back), and the response carries the <code>X-AI-Cache-Status: BYPASS</code> header.</p>
+<h3 id="cache-llm-responses-with-semantic-matching">Cache LLM Responses with Semantic Matching</h3>
+<p>This example adds the semantic (L2) cache layer so that near-duplicate prompts are served from cache even when the wording differs slightly. In addition to a running Redis Stack instance, an OpenAI API key is needed for the embedding service.</p>
+<div class="admonition admonition-caution"><p class="admonition-title">CAUTION</p><p>The Redis instance must be <a href="https://redis.io/docs/stack/">Redis Stack</a> (RediSearch module). Vanilla Redis is not supported for semantic caching.</p></div>
+<p><strong>admin-api</strong></p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "id": "ai-cache-semantic-route",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-proxy": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "provider": "openai",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "auth": { "header": { "Authorization": "Bearer '"</span><span style="color:#E6EDF3">$OPENAI_API_KEY</span><span style="color:#A5D6FF">"'" } },</span></span>
+<span class="line"><span style="color:#A5D6FF">        "options": { "model": "gpt-4o" }</span></span>
+<span class="line"><span style="color:#A5D6FF">      },</span></span>
+<span class="line"><span style="color:#A5D6FF">      "ai-cache": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "redis_host": "127.0.0.1",</span></span>
+<span class="line"><span style="color:#A5D6FF">        "layers": ["exact", "semantic"],</span></span>
+<span class="line"><span style="color:#A5D6FF">        "semantic": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "similarity_threshold": 0.92,</span></span>
+<span class="line"><span style="color:#A5D6FF">          "embedding": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "openai": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "model": "text-embedding-3-small",</span></span>
+<span class="line"><span style="color:#A5D6FF">              "api_key": "'"</span><span style="color:#E6EDF3">$OPENAI_API_KEY</span><span style="color:#A5D6FF">"'"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          "vector_search": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "redis": {</span></span>
+<span class="line"><span style="color:#A5D6FF">              "index": "ai-cache"</span></span>
+<span class="line"><span style="color:#A5D6FF">            }</span></span>
+<span class="line"><span style="color:#A5D6FF">          }</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p><strong>adc</strong></p>
+<div class="code-title">adc.yaml</div>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">services</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">  - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-semantic-service</span></span>
+<span class="line"><span style="color:#7EE787">    routes</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">      - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache-semantic-route</span></span>
+<span class="line"><span style="color:#7EE787">        uris</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">/anything</span></span>
+<span class="line"><span style="color:#7EE787">        methods</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">          - </span><span style="color:#A5D6FF">POST</span></span>
+<span class="line"><span style="color:#7EE787">        plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">          ai-proxy</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            provider</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">openai</span></span>
+<span class="line"><span style="color:#7EE787">            auth</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              header</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                Authorization</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"Bearer ${OPENAI_API_KEY}"</span></span>
+<span class="line"><span style="color:#7EE787">            options</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              model</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">gpt-4o</span></span>
+<span class="line"><span style="color:#7EE787">          ai-cache</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">            redis_host</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">127.0.0.1</span></span>
+<span class="line"><span style="color:#7EE787">            layers</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">              - </span><span style="color:#A5D6FF">exact</span></span>
+<span class="line"><span style="color:#E6EDF3">              - </span><span style="color:#A5D6FF">semantic</span></span>
+<span class="line"><span style="color:#7EE787">            semantic</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">              similarity_threshold</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">0.92</span></span>
+<span class="line"><span style="color:#7EE787">              embedding</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                openai</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                  model</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">text-embedding-3-small</span></span>
+<span class="line"><span style="color:#7EE787">                  api_key</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">"${OPENAI_API_KEY}"</span></span>
+<span class="line"><span style="color:#7EE787">              vector_search</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                redis</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">                  index</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">ai-cache</span></span></code></pre>
+<p>Synchronize the configuration to the gateway:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">adc</span><span style="color:#A5D6FF"> sync</span><span style="color:#79C0FF"> -f</span><span style="color:#A5D6FF"> adc.yaml</span></span></code></pre>
+<p>Send an initial request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{ "messages": [{ "role": "user", "content": "What is Apache APISIX?" }] }'</span></span></code></pre>
+<p>The first request is an L1 and L2 miss; the Plugin proxies it to the LLM, embeds the prompt, and stores both the exact entry and the vector in Redis. The response carries <code>X-AI-Cache-Status: MISS</code>.</p>
+<p>Send a semantically similar but differently worded request:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> -i</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span><span style="color:#79C0FF"> -X</span><span style="color:#A5D6FF"> POST</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -H</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  -d</span><span style="color:#A5D6FF"> '{ "messages": [{ "role": "user", "content": "Can you explain what Apache APISIX is?" }] }'</span></span></code></pre>
+<p>This request misses L1 (different fingerprint) but hits L2 (similar embedding). The response is served from the semantic cache with:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>X-AI-Cache-Status: HIT</span></span>
+<span class="line"><span>X-AI-Cache-Age: 12</span></span>
+<span class="line"><span>X-AI-Cache-Similarity: 0.9487</span></span></code></pre>
+<p>The <code>X-AI-Cache-Similarity</code> header reports the cosine similarity (1 − distance) between the incoming prompt and the matched cache entry.</p> <div class="docs-meta"> <a href="https://github.com/apache/apisix/edit/release/3.18/docs/en/latest/plugins/ai-cache.md">Edit this page on GitHub</a> <a href="https://github.com/apache/apisix/issues">Report an issue</a> </div> </article> </div> <script type="module">document.querySelectorAll(".table-shell").forEach(e=>{const t=e.querySelector(".table-scroll"),a=t?.querySelector("table");if(!t||!a)return;const r=()=>{const o=t.scrollWidth>t.clientWidth+1,s=t.scrollLeft<=1,n=t.scrollLeft+t.clientWidth>=t.scrollWidth-1;e.dataset.overflow=String(o),e.dataset.atStart=String(s),e.dataset.atEnd=String(n),t.tabIndex=o?0:-1,o?(t.setAttribute("role","region"),t.setAttribute("aria-label",e.dataset.tableLabel??"Documentation")):(t.removeAttribute("role"),t.removeAttribute("aria-label"))};t.addEventListener("scroll",r,{passive:!0});const l=new ResizeObserver(r);l.observe(t),l.observe(a),r()});</script>  </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/comparisons/">Comparisons</a></li><li><a href="/integrations/">Integrations</a></li><li><a href="/cookbooks/">Cookbooks</a></li><li><a href="/docs/general/events/">Events</a></li><li><a href="/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/plugins/">Plugin Hub</a></li><li><a href="/downloads/">Downloads</a></li><li><a href="/team/">Team</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

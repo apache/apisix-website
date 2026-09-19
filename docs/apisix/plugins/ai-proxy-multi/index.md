@@ -1,0 +1,3145 @@
+# ai-proxy-multi
+
+> The ai-proxy-multi Plugin extends the capabilities of ai-proxy with load balancing, retries, fallbacks, and health checks, simplifying the integration with OpenAI, DeepSeek, Azure, AIMLAPI, Anthropic, OpenRouter, Gemini, Vertex AI, Amazon Bedrock, and other OpenAI-compatible APIs.
+
+Source: https://apisix.apache.org/docs/apisix/plugins/ai-proxy-multi/
+
+## Description
+
+The `ai-proxy-multi` Plugin simplifies access to LLM and embedding models by transforming Plugin configurations into the designated request format for OpenAI, DeepSeek, Azure, AIMLAPI, Anthropic, OpenRouter, Gemini, Vertex AI, Amazon Bedrock, and other OpenAI-compatible APIs. It extends the capabilities of [`ai-proxy`](/docs/apisix/plugins/ai-proxy/) with load balancing, retries, fallbacks, and health checks.
+
+In addition, the Plugin also supports logging LLM request information in the access log, such as token usage, model, time to the first response, and more. These log entries are also consumed by logging plugins such as `http-logger` and `kafka-logger`, and do not affect error log.
+
+## Request Format
+
+| Name               | Type   | Required | Description                                         |
+| ------------------ | ------ | -------- | --------------------------------------------------- |
+| `messages`         | Array  | True      | An array of message objects.                        |
+| `messages.role`    | String | True      | Role of the message (`system`, `user`, `assistant`).|
+| `messages.content` | String | True      | Content of the message.                             |
+
+### Bedrock Converse Request Format
+
+When an instance's `provider` is set to `bedrock`, the Plugin expects requests in the [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) format. The request URI must end with `/converse` and the body must contain a `messages` array.
+
+| Name               | Type    | Required | Description                                                                                          |
+| ------------------ | ------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `messages`         | Array   | True     | An array of message objects.                                                                          |
+| `messages.role`    | String  | True     | Role of the message (`user`, `assistant`).                                                            |
+| `messages.content` | Array   | True     | An array of content blocks. Each block contains a `text` field (e.g., `[{"text": "What is 1+1?"}]`). |
+| `system`           | Array   | False    | Optional system prompt blocks (e.g., `[{"text": "You are a helpful assistant."}]`).                   |
+| `inferenceConfig`  | Object  | False    | Optional inference parameters such as `maxTokens`, `temperature`, `topP`, `stopSequences`, etc.       |
+| `stream`           | Boolean | False    | When `true`, the Plugin proxies the request to Bedrock's [`ConverseStream`](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) endpoint and forwards the response in [AWS EventStream](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html) (`application/vnd.amazon.eventstream`) binary framing. The flag is consumed by the Plugin and is not forwarded to Bedrock. |
+
+## Attributes
+
+| Name                               | Type            | Required | Default                           | Valid values | Description |
+|------------------------------------|----------------|----------|-----------------------------------|--------------|-------------|
+| fallback_strategy                  | string or array         | False    |  | string: "instance_health_and_rate_limiting", "http_429", "http_5xx"<br />array: ["rate_limiting", "http_429", "http_5xx"] | Fallback strategy. When set, the Plugin will check whether the specified instance's token has been exhausted when a request is forwarded. If so, forward the request to the next instance regardless of the instance priority. When not set, the Plugin will not forward the request to low priority instances when token of the high priority instance is exhausted. |
+| max_retries                        | integer        | False    |                                   | greater or equal to 0 | Maximum number of fallback retries after the initial request fails. Bounds how many additional instances a single request tries, so it does not exhaust every configured instance. Only takes effect together with `fallback_strategy`. When unset, the Plugin retries until an instance succeeds or all are tried. |
+| retry_on_failure_within_ms         | integer        | False    |                                   | greater or equal to 1 | Only fall back to another instance when the upstream fails within this many milliseconds. Fast failures (such as connection errors or quick `429`/`5xx`) are retried, while a slow failure that takes longer than this is returned to the client directly to avoid doubling the wait time. Only takes effect together with `fallback_strategy`. When unset, the Plugin retries regardless of how long the failed attempt took. |
+| balancer                           | object         | False    |                                   |              | Load balancing configurations. |
+| balancer.algorithm                 | string         | False    | roundrobin                     | [roundrobin, chash, semantic] | Load balancing algorithm. When set to `roundrobin`, weighted round robin algorithm is used. When set to `chash`, consistent hashing algorithm is used. When set to `semantic`, the Plugin picks an instance by the semantic similarity between the request prompt and each instance's `examples`, and its options are configured under `semantic_opts`. Note that `semantic` does not participate in health checks or `fallback_strategy` / retry — an upstream failure on the chosen instance is returned to the client; it only falls back (to the `semantic_opts.fallback` instance, else the first instance) when no instance clears its threshold or embedding fails. |
+| balancer.hash_on                   | string         | False    |                                   | [vars, headers, cookie, consumer, vars_combinations] | Used when `type` is `chash`. Support hashing on [NGINX variables](https://nginx.org/en/docs/varindex.html), headers, cookie, consumer, or a combination of [NGINX variables](https://nginx.org/en/docs/varindex.html). |
+| balancer.key                       | string         | False    |                                   |              | Used when `type` is `chash`. When `hash_on` is set to `header` or `cookie`, `key` is required. When `hash_on` is set to `consumer`, `key` is not required as the consumer name will be used as the key automatically. |
+| instances                          | array[object]  | True     |                                   |              | LLM instance configurations. |
+| instances.name                     | string         | True     |                                   |              | Name of the LLM service instance. |
+| instances.provider                 | string         | True     |                                   | [openai, deepseek, azure-openai, aimlapi, anthropic, openrouter, gemini, vertex-ai, bedrock, openai-compatible] | LLM service provider. When set to `openai`, the Plugin will proxy the request to `api.openai.com`. When set to `deepseek`, the Plugin will proxy the request to `api.deepseek.com`. When set to `aimlapi`, the Plugin uses the OpenAI-compatible driver and proxies the request to `api.aimlapi.com` by default. When set to `anthropic`, the Plugin will proxy the request to `api.anthropic.com` by default. When set to `openrouter`, the Plugin uses the OpenAI-compatible driver and proxies the request to `openrouter.ai` by default. When set to `gemini`, the Plugin uses the OpenAI-compatible driver and proxies the request to `generativelanguage.googleapis.com` by default. When set to `vertex-ai`, the Plugin will proxy the request to `aiplatform.googleapis.com` by default and requires `provider_conf` or `override`. When set to `bedrock`, the Plugin proxies the request to Amazon Bedrock's Converse API at `bedrock-runtime.{region}.amazonaws.com` and signs the request with AWS SigV4. Requires `provider_conf.region` and `auth.aws`. When set to `openai-compatible`, the Plugin will proxy the request to the custom endpoint configured in `override`. |
+| instances.provider_conf            | object         | False     |                                   |              | Configuration for the specific provider. Required when `provider` is set to `vertex-ai` and `override` is not configured. Required when `provider` is set to `bedrock`. |
+| instances.provider_conf.project_id | string         | True     |                                   |              | Google Cloud Project ID. |
+| instances.provider_conf.region     | string         | True (depending on provider) |                                   | minLength = 1 (for Bedrock) | When `provider` is `vertex-ai`, this is the Google Cloud Region. When `provider` is `bedrock`, this is the AWS region used to construct the Bedrock endpoint and to sign the request with SigV4 (required, must be non-empty). |
+| instances.priority                  | integer        | False    | 0                               |              | Priority of the LLM instance in load balancing. `priority` takes precedence over `weight`. |
+| instances.weight                    | string         | True     | 0                               | greater or equal to 0 | Weight of the LLM instance in load balancing. |
+| instances.auth                      | object         | True     |                                   |              | Authentication configurations. |
+| instances.auth.header               | object         | False    |                                   |              | Authentication headers. At least one of the `header` and `query` should be configured. |
+| instances.auth.query                | object         | False    |                                   |              | Authentication query parameters. At least one of the `header` and `query` should be configured. |
+| instances.auth.gcp                  | object         | False    |                                   |              | Configuration for Google Cloud Platform (GCP) authentication. |
+| instances.auth.gcp.service_account_json | string     | False    |                                   |              | Content of the GCP service account JSON file. This can also be configured by setting the `GCP_SERVICE_ACCOUNT` environment variable. |
+| instances.auth.gcp.max_ttl          | integer        | False    |                                   | minimum = 1  | Maximum TTL (in seconds) for caching the GCP access token. |
+| instances.auth.gcp.expire_early_secs| integer        | False    | 60                                | minimum = 0  | Seconds to expire the access token before its actual expiration time to avoid edge cases. |
+| instances.auth.aws                  | object         | False    |                                   |              | AWS IAM credentials for SigV4 signing (Bedrock). Required when `provider` is `bedrock`. |
+| instances.auth.aws.access_key_id    | string         | True     |                                   | minLength = 1 | AWS IAM access key ID. |
+| instances.auth.aws.secret_access_key | string        | True     |                                   | minLength = 1 | AWS IAM secret access key. Encrypted at rest. |
+| instances.auth.aws.session_token    | string         | False    |                                   | minLength = 1 | AWS session token for temporary credentials (e.g., from STS assume-role). Encrypted at rest. |
+| instances.options                   | object         | False    |                                   |              | Model configurations. In addition to `model`, you can configure additional parameters and they will be forwarded to the upstream LLM service in the request body. For instance, if you are working with OpenAI, DeepSeek, or AIMLAPI, you can configure additional parameters such as `max_tokens`, `temperature`, `top_p`, and `stream`. See your LLM provider's API documentation for more available options. |
+| instances.options.model             | string         | False    |                                   |              | Name of the LLM model, such as `gpt-4` or `gpt-3.5`. See your LLM provider's API documentation for more available models. For Bedrock, this can be a foundation model ID (e.g., `anthropic.claude-3-5-sonnet-20240620-v1:0`), a cross-region inference profile ID (e.g., `us.anthropic.claude-3-5-sonnet-20240620-v1:0`), or an application inference profile ARN (e.g., `arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/abc123`). |
+| instances.examples                  | array[string]  | False    |                                   | 1 to 64 items | Used when `algorithm` is `semantic`. Example utterances representing this instance's intent; each is embedded into its own reference vector. Required for every instance when `algorithm` is `semantic`, including the one named by `semantic_opts.fallback`. |
+| instances.threshold                 | number         | False    |                                   | -1 to 1      | Used when `algorithm` is `semantic`. Per-instance minimum cosine similarity; overrides `semantic_opts.threshold`. |
+| logging                             | object         | False    |                                   |              | Logging configurations. |
+| logging.summaries                   | boolean        | False    | false                           |              | If true, log request LLM model, duration, request, and response tokens. |
+| logging.payloads                    | boolean        | False    | false                           |              | If true, log request and response payload. |
+| instances.override                    | object         | False    |                                   |              | Override setting. |
+| instances.override.endpoint           | string         | False    |                                   |              | LLM provider endpoint to replace the default endpoint with. If not configured, the Plugin uses the default OpenAI endpoint `https://api.openai.com/v1/chat/completions`. When `provider` is `bedrock`, this can be set to a custom Bedrock endpoint. If the override URL includes a path containing reserved characters (e.g., Bedrock inference profile ARNs containing `:` or `/`), those characters MUST be URL-encoded (`:` → `%3A`, `/` → `%2F`) so the model ID is preserved as a single path segment. |
+| instances.override.llm_options           | object         | False    |                                   |              | Provider-aware LLM options. See [Provider-aware `max_tokens` mapping](/docs/apisix/plugins/ai-proxy/#provider-aware-max_tokens-mapping) in the `ai-proxy` documentation. |
+| instances.override.llm_options.max_tokens | integer    | False    |                                   | ≥ 1          | Maximum number of output tokens. APISIX automatically maps this to the provider-specific field name. Always force-overwrites the client value. |
+| instances.override.request_body       | object         | False    |                                   |              | Per target-protocol request body overrides. See [Per-protocol request body override](/docs/apisix/plugins/ai-proxy/#per-protocol-request-body-override) in the `ai-proxy` documentation. |
+| instances.override.request_body_force_override | boolean | False | false |                            | When `false` (default), client request body fields take priority and `instances.override.request_body` values only fill in missing fields. When `true`, `instances.override.request_body` values forcefully overwrite client fields. Does not affect `instances.override.llm_options`. |
+| instances.checks                              | object         | False    |                                   |              | Health check configurations. Note that at the moment, OpenAI, DeepSeek, and AIMLAPI do not provide an official health check endpoint. Other LLM services that you can configure under `openai-compatible` provider may have available health check endpoints. |
+| instances.checks.active                       | object         | True     |                                   |              | Active health check configurations. |
+| instances.checks.active.type                  | string         | False    | http                            | [http, https, tcp] | Type of health check connection. |
+| instances.checks.active.timeout               | number         | False    | 1                               |              | Health check timeout in seconds. |
+| instances.checks.active.concurrency           | integer        | False    | 10                              |              | Number of upstream nodes to be checked at the same time. |
+| instances.checks.active.host                  | string         | False    |                                   |              | HTTP host. |
+| instances.checks.active.port                  | integer        | False    |                                   | between 1 and 65535 inclusive | HTTP port. |
+| instances.checks.active.http_path             | string         | False    | /                               |              | Path for HTTP probing requests. |
+| instances.checks.active.https_verify_certificate | boolean   | False    | true                            |              | If true, verify the node's TLS certificate. |
+| instances.checks.active.healthy               | object         | False    |                                   |              | Healthy check configurations. |
+| instances.checks.active.healthy.interval      | integer        | False    | 1                               |              | Time interval of checking healthy nodes, in seconds. |
+| instances.checks.active.healthy.http_statuses | array[integer] | False    | [200,302]                       | status code between 200 and 599 inclusive | An array of HTTP status codes that defines a healthy node. |
+| instances.checks.active.healthy.successes     | integer        | False    | 2                               | between 1 and 254 inclusive | Number of successful probes to define a healthy node. |
+| instances.checks.active.unhealthy             | object         | False    |                                   |              | Unhealthy check configurations. |
+| instances.checks.active.unhealthy.interval    | integer        | False    | 1                               |              | Time interval of checking unhealthy nodes, in seconds. |
+| instances.checks.active.unhealthy.http_statuses | array[integer] | False  | [429,404,500,501,502,503,504,505] | status code between 200 and 599 inclusive | An array of HTTP status codes that defines an unhealthy node. |
+| instances.checks.active.unhealthy.http_failures | integer      | False    | 5                               | between 1 and 254 inclusive | Number of HTTP failures to define an unhealthy node. |
+| instances.checks.active.unhealthy.timeout     | integer        | False    | 3                               | between 1 and 254 inclusive | Number of probe timeouts to define an unhealthy node. |
+| semantic_opts                       | object         | False    |                                   |              | Options for the `semantic` balancer, grouped in one place. Required when `balancer.algorithm` is `semantic`. |
+| semantic_opts.threshold             | number         | False    | 0                               | -1 to 1      | Global minimum cosine similarity an instance must reach to be selected. **The default of 0 admits essentially any prompt** (real embeddings are rarely dissimilar enough to score below 0), so the fallback only ever runs if you raise this above 0. When no instance clears its threshold, the request falls back to the `fallback` instance, or the first instance if none is named. |
+| semantic_opts.fallback              | string         | False    |                                   |              | Name of the instance to route to when no instance clears its threshold or the embedding request fails. It is otherwise a normal ranked instance and needs `examples` like the rest. Defaults to the first instance when unset. |
+| semantic_opts.debugging             | boolean        | False    | false                           |              | If true, expose per-instance scores and the routing decision via `X-AI-Semantic-Scores` and `X-AI-Semantic-Picked-Instance` response headers, for debugging. |
+| semantic_opts.embeddings            | object         | True     |                                   |              | Embedding service configuration used to score prompts against each instance's `examples`. |
+| semantic_opts.embeddings.provider   | string         | True     |                                   | [openai, azure-openai] | Embedding provider used by the semantic algorithm. |
+| semantic_opts.embeddings.model      | string         | True     |                                   |              | Embedding model name, e.g. `text-embedding-3-small`. |
+| semantic_opts.embeddings.endpoint   | string         | False    |                                   |              | Embedding API endpoint. Optional for `openai` (defaults to the public API). Required for `azure-openai`, where it must be the **full** URL including the deployment path and API version, e.g. `https://{resource}.openai.azure.com/openai/deployments/{deployment}/embeddings?api-version=2024-02-01`. |
+| semantic_opts.embeddings.auth       | object         | True     |                                   |              | Authentication configurations for the embedding service. |
+| semantic_opts.embeddings.auth.header | object        | False    |                                   |              | Authentication headers. Encrypted at rest. |
+| semantic_opts.embeddings.auth.query | object         | False    |                                   |              | Authentication query parameters. Encrypted at rest. |
+| semantic_opts.embeddings.timeout    | integer        | False    | 3000                            | minimum = 1  | Embedding request timeout in milliseconds. The query prompt is embedded synchronously on every request, so this bounds the latency added to each request when the embedding endpoint is slow or down (the request then fails open to the fallback). |
+| semantic_opts.embeddings.ssl_verify | boolean        | False    | true                            |              | If true, verify the embedding service's certificate. |
+| timeout                             | integer        | False    | 30000                           | greater than or equal to 1 | Request timeout in milliseconds when requesting the LLM service. Applied per socket operation (connect / send / read block); does not cap the total duration of a streaming response. |
+| max_req_body_size                   | integer        | False    | 67108864                        | greater than or equal to 1 | Maximum request body size in bytes that the plugin reads into memory. Requests whose body exceeds this limit are rejected with `413`. Prevents unbounded memory buffering of large request bodies. |
+| max_stream_duration_ms              | integer        | False    |                                 | greater than or equal to 1 | Maximum wall-clock duration (in milliseconds) for a streaming AI response. If the upstream keeps sending data past this deadline, the gateway closes the connection. Unset means no cap. Use this to protect the gateway from upstream bugs that produce tokens indefinitely. When the limit is hit mid-stream, the downstream SSE stream is truncated (no protocol-specific terminator such as `[DONE]`, `message_stop`, or `response.completed`); well-behaved clients should treat a missing terminator as an incomplete response. |
+| max_response_bytes                  | integer        | False    |                                 | greater than or equal to 1 | Maximum total bytes read from the upstream for a single AI response (streaming or non-streaming). If exceeded, the gateway closes the connection. For non-streaming responses with `Content-Length`, the check is performed before reading the body; for chunked (no-`Content-Length`) non-streaming responses and for streaming responses, the cap is enforced incrementally as bytes are received. Unset means no cap. |
+| keepalive                           | boolean        | False    | true                            |              | If true, keep the connection alive when requesting the LLM service. |
+| keepalive_timeout                   | integer        | False    | 60000                           | greater than or equal to 1000 | Request timeout in milliseconds when requesting the LLM service. |
+| keepalive_pool                      | integer        | False    | 30                              |              | Keepalive pool size for when connecting with the LLM service. |
+| ssl_verify                          | boolean        | False    | true                            |              | If true, verify the LLM service's certificate. |
+
+## Request Header Forwarding
+
+By default, `ai-proxy-multi` forwards the incoming client request headers to the selected LLM upstream. Only `Host`, `Content-Length`, and `Accept-Encoding` are dropped, and `Content-Type` is forced to `application/json`. Headers configured under an instance's `auth.header` are merged on top and take precedence over client headers of the same name.
+
+Because the LLM upstream is often a third-party service, be aware that any header the client sends (for example `Authorization`, `Cookie`, or internal application headers) is forwarded to that provider unless it is overridden by `auth.header`. If the client should not expose certain headers to the LLM provider, strip them before the request reaches `ai-proxy-multi`, for example with the [`proxy-rewrite`](/docs/apisix/plugins/proxy-rewrite/) plugin.
+
+## Upstream HTTP Client
+
+Requests to the LLM upstream go through `ngx_http_ffi_client`, a C HTTP client that costs around half the outbound CPU time of `lua-resty-http`. Both clients behave the same on the wire.
+
+`plugin_attr.ai-proxy.http_client` in `config.yaml` names the client:
+
+```yaml
+plugin_attr:
+  ai-proxy:
+    http_client: ngx_http_ffi_client # or lua-resty-http
+```
+
+- `ngx_http_ffi_client` (default): the C client. It requires an APISIX runtime built with the module, which the runtime pinned in `.requirements` is. On a runtime without it, the request fails and the error names the missing module; the plugin never silently switches clients.
+- `lua-resty-http`: the Lua client, on every runtime.
+
+The setting covers `ai-proxy`, `ai-proxy-multi`, and `ai-request-rewrite`, which share the same transport.
+
+## Upstream Error Responses
+
+When the selected LLM upstream returns a `429` or `5xx` status, `ai-proxy-multi` reads the upstream error body before deciding whether to fall back:
+
+- If the request is retried on another instance (per `fallback_strategy`, `max_retries`, and `retry_on_failure_within_ms`), the failed instance's error body is recorded in the error log for diagnostics, since a later attempt's response is sent to the client instead.
+- If the request is not retried (no matching `fallback_strategy`, retries exhausted, or the failure took longer than `retry_on_failure_within_ms`), the upstream status code and error body are returned to the client, preserving the upstream `Content-Type`.
+
+## Examples
+
+The examples below demonstrate how you can configure `ai-proxy-multi` for different scenarios.
+
+:::note
+
+You can fetch the `admin_key` from `config.yaml` and save to an environment variable with the following command:
+
+```bash
+admin_key=$(yq '.deployment.admin.admin_key[0].key' conf/config.yaml | sed 's/"//g')
+```
+
+:::
+
+### Load Balance between Instances
+
+The following example demonstrates how you can configure two models for load balancing, forwarding 80% of the traffic to one instance and 20% to the other.
+
+For demonstration and easier differentiation, you will be configuring one OpenAI instance and one DeepSeek instance as the upstream LLM services.
+
+Create a Route as such and update with your LLM providers, models, API keys, and endpoints if applicable:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 8,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 2,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 8
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 2
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send 10 POST requests to the Route with a system prompt and a sample user question in the request body, to see the number of requests forwarded to OpenAI and DeepSeek:
+
+```shell
+openai_count=0
+deepseek_count=0
+
+for i in {1..10}; do
+  model=$(curl -s "http://127.0.0.1:9080/anything" -X POST \
+    -H "Content-Type: application/json" \
+    -d '{
+      "messages": [
+        { "role": "system", "content": "You are a mathematician" },
+        { "role": "user", "content": "What is 1+1?" }
+      ]
+    }' | jq -r '.model')
+
+  if [[ "$model" == *"gpt-4"* ]]; then
+    ((openai_count++))
+  elif [[ "$model" == "deepseek-chat" ]]; then
+    ((deepseek_count++))
+  fi
+done
+
+echo "OpenAI responses: $openai_count"
+echo "DeepSeek responses: $deepseek_count"
+```
+
+You should see a response similar to the following:
+
+```text
+OpenAI responses: 8
+DeepSeek responses: 2
+```
+
+### Configure Instance Priority and Rate Limiting
+
+The following example demonstrates how you can configure two models with different priorities and apply rate limiting on the instance with a higher priority. In the case where `fallback_strategy` is set to `["rate_limiting"]`, the Plugin should continue to forward requests to the low priority instance once the high priority instance's rate limiting quota is fully consumed.
+
+Create a Route as such and update with your LLM providers, models, API keys, and endpoints if applicable:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "fallback_strategy": ["rate_limiting"],
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "priority": 1,
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "priority": 0,
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ]
+      },
+      "ai-rate-limiting": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "limit": 10,
+            "time_window": 60
+          }
+        ],
+        "limit_strategy": "total_tokens"
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                priority: 1
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                priority: 0
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+          ai-rate-limiting:
+            instances:
+              - name: openai-instance
+                limit: 10
+                time_window: 60
+            limit_strategy: total_tokens
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        fallback_strategy:
+          - rate_limiting
+        instances:
+          - name: openai-instance
+            provider: openai
+            priority: 1
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            priority: 0
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+    - name: ai-rate-limiting
+      config:
+        instances:
+          - name: openai-instance
+            limit: 10
+            time_window: 60
+        limit_strategy: total_tokens
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                priority: 1
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                priority: 0
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+        - name: ai-rate-limiting
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                limit: 10
+                time_window: 60
+            limit_strategy: total_tokens
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send a POST request to the Route with a system prompt and a sample user question in the request body:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+You should receive a response similar to the following:
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+Since the `total_tokens` value exceeds the configured quota of `10`, the next request within the 60-second window is expected to be forwarded to the other instance.
+
+Within the same 60-second window, send another POST request to the Route:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newton law" }
+    ]
+  }'
+```
+
+You should see a response similar to the following:
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Certainly! Newton's laws of motion are three fundamental principles that describe the relationship between the motion of an object and the forces acting on it. They were formulated by Sir Isaac Newton in the late 17th century and are foundational to classical mechanics.\n\n---\n\n### **1. Newton's First Law (Law of Inertia):**\n- **Statement:** An object at rest will remain at rest, and an object in motion will continue moving at a constant velocity (in a straight line at a constant speed), unless acted upon by an external force.\n- **Key Idea:** This law introduces the concept of **inertia**, which is the tendency of an object to resist changes in its state of motion.\n- **Example:** If you slide a book across a table, it eventually stops because of the force of friction acting on it. Without friction, the book would keep moving indefinitely.\n\n---\n\n### **2. Newton's Second Law (Law of Acceleration):**\n- **Statement:** The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. Mathematically, this is expressed as:\n  \\[\n  F = ma\n  \\]\n  where:\n  - \\( F \\) = net force applied (in Newtons),\n  -"
+      },
+      ...
+    }
+  ],
+  ...
+}
+```
+
+### Load Balance and Rate Limit by Consumers
+
+The following example demonstrates how you can configure two models for load balancing and apply rate limiting by Consumer.
+
+Create a Consumer `johndoe` and a rate limiting quota of 10 tokens in a 60-second window on `openai-instance` instance:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "username": "johndoe",
+    "plugins": {
+      "ai-rate-limiting": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "limit": 10,
+            "time_window": 60
+          }
+        ],
+        "rejected_code": 429,
+        "limit_strategy": "total_tokens"
+      }
+    }
+  }'
+```
+
+Configure `key-auth` Credential for `johndoe`:
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers/johndoe/credentials" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "cred-john-key-auth",
+    "plugins": {
+      "key-auth": {
+        "key": "john-key"
+      }
+    }
+  }'
+```
+
+Create another Consumer `janedoe` and a rate limiting quota of 10 tokens in a 60-second window on `deepseek-instance` instance:
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "username": "janedoe",
+    "plugins": {
+      "ai-rate-limiting": {
+        "instances": [
+          {
+            "name": "deepseek-instance",
+            "limit": 10,
+            "time_window": 60
+          }
+        ],
+        "rejected_code": 429,
+        "limit_strategy": "total_tokens"
+      }
+    }
+  }'
+```
+
+Configure `key-auth` Credential for `janedoe`:
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/consumers/janedoe/credentials" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "cred-jane-key-auth",
+    "plugins": {
+      "key-auth": {
+        "key": "jane-key"
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+consumers:
+  - username: johndoe
+    plugins:
+      ai-rate-limiting:
+        instances:
+          - name: openai-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+    credentials:
+      - name: key-auth
+        type: key-auth
+        config:
+          key: john-key
+  - username: janedoe
+    plugins:
+      ai-rate-limiting:
+        instances:
+          - name: deepseek-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+    credentials:
+      - name: key-auth
+        type: key-auth
+        config:
+          key: jane-key
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-consumer-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: Consumer
+metadata:
+  namespace: aic
+  name: johndoe
+spec:
+  gatewayRef:
+    name: apisix
+  plugins:
+    - name: ai-rate-limiting
+      config:
+        instances:
+          - name: openai-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+  credentials:
+    - type: key-auth
+      name: primary-key
+      config:
+        key: john-key
+---
+apiVersion: apisix.apache.org/v1alpha1
+kind: Consumer
+metadata:
+  namespace: aic
+  name: janedoe
+spec:
+  gatewayRef:
+    name: apisix
+  plugins:
+    - name: ai-rate-limiting
+      config:
+        instances:
+          - name: deepseek-instance
+            limit: 10
+            time_window: 60
+        rejected_code: 429
+        limit_strategy: total_tokens
+  credentials:
+    - type: key-auth
+      name: primary-key
+      config:
+        key: jane-key
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-consumer-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixConsumer
+metadata:
+  namespace: aic
+  name: johndoe
+spec:
+  ingressClassName: apisix
+  authParameter:
+    keyAuth:
+      value:
+        key: john-key
+  plugins:
+    ai-rate-limiting:
+      instances:
+        - name: openai-instance
+          limit: 10
+          time_window: 60
+      rejected_code: 429
+      limit_strategy: total_tokens
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixConsumer
+metadata:
+  namespace: aic
+  name: janedoe
+spec:
+  ingressClassName: apisix
+  authParameter:
+    keyAuth:
+      value:
+        key: jane-key
+  plugins:
+    ai-rate-limiting:
+      instances:
+        - name: deepseek-instance
+          limit: 10
+          time_window: 60
+      rejected_code: 429
+      limit_strategy: total_tokens
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-consumer-ic.yaml
+```
+
+
+
+
+
+Create a Route as such and update with your LLM providers, models, API keys, and endpoints if applicable:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "key-auth": {},
+      "ai-proxy-multi": {
+        "fallback_strategy": ["rate_limiting"],
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          key-auth: {}
+          ai-proxy-multi:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: key-auth
+      config:
+        _meta:
+          disable: false
+    - name: ai-proxy-multi
+      config:
+        fallback_strategy:
+          - rate_limiting
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: key-auth
+          enable: true
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            fallback_strategy:
+              - rate_limiting
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send a POST request to the Route without any Consumer key:
+
+```shell
+curl -i "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+You should receive an `HTTP/1.1 401 Unauthorized` response.
+
+Send a POST request to the Route with `johndoe`'s key:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: john-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+You should receive a response similar to the following:
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+Since the `total_tokens` value exceeds the configured quota of the `openai` instance for `johndoe`, the next request within the 60-second window from `johndoe` is expected to be forwarded to the `deepseek` instance.
+
+Within the same 60-second window, send another POST request to the Route with `johndoe`'s key:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: john-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newtons laws to me" }
+    ]
+  }'
+```
+
+You should see a response similar to the following:
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Certainly! Newton's laws of motion are three fundamental principles that describe the relationship between the motion of an object and the forces acting on it. They were formulated by Sir Isaac Newton in the late 17th century and are foundational to classical mechanics.\n\n---\n\n### **1. Newton's First Law (Law of Inertia):**\n- **Statement:** An object at rest will remain at rest, and an object in motion will continue moving at a constant velocity (in a straight line at a constant speed), unless acted upon by an external force.\n- **Key Idea:** This law introduces the concept of **inertia**, which is the tendency of an object to resist changes in its state of motion.\n- **Example:** If you slide a book across a table, it eventually stops because of the force of friction acting on it. Without friction, the book would keep moving indefinitely.\n\n---\n\n### **2. Newton's Second Law (Law of Acceleration):**\n- **Statement:** The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass. Mathematically, this is expressed as:\n  \\[\n  F = ma\n  \\]\n  where:\n  - \\( F \\) = net force applied (in Newtons),\n  -"
+      },
+      ...
+    }
+  ],
+  ...
+}
+```
+
+Send a POST request to the Route with `janedoe`'s key:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: jane-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+You should receive a response similar to the following:
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "The sum of 1 and 1 is 2. This is a basic arithmetic operation where you combine two units to get a total of two units."
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 14,
+    "completion_tokens": 31,
+    "total_tokens": 45,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 14
+  },
+  "system_fingerprint": "fp_3a5770e1b4_prod0225"
+}
+```
+
+Since the `total_tokens` value exceeds the configured quota of the `deepseek` instance for `janedoe`, the next request within the 60-second window from `janedoe` is expected to be forwarded to the `openai` instance.
+
+Within the same 60-second window, send another POST request to the Route with `janedoe`'s key:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H 'apikey: jane-key' \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newtons laws to me" }
+    ]
+  }'
+```
+
+You should see a response similar to the following:
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Sure, here are Newton's three laws of motion:\n\n1) Newton's First Law, also known as the Law of Inertia, states that an object at rest will stay at rest, and an object in motion will stay in motion, unless acted on by an external force. In simple words, this law suggests that an object will keep doing whatever it is doing until something causes it to do otherwise. \n\n2) Newton's Second Law states that the force acting on an object is equal to the mass of that object times its acceleration (F=ma). This means that force is directly proportional to mass and acceleration. The heavier the object and the faster it accelerates, the greater the force.\n\n3) Newton's Third Law, also known as the law of action and reaction, states that for every action, there is an equal and opposite reaction. Essentially, any force exerted onto a body will create a force of equal magnitude but in the opposite direction on the object that exerted the first force.\n\nRemember, these laws become less accurate when considering speeds near the speed of light (where Einstein's theory of relativity becomes more appropriate) or objects very small or very large. However, for everyday situations, they provide a good model of how things move.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+This shows `ai-proxy-multi` load balance the traffic with respect to the rate limiting rules in `ai-rate-limiting` by Consumers.
+
+### Restrict Maximum Number of Completion Tokens
+
+The following example demonstrates how you can restrict the number of `completion_tokens` used when generating the chat completion.
+
+For demonstration and easier differentiation, you will be configuring one OpenAI instance and one DeepSeek instance as the upstream LLM services.
+
+Create a Route as such and update with your LLM providers, models, API keys, and endpoints if applicable:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4",
+              "max_tokens": 50
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat",
+              "max_tokens": 100
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+                  max_tokens: 50
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+                  max_tokens: 100
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+              max_tokens: 50
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+              max_tokens: 100
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+                  max_tokens: 50
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+                  max_tokens: 100
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send a POST request to the Route with a system prompt and a sample user question in the request body:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "Explain Newtons law" }
+    ]
+  }'
+```
+
+If the request is proxied to OpenAI, you should see a response similar to the following, where the content is truncated per 50 `max_tokens` threshold:
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Newton's Laws of Motion are three physical laws that form the bedrock for classical mechanics. They describe the relationship between a body and the forces acting upon it, and the body's motion in response to those forces. \n\n1. Newton's First Law",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "length"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 20,
+    "completion_tokens": 50,
+    "total_tokens": 70,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+If the request is proxied to DeepSeek, you should see a response similar to the following, where the content is truncated per 100 `max_tokens` threshold:
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Newton's Laws of Motion are three fundamental principles that form the foundation of classical mechanics. They describe the relationship between a body and the forces acting upon it, and the body's motion in response to those forces. Here's a brief explanation of each law:\n\n1. **Newton's First Law (Law of Inertia):**\n   - **Statement:** An object will remain at rest or in uniform motion in a straight line unless acted upon by an external force.\n   - **Explanation:** This law"
+      },
+      "logprobs": null,
+      "finish_reason": "length"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 100,
+    "total_tokens": 110,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 10
+  },
+  "system_fingerprint": "fp_3a5770e1b4_prod0225"
+}
+```
+
+### Load Balance between Amazon Bedrock Instances
+
+The following example demonstrates how you can configure two [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/) instances in different regions for load balancing. Each instance authenticates with `auth.aws` and the Plugin signs the upstream request using AWS SigV4. Requests are sent in [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) format and the URI must end with `/converse`.
+
+Save your AWS credentials to environment variables:
+
+```shell
+export AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
+export AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
+```
+
+Create a Route as such:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/bedrock/converse",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "bedrock-us-east-1",
+            "provider": "bedrock",
+            "weight": 5,
+            "auth": {
+              "aws": {
+                "access_key_id": "'"$AWS_ACCESS_KEY_ID"'",
+                "secret_access_key": "'"$AWS_SECRET_ACCESS_KEY"'"
+              }
+            },
+            "options": {
+              "model": "anthropic.claude-3-5-sonnet-20240620-v1:0"
+            },
+            "provider_conf": {
+              "region": "us-east-1"
+            }
+          },
+          {
+            "name": "bedrock-us-west-2",
+            "provider": "bedrock",
+            "weight": 5,
+            "auth": {
+              "aws": {
+                "access_key_id": "'"$AWS_ACCESS_KEY_ID"'",
+                "secret_access_key": "'"$AWS_SECRET_ACCESS_KEY"'"
+              }
+            },
+            "options": {
+              "model": "us.anthropic.claude-3-5-sonnet-20240620-v1:0"
+            },
+            "provider_conf": {
+              "region": "us-west-2"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /bedrock/converse
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: bedrock-us-east-1
+                provider: bedrock
+                weight: 5
+                auth:
+                  aws:
+                    access_key_id: "${AWS_ACCESS_KEY_ID}"
+                    secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+                options:
+                  model: anthropic.claude-3-5-sonnet-20240620-v1:0
+                provider_conf:
+                  region: us-east-1
+              - name: bedrock-us-west-2
+                provider: bedrock
+                weight: 5
+                auth:
+                  aws:
+                    access_key_id: "${AWS_ACCESS_KEY_ID}"
+                    secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+                options:
+                  model: us.anthropic.claude-3-5-sonnet-20240620-v1:0
+                provider_conf:
+                  region: us-west-2
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: bedrock-us-east-1
+            provider: bedrock
+            weight: 5
+            auth:
+              aws:
+                access_key_id: "your-aws-access-key-id"
+                secret_access_key: "your-aws-secret-access-key"
+            options:
+              model: anthropic.claude-3-5-sonnet-20240620-v1:0
+            provider_conf:
+              region: us-east-1
+          - name: bedrock-us-west-2
+            provider: bedrock
+            weight: 5
+            auth:
+              aws:
+                access_key_id: "your-aws-access-key-id"
+                secret_access_key: "your-aws-secret-access-key"
+            options:
+              model: us.anthropic.claude-3-5-sonnet-20240620-v1:0
+            provider_conf:
+              region: us-west-2
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /bedrock/converse
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /bedrock/converse
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: bedrock-us-east-1
+                provider: bedrock
+                weight: 5
+                auth:
+                  aws:
+                    access_key_id: "your-aws-access-key-id"
+                    secret_access_key: "your-aws-secret-access-key"
+                options:
+                  model: anthropic.claude-3-5-sonnet-20240620-v1:0
+                provider_conf:
+                  region: us-east-1
+              - name: bedrock-us-west-2
+                provider: bedrock
+                weight: 5
+                auth:
+                  aws:
+                    access_key_id: "your-aws-access-key-id"
+                    secret_access_key: "your-aws-secret-access-key"
+                options:
+                  model: us.anthropic.claude-3-5-sonnet-20240620-v1:0
+                provider_conf:
+                  region: us-west-2
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send a POST request to the Route in [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) format:
+
+```shell
+curl "http://127.0.0.1:9080/bedrock/converse" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": [{"text": "What is 1+1?"}]}
+    ],
+    "inferenceConfig": {"maxTokens": 256}
+  }'
+```
+
+You should receive a Bedrock Converse response similar to the following:
+
+```json
+{
+  "output": {
+    "message": {
+      "role": "assistant",
+      "content": [
+        {"text": "1 + 1 = 2."}
+      ]
+    }
+  },
+  "stopReason": "end_turn",
+  "usage": {
+    "inputTokens": 14,
+    "outputTokens": 9,
+    "totalTokens": 23
+  },
+  ...
+}
+```
+
+If you need to call an [application inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.html) by ARN through `override.endpoint`, the reserved characters in the ARN (`:` and `/`) must be URL-encoded as `%3A` and `%2F`, for example:
+
+```text
+https://bedrock-runtime.us-east-1.amazonaws.com/model/arn%3Aaws%3Abedrock%3Aus-east-1%3A123456789012%3Aapplication-inference-profile%2Fabc123/converse
+```
+
+:::note
+
+If `auth.aws.session_token` is set, it is used for temporary credentials (e.g., obtained from AWS STS or an assumed role) and will be added to the SigV4-signed request automatically. Both `auth.aws.secret_access_key` and `auth.aws.session_token` are stored encrypted.
+
+:::
+
+#### Streaming with Bedrock `ConverseStream`
+
+To enable streaming, send the same Converse request body with `"stream": true`. The Plugin routes the request to Bedrock's `/model/<model>/converse-stream` endpoint and forwards each AWS EventStream frame to the client unchanged. The response `Content-Type` is `application/vnd.amazon.eventstream`; clients must parse the binary framing themselves (most AWS SDKs do this automatically).
+
+### Proxy to Embedding Models
+
+The following example demonstrates how you can configure the `ai-proxy-multi` Plugin to proxy requests and load balance between embedding models.
+
+Create a Route as such and update with your LLM providers, embedding models, API keys, and endpoints:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "text-embedding-3-small"
+            },
+            "override": {
+              "endpoint": "https://api.openai.com/v1/embeddings"
+            }
+          },
+          {
+            "name": "az-openai-instance",
+            "provider": "openai-compatible",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$AZ_OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "text-embedding-3-small"
+            },
+            "override": {
+              "endpoint": "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://api.openai.com/v1/embeddings"
+              - name: az-openai-instance
+                provider: azure-openai
+                weight: 0
+                auth:
+                  header:
+                    api-key: "${AZ_OPENAI_API_KEY}"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: text-embedding-3-small
+            override:
+              endpoint: "https://api.openai.com/v1/embeddings"
+          - name: az-openai-instance
+            provider: azure-openai
+            weight: 0
+            auth:
+              header:
+                api-key: "your-api-key"
+            options:
+              model: text-embedding-3-small
+            override:
+              endpoint: "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://api.openai.com/v1/embeddings"
+              - name: az-openai-instance
+                provider: azure-openai
+                weight: 0
+                auth:
+                  header:
+                    api-key: "your-api-key"
+                options:
+                  model: text-embedding-3-small
+                override:
+                  endpoint: "https://ai-plugin-developer.openai.azure.com/openai/deployments/text-embedding-3-small/embeddings?api-version=2023-05-15"
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send a POST request to the Route with an input string:
+
+```shell
+curl "http://127.0.0.1:9080/embeddings" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": "hello world"
+  }'
+```
+
+You should receive a response similar to the following:
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "index": 0,
+      "embedding": [
+        -0.0067144386,
+        -0.039197803,
+        0.034177095,
+        0.028763203,
+        -0.024785956,
+        -0.04201061,
+        ...
+      ],
+    }
+  ],
+  "model": "text-embedding-3-small",
+  "usage": {
+    "prompt_tokens": 2,
+    "total_tokens": 2
+  }
+}
+```
+
+### Enable Active Health Checks
+
+The following example demonstrates how you can configure the `ai-proxy-multi` Plugin to proxy requests and load balance between models, and enable active health check to improve service availability. You can enable health check on one or multiple instances.
+
+Create a Route as such and update the LLM providers, embedding models, API keys, and health check related configurations:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "llm-instance-1",
+            "provider": "openai-compatible",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "'"$YOUR_LLM_MODEL"'"
+            }
+          },
+          {
+            "name": "llm-instance-2",
+            "provider": "openai-compatible",
+            "weight": 0,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "'"$YOUR_LLM_MODEL"'"
+            },
+            "checks": {
+              "active": {
+                "type": "https",
+                "host": "yourhost.com",
+                "http_path": "/your/probe/path",
+                "healthy": {
+                  "interval": 2,
+                  "successes": 1
+                },
+                "unhealthy": {
+                  "interval": 1,
+                  "http_failures": 3
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: llm-instance-1
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${YOUR_LLM_API_KEY}"
+                options:
+                  model: "${YOUR_LLM_MODEL}"
+              - name: llm-instance-2
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer ${YOUR_LLM_API_KEY}"
+                options:
+                  model: "${YOUR_LLM_MODEL}"
+                checks:
+                  active:
+                    type: https
+                    host: yourhost.com
+                    http_path: /your/probe/path
+                    healthy:
+                      interval: 2
+                      successes: 1
+                    unhealthy:
+                      interval: 1
+                      http_failures: 3
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: llm-instance-1
+            provider: openai-compatible
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: your-model
+          - name: llm-instance-2
+            provider: openai-compatible
+            weight: 0
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: your-model
+            checks:
+              active:
+                type: https
+                host: yourhost.com
+                http_path: /your/probe/path
+                healthy:
+                  interval: 2
+                  successes: 1
+                unhealthy:
+                  interval: 1
+                  http_failures: 3
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: llm-instance-1
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: your-model
+              - name: llm-instance-2
+                provider: openai-compatible
+                weight: 0
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: your-model
+                checks:
+                  active:
+                    type: https
+                    host: yourhost.com
+                    http_path: /your/probe/path
+                    healthy:
+                      interval: 2
+                      successes: 1
+                    unhealthy:
+                      interval: 1
+                      http_failures: 3
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+For verification, the behaviours should be consistent with the verification in [active health checks](/docs/apisix/tutorials/health-check/).
+
+### Include LLM Information in Access Log
+
+The following example demonstrates how you can log LLM request related information in the gateway's access log to improve analytics and audit. The following variables are available:
+
+* `request_llm_model`: LLM model name specified in the request.
+* `apisix_upstream_response_time`: Time taken for APISIX to send the request to the upstream service and receive the full response, in milliseconds. Error responses from the LLM service (such as 429 or 5xx) are also recorded in milliseconds.
+* `request_type`: Type of request, where the value could be `traditional_http`, `ai_chat`, or `ai_stream`.
+* `llm_time_to_first_token`: Duration from request sending to the first token received from the LLM service, in milliseconds. For an error response from the LLM service, this is the duration until the error response was received. It stays `0` when the LLM service could not be reached at all.
+* `llm_model`: LLM model.
+* `llm_prompt_tokens`: Number of tokens in the prompt.
+* `llm_completion_tokens`: Number of chat completion tokens in the response.
+* `llm_total_tokens`: Total number of tokens used (prompt plus completion).
+* `llm_cache_read_input_tokens`: Number of input tokens read from cache.
+* `llm_cache_creation_input_tokens`: Number of input tokens written to cache.
+* `llm_reasoning_tokens`: Number of reasoning tokens generated.
+* `llm_stream`: Whether the request is a streaming request (`true` or `false`).
+* `llm_tool_count`: Number of tools provided in the request.
+* `llm_has_tool_calls`: `true` when the response contains tool calls.
+* `llm_end_user_id`: End user identifier extracted from the request (e.g., the OpenAI `user` field).
+* `llm_content_risk_level`: Content risk level reported by content moderation.
+
+When `logging.summaries` is enabled, these variables are also emitted in the `llm_summary` log object (using the names without the `llm_` prefix), so logger plugins can consume them without additional configuration.
+
+Update the access log format in your configuration file to include additional LLM related variables:
+
+<div class="code-title">conf/config.yaml</div>
+
+```yaml
+nginx_config:
+  http:
+    access_log_format: "$remote_addr - $remote_user [$time_local] $http_host \"$request_line\" $status $body_bytes_sent $request_time \"$http_referer\" \"$http_user_agent\" $upstream_addr $upstream_status $apisix_upstream_response_time \"$upstream_scheme://$upstream_host$upstream_uri\" \"$apisix_request_id\" \"$request_type\" \"$llm_time_to_first_token\" \"$llm_model\" \"$request_llm_model\"  \"$llm_prompt_tokens\" \"$llm_completion_tokens\""
+```
+
+Reload APISIX for configuration changes to take effect.
+
+Next, create a Route with the `ai-proxy-multi` Plugin and send a request. For instance, if the request is forwarded to OpenAI and you receive the following response:
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null,
+        "annotations": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    ...
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+In the gateway's access log, you should see a log entry similar to the following:
+
+```text
+192.168.215.1 - - [21/Mar/2025:04:28:03 +0000] api.openai.com "POST /anything HTTP/1.1" 200 804 2.858 "-" "curl/8.6.0" - - - 5765 "http://api.openai.com" "5c5e0b95f8d303cb81e4dc456a4b12d9" "ai_chat" "2858" "gpt-4" "gpt-4" "23" "8"
+```
+
+The access log entry shows the request type is `ai_chat`, Apisix upstream response time is `5765` milliseconds, time to first token is `2858` milliseconds, Requested LLM model is `gpt-4`. LLM model is `gpt-4`, prompt token usage is `23`, and completion token usage is `8`.
+
+### Send Request Log to Logger
+
+The following example demonstrates how you can log request and request information, including LLM model, token, and payload, and push them to a logger. Before proceeding, you should first set up a logger, such as Kafka. See [`kafka-logger`](/docs/apisix/plugins/kafka-logger/) for more information.
+
+Create a Route to your LLM services and configure logging details as such:
+
+
+
+
+**admin-api**
+
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "instances": [
+          {
+            "name": "openai-instance",
+            "provider": "openai",
+            "weight": 8,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4"
+            }
+          },
+          {
+            "name": "deepseek-instance",
+            "provider": "deepseek",
+            "weight": 2,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "deepseek-chat"
+            }
+          }
+        ],
+        "logging": {
+          "summaries": true,
+          "payloads": true
+        }
+      },
+      "kafka-logger": {
+        "brokers": [
+          {
+            "host": "127.0.0.1",
+            "port": 9092
+          }
+        ],
+        "kafka_topic": "test2",
+        "key": "key1",
+        "batch_max_size": 1
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: ai-proxy-multi-service
+    routes:
+      - name: ai-proxy-multi-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy-multi:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer ${OPENAI_API_KEY}"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+                options:
+                  model: deepseek-chat
+            logging:
+              summaries: true
+              payloads: true
+          kafka-logger:
+            brokers:
+              - host: 127.0.0.1
+                port: 9092
+            kafka_topic: test2
+            key: key1
+            batch_max_size: 1
+```
+
+Synchronize the configuration to the gateway:
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy-multi
+      config:
+        instances:
+          - name: openai-instance
+            provider: openai
+            weight: 8
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: gpt-4
+          - name: deepseek-instance
+            provider: deepseek
+            weight: 2
+            auth:
+              header:
+                Authorization: "Bearer your-api-key"
+            options:
+              model: deepseek-chat
+        logging:
+          summaries: true
+          payloads: true
+    - name: kafka-logger
+      config:
+        brokers:
+          - host: kafka.aic.svc.cluster.local
+            port: 9092
+        kafka_topic: test2
+        key: key1
+        batch_max_size: 1
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-multi-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-multi-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: ai-proxy-multi-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: ai-proxy-multi-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+        - name: ai-proxy-multi
+          enable: true
+          config:
+            instances:
+              - name: openai-instance
+                provider: openai
+                weight: 8
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: gpt-4
+              - name: deepseek-instance
+                provider: deepseek
+                weight: 2
+                auth:
+                  header:
+                    Authorization: "Bearer your-api-key"
+                options:
+                  model: deepseek-chat
+            logging:
+              summaries: true
+              payloads: true
+        - name: kafka-logger
+          enable: true
+          config:
+            brokers:
+              - host: kafka.aic.svc.cluster.local
+                port: 9092
+            kafka_topic: test2
+            key: key1
+            batch_max_size: 1
+```
+
+
+
+
+
+Apply the configuration to your cluster:
+
+```shell
+kubectl apply -f ai-proxy-multi-ic.yaml
+```
+
+
+
+
+
+Send a POST request to the Route:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+You should receive a response similar to the following if the request is forwarded to OpenAI:
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+In the Kafka topic, you should also see a log entry corresponding to the request with the LLM summary and request/response payload.
+
+### Route by Semantic Similarity
+
+The following example demonstrates how you can use the `semantic` algorithm to pick an instance by the meaning of the request prompt, rather than by weight or hash. Each ranked instance declares `examples` that describe the kind of prompt it should handle; the Plugin embeds those examples and the incoming prompt with the configured embedding model, and forwards the request to the instance whose examples are most similar.
+
+Create a Route as such and update the LLM providers, embedding model, and API keys accordingly. The `code` instance handles programming prompts, the `translate` instance handles translation prompts, and the `default` instance handles general prompts and is named as the `semantic_opts.fallback`, used when no instance clears the similarity threshold:
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-multi-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy-multi": {
+        "balancer": {
+          "algorithm": "semantic"
+        },
+        "semantic_opts": {
+          "embeddings": {
+            "provider": "openai",
+            "model": "text-embedding-3-small",
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_EMBEDDING_API_KEY"'"
+              }
+            }
+          },
+          "threshold": 0.5,
+          "fallback": "default"
+        },
+        "instances": [
+          {
+            "name": "code",
+            "provider": "openai",
+            "weight": 1,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4o"
+            },
+            "examples": [
+              "write a python function",
+              "debug this code"
+            ]
+          },
+          {
+            "name": "translate",
+            "provider": "openai",
+            "weight": 1,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4o-mini"
+            },
+            "examples": [
+              "translate this sentence into English"
+            ]
+          },
+          {
+            "name": "default",
+            "provider": "openai",
+            "weight": 1,
+            "auth": {
+              "header": {
+                "Authorization": "Bearer '"$YOUR_LLM_API_KEY"'"
+              }
+            },
+            "options": {
+              "model": "gpt-4o-mini"
+            },
+            "examples": [
+              "what is the weather today",
+              "tell me a joke"
+            ]
+          }
+        ]
+      }
+    }
+  }'
+```
+
+Send a request with a programming prompt:
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "auto",
+    "messages": [
+      { "role": "user", "content": "help me debug this python code" }
+    ]
+  }'
+```
+
+The request should be routed to the `code` instance and served by `gpt-4o`. A general prompt such as `what is the weather today` instead matches the `default` instance's own `examples`. The `default` instance is also named as `semantic_opts.fallback`, so it additionally receives any prompt that is ambiguous enough that no instance clears the threshold.
+
+#### Debugging the routing decision
+
+Set `semantic_opts.debugging` to `true` to have the Plugin report how each instance scored and which one it picked:
+
+```shell
+curl -i "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"model":"auto","messages":[{"role":"user","content":"help me debug this python code"}]}'
+```
+
+```text
+HTTP/1.1 200 OK
+X-AI-Semantic-Picked-Instance: code
+X-AI-Semantic-Scores: code:0.8213,default:0.2451,translate:0.1904
+```
+
+`X-AI-Semantic-Scores` lists every instance, highest score first, so you can see not only the winner but how close the runners-up came. The `default` fallback instance is ranked alongside the others — it needs `examples` too — and additionally receives the request whenever no instance clears its threshold.
+
+When no instance clears its threshold, the pick becomes `fallback` while the scores still show how close each one got:
+
+```text
+X-AI-Semantic-Picked-Instance: fallback
+X-AI-Semantic-Scores: code:0.3057,translate:0.2884,default:0.2013
+```
+
+Use this to calibrate `threshold`: pick a value between the scores of the prompts you want matched and the scores of the prompts you want to reach the fallback.
+
+The same information is available without exposing it to clients: whenever no instance clears its threshold, the Plugin logs the full score list at `warn` level.
+
+```text
+semantic routing: no instance cleared threshold (scores: code:0.3057,translate:0.2884), falling back
+```
+
+If the headers are missing entirely while `debugging` is on, the embedding step itself failed and the request was served by the fallback before any score was computed; the reason is logged at `warn`.
+
+Because `debugging` reveals instance names to the caller, keep it off in production and rely on the log line instead.

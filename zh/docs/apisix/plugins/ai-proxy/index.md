@@ -1,0 +1,2137 @@
+# ai-proxy
+
+> ai-proxy 插件通过将插件配置转换为所需的请求格式，简化了对 LLM 和嵌入模型提供商的访问，支持 OpenAI、DeepSeek、Azure、AIMLAPI、Anthropic、OpenRouter、Gemini、Vertex AI、Amazon Bedrock 和其他 OpenAI 兼容的 API。
+
+Source: https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy/
+
+## 描述
+
+`ai-proxy` 插件通过将插件配置转换为指定的请求格式，简化了对 LLM 和嵌入模型的访问。它支持与 OpenAI、DeepSeek、Azure、AIMLAPI、Anthropic、OpenRouter、Gemini、Vertex AI、Amazon Bedrock 和其他 OpenAI 兼容的 API 集成。
+
+此外，该插件还支持在访问日志中记录 LLM 请求信息，如令牌使用量、模型、首次响应时间等。这些日志条目也会被 `http-logger`、`kafka-logger` 等日志插件消费。这些选项不影响 `error.log`。
+
+## 请求格式
+
+| 名称               | 类型   | 必选项 | 描述                                         |
+| ------------------ | ------ | -------- | --------------------------------------------------- |
+| `messages`         | Array  | 是      | 消息对象数组。                        |
+| `messages.role`    | String | 是      | 消息的角色（`system`、`user`、`assistant`）。|
+| `messages.content` | String | 是      | 消息的内容。                             |
+
+### Bedrock Converse 请求格式
+
+当 `provider` 设置为 `bedrock` 时，插件期望请求采用 [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) 格式。请求 URI 必须以 `/converse` 结尾，且请求体必须包含 `messages` 数组。
+
+| 名称               | 类型    | 必选项 | 描述                                                                                          |
+| ------------------ | ------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `messages`         | Array   | 是     | 消息对象数组。                                                                          |
+| `messages.role`    | String  | 是     | 消息的角色（`user`、`assistant`）。                                                            |
+| `messages.content` | Array   | 是     | 内容块数组。每个块包含一个 `text` 字段（例如 `[{"text": "What is 1+1?"}]`）。 |
+| `system`           | Array   | 否    | 可选的系统提示块（例如 `[{"text": "You are a helpful assistant."}]`）。                   |
+| `inferenceConfig`  | Object  | 否    | 可选的推理参数，如 `maxTokens`、`temperature`、`topP` 等。                        |
+| `stream`           | Boolean | 否    | 设置为 `true` 时，插件会将请求代理到 Bedrock 的 [`ConverseStream`](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) 接口，并以 [AWS EventStream](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html) 二进制帧（`application/vnd.amazon.eventstream`）转发响应。该字段由插件消费，不会转发给 Bedrock。 |
+
+## 属性
+
+| 名称               | 类型    | 必选项 | 默认值 | 有效值                              | 描述 |
+|--------------------|--------|----------|---------|------------------------------------------|-------------|
+| provider          | string  | 是     |         | [openai, deepseek, azure-openai, aimlapi, anthropic, openrouter, gemini, vertex-ai, bedrock, openai-compatible] | LLM 服务提供商。当设置为 `openai` 时，插件将代理请求到 `https://api.openai.com/chat/completions`。当设置为 `deepseek` 时，插件将代理请求到 `https://api.deepseek.com/chat/completions`。当设置为 `aimlapi` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `https://api.aimlapi.com/v1/chat/completions`。当设置为 `anthropic` 时，插件将代理请求到 `https://api.anthropic.com/v1/chat/completions`。当设置为 `openrouter` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `https://openrouter.ai/api/v1/chat/completions`。当设置为 `gemini` 时，插件使用 OpenAI 兼容驱动程序，默认将请求代理到 `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`。当设置为 `vertex-ai` 时，插件默认将请求代理到 `https://aiplatform.googleapis.com`，需要配置 `provider_conf` 或 `override`。当设置为 `bedrock` 时，插件将代理请求到 AWS Bedrock Converse API（`https://bedrock-runtime.<region>.amazonaws.com`），并使用 AWS SigV4 对请求进行签名。当设置为 `openai-compatible` 时，插件将代理请求到在 `override` 中配置的自定义端点。当设置为 `azure-openai` 时，插件同样将请求代理到 `override` 中配置的自定义端点，并会额外移除用户请求中的 `model` 参数。 |
+| provider_conf     | object  | 否     |         |                                          | 特定提供商的配置。当 `provider` 设置为 `vertex-ai` 且未配置 `override` 时必填。当 `provider` 设置为 `bedrock` 时必填。 |
+| provider_conf.project_id | string | 是 |       |                                          | Google Cloud 项目 ID。 |
+| provider_conf.region | string | 视提供商而定 |         | minLength = 1（Bedrock 时）              | 当 `provider` 为 `vertex-ai` 时，此项为 Google Cloud 区域。当 `provider` 为 `bedrock` 时，此项为用于构造 Bedrock 端点并使用 SigV4 对请求进行签名的 AWS 区域（必填，不能为空）。 |
+| auth             | object  | 是     |         |                                          | 身份验证配置。 |
+| auth.header      | object  | 否    |         |                                          | 身份验证标头。必须配置 `header` 或 `query` 中的至少一个。 |
+| auth.query       | object  | 否    |         |                                          | 身份验证查询参数。必须配置 `header` 或 `query` 中的至少一个。 |
+| auth.gcp         | object  | 否    |         |                                          | Google Cloud Platform (GCP) 身份验证配置。 |
+| auth.gcp.service_account_json | string | 否 |  |                                          | GCP 服务账号 JSON 文件内容。也可以通过设置 `GCP_SERVICE_ACCOUNT` 环境变量来配置。 |
+| auth.gcp.max_ttl | integer | 否    |         | ≥ 1                              | GCP 访问令牌缓存的最大 TTL（秒）。 |
+| auth.gcp.expire_early_secs | integer | 否 | 60 | ≥ 0                              | 在访问令牌实际过期之前提前过期的秒数，以避免边缘情况。 |
+| auth.aws         | object  | 否    |         |                                          | AWS 身份验证配置。当 `provider` 为 `bedrock` 时必填。 |
+| auth.aws.access_key_id | string | 是 |         | minLength = 1                            | 用于 SigV4 签名的 AWS 访问密钥 ID。 |
+| auth.aws.secret_access_key | string | 是 |     | minLength = 1                            | 用于 SigV4 签名的 AWS 秘密访问密钥。以加密形式存储。 |
+| auth.aws.session_token | string | 否 |       | minLength = 1                            | 可选的 AWS 会话令牌，用于临时凭证（例如来自 STS 或扮演角色获取的凭证）。以加密形式存储。 |
+| options         | object  | 否    |         |                                          | 模型配置。除了 `model` 之外，你还可以配置其他参数，它们将在请求体中转发到上游 LLM 服务。例如，如果你使用 OpenAI，可以配置其他参数，如 `temperature`、`top_p` 和 `stream`。有关更多可用选项，请参阅你的 LLM 提供商的 API 文档。  |
+| options.model   | string  | 否    |         |                                          | LLM 模型的名称，如 `gpt-4` 或 `gpt-3.5`。请参阅 LLM 提供商的 API 文档以了解可用模型。当 `provider` 为 `bedrock` 且未配置 `override.endpoint` 时，`model` 为必填项，可以是基础模型 ID（例如 `anthropic.claude-3-5-sonnet-20240620-v1:0`）、跨区域推理配置文件 ID（例如 `us.anthropic.claude-3-5-sonnet-20240620-v1:0`）或应用推理配置文件 ARN（例如 `arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/abc123`）。 |
+| override        | object  | 否    |         |                                          | 覆盖设置。 |
+| override.endpoint | string | 否    |         |                                          | 自定义 LLM 提供商端点，当 `provider` 为 `openai-compatible` 时必需。当 `provider` 为 `bedrock` 时，可以设置为自定义的 Bedrock 端点。如果覆盖 URL 包含含有保留字符的路径（例如 Bedrock 推理配置文件 ARN 中的 `:` 或 `/`），这些字符必须进行 URL 编码（`:` → `%3A`，`/` → `%2F`），以确保模型 ID 被保留为单个路径段。 |
+| override.llm_options | object | 否  |         |                                          | 提供商感知的 LLM 选项。请参阅 [`max_tokens` 字段映射](#provider-aware-max_tokens-mapping)。 |
+| override.llm_options.max_tokens | integer | 否  |         | ≥ 1                                | 最大输出 token 数。APISIX 会自动将该值映射为各上游服务商对应的字段名（例如 OpenAI Chat Completions 使用 `max_completion_tokens`、OpenAI Responses API 使用 `max_output_tokens`、其他大多数服务商使用 `max_tokens`）。始终强制覆盖客户端值。 |
+| override.request_body | object | 否  |         |                                          | 按目标协议的请求体覆盖配置。键为目标协议名（`openai-chat`、`openai-responses`、`openai-embeddings`、`anthropic-messages`、`bedrock-converse`），值为部分请求体，将深度合并到出站请求体中（对象递归合并，数组和标量整体替换）。请参阅[按协议的请求体覆盖](#per-protocol-request-body-override)。 |
+| override.request_body_force_override | boolean | 否 | false |                                    | 为 `false`（默认）时，客户端请求体中的字段优先，`override.request_body` 仅补充缺失字段。为 `true` 时，`override.request_body` 的值强制覆盖客户端请求体中的同名字段。不影响 `override.llm_options`，后者始终强制覆盖。 |
+| logging        | object  | 否    |         |                                          | 日志配置。不影响 `error.log`。 |
+| logging.summaries | boolean | 否 | false |                                          | 如果为 true，记录请求 LLM 模型、持续时间、请求和响应令牌。 |
+| logging.payloads  | boolean | 否 | false |                                          | 如果为 true，记录请求和响应负载。 |
+| timeout        | integer | 否    | 30000    | 1 - 600000                               | 请求 LLM 服务时的请求超时时间（毫秒）。按单次 socket 操作（连接 / 发送 / 读取数据块）计算，不限制流式响应的总时长。 |
+| max_stream_duration_ms | integer | 否 |        | ≥ 1                                      | 流式 AI 响应的最大墙钟时长（毫秒）。如果上游在该截止时间后仍持续发送数据，网关会关闭连接。不设置表示不限制。用于防止上游异常无限产出 token。当在流式过程中触发该限制时，下游 SSE 流会被截断（不会发送 `[DONE]`、`message_stop`、`response.completed` 等协议终止标记）；行为正常的客户端应将缺少终止标记视为不完整的响应。 |
+| max_response_bytes     | integer | 否 |        | ≥ 1                                      | 单次 AI 响应（流式或非流式）从上游读取的最大总字节数。超过则网关关闭连接。对于带 `Content-Length` 的非流式响应，在读取响应体前进行检查；对于分块（无 `Content-Length`）的非流式响应以及流式响应，则在接收字节的过程中增量地强制执行该上限。不设置表示不限制。 |
+| keepalive      | boolean | 否    | true   |                                          | 如果为 true，在请求 LLM 服务时保持连接活跃。 |
+| keepalive_timeout | integer | 否 | 60000  | ≥ 1000                                   | 连接到 LLM 服务时的保活超时时间（毫秒）。 |
+| keepalive_pool | integer | 否    | 30       | ≥ 1                                      | LLM 服务连接的保活池大小。 |
+| ssl_verify     | boolean | 否    | true   |                                          | 如果为 true，验证 LLM 服务的证书。 |
+| streaming_flush_interval_ms | integer | 否 | 10 | ≥ 0 | 后台刷新线程的间隔时间（毫秒）。`> 0`（默认值：`10`）时，后台定时器每隔 N 毫秒调用一次 `ngx.flush(false)`，适合上游批量发送 token 的场景。设为 `0` 时禁用后台线程，改为每个 chunk 同步调用 `ngx.flush(true)` 立即刷新。 |
+
+## Provider-aware `max_tokens` mapping
+
+不同的 LLM 服务商和 API 端点使用不同的字段名来限制输出 token 数。通过配置 `override.llm_options.max_tokens`，您只需在 APISIX 中设置一个统一的值，APISIX 会根据上游服务商和 API 端点将其转发为对应的字段名。`llm_options` 始终强制覆盖客户端值。
+
+下表展示了在不同 `provider` 和目标 API 端点下，APISIX 会将 `max_tokens` 映射为哪个上游字段名。`—` 表示该服务商不支持对应的端点。
+
+| Provider            | OpenAI Chat Completions      | OpenAI Responses API   | Anthropic Messages |
+| ------------------- | ---------------------------- | ---------------------- | ------------------ |
+| `openai`            | `max_completion_tokens` ¹    | `max_output_tokens`    | —                  |
+| `openai-compatible` | `max_tokens`                 | `max_output_tokens`    | —                  |
+| `azure-openai`      | `max_tokens`                 | —                      | —                  |
+| `deepseek`          | `max_tokens`                 | —                      | —                  |
+| `aimlapi`           | `max_tokens`                 | —                      | —                  |
+| `openrouter`        | `max_tokens`                 | —                      | —                  |
+| `gemini`            | `max_completion_tokens`      | —                      | —                  |
+| `vertex-ai`         | `max_completion_tokens`      | —                      | —                  |
+| `anthropic`         | `max_tokens`                 | —                      | `max_tokens`       |
+
+¹ 当 `provider` 为 `openai` 且目标为 Chat Completions 端点时，APISIX 始终改写为 `max_completion_tokens`，并删除请求体中已有的 `max_tokens` 字段——OpenAI 已弃用 `max_tokens`，改用 `max_completion_tokens`。
+
+## Per-protocol request body override
+
+`override.request_body` 提供了按目标协议的细粒度请求体控制。键为目标协议名（`openai-chat`、`openai-responses`、`openai-embeddings`、`anthropic-messages`），值为部分 JSON 对象，在协议转换后深度合并到出站请求体中。
+
+合并语义：
+
+- 两侧均为普通对象（字符串键）→ 递归合并。
+- 否则（标量、数组、类型不匹配）→ 补丁值整体替换目标值。
+
+客户端请求与 override 之间的优先级由 `override.request_body_force_override` 控制：
+
+- `false`（默认）：如果客户端请求体已经设置了对应字段，则保留客户端值；override 值仅在该字段缺失时补充。
+- `true`：override 值强制覆盖客户端请求体中的同名字段。
+
+当同时配置了 `llm_options` 和 `request_body` 时，`llm_options` 先应用（始终强制覆盖），然后 `request_body` 在其基础上深度合并。这意味着 `request_body` 可以覆盖 `llm_options` 设置的字段。
+
+## 请求头转发
+
+默认情况下，`ai-proxy` 会将传入的客户端请求头转发到所配置的 LLM 上游。仅 `Host`、`Content-Length` 和 `Accept-Encoding` 会被丢弃，并且 `Content-Type` 会被强制设置为 `application/json`。配置在 `auth.header` 中的请求头会在其之上合并，并优先于同名的客户端请求头。
+
+由于 LLM 上游通常是第三方服务，请注意客户端发送的任何请求头（例如 `Authorization`、`Cookie` 或内部应用请求头）都会被转发到该服务商，除非被 `auth.header` 覆盖。如果不希望客户端将某些请求头暴露给 LLM 服务商，请在请求到达 `ai-proxy` 之前将其移除，例如使用 [`proxy-rewrite`](/zh/docs/apisix/plugins/proxy-rewrite/) 插件。
+
+## 示例
+
+以下示例演示了如何为不同场景配置 `ai-proxy`。
+
+:::note
+
+你可以使用以下命令从 `config.yaml` 获取 `admin_key` 并保存到环境变量中：
+
+```bash
+admin_key=$(yq '.deployment.admin.admin_key[0].key' conf/config.yaml | sed 's/"//g')
+```
+
+:::
+
+### 代理到 OpenAI
+
+以下示例演示了如何在 `ai-proxy` 插件中配置 API 密钥、模型和其他参数，并在路由上配置插件以将用户提示代理到 OpenAI。
+
+获取 OpenAI [API 密钥](https://openai.com/blog/openai-api)并保存到环境变量：
+
+```shell
+export OPENAI_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建路由并配置 `ai-proxy` 插件：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "openai",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+          }
+        },
+        "options":{
+          "model": "gpt-4"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 插件配置的路由：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: openai-service
+    routes:
+      - name: openai-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: openai
+            auth:
+              header:
+                Authorization: "Bearer ${OPENAI_API_KEY}"
+            options:
+              model: gpt-4
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">ai-proxy-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: openai
+        auth:
+          header:
+            Authorization: "Bearer your-api-key"
+        options:
+          model: gpt-4
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: openai-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">ai-proxy-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: openai-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: openai-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: openai
+          auth:
+            header:
+              Authorization: "Bearer your-api-key"
+          options:
+            model: gpt-4
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f ai-proxy-ic.yaml
+```
+
+
+
+
+
+向路由发送 POST 请求，在请求体中包含系统提示和示例用户问题：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -H "Host: api.openai.com" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+### 代理到 DeepSeek
+
+以下示例演示了如何配置 `ai-proxy` 插件以将请求代理到 DeepSeek。
+
+获取 DeepSeek API 密钥并保存到环境变量：
+
+```shell
+export DEEPSEEK_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建路由并配置 `ai-proxy` 插件：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "deepseek",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+          }
+        },
+        "options": {
+          "model": "deepseek-chat"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 插件配置的路由：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: deepseek-service
+    routes:
+      - name: deepseek-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: deepseek
+            auth:
+              header:
+                Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+            options:
+              model: deepseek-chat
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">deepseek-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: deepseek
+        auth:
+          header:
+            Authorization: "Bearer your-api-key"
+        options:
+          model: deepseek-chat
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: deepseek-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">deepseek-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: deepseek-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: deepseek-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: deepseek
+          auth:
+            header:
+              Authorization: "Bearer your-api-key"
+          options:
+            model: deepseek-chat
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f deepseek-ic.yaml
+```
+
+
+
+
+
+向路由发送 POST 请求，在请求体中包含示例问题：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an AI assistant that helps people find information."
+      },
+      {
+        "role": "user",
+        "content": "Write me a 50-word introduction for Apache APISIX."
+      }
+    ]
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  ...
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Apache APISIX is a dynamic, real-time, high-performance API gateway and cloud-native platform. It provides rich traffic management features like load balancing, dynamic upstream, canary release, circuit breaking, authentication, observability, and more. Designed for microservices and serverless architectures, APISIX ensures scalability, security, and seamless integration with modern DevOps workflows."
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+### 代理到 Azure OpenAI
+
+以下示例演示了如何配置 `ai-proxy` 插件以将请求代理到其他 LLM 服务，如 Azure OpenAI。
+
+获取 Azure OpenAI API 密钥并保存到环境变量：
+
+```shell
+export AZ_OPENAI_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建路由并配置 `ai-proxy` 插件，将 `provider` 设置为 `azure-openai`，在 `api-key` 标头中附加 Azure OpenAI API 密钥，并指定 Azure OpenAI 端点：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "azure-openai",
+        "auth": {
+          "header": {
+            "api-key": "'"$AZ_OPENAI_API_KEY"'"
+          }
+        },
+        "options":{
+          "model": "gpt-4"
+        },
+        "override": {
+          "endpoint": "https://api7-azure-openai.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 插件配置的路由，将 `provider` 设置为 `azure-openai`，在 `api-key` 标头中附加 Azure OpenAI API 密钥，并指定 Azure OpenAI 端点：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: azure-openai-service
+    routes:
+      - name: azure-openai-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: azure-openai
+            auth:
+              header:
+                api-key: "${AZ_OPENAI_API_KEY}"
+            options:
+              model: gpt-4
+            override:
+              endpoint: "https://api7-azure-openai.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview"
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">azure-openai-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: azure-openai
+        auth:
+          header:
+            api-key: "your-api-key"
+        options:
+          model: gpt-4
+        override:
+          endpoint: "https://api7-azure-openai.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: azure-openai-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">azure-openai-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: azure-openai-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: azure-openai-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: azure-openai
+          auth:
+            header:
+              api-key: "your-api-key"
+          options:
+            model: gpt-4
+          override:
+            endpoint: "https://api7-azure-openai.openai.azure.com/openai/deployments/gpt-4/chat/completions?api-version=2024-02-15-preview"
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f azure-openai-ic.yaml
+```
+
+
+
+
+
+向路由发送 POST 请求，在请求体中包含示例问题：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an AI assistant that helps people find information."
+      },
+      {
+        "role": "user",
+        "content": "Write me a 50-word introduction for Apache APISIX."
+      }
+    ],
+    "max_tokens": 800,
+    "temperature": 0.7,
+    "frequency_penalty": 0,
+    "presence_penalty": 0,
+    "top_p": 0.95,
+    "stop": null
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  "choices": [
+    {
+      ...,
+      "message": {
+        "content": "Apache APISIX is a modern, cloud-native API gateway built to handle high-performance and low-latency use cases. It offers a wide range of features, including load balancing, rate limiting, authentication, and dynamic routing, making it an ideal choice for microservices and cloud-native architectures.",
+        "role": "assistant"
+      }
+    }
+  ],
+  ...
+}
+```
+
+### 代理到 Amazon Bedrock
+
+以下示例演示了如何配置 `ai-proxy` 插件，使用 [Converse API](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) 将请求代理到 [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/)。插件将使用在 `auth.aws` 中配置的凭证，通过 AWS SigV4 对上游请求进行签名。
+
+将您的 AWS 凭证保存到环境变量：
+
+```shell
+export AWS_ACCESS_KEY_ID=<your-aws-access-key-id>
+export AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
+```
+
+创建路由并配置 `ai-proxy` 插件：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-route",
+    "uri": "/bedrock/converse",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "bedrock",
+        "auth": {
+          "aws": {
+            "access_key_id": "'"$AWS_ACCESS_KEY_ID"'",
+            "secret_access_key": "'"$AWS_SECRET_ACCESS_KEY"'"
+          }
+        },
+        "options": {
+          "model": "anthropic.claude-3-5-sonnet-20240620-v1:0"
+        },
+        "provider_conf": {
+          "region": "us-east-1"
+        }
+      }
+    }
+  }'
+```
+
+以 [Bedrock Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) 格式向路由发送 POST 请求。请注意，URI 必须以 `/converse` 结尾：
+
+```shell
+curl "http://127.0.0.1:9080/bedrock/converse" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": [{"text": "What is 1+1?"}]}
+    ],
+    "inferenceConfig": {"maxTokens": 256}
+  }'
+```
+
+您应该收到类似以下的 Bedrock Converse 响应：
+
+```json
+{
+  "output": {
+    "message": {
+      "role": "assistant",
+      "content": [
+        {"text": "1 + 1 = 2."}
+      ]
+    }
+  },
+  "stopReason": "end_turn",
+  "usage": {
+    "inputTokens": 14,
+    "outputTokens": 9,
+    "totalTokens": 23
+  },
+  ...
+}
+```
+
+如果您需要通过 `override.endpoint` 按 ARN 调用[应用推理配置文件](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.html)，则 ARN 中的保留字符（`:` 和 `/`）必须分别 URL 编码为 `%3A` 和 `%2F`，例如：
+
+```text
+https://bedrock-runtime.us-east-1.amazonaws.com/model/arn%3Aaws%3Abedrock%3Aus-east-1%3A123456789012%3Aapplication-inference-profile%2Fabc123/converse
+```
+
+:::note
+
+如果设置了 `auth.aws.session_token`，则它将用于临时凭证（例如从 AWS STS 或扮演角色获得的凭证），并将自动添加到 SigV4 签名的请求中。`auth.aws.secret_access_key` 和 `auth.aws.session_token` 都以加密形式存储。
+
+:::
+
+#### 使用 Bedrock `ConverseStream` 进行流式响应
+
+要启用流式响应，请使用相同的 Converse 请求体，并在其中加上 `"stream": true`。插件会将请求路由到 Bedrock 的 `/model/<model>/converse-stream` 接口，并将 AWS EventStream 帧原样转发给客户端。响应的 `Content-Type` 为 `application/vnd.amazon.eventstream`，客户端需自行解析二进制帧（多数 AWS SDK 已自动处理）。
+
+```shell
+curl "http://127.0.0.1:9080/bedrock/converse" -X POST \
+  -H "Content-Type: application/json" \
+  --data '{
+    "stream": true,
+    "messages": [
+      {"role": "user", "content": [{"text": "What is 1+1?"}]}
+    ]
+  }' --output -
+```
+
+### 代理到 OpenAI 嵌入模型
+
+以下示例演示了如何配置 `ai-proxy` 插件以将请求代理到嵌入模型。此示例将使用 OpenAI 嵌入模型端点。
+
+获取 OpenAI [API 密钥](https://openai.com/blog/openai-api)并保存到环境变量：
+
+```shell
+export OPENAI_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建路由并配置 `ai-proxy` 插件，将 `provider` 设置为 `openai`，指定嵌入模型名称，添加 `encoding_format` 参数以配置返回的嵌入向量为浮点数列表，并使用 `override` 将默认端点覆盖为 [嵌入 API 端点](https://platform.openai.com/docs/api-reference/embeddings)：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-route",
+    "uri": "/embeddings",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "openai",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+          }
+        },
+        "options":{
+          "model": "text-embedding-3-small",
+          "encoding_format": "float"
+        },
+        "override": {
+          "endpoint": "https://api.openai.com/v1/embeddings"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 插件配置的路由，将 `provider` 设置为 `openai`，指定嵌入模型名称，添加 `encoding_format` 参数，并使用 `override` 将默认端点覆盖为 [嵌入 API 端点](https://platform.openai.com/docs/api-reference/embeddings)：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: openai-embeddings-service
+    routes:
+      - name: openai-embeddings-route
+        uris:
+          - /embeddings
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: openai
+            auth:
+              header:
+                Authorization: "Bearer ${OPENAI_API_KEY}"
+            options:
+              model: text-embedding-3-small
+              encoding_format: float
+            override:
+              endpoint: "https://api.openai.com/v1/embeddings"
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">openai-embeddings-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: openai
+        auth:
+          header:
+            Authorization: "Bearer your-api-key"
+        options:
+          model: text-embedding-3-small
+          encoding_format: float
+        override:
+          endpoint: "https://api.openai.com/v1/embeddings"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: openai-embeddings-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /embeddings
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">openai-embeddings-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: openai-embeddings-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: openai-embeddings-route
+      match:
+        paths:
+          - /embeddings
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: openai
+          auth:
+            header:
+              Authorization: "Bearer your-api-key"
+          options:
+            model: text-embedding-3-small
+            encoding_format: float
+          override:
+            endpoint: "https://api.openai.com/v1/embeddings"
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f openai-embeddings-ic.yaml
+```
+
+
+
+
+
+向路由发送 POST 请求，包含输入字符串：
+
+```shell
+curl "http://127.0.0.1:9080/embeddings" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": "hello world"
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "embedding",
+      "index": 0,
+      "embedding": [
+        -0.0067144386,
+        -0.039197803,
+        0.034177095,
+        0.028763203,
+        -0.024785956,
+        -0.04201061,
+        ...
+      ],
+    }
+  ],
+  "model": "text-embedding-3-small",
+  "usage": {
+    "prompt_tokens": 2,
+    "total_tokens": 2
+  }
+}
+```
+
+### 代理到 Anthropic
+
+以下示例演示了如何配置 `ai-proxy` 插件以将请求代理到 Anthropic 的 Claude API 进行聊天补全。
+
+获取 Anthropic [API 密钥](https://console.anthropic.com/settings/keys)并保存到环境变量：
+
+```shell
+export ANTHROPIC_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建路由并配置 `ai-proxy` 插件，将 `provider` 设置为 `anthropic`，并在 `x-api-key` 标头中附加 Anthropic API 密钥：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-anthropic-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "anthropic",
+        "auth": {
+          "header": {
+            "x-api-key": "'"$ANTHROPIC_API_KEY"'"
+          }
+        },
+        "options": {
+          "model": "claude-sonnet-4-20250514"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 插件配置的路由，将 `provider` 设置为 `anthropic`，并在 `x-api-key` 标头中附加 Anthropic API 密钥：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: anthropic-service
+    routes:
+      - name: anthropic-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: anthropic
+            auth:
+              header:
+                x-api-key: "${ANTHROPIC_API_KEY}"
+            options:
+              model: claude-sonnet-4-20250514
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">anthropic-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: anthropic
+        auth:
+          header:
+            x-api-key: "your-api-key"
+        options:
+          model: claude-sonnet-4-20250514
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: anthropic-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">anthropic-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: anthropic-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: anthropic-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: anthropic
+          auth:
+            header:
+              x-api-key: "your-api-key"
+          options:
+            model: claude-sonnet-4-20250514
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f anthropic-ic.yaml
+```
+
+
+
+
+
+向路由发送 POST 请求，在请求体中包含系统提示和示例用户问题：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "text",
+      "text": "1+1 equals 2."
+    }
+  ],
+  "model": "claude-sonnet-4-20250514",
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 19,
+    "output_tokens": 11
+  }
+}
+```
+
+### 将 Anthropic 请求转换为 OpenAI 兼容后端
+
+以下示例演示了 `ai-proxy` 插件如何接受 Anthropic Messages API 格式的请求，并自动将其转换为 OpenAI 兼容格式，然后转发到任何 OpenAI 兼容后端（如 OpenAI、DeepSeek 或其他兼容服务）。当客户端应用程序发送 Anthropic 格式的请求但你希望使用不同的 LLM 后端时，这非常有用。
+
+当路由 URI 设置为 `/v1/messages`（Anthropic Messages API 端点）时，协议转换会自动触发。插件会将 Anthropic 格式的请求转换为 OpenAI 兼容格式，并将响应转换回 Anthropic 格式。
+
+获取你选择的 OpenAI 兼容后端服务的 API 密钥并保存到环境变量。此示例使用 OpenAI：
+
+```shell
+export BACKEND_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建路由并配置 `ai-proxy` 插件。将 URI 设置为 `/v1/messages` 以触发自动 Anthropic 协议转换，后端提供商可以是任何 OpenAI 兼容的提供商：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-anthropic-convert-route",
+    "uri": "/v1/messages",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "openai",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$BACKEND_API_KEY"'"
+          }
+        },
+        "options": {
+          "model": "gpt-4"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 插件配置的路由。将 URI 设置为 `/v1/messages` 以触发自动 Anthropic 协议转换，后端提供商可以是任何 OpenAI 兼容的提供商：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: anthropic-convert-service
+    routes:
+      - name: anthropic-convert-route
+        uris:
+          - /v1/messages
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: openai
+            auth:
+              header:
+                Authorization: "Bearer ${BACKEND_API_KEY}"
+            options:
+              model: gpt-4
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">anthropic-convert-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: openai
+        auth:
+          header:
+            Authorization: "Bearer your-api-key"
+        options:
+          model: gpt-4
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: anthropic-convert-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /v1/messages
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">anthropic-convert-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: anthropic-convert-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: anthropic-convert-route
+      match:
+        paths:
+          - /v1/messages
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: openai
+          auth:
+            header:
+              Authorization: "Bearer your-api-key"
+          options:
+            model: gpt-4
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f anthropic-convert-ic.yaml
+```
+
+
+
+
+
+以 Anthropic Messages API 格式向路由发送 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/v1/messages" -X POST \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: ${BACKEND_API_KEY}" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "gpt-4",
+    "max_tokens": 1024,
+    "messages": [
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+尽管请求以 Anthropic 格式发送，但它将自动转换为 OpenAI 格式并转发到后端。响应将转换回 Anthropic 格式：
+
+```json
+{
+  "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "text",
+      "text": "1+1 equals 2."
+    }
+  ],
+  "model": "gpt-4",
+  "stop_reason": "end_turn",
+  "usage": {
+    "input_tokens": 12,
+    "output_tokens": 8
+  }
+}
+```
+
+该插件支持 Anthropic Messages API 的所有功能，包括流式传输 (SSE)、系统提示和工具使用（函数调用）。协议转换透明地处理 Anthropic 和 OpenAI 格式之间的双向映射。
+
+### 使用请求体参数代理到选定模型
+
+以下示例演示了如何基于用户请求中指定的模型参数，在同一 URI 上将请求代理到不同的模型。你可以使用 `post_arg.*` 变量来获取请求体参数的值。
+
+此示例将使用 OpenAI 和 DeepSeek 作为示例 LLM 服务。获取 OpenAI 和 DeepSeek API 密钥并保存到环境变量：
+
+```shell
+export OPENAI_API_KEY=<your-api-key>
+export DEEPSEEK_API_KEY=<your-api-key>
+```
+
+
+
+
+**admin-api**
+
+
+创建一个到 OpenAI API 的路由，使用 `vars` 匹配请求体参数 `model` 为 `openai` 的请求：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-openai-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "vars": [[ "post_arg.model", "==", "openai" ]],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "openai",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+          }
+        },
+        "options": {
+          "model": "gpt-4"
+        }
+      }
+    }
+  }'
+```
+
+创建另一个到 DeepSeek API 的路由 `/anything`，使用 `vars` 匹配请求体参数 `model` 为 `deepseek` 的请求：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-deepseek-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "vars": [[ "post_arg.model", "==", "deepseek" ]],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "deepseek",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$DEEPSEEK_API_KEY"'"
+          }
+        },
+        "options": {
+          "model": "deepseek-chat"
+        }
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建两个包含 `ai-proxy` 插件的路由，分别配置不同的提供商。使用 `vars` 匹配请求体参数 `model` 来决定路由到哪个提供商：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: multi-model-service
+    routes:
+      - name: openai-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        vars:
+          - - post_arg.model
+            - ==
+            - openai
+        plugins:
+          ai-proxy:
+            provider: openai
+            auth:
+              header:
+                Authorization: "Bearer ${OPENAI_API_KEY}"
+            options:
+              model: gpt-4
+      - name: deepseek-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        vars:
+          - - post_arg.model
+            - ==
+            - deepseek
+        plugins:
+          ai-proxy:
+            provider: deepseek
+            auth:
+              header:
+                Authorization: "Bearer ${DEEPSEEK_API_KEY}"
+            options:
+              model: deepseek-chat
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+:::info
+
+HTTPRoute 不支持请求体参数匹配。支持的匹配机制为 `path`、`method`、`headers` 和 `queryParams`。此示例无法使用 Gateway API 完成。
+
+:::
+
+
+
+
+**apisix-crd**
+
+
+:::info
+
+ApisixRoute 当前不支持请求体参数匹配。支持的匹配机制基于 `Header`、`Query` 或 `Path`。此示例无法使用 APISIX CRD 完成。
+
+:::
+
+
+
+
+
+
+
+
+
+向路由发送 POST 请求，将 `model` 设置为 `openai`：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openai",
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+向路由发送 POST 请求，将 `model` 设置为 `deepseek`：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "deepseek",
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "deepseek-chat",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "The sum of 1 and 1 is 2. This is a basic arithmetic operation where you combine two units to get a total of two units."
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+你还可以配置 `post_arg.*` 来获取嵌套的请求体参数。例如，如果请求格式为：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": {
+      "name": "openai"
+    },
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+你可以将路由上的 `vars` 配置为 `[[ "post_arg.model.name", "==", "openai" ]]`。
+
+### 发送请求日志到日志记录器
+
+以下示例演示了如何记录请求和响应信息（包括 LLM 模型、令牌和负载），并将其推送到日志记录器。在开始之前，你应该先设置一个日志记录器，例如 Kafka。有关更多信息，请参阅 [`kafka-logger`](/zh/docs/apisix/plugins/kafka-logger/)。
+
+
+
+
+**admin-api**
+
+
+创建到 LLM 服务的路由，并配置日志详情。将 `logging.summaries` 设置为 `true` 以记录请求 LLM 模型、持续时间、请求和响应令牌，将 `logging.payloads` 设置为 `true` 以记录请求和响应负载。同时配置 `kafka-logger` 插件，设置 Kafka 地址、主题、密钥，并将 `batch_max_size` 设置为 `1` 以立即发送日志条目：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "ai-proxy-openai-route",
+    "uri": "/anything",
+    "methods": ["POST"],
+    "plugins": {
+      "ai-proxy": {
+        "provider": "openai",
+        "auth": {
+          "header": {
+            "Authorization": "Bearer '"$OPENAI_API_KEY"'"
+          }
+        },
+        "options": {
+          "model": "gpt-4"
+        },
+        "logging": {
+          "summaries": true,
+          "payloads": true
+        }
+      },
+      "kafka-logger": {
+        "brokers": [
+          {
+            "host": "127.0.0.1",
+            "port": 9092
+          }
+        ],
+        "kafka_topic": "test2",
+        "key": "key1",
+        "batch_max_size": 1
+      }
+    }
+  }'
+```
+
+
+
+
+**adc**
+
+
+创建包含 `ai-proxy` 和 `kafka-logger` 插件的路由。将 `logging.summaries` 设置为 `true` 以记录请求 LLM 模型、持续时间、请求和响应令牌，将 `logging.payloads` 设置为 `true` 以记录请求和响应负载：
+
+<div class="code-title">adc.yaml</div>
+
+```yaml
+services:
+  - name: logging-service
+    routes:
+      - name: logging-route
+        uris:
+          - /anything
+        methods:
+          - POST
+        plugins:
+          ai-proxy:
+            provider: openai
+            auth:
+              header:
+                Authorization: "Bearer ${OPENAI_API_KEY}"
+            options:
+              model: gpt-4
+            logging:
+              summaries: true
+              payloads: true
+          kafka-logger:
+            brokers:
+              - host: 127.0.0.1
+                port: 9092
+            kafka_topic: test2
+            key: key1
+            batch_max_size: 1
+```
+
+将配置同步到网关：
+
+```shell
+adc sync -f adc.yaml
+```
+
+
+
+
+**aic**
+
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">logging-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v1alpha1
+kind: PluginConfig
+metadata:
+  namespace: aic
+  name: ai-proxy-logging-plugin-config
+spec:
+  plugins:
+    - name: ai-proxy
+      config:
+        provider: openai
+        auth:
+          header:
+            Authorization: "Bearer your-api-key"
+        options:
+          model: gpt-4
+        logging:
+          summaries: true
+          payloads: true
+    - name: kafka-logger
+      config:
+        brokers:
+          - host: kafka.aic.svc.cluster.local
+            port: 9092
+        kafka_topic: test2
+        key: key1
+        batch_max_size: 1
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: aic
+  name: logging-route
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: Exact
+            value: /anything
+          method: POST
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: apisix.apache.org
+            kind: PluginConfig
+            name: ai-proxy-logging-plugin-config
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">logging-ic.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: aic
+  name: logging-route
+spec:
+  ingressClassName: apisix
+  http:
+    - name: logging-route
+      match:
+        paths:
+          - /anything
+        methods:
+          - POST
+      plugins:
+      - name: ai-proxy
+        enable: true
+        config:
+          provider: openai
+          auth:
+            header:
+              Authorization: "Bearer your-api-key"
+          options:
+            model: gpt-4
+          logging:
+            summaries: true
+            payloads: true
+      - name: kafka-logger
+        enable: true
+        config:
+          brokers:
+            - host: kafka.aic.svc.cluster.local
+              port: 9092
+          kafka_topic: test2
+          key: key1
+          batch_max_size: 1
+```
+
+
+
+
+
+将配置应用到集群：
+
+```shell
+kubectl apply -f logging-ic.yaml
+```
+
+
+
+
+
+向路由发送 POST 请求：
+
+```shell
+curl "http://127.0.0.1:9080/anything" -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      { "role": "system", "content": "You are a mathematician" },
+      { "role": "user", "content": "What is 1+1?" }
+    ]
+  }'
+```
+
+你应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  ...
+}
+```
+
+在 Kafka 主题中，你应该还会看到与请求对应的日志条目，其中包含 LLM 摘要和请求/响应负载。
+
+### 在访问日志中包含 LLM 信息
+
+以下示例演示了如何在网关的访问日志中记录 LLM 请求相关信息，以改进分析和审计。以下变量可用：
+
+* `request_llm_model`：请求中指定的 LLM 模型名称。
+* `apisix_upstream_response_time`：APISIX 向上游服务发送请求并接收完整响应所花费的时间（毫秒）。LLM 服务返回的错误响应（如 429 或 5xx）同样以毫秒记录。
+* `request_type`：请求类型，值可能是 `traditional_http`、`ai_chat` 或 `ai_stream`。
+* `llm_time_to_first_token`：从发送请求到从 LLM 服务接收第一个令牌的持续时间（毫秒）。当 LLM 服务返回错误响应时，该值为收到错误响应为止的持续时间；当完全无法连接到 LLM 服务时，该值保持为 `0`。
+* `llm_model`：LLM 模型。
+* `llm_prompt_tokens`：提示中的令牌数量。
+* `llm_completion_tokens`：响应中的聊天完成令牌数量。
+* `llm_total_tokens`：使用的总令牌数（提示加完成）。
+* `llm_cache_read_input_tokens`：从缓存读取的输入令牌数量。
+* `llm_cache_creation_input_tokens`：写入缓存的输入令牌数量。
+* `llm_reasoning_tokens`：生成的推理令牌数量。
+* `llm_stream`：请求是否为流式请求（`true` 或 `false`）。
+* `llm_tool_count`：请求中提供的工具数量。
+* `llm_has_tool_calls`：当响应包含工具调用时为 `true`。
+* `llm_end_user_id`：从请求中提取的终端用户标识（例如 OpenAI 的 `user` 字段）。
+* `llm_content_risk_level`：内容审核报告的内容风险等级。
+
+当启用 `logging.summaries` 时，这些变量也会写入 `llm_summary` 日志对象（使用去掉 `llm_` 前缀的名称），日志插件无需额外配置即可使用。
+
+在配置文件中更新访问日志格式以包含其他 LLM 相关变量：
+
+<div class="code-title">conf/config.yaml</div>
+
+```yaml
+nginx_config:
+  http:
+    access_log_format: "$remote_addr - $remote_user [$time_local] $http_host \"$request_line\" $status $body_bytes_sent $request_time \"$http_referer\" \"$http_user_agent\" $upstream_addr $upstream_status $apisix_upstream_response_time \"$upstream_scheme://$upstream_host$upstream_uri\" \"$apisix_request_id\" \"$request_type\" \"$llm_time_to_first_token\" \"$llm_model\" \"$request_llm_model\"  \"$llm_prompt_tokens\" \"$llm_completion_tokens\""
+```
+
+重新加载 APISIX 以使配置更改生效。
+
+现在，如果你创建路由并按照[代理到 OpenAI 示例](#代理到-openai)发送请求，你应该收到类似以下的响应：
+
+```json
+{
+  ...,
+  "model": "gpt-4-0613",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "1+1 equals 2.",
+        "refusal": null,
+        "annotations": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 23,
+    "completion_tokens": 8,
+    "total_tokens": 31,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    ...
+  },
+  "service_tier": "default",
+  "system_fingerprint": null
+}
+```
+
+在网关的访问日志中，你应该看到类似以下的日志条目：
+
+```text
+192.168.215.1 - - [21/Mar/2025:04:28:03 +0000] api.openai.com "POST /anything HTTP/1.1" 200 804 2.858 "-" "curl/8.6.0" - - - 5765 "http://api.openai.com" "5c5e0b95f8d303cb81e4dc456a4b12d9" "ai_chat" "2858" "gpt-4" "gpt-4" "23" "8"
+```
+
+访问日志条目显示请求类型为 `ai_chat`，Apisix 上游响应时间为 `5765` 毫秒，首次令牌时间为 `2858` 毫秒，请求的 LLM 模型为 `gpt-4`。LLM 模型为 `gpt-4`，提示令牌使用量为 `23`，完成令牌使用量为 `8`。
