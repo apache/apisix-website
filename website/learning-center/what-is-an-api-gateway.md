@@ -17,7 +17,7 @@ faq:
       An API gateway adds another network hop and executes policies before forwarding a request, so it always adds some latency. The actual overhead depends on deployment topology, TLS settings, enabled plugins, request and response transformations, and logging. Benchmark the gateway with the same policy chain and traffic profile you expect in production rather than relying on a universal latency figure.
   - q: "Can an API gateway replace a service mesh?"
     a: >-
-      An API gateway and a service mesh usually serve different traffic boundaries. The gateway handles north-south traffic from API clients to services, while a service mesh focuses on east-west service-to-service communication. Apache APISIX can expose and control APIs at a cluster edge, but that does not replace mesh capabilities such as workload identity and service-to-service mTLS.
+      An API gateway and a service mesh usually serve different policy boundaries. A gateway commonly applies client- and consumer-facing API policies, while a service mesh focuses on workload identity and service-to-service communication. Apache APISIX can expose and control APIs at a cluster edge, but that does not replace mesh capabilities such as workload identity and service-to-service mTLS.
   - q: "Is an API gateway the same as an API management platform?"
     a: >-
       No. An API gateway is the runtime component that processes API traffic. API management is a broader category that can include a gateway, developer onboarding, API documentation, lifecycle governance, and analytics. Apache APISIX provides the open-source gateway layer; teams can integrate it with the other tools required for their API lifecycle.
@@ -204,7 +204,7 @@ An API gateway adds another network hop and executes policies before forwarding 
 
 ### Can an API gateway replace a service mesh?
 
-An API gateway and a service mesh usually serve different traffic boundaries. The gateway handles north-south traffic from API clients to services, while a service mesh focuses on east-west service-to-service communication. Apache APISIX can expose and control APIs at a cluster edge, but that does not replace mesh capabilities such as workload identity and service-to-service mTLS.
+An API gateway and a service mesh usually serve different policy boundaries. A gateway commonly applies client- and consumer-facing API policies, while a service mesh focuses on workload identity and service-to-service communication. Apache APISIX can expose and control APIs at a cluster edge, but that does not replace mesh capabilities such as workload identity and service-to-service mTLS. See [API gateway vs service mesh](/learning-center/api-gateway-vs-service-mesh/) for the areas of overlap and when a deployment needs one or both.
 
 ### Is an API gateway the same as an API management platform?
 

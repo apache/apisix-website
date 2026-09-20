@@ -122,7 +122,7 @@ Apache APISIX is an open-source API gateway, not a complete service mesh. It can
 
 For traffic that passes through APISIX, teams can configure:
 
-- Routes and Consumers for API and caller-oriented policy;
+- [Routes](/docs/apisix/terminology/route/) and [Consumers](/docs/apisix/terminology/consumer/) for API and caller-oriented policy;
 - authentication, rate limiting, transformation, and observability plugins;
 - [Upstreams](/docs/apisix/terminology/upstream/) for load balancing and retry behavior; and
 - [service discovery integrations](/docs/apisix/discovery/) for supported registries.
