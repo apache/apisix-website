@@ -198,6 +198,9 @@ Redirect 301 "/blog/2021/11/30/use-apisix-ingress-in-kubesphere/httpbin.org/" "/
 Redirect 301 "/blog/2021/08/25/Auth-with-Casbin-in-Apache-APISIX/" "/blog/2021/08/18/auth-with-casbin-in-apache-apisix/"
 Redirect 301 "/blog/2022/03/02/apisix-integration-graphql-plugin/" "/blog/2022/03/02/apisix-integration-graphql/"
 Redirect 301 "/blog/2022/09/21/apache-apisix-v3-preview" "/blog/2022/11/02/apache-apisix-v3-preview"
+RedirectMatch 301 "^/blog/2022/09/09/kubernetes-ingress-with-apisix/?$" "/docs/ingress-controller/getting-started/configure-routes/"
+RedirectMatch 301 "^/blog/2022/09/13/why-is-apache-apisix-the-best-api-gateway/?$" "/learning-center/open-source-api-gateway-comparison/"
+RedirectMatch 301 "^/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/?$" "/blog/2023/09/08/APISIX-integrates-with-Coraza/"
 
 Redirect 301 "/zh/docs/apisix/install" "/zh/docs/apisix/building-apisix/"
 Redirect 301 "/zh/docs/apisix/architecture-design/plugin/" "/zh/docs/apisix/terminology/plugin-config/"
