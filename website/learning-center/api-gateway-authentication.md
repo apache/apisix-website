@@ -66,7 +66,7 @@ OAuth 2.0 is widely adopted across enterprises for API integrations. The framewo
 
 OpenID Connect extends OAuth 2.0 with a standardized identity layer. It adds an ID token (a JWT) that carries user identity claims alongside the OAuth 2.0 access token. The gateway can validate the ID token to confirm user identity and use the access token for authorization decisions.
 
-OIDC is the de facto standard for single sign-on in API ecosystems. Major identity providers including Okta, Auth0, Azure AD, and Google Identity all implement OIDC. APISIX provides native OIDC support through its [openid-connect plugin](/docs/apisix/plugins/openid-connect/), which handles the full authorization code flow, token introspection, and token refresh.
+OIDC is the de facto standard for single sign-on in API ecosystems. Major identity providers including Okta, Auth0, Microsoft Entra ID, and Google Identity implement OIDC. APISIX provides OIDC support through its [openid-connect plugin](/docs/apisix/plugins/openid-connect/), which supports authorization code flow, token introspection, and token refresh. The [provider-switching tutorial](/blog/2023/03/09/authenticate-openid-connect/) shows how discovery metadata keeps the gateway configuration portable between Google and Microsoft Entra ID.
 
 ### mTLS (Mutual TLS)
 

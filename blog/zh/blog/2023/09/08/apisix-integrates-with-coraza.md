@@ -1,5 +1,5 @@
 ---
-title: "APISIX 新特性之 WAF 解决方案：Coraza"
+title: 使用 Apache APISIX 评估 Coraza WAF
 authors:
   - name: Guohao Wang
     title: Author
@@ -13,161 +13,161 @@ keywords:
   - APISIX
   - Coraza
   - WAF
-description: APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。
+  - OWASP Core Rule Set
+description: 使用 Apache APISIX 评估 phase 1 Coraza Proxy Wasm 策略，了解当前请求体处理限制，并安全测试 OWASP Core Rule Set。
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp
 ---
 
-> APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。
+> Apache APISIX 可以加载外部 Coraza Proxy Wasm 模块并执行请求阶段规则。当前集成仍受 Proxy Wasm API 和请求体处理能力限制，因此应将其视为需要验证的集成方案，而不是 APISIX 内置的完整 WAF 能力。
+
 <!--truncate-->
 
-随着云原生技术的飞速发展，保障 API 的安全性变得至关重要。[Apache APISIX](https://github.com/apache/apisix) 推出了一系列的前沿特性，其中值得称赞的是 APISIX 集成了 [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm) 插件。我们将深入探讨 APISIX 全新的 WAF 功能，探索 Coraza 如何强化应用程序，使其抵御各类 Web 攻击。
+Web 应用程序防火墙（WAF）根据配置的规则检查 HTTP 请求和响应，并可在请求到达上游服务前拒绝匹配已知攻击模式的流量。WAF 只是纵深防御的一层，不能替代身份认证、业务授权、安全编码、依赖更新或应用层输入校验。
 
-## Apache APISIX
+[Coraza](https://coraza.io/) 是使用 Go 编写的开源 WAF 引擎。[Coraza Proxy Wasm](https://github.com/corazawaf/coraza-proxy-wasm) 将其封装为 Proxy Wasm 模块，并可包含 [OWASP Core Rule Set（CRS）](https://coreruleset.org/)。Apache APISIX 可以通过 [Wasm 插件运行时](/zh/docs/apisix/wasm/)加载该模块，并将生成的插件配置到指定 Route 或 Global Rule 上。
 
-[Apache APISIX](https://apisix.apache.org/) 是一个动态、实时、高性能的开源 API 网关，提供负载均衡、动态上游、灰度发布、服务熔断、身份认证、可观测性等丰富的流量管理功能。Apache APISIX 基于 NGINX 和 LuaJIT 构建，具有超高性能，单核 QPS 高达 23000，平均延迟仅为 0.2 毫秒。它不仅解决传统架构中的一些问题，同时适应了云原生时代的需求。Apache APISIX 目前是 GitHub 上最活跃的 API 网关项目之一，每天处理超过 1 万亿次的 API 调用，并且该数字仍在增长。
+## 当前集成能做什么，不能做什么
 
-作为 API 网关，Apache APISIX 的应用场景非常广泛，可应用于网关、Kubernetes Ingress 和服务网格等场景，可以帮助企业快速、安全地处理 API 和微服务流量。目前已获得 Amber Group、[Airwallex](https://apisix.apache.org/zh/blog/2021/11/03/airwallex-usercase/)、Lotus Cars、[vivo](https://apisix.apache.org/zh/blog/2022/11/13/vivo-with-apache-apisix/)、European Factory Platform 等全球企业和组织的测试和高度认可。
+基础集成可以针对经过 APISIX 的流量检查 phase 1 变量，例如请求 URI 和请求头。CRS 提供针对 SQL 注入、跨站脚本等攻击类型的通用检测规则，但其中许多规则依赖请求体处理和后续阶段。URI 规则成功执行，并不能证明完整 CRS 已生效。
 
-## Coraza
+使用这项集成时，需要注意以下边界：
 
-[WAF](https://en.wikipedia.org/wiki/Web_application_firewall)（Web Application Firewall），或 Web 应用程序防火墙，是一种网络安全工具，用于保护 Web 应用程序免受各种网络攻击。它通过过滤和监视 Web 应用程序与互联网之间的 HTTP 通信来帮助确保 Web 应用程序的安全性。
+- Coraza Proxy Wasm 不随 APISIX 一起发布，需要单独下载和运维。
+- APISIX 当前只实现了部分 Proxy Wasm API，因此必须测试策略所依赖的具体回调和流量类型。
+- 上游项目仍有一个[与 APISIX 请求体处理相关的未解决问题](https://github.com/corazawaf/coraza-proxy-wasm/issues/309)，部分 payload 没有按预期传递给请求体规则。在所用 APISIX 和模块版本通过完整测试前，不应依赖该集成提供请求体防护。
+- CRS 需要调优。未观察误报就直接启用大范围规则集，可能会拦截合法请求。
+- Coraza Proxy Wasm 0.6.0 的 release notes 提醒用户注意潜在的内存泄漏和性能下降风险。投入生产前，需要使用有代表性的流量进行压力测试。
 
-[Coraza](https://coraza.io/) 是非常著名的开源 WAF 实现，将 Coraza 与 APISIX 集成能大大提高 APISIX 对上游服务的保护能力。
+建议先在检测模式或小范围阻断模式中运行，检查审计输出，并在确认策略符合预期后逐步扩大执行范围。
 
-**它在以下方面提供具体优势：**
+## 前置条件
 
-1. 攻击检测和阻止：Coraza 通过实时分析和监控 HTTP 和 HTTPS 流量，可以检测和阻止常见的 Web 攻击，如 SQL 注入、跨站脚本（XSS）、跨站请求伪造（CSRF）等。
+本文示例使用：
 
-2. 日志记录和报告功能： Coraza 提供高级的日志记录和报告功能，允许管理员跟踪和分析系统的安全事件。这有助于及时发现潜在的威胁并采取适当的措施来应对安全问题。
+- Apache APISIX 3.18.0
+- Coraza Proxy Wasm 0.6.0
+- 该 Coraza 版本内置的 CRS 版本
+- 保存在 `admin_key` 环境变量中的 APISIX Admin API key
 
-3. 灵活性和可扩展性：Coraza 提供了灵活的配置选项，使管理员可以根据特定的应用程序需求进行定制。它支持自定义规则和策略，可以根据具体的安全需求进行配置。它还可以与其他安全工具和系统进行集成，提供更全面的安全解决方案。
+生产环境应固定版本，并在升级前检查 [Coraza Proxy Wasm releases](https://github.com/corazawaf/coraza-proxy-wasm/releases)。较新的 APISIX 或 Coraza 版本可能改变运行时行为、可用回调或内置 CRS 版本。
 
-## Coraza-WAF:  APISIX 为什么优先选择它
+## 安装 Coraza Wasm 模块
 
-### 开源社区支持
+下面的 Dockerfile 将已发布的 Coraza 模块添加到 APISIX 镜像，并在解压前校验发布压缩包。示例中的校验值对应官方 0.6.0 压缩包；升级时应在独立验证新文件后同时更新版本和校验值。这个操作不会让 Coraza 成为 APISIX 内置插件，Wasm 文件仍是需要单独维护的外部运行时依赖。
 
-APISIX 在选择新的 WAF 方案时非常重视其对[开源社区](https://apisix.apache.org/zh/blog/tags/community/)的支持。Coraza 和 APISIX 一样，拥有一个活跃的开发者社区，开源社区的支持让 Coraza 能够及时获取更新和寻求支持。社区成员积极地参与到 Coraza 的开发和维护中，不断改进和优化代码，修复 bug 和安全问题。APISIX 通过使用 Coraza，让用户也可以从这些更新中受益，保证了应用程序的安全性和稳定性。
+```dockerfile
+FROM apache/apisix:3.18.0-debian
 
-Coraza 开源社区与 APISIX 的发展和演进相协调。作为 APISIX 的 WAF 解决方案，Coraza 可以与 APISIX 的功能和特性紧密集成，以满足用户对安全性的需求。开源社区的合作和反馈有助于推动解决方案的进一步发展，并确保其与APISIX的兼容性和一致性。
+ARG CORAZA_VERSION=0.6.0
+ARG CORAZA_SHA256=cca4e3c75cf6b2e615907f936a1b6dcd0955250e0fb7d3b1c2ecef807d84603c
 
-### Wasm 插件的支持
+USER root
 
-APISIX 支持 [Wasm（WebAssembly）](https://apisix.apache.org/zh/blog/2023/03/30/what-is-wasm-and-how-does-apache-apisix-support-it/#%E4%B8%BA%E4%BB%80%E4%B9%88-apisix-%E8%A6%81%E6%94%AF%E6%8C%81-wasm-%E6%8F%92%E4%BB%B6)开发插件，Coraza 也提供了 Wasm 插件可供选择，因而 APISIX 集成 Coraza 的成本相对较低。Wasm 的跨平台特性使得 APISIX 和 Coraza 可以无缝协同工作，免除了大规模修改代码并进行适配的工作。
+ADD https://github.com/corazawaf/coraza-proxy-wasm/releases/download/${CORAZA_VERSION}/coraza-proxy-wasm-${CORAZA_VERSION}.zip /tmp/coraza-proxy-wasm.zip
 
-**这种低成本集成的好处包括：**
+RUN echo "${CORAZA_SHA256}  /tmp/coraza-proxy-wasm.zip" | sha256sum --check --strict - \
+    && apt-get update \
+    && apt-get install --yes --no-install-recommends unzip \
+    && mkdir -p /usr/local/apisix/proxywasm \
+    && unzip /tmp/coraza-proxy-wasm.zip -d /usr/local/apisix/proxywasm \
+    && rm /tmp/coraza-proxy-wasm.zip \
+    && apt-get purge --yes unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && chown -R apisix:apisix /usr/local/apisix/proxywasm
 
-1. 被验证过的方案：尽管 Coraza wasm 插件并非专为 APISIX 开发，但其已在 Istio 平台上经过验证。该插件在功能上能够提供与 Istio 相一致的保障。
-2. 低开发和维护成本：Coraza wasm 插件实质上是一个与平台无关的二进制文件，其发布和开发过程异常便捷。扩展 Coraza wasm 插件可借助 proxy-wasm-go-sdk 实现，其发布仅需更新二进制文件即可，进一步简化了流程。
-
-Wasm 实际上是一项非常新颖的技术，目前其生态系统仍在迅速发展之中。对于 APISIX 来说，对于 Wasm 的支持需要经过更长时间的验证，并吸引更多用户参与，以确保其充分验证其可行性和稳定性。
-
-### Core Rule Set 规则集的支持
-
-传统的 WAF 解决方案通常需要在 Web 服务器（如 NGINX）上安装和配置特定的模块，以便与 WAF 引擎进行集成和通信。这种集成对于维护人员来说可能比较繁琐，需要处理繁重的配置和版本兼容性问题。
-
-然而，Coraza 使用 Core Rule Set（CRS）作为其规则集，CRS 是一个广泛使用和经过验证的开源规则集，用于检测和防御 Web 应用程序中的常见攻击。与传统的 WAF 解决方案不同的是，Coraza 直接解析和执行 CRS 规则，无需额外编译 NGINX。CRS 规则集的使用能为 APISIX 提供增强的安全性保护和 CRS 社区的支持。
-
-**这种设计决策带来了几个重要的好处：**
-
-- 维护更加简化。由于不需要 nginx_module 的支持，维护人员无需处理复杂的模块安装和配置过程。相反，他们只需要专注于维护和更新 CRS 规则集，确保其中包含最新的安全规则和修复。
-- 解决方案稳定可靠。CRS 作为一个成熟的规则集，经过了长期的实践和改进，已经被广泛采纳并得到了社区的支持。这意味着 Coraza 用户可以从 CRS 社区的集体智慧中受益，并获得及时的安全更新和修复。
-
-### 易于安装部署
-
-Coraza 不需要 nginx_module 级别的支持，容易维护，这是因为 Coraza 是一个独立的 WAF，它不依赖于 NGINX 或其他 Web 服务器的模块级别支持，可以与不同的 Web 服务器集成。
-
-这种独立性使得 Coraza 的维护更加容易，因为它不需要依赖于特定的 Web 服务器配置或模块安装。管理员可以单独配置和管理 Coraza，而不必担心与其他服务器组件的兼容性问题。
-
-## 如何在 APISIX 中使用 Coraza
-
-请注意，要使用 Coraza 功能，您需要从源代码安装 APISIX master 版本。目前，该功能还处于预览版阶段，预期  3.6.0 版本将正式支持该功能。
-
-### 配置 APISIX 集成 coraza-proxy-wasm  
-
-进入 `APISIX` 的目录
-
-```
-cd /home/ubuntu/apisix-master
+USER apisix
 ```
 
-修改配置文件conf/config-default.yaml，取消原来 wasm 配置中的注释符
+构建镜像后，确认容器中存在 `/usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm`。
 
-```
+## 在 APISIX 中注册模块
+
+在 `conf/config.yaml` 中添加模块。这里定义的插件名称也用于 Route 和 Global Rule 配置。
+
+```yaml
 wasm:
   plugins:
     - name: coraza-filter
       priority: 7999
-      file: /home/ubuntu/coraza-proxy-wasm/build/main.wasm # 要写绝对路径
+      file: /usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm
 ```
 
-### 配置  /anything 路由集成 Coraza WAF 规则
+修改 `config.yaml` 后重启 APISIX。如果模块加载失败，应先检查文件路径、所有权和启动日志，再将插件应用到实际流量。
 
-重新配置路由, 启用 `coraza-filter` 插件
+## 应用一个小范围测试策略
 
-```
-curl -i http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '{
-  "uri": "/anything",
-  "plugins": {
-    "coraza-filter": {
-      "conf": {
-        "directives_map": {
-          "default": [
-            "SecDebugLogLevel 9",
-            "SecRuleEngine On",
-            "SecRule REQUEST_URI \"@beginsWith /anything\" \"id:101,phase:1,t:lowercase,deny\""
-          ]
-        },
-        "default_directives": "default"
+首先使用结果容易验证的策略。下面的示例会在请求转发到 httpbin 前拒绝 `/anything` 请求。
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes/coraza-test" \
+  --request PUT \
+  --header "X-API-KEY: ${admin_key}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "uri": "/anything",
+    "plugins": {
+      "coraza-filter": {
+        "conf": {
+          "directives_map": {
+            "test": [
+              "SecRuleEngine On",
+              "SecRule REQUEST_URI \"@beginsWith /anything\" \"id:101,phase:1,deny,status:403\""
+            ]
+          },
+          "default_directives": "test"
+        }
+      }
+    },
+    "upstream": {
+      "type": "roundrobin",
+      "nodes": {
+        "httpbin.org:80": 1
       }
     }
-  },
-  "upstream": {
-    "type": "roundrobin",
-    "nodes": {
-      "httpbin.org:80": 1
-    }
-  }
-}'
+  }'
 ```
 
-测试 WAF 规则，的确看到了 403
+请求该 Route：
 
-```
-curl http://localhost:9080/anything -v
-*   Trying 127.0.0.1:9080...
-* TCP_NODELAY set
-* Connected to localhost (127.0.0.1) port 9080 (#0)
-> GET /anything HTTP/1.1
-> Host: localhost:9080
-> User-Agent: curl/7.68.0
-> Accept: */*
->
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 403 Forbidden
-< Date: Thu, 31 Aug 2023 09:09:18 GMT
-< Content-Type: text/html; charset=utf-8
-< Content-Length: 225
-< Connection: keep-alive
-< Server: APISIX/3.4.0
-<
-<html>
-<head><title>403 Forbidden</title></head>
-<body>
-<center><h1>403 Forbidden</h1></center>
-<hr><center>openresty</center>
-<p><em>Powered by <a href="https://apisix.apache.org/">APISIX</a>.</em></p></body>
-</html>
-* Connection #0 to host localhost left intact
+```shell
+curl --include "http://127.0.0.1:9080/anything"
 ```
 
-查看日志 `logs/error.log`
+响应状态应为 `403`。这个测试只能确认 APISIX 已加载模块且配置的 phase 1 规则成功执行，不能证明生产 WAF 策略已经有效。
 
+## 评估 OWASP Core Rule Set
+
+小范围 phase 1 策略通过后，可以加载 Coraza 模块内置的 CRS 进行进一步评估：
+
+```yaml
+plugins:
+  coraza-filter:
+    conf:
+      directives_map:
+        crs:
+          - SecRuleEngine On
+          - Include @crs-setup-conf
+          - Include @owasp_crs/*.conf
+      default_directives: crs
 ```
-2023/08/31 09:20:39 [info] 126240#126240: *23933 Transaction interrupted tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 action="deny" phase="http_request_headers", client: 127.0.0.1, server: _, request: "GET /anything HTTP/1.1", host: "localhost:9080"
-2023/08/31 09:20:39 [debug] 126240#126240: *23933 Interruption already handled, sending downstream the local response tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 interruption_handled_phase="http_request_headers"
-```
 
-## 写在最后
+调优期间，只应将这项插件配置用于选定的测试 Route。成功加载规则不代表 APISIX 已提供每个请求阶段或变量。尤其需要单独验证请求体规则，并在将 CRS 视为执行控制前检查上游项目当前的 APISIX 相关问题。Global Rule 可以扩大插件应用范围，但在确认覆盖能力和排除规则前这样做，会同时放大漏报和误报的影响。
 
-Coraza 是一个功能强大的 Web 应用程序防火墙框架，提供了广泛的安全功能和灵活的配置选项，适用于保护企业级Web应用程序免受各种威胁。APISIX 与 Coraza 的集成是 APISIX 的一个重要新特性，Coraza 作为易于维护的解决方案，与 APISIX 的集成为企业提供了强大的 API 管理和安全功能。
+## 投入生产前进行调优
+
+WAF 部署是持续的安全工作，不是一次性开关。启用生产阻断前，应完成以下检查：
+
+1. 在非生产环境回放具有代表性的请求。
+2. 在 Coraza 和 APISIX 日志中检查规则 ID、匹配变量和误报。
+3. 使用尽可能小的排除项，而不是关闭整个规则组。
+4. 验证每一种必要的内容类型是否都会触发请求体回调；上传、流式流量、HTTP/2 请求和大 payload 需要单独测试。
+5. 在预期峰值流量下测量延迟、内存占用和错误率。
+6. 为 Wasm 插件及规则准备可操作的回滚方案。
+7. 持续修补应用和依赖；CRS 可以阻断部分流量模式，但不会消除底层漏洞。
+
+在纵深防御体系中，应将调优后的 WAF 策略与 [API 网关身份认证](/learning-center/api-gateway-authentication/)、限流、传输安全以及由服务自身实施的授权结合使用。[API 网关安全指南](/learning-center/api-gateway-security/)介绍了这些控制措施如何协同工作。
+
+## 总结
+
+Coraza Proxy Wasm 为 APISIX 用户提供了一条在网关层评估 phase 1 流量规则并研究 CRS 的开源路径。这项集成更适合在固定版本、小范围策略和针对实际负载的验证下进行受控测试。在部署环境中验证包括请求体处理在内的所有必要请求和响应阶段前，不应将它视为完整的 API WAF 覆盖方案。

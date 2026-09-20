@@ -1,5 +1,5 @@
 ---
-title: "Coraza: Elevating APISIX with Cutting-Edge WAF Features"
+title: Evaluate Coraza WAF with Apache APISIX
 authors:
   - name: Guohao Wang
     title: Author
@@ -13,163 +13,161 @@ keywords:
   - APISIX
   - Coraza
   - WAF
-description: "Learn how Apache APISIX integrates with Coraza WAF to add open-source API security, request filtering, and protection at the gateway layer."
+  - OWASP Core Rule Set
+description: "Evaluate a phase-one Coraza Proxy Wasm policy with Apache APISIX, understand current request-body limitations, and test the OWASP Core Rule Set safely."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp
 ---
 
-> The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+> Apache APISIX can load the external Coraza Proxy Wasm module and evaluate request-phase rules. The current integration has important Proxy Wasm and request-body limitations, so treat it as an integration to test rather than a complete WAF capability built into APISIX.
 
 <!--truncate-->
 
-With the rapid advancement of cloud-native technology, securing APIs has become increasingly crucial. In response to this growing need, [Apache APISIX](https://github.com/apache/apisix) has introduced a range of cutting-edge features. Among them, it is commendable that APISIX has integrated the [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm) plugin. We will delve into APISIX's enhanced WAF capabilities and explore how Coraza can fortify applications against a wide array of web attacks, ensuring comprehensive security.
+A web application firewall (WAF) evaluates HTTP requests and responses against configured rules. It can reject traffic that matches known attack patterns before the request reaches an upstream service. A WAF is one layer of defense: it does not replace authentication, business authorization, secure application code, dependency updates, or application-level validation.
 
-## Apache APISIX
+[Coraza](https://coraza.io/) is an open-source WAF engine written in Go. [Coraza Proxy Wasm](https://github.com/corazawaf/coraza-proxy-wasm) packages the engine as a Proxy Wasm module and can include the [OWASP Core Rule Set (CRS)](https://coreruleset.org/). Apache APISIX can load the module through its [Wasm plugin runtime](/docs/apisix/wasm/) and apply the resulting plugin to selected Routes or a Global Rule.
 
-[Apache APISIX](https://apisix.apache.org/) is a dynamic, real-time, high-performance open-source API gateway that provides rich traffic management functions such as load balancing, dynamic upstream, canary release, circuit breaking, authentication, and observability. Being built based on NGINX and LuaJIT, Apache APISIX has ultra-high performance with a single-core QPS of up to 23,000 and an average delay of only 0.2 milliseconds. It can solve problems in traditional architecture, and at the same time adapt to the needs of the cloud-native era.
+## What the integration can and cannot do
 
-As an API gateway, Apache APISIX has a wide range of application scenarios. It can be applied to scenarios such as gateways, Kubernetes Ingress, and service mesh, and can help enterprises quickly and safely process API and microservice traffic. At present, it has been tested and highly recognized by worldwide enterprises and organizations such as Amber Group, [Airwallex](https://apisix.apache.org/blog/2021/11/03/airwallex-usercase/), Lotus Cars, vivo, and European Factory Platform.
+The base integration can evaluate phase-one variables such as the request URI and headers for traffic that passes through APISIX. CRS supplies generic detection rules for attack classes such as SQL injection and cross-site scripting, but many rules depend on request-body processing and later phases. Do not infer full CRS coverage from a successful URI rule.
 
-## Coraza
+The integration has important boundaries:
 
-[WAF](https://en.wikipedia.org/wiki/Web_application_firewall), or Web Application Firewall, is a network security tool designed to safeguard web applications against various cyberattacks by filtering and monitoring HTTP communications between web applications and the internet.
+- Coraza Proxy Wasm is not bundled with APISIX; you download and operate the module separately.
+- APISIX currently implements only part of the Proxy Wasm API, so test the exact callbacks and traffic patterns your policy requires.
+- An [open upstream APISIX issue](https://github.com/corazawaf/coraza-proxy-wasm/issues/309) reports that request-body rules do not receive some payloads as expected. Until the required body flows pass tests with your exact APISIX and module versions, do not rely on this integration for request-body protection.
+- CRS requires tuning. Enabling a broad ruleset without observing false positives can block legitimate requests.
+- The Coraza Proxy Wasm 0.6.0 release notes warn about possible memory leaks and performance degradation. Load-test the module with representative traffic before production rollout.
 
-[Coraza](https://coraza.io/) is a highly renowned open-source WAF implementation. Integrating Coraza with APISIX significantly enhances APISIX's ability to protect upstream services.
+Start in detection or a narrowly scoped blocking mode, review audit output, and expand enforcement only after the policy behaves as expected.
 
-**It provides specific advantages in the following areas:**
+## Prerequisites
 
-1. Attack Detection and Prevention: Coraza, through real-time analysis and monitoring of HTTP and HTTPS traffic, can detect and prevent common web attacks such as SQL injection, Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), and more.
+This example uses:
 
-2. Logging and Reporting Capabilities: Coraza offers advanced logging and reporting features, allowing administrators to track and analyze security events within the system. This aids in promptly identifying potential threats and taking appropriate measures to address security issues.
+- Apache APISIX 3.18.0
+- Coraza Proxy Wasm 0.6.0
+- the CRS version embedded in that Coraza release
+- an APISIX Admin API key stored in the `admin_key` environment variable
 
-3. Flexibility and Scalability: It provides flexible configuration options, allowing administrators to customize according to specific application needs. It supports custom rules and policies, which can be configured based on specific security requirements. Additionally, it can integrate with other security tools and systems, providing a more comprehensive security solution.
+Pin versions in production and review the [Coraza Proxy Wasm releases](https://github.com/corazawaf/coraza-proxy-wasm/releases) before upgrading. A newer APISIX or Coraza release may change runtime behavior, available callbacks, or the embedded CRS version.
 
-## Why APISIX Prefers Coraza-WAF?
+## Install the Coraza Wasm module
 
-### Open-Source Community
+The following Dockerfile adds the published Coraza module to the APISIX image and verifies the release archive before extracting it. The checksum shown here matches the official 0.6.0 archive; update the version and checksum together after verifying a newer release. This does not make Coraza a built-in APISIX plugin; the file remains an external runtime dependency.
 
-When selecting a new WAF solution, APISIX places significant importance on its support for the open-source community. Similar to APISIX, Coraza has an active developer community. The support of the open-source community enables Coraza to provide timely updates and support. Community members actively participate in the development and maintenance of Coraza, continuously improving and optimizing the code, and addressing vulnerabilities and security issues. Users benefit from these timely updates, maintaining the security and stability of their applications.
+```dockerfile
+FROM apache/apisix:3.18.0-debian
 
-The Coraza open-source community coordinates with the development and evolution of APISIX. As a WAF solution for APISIX, Coraza can closely integrate with the features and capabilities of APISIX to meet users' security needs. Collaboration and feedback from the open-source community contribute to driving further development of the solution and ensuring its compatibility and consistency with APISIX.
+ARG CORAZA_VERSION=0.6.0
+ARG CORAZA_SHA256=cca4e3c75cf6b2e615907f936a1b6dcd0955250e0fb7d3b1c2ecef807d84603c
 
-### Support Wasm Plugins
+USER root
 
-APISIX supports developing plugins with [WebAssembly (Wasm)](https://apisix.apache.org/blog/2021/11/19/apisix-supports-wasm/#how-to-use-wasm-in-apache-apisix), and Coraza also provides Wasm plugins as an option. Therefore, integrating Coraza with APISIX incurs relatively low costs.
+ADD https://github.com/corazawaf/coraza-proxy-wasm/releases/download/${CORAZA_VERSION}/coraza-proxy-wasm-${CORAZA_VERSION}.zip /tmp/coraza-proxy-wasm.zip
 
-Wasm can be utilized cross-platform, allowing APISIX and Coraza to work seamlessly without additional extensive modifications or adaptations. This eliminates extensive code modifications and adaptations.
+RUN echo "${CORAZA_SHA256}  /tmp/coraza-proxy-wasm.zip" | sha256sum --check --strict - \
+    && apt-get update \
+    && apt-get install --yes --no-install-recommends unzip \
+    && mkdir -p /usr/local/apisix/proxywasm \
+    && unzip /tmp/coraza-proxy-wasm.zip -d /usr/local/apisix/proxywasm \
+    && rm /tmp/coraza-proxy-wasm.zip \
+    && apt-get purge --yes unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && chown -R apisix:apisix /usr/local/apisix/proxywasm
 
-**The benefits of this low-cost integration include:**
-
-1. Verified Solution: Although the Coraza wasm plugin was not developed specifically for APISIX, it has been validated on the Istio platform. In terms of functionality, the plugin can provide guarantees consistent with Istio.
-2. Low Development and Maintenance Costs: The Coraza wasm plugin is a platform-independent binary file, making its release and development process extremely convenient. Extending the Coraza wasm plugin can be achieved with proxy-wasm-go-sdk, where releasing only requires updating the binary file, further simplifying the process.
-
-### Using Core Rule Set
-
-Traditional WAF solutions often require the installation and configuration of specific modules on web servers, such as NGINX, to integrate and communicate with the WAF engine. This integration process can be cumbersome for Ops engineers, involving complex configurations and compatibility issues with different software versions.
-
-However, Coraza utilizes the Core Rule Set (CRS) as its rule set. CRS is a widely adopted and validated open-source set of rules designed for the detection and defense of common attacks in web applications. What sets Coraza apart from traditional WAF solutions is its ability to directly parse and execute CRS rules without additional compilation of NGINX. The use of CRS provides enhanced security protection for APISIX along with support from the CRS community.
-
-**This design brings several important benefits:**
-
-- Simplified Maintenance for Coraza: As it doesn't require the support of nginx_module, the Ops engineers do not need to deal with complex module installation and configuration processes. Instead, they can focus on maintaining and updating the CRS rule set, ensuring it contains the latest security rules and fixes.
-
-- Increased Stability and Reliability of the Entire Solution: CRS, as a mature rule set, has undergone long-term practice and improvement and has been widely adopted and supported by the community. This means Coraza users can benefit from the collective wisdom of the CRS community and receive timely security updates and fixes.
-
-### Easy Installation and Deployment
-
-Coraza doesn't require the support of nginx_module, making it easy to maintain. This is because Coraza is an independent WAF that doesn't rely on NGINX or support from other web server modules and can integrate with different web servers.
-
-This independence makes Coraza's maintenance easier as it doesn't need to depend on specific web server configurations or module installations. Administrators can configure and manage Coraza independently without worrying about compatibility with other server components.
-
-## How to Use Coraza in APISIX
-
-Please note that to use Coraza functionality, you need to install the APISIX master version. Currently, this feature is in the preview stage, and it is expected to be officially supported in version 3.6.0.
-
-### Configuring APISIX Integration with coraza-proxy-wasm
-
-Navigate to the directory of `APISIX`
-
-```
-cd /home/ubuntu/apisix-master
+USER apisix
 ```
 
-Modify the configuration `file conf/config-default.yaml` and cancel the original comment in the wasm configuration
+Build the image and confirm that `/usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm` exists in the container.
 
-```
+## Register the module in APISIX
+
+Add the module to `conf/config.yaml`. The plugin name in this configuration is the name used on Routes and Global Rules.
+
+```yaml
 wasm:
   plugins:
     - name: coraza-filter
       priority: 7999
-      file: /home/ubuntu/coraza-proxy-wasm/build/main.wasm # Write absolute path
+      file: /usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm
 ```
 
-### Configuring the `/anything` route to integrate Coraza's WAF rules
+Restart APISIX after changing `config.yaml`. If APISIX cannot load the module, check the file path, ownership, and startup logs before adding the plugin to traffic.
 
-Reconfigure routing and enable the `coraza-filter` plugin
+## Apply a small test policy
 
-```
-curl -i http://127.0.0.1:9180/apisix/admin/routes/1 -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '{
-  "uri": "/anything",
-  "plugins": {
-    "coraza-filter": {
-      "conf": {
-        "directives_map": {
-          "default": [
-            "SecDebugLogLevel 9",
-            "SecRuleEngine On",
-            "SecRule REQUEST_URI \"@beginsWith /anything\" \"id:101,phase:1,t:lowercase,deny\""
-          ]
-        },
-        "default_directives": "default"
-      }
-    }
-  },
-  "upstream": {
-    "type": "roundrobin",
-    "nodes": {
-      "httpbin.org:80": 1
-    }
-  }
-}'
-```
-
-Test the WAF rules and we can see 403
+Begin with a policy whose result is easy to verify. This example rejects requests to `/anything` before proxying them to httpbin.
 
 ```shell
-curl http://localhost:9080/anything -v
-*   Trying 127.0.0.1:9080...
-* TCP_NODELAY set
-* Connected to localhost (127.0.0.1) port 9080 (#0)
-> GET /anything HTTP/1.1
-> Host: localhost:9080
-> User-Agent: curl/7.68.0
-> Accept: */*
->
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 403 Forbidden
-< Date: Thu, 31 Aug 2023 09:09:18 GMT
-< Content-Type: text/html; charset=utf-8
-< Content-Length: 225
-< Connection: keep-alive
-< Server: APISIX/3.4.0
-<
-<html>
-<head><title>403 Forbidden</title></head>
-<body>
-<center><h1>403 Forbidden</h1></center>
-<hr><center>openresty</center>
-<p><em>Powered by <a href="https://apisix.apache.org/">APISIX</a>.</em></p></body>
-</html>
-* Connection #0 to host localhost left intact
+curl "http://127.0.0.1:9180/apisix/admin/routes/coraza-test" \
+  --request PUT \
+  --header "X-API-KEY: ${admin_key}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "uri": "/anything",
+    "plugins": {
+      "coraza-filter": {
+        "conf": {
+          "directives_map": {
+            "test": [
+              "SecRuleEngine On",
+              "SecRule REQUEST_URI \"@beginsWith /anything\" \"id:101,phase:1,deny,status:403\""
+            ]
+          },
+          "default_directives": "test"
+        }
+      }
+    },
+    "upstream": {
+      "type": "roundrobin",
+      "nodes": {
+        "httpbin.org:80": 1
+      }
+    }
+  }'
 ```
 
-Check logs `logs/error.log`
+Request the Route:
 
-```text
-2023/08/31 09:20:39 [info] 126240#126240: *23933 Transaction interrupted tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 action="deny" phase="http_request_headers", client: 127.0.0.1, server: _, request: "GET /anything HTTP/1.1", host: "localhost:9080"
-2023/08/31 09:20:39 [debug] 126240#126240: *23933 Interruption already handled, sending downstream the local response tx_id="JVhHVfDuGjVbfgvDjik" context_id=2 interruption_handled_phase="http_request_headers"
+```shell
+curl --include "http://127.0.0.1:9080/anything"
 ```
+
+The response should have status `403`. This test confirms that APISIX loaded the module and that the configured directive ran. It does not validate a production WAF policy.
+
+## Evaluate the OWASP Core Rule Set
+
+After the small phase-one policy works, you can load the CRS embedded in the Coraza module for further evaluation:
+
+```yaml
+plugins:
+  coraza-filter:
+    conf:
+      directives_map:
+        crs:
+          - SecRuleEngine On
+          - Include @crs-setup-conf
+          - Include @owasp_crs/*.conf
+      default_directives: crs
+```
+
+Use this plugin configuration only on selected test Routes while tuning. Loading the rules does not prove that every request phase or variable is available through APISIX. In particular, validate request-body rules independently and review the current upstream APISIX issues before treating CRS as an enforcement control. A Global Rule can apply the plugin more broadly, but doing so before validating coverage and exclusions increases the blast radius of both missed detections and false positives.
+
+## Tune the WAF before production
+
+WAF deployment is an iterative security task, not a one-time switch. Before enabling blocking across production traffic:
+
+1. Replay representative requests in a non-production environment.
+2. Review rule IDs, matched variables, and false positives in the Coraza and APISIX logs.
+3. Add the narrowest practical exclusions instead of disabling broad rule groups.
+4. Verify whether request-body callbacks run for every required content type; uploads, streaming traffic, HTTP/2 requests, and large payloads need separate tests.
+5. Measure latency, memory use, and error rates under expected peak traffic.
+6. Define an operational rollback path for the Wasm plugin and its rules.
+7. Continue patching applications and dependencies; CRS blocks selected traffic patterns but does not remove underlying vulnerabilities.
+
+For a broader defense-in-depth model, combine the tuned WAF policy with [API gateway authentication](/learning-center/api-gateway-authentication/), rate limiting, transport security, and service-owned authorization. The [API gateway security guide](/learning-center/api-gateway-security/) explains how these controls fit together.
 
 ## Conclusion
 
-Coraza is a powerful WAF framework that offers extensive security features and flexible configuration options, suitable for protecting enterprise web applications from various threats. The integration of APISIX with Coraza is a significant new feature of APISIX. Coraza, as an easy-to-maintain solution, integrated with APISIX, provides enterprises with robust API management and security features.
+Coraza Proxy Wasm gives APISIX operators an open-source path to evaluate phase-one traffic rules and investigate CRS at the gateway. The integration is most useful as a controlled test with pinned versions, narrow policies, and workload-specific validation. Do not treat it as complete API WAF coverage until every required request and response phase, including body processing, is verified in your deployment.

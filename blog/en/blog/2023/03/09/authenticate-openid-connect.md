@@ -9,182 +9,162 @@ keywords:
   - Authentication
   - OAuth 2.0
   - OpenID Connect
-  - Google Cloud
+  - Google Identity
+  - Microsoft Entra ID
 description: >
-  Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.
+  Configure Apache APISIX 3.18 with Google or Microsoft Entra ID through OpenID Connect discovery metadata, then switch providers without a gateway-specific integration.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2023/06/13/OZebsxXL_eye-gd82fef23c.jpg
 ---
 
->Lots of companies are eager to provide their identity provider: Twitter, Facebook, Google, etc. For smaller businesses, not having to manage identities is a benefit. However, we want to avoid being locked into one provider. In this post, I want to demo how to use OpenID Connect using Google underneath and then switch to Azure.
+> Apache APISIX can authenticate browser clients with an OpenID Connect provider before forwarding requests to a protected upstream. Using provider discovery metadata keeps the gateway configuration portable between providers such as Google Identity and Microsoft Entra ID.
 
 <!--truncate-->
-## OpenID Connect
 
-The idea of an _authorization_ open standard started with [OAuth](https://en.wikipedia.org/wiki/OAuth) around 2006. Because of a security issue, OAuth 2.0 superseded the initial version. OAuth 2.0 became an <abbr title="Internet Engineering Task Force">IETF</abbr> <abbr title="Request For Comments">RFC</abbr> in 2012:
+[OAuth 2.0](https://www.rfc-editor.org/rfc/rfc6749) defines a framework for delegated authorization. [OpenID Connect](https://openid.net/developers/how-connect-works/) adds an identity layer so a client can verify who authenticated and obtain standardized claims about that user.
 
->The OAuth 2.0 authorization framework enables a third-party
->application to obtain limited access to an HTTP service, either on
->behalf of a resource owner by orchestrating an approval interaction
->between the resource owner and the HTTP service, or by allowing the
->third-party application to obtain access on its own behalf
->
->-- [RFC 7469 - The OAuth 2.0 Authorization Framework](https://www.rfc-editor.org/rfc/rfc6749)
+In this design, the identity provider authenticates the user and Apache APISIX validates the resulting OIDC flow at the gateway. The upstream service still owns business authorization, resource ownership, and other domain-specific access decisions. Moving authentication to the gateway does not make every authenticated user authorized for every operation.
 
-OAuth focuses mostly on _authorization_;
-the _authentication_ part is pretty light:
-it contains a section about Client Password authentication and one Other Authentication Methods.
+## How provider portability works
 
->The authorization server MAY support any suitable HTTP authentication
->scheme matching its security requirements.  When using other
->authentication methods, the authorization server MUST define a
->mapping between the client identifier (registration record) and
->authentication scheme.
->
->-- [2.3.2.  Other Authentication Methods](https://www.rfc-editor.org/rfc/rfc6749#section-2.3.2)
+An OIDC discovery document publishes endpoints and capabilities in a standard format. The APISIX [openid-connect plugin](/docs/apisix/plugins/openid-connect/) reads that document instead of requiring a provider-specific gateway integration.
 
-OpenID Connect uses OAuth 2.0 and adds the _authentication_ part:
+Switching providers normally changes these values:
 
->OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0 protocol. It allows Clients to verify the identity of the End-User based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the End-User in an interoperable and REST-like manner.
->
->OpenID Connect allows clients of all types, including Web-based, mobile, and JavaScript clients, to request and receive information about authenticated sessions and end-users. The specification suite is extensible, allowing participants to use optional features such as encryption of identity data, discovery of OpenID Providers, and logout, when it makes sense for them.
->
->-- [What is OpenID Connect?](https://openid.net/connect/)
+- client ID
+- client secret
+- discovery URL
+- provider-side redirect URI registration
 
-Here are a couple of identity providers that are compatible with OpenID Connect:
+Claims, tenant rules, consent, and account policies can still differ between providers. Test application authorization and claim handling after a switch rather than assuming that identical OIDC protocol support produces identical user data.
 
-* GitHub
-* Google
-* Microsoft
-* Apple
-* Facebook
-* Twitter
-* Spotify
+## Prerequisites
 
-In the following, we will start with Google and switch to Azure to validate our setup.
+This example assumes:
 
-## Setting up OpenID Connect with Apache APISIX
+- Apache APISIX 3.18.0 in standalone mode
+- Docker Compose
+- a test upstream such as httpbin
+- an OIDC web client registered with Google Identity or Microsoft Entra ID
+- the exact callback URL `http://localhost:9080/.apisix/redirect` registered with the provider
 
-Imagine we have a web app behind Apache APISIX that we want to secure with OpenID Connect. Here's the corresponding Docker Compose file:
+Use HTTPS and a production hostname outside local development. Store client and session secrets in a secret manager or protected environment variables rather than committing them to source control.
+
+## Run APISIX and the upstream
+
+The Compose file mounts an existing standalone APISIX configuration and the declarative route configuration used below.
 
 ```yaml
-version: "3"
-
 services:
   apisix:
-    image: apache/apisix:3.1.0-debian                              #1
+    image: apache/apisix:3.18.0-debian
     ports:
       - "9080:9080"
     volumes:
-      - ./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro  #2
-      - ./apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro  #3
+      - ./apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro
+      - ./apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro
     env_file:
       - .env
   httpbin:
-    image: kennethreitz/httpbin                                    #4
+    image: kennethreitz/httpbin
 ```
 
-1. Apache APISIX API Gateway
-2. APISIX configuration - used to configure it statically in the following line
-3. Configure the single route
-4. Webapp to protect. Any will do
-
-Apache APISIX offers a plugin-based architecture. One such plugin is the [openid-connect](https://apisix.apache.org/docs/apisix/plugins/openid-connect/) plugin, which allows using OpenID Connect.
-
-Let's configure it:
+Configure APISIX to use the YAML configuration provider as described in the [deployment modes documentation](/docs/apisix/deployment-modes/). Then add this Route to `apisix/apisix.yml`:
 
 ```yaml
 routes:
-  - uri: /*                                                                    #1
-    upstream:
-      nodes:
-        "httpbin:80": 1                                                        #1
+  - id: oidc-protected-route
+    uri: /*
     plugins:
       openid-connect:
-        client_id: ${{OIDC_CLIENTID}}                                          #2
-        client_secret: ${{OIDC_SECRET}}                                        #2
-        discovery: https://${{OIDC_ISSUER}}/.well-known/openid-configuration   #2-3
-        redirect_uri: http://localhost:9080/callback                           #4
-        scope: openid                                                          #5
+        client_id: ${{OIDC_CLIENT_ID}}
+        client_secret: ${{OIDC_CLIENT_SECRET}}
+        discovery: ${{OIDC_DISCOVERY_URL}}
+        redirect_uri: http://localhost:9080/.apisix/redirect
+        scope: openid profile email
+        ssl_verify: true
         session:
-          secret: ${{SESSION_SECRET}}                                          #6
+          secret: ${{OIDC_SESSION_SECRET}}
+    upstream:
+      type: roundrobin
+      nodes:
+        "httpbin:80": 1
 #END
 ```
 
-1. Catch-all route to the underlying web app
-2. Plugin configuration parameters. Values depend on the exact provider (see below)
-3. OpenID Connect can use a Discovery endpoint to get all necessary OAuth endpoints. See [OpenID Connect Discovery 1.0 spec](https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig) for more information
-4. Where to redirect when the authentication is successful. It mustn't clash with any of the explicitly defined routes. The plugin creates a dedicated route there to work its magic.
-5. Default scope
-6. Key to encrypt session data. Put whatever you want.
+The callback is a sub-path of the wildcard Route and is not the same URI as the original protected request. This avoids the `no session state found` failure caused by sending an initial request directly to the callback path.
 
-## Configuring Google for OIDC
+`OIDC_SESSION_SECRET` must contain at least 16 characters. It encrypts and authenticates browser session data when the plugin uses authorization code flow. APISIX 3.18 enables provider TLS certificate verification by default; keep `ssl_verify: true` and install the appropriate trust chain instead of disabling verification in production.
 
-Like all Cloud Providers, Google offers a full-fledged Identity Management solution, which may be daunting for newcomers. In this section, I'll only detail the necessary steps required to configure it for <abbr title="OpenID Connect">OIDC</abbr>.
+Create a `.env` file outside version control:
 
-On the [Cloud Console](https://console.cloud.google.com/), create a dedicated project (or use an existing one).
+```dotenv
+OIDC_CLIENT_ID=replace-with-provider-client-id
+OIDC_CLIENT_SECRET=replace-with-provider-client-secret
+OIDC_DISCOVERY_URL=https://accounts.google.com/.well-known/openid-configuration
+OIDC_SESSION_SECRET=replace-with-a-long-random-secret
+```
 
-If you didn't do it already, customize the [OAuth Consent Screen](https://console.cloud.google.com/apis/credentials/consent).
+## Configure Google Identity
 
-In the project context, navigate _APIs & Services | Credentials_.
+In Google Cloud Console:
 
-![Google Cloud - Credentials menu](https://static.apiseven.com/uploads/2023/06/13/bYAZa9TL_google-cloud-credentials.jpg)
+1. Configure the OAuth consent screen for the project.
+2. Create an OAuth client ID with application type **Web application**.
+3. Register `http://localhost:9080/.apisix/redirect` as an authorized redirect URI.
+4. Put the generated client ID and client secret in `.env`.
+5. Set `OIDC_DISCOVERY_URL` to `https://accounts.google.com/.well-known/openid-configuration`.
 
-Then, press the _+ CREATE CREDENTIALS_ button in the upper menu bar.
+Start the environment:
 
-![Google Cloud - Create Credentials button](https://static.apiseven.com/uploads/2023/06/13/k9I8i35H_google-cloud-create-credentials.jpg)
+```shell
+docker compose up
+```
 
-Select _OAuth Client Id_ in the scrolling menu.
+Opening `http://localhost:9080/get` should redirect the browser to Google. After authentication, APISIX completes the callback and proxies the original request to httpbin.
 
-![Google Cloud - Choose credentials type](https://static.apiseven.com/uploads/2023/06/13/8J3eCFDY_google-cloud-choose-credentials.jpg)
+Provider consoles change over time. The durable requirements are a web client, the exact registered callback URI, and the provider's OIDC discovery document; consult Google's current OIDC documentation for console-specific steps.
 
-Fill in the fields:
+## Switch to Microsoft Entra ID
 
-* Application type: Web application
-* Name: whatever you want
-* Authorized redirect URIs: `<URL>/callback`, _e.g._, `http://localhost:9080/callback`
+Create a web application registration in Microsoft Entra ID and register the same callback URL. Create a client secret for the application, then replace the provider variables:
 
-![Google Cloud - Create OAuth Client id](https://static.apiseven.com/uploads/2023/06/13/FS4fntju_google-cloud-create-oauth-client-id.jpg)
+```dotenv
+OIDC_CLIENT_ID=replace-with-entra-application-client-id
+OIDC_CLIENT_SECRET=replace-with-entra-client-secret
+OIDC_DISCOVERY_URL=https://login.microsoftonline.com/replace-with-tenant-id/v2.0/.well-known/openid-configuration
+OIDC_SESSION_SECRET=replace-with-a-new-long-random-secret
+```
 
-`URL` should be the URL of the web application. Likewise, `/callback` should match the `openid-connect` plugin configuration above. Note that Google doesn't allow relative URLs, so if you need to reuse the application in different environments, you need to add the URL of each environment. Click the _Create_ button.
+Recreate the APISIX container so Compose injects the updated environment variables. A container restart alone does not reload values from `.env`:
 
-![Google Cloud - OAuth client created](https://static.apiseven.com/uploads/2023/06/13/0CRBKPtt_google-cloud-oauth-client-created.jpg)
+```shell
+docker compose up --detach --force-recreate apisix
+```
 
-In the Docker Compose configuration above, use the Client ID and Client Secret as `OIDC_CLIENTID` and `OIDC_SECRET`. I wrote them down as environment variables in a `.env` file.
+Confirm that the container received the new discovery URL without printing either client or session secret:
 
-The last missing variable is `OIDC_ISSUER`: it's `accounts.google.com`. If you navigate to <https://accounts.google.com/.well-known/openid-configuration>, you'll see all data required by OAuth 2.0 (and more).
+```shell
+docker compose exec apisix printenv OIDC_DISCOVERY_URL
+```
 
-At this point, we can start our setup with `docker compose up`. When we navigate to <http://localhost:9080/>, the browser redirects us to the Google authentication page. Since I'm already authenticated, I can choose my ID - and I need one bound to the organization of the project I created above.
+The new session secret invalidates cookies created during the Google test. If you intentionally retain the previous session secret instead, clear the APISIX session cookie or use a private browser window before testing. A request to `http://localhost:9080/get` should then start the Microsoft Entra ID flow.
 
-![Choose the Google account you want to authenticate with](https://static.apiseven.com/uploads/2023/06/13/yckQhlJf_google-auth-choose-account.jpg)
+Use a tenant-specific discovery URL when access should be limited to one organization. Microsoft also exposes other issuer patterns for multi-tenant applications; choose one only after defining which accounts the application should accept.
 
-Then, I can freely access the resource.
+## Validate the integration
 
-## Configuring Azure for OIDC
+For either provider, verify more than the successful redirect:
 
-My colleague Bobur has already [described everything](https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3) you need to do to configure Azure for OIDC.
+1. An unauthenticated request starts the provider flow.
+2. A successful callback returns the user to the original protected URL.
+3. An invalid client secret or unregistered callback fails without exposing secret values in logs.
+4. Session cookies use the expected domain, path, `Secure`, and `SameSite` settings for the deployment.
+5. The upstream receives only the identity headers that the application needs and does not treat those headers as a substitute for business authorization.
+6. Logout, token refresh, session expiration, and denied consent behave as expected.
 
-We only need to change the OIDC parameters:
-
-* `OIDC_CLIENTID`
-* `OIDC_SECRET`
-* `OIDC_ISSUER`: on Azure, it should look something like `login.microsoftonline.com/<TENANT_ID>/v2.0`
-
-If you restart Docker Compose with the new parameters, the root page is now protected by Azure login.
+If the application needs bearer-token validation rather than a browser redirect, configure the plugin for that flow instead of copying the session configuration unchanged. The official plugin documentation includes authorization code, bearer-only, introspection, PKCE, and troubleshooting examples.
 
 ## Conclusion
 
-Externalizing your authentication process to a third party may be sensible, but you want to avoid binding your infrastructure to its proprietary process. OpenID Connect is an industry standard that allows switching providers easily.
-
-Apache APISIX offers a plugin that integrates OIDC so that you can protect your applications with the latter. There's no reason not to use it, as all dedicated identity providers, such as Okta and Keycloak, are OIDC-compatible.
-
-The complete source code for this post can be found on [GitHub](https://github.com/ajavageek/openid-authentication).
-
-**To go further:**
-
-* [OpenID Connect](https://openid.net/connect/)
-* [OpenID Connect Discovery 1.0 specification](https://openid.net/specs/openid-connect-discovery-1_0.html)
-* [Apache APISIX OIDC plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect/)
-* [API Security with OIDC by using Apache APISIX and Microsoft Azure AD](https://dev.to/apisix/api-security-with-oidc-by-using-apache-apisix-and-microsoft-azure-ad-50h3)
-* [Use Keycloak with API Gateway to secure APIs](https://apisix.apache.org/blog/2022/07/06/use-keycloak-with-api-gateway-to-secure-apis/)
-* [How to Use Apache APISIX Auth With Okta](https://api7.ai/blog/how-to-use-apisix-auth-with-okta)
+OpenID Connect lets APISIX use a standard provider contract for gateway-side authentication. Discovery metadata makes the endpoint configuration portable, while the client registration, tenant policy, claims, and service authorization remain deployment-specific. Test those boundaries whenever you move from Google to Microsoft Entra ID or another OIDC provider.
