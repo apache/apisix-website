@@ -26,6 +26,8 @@ image: https://static.apiseven.com/2022/blog/0818/plugins/keycloak.png
 
 OpenID Connect referred to as OIDC, is an authentication protocol based on the OAuth 2.0. It allows the client to obtain user information from the identity provider (IdP), e.g., Keycloak, Ory, Okta, Auth0, etc. The open-source API Gateway Apache APISIX supports using the [openid-connect plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect) to integrate with the above identity Providers. It will redirect all unauthenticated clients to IdP's login page. After the successful authentication, APISIX will pass the user information to the upstream service.
 
+OIDC is one of several ways to verify callers at the gateway. The [API gateway authentication guide](/learning-center/api-gateway-authentication/) compares OIDC with API keys, JWT, OAuth 2.0-based flows, mTLS, and HMAC so teams can choose a method before implementing a provider-specific flow.
+
 ![screenshot](https://static.apiseven.com/2022/blog/0706/1.png)
 
 Keycloak is an open-source identity and access management. It adds authentication to applications and secures services with minimum effort. Also, it provides user federation, strong authentication, user management, fine-grained authorization, and more. In this post, we will take [Keycloak](https://www.keycloak.org/docs/latest/securing_apps/) as an example, and let's see how to integrate it with APISIX to protect your services.

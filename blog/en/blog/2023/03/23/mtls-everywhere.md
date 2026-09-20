@@ -32,7 +32,7 @@ TLS works through certificates. A certificate is similar to an ID, proving the c
 
 TLS authentication is based on public key cryptography. Alice generates a public key/private key pair and publishes the public key. If one encrypts data with the public key, only the private key that generated the public key can decrypt them. The other usage is for one to encrypt data with the private key and everybody with the public key to decrypt it, thus proving their identity.
 
-Finally, mutual TLS, _aka_ mTLS, is the configuration of two-way TLS: server authentication to the client, as usual, but also the other way around, client authentication to the server.
+Finally, [mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) is the configuration of two-way TLS: server authentication to the client, as usual, but also the other way around, client authentication to the server.
 
 We now have enough understanding of the concepts to get our hands dirty.
 
