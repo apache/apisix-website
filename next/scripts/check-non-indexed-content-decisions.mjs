@@ -88,6 +88,11 @@ assert.match(coraza, /requires tuning/i);
 assert.match(coraza, /issues\/309/);
 assert.match(coraza, /do not rely on this integration for request-body protection/i);
 assert.doesNotMatch(coraza, /23,000|0\.2 milliseconds|officially supported in version 3\.6\.0/);
+const corazaCrsExample = coraza.split('## Evaluate the OWASP Core Rule Set')[1].split('## Tune the WAF before production')[0];
+assert.match(corazaCrsExample, /apisix\/admin\/routes\/coraza-crs-test/);
+assert.match(corazaCrsExample, /"uri": "\/crs-test\/\*"/);
+assert.match(corazaCrsExample, /"plugins": \{/);
+assert.match(corazaCrsExample, /"upstream": \{/);
 
 const corazaZh = read('blog/zh/blog/2023/09/08/apisix-integrates-with-coraza.md');
 assert.match(corazaZh, /Coraza Proxy Wasm 0\.6\.0/);
@@ -98,6 +103,11 @@ assert.match(corazaZh, /不应依赖该集成提供请求体防护/);
 assert.match(corazaZh, /\/learning-center\/api-gateway-authentication\//);
 assert.match(corazaZh, /\/learning-center\/api-gateway-security\//);
 assert.doesNotMatch(corazaZh, /单核 QPS 高达 23000|平均延迟仅为 0\.2 毫秒|3\.6\.0 版本将正式支持/);
+const corazaCrsExampleZh = corazaZh.split('## 评估 OWASP Core Rule Set')[1].split('## 投入生产前进行调优')[0];
+assert.match(corazaCrsExampleZh, /apisix\/admin\/routes\/coraza-crs-test/);
+assert.match(corazaCrsExampleZh, /"uri": "\/crs-test\/\*"/);
+assert.match(corazaCrsExampleZh, /"plugins": \{/);
+assert.match(corazaCrsExampleZh, /"upstream": \{/);
 
 const oidc = read('blog/en/blog/2023/03/09/authenticate-openid-connect.md');
 assert.match(oidc, /apache\/apisix:3\.18\.0-debian/);

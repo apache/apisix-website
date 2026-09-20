@@ -51,9 +51,9 @@ We have recently addressed and enhanced various features, and here is a summary 
 
   WeCity has been using APISIX for its core business since May 2023. Arjen Hof, Co-founder and CTO of WeCity, and Tim van Densen, Software Architect and Lead Developer of WeCity, shared their experience with APISIX.
 
-- [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
+- [Evaluate Coraza WAF with Apache APISIX](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
 
-  The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+  This guide shows how to evaluate Coraza Proxy Wasm with APISIX while accounting for current request-body and Proxy Wasm limitations.
 
 - [Release Apache APISIX 3.5.0](https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/)
 

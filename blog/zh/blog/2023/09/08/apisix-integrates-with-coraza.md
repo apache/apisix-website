@@ -138,21 +138,39 @@ curl --include "http://127.0.0.1:9080/anything"
 
 ## 评估 OWASP Core Rule Set
 
-小范围 phase 1 策略通过后，可以加载 Coraza 模块内置的 CRS 进行进一步评估：
+小范围 phase 1 策略通过后，可以在专用测试 Route 上加载 Coraza 模块内置的 CRS 进行进一步评估：
 
-```yaml
-plugins:
-  coraza-filter:
-    conf:
-      directives_map:
-        crs:
-          - SecRuleEngine On
-          - Include @crs-setup-conf
-          - Include @owasp_crs/*.conf
-      default_directives: crs
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes/coraza-crs-test" \
+  --request PUT \
+  --header "X-API-KEY: ${admin_key}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "uri": "/crs-test/*",
+    "plugins": {
+      "coraza-filter": {
+        "conf": {
+          "directives_map": {
+            "crs": [
+              "SecRuleEngine On",
+              "Include @crs-setup-conf",
+              "Include @owasp_crs/*.conf"
+            ]
+          },
+          "default_directives": "crs"
+        }
+      }
+    },
+    "upstream": {
+      "type": "roundrobin",
+      "nodes": {
+        "httpbin.org:80": 1
+      }
+    }
+  }'
 ```
 
-调优期间，只应将这项插件配置用于选定的测试 Route。成功加载规则不代表 APISIX 已提供每个请求阶段或变量。尤其需要单独验证请求体规则，并在将 CRS 视为执行控制前检查上游项目当前的 APISIX 相关问题。Global Rule 可以扩大插件应用范围，但在确认覆盖能力和排除规则前这样做，会同时放大漏报和误报的影响。
+调优期间，应将这项插件配置保留在选定的测试 Route 上。成功加载规则不代表 APISIX 已提供每个请求阶段或变量。尤其需要单独验证请求体规则，并在将 CRS 视为执行控制前检查上游项目当前的 APISIX 相关问题。Global Rule 可以扩大插件应用范围，但在确认覆盖能力和排除规则前这样做，会同时放大漏报和误报的影响。
 
 ## 投入生产前进行调优
 

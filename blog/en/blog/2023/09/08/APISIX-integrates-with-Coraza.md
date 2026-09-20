@@ -138,21 +138,39 @@ The response should have status `403`. This test confirms that APISIX loaded the
 
 ## Evaluate the OWASP Core Rule Set
 
-After the small phase-one policy works, you can load the CRS embedded in the Coraza module for further evaluation:
+After the small phase-one policy works, you can load the CRS embedded in the Coraza module on a dedicated test Route for further evaluation:
 
-```yaml
-plugins:
-  coraza-filter:
-    conf:
-      directives_map:
-        crs:
-          - SecRuleEngine On
-          - Include @crs-setup-conf
-          - Include @owasp_crs/*.conf
-      default_directives: crs
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes/coraza-crs-test" \
+  --request PUT \
+  --header "X-API-KEY: ${admin_key}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "uri": "/crs-test/*",
+    "plugins": {
+      "coraza-filter": {
+        "conf": {
+          "directives_map": {
+            "crs": [
+              "SecRuleEngine On",
+              "Include @crs-setup-conf",
+              "Include @owasp_crs/*.conf"
+            ]
+          },
+          "default_directives": "crs"
+        }
+      }
+    },
+    "upstream": {
+      "type": "roundrobin",
+      "nodes": {
+        "httpbin.org:80": 1
+      }
+    }
+  }'
 ```
 
-Use this plugin configuration only on selected test Routes while tuning. Loading the rules does not prove that every request phase or variable is available through APISIX. In particular, validate request-body rules independently and review the current upstream APISIX issues before treating CRS as an enforcement control. A Global Rule can apply the plugin more broadly, but doing so before validating coverage and exclusions increases the blast radius of both missed detections and false positives.
+Keep this plugin configuration on selected test Routes while tuning. Loading the rules does not prove that every request phase or variable is available through APISIX. In particular, validate request-body rules independently and review the current upstream APISIX issues before treating CRS as an enforcement control. A Global Rule can apply the plugin more broadly, but doing so before validating coverage and exclusions increases the blast radius of both missed detections and false positives.
 
 ## Tune the WAF before production
 
