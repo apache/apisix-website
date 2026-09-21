@@ -33,11 +33,13 @@ The following changes affect existing configuration, authentication flows, clien
 
 ### HTTPS and gRPCS upstream certificate verification is now effective
 
-`upstream.tls.verify` now controls certificate verification for `https` and `grpcs` upstreams, rather than being read only by the `kafka` scheme. Existing HTTPS or gRPCS upstreams that already set `tls.verify: true` will therefore start verifying the certificate chain and hostname. A certificate that is untrusted or does not match the upstream host can cause a 502 response.
+`upstream.tls.verify` now controls certificate verification for `https` and `grpcs` upstreams, rather than being read only by the `kafka` scheme. Existing HTTPS or gRPCS upstreams that already set `tls.verify: true` will therefore start verifying the certificate chain and hostname. An untrusted certificate or hostname mismatch causes the TLS connection to fail, typically with a 502 response.
 
 The new `tls.ca_certs` array can provide trust anchors for one upstream. When it is absent, verification uses `ssl_trusted_certificate` from `config.yaml`. Leaving `tls.verify` unset follows the NGINX verification setting, while explicitly setting it to `false` disables verification for that upstream.
 
-**Upgrade plan:** If an `https` or `grpcs` upstream already sets `tls.verify: true`, validate its certificate chain and subject alternative name against the host APISIX sends as SNI. Add the required PEM certificates to `upstream.tls.ca_certs` or the shared `ssl_trusted_certificate`, then test both a valid connection and the expected failure for an untrusted certificate. Set `tls.verify: false` only when preserving the previous non-verifying behavior is an intentional, risk-accepted compatibility measure.
+APISIX 3.19.0 pins APISIX Runtime 1.3.18, which provides the required upstream verification APIs. A custom or older Runtime without `set_ssl_verify` or `set_ssl_trusted_store` returns 503 when the corresponding option is used.
+
+**Upgrade plan:** If an `https` or `grpcs` upstream already sets `tls.verify: true`, first identify the hostname APISIX verifies: the incoming Host for the default `pass_host: pass`, `upstream_host` for `pass_host: rewrite`, or the selected node host for `pass_host: node`. Validate the certificate chain and subject alternative name against that hostname. Add the required PEM certificates to `upstream.tls.ca_certs` or the shared `ssl_trusted_certificate`, and confirm that custom Runtime builds provide the two upstream TLS APIs. Test one valid connection and the expected 502 for an untrusted or mismatched certificate. Set `tls.verify: false` only when preserving the previous non-verifying behavior is an intentional, risk-accepted compatibility measure.
 
 For more information, see [PR #13863](https://github.com/apache/apisix/pull/13863).
 
@@ -45,7 +47,7 @@ For more information, see [PR #13863](https://github.com/apache/apisix/pull/1386
 
 When `openid-connect` uses remote introspection and `claim_validator.issuer.valid_issuers` is configured, a successful introspection response must now contain a string `iss` claim matching the allowlist. A missing, non-string, or unlisted issuer is rejected with 401 and an `invalid_token` challenge. Previously, this allowlist was not applied to the introspection response.
 
-**Upgrade plan:** If an introspection-based route configures `claim_validator.issuer.valid_issuers`, confirm that the authorization server returns `iss` and that its exact value is listed. Test a valid token and a token from another issuer before rollout. Omit `valid_issuers` only if retaining the previous introspection behavior is acceptable; routes that do not configure the allowlist are unchanged.
+**Upgrade plan:** If an introspection-based route configures `claim_validator.issuer.valid_issuers`, confirm that the authorization server returns `iss` and that its exact value is listed. Test a valid token and a token from another issuer before rollout. Fixing the introspection response or allowlist is preferred. Omit `valid_issuers` only after a security review of an introspection-only configuration; the same field also constrains public-key and JWKS validation, where omission falls back to the issuer from discovery. Routes that do not configure the allowlist are unchanged.
 
 For more information, see [PR #13916](https://github.com/apache/apisix/pull/13916).
 
@@ -53,15 +55,25 @@ For more information, see [PR #13916](https://github.com/apache/apisix/pull/1391
 
 The `batch-requests` plugin now limits each subresponse body to 1 MiB and the combined response bodies of one pipeline to 10 MiB. A pipeline that exceeds either limit returns 502 instead of returning the full aggregate. The limits apply whether the upstream sends `Content-Length`, chunked data, or a close-delimited response.
 
-The plugin metadata fields `max_response_body_size` and `max_response_body_size_total` control the per-item and aggregate limits in bytes. Both must be positive integers.
+The global plugin metadata fields `max_response_body_size` and `max_response_body_size_total` control the per-item and aggregate limits in bytes. Both must be positive integers. For example:
 
-**Upgrade plan:** If clients use `batch-requests`, measure the largest expected subresponse and aggregate. Configure both metadata fields above those bounds before upgrading when the defaults are insufficient, and test a request at and just above each limit. There is no unlimited setting; choose explicit values that also fit each worker's memory budget.
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/plugin_metadata/batch-requests" \
+  -H "X-API-KEY: <admin-key>" \
+  -X PUT \
+  -d '{
+    "max_response_body_size": 4194304,
+    "max_response_body_size_total": 41943040
+  }'
+```
+
+**Upgrade plan:** If clients use `batch-requests`, measure the largest expected subresponse and aggregate. Configure both metadata fields above those bounds before upgrading when the defaults are insufficient, and test a request at and just above each limit. The metadata applies to every batch request handled by the APISIX instance. There is no unlimited setting; choose explicit values that also fit each worker's memory budget.
 
 For more information, see [PR #13906](https://github.com/apache/apisix/pull/13906).
 
 ### Basic authentication rejects empty Consumer passwords
 
-The `basic-auth` Consumer and credential schema now requires `password` to contain at least one character. Admin API writes with an empty literal password return 400. An existing password, environment reference, or Secret reference that resolves to an empty string fails closed during authentication and returns 401 instead of accepting `username:`.
+The `basic-auth` Consumer and credential schema now requires `password` to contain at least one character. Admin API writes with an empty literal password return 400, and a stored literal empty value fails schema validation when configurations are loaded. An environment or Secret reference can pass schema validation before resolution, but authentication returns 401 if the resolved value is empty instead of accepting `username:`.
 
 **Upgrade plan:** If you use `basic-auth`, audit Consumer and credential passwords, including referenced environment variables and Secrets, and replace every empty value before upgrading. Verify that each affected identity can authenticate with its new non-empty password. There is no compatibility option that restores empty-password authentication.
 
@@ -71,7 +83,7 @@ For more information, see [PR #13884](https://github.com/apache/apisix/pull/1388
 
 Each `instances[].name` now has to be unique within an `ai-proxy-multi` configuration. APISIX uses this name as the identity of the balancer node, health checker, `ai-rate-limiting` target, and `semantic_opts.fallback`; duplicate names previously collapsed distinct instances into ambiguous runtime state. A duplicate configuration is rejected on write and is not loaded from an existing configuration source.
 
-**Upgrade plan:** If you use `ai-proxy-multi`, inspect every `instances` array and assign a distinct name to each entry. Update all references to renamed instances, especially `semantic_opts.fallback` and `ai-rate-limiting` configuration, then validate the route and check each instance's health status. There is no compatibility option for duplicate names.
+**Upgrade plan:** If you use `ai-proxy-multi`, inspect every Route, Service, and Plugin Config that carries the plugin, then assign a distinct name to each entry in `instances`. Update `semantic_opts.fallback` and matching `ai-rate-limiting.instances[].name` references in the same configuration change. Re-submit the parent resource through the Admin API to validate it, send representative requests to each target, and, when instance-level `checks` are configured, verify the corresponding Control API health checkers. There is no compatibility option for duplicate names.
 
 For more information, see [PR #13851](https://github.com/apache/apisix/pull/13851).
 
@@ -79,15 +91,32 @@ For more information, see [PR #13851](https://github.com/apache/apisix/pull/1385
 
 The `workflow` plugin now rejects a `case` expression that cannot be compiled. Such an expression could previously pass validation and then match every request. Each rule's `actions` must also contain exactly one two-element `[name, conf]` pair. Configurations with several actions, an absent action configuration, or extra tuple elements are rejected rather than silently executing only the first action.
 
-**Upgrade plan:** If you use `workflow`, validate every `case` expression and reshape each `actions` value to `[["plugin-or-action-name", {...}]]`. Split intended multi-step behavior into supported independent controls instead of relying on ignored action entries. Test one matching and one non-matching request for every corrected rule. There is no legacy mode for malformed expressions or multiple actions.
+Each rule must have this shape:
+
+```json
+{
+  "plugins": {
+    "workflow": {
+      "rules": [
+        {
+          "case": [["uri", "==", "/hello"]],
+          "actions": [["return", {"code": 403}]]
+        }
+      ]
+    }
+  }
+}
+```
+
+**Upgrade plan:** If you use `workflow`, validate every `case` expression and reshape each rule to contain exactly one `[name, conf]` action. There is no equivalent multi-action workflow: APISIX stops at the first matching rule, so duplicating a condition across rules does not execute actions sequentially. Keep one workflow action and move additional behavior into normal plugin composition or a custom combined action. Test one matching and one non-matching request for every corrected rule. There is no legacy mode for malformed expressions or multiple actions.
 
 For more information, see [PR #13862](https://github.com/apache/apisix/pull/13862).
 
 ### WebSocket sessions use a new Prometheus `request_type` value
 
-Requests that complete a WebSocket upgrade with `101 Switching Protocols` are now labeled `request_type="websocket"` instead of `request_type="traditional_http"` in `apisix_http_status`, `apisix_http_latency`, and `apisix_bandwidth`. This keeps long-lived WebSocket sessions out of conventional HTTP latency analysis, but changes existing metric series and selectors.
+Successful WebSocket upgrades on the existing NGINX proxy path, typically Routes using `enable_websocket`, are now labeled `request_type="websocket"` instead of `request_type="traditional_http"` in `apisix_http_status`, `apisix_http_latency`, and `apisix_bandwidth`. This keeps long-lived WebSocket sessions out of conventional HTTP latency analysis, but changes existing metric series and selectors. The new `ws` and `wss` content path does not run `http_header_filter_phase`, where this label is assigned.
 
-**Upgrade plan:** If dashboards, alerts, or recording rules filter these metric families by `request_type="traditional_http"`, decide whether WebSocket traffic should remain included. Add `request_type=~"traditional_http|websocket"` to preserve combined coverage, or create separate WebSocket panels and alerts. Validate the three metric families with a representative upgraded connection; there is no setting that restores the old label value.
+**Upgrade plan:** If dashboards, alerts, or recording rules filter these metric families by `request_type="traditional_http"`, decide whether WebSocket traffic should remain included. Before a mixed-version rollout, add `request_type=~"traditional_http|websocket"` to preserve combined coverage, or create separate WebSocket panels and alerts. Validate all three metric families with a successful and a refused upgrade on a representative `enable_websocket` Route; there is no setting that restores the old label value.
 
 For more information, see [PR #13909](https://github.com/apache/apisix/pull/13909) and [PR #13915](https://github.com/apache/apisix/pull/13915).
 
@@ -101,9 +130,29 @@ For more information, see [PR #13891](https://github.com/apache/apisix/pull/1389
 
 ### Verified Redis TLS connections now check the server name
 
-Redis-backed plugins now send TLS SNI and, when `redis_ssl_verify` is `true`, verify the certificate against `redis_server_name` or `redis_host`. A deployment whose `redis_host` is a DNS alias not covered by the certificate can therefore start failing Redis operations with a certificate-host mismatch. The change applies to the shared Redis configuration used by `ai-cache`, `ai-rate-limiting`, `graphql-limit-count`, `limit-count`, `limit-conn`, and `limit-req`.
+For the single-node `policy: redis` path, Redis-backed plugins now send TLS SNI and, when `redis_ssl_verify` is `true`, verify the certificate against `redis_server_name` or `redis_host`. A deployment whose `redis_host` is a DNS alias not covered by the certificate can therefore start failing Redis operations with a certificate-host mismatch. The change applies to the shared single-node Redis configuration used by `ai-cache`, `ai-rate-limiting`, `graphql-limit-count`, `limit-count`, `limit-conn`, and `limit-req`; it does not change the Redis Cluster or Sentinel paths.
 
-The new `redis_server_name` field lets the connection address remain an IP or alias while naming the certificate identity and SNI explicitly. APISIX does not send SNI or perform a hostname check when the resolved server name itself is an IP literal.
+The new `redis_server_name` field lets the connection address remain an IP or alias while naming the certificate identity and SNI explicitly. APISIX does not send SNI or perform a hostname check when the configured `redis_server_name` or `redis_host` value itself is an IP literal.
+
+For example, a `limit-count` configuration can connect by IP while verifying the certificate for `redis.example.com`:
+
+```json
+{
+  "plugins": {
+    "limit-count": {
+      "count": 100,
+      "time_window": 60,
+      "key": "remote_addr",
+      "policy": "redis",
+      "redis_host": "10.0.0.20",
+      "redis_port": 6379,
+      "redis_ssl": true,
+      "redis_ssl_verify": true,
+      "redis_server_name": "redis.example.com"
+    }
+  }
+}
+```
 
 **Upgrade plan:** If a plugin uses `redis_ssl: true` and `redis_ssl_verify: true`, compare its certificate SANs with `redis_host`. Set `redis_server_name` to the certificate's DNS name when they differ, or replace the certificate so it covers the configured host. Test a new TLS connection rather than relying on an existing keepalive connection. Setting `redis_ssl_verify: false` preserves a non-verifying connection but should be used only as a temporary, explicitly accepted fallback.
 
@@ -121,7 +170,13 @@ For more information, see [PR #13806](https://github.com/apache/apisix/pull/1380
 
 ### `jwe-decrypt` validates declared algorithms
 
-`jwe-decrypt` now interoperates with RFC 7516 tokens whose protected header is authenticated as AES-GCM additional authenticated data. It still accepts APISIX's legacy no-AAD token format, including a legacy header that omits `alg` or `enc`. However, a token that explicitly declares an algorithm other than `alg: dir` or `enc: A256GCM` is now rejected with 400 instead of being decrypted as if those values were supported.
+`jwe-decrypt` now interoperates with RFC 7516 tokens whose protected header is authenticated as AES-GCM additional authenticated data (AAD). It still accepts APISIX's legacy no-AAD token format, including a legacy header that omits `alg` or `enc`. However, a token that declares an `alg` other than `dir` or an `enc` other than `A256GCM` is now rejected with 400 instead of being decrypted as if those values were supported.
+
+New tokens should use this protected header:
+
+```json
+{"alg": "dir", "enc": "A256GCM", "kid": "consumer-key"}
+```
 
 **Upgrade plan:** If you generate tokens for `jwe-decrypt`, inspect the protected header and ensure it declares `{"alg":"dir","enc":"A256GCM","kid":"..."}`. Prefer a standard JWE library that authenticates the protected header. Regenerate tokens that carry misleading algorithm values and test a tampered header as well as a valid token. There is no option to accept an explicitly unsupported algorithm; older no-AAD tokens remain a compatibility path while they are migrated.
 
@@ -151,9 +206,9 @@ For more information, see [PR #13912](https://github.com/apache/apisix/pull/1391
 
 ### Process WebSocket frames in APISIX
 
-The new `ws` and `wss` upstream schemes let APISIX parse and proxy WebSocket frames itself. Custom plugins can run `ws_handshake`, `ws_client_frame`, `ws_upstream_frame`, and `ws_close` phases to inspect or rewrite messages in either direction. This mode preserves the normal rewrite, access, before-proxy, and log phases, but does not run HTTP header or body filter phases for the upgraded session.
+The new `ws` and `wss` upstream schemes let APISIX parse and proxy WebSocket frames itself. Custom plugins can run `ws_handshake`, `ws_client_frame`, `ws_upstream_frame`, and `ws_close` phases to inspect or rewrite messages in either direction. This mode preserves the normal `rewrite`, `access`, `before_proxy`, and `log` phases, but does not run `header_filter`, `body_filter`, or `delayed_body_filter` for the upgraded session.
 
-This is distinct from `enable_websocket` on an `http` or `https` upstream, which continues to let NGINX relay the upgraded connection as opaque bytes. Choose `ws` or `wss` only when frame-level plugin logic is required. The new `websocket-proxy` plugin configures the largest accepted message from each side; the enhanced proxy defaults to 65,535 bytes per message unless `client_max_payload_len` or `upstream_max_payload_len` raises the applicable limit.
+This is distinct from `enable_websocket` on an `http` or `https` upstream, which continues to let NGINX relay the upgraded connection as opaque bytes. Choose `ws` or `wss` only when frame-level plugin logic is required. The new `websocket-proxy` plugin configures the largest accepted frame from each side; the enhanced proxy defaults to 65,535 bytes per frame unless `client_max_payload_len` or `upstream_max_payload_len` raises the applicable limit.
 
 ```json
 {
@@ -177,21 +232,40 @@ For more information, see [PR #13939](https://github.com/apache/apisix/pull/1393
 
 Round-robin upstreams can now use `warm_up_conf` to introduce newly observed nodes at a reduced effective weight and ramp them to their configured weight. This protects cold application instances from receiving their full traffic share before caches, connection pools, and runtimes are ready.
 
+Start with the node that should be treated as mature:
+
 ```json
 {
   "type": "roundrobin",
-  "nodes": {"10.0.0.10:8080": 100, "10.0.0.11:8080": 100},
+  "nodes": {"10.0.0.10:8080": 100},
   "warm_up_conf": {
     "slow_start_time_seconds": 300,
     "min_weight_percent": 10,
     "interval": 5,
-    "aggression": 1,
-    "startup_grace_period_seconds": 180
+    "aggression": 1
   }
 }
 ```
 
-Each APISIX instance tracks ramps locally. The initially observed node set is considered mature, while nodes added later begin at `min_weight_percent`. A node excluded by health checking starts its ramp when it becomes eligible. Slow start supports only single-priority `roundrobin` HTTP upstreams; it is rejected inside `traffic-split` and ignored for stream routes.
+In a later update, add the new node while retaining `warm_up_conf`:
+
+```json
+{
+  "type": "roundrobin",
+  "nodes": {
+    "10.0.0.10:8080": 100,
+    "10.0.0.11:8080": 100
+  },
+  "warm_up_conf": {
+    "slow_start_time_seconds": 300,
+    "min_weight_percent": 10,
+    "interval": 5,
+    "aggression": 1
+  }
+}
+```
+
+Each APISIX instance tracks ramps locally. The initially observed node set is considered mature, while `10.0.0.11` starts at 10% of its configured weight and ramps up over five minutes. A node excluded by health checking starts its ramp when it becomes eligible. `startup_grace_period_seconds` can treat nodes first observed soon after APISIX starts as mature, preventing a whole node set from ramping again after a restart. Slow start supports only single-priority `roundrobin` HTTP upstreams; it is rejected inside `traffic-split` and ignored for stream routes.
 
 For more information, see [PR #13941](https://github.com/apache/apisix/pull/13941).
 
@@ -201,12 +275,15 @@ The new `openapi-to-mcp` plugin exposes operations from an OpenAPI document as M
 
 ```json
 {
-  "openapi-to-mcp": {
-    "transport": "streamable_http",
-    "openapi_url": "https://api.example.com/openapi.json",
-    "base_url": "https://api.example.com",
-    "headers": {
-      "Authorization": "Bearer ${http_x_api_token}"
+  "uri": "/mcp",
+  "plugins": {
+    "openapi-to-mcp": {
+      "transport": "streamable_http",
+      "openapi_url": "https://api.example.com/openapi.json",
+      "base_url": "https://api.example.com",
+      "headers": {
+        "Authorization": "Bearer ${http_x_api_token}"
+      }
     }
   }
 }
@@ -220,23 +297,65 @@ For more information, see [PR #13942](https://github.com/apache/apisix/pull/1394
 
 `graphql-limit-count` now supports `complexity` and `node_quantifier` cost strategies in addition to the existing `depth` default. Operators can attach `graphql_cost_decorations` to a Service to weight fields and pagination arguments, introspect the upstream schema, scale the resulting score, and reject a query above `max_cost` before it reaches the backend.
 
-For example, a decoration on `Query.products` with `mul_arguments: ["first"]` makes `products(first: 1000)` cost more than `products(first: 10)`, even though both queries have the same depth. `resolve_variables` defaults to `true`, so values passed through GraphQL variables and schema defaults are included. The computed score is returned in `X-Graphql-Query-Cost` when quota headers are enabled.
+For example, configure cost-based limiting on a Service:
 
-The original `depth` strategy remains the default and preserves existing quota behavior. Complexity strategies need a Service to own their decorations; without decorations they degrade to node-count behavior, and schema introspection is skipped.
+```json
+{
+  "plugins": {
+    "graphql-limit-count": {
+      "count": 10000,
+      "time_window": 60,
+      "key": "remote_addr",
+      "rejected_code": 429,
+      "cost_strategy": "node_quantifier",
+      "max_cost": 5000,
+      "resolve_variables": true,
+      "show_limit_quota_header": true
+    }
+  },
+  "upstream": {
+    "type": "roundrobin",
+    "nodes": {"127.0.0.1:1980": 1}
+  }
+}
+```
+
+Then create a decoration at `/apisix/admin/services/{service_id}/graphql_cost_decorations/products`:
+
+```json
+{
+  "field_path": "Query.products",
+  "mul_arguments": ["first"],
+  "add_value": 1
+}
+```
+
+This makes `products(first: 1000)` cost more than `products(first: 10)`, even though both queries have the same depth. `resolve_variables` defaults to `true`, so values passed through GraphQL variables and schema defaults are included. The computed score is returned in `X-Graphql-Query-Cost` when quota headers are enabled. APISIX charges the rate-limit quota before enforcing `max_cost`, so a query rejected with 403 for excessive cost still consumes quota.
+
+The original `depth` strategy remains the default and preserves existing quota behavior. The two new strategies need a Service to own their decorations. Without decorations, `complexity` charges by node count, while `node_quantifier` falls back to the minimum charge of 1; schema introspection is skipped in both cases.
 
 For more information, see [PR #13840](https://github.com/apache/apisix/pull/13840).
 
 ### Confirm standalone configuration application across workers
 
-API-driven standalone mode now accepts `wait=<milliseconds>` on `PUT /apisix/admin/configs`. Without it, APISIX returns 202 once the configuration is accepted. With a value up to 60,000, the request waits until every HTTP and enabled stream worker reports the same per-entity digest, returning 200 when all workers applied it or 202 when the deadline expires.
+API-driven standalone mode now accepts `wait=<milliseconds>` on `PUT /apisix/admin/configs`. Without it, APISIX returns 202 once the configuration is accepted. With a value up to 60,000, the request waits until every HTTP and enabled stream worker reports the target digest for every tracked resource type, returning 200 when all workers applied it or 202 when the deadline expires.
 
-This gives configuration controllers a bounded readiness signal without turning a timeout into a failed update: 202 still means the update was accepted but not confirmed everywhere. A request skipped with 204 because its `X-Digest` already matches is unchanged.
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/configs?wait=3000" \
+  -H "X-API-KEY: <admin-key>" \
+  -H "Content-Type: application/json" \
+  -H "X-Digest: release-3.19-config-1" \
+  -X PUT \
+  -d '{}'
+```
+
+The wait does not compute a separate digest for every resource object. It gives configuration controllers a bounded readiness signal without turning a timeout into a failed update: 202 still means the update was accepted but not confirmed everywhere. A request skipped with 204 because its `X-Digest` already matches is unchanged.
 
 For more information, see [PR #13904](https://github.com/apache/apisix/pull/13904).
 
 ### Inspect plugin-owned health checks
 
-The Control API now reports active health checkers created by plugins as well as upstreams. `ai-proxy-multi` uses this capability to expose one checker per configured LLM instance, including the plugin name and instance metadata. The new `/v1/healthcheck/{src_type}/{src_id}/checkers` endpoint returns every checker owned by one resource and returns an empty array when the resource has none.
+The Control API now reports active health checkers created by plugins as well as upstreams. `ai-proxy-multi` uses this capability to expose one checker per LLM instance that configures `checks`, including the plugin name and instance metadata. The new `/v1/healthcheck/{src_type}/{src_id}/checkers` endpoint returns every checker owned by one resource and returns an empty array when the resource has none.
 
 For more information, see [PR #13899](https://github.com/apache/apisix/pull/13899).
 
@@ -244,15 +363,58 @@ For more information, see [PR #13899](https://github.com/apache/apisix/pull/1389
 
 `saml-auth` now exposes the validation controls provided by `lua-resty-saml` 0.2.6: accepted IdP issuers, an externally visible ACS URL, accepted SP audiences, clock skew, and optional per-node assertion replay protection. Omitting the new fields preserves the previous plugin configuration behavior.
 
-Set `sp_acs_url` when APISIX sees a different scheme or host from the browser, such as behind a TLS-terminating load balancer. Set `replay_dict` to a declared `lua_shared_dict` to prevent the same assertion from being accepted twice on one APISIX node, and size that dictionary for the login rate and assertion lifetime. Replay records are not shared between APISIX nodes.
+Add the applicable controls to an existing `saml-auth` configuration:
+
+```json
+{
+  "idp_issuers": ["https://idp.example.com/realms/example"],
+  "sp_acs_url": "https://sp.example.com/login/callback",
+  "sp_audiences": ["https://sp.example.com"],
+  "clock_skew": 60,
+  "replay_dict": "plugin-saml-auth-replay",
+  "replay_ttl": 600
+}
+```
+
+Set `sp_acs_url` when APISIX sees a different scheme or host from the browser, such as behind a TLS-terminating load balancer. `replay_dict` provides best-effort protection against accepting the same assertion twice on one APISIX node. Size and monitor the shared dictionary for the login rate and assertion lifetime: if it is full, the assertion is accepted without being recorded and APISIX logs an error. Replay records are not shared between APISIX nodes.
 
 For more information, see [PR #13964](https://github.com/apache/apisix/pull/13964).
 
-### Extend fallback and response logging controls
+### Retry selected AI upstream responses
 
-`ai-proxy-multi` can now retry another instance for explicitly selected 400–599 responses through `fallback_http_statuses`. This supports provider-specific conditions such as an expired credential or exhausted account while avoiding automatic retries for every client error. Existing `max_retries` and `retry_on_failure_within_ms` limits apply to these fallbacks. See [PR #13852](https://github.com/apache/apisix/pull/13852).
+`ai-proxy-multi` can now retry another instance for explicitly selected 400–599 responses through `fallback_http_statuses`. This supports provider-specific conditions such as an expired credential or exhausted account while avoiding automatic retries for every client error.
 
-`chaitin-waf` can now report response status, headers, and a bounded portion of the body to the SafeLine service after the client response completes. `config.log_resp` enables reporting, `resp_body_size` caps buffering in KiB, and `extra_ignored_content_types` excludes additional response types. Reporting is asynchronous and observational: it does not block or rewrite the response. See [PR #13763](https://github.com/apache/apisix/pull/13763).
+Add the fields to an existing `ai-proxy-multi` configuration:
+
+```json
+{
+  "fallback_http_statuses": [401, 402],
+  "max_retries": 1,
+  "retry_on_failure_within_ms": 1000
+}
+```
+
+Existing `max_retries` and `retry_on_failure_within_ms` limits apply to these fallbacks. The `semantic` balancing algorithm does not participate in health-check or upstream-failure retry, so `fallback_http_statuses` does not add this retry behavior to semantic routing.
+
+For more information, see [PR #13852](https://github.com/apache/apisix/pull/13852).
+
+### Log responses to Chaitin WAF
+
+`chaitin-waf` can now report response status, headers, and a bounded portion of the body to the SafeLine service after the client response completes:
+
+```json
+{
+  "config": {
+    "log_resp": true,
+    "resp_body_size": 4,
+    "extra_ignored_content_types": "text/csv,application/pdf"
+  }
+}
+```
+
+`config.log_resp` enables reporting, `resp_body_size` caps buffering in KiB, and `extra_ignored_content_types` excludes additional response types. Reporting is asynchronous and observational: it does not block or rewrite the response. Buffering consumes memory per in-flight applicable response, so increase `resp_body_size` only after accounting for concurrency and worker memory. Responses with ignored content types are not buffered for reporting.
+
+For more information, see [PR #13763](https://github.com/apache/apisix/pull/13763).
 
 ## Bug Fixes
 

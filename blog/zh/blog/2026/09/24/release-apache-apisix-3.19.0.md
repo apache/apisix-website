@@ -33,11 +33,13 @@ tags: [Community]
 
 ### HTTPS 和 gRPCS 上游证书验证开始生效
 
-`upstream.tls.verify` 现在会控制 `https` 和 `grpcs` 上游的证书验证，而不再仅由 `kafka` 协议读取。已有 HTTPS 或 gRPCS 上游如果已经设置 `tls.verify: true`，升级后将开始验证证书链和主机名。证书不受信任或与上游主机名不匹配时，请求可能返回 502。
+`upstream.tls.verify` 现在会控制 `https` 和 `grpcs` 上游的证书验证，而不再仅由 `kafka` 协议读取。已有 HTTPS 或 gRPCS 上游如果已经设置 `tls.verify: true`，升级后将开始验证证书链和主机名。证书不受信任或主机名不匹配时，TLS 连接会失败，通常返回 502。
 
 新增的 `tls.ca_certs` 数组可以为单个上游提供信任锚。未配置该字段时，验证会使用 `config.yaml` 中的 `ssl_trusted_certificate`。不设置 `tls.verify` 时会遵循 NGINX 的验证配置；显式设置为 `false` 则会关闭该上游的验证。
 
-**升级计划：** 如果 `https` 或 `grpcs` 上游已经设置 `tls.verify: true`，请根据 APISIX 作为 SNI 发送的主机名检查证书链和使用者可选名称。将所需 PEM 证书加入 `upstream.tls.ca_certs` 或共享的 `ssl_trusted_certificate`，并分别测试有效连接和不受信任证书应有的失败行为。只有在明确接受风险并需要保留原有不验证行为时，才将 `tls.verify` 设置为 `false` 作为兼容措施。
+Apache APISIX 3.19.0 固定使用 APISIX Runtime 1.3.18，其中包含所需的上游证书验证 API。自定义或旧版 Runtime 如果缺少 `set_ssl_verify` 或 `set_ssl_trusted_store`，使用对应选项时会返回 503。
+
+**升级计划：** 如果 `https` 或 `grpcs` 上游已经设置 `tls.verify: true`，请先确定 APISIX 验证的主机名：默认 `pass_host: pass` 使用请求 Host，`pass_host: rewrite` 使用 `upstream_host`，`pass_host: node` 使用选中的节点主机名。根据该主机名检查证书链和使用者可选名称。将所需 PEM 证书加入 `upstream.tls.ca_certs` 或共享的 `ssl_trusted_certificate`，并确认自定义 Runtime 提供上述两个上游 TLS API。请分别测试有效连接，以及证书不受信任或主机名不匹配时应返回的 502。只有在明确接受风险并需要保留原有不验证行为时，才将 `tls.verify` 设置为 `false` 作为兼容措施。
 
 更多信息，请参阅 [PR #13863](https://github.com/apache/apisix/pull/13863)。
 
@@ -45,7 +47,7 @@ tags: [Community]
 
 当 `openid-connect` 使用远程内省并配置 `claim_validator.issuer.valid_issuers` 时，成功的内省响应现在必须包含字符串类型的 `iss`，且其值必须位于允许列表中。缺少 `iss`、类型不是字符串或值不在列表中时，APISIX 会返回 401 和 `invalid_token` 质询。此前，该允许列表不会用于验证内省响应。
 
-**升级计划：** 如果基于内省的路由配置了 `claim_validator.issuer.valid_issuers`，请确认授权服务器会返回 `iss`，并将其准确值加入列表。发布前分别测试有效令牌和来自其他颁发者的令牌。只有在可以接受保留原有内省行为时才移除 `valid_issuers`；未配置该允许列表的路由不受影响。
+**升级计划：** 如果基于内省的路由配置了 `claim_validator.issuer.valid_issuers`，请确认授权服务器会返回 `iss`，并将其准确值加入列表。发布前分别测试有效令牌和来自其他颁发者的令牌。应优先修正内省响应或允许列表。只有在对仅使用内省的配置完成安全评估后才移除 `valid_issuers`；该字段也会限制公钥和 JWKS 验证，移除后这两条路径会改用发现文档中的颁发者。未配置该允许列表的路由不受影响。
 
 更多信息，请参阅 [PR #13916](https://github.com/apache/apisix/pull/13916)。
 
@@ -53,15 +55,25 @@ tags: [Community]
 
 `batch-requests` 插件现在将单个子响应体限制为 1 MiB，并将单条流水线内所有响应体的总大小限制为 10 MiB。超过任一限制时，流水线将返回 502，而不再返回完整聚合结果。无论上游使用 `Content-Length`、分块传输还是以连接关闭表示响应结束，这些限制都会生效。
 
-插件元数据字段 `max_response_body_size` 和 `max_response_body_size_total` 分别控制单项和聚合限制，单位为字节。两个字段都必须是正整数。
+全局插件元数据字段 `max_response_body_size` 和 `max_response_body_size_total` 分别控制单项和聚合限制，单位为字节。两个字段都必须是正整数。例如：
 
-**升级计划：** 如果客户端使用 `batch-requests`，请测量预期的最大子响应和聚合响应。当默认值不足时，在升级前将两个元数据字段都设置为高于实际边界的值，并分别测试恰好达到和刚刚超过限制的请求。该功能没有无限制选项；所选值还必须符合每个工作进程的内存预算。
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/plugin_metadata/batch-requests" \
+  -H "X-API-KEY: <admin-key>" \
+  -X PUT \
+  -d '{
+    "max_response_body_size": 4194304,
+    "max_response_body_size_total": 41943040
+  }'
+```
+
+**升级计划：** 如果客户端使用 `batch-requests`，请测量预期的最大子响应和聚合响应。当默认值不足时，在升级前将两个元数据字段都设置为高于实际边界的值，并分别测试恰好达到和刚刚超过限制的请求。该元数据会影响 APISIX 实例处理的所有批量请求。该功能没有无限制选项；所选值还必须符合每个工作进程的内存预算。
 
 更多信息，请参阅 [PR #13906](https://github.com/apache/apisix/pull/13906)。
 
 ### Basic Auth 拒绝消费者使用空密码
 
-`basic-auth` 的消费者和凭据 Schema 现在要求 `password` 至少包含一个字符。通过 Admin API 写入空的字面量密码时会返回 400。已有密码、环境变量引用或 Secret 引用如果解析为空字符串，身份验证会按失败关闭并返回 401，而不再接受 `username:`。
+`basic-auth` 的消费者和凭据 Schema 现在要求 `password` 至少包含一个字符。通过 Admin API 写入空的字面量密码时会返回 400；配置加载时，已存储的空字面量也无法通过 Schema 验证。环境变量或 Secret 引用在解析前可以通过 Schema 验证，但解析结果为空时，身份验证会返回 401，而不再接受 `username:`。
 
 **升级计划：** 如果使用 `basic-auth`，请检查消费者和凭据密码，包括其引用的环境变量与 Secret，并在升级前替换所有空值。随后验证每个受影响身份都能使用新的非空密码完成认证。没有兼容选项可以恢复空密码认证。
 
@@ -71,7 +83,7 @@ tags: [Community]
 
 同一份 `ai-proxy-multi` 配置中的每个 `instances[].name` 现在必须唯一。APISIX 会将该名称用作负载均衡节点、健康检查器、`ai-rate-limiting` 目标和 `semantic_opts.fallback` 的实例标识；重复名称此前会让不同实例合并为含义不明确的运行时状态。包含重复名称的配置在写入时会被拒绝，通过现有配置源重新加载时也不会生效。
 
-**升级计划：** 如果使用 `ai-proxy-multi`，请检查每个 `instances` 数组，并为每个条目设置不同名称。同步更新所有引用了改名实例的位置，尤其是 `semantic_opts.fallback` 和 `ai-rate-limiting` 配置，然后验证路由和各实例的健康状态。重复名称没有兼容选项。
+**升级计划：** 如果使用 `ai-proxy-multi`，请检查所有包含该插件的路由、服务和 Plugin Config，并为每个 `instances` 条目设置不同名称。在同一次配置变更中更新 `semantic_opts.fallback` 和对应的 `ai-rate-limiting.instances[].name` 引用。通过 Admin API 重新提交父资源以验证配置，再向各目标发送代表性请求；如果实例配置了 `checks`，还应通过 Control API 验证对应的健康检查器。重复名称没有兼容选项。
 
 更多信息，请参阅 [PR #13851](https://github.com/apache/apisix/pull/13851)。
 
@@ -79,15 +91,32 @@ tags: [Community]
 
 `workflow` 插件现在会拒绝无法编译的 `case` 表达式。此前这类表达式可能通过验证，并在运行时匹配所有请求。每条规则的 `actions` 还必须只包含一个双元素 `[name, conf]` 条目。包含多个动作、缺少动作配置或元组中存在多余元素的配置会被拒绝，不再静默地只执行第一个动作。
 
-**升级计划：** 如果使用 `workflow`，请验证每个 `case` 表达式，并将每个 `actions` 调整为 `[["plugin-or-action-name", {...}]]`。如果原本希望执行多个步骤，请改用受支持的独立控制方式，不要依赖会被忽略的动作条目。请为每条修正后的规则分别测试一个匹配请求和一个不匹配请求。无效表达式和多动作列表没有旧行为兼容模式。
+每条规则必须使用以下结构：
+
+```json
+{
+  "plugins": {
+    "workflow": {
+      "rules": [
+        {
+          "case": [["uri", "==", "/hello"]],
+          "actions": [["return", {"code": 403}]]
+        }
+      ]
+    }
+  }
+}
+```
+
+**升级计划：** 如果使用 `workflow`，请验证每个 `case` 表达式，并将每条规则调整为只包含一个 `[name, conf]` 动作。`workflow` 没有等效的多动作模式：APISIX 会在第一条匹配规则处停止，因此把同一条件拆成多条规则也不会按顺序执行多个动作。请保留一个 workflow 动作，并将其他行为改为常规插件组合或自定义的组合动作。请为每条修正后的规则分别测试一个匹配请求和一个不匹配请求。无效表达式和多动作列表没有旧行为兼容模式。
 
 更多信息，请参阅 [PR #13862](https://github.com/apache/apisix/pull/13862)。
 
 ### WebSocket 会话使用新的 Prometheus `request_type` 值
 
-以 `101 Switching Protocols` 完成 WebSocket 升级的请求，现在会在 `apisix_http_status`、`apisix_http_latency` 和 `apisix_bandwidth` 中标记为 `request_type="websocket"`，而不再是 `request_type="traditional_http"`。这样可以避免传统 HTTP 延迟分析混入长连接 WebSocket 会话，但也会改变现有指标序列和查询条件。
+通过原有 NGINX 代理路径成功完成 WebSocket 升级的请求（通常是使用 `enable_websocket` 的路由），现在会在 `apisix_http_status`、`apisix_http_latency` 和 `apisix_bandwidth` 中标记为 `request_type="websocket"`，而不再是 `request_type="traditional_http"`。这样可以避免传统 HTTP 延迟分析混入长连接 WebSocket 会话，但也会改变现有指标序列和查询条件。新增的 `ws` 和 `wss` 内容处理路径不会执行设置该标签的 `http_header_filter_phase`。
 
-**升级计划：** 如果仪表盘、告警或记录规则通过 `request_type="traditional_http"` 筛选这些指标，请确定是否仍要包含 WebSocket 流量。若要保留合并统计，请改用 `request_type=~"traditional_http|websocket"`；也可以单独创建 WebSocket 面板和告警。请使用一个代表性的升级连接验证这三类指标。没有配置可以恢复旧的标签值。
+**升级计划：** 如果仪表盘、告警或记录规则通过 `request_type="traditional_http"` 筛选这些指标，请确定是否仍要包含 WebSocket 流量。在开始混合版本滚动升级前，若要保留合并统计，请改用 `request_type=~"traditional_http|websocket"`；也可以单独创建 WebSocket 面板和告警。请在代表性的 `enable_websocket` 路由上分别使用成功和被拒绝的升级请求验证这三类指标。没有配置可以恢复旧的标签值。
 
 更多信息，请参阅 [PR #13909](https://github.com/apache/apisix/pull/13909) 和 [PR #13915](https://github.com/apache/apisix/pull/13915)。
 
@@ -101,9 +130,29 @@ Control API 现在会为 `/v1/healthcheck` 的空顶层结果和空 `nodes` 集�
 
 ### 启用验证的 Redis TLS 连接开始检查服务器名称
 
-使用 Redis 的插件现在会发送 TLS SNI；当 `redis_ssl_verify` 为 `true` 时，还会根据 `redis_server_name` 或 `redis_host` 验证证书。已有部署如果将证书未覆盖的 DNS 别名用作 `redis_host`，升级后 Redis 操作可能因证书主机名不匹配而失败。该变更适用于 `ai-cache`、`ai-rate-limiting`、`graphql-limit-count`、`limit-count`、`limit-conn` 和 `limit-req` 共用的 Redis 配置。
+对于单节点 `policy: redis` 路径，使用 Redis 的插件现在会发送 TLS SNI；当 `redis_ssl_verify` 为 `true` 时，还会根据 `redis_server_name` 或 `redis_host` 验证证书。已有部署如果将证书未覆盖的 DNS 别名用作 `redis_host`，升级后 Redis 操作可能因证书主机名不匹配而失败。该变更适用于 `ai-cache`、`ai-rate-limiting`、`graphql-limit-count`、`limit-count`、`limit-conn` 和 `limit-req` 共用的单节点 Redis 配置，不影响 Redis Cluster 或 Sentinel 路径。
 
-新增字段 `redis_server_name` 允许连接地址继续使用 IP 或别名，同时显式指定证书身份和 SNI。如果最终使用的服务器名称本身是 IP 字面量，APISIX 不会发送 SNI，也不会执行主机名检查。
+新增字段 `redis_server_name` 允许连接地址继续使用 IP 或别名，同时显式指定证书身份和 SNI。如果配置的 `redis_server_name` 或 `redis_host` 值本身是 IP 字面量，APISIX 不会发送 SNI，也不会执行主机名检查。
+
+例如，以下 `limit-count` 配置通过 IP 建立连接，同时按 `redis.example.com` 验证证书：
+
+```json
+{
+  "plugins": {
+    "limit-count": {
+      "count": 100,
+      "time_window": 60,
+      "key": "remote_addr",
+      "policy": "redis",
+      "redis_host": "10.0.0.20",
+      "redis_port": 6379,
+      "redis_ssl": true,
+      "redis_ssl_verify": true,
+      "redis_server_name": "redis.example.com"
+    }
+  }
+}
+```
 
 **升级计划：** 如果插件配置了 `redis_ssl: true` 和 `redis_ssl_verify: true`，请比较证书 SAN 与 `redis_host`。两者不同时，将 `redis_server_name` 设置为证书中的 DNS 名称，或更换为覆盖配置主机名的证书。测试时请建立新 TLS 连接，不要依赖已有保活连接。将 `redis_ssl_verify` 设置为 `false` 可以保留不验证的连接，但只能作为明确接受风险的临时回退方案。
 
@@ -121,7 +170,13 @@ Control API 现在会为 `/v1/healthcheck` 的空顶层结果和空 `nodes` 集�
 
 ### `jwe-decrypt` 验证令牌声明的算法
 
-`jwe-decrypt` 现在可以处理符合 RFC 7516、将受保护头部作为 AES-GCM 附加认证数据的令牌。它仍兼容 APISIX 原有的不带 AAD 的令牌格式，包括省略 `alg` 或 `enc` 的旧头部。但是，如果令牌显式声明了 `alg: dir` 和 `enc: A256GCM` 之外的算法，现在会返回 400，不再按实际支持的算法尝试解密。
+`jwe-decrypt` 现在可以处理符合 RFC 7516、将受保护头部作为 AES-GCM 附加认证数据（AAD）的令牌。它仍兼容 APISIX 原有的不带 AAD 的令牌格式，包括省略 `alg` 或 `enc` 的旧头部。但是，如果令牌声明了 `dir` 之外的 `alg` 或 `A256GCM` 之外的 `enc`，现在会返回 400，不再按实际支持的算法尝试解密。
+
+新令牌应使用以下受保护头部：
+
+```json
+{"alg": "dir", "enc": "A256GCM", "kid": "consumer-key"}
+```
 
 **升级计划：** 如果系统会为 `jwe-decrypt` 生成令牌，请检查受保护头部，确保其声明 `{"alg":"dir","enc":"A256GCM","kid":"..."}`。建议使用会对受保护头部执行认证的标准 JWE 库。重新生成携带错误算法值的令牌，并同时测试被篡改头部和有效令牌。无法通过配置接受显式声明的不支持算法；迁移期间仍可继续使用原有不带 AAD 的令牌。
 
@@ -151,9 +206,9 @@ apisix:
 
 ### 在 APISIX 中处理 WebSocket 帧
 
-新增的 `ws` 和 `wss` 上游协议允许 APISIX 自行解析和代理 WebSocket 帧。自定义插件可以在 `ws_handshake`、`ws_client_frame`、`ws_upstream_frame` 和 `ws_close` 阶段运行，从两个方向检查或改写消息。该模式仍会执行常规的 rewrite、access、before-proxy 和 log 阶段，但升级后的会话不会执行 HTTP header filter 或 body filter 阶段。
+新增的 `ws` 和 `wss` 上游协议允许 APISIX 自行解析和代理 WebSocket 帧。自定义插件可以在 `ws_handshake`、`ws_client_frame`、`ws_upstream_frame` 和 `ws_close` 阶段运行，从两个方向检查或改写消息。该模式仍会执行常规的 `rewrite`、`access`、`before_proxy` 和 `log` 阶段，但升级后的会话不会执行 `header_filter`、`body_filter` 或 `delayed_body_filter`。
 
-这与在 `http` 或 `https` 上游上使用 `enable_websocket` 不同；后者仍由 NGINX 将升级后的连接作为不透明字节流转发。只有在需要帧级插件逻辑时才应选择 `ws` 或 `wss`。新增的 `websocket-proxy` 插件可以配置两端允许的最大消息大小；增强代理默认每条消息最多为 65,535 字节，除非通过 `client_max_payload_len` 或 `upstream_max_payload_len` 提高对应限制。
+这与在 `http` 或 `https` 上游上使用 `enable_websocket` 不同；后者仍由 NGINX 将升级后的连接作为不透明字节流转发。只有在需要帧级插件逻辑时才应选择 `ws` 或 `wss`。新增的 `websocket-proxy` 插件可以配置两端允许的最大帧大小；增强代理默认每帧最多为 65,535 字节，除非通过 `client_max_payload_len` 或 `upstream_max_payload_len` 提高对应限制。
 
 ```json
 {
@@ -177,21 +232,40 @@ apisix:
 
 轮询上游现在可以使用 `warm_up_conf`，让新发现节点从较低有效权重开始，并逐步提升到配置权重。这样可以避免冷启动应用实例在缓存、连接池和运行时尚未就绪时立即承接完整流量份额。
 
+首先只配置应视为已经预热的节点：
+
 ```json
 {
   "type": "roundrobin",
-  "nodes": {"10.0.0.10:8080": 100, "10.0.0.11:8080": 100},
+  "nodes": {"10.0.0.10:8080": 100},
   "warm_up_conf": {
     "slow_start_time_seconds": 300,
     "min_weight_percent": 10,
     "interval": 5,
-    "aggression": 1,
-    "startup_grace_period_seconds": 180
+    "aggression": 1
   }
 }
 ```
 
-每个 APISIX 实例都会在本地独立记录爬坡过程。首次观察到的节点集合会被视为已经预热，之后新增的节点则从 `min_weight_percent` 开始。因健康检查而暂时不可用的节点会在首次恢复可选时开始爬坡。慢启动仅支持单优先级的 `roundrobin` HTTP 上游；在 `traffic-split` 中会被拒绝，对流路由则会被忽略。
+之后更新配置，在保留 `warm_up_conf` 的同时加入新节点：
+
+```json
+{
+  "type": "roundrobin",
+  "nodes": {
+    "10.0.0.10:8080": 100,
+    "10.0.0.11:8080": 100
+  },
+  "warm_up_conf": {
+    "slow_start_time_seconds": 300,
+    "min_weight_percent": 10,
+    "interval": 5,
+    "aggression": 1
+  }
+}
+```
+
+每个 APISIX 实例都会在本地独立记录爬坡过程。首次观察到的节点集合会被视为已经预热，`10.0.0.11` 则从配置权重的 10% 开始，并在五分钟内逐步恢复到完整权重。因健康检查而暂时不可用的节点会在首次恢复可选时开始爬坡。`startup_grace_period_seconds` 可以将 APISIX 启动后不久首次观察到的节点直接视为已经预热，避免重启后整组节点重新爬坡。慢启动仅支持单优先级的 `roundrobin` HTTP 上游；在 `traffic-split` 中会被拒绝，对流路由则会被忽略。
 
 更多信息，请参阅 [PR #13941](https://github.com/apache/apisix/pull/13941)。
 
@@ -201,12 +275,15 @@ apisix:
 
 ```json
 {
-  "openapi-to-mcp": {
-    "transport": "streamable_http",
-    "openapi_url": "https://api.example.com/openapi.json",
-    "base_url": "https://api.example.com",
-    "headers": {
-      "Authorization": "Bearer ${http_x_api_token}"
+  "uri": "/mcp",
+  "plugins": {
+    "openapi-to-mcp": {
+      "transport": "streamable_http",
+      "openapi_url": "https://api.example.com/openapi.json",
+      "base_url": "https://api.example.com",
+      "headers": {
+        "Authorization": "Bearer ${http_x_api_token}"
+      }
     }
   }
 }
@@ -220,23 +297,65 @@ apisix:
 
 `graphql-limit-count` 除原有默认的 `depth` 策略外，现在还支持 `complexity` 和 `node_quantifier` 成本策略。运维人员可以在 Service 下配置 `graphql_cost_decorations`，为字段和分页参数设置权重，内省上游 Schema，缩放最终分数，并在查询成本超过 `max_cost` 时于请求到达后端前拒绝它。
 
-例如，在 `Query.products` 装饰项中设置 `mul_arguments: ["first"]` 后，即使查询深度相同，`products(first: 1000)` 的成本也会高于 `products(first: 10)`。`resolve_variables` 默认为 `true`，因此通过 GraphQL 变量传入的值以及 Schema 默认值也会计入成本。启用配额响应头时，计算结果会通过 `X-Graphql-Query-Cost` 返回。
+例如，先在 Service 上配置基于查询成本的限流：
 
-原有 `depth` 策略仍是默认值，并保留现有配额行为。复杂度策略需要由 Service 持有装饰项；没有装饰项时会退化为节点计数，并跳过 Schema 内省。
+```json
+{
+  "plugins": {
+    "graphql-limit-count": {
+      "count": 10000,
+      "time_window": 60,
+      "key": "remote_addr",
+      "rejected_code": 429,
+      "cost_strategy": "node_quantifier",
+      "max_cost": 5000,
+      "resolve_variables": true,
+      "show_limit_quota_header": true
+    }
+  },
+  "upstream": {
+    "type": "roundrobin",
+    "nodes": {"127.0.0.1:1980": 1}
+  }
+}
+```
+
+然后在 `/apisix/admin/services/{service_id}/graphql_cost_decorations/products` 创建装饰项：
+
+```json
+{
+  "field_path": "Query.products",
+  "mul_arguments": ["first"],
+  "add_value": 1
+}
+```
+
+这样，即使查询深度相同，`products(first: 1000)` 的成本也会高于 `products(first: 10)`。`resolve_variables` 默认为 `true`，因此通过 GraphQL 变量传入的值以及 Schema 默认值也会计入成本。启用配额响应头时，计算结果会通过 `X-Graphql-Query-Cost` 返回。APISIX 会先扣减限流配额，再执行 `max_cost` 检查，因此因成本过高而返回 403 的查询仍会消耗配额。
+
+原有 `depth` 策略仍是默认值，并保留现有配额行为。两种新策略都需要由 Service 持有装饰项。没有装饰项时，`complexity` 会按节点数计费，`node_quantifier` 则回退到最小成本 1；两种情况都会跳过 Schema 内省。
 
 更多信息，请参阅 [PR #13840](https://github.com/apache/apisix/pull/13840)。
 
 ### 确认独立部署配置已在所有工作进程生效
 
-API 驱动的独立部署模式现在支持在 `PUT /apisix/admin/configs` 上使用 `wait=<milliseconds>`。未设置时，APISIX 会在接受配置后返回 202。设置不超过 60,000 的值后，请求会等待所有 HTTP 工作进程以及已启用的 stream 工作进程报告相同的实体摘要；全部生效时返回 200，超过截止时间则返回 202。
+API 驱动的独立部署模式现在支持在 `PUT /apisix/admin/configs` 上使用 `wait=<milliseconds>`。未设置时，APISIX 会在接受配置后返回 202。设置不超过 60,000 的值后，请求会等待所有 HTTP 工作进程以及已启用的 stream 工作进程，为每个受跟踪的资源类型报告目标摘要；全部生效时返回 200，超过截止时间则返回 202。
 
-这为配置控制器提供了有界的就绪信号，同时不会把等待超时误报为更新失败：202 仍表示更新已接受，只是尚未确认在所有工作进程完成应用。由于 `X-Digest` 已匹配而返回 204 的请求不受影响。
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/configs?wait=3000" \
+  -H "X-API-KEY: <admin-key>" \
+  -H "Content-Type: application/json" \
+  -H "X-Digest: release-3.19-config-1" \
+  -X PUT \
+  -d '{}'
+```
+
+该等待机制不会为每个资源对象分别计算摘要。它为配置控制器提供了有界的就绪信号，同时不会把等待超时误报为更新失败：202 仍表示更新已接受，只是尚未确认在所有工作进程完成应用。由于 `X-Digest` 已匹配而返回 204 的请求不受影响。
 
 更多信息，请参阅 [PR #13904](https://github.com/apache/apisix/pull/13904)。
 
 ### 查看插件拥有的健康检查器
 
-Control API 现在不仅会报告上游健康检查器，也会报告插件自行创建的主动健康检查器。`ai-proxy-multi` 利用该能力公开每个已配置 LLM 实例的检查器，并包含插件名称和实例元数据。新增端点 `/v1/healthcheck/{src_type}/{src_id}/checkers` 会返回一个资源拥有的所有检查器；资源没有检查器时返回空数组。
+Control API 现在不仅会报告上游健康检查器，也会报告插件自行创建的主动健康检查器。`ai-proxy-multi` 利用该能力公开每个配置了 `checks` 的 LLM 实例对应的检查器，并包含插件名称和实例元数据。新增端点 `/v1/healthcheck/{src_type}/{src_id}/checkers` 会返回一个资源拥有的所有检查器；资源没有检查器时返回空数组。
 
 更多信息，请参阅 [PR #13899](https://github.com/apache/apisix/pull/13899)。
 
@@ -244,15 +363,58 @@ Control API 现在不仅会报告上游健康检查器，也会报告插件自�
 
 `saml-auth` 现在公开 `lua-resty-saml` 0.2.6 提供的验证控制项，包括允许的 IdP 颁发者、外部可见 ACS URL、允许的 SP 受众、时钟偏差，以及可选的单节点断言重放防护。不设置这些新增字段时，插件会保留原有配置行为。
 
-当 APISIX 看到的协议或主机名与浏览器不同，例如位于终止 TLS 的负载均衡器之后时，请设置 `sp_acs_url`。设置 `replay_dict` 并指向已声明的 `lua_shared_dict`，可以防止同一断言在一个 APISIX 节点上被接受两次；共享字典容量应根据登录速率和断言有效期规划。重放记录不会在不同 APISIX 节点之间共享。
+将适用的控制项加入现有 `saml-auth` 配置：
+
+```json
+{
+  "idp_issuers": ["https://idp.example.com/realms/example"],
+  "sp_acs_url": "https://sp.example.com/login/callback",
+  "sp_audiences": ["https://sp.example.com"],
+  "clock_skew": 60,
+  "replay_dict": "plugin-saml-auth-replay",
+  "replay_ttl": 600
+}
+```
+
+当 APISIX 看到的协议或主机名与浏览器不同，例如位于终止 TLS 的负载均衡器之后时，请设置 `sp_acs_url`。`replay_dict` 可以尽力防止同一断言在一个 APISIX 节点上被接受两次。请根据登录速率和断言有效期规划并监控共享字典容量：字典已满时，APISIX 会接受断言但不记录，并写入错误日志。重放记录不会在不同 APISIX 节点之间共享。
 
 更多信息，请参阅 [PR #13964](https://github.com/apache/apisix/pull/13964)。
 
-### 扩展回退与响应日志控制
+### 为指定的 AI 上游响应执行重试
 
-`ai-proxy-multi` 现在可以通过 `fallback_http_statuses` 为明确选择的 400–599 响应重试其他实例。这适用于凭据过期、账户配额耗尽等提供商特定场景，同时避免对所有客户端错误自动重试。原有 `max_retries` 和 `retry_on_failure_within_ms` 同样会限制这些回退。请参阅 [PR #13852](https://github.com/apache/apisix/pull/13852)。
+`ai-proxy-multi` 现在可以通过 `fallback_http_statuses` 为明确选择的 400–599 响应重试其他实例。这适用于凭据过期、账户配额耗尽等提供商特定场景，同时避免对所有客户端错误自动重试。
 
-`chaitin-waf` 现在可以在客户端响应完成后，将响应状态、响应头和一段受限长度的响应体报告给 SafeLine 服务。`config.log_resp` 用于启用报告，`resp_body_size` 以 KiB 为单位限制缓冲大小，`extra_ignored_content_types` 用于排除其他响应类型。报告是异步观测行为，不会阻止或改写响应。请参阅 [PR #13763](https://github.com/apache/apisix/pull/13763)。
+将以下字段加入现有 `ai-proxy-multi` 配置：
+
+```json
+{
+  "fallback_http_statuses": [401, 402],
+  "max_retries": 1,
+  "retry_on_failure_within_ms": 1000
+}
+```
+
+原有 `max_retries` 和 `retry_on_failure_within_ms` 同样会限制这些回退。`semantic` 负载均衡算法不参与健康检查或上游失败重试，因此 `fallback_http_statuses` 不会为语义路由新增这类重试行为。
+
+更多信息，请参阅 [PR #13852](https://github.com/apache/apisix/pull/13852)。
+
+### 将响应记录到 Chaitin WAF
+
+`chaitin-waf` 现在可以在客户端响应完成后，将响应状态、响应头和一段受限长度的响应体报告给 SafeLine 服务：
+
+```json
+{
+  "config": {
+    "log_resp": true,
+    "resp_body_size": 4,
+    "extra_ignored_content_types": "text/csv,application/pdf"
+  }
+}
+```
+
+`config.log_resp` 用于启用报告，`resp_body_size` 以 KiB 为单位限制缓冲大小，`extra_ignored_content_types` 用于排除其他响应类型。报告是异步观测行为，不会阻止或改写响应。每个适用的并发响应都会占用缓冲内存，因此只有在评估并发量和工作进程内存后才应提高 `resp_body_size`。内容类型被忽略的响应不会为报告而缓冲。
+
+更多信息，请参阅 [PR #13763](https://github.com/apache/apisix/pull/13763)。
 
 ## 问题修复
 
