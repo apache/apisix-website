@@ -210,7 +210,7 @@ The new `ws` and `wss` upstream schemes let APISIX parse and proxy WebSocket fra
 
 The final proxy path follows the effective scheme selected at runtime, including an inline `ws` or `wss` upstream selected by `traffic-split`. It sends the same Host that the normal proxy path would send, uses that host without its port as the TLS SNI, returns only the subprotocol selected by the upstream, and can retry another node after a non-101 handshake response before committing the downstream 101. Connection failure logs omit the request URI so query-string credentials are not exposed.
 
-This is distinct from `enable_websocket` on an `http` or `https` upstream, which continues to let NGINX relay the upgraded connection as opaque bytes. Choose `ws` or `wss` only when frame-level plugin logic is required. The new `websocket-proxy` plugin configures the largest accepted frame from each side; the enhanced proxy defaults to 65,535 bytes per frame unless `client_max_payload_len` or `upstream_max_payload_len` raises the applicable limit.
+This is distinct from `enable_websocket` on an `http` or `https` upstream, which continues to let NGINX relay the upgraded connection as opaque bytes. Choose `ws` or `wss` only when frame-level plugin logic is required. By default, the enhanced proxy rejects a single received frame larger than 65,535 bytes. The new `websocket-proxy` plugin raises the receive limit on the configured side and the corresponding relay send limit on the opposite side; because fragments are aggregated before plugin processing and forwarding, that send limit also bounds the aggregated message payload.
 
 ```json
 {
