@@ -114,9 +114,9 @@ curl "http://127.0.0.1:9180/apisix/admin/plugin_metadata/batch-requests" \
 
 ### WebSocket 会话使用新的 Prometheus `request_type` 值
 
-通过原有 NGINX 代理路径成功完成 WebSocket 升级的请求（通常是使用 `enable_websocket` 的路由），现在会在 `apisix_http_status`、`apisix_http_latency` 和 `apisix_bandwidth` 中标记为 `request_type="websocket"`，而不再是 `request_type="traditional_http"`。这样可以避免传统 HTTP 延迟分析混入长连接 WebSocket 会话，但也会改变现有指标序列和查询条件。新增的 `ws` 和 `wss` 内容处理路径不会执行设置该标签的 `http_header_filter_phase`。
+通过原有 NGINX 代理路径成功完成 WebSocket 升级的请求（通常是使用 `enable_websocket` 的路由），现在会在 `apisix_http_status`、`apisix_http_latency` 和 `apisix_bandwidth` 中标记为 `request_type="websocket"`，而不再是 `request_type="traditional_http"`。这样可以避免传统 HTTP 延迟分析混入长连接 WebSocket 会话，但也会改变现有指标序列和查询条件。新增的 `ws` 和 `wss` 内容处理路径在完成下游握手时也会设置相同标签。
 
-**升级计划：** 如果仪表盘、告警或记录规则通过 `request_type="traditional_http"` 筛选这些指标，请确定是否仍要包含 WebSocket 流量。在开始混合版本滚动升级前，若要保留合并统计，请改用 `request_type=~"traditional_http|websocket"`；也可以单独创建 WebSocket 面板和告警。请在代表性的 `enable_websocket` 路由上分别使用成功和被拒绝的升级请求验证这三类指标。没有配置可以恢复旧的标签值。
+**升级计划：** 如果仪表盘、告警或记录规则通过 `request_type="traditional_http"` 筛选这些指标，请确定是否仍要包含 WebSocket 流量。在开始混合版本滚动升级前，若要保留合并统计，请改用 `request_type=~"traditional_http|websocket"`；也可以单独创建 WebSocket 面板和告警。请在代表性的 `enable_websocket` 路由上分别使用成功和被拒绝的升级请求验证这三类指标；如果采用新增的 `ws` 或 `wss` 协议，还应单独验证该路径。没有配置可以恢复旧的标签值。
 
 更多信息，请参阅 [PR #13909](https://github.com/apache/apisix/pull/13909) 和 [PR #13915](https://github.com/apache/apisix/pull/13915)。
 
@@ -208,6 +208,8 @@ apisix:
 
 新增的 `ws` 和 `wss` 上游协议允许 APISIX 自行解析和代理 WebSocket 帧。自定义插件可以在 `ws_handshake`、`ws_client_frame`、`ws_upstream_frame` 和 `ws_close` 阶段运行，从两个方向检查或改写消息。该模式仍会执行常规的 `rewrite`、`access`、`before_proxy` 和 `log` 阶段，但升级后的会话不会执行 `header_filter`、`body_filter` 或 `delayed_body_filter`。
 
+最终代理路径会遵循运行时实际选中的协议，包括由 `traffic-split` 选择的内联 `ws` 或 `wss` 上游。它会发送常规代理路径应发送的 Host，将去除端口后的该主机名用作 TLS SNI，只向客户端返回上游实际选择的子协议，并能在上游以非 101 响应拒绝握手后、提交下游 101 之前重试其他节点。连接失败日志不会包含请求 URI，从而避免泄露查询参数中的凭据。
+
 这与在 `http` 或 `https` 上游上使用 `enable_websocket` 不同；后者仍由 NGINX 将升级后的连接作为不透明字节流转发。只有在需要帧级插件逻辑时才应选择 `ws` 或 `wss`。新增的 `websocket-proxy` 插件可以配置两端允许的最大帧大小；增强代理默认每帧最多为 65,535 字节，除非通过 `client_max_payload_len` 或 `upstream_max_payload_len` 提高对应限制。
 
 ```json
@@ -220,13 +222,18 @@ apisix:
   },
   "upstream": {
     "scheme": "wss",
+    "pass_host": "rewrite",
+    "upstream_host": "ws.example.com",
+    "tls": {"verify": true},
     "type": "roundrobin",
     "nodes": {"ws.example.com:443": 1}
   }
 }
 ```
 
-更多信息，请参阅 [PR #13939](https://github.com/apache/apisix/pull/13939) 和 [PR #13972](https://github.com/apache/apisix/pull/13972)。
+对于 `wss`，可以使用 `tls.verify` 和上游客户端证书，但 WebSocket 客户端无法应用单个上游的 `tls.ca_certs`，因此配置该字段会被拒绝。请改用共享的 `ssl_trusted_certificate` 配置所需信任锚。
+
+更多信息，请参阅 [PR #13939](https://github.com/apache/apisix/pull/13939)、[PR #13972](https://github.com/apache/apisix/pull/13972) 和 [PR #13977](https://github.com/apache/apisix/pull/13977)。
 
 ### 通过慢启动逐步增加新上游节点的流量
 

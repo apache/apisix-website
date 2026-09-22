@@ -114,9 +114,9 @@ For more information, see [PR #13862](https://github.com/apache/apisix/pull/1386
 
 ### WebSocket sessions use a new Prometheus `request_type` value
 
-Successful WebSocket upgrades on the existing NGINX proxy path, typically Routes using `enable_websocket`, are now labeled `request_type="websocket"` instead of `request_type="traditional_http"` in `apisix_http_status`, `apisix_http_latency`, and `apisix_bandwidth`. This keeps long-lived WebSocket sessions out of conventional HTTP latency analysis, but changes existing metric series and selectors. The new `ws` and `wss` content path does not run `http_header_filter_phase`, where this label is assigned.
+Successful WebSocket upgrades on the existing NGINX proxy path, typically Routes using `enable_websocket`, are now labeled `request_type="websocket"` instead of `request_type="traditional_http"` in `apisix_http_status`, `apisix_http_latency`, and `apisix_bandwidth`. This keeps long-lived WebSocket sessions out of conventional HTTP latency analysis, but changes existing metric series and selectors. The new `ws` and `wss` content path assigns the same label when it completes the downstream handshake.
 
-**Upgrade plan:** If dashboards, alerts, or recording rules filter these metric families by `request_type="traditional_http"`, decide whether WebSocket traffic should remain included. Before a mixed-version rollout, add `request_type=~"traditional_http|websocket"` to preserve combined coverage, or create separate WebSocket panels and alerts. Validate all three metric families with a successful and a refused upgrade on a representative `enable_websocket` Route; there is no setting that restores the old label value.
+**Upgrade plan:** If dashboards, alerts, or recording rules filter these metric families by `request_type="traditional_http"`, decide whether WebSocket traffic should remain included. Before a mixed-version rollout, add `request_type=~"traditional_http|websocket"` to preserve combined coverage, or create separate WebSocket panels and alerts. Validate all three metric families with a successful and a refused upgrade on a representative `enable_websocket` Route; if you adopt the new `ws` or `wss` scheme, verify that path separately. There is no setting that restores the old label value.
 
 For more information, see [PR #13909](https://github.com/apache/apisix/pull/13909) and [PR #13915](https://github.com/apache/apisix/pull/13915).
 
@@ -208,6 +208,8 @@ For more information, see [PR #13912](https://github.com/apache/apisix/pull/1391
 
 The new `ws` and `wss` upstream schemes let APISIX parse and proxy WebSocket frames itself. Custom plugins can run `ws_handshake`, `ws_client_frame`, `ws_upstream_frame`, and `ws_close` phases to inspect or rewrite messages in either direction. This mode preserves the normal `rewrite`, `access`, `before_proxy`, and `log` phases, but does not run `header_filter`, `body_filter`, or `delayed_body_filter` for the upgraded session.
 
+The final proxy path follows the effective scheme selected at runtime, including an inline `ws` or `wss` upstream selected by `traffic-split`. It sends the same Host that the normal proxy path would send, uses that host without its port as the TLS SNI, returns only the subprotocol selected by the upstream, and can retry another node after a non-101 handshake response before committing the downstream 101. Connection failure logs omit the request URI so query-string credentials are not exposed.
+
 This is distinct from `enable_websocket` on an `http` or `https` upstream, which continues to let NGINX relay the upgraded connection as opaque bytes. Choose `ws` or `wss` only when frame-level plugin logic is required. The new `websocket-proxy` plugin configures the largest accepted frame from each side; the enhanced proxy defaults to 65,535 bytes per frame unless `client_max_payload_len` or `upstream_max_payload_len` raises the applicable limit.
 
 ```json
@@ -220,13 +222,18 @@ This is distinct from `enable_websocket` on an `http` or `https` upstream, which
   },
   "upstream": {
     "scheme": "wss",
+    "pass_host": "rewrite",
+    "upstream_host": "ws.example.com",
+    "tls": {"verify": true},
     "type": "roundrobin",
     "nodes": {"ws.example.com:443": 1}
   }
 }
 ```
 
-For more information, see [PR #13939](https://github.com/apache/apisix/pull/13939) and [PR #13972](https://github.com/apache/apisix/pull/13972).
+For `wss`, `tls.verify` and upstream client certificates are supported, but per-upstream `tls.ca_certs` is rejected because the WebSocket client cannot apply it. Configure the required trust anchors through the shared `ssl_trusted_certificate` instead.
+
+For more information, see [PR #13939](https://github.com/apache/apisix/pull/13939), [PR #13972](https://github.com/apache/apisix/pull/13972), and [PR #13977](https://github.com/apache/apisix/pull/13977).
 
 ### Ramp newly observed upstream nodes with slow start
 
