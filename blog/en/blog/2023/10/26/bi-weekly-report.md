@@ -59,8 +59,8 @@ Our bi-weekly Apache APISIX community report is your window into the project's w
 
   APISIX strengthens its integration with modern development and operational workflows by introducing the declarative configuration tool, ADC.
 
-- [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
+- [Evaluate Coraza WAF with Apache APISIX](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
 
-  The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
+  This guide shows how to evaluate Coraza Proxy Wasm with APISIX while accounting for current request-body and Proxy Wasm limitations.
 
 A wealth of documentation tutorials and experience has been accumulated on the Apache APISIX official website and GitHub. If you encounter problems, you can look into the documentation, search keywords in the issues, or participate in the discussion on the issues, proposing your own ideas and practical experience.

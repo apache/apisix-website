@@ -50,9 +50,9 @@ Apache APISIX 从开源第一天就以社区方式成长，迅速成为全世界
 
 ## 最新博客速览
 
-- [APISIX 新特性之 WAF 解决方案：Coraza](https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/)
+- [使用 Apache APISIX 评估 Coraza WAF](https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/)
 
-  APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。
+  本文介绍如何使用 APISIX 评估 Coraza Proxy Wasm，并说明当前请求体处理和 Proxy Wasm API 的限制。
 
 - [Apache APISIX 3.5.0 正式发布](https://apisix.apache.org/zh/blog/2023/09/01/release-apache-apisix-3.5.0/)
 

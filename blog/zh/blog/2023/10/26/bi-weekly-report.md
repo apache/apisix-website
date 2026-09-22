@@ -59,8 +59,8 @@ Apache APISIX 社区的双周报旨在帮助社区成员更全面了解项目的
 
   APISIX 引入了新的周边工具 ADC，用以支持 GitOps 声明式，帮助用户在非 Kubernetes 环境中以声明式的方式进行各种集成。
 
-- [APISIX 新特性之 WAF 解决方案：Coraza](https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/)
+- [使用 Apache APISIX 评估 Coraza WAF](https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/)
 
-  APISIX 与 Coraza 的集成为企业提供了可靠的安全防护，确保 API 服务的完整性和可靠性。
+  本文介绍如何使用 APISIX 评估 Coraza Proxy Wasm，并说明当前请求体处理和 Proxy Wasm API 的限制。
 
 Apache APISIX 的项目官网和 Github 上的 Issue 上已经积累了比较丰富的文档教程和使用经验，如果您遇到问题可以翻阅文档，用关键词在 Issue 中搜索，也可以参与 Issue 上的讨论，提出自己的想法和实践经验。

@@ -50,10 +50,10 @@ We have recently fixed and improved some features, and the summary of the update
 
 ## Recent Blog Recommendations
 
-- [Coraza: Elevating APISIX with Cutting-Edge WAF Features](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
-  
-  The integration of APISIX and Coraza provides reliable security protection and ensures the integrity and reliability of API services.
-  
+- [Evaluate Coraza WAF with Apache APISIX](https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/)
+
+  This guide shows how to evaluate Coraza Proxy Wasm with APISIX while accounting for current request-body and Proxy Wasm limitations.
+
 - [Release Apache APISIX 3.5.0](https://apisix.apache.org/blog/2023/09/01/release-apache-apisix-3.5.0/)
 
   We are pleased to present Apache APISIX 3.5.0 with exciting new features and improvements to user experiences.

@@ -61,7 +61,7 @@ IP allowlists and denylists provide coarse-grained access control. While not suf
 
 ### WAF and CORS
 
-A Web Application Firewall (WAF) at the gateway layer can inspect requests for configured attack patterns. CORS controls which origins browser code may read responses from; it is enforced by browsers and does not stop non-browser clients from sending requests. Use these controls for their distinct purposes rather than treating either as a complete authorization or injection defense.
+A Web Application Firewall (WAF) at the gateway layer can inspect requests for configured attack patterns. For an open-source integration example and its current limitations, see how to [evaluate Coraza Proxy Wasm with APISIX](/blog/2023/09/08/APISIX-integrates-with-Coraza/). CORS controls which origins browser code may read responses from; it is enforced by browsers and does not stop non-browser clients from sending requests. Use these controls for their distinct purposes rather than treating either as a complete authorization or injection defense.
 
 ### TLS Termination
 
