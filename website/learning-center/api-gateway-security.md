@@ -45,11 +45,11 @@ A defense-in-depth approach applies multiple security controls at the gateway la
 
 ### Authentication
 
-For routes that require identity, the gateway can verify credentials before forwarding a request. Common mechanisms include JWT validation, OAuth 2.0 token introspection, API key verification, and [mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) for service-to-service communication. Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) can reduce inconsistent edge enforcement, while explicitly public routes remain unauthenticated by design.
+For routes that require identity, the gateway can verify credentials before forwarding incoming requests. Common mechanisms include JWT validation, OAuth 2.0 token introspection, API key verification, and [mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) for service-to-service communication. Centralizing [API gateway authentication](/learning-center/api-gateway-authentication/) can reduce inconsistent edge enforcement, while explicitly public routes remain unauthenticated by design.
 
 ### Authorization
 
-Beyond verifying identity, the gateway can enforce route-, consumer-, role-, attribute-, or scope-based access policies before forwarding a request. These gateway-level checks complement rather than replace authorization in the application: backend services must still verify resource ownership and other business rules to prevent BOLA.
+Beyond verifying identity, the gateway can enforce route-, consumer-, role-, attribute-, or scope-based access policies, including role-based access control (RBAC), before forwarding a request. These gateway-level checks complement rather than replace authorization in the application: backend services must still verify resource ownership and other business rules to prevent BOLA.
 
 ### Rate Limiting and Throttling
 

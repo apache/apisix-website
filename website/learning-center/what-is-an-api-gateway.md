@@ -25,7 +25,7 @@ faq:
 
 An API gateway is a server that sits between clients and backend services, acting as an entry point for the APIs placed behind it. It accepts incoming requests, applies policies such as authentication, rate limiting, and transformation, then routes each request to the appropriate upstream service and returns the response to the caller.
 
-The main benefits of an API gateway are consistent edge policy enforcement, less duplicated infrastructure logic, and a stable entry point as backend services change. Teams can centralize access control, traffic shaping, and gateway-level observability while leaving business authorization and service-specific behavior in the applications that own them.
+The main benefits of an API gateway are consistent edge policy enforcement, less duplicated infrastructure logic, and a stable entry point as backend services change. Teams can centralize access control, traffic shaping, and gateway-level observability while leaving business authorization and service-specific behavior in the applications that own them. For teams routing LLM requests, an [AI gateway](/ai-gateway/) extends the same policy model to model providers and AI applications.
 
 ## How Does an API Gateway Work?
 
@@ -182,7 +182,7 @@ The gateway and backend services scale independently. During a traffic surge, te
 
 **Extensible policy layer.** The APISIX [plugin ecosystem](/plugins/) covers authentication, traffic control, observability, security, and transformation. Native plugins use Lua, while external plugin runners provide additional extension models where their operational tradeoffs are appropriate.
 
-**Dynamic configuration.** Routes match request attributes, execute configured plugins, and forward traffic to an upstream. In traditional and decoupled deployment modes, APISIX stores configuration in etcd and exposes an Admin API, allowing route, upstream, consumer, and plugin changes to propagate without restarting gateway processes. Standalone mode can instead load declarative configuration without etcd.
+**Dynamic configuration.** Routes match request attributes, execute configured plugins, and forward traffic to an upstream. In traditional and decoupled deployment modes, APISIX stores configuration in etcd and exposes an Admin API, allowing route, upstream, consumer, and plugin changes to propagate in real time without restarting gateway processes. Standalone mode can instead load declarative configuration without etcd.
 
 **Open governance.** Apache APISIX is an Apache Software Foundation top-level project developed under community governance and released under the Apache License 2.0.
 

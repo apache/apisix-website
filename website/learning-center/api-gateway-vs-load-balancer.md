@@ -17,7 +17,7 @@ faq:
       Assign a bounded retry budget to the layer that has the best view of each failure boundary. Uncoordinated retries at both layers can multiply requests, increase latency, and replay operations that are not safe to repeat. Test timeout and retry behavior together under partial failures.
 ---
 
-A load balancer distributes traffic across healthy backend instances. An API gateway controls how clients use APIs through routing and policies such as authentication, rate limiting, transformation, and observability. Their capabilities overlap at Layer 7, but they solve different architectural problems. Many production systems use both: a network or cloud load balancer exposes a highly available gateway cluster, and the gateway applies API policies before balancing requests across services.
+A load balancer distributes incoming traffic across multiple healthy backend instances. An API gateway controls how clients use APIs through routing and policies such as authentication, rate limiting, transformation, and observability. Their capabilities overlap at Layer 7, but they solve different architectural problems. Many production systems use both: a network or cloud load balancer exposes a highly available gateway cluster, and the gateway applies API policies before balancing requests across services.
 
 ## What Is a Load Balancer?
 

@@ -43,7 +43,7 @@ const jsonLd = [{
  * edition of the same hub, so zh pages canonicalise there instead.
  */
 const ZH_HUB = 'https://docs.apiseven.com';
-const rawCanonical = entry.mod.frontmatter.canonical;
+const rawCanonical = entry.canonical ?? entry.mod.frontmatter.canonical;
 const canonicalOverride = locale === 'zh'
   ? rawCanonical?.startsWith('https://docs.api7.ai/')
     ? rawCanonical.replace('https://docs.api7.ai', ZH_HUB)

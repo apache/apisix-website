@@ -5,6 +5,11 @@ import { SITE, localePrefix, t, type Locale } from '../../lib/site';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const p = localePrefix(locale);
+// The Learning Center article currently has no localized route, so keep the
+// Chinese product page's learning link pointed at the existing English page.
+const learningGuideHref = locale === 'zh'
+  ? '/learning-center/mcp-protocol-ai-gateway/'
+  : `${p}/learning-center/mcp-protocol-ai-gateway/`;
 
 const features = [
   {
@@ -318,6 +323,15 @@ const description = t(
         )}</p>
         <a class="text-link" href={`${p}/blog/2025/02/24/apisix-ai-gateway-features/`}>
           {t(locale, 'See the AI Gateway capabilities', '了解 AI 网关能力')} <span aria-hidden="true">→</span>
+        </a>
+        <a class="text-link" href={`${p}/blog/2025/03/06/what-is-an-ai-gateway/`}>
+          {t(locale, 'What is an AI gateway?', '什么是 AI 网关？')} <span aria-hidden="true">→</span>
+        </a>
+        <a class="text-link" href={learningGuideHref}>
+          {t(locale, 'Read the AI Gateway learning guide', '阅读 AI 网关学习指南')} <span aria-hidden="true">→</span>
+        </a>
+        <a class="text-link" href={`${p}/docs/apisix/plugins/ai-proxy/`}>
+          {t(locale, 'Explore the AI proxy plugin docs', '查看 AI 代理插件文档')} <span aria-hidden="true">→</span>
         </a>
       </div>
       <img
