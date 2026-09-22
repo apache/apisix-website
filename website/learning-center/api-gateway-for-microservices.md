@@ -41,9 +41,9 @@ Each BFF acts as a specialized gateway layer that transforms and filters upstrea
 
 ### Service Mesh Integration
 
-In architectures that deploy both an API gateway and a service mesh, the gateway handles north-south traffic (client to cluster) while the service mesh manages east-west traffic (service to service). The gateway provides external-facing features like API key authentication, rate limiting, and response transformation. The mesh handles internal concerns like mTLS, circuit breaking, and service-to-service load balancing.
+In architectures that deploy both an API gateway and a service mesh, the gateway often applies client- and consumer-facing API policies while the mesh manages workload identity and service-to-service policy. This is a common division of responsibility, not a strict traffic rule: service meshes can provide ingress gateways, and API gateways can route internal traffic.
 
-Most organizations using a service mesh also deploy an API gateway with clear boundaries between the two components. This separation avoids the complexity of running a full mesh for external traffic while preserving mesh benefits for internal communication.
+Whether a team needs both depends on its trust boundaries and policy model. The [API gateway vs service mesh comparison](/learning-center/api-gateway-vs-service-mesh/) explains the overlap and provides a decision checklist for gateway-only, mesh-only, and combined deployments.
 
 ## Key Features for Microservices
 
@@ -73,23 +73,7 @@ In a microservices architecture, a single client request might traverse ten or m
 
 APISIX supports trace context propagation to observability backends including Zipkin, Jaeger, SkyWalking, and OpenTelemetry. With tracing enabled at the gateway, operations teams gain end-to-end visibility into request flows, enabling faster incident resolution compared to relying solely on logs and metrics.
 
-## API Gateway vs Service Mesh
-
-API gateways and service meshes both manage network traffic in a microservices architecture, but they target different communication patterns and offer different feature sets.
-
-| Aspect | API Gateway | Service Mesh |
-|--------|------------|-------------|
-| Traffic direction | North-south (external to internal) | East-west (internal to internal) |
-| Deployment model | Centralized proxy | Distributed sidecar proxies |
-| Primary focus | API management, external security | Internal networking, observability |
-| Authentication | API keys, JWT, OAuth, OIDC | mTLS (identity-based) |
-| Rate limiting | Per-consumer, per-route | Per-service (less granular) |
-| Protocol support | HTTP, gRPC, WebSocket, GraphQL | TCP, HTTP, gRPC |
-| Request transformation | Yes | Typically no |
-
 For services that use [gRPC](/learning-center/what-is-grpc/), the gateway must preserve HTTP/2 and streaming behavior or explicitly translate the protocol for clients that cannot use native gRPC.
-
-The two technologies are complementary, not competitive. Organizations deploying both an API gateway and a service mesh generally report improved overall system reliability compared to using either component alone.
 
 ## How Apache APISIX Supports Microservices
 
@@ -109,7 +93,7 @@ Apache APISIX is designed for microservices environments, offering dynamic confi
 
 ### Do I need an API gateway if I already use a service mesh?
 
-Yes. A service mesh manages internal service-to-service communication but does not address external API concerns like consumer authentication, API key management, rate limiting per consumer, request transformation, or developer-facing documentation. The API gateway handles the north-south boundary where external clients interact with your microservices. Deploy both for comprehensive traffic management.
+Not always. If the mesh ingress already provides the external routing and policy model an application needs, a separate API gateway may add unnecessary operational work. Add an API gateway when the system needs consumer-oriented authentication, quotas, request transformation, or an API policy boundary that is managed separately from workload policy. The [detailed gateway and service mesh comparison](/learning-center/api-gateway-vs-service-mesh/) covers the decision factors.
 
 ### How does an API gateway handle partial failures across microservices?
 

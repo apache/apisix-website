@@ -69,6 +69,12 @@ const COMPARISONS: Comparison[] = [
     to: '/learning-center/api-gateway-vs-api-management/',
   },
   {
+    title: 'API gateway vs service mesh',
+    description:
+      'API consumer policies vs workload communication, where the capabilities overlap, and when to use both.',
+    to: '/learning-center/api-gateway-vs-service-mesh/',
+  },
+  {
     title: 'Kubernetes API gateway',
     description:
       'Gateway API vs Ingress, ingress controllers, and deploying an API gateway on Kubernetes.',

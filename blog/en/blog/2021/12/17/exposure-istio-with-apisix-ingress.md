@@ -23,6 +23,8 @@ tags: [Ecosystem]
 
 <!--truncate-->
 
+For help deciding where each layer should enforce policy, see [API gateway vs service mesh](/learning-center/api-gateway-vs-service-mesh/). The comparison covers traffic boundaries, identity, deployment models, and combined architectures.
+
 ## Service Mesh
 
 With the hot development of Cloud-Native technology, Service Mesh is gradually becoming popular in the microservices field. The popular implementations of Service Mesh are [Istio](https://istio.io/) and [Linkerd](https://linkerd.io/).
