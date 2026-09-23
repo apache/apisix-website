@@ -40,7 +40,7 @@ message OrderResponse {
 }
 ```
 
-The `protoc` compiler generates client and server code in many languages from this definition. For many schemas, binary serialization produces more compact payloads than an equivalent JSON representation, but the exact size and processing cost depend on the data model and implementation.
+The `protoc` compiler, together with a language-specific gRPC plugin, generates gRPC clients and server code in many languages from this definition. The generated clients use the declared data structures and service methods, while the gateway can apply transport-level policies without changing the contract. For many schemas, binary serialization produces more compact payloads than an equivalent JSON representation, but the exact size and processing cost depend on the data model and implementation.
 
 ### HTTP/2 Transport
 

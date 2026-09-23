@@ -127,7 +127,7 @@ test('AI Gateway has complete responsive content and valid footer links', async 
   await Promise.all(documentedPlugins.map((plugin) => (
     expect(page.locator(`main a[href="/docs/apisix/plugins/${plugin}/"]`).first()).toBeVisible()
   )));
-  await expect(page.locator('main a[href="/blog/2025/03/06/what-is-an-ai-gateway/"]'))
+  await expect(page.locator('main a[href="/blog/2025/03/06/what-is-an-ai-gateway/"]').first())
     .toBeVisible();
   await expect(page.locator('main a[href="/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"]'))
     .toBeVisible();
@@ -156,6 +156,44 @@ test('AI Gateway has complete responsive content and valid footer links', async 
 
   await expect(page.locator('footer a[href="/docs/general/events/"]')).toHaveText('Events');
   await expect(page.locator('footer a[href="/user-stories/"]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /What is an AI gateway/i }))
+    .toHaveAttribute('href', '/blog/2025/03/06/what-is-an-ai-gateway/');
+  await expect(page.getByRole('link', { name: 'Read the AI Gateway learning guide' }))
+    .toHaveAttribute('href', '/learning-center/mcp-protocol-ai-gateway/');
+  await expect(page.getByRole('link', { name: 'Explore the AI proxy plugin docs' }))
+    .toHaveAttribute('href', '/docs/apisix/plugins/ai-proxy/');
+});
+
+test('Learning Center and AI Gateway article expose aligned search metadata', async ({ page }) => {
+  await page.goto('/learning-center/');
+  await expect(page).toHaveTitle('API Gateway Guides & Tutorials | Apache APISIX');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Apache APISIX guides to API gateway concepts, authentication, security, Kubernetes, and gateway comparisons.',
+  );
+  await expect(page.getByRole('heading', { level: 1, name: 'API Gateway Guides & Tutorials' })).toBeVisible();
+
+  await page.goto('/learning-center/what-is-an-api-gateway/');
+  await expect(page).toHaveTitle('What is an API Gateway? Definition, Benefits & Use Cases | Apache APISIX');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /API Gateway/);
+  await expect(page.getByRole('link', { name: /AI gateway/i }).first())
+    .toHaveAttribute('href', '/ai-gateway/');
+
+  await page.goto('/blog/2025/03/06/what-is-an-ai-gateway/');
+  await expect(page).toHaveTitle('What Is an AI Gateway? Concept and Core Features | Apache APISIX');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    'Learn how an AI gateway manages LLM traffic with provider integrations, model routing, token limits, security, semantic caching, and observability.',
+  );
+  await expect(page.getByRole('link', { name: 'Apache APISIX AI Gateway' })).toHaveAttribute('href', '/ai-gateway/');
+  await expect(page.getByRole('link', { name: 'API gateway security best practices' }))
+    .toHaveAttribute('href', '/learning-center/api-gateway-security/');
+});
+
+test('Chinese AI Gateway keeps English-only learning links resolvable', async ({ page }) => {
+  await page.goto('/zh/ai-gateway/');
+  await expect(page.getByRole('link', { name: '阅读 AI 网关学习指南' }))
+    .toHaveAttribute('href', '/learning-center/mcp-protocol-ai-gateway/');
 });
 
 test('Chinese AI Gateway preserves localized ownership and documented capabilities', async ({ page }) => {
@@ -173,7 +211,7 @@ test('Chinese AI Gateway preserves localized ownership and documented capabiliti
   await expect(page.locator('link[rel="canonical"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/ai-gateway/');
   await expect(page.locator('main a[href="/zh/docs/apisix/plugins/ai-proxy/"]').first()).toBeVisible();
-  await expect(page.locator('main a[href="/zh/blog/2025/03/06/what-is-an-ai-gateway/"]'))
+  await expect(page.locator('main a[href="/zh/blog/2025/03/06/what-is-an-ai-gateway/"]').first())
     .toBeVisible();
   await expect(page.locator('main')).not.toContainText('MCP Gateway');
   await expect(page.locator('main')).not.toContainText('MCP support');

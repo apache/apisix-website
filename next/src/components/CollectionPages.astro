@@ -13,6 +13,7 @@ interface Props {
   posts: Post[];
   urlBase: string; // e.g. "/learning-center"
   heading: string;
+  title?: string;
   sub?: string;
   kicker?: string;
   withTags?: boolean;
@@ -20,7 +21,7 @@ interface Props {
   linkPrefix?: string;
 }
 const {
-  locale, page, posts, urlBase, heading, sub, kicker, withTags = false, linkPrefix,
+  locale, page, posts, urlBase, heading, title, sub, kicker, withTags = false, linkPrefix,
 } = Astro.props;
 const prefix = localePrefix(locale);
 // Where the archive/tags/pagination siblings live. Normally alongside this
@@ -31,7 +32,7 @@ const pages = paginate(posts);
 const pagePosts = pages[page - 1] ?? [];
 ---
 <ListPage
-  title={heading}
+  title={title ?? heading}
   heading={heading}
   sub={sub}
   kicker={kicker}

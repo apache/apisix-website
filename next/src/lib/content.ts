@@ -260,6 +260,8 @@ export interface DocEntry {
   url: string;
   title: string;
   description: string;
+  /** Cross-site canonical inherited from the English source when a translated page omits it. */
+  canonical?: string;
   mod: MdModule;
 }
 
@@ -306,6 +308,57 @@ function docTitle(mod: MdModule, id: string): string {
   return mod.frontmatter.title ?? id.split('/').pop()!;
 }
 
+/**
+ * Site-level metadata for a small set of high-value docs whose upstream
+ * titles are implementation-oriented or too generic for search results.
+ * These overrides affect the current Astro docs surface only; the synced
+ * source files remain untouched so the next docs refresh does not erase the
+ * intent mapping. Chinese translations keep their own authored metadata.
+ */
+const SEO_DOC_OVERRIDES: Record<string, { title: string; description: string }> = {
+  'apisix/FAQ': {
+    title: 'Apache APISIX FAQ: API Gateway Questions',
+    description: 'Answers to common Apache APISIX questions about API gateway routing, authentication, plugins, configuration, and troubleshooting.',
+  },
+  'apisix/http3': {
+    title: 'HTTP/3 and QUIC in Apache APISIX',
+    description: 'Learn how Apache APISIX supports HTTP/3 and QUIC, including transport behavior, TLS requirements, and configuration considerations.',
+  },
+  'apisix/plugins/lago': {
+    title: 'Lago Plugin',
+    description: 'Configure the Apache APISIX Lago plugin to report API usage and billing events to Lago.',
+  },
+  'apisix/plugins/ext-plugin-post-resp': {
+    title: 'ext-plugin-post-resp',
+    description: 'Configure ext-plugin-post-resp to run an external response-phase plugin through the Apache APISIX Plugin Runner.',
+  },
+  'ingress-controller/concepts/gateway-api': {
+    title: 'Kubernetes Gateway API with APISIX Ingress Controller',
+    description: 'Use Kubernetes Gateway API resources with the Apache APISIX Ingress Controller to manage gateways, listeners, routes, and backend services.',
+  },
+  'ingress-controller/reference/apisix-ingress-controller/annotation': {
+    title: 'APISIX Ingress Controller Annotation Reference',
+    description: 'Reference for APISIX Ingress Controller annotations, including routing, CORS, proxy, and request behavior settings.',
+  },
+};
+
+function docMetadata(
+  key: string,
+  mod: MdModule,
+  locale: Locale,
+  hasTranslation: boolean,
+  id: string,
+): { title: string; description: string } {
+  const authored = {
+    title: docTitle(mod, id),
+    description: mod.frontmatter.description ?? excerpt(mod),
+  };
+  // A translated page owns its own title and description. If Chinese falls
+  // back to English, use the English SEO mapping rather than the raw filename.
+  if (locale === 'zh' && hasTranslation) return authored;
+  return SEO_DOC_OVERRIDES[key] ?? authored;
+}
+
 export function getGeneralDocs(locale: Locale): DocEntry[] {
   return Object.entries(docsGeneralModules)
     .filter(([p]) => !p.endsWith('sidebars.json'))
@@ -335,14 +388,17 @@ export function getApisixDocs(locale: Locale): DocEntry[] {
     const hasTranslation = isMeaningfulTranslation(mod, zhMod);
     const translated = locale === 'zh' && hasTranslation ? zhMod : undefined;
     const effective = translated ?? mod;
+    const metadata = docMetadata(`apisix/${id}`, effective, locale, hasTranslation, id);
+    const canonical = effective.frontmatter.canonical ?? mod.frontmatter.canonical;
     return {
       id,
       pathId,
       sourceLocale: translated ? 'zh' : 'en',
       hasTranslation,
       url: `${localePrefix(locale)}/docs/apisix/${id}/`,
-      title: docTitle(effective, id),
-      description: effective.frontmatter.description ?? excerpt(effective),
+      title: metadata.title,
+      description: metadata.description,
+      canonical,
       mod: effective,
     };
   });
@@ -363,14 +419,17 @@ export function getSubprojectDocs(project: string, locale: Locale): DocEntry[] {
       const hasTranslation = isMeaningfulTranslation(mod, zhMod);
       const translated = locale === 'zh' && hasTranslation ? zhMod : undefined;
       const effective = translated ?? mod;
+      const metadata = docMetadata(`${project}/${id}`, effective, locale, hasTranslation, id);
+      const canonical = effective.frontmatter.canonical ?? mod.frontmatter.canonical;
       return {
         id,
         pathId,
         sourceLocale: (translated ? 'zh' : 'en') as Locale,
         hasTranslation,
         url: `${localePrefix(locale)}/docs/${project}/${id}/`,
-        title: docTitle(effective, id),
-        description: effective.frontmatter.description ?? excerpt(effective),
+        title: metadata.title,
+        description: metadata.description,
+        canonical,
         mod: effective,
       };
     });

@@ -7,7 +7,7 @@ tags: [microservices, architecture, api-gateway]
 hide_table_of_contents: false
 ---
 
-Microservices architectures often use an [API gateway](/learning-center/what-is-an-api-gateway/) as a single entry point for API consumers and to route requests to the correct backend services. The gateway centralizes access control, authentication and authorization, protocol translation, rate limiting, and observability, so each microservice does not have to implement these cross-cutting concerns independently.
+Microservices architectures often use an [API gateway](/learning-center/what-is-an-api-gateway/) as a single entry point for API consumers and to route requests to the correct backend services. For high-traffic REST APIs, the gateway can keep a stable client-facing endpoint while it applies routing, load balancing, retries, and traffic control behind the scenes. It also centralizes access control, authentication and authorization, protocol translation, rate limiting, and observability, so each microservice does not have to implement these cross-cutting concerns independently.
 
 ## Why Microservices Need a Gateway
 

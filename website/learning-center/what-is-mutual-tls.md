@@ -1,5 +1,5 @@
 ---
-title: "Mutual TLS (mTLS): Authentication and Certificates"
+title: "What Is Mutual TLS (mTLS)? Authentication and Certificates"
 description: "Learn how mutual TLS (mTLS) authentication uses client and server certificates, how TLS vs mTLS differs, and how Apache APISIX enforces mTLS."
 slug: what-is-mutual-tls
 date: 2026-04-14
@@ -7,7 +7,7 @@ tags: [mtls, security, tls]
 hide_table_of_contents: false
 ---
 
-Mutual TLS (mTLS) authentication is a security protocol where both the client and server authenticate each other using X.509 digital certificates during the TLS handshake. Unlike standard TLS, which only verifies the server's identity, mTLS provides mutual authentication: both parties prove their identities before exchanging application data over a secure connection.
+Mutual TLS (mTLS) authentication is a security protocol where both the client and server authenticate each other using X.509 digital certificates during the TLS handshake. The certificate binds an identity to a public key, and each side verifies the peer's certificate chain before accepting the connection. Unlike standard TLS, which only verifies the server's identity, mTLS provides mutual authentication: both parties prove their identities before exchanging application data over a secure connection.
 
 ## Why Mutual TLS Matters
 

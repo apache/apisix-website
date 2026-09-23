@@ -18,7 +18,7 @@ keywords:
   - data security
   - AI traffic optimization
   - hybrid cloud architecture
-description: "Learn what an AI Gateway is and how Apache APISIX can manage LLM API traffic, model routing, token limits, security, and observability."
+description: "Learn how an AI gateway manages LLM traffic with provider integrations, model routing, token limits, security, semantic caching, and observability."
 tags: [Ecosystem]
 image: https://static.api7.ai/uploads/2025/03/07/1W9olFmu_what-is-ai-gateway.webp
 ---
@@ -55,7 +55,9 @@ These controls can reduce the amount of provider-specific failover logic in appl
 
 Request counts alone do not describe LLM usage. A short completion and a long completion can have very different token consumption. Token-aware limits allow teams to place a usage boundary in front of model providers.
 
-The APISIX [`ai-rate-limiting`](https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/) plugin tracks token consumption and can use local or Redis-backed counters. It enforces the limits that operators configure; pricing, budgets, and billing reconciliation remain responsibilities of external systems.
+The APISIX [`ai-rate-limiting`](https://apisix.apache.org/docs/apisix/plugins/ai-rate-limiting/) plugin tracks token consumption and can use local or Redis-backed counters. Provider-reported usage may be recorded after the response, so concurrent requests can overshoot a fixed window; treat this as a usage limit rather than a prepaid hard budget. Pricing, budgets, and billing reconciliation remain responsibilities of external systems. See the [shared Redis token quota cookbook](/cookbooks/redis-shared-token-quota/) for the documented behavior.
+
+Semantic caching is an optional, release- and provider-specific optimization rather than a universal gateway capability. In current Apache APISIX documentation, semantic matching is limited to plain-text OpenAI Chat requests; tool calls and multimodal inputs are not supported. See the [Redis AI cache cookbook](/cookbooks/redis-ai-cache/) for the supported flow and isolation considerations.
 
 ### Prompt and Content Processing
 
@@ -66,7 +68,7 @@ AI gateways can modify or inspect request and response content through separate,
 - [`ai-prompt-guard`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/) allows or denies prompts using configured regular-expression patterns.
 - [`ai-aws-content-moderation`](https://apisix.apache.org/docs/apisix/plugins/ai-aws-content-moderation/) and [`ai-aliyun-content-moderation`](https://apisix.apache.org/docs/apisix/plugins/ai-aliyun-content-moderation/) integrate with their documented provider-specific moderation services.
 
-These plugins provide specific controls, not a complete security or compliance guarantee. Teams still need application authorization, data classification, secrets management, provider governance, and human review where required.
+These plugins provide specific controls, not a complete security or compliance guarantee. Teams still need application authorization, data classification, secrets management, provider governance, and human review where required. For a broader defense-in-depth checklist, see [API gateway security best practices](/learning-center/api-gateway-security/).
 
 ### Retrieval-Augmented Generation
 

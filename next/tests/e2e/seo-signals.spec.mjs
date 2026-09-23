@@ -58,6 +58,65 @@ APISIX_OWNED_DOCS.forEach((path) => {
   });
 });
 
+test('selected APISIX docs use intent-specific SEO metadata', async ({ page }) => {
+  const cases = [
+    {
+      path: '/docs/apisix/FAQ/',
+      title: 'Apache APISIX FAQ: API Gateway Questions | Apache APISIX',
+      description: 'Answers to common Apache APISIX questions about API gateway routing, authentication, plugins, configuration, and troubleshooting.',
+    },
+    {
+      path: '/docs/apisix/http3/',
+      title: 'HTTP/3 and QUIC in Apache APISIX | Apache APISIX',
+      description: 'Learn how Apache APISIX supports HTTP/3 and QUIC, including transport behavior, TLS requirements, and configuration considerations.',
+    },
+    {
+      path: '/docs/apisix/plugins/lago/',
+      title: 'Lago Plugin | Apache APISIX',
+      description: 'Configure the Apache APISIX Lago plugin to report API usage and billing events to Lago.',
+    },
+    {
+      path: '/docs/apisix/plugins/ext-plugin-post-resp/',
+      title: 'ext-plugin-post-resp | Apache APISIX',
+      description: 'Configure ext-plugin-post-resp to run an external response-phase plugin through the Apache APISIX Plugin Runner.',
+    },
+  ];
+
+  for (const entry of cases) {
+    await page.goto(entry.path);
+    await expect(page).toHaveTitle(entry.title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', entry.description);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(entry.title.replace(' | Apache APISIX', ''));
+  }
+});
+
+test('selected Ingress docs use intent-specific SEO metadata', async ({ page }) => {
+  test.skip(
+    process.env.EXPECT_DOCUSARUS_ROUTES !== 'true',
+    'Ingress Controller docs are synced only in the final overlaid tree',
+  );
+
+  const cases = [
+    {
+      path: '/docs/ingress-controller/concepts/gateway-api/',
+      title: 'Kubernetes Gateway API with APISIX Ingress Controller | Apache APISIX',
+      description: 'Use Kubernetes Gateway API resources with the Apache APISIX Ingress Controller to manage gateways, listeners, routes, and backend services.',
+    },
+    {
+      path: '/docs/ingress-controller/reference/apisix-ingress-controller/annotation/',
+      title: 'APISIX Ingress Controller Annotation Reference | Apache APISIX',
+      description: 'Reference for APISIX Ingress Controller annotations, including routing, CORS, proxy, and request behavior settings.',
+    },
+  ];
+
+  for (const entry of cases) {
+    await page.goto(entry.path);
+    await expect(page).toHaveTitle(entry.title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', entry.description);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(entry.title.replace(' | Apache APISIX', ''));
+  }
+});
+
 test('blog hreflang exists only for verified source pairs', async ({ page }) => {
   const en = 'https://apisix.apache.org/blog/2026/07/31/2026-jul-monthly-report/';
   const zh = 'https://apisix.apache.org/zh/blog/2026/07/31/2026-jul-monthly-report/';
