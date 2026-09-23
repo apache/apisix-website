@@ -68,7 +68,7 @@ AI gateways can modify or inspect request and response content through separate,
 - [`ai-prompt-guard`](https://apisix.apache.org/docs/apisix/plugins/ai-prompt-guard/) allows or denies prompts using configured regular-expression patterns.
 - [`ai-aws-content-moderation`](https://apisix.apache.org/docs/apisix/plugins/ai-aws-content-moderation/) and [`ai-aliyun-content-moderation`](https://apisix.apache.org/docs/apisix/plugins/ai-aliyun-content-moderation/) integrate with their documented provider-specific moderation services.
 
-These plugins provide specific controls, not a complete security or compliance guarantee. Teams still need application authorization, data classification, secrets management, provider governance, and human review where required.
+These plugins provide specific controls, not a complete security or compliance guarantee. Teams still need application authorization, data classification, secrets management, provider governance, and human review where required. For a broader defense-in-depth checklist, see [API gateway security best practices](/learning-center/api-gateway-security/).
 
 ### Retrieval-Augmented Generation
 

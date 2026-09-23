@@ -186,6 +186,8 @@ test('Learning Center and AI Gateway article expose aligned search metadata', as
     'Learn how an AI gateway manages LLM traffic with provider integrations, model routing, token limits, security, semantic caching, and observability.',
   );
   await expect(page.getByRole('link', { name: 'Apache APISIX AI Gateway' })).toHaveAttribute('href', '/ai-gateway/');
+  await expect(page.getByRole('link', { name: 'API gateway security best practices' }))
+    .toHaveAttribute('href', '/learning-center/api-gateway-security/');
 });
 
 test('Chinese AI Gateway keeps English-only learning links resolvable', async ({ page }) => {

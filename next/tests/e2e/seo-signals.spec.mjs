@@ -62,8 +62,8 @@ test('selected APISIX docs use intent-specific SEO metadata', async ({ page }) =
   const cases = [
     {
       path: '/docs/apisix/FAQ/',
-      title: 'Apache APISIX FAQ: API Gateway and Ingress Questions | Apache APISIX',
-      description: 'Answers to common Apache APISIX and Ingress Controller questions about API gateway routing, authentication, plugins, configuration, and troubleshooting.',
+      title: 'Apache APISIX FAQ: API Gateway Questions | Apache APISIX',
+      description: 'Answers to common Apache APISIX questions about API gateway routing, authentication, plugins, configuration, and troubleshooting.',
     },
     {
       path: '/docs/apisix/http3/',

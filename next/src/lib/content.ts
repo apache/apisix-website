@@ -317,8 +317,8 @@ function docTitle(mod: MdModule, id: string): string {
  */
 const SEO_DOC_OVERRIDES: Record<string, { title: string; description: string }> = {
   'apisix/FAQ': {
-    title: 'Apache APISIX FAQ: API Gateway and Ingress Questions',
-    description: 'Answers to common Apache APISIX and Ingress Controller questions about API gateway routing, authentication, plugins, configuration, and troubleshooting.',
+    title: 'Apache APISIX FAQ: API Gateway Questions',
+    description: 'Answers to common Apache APISIX questions about API gateway routing, authentication, plugins, configuration, and troubleshooting.',
   },
   'apisix/http3': {
     title: 'HTTP/3 and QUIC in Apache APISIX',
