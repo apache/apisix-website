@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[9930],{6842(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/business","name":"business","count":1,"permalink":"/zh/learning-center/tags/business"}')}}]);

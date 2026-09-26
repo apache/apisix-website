@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[3215],{660(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/mcp","name":"mcp","count":1,"permalink":"/zh/learning-center/tags/mcp"}')}}]);
