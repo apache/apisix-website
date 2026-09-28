@@ -33,13 +33,33 @@ The following changes affect existing configuration, authentication flows, clien
 
 ### HTTPS and gRPCS upstream certificate verification is now effective
 
-`upstream.tls.verify` now controls certificate verification for `https` and `grpcs` upstreams, rather than being read only by the `kafka` scheme. Existing HTTPS or gRPCS upstreams that already set `tls.verify: true` will therefore start verifying the certificate chain and hostname. An untrusted certificate or hostname mismatch causes the TLS connection to fail, typically with a 502 response.
+`upstream.tls.verify` now controls certificate verification for `https` and `grpcs` upstreams, rather than being read only by the `kafka` scheme. Existing HTTPS or gRPCS upstreams that already enable verification will therefore start validating the certificate chain and hostname. An untrusted certificate or hostname mismatch causes the TLS connection to fail, typically with a 502 response.
 
-The new `tls.ca_certs` array can provide trust anchors for one upstream. When it is absent, verification uses `ssl_trusted_certificate` from `config.yaml`. Leaving `tls.verify` unset follows the NGINX verification setting, while explicitly setting it to `false` disables verification for that upstream.
+The following example verifies an HTTPS upstream against a private CA:
 
-APISIX 3.19.0 pins APISIX Runtime 1.3.18, which provides the required upstream verification APIs. A custom or older Runtime without `set_ssl_verify` or `set_ssl_trusted_store` returns 503 when the corresponding option is used.
+```json
+{
+  "type": "roundrobin",
+  "scheme": "https",
+  "pass_host": "rewrite",
+  "upstream_host": "backend.example.com",
+  "nodes": {"10.0.0.10:443": 1},
+  "tls": {
+    "verify": true,
+    "ca_certs": ["<PEM-encoded CA certificate>"]
+  }
+}
+```
 
-**Upgrade plan:** If an `https` or `grpcs` upstream already sets `tls.verify: true`, first identify the hostname APISIX verifies: the incoming Host for the default `pass_host: pass`, `upstream_host` for `pass_host: rewrite`, or the selected node host for `pass_host: node`. Validate the certificate chain and subject alternative name against that hostname. Add the required PEM certificates to `upstream.tls.ca_certs` or the shared `ssl_trusted_certificate`, and confirm that custom Runtime builds provide the two upstream TLS APIs. Test one valid connection and the expected 502 for an untrusted or mismatched certificate. Set `tls.verify: false` only when preserving the previous non-verifying behavior is an intentional, risk-accepted compatibility measure.
+The hostname checked against the certificate depends on `pass_host`:
+
+- `pass` (default) uses the incoming Host.
+- `rewrite` uses `upstream_host`.
+- `node` uses the selected node host.
+
+When `tls.ca_certs` is absent, verification uses the shared `ssl_trusted_certificate` from `config.yaml`. Leaving `tls.verify` unset follows the NGINX verification setting, while setting it to `false` disables verification for that upstream.
+
+**Upgrade plan:** If an `https` or `grpcs` upstream already enables verification, identify the hostname using the mapping above, then validate the certificate chain and subject alternative name. Configure the required trust anchors, and, for source builds, use APISIX Runtime 1.3.18 from `.requirements`. Test one valid connection and the expected 502 for an untrusted or mismatched certificate. Set `tls.verify: false` only when preserving the previous non-verifying behavior is an intentional, risk-accepted compatibility measure.
 
 For more information, see [PR #13863](https://github.com/apache/apisix/pull/13863).
 

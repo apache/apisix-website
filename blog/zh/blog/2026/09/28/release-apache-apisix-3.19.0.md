@@ -33,13 +33,33 @@ tags: [Community]
 
 ### HTTPS 和 gRPCS 上游证书验证开始生效
 
-`upstream.tls.verify` 现在会控制 `https` 和 `grpcs` 上游的证书验证，而不再仅由 `kafka` 协议读取。已有 HTTPS 或 gRPCS 上游如果已经设置 `tls.verify: true`，升级后将开始验证证书链和主机名。证书不受信任或主机名不匹配时，TLS 连接会失败，通常返回 502。
+`upstream.tls.verify` 现在会控制 `https` 和 `grpcs` 上游的证书验证，而不再仅由 `kafka` 协议读取。已有 HTTPS 或 gRPCS 上游如果已经启用验证，升级后将开始验证证书链和主机名。证书不受信任或主机名不匹配时，TLS 连接会失败，通常返回 502。
 
-新增的 `tls.ca_certs` 数组可以为单个上游提供信任锚。未配置该字段时，验证会使用 `config.yaml` 中的 `ssl_trusted_certificate`。不设置 `tls.verify` 时会遵循 NGINX 的验证配置；显式设置为 `false` 则会关闭该上游的验证。
+以下示例使用私有 CA 验证 HTTPS 上游：
 
-Apache APISIX 3.19.0 固定使用 APISIX Runtime 1.3.18，其中包含所需的上游证书验证 API。自定义或旧版 Runtime 如果缺少 `set_ssl_verify` 或 `set_ssl_trusted_store`，使用对应选项时会返回 503。
+```json
+{
+  "type": "roundrobin",
+  "scheme": "https",
+  "pass_host": "rewrite",
+  "upstream_host": "backend.example.com",
+  "nodes": {"10.0.0.10:443": 1},
+  "tls": {
+    "verify": true,
+    "ca_certs": ["<PEM-encoded CA certificate>"]
+  }
+}
+```
 
-**升级计划：** 如果 `https` 或 `grpcs` 上游已经设置 `tls.verify: true`，请先确定 APISIX 验证的主机名：默认 `pass_host: pass` 使用请求 Host，`pass_host: rewrite` 使用 `upstream_host`，`pass_host: node` 使用选中的节点主机名。根据该主机名检查证书链和使用者可选名称。将所需 PEM 证书加入 `upstream.tls.ca_certs` 或共享的 `ssl_trusted_certificate`，并确认自定义 Runtime 提供上述两个上游 TLS API。请分别测试有效连接，以及证书不受信任或主机名不匹配时应返回的 502。只有在明确接受风险并需要保留原有不验证行为时，才将 `tls.verify` 设置为 `false` 作为兼容措施。
+用于证书验证的主机名取决于 `pass_host`：
+
+- `pass`（默认值）使用请求 Host。
+- `rewrite` 使用 `upstream_host`。
+- `node` 使用选中的节点主机名。
+
+未配置 `tls.ca_certs` 时，验证会使用 `config.yaml` 中共享的 `ssl_trusted_certificate`。不设置 `tls.verify` 时会遵循 NGINX 的验证配置；将其设置为 `false` 则会关闭该上游的验证。
+
+**升级计划：** 如果 `https` 或 `grpcs` 上游已经启用验证，请先按照上述映射确定主机名，再检查证书链和使用者可选名称。配置所需信任锚；如果从源码构建 APISIX，请使用 `.requirements` 中指定的 APISIX Runtime 1.3.18。请分别测试有效连接，以及证书不受信任或主机名不匹配时应返回的 502。只有在明确接受风险并需要保留原有不验证行为时，才将 `tls.verify` 设置为 `false` 作为兼容措施。
 
 更多信息，请参阅 [PR #13863](https://github.com/apache/apisix/pull/13863)。
 
