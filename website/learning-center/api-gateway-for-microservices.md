@@ -1,6 +1,6 @@
 ---
 title: "API Gateway for Microservices: Architecture, Patterns & Best Practices"
-description: "Learn why microservices need an API Gateway and how Apache APISIX handles routing, discovery, load balancing, retries, and traffic control."
+description: "Learn when microservices benefit from an API gateway, when a simpler alternative is enough, how responsibilities split, and how to evaluate Apache APISIX."
 slug: api-gateway-for-microservices
 date: 2026-04-14
 tags: [microservices, architecture, api-gateway]
@@ -18,6 +18,18 @@ Without a gateway or an equivalent edge or composition layer, clients may need t
 The API gateway pattern addresses this by placing a routing and policy layer between clients and the service fleet. The gateway accepts client requests, routes them to the appropriate services, and returns their responses. Some systems also use a separate composition service or backend-for-frontend when one client operation requires data from several services.
 
 The gateway can also reduce duplication of shared edge concerns. Authentication, logging, rate limiting, CORS handling, and request validation may otherwise be implemented through service code, libraries, sidecars, proxies, or platform services. A gateway provides one policy point for traffic that crosses it, reducing duplication when those policies belong at the edge; services still retain business-specific controls.
+
+## When a Simpler Alternative Is Enough
+
+Microservices do not automatically require an API gateway. A reverse proxy, ingress controller, service-mesh ingress, cloud load balancer, or direct client-to-service access may be sufficient when:
+
+- the system has one internal client and only a few services;
+- no API is exposed outside a trusted network boundary;
+- an existing ingress proxy already provides the required routing and TLS features;
+- service-mesh ingress or a cloud load balancer covers the current traffic and policy requirements; or
+- the team cannot yet operate another critical traffic component reliably.
+
+Choose from concrete routing, security, client, and operating requirements rather than from the use of microservices alone. A gateway becomes useful when the system needs a stable client-facing entry point, shared edge policies, upstream protection, or traffic controls that simpler infrastructure does not provide.
 
 ## Core Gateway Patterns
 
@@ -44,6 +56,21 @@ Each BFF acts as a specialized API layer that transforms and filters upstream se
 In architectures that deploy both an API gateway and a service mesh, the gateway often applies client- and consumer-facing API policies while the mesh manages workload identity and service-to-service policy. This is a common division of responsibility, not a strict traffic rule: service meshes can provide ingress gateways, and API gateways can route internal traffic.
 
 Whether a team needs both depends on its trust boundaries and policy model. The [API gateway vs service mesh comparison](/learning-center/api-gateway-vs-service-mesh/) explains the overlap and provides a decision checklist for gateway-only, mesh-only, and combined deployments.
+
+## Gateway and Service Responsibilities
+
+Clear ownership prevents the gateway from becoming a business-logic layer and prevents services from assuming that all traffic passed through the gateway.
+
+| Concern | Typical gateway role | Typical service role |
+| --- | --- | --- |
+| Authentication | Validate supported client credentials or tokens | Enforce identity requirements for internal calls where needed |
+| Authorization | Apply route- or consumer-level policy | Enforce resource- and domain-level permissions |
+| Rate limiting | Protect shared entry points and upstream capacity | Apply business quotas or workload-specific limits |
+| Validation | Enforce protocol, request-size, or basic schema constraints | Validate domain rules and state transitions |
+| Observability | Record edge traffic and propagate trace context | Instrument internal work and business outcomes |
+| Composition | Perform limited protocol or payload adaptation | Own workflows and business orchestration |
+
+Long-running orchestration and domain decisions are usually easier to own and test in an application, BFF, or orchestration service than in gateway plugins. The exact boundary should reflect the trust model and failure behavior of the system.
 
 ## Key Features for Microservices
 
@@ -88,6 +115,28 @@ Apache APISIX is designed for microservices environments, offering dynamic confi
 **Service discovery integration.** APISIX's [service discovery](/docs/apisix/discovery/) capabilities can resolve upstream nodes through configured integrations such as Consul, Nacos, Eureka, DNS, and Kubernetes. Refresh behavior depends on the selected integration, while excluding unhealthy nodes requires an appropriate registry policy or APISIX health-check configuration.
 
 **Observability.** Built-in plugins can export gateway metrics, traces, and logs to configured external systems. These signals describe requests processed by APISIX; services, queues, and other internal paths need their own instrumentation for end-to-end operational visibility.
+
+## Operational Risks to Plan For
+
+Adding a gateway concentrates important traffic and policy decisions, so deployment and configuration choices can create their own failure modes:
+
+- **Gateway failure domain.** Run enough data-plane capacity across the failure domains required by the service, define health checks, and test behavior when the control plane or configuration store is unavailable. Deploying a gateway does not by itself provide high availability.
+- **One policy for unlike services.** Upstreams differ in latency, capacity, data sensitivity, and client behavior. Use route- or consumer-specific controls where needed, and keep default policies explicit and auditable.
+- **Gateway-only security.** Protect administrative APIs and configuration stores, restrict network access, and secure service-to-service communication. Services must not trust client-controlled identity headers unless a trusted component removes or replaces them.
+- **Unbounded plugin work.** Plugins run in a critical request path. Review custom code, limit its network and secret access, test failure behavior, and keep expensive or blocking work out of the request path.
+
+## Practical Evaluation Checklist
+
+Before making Apache APISIX a production dependency, verify:
+
+1. how routes and upstreams are configured, reviewed, and promoted between environments;
+2. which authentication and authorization model protects each API and internal call path;
+3. how APISIX discovers or receives updates about service endpoints;
+4. which telemetry is exported, where sensitive data is filtered, and which internal paths need separate instrumentation;
+5. how the data plane behaves during upstream, network, control-plane, and configuration-store failures; and
+6. how upgrades, backups, rollbacks, and incident response are tested.
+
+Start with the [APISIX getting-started guide](/docs/apisix/getting-started/) and enable only the [plugins required by the workload](/docs/apisix/terminology/plugin/). A smaller, well-tested policy set is easier to operate than features without clear owners or failure expectations.
 
 ## FAQ
 
