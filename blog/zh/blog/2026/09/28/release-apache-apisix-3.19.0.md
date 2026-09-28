@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.19.0 计划于 2026 年 9 月 24 日发布。该版本新增原生 WebSocket 处理、TLS 流量透传、OpenAPI 转 MCP、上游慢启动和基于 GraphQL 查询成本的限流能力，并包含需要注意的升级变更。
+description: Apache APISIX 3.19.0 版本于 2026 年 9 月 28 日发布。该版本新增原生 WebSocket 处理、TLS 流量透传、OpenAPI 转 MCP、上游慢启动和基于 GraphQL 查询成本的限流能力，并包含需要注意的升级变更。
 tags: [Community]
 ---
 

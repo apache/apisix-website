@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.19.0 is planned for release on Sep 24, 2026. This release adds native WebSocket processing, TLS stream passthrough, OpenAPI-to-MCP conversion, upstream slow start, GraphQL cost-based rate limiting, and important upgrade considerations.
+description: Apache APISIX 3.19.0 was released on Sep 28, 2026. This release adds native WebSocket processing, TLS stream passthrough, OpenAPI-to-MCP conversion, upstream slow start, GraphQL cost-based rate limiting, and important upgrade considerations.
 tags: [Community]
 ---
 
