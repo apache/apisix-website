@@ -7,17 +7,17 @@ tags: [microservices, architecture, api-gateway]
 hide_table_of_contents: false
 ---
 
-Microservices architectures often use an [API gateway](/learning-center/what-is-an-api-gateway/) as a single entry point for API consumers and to route requests to the correct backend services. For high-traffic REST APIs, the gateway can keep a stable client-facing endpoint while it applies routing, load balancing, retries, and traffic control behind the scenes. It also centralizes access control, authentication and authorization, protocol translation, rate limiting, and observability, so each microservice does not have to implement these cross-cutting concerns independently.
+Microservices architectures often use an [API gateway](/learning-center/what-is-an-api-gateway/) as a stable entry point for API consumers and to route requests to the correct backend services. The gateway can apply shared edge policies such as client authentication, rate limiting, protocol translation, and traffic observability. Services still own business authorization, domain validation, and telemetry for work that happens behind or outside the gateway.
 
 ## Why Microservices Need a Gateway
 
 A microservices architecture decomposes a monolithic application into independently deployable services, each owning a specific business domain. While this approach improves development velocity and scaling flexibility, it introduces operational challenges that compound as the number of services grows.
 
-Without a gateway, every client must know the network location of every service it needs. A single mobile application screen might require data from five different services, forcing the client to manage multiple connections, handle partial failures, and aggregate responses. As organizations scale their microservices fleets, client-side orchestration becomes impractical.
+Without a gateway or an equivalent edge or composition layer, clients may need to know and coordinate calls to several service endpoints. A single mobile application screen might require data from five different services, which can force the client to manage multiple connections, handle partial failures, and aggregate responses. As organizations scale their microservices fleets, keeping that orchestration in every client can become difficult.
 
-The API gateway pattern, first described by Chris Richardson and widely adopted since, solves this by interposing a single component between clients and the service fleet. The gateway accepts all client requests, routes them to the appropriate services, and returns consolidated responses. The pattern has become a standard component in production microservices architectures.
+The API gateway pattern addresses this by placing a routing and policy layer between clients and the service fleet. The gateway accepts client requests, routes them to the appropriate services, and returns their responses. Some systems also use a separate composition service or backend-for-frontend when one client operation requires data from several services.
 
-The gateway also addresses a second fundamental problem: cross-cutting concern duplication. Authentication, logging, rate limiting, CORS handling, and request validation must be applied consistently across all services. Without a gateway, each service team implements these independently, leading to drift, inconsistency, and duplicated effort. Centralizing cross-cutting concerns at the gateway significantly reduces per-service boilerplate code.
+The gateway can also reduce duplication of shared edge concerns. Authentication, logging, rate limiting, CORS handling, and request validation may otherwise be implemented through service code, libraries, sidecars, proxies, or platform services. A gateway provides one policy point for traffic that crosses it, reducing duplication when those policies belong at the edge; services still retain business-specific controls.
 
 ## Core Gateway Patterns
 
@@ -25,19 +25,19 @@ The gateway also addresses a second fundamental problem: cross-cutting concern d
 
 The most fundamental gateway pattern routes incoming requests to the correct upstream service based on URL paths, headers, methods, or other request attributes. A gateway might route `/api/users/*` to the user service, `/api/orders/*` to the order service, and `/api/products/*` to the catalog service.
 
-Dynamic routing takes this further by reading route configurations from a control plane or configuration store, allowing routes to be updated without restarting the gateway. Apache APISIX supports dynamic route configuration through its Admin API and etcd-backed configuration store, enabling zero-downtime route changes.
+Dynamic routing takes this further by reading route configurations from a control plane or configuration store, allowing accepted route changes to be applied without restarting gateway processes. Apache APISIX supports dynamic route configuration through its Admin API and etcd-backed configuration store; rollout safety still depends on validation, control-plane availability, and rollback practices.
 
 ### API Composition (Aggregation)
 
-API composition combines responses from multiple microservices into a single response for the client. Instead of requiring a mobile application to make five separate API calls to render a dashboard, the gateway fetches data from all five services in parallel and returns a unified response.
+API composition combines responses from multiple microservices into a single response for the client. Instead of requiring a mobile application to make five separate API calls to render a dashboard, a composition-capable gateway, backend for frontend (BFF), or separate composition service can fetch data from all five services in parallel and return a unified response.
 
-This pattern reduces client-side complexity and network round trips. Consolidating multiple API calls into a single gateway request significantly decreases page load time, especially on mobile networks where each round trip adds noticeable latency.
+This pattern can reduce client-side complexity and network round trips. It also adds orchestration logic and failure handling to the composition layer, so teams should measure whether the extra hop improves the target client experience.
 
 ### Backend for Frontend (BFF)
 
 The BFF pattern creates gateway configurations tailored to specific client types. A mobile BFF provides compact responses optimized for bandwidth constraints and small screens. A web BFF returns richer data structures suited to desktop layouts. An internal BFF serves admin tools with elevated access.
 
-Each BFF acts as a specialized gateway layer that transforms and filters upstream service responses for its target client. Netflix, Spotify, and SoundCloud have publicly documented their BFF implementations. The pattern prevents a one-size-fits-all API from forcing compromises on every client type.
+Each BFF acts as a specialized API layer that transforms and filters upstream service responses for its target client. The pattern can keep client-specific response shaping out of general-purpose services, but each BFF still needs clear ownership, authentication, observability, and lifecycle management.
 
 ### Service Mesh Integration
 
@@ -49,29 +49,29 @@ Whether a team needs both depends on its trust boundaries and policy model. The 
 
 ### Service Discovery
 
-In a microservices environment, services scale dynamically and their network locations change frequently. Static configuration of upstream addresses becomes impractical at scale. Service discovery enables the gateway to automatically detect available service instances and their health status.
+In a microservices environment, services scale dynamically and their network locations change frequently. Static configuration of upstream addresses becomes impractical at scale. A configured service-discovery integration lets the gateway resolve service instances from a registry. Endpoint discovery and health checking are separate concerns unless the selected integration explicitly combines them.
 
-Apache APISIX integrates with multiple service discovery systems, documented in its [discovery configuration guide](/docs/apisix/discovery/). Supported registries include Consul, Eureka, Nacos, and Kubernetes-native service discovery. When a new service instance registers or an existing instance becomes unhealthy, APISIX updates its routing table automatically.
+Apache APISIX integrates with multiple service discovery systems, documented in its [discovery configuration guide](/docs/apisix/discovery/). Supported options include Consul, Eureka, Nacos, DNS, and Kubernetes. Each discovery implementation has its own refresh and filtering behavior. APISIX [active and passive health checks](/docs/apisix/tutorials/health-check/) can separately mark upstream nodes unhealthy when their checks and thresholds are configured.
 
-In Kubernetes environments, APISIX can read Service and Endpoint resources directly, eliminating the need for a separate discovery system. Kubernetes-native service discovery typically provides faster routing updates compared to polling-based approaches.
+In Kubernetes environments, the APISIX Ingress Controller can translate supported Kubernetes resources into APISIX configuration. Verify the controller version, resource type, and reconciliation behavior required by the deployment rather than assuming that every discovery integration has the same update model.
 
 ### Circuit Breaking
 
 Circuit breaking prevents cascading failures by stopping requests to an unhealthy upstream service. When error rates exceed a configured threshold, the circuit opens and the gateway returns a fast failure response instead of forwarding requests to the struggling service. After a cooldown period, the circuit enters a half-open state and allows a limited number of test requests through. If those succeed, the circuit closes and normal traffic resumes.
 
-Without circuit breaking, a single unhealthy service can consume all available connections and thread pools in the gateway, causing failures to cascade across the entire system. Organizations using circuit breakers typically experience significantly shorter outage durations.
+Without bounded timeouts, retries, and failure controls, an unhealthy service can consume gateway and client resources and contribute to cascading failures. Circuit-breaker thresholds must be tuned from real error, latency, and recovery behavior; an overly sensitive policy can reject healthy traffic.
 
 ### Canary Deployment
 
 Canary deployment routes a small percentage of production traffic to a new service version while the majority continues to hit the stable version. The gateway controls the traffic split, enabling teams to validate new releases with real traffic before committing to a full rollout.
 
-APISIX supports traffic splitting through weighted upstream configurations. A typical canary deployment starts with 5% of traffic routed to the new version, gradually increasing to 25%, 50%, and finally 100% as metrics confirm stability. If errors spike, the gateway reverts the traffic split without any service redeployment.
+APISIX supports traffic splitting through weighted upstream configurations. Teams can begin with a small share of traffic and increase it only when service-level metrics remain within the rollout criteria. Reverting the traffic split still requires an explicit, tested configuration or deployment action.
 
 ### Distributed Tracing
 
-In a microservices architecture, a single client request might traverse ten or more services. Distributed tracing tracks the request's path through the entire service chain, recording latency at each hop. The gateway plays a critical role by injecting trace context headers (W3C Trace Context or B3) into every request it forwards.
+In a microservices architecture, a client request can traverse several services. Distributed tracing can connect spans from those hops when each participating component propagates compatible trace context and emits spans. A configured gateway tracing plugin can start or continue trace context for requests that pass through APISIX.
 
-APISIX supports trace context propagation to observability backends including Zipkin, Jaeger, SkyWalking, and OpenTelemetry. With tracing enabled at the gateway, operations teams gain end-to-end visibility into request flows, enabling faster incident resolution compared to relying solely on logs and metrics.
+APISIX provides plugins for tracing and exporting gateway-visible spans to systems such as Zipkin, SkyWalking, and OpenTelemetry-compatible backends. End-to-end traces still require compatible context propagation and instrumentation in downstream services; gateway telemetry alone covers only traffic and processing visible to APISIX.
 
 For services that use [gRPC](/learning-center/what-is-grpc/), the gateway must preserve HTTP/2 and streaming behavior or explicitly translate the protocol for clients that cannot use native gRPC.
 
@@ -85,9 +85,9 @@ Apache APISIX is designed for microservices environments, offering dynamic confi
 
 **Kubernetes-native operation.** The [APISIX Ingress Controller](/docs/ingress-controller/concepts/gateway-api/) deploys APISIX as a Kubernetes-native gateway, supporting both the legacy Ingress resource and the newer Gateway API specification. This allows platform teams to manage gateway configuration using familiar Kubernetes declarative workflows.
 
-**Service discovery integration.** APISIX's [service discovery](/docs/apisix/discovery/) capabilities connect directly to Consul, Nacos, Eureka, and Kubernetes DNS, ensuring the gateway always routes to healthy, available service instances without manual configuration updates.
+**Service discovery integration.** APISIX's [service discovery](/docs/apisix/discovery/) capabilities can resolve upstream nodes through configured integrations such as Consul, Nacos, Eureka, DNS, and Kubernetes. Refresh behavior depends on the selected integration, while excluding unhealthy nodes requires an appropriate registry policy or APISIX health-check configuration.
 
-**Observability.** Built-in plugins export metrics to Prometheus, traces to Jaeger, Zipkin, and OpenTelemetry, and logs to HTTP endpoints, syslog, or Kafka. This enables a complete observability pipeline with the gateway as the instrumentation point for all external API traffic.
+**Observability.** Built-in plugins can export gateway metrics, traces, and logs to configured external systems. These signals describe requests processed by APISIX; services, queues, and other internal paths need their own instrumentation for end-to-end operational visibility.
 
 ## FAQ
 
@@ -97,7 +97,7 @@ Not always. If the mesh ingress already provides the external routing and policy
 
 ### How does an API gateway handle partial failures across microservices?
 
-An API gateway can be configured with circuit breakers, timeouts, and retry policies for each upstream service. When using the API composition pattern, the gateway can return partial results with degraded status rather than failing the entire request when one backend is unavailable. APISIX supports configurable timeouts and retry counts per route, and health checks automatically remove unhealthy nodes from the upstream pool.
+An API gateway can apply timeouts, bounded retries, circuit-breaking policies, and configured health checks before or while routing to an upstream. Those controls can contain some failures, but they do not define how a composed business response should degrade. If a client operation combines several services, place partial-result and fallback policy in the composition layer and specify which missing results are acceptable. In APISIX, health checks exclude nodes only after the configured active or passive thresholds mark them unhealthy; if no healthy node is available, the documented fallback behavior must also be included in the failure design.
 
 ### Should each microservice team manage their own gateway routes?
 
@@ -105,7 +105,7 @@ A decentralized model where service teams own their route configurations works w
 
 ### What is the performance impact of adding an API gateway to a microservices architecture?
 
-Apache APISIX, built on NGINX and LuaJIT, adds 1-2ms of latency per request with a typical plugin configuration (authentication, rate limiting, logging). For most microservices architectures where end-to-end request latency is 50-500ms, this overhead is under 2% of total latency. The operational benefits of centralized security, observability, and traffic management significantly outweigh the minor latency cost.
+An API gateway adds a network hop and the processing cost of each enabled policy. The impact depends on deployment topology, TLS, payload size, connection reuse, logging, and the selected plugins. Benchmark APISIX with the same routes, policies, and traffic profile planned for production, and include the gateway in latency and capacity budgets.
 
 ## Related
 

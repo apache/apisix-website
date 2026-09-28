@@ -1,5 +1,5 @@
 ---
-title: Differentiating rate limits in Apache APISIX
+title: Rate Limiting by Consumer and Consumer Group in Apache APISIX
 authors:
   - name: Nicolas Fränkel
     title: Author
@@ -11,7 +11,7 @@ keywords:
   - Consumer
   - Consumer Groups
 description: >
-  In my talk Evolving your APIs, I mention that an API Gateways is a Reverse Proxy "on steroids". One key difference between the former and the latter is that the API Gateway is not unfriendly to business logic. The poster child is rate-limiting.
+  Configure route-level, per-consumer, and shared consumer-group rate limits in Apache APISIX with key authentication and the limit-count plugin.
 tags: [Ecosystem]
 image: https://static.apiseven.com/uploads/2024/07/27/U4BZicm8_speedometer-1249610.jpg
 ---
