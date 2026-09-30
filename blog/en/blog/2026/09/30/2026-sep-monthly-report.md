@@ -16,15 +16,11 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From September 1st to September 30th, 13 contributors made 90 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-This report follows the community's established contributor-statistics scope, aggregating commits on the default branches of 12 Apache APISIX ecosystem repositories over the UTC+8 calendar month. The feature highlights below are selected separately from the `apache/apisix` default branch.
-
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp)
+<img src="https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp" alt="Apache APISIX Contributors List" />
 
-## Contributor Certificates
-
-![New Contributors List](https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp)
+<img src="https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp" alt="New Contributors List" />
 
 ## Feature Highlights
 

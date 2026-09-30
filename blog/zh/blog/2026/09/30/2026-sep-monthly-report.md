@@ -16,15 +16,11 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 从 2026.09.01 至 2026.09.30，有 13 名开发者提交了 90 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
-本期贡献者统计沿用社区既有口径，汇总 UTC+8 自然月内 12 个 Apache APISIX 生态仓库默认分支上的提交；下文功能亮点则来自 `apache/apisix` 默认分支。
-
 ## 贡献者统计
 
-![贡献者名单](https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp)
+<img src="https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp" alt="贡献者名单" />
 
-## 贡献者证书
-
-![新晋贡献者](https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp)
+<img src="https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp" alt="新晋贡献者" />
 
 ## 近期亮点功能
 
