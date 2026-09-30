@@ -3,7 +3,7 @@ title: "2026 Monthly Report (September 01 - September 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: /TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/09/30/nIHKCxPD_2026-sep-monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated some new features, including OpenAPI-to-MCP conversion, frame-aware WebSocket proxying, TLS stream passthrough, more reliable standalone updates, and slow start for new upstream nodes. For more details, please read this month's newsletter.
@@ -18,9 +18,9 @@ From September 1st to September 30th, 13 contributors made 90 commits to Apache 
 
 ## Contributor Statistics
 
-<img src="/TODO_CONTRIBUTOR_LIST_IMAGE" alt="Apache APISIX Contributors List" />
+<img src="https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp" alt="Apache APISIX Contributors List" />
 
-<img src="/TODO_NEW_CONTRIBUTORS_IMAGE" alt="New Contributors List" />
+<img src="https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp" alt="New Contributors List" />
 
 ## Feature Highlights
 

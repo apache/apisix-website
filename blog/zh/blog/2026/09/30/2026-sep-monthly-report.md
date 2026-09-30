@@ -3,7 +3,7 @@ title: "2026 社区月报 (09.01 - 09.30)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: /TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/09/30/y5UQhvX2_2026-sep-monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了一些新功能，包括将 OpenAPI 转换为 MCP 工具、面向消息帧的 WebSocket 代理、TLS 流量透传、更可靠的 Standalone 配置更新，以及新增上游节点的慢启动等。有关更多细节，请阅读本期月报。
@@ -18,9 +18,9 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 ## 贡献者统计
 
-<img src="/TODO_CONTRIBUTOR_LIST_IMAGE" alt="贡献者名单" />
+<img src="https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp" alt="贡献者名单" />
 
-<img src="/TODO_NEW_CONTRIBUTORS_IMAGE" alt="新晋贡献者" />
+<img src="https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp" alt="新晋贡献者" />
 
 ## 近期亮点功能
 
