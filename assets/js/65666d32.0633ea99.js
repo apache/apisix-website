@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[5241],{5414(e){e.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/aisix","name":"aisix","count":1,"permalink":"/learning-center/tags/aisix"}')}}]);

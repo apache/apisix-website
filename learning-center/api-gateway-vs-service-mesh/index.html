@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>API Gateway vs Service Mesh: Differences, Overlap, and When to Use Both | Apache APISIX</title><meta name="description" content="Compare API gateways and service meshes by traffic scope, identity, policy enforcement, deployment model, and operations, and learn when one or both fit."><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/learning-center/api-gateway-vs-service-mesh/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="API Gateway vs Service Mesh: Differences, Overlap, and When to Use Both | Apache APISIX"><meta property="og:description" content="Compare API gateways and service meshes by traffic scope, identity, policy enforcement, deployment model, and operations, and learn when one or both fit."><meta property="og:url" content="https://apisix.apache.org/learning-center/api-gateway-vs-service-mesh/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"TechArticle","headline":"API Gateway vs Service Mesh: Differences, Overlap, and When to Use Both","description":"Compare API gateways and service meshes by traffic scope, identity, policy enforcement, deployment model, and operations, and learn when one or both fit.","datePublished":"2026-09-20","author":{"@type":"Organization","name":"Apache APISIX"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/learning-center/api-gateway-vs-service-mesh/"}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/learning-center/" title="简体中文" data-astro-cid-3ef6ksr2>中</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Docs</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/docs/" data-astro-cid-3ef6ksr2>Docs</a> <a class="mobile-subnav" href="/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/learning-center/" data-astro-cid-3ef6ksr2>Learning Center</a><a href="/comparisons/" data-astro-cid-3ef6ksr2>Comparisons</a><a href="/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/blog/" data-astro-cid-3ef6ksr2>Blog</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>Ecosystem</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/integrations/" data-astro-cid-3ef6ksr2>Integrations</a><a class="mobile-subnav" href="/cookbooks/" data-astro-cid-3ef6ksr2>Cookbooks</a><a class="mobile-subnav" href="/plugins/" data-astro-cid-3ef6ksr2>Plugin Hub</a> </div> </details><a href="/downloads/" data-astro-cid-3ef6ksr2>Downloads</a><a href="/team/" data-astro-cid-3ef6ksr2>Team</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>简体中文</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">Tags</p> <div class="tag-row"> <a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a><a class="tag" href="/learning-center/tags/service-mesh/">service-mesh</a><a class="tag" href="/learning-center/tags/microservices/">microservices</a><a class="tag" href="/learning-center/tags/architecture/">architecture</a> </div>  <a class="cta-link side-back" href="/learning-center/">← All posts</a> </aside> <article class="prose"> <header class="article-header"> <h1>API Gateway vs Service Mesh: Differences, Overlap, and When to Use Both</h1> <p class="article-meta"> <time datetime="2026-09-20">Sep 20, 2026</time>  · 8 min read </p> <div class="tag-row header-tags"> <a class="tag" href="/learning-center/tags/api-gateway/">api-gateway</a><a class="tag" href="/learning-center/tags/service-mesh/">service-mesh</a><a class="tag" href="/learning-center/tags/microservices/">microservices</a><a class="tag" href="/learning-center/tags/architecture/">architecture</a> </div> <details class="toc-inline"> <summary>On this page</summary> <ul> <li class><a href="#what-is-an-api-gateway">What Is an API Gateway?</a></li><li class><a href="#what-is-a-service-mesh">What Is a Service Mesh?</a></li><li class><a href="#api-gateway-vs-service-mesh">API Gateway vs Service Mesh</a></li><li class><a href="#where-their-capabilities-overlap">Where Their Capabilities Overlap</a></li><li class="d3"><a href="#ingress-and-egress">Ingress and Egress</a></li><li class="d3"><a href="#traffic-management">Traffic Management</a></li><li class="d3"><a href="#identity-and-encryption">Identity and Encryption</a></li><li class><a href="#when-to-use-an-api-gateway">When to Use an API Gateway</a></li><li class><a href="#when-to-use-a-service-mesh">When to Use a Service Mesh</a></li><li class><a href="#when-to-use-both">When to Use Both</a></li><li class><a href="#how-apache-apisix-fits-with-a-service-mesh">How Apache APISIX Fits with a Service Mesh</a></li><li class><a href="#decision-checklist">Decision Checklist</a></li> </ul> </details> </header>  <p>An API gateway and a service mesh both control network traffic, but they usually operate at different boundaries. An API gateway provides an API-facing entry point and applies policies for clients and consumers. A service mesh manages communication between workloads and can provide workload identity, service-to-service encryption, traffic policy, and telemetry across a group of services.</p>
+<p>The boundary is not absolute. Service meshes can include ingress and egress gateways, while API gateways can route internal traffic. The useful question is therefore not which product owns a direction of traffic, but which identity, policy, and operational model each traffic path requires.</p>
+<h2 id="what-is-an-api-gateway">What Is an API Gateway?</h2>
+<p>An <a href="/learning-center/what-is-an-api-gateway/">API gateway</a> sits on the request path between API clients and backend services. It matches requests to routes, applies configured policies, selects an upstream, and returns the response to the client.</p>
+<p>Common gateway responsibilities include:</p>
+<ul>
+<li>authenticating API consumers with mechanisms such as API keys, JWT, OAuth 2.0, or OpenID Connect;</li>
+<li>applying consumer- or route-level rate limits and quotas;</li>
+<li>transforming requests and responses;</li>
+<li>providing a stable API endpoint while backend locations change; and</li>
+<li>emitting metrics, logs, or traces for traffic that passes through the gateway.</li>
+</ul>
+<p>An API gateway does not automatically establish identity and encrypted communication between every workload in an application. Backend services also remain responsible for business authorization and resource-level access decisions.</p>
+<h2 id="what-is-a-service-mesh">What Is a Service Mesh?</h2>
+<p>A service mesh is an infrastructure layer for workload-to-workload communication. A mesh control plane distributes configuration and identity information to a data plane that processes service traffic. Depending on the implementation, that data plane can use sidecar proxies, shared node proxies, or other deployment models.</p>
+<p>Common service mesh responsibilities include:</p>
+<ul>
+<li>assigning and verifying workload identities;</li>
+<li>encrypting service-to-service traffic with mTLS;</li>
+<li>applying traffic policies between workloads;</li>
+<li>collecting telemetry for calls inside the mesh; and</li>
+<li>controlling service discovery, routing, retries, and failover within the mesh.</li>
+</ul>
+<p>For example, <a href="https://istio.io/latest/docs/ops/deployment/architecture/">Istio’s architecture</a> separates a control plane from a data plane that mediates traffic between services. A mesh can also expose ingress and egress gateways, so it should not be reduced to an east-west-only proxy layer.</p>
+<h2 id="api-gateway-vs-service-mesh">API Gateway vs Service Mesh</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Dimension</th><th>API Gateway</th><th>Service Mesh</th></tr></thead><tbody><tr><td>Primary policy subject</td><td>API client, consumer, application, or route</td><td>Workload, service, namespace, or service account</td></tr><tr><td>Common traffic scope</td><td>Requests entering an API boundary</td><td>Calls between participating workloads</td></tr><tr><td>Identity model</td><td>Client credentials, tokens, API keys, or client certificates</td><td>Workload identity and service-to-service certificates</td></tr><tr><td>Deployment model</td><td>Shared or dedicated gateway instances on selected traffic paths</td><td>A control plane plus proxies or data-plane components across participating workloads</td></tr><tr><td>Typical policies</td><td>Authentication, consumer quotas, request transformation, API routing</td><td>Workload authorization, mTLS, service routing, retries, and failover</td></tr><tr><td>Observability scope</td><td>Requests that pass through the gateway</td><td>Calls that pass through the mesh data plane</td></tr><tr><td>Main users</td><td>API, platform, application, and security teams</td><td>Platform, infrastructure, and service teams</td></tr><tr><td>API consumer semantics</td><td>Usually first-class through routes, consumers, credentials, and quotas</td><td>Usually centered on workload and service identity</td></tr></tbody></table>
+<p>These are operating-model differences, not a universal feature checklist. Some API gateways support mTLS, service discovery, retries, and internal routing. Some service meshes support ingress gateways, rate limiting integrations, or Kubernetes Gateway API resources. Product capabilities and deployment choices determine the actual overlap.</p>
+<h2 id="where-their-capabilities-overlap">Where Their Capabilities Overlap</h2>
+<p>Both layers can influence routing, encryption, retries, timeouts, load balancing, and observability. That overlap can be useful, but it can also produce conflicting behavior if the same policy is configured independently in both places.</p>
+<h3 id="ingress-and-egress">Ingress and Egress</h3>
+<p>A service mesh ingress gateway can accept traffic from outside the mesh, and an egress gateway can control selected outbound calls. If a mesh ingress already provides the external authentication, routing, and policy model an application needs, a separate API gateway may not be necessary.</p>
+<p>Teams often add an API gateway when they need consumer-oriented controls such as API keys, OAuth or OIDC integration, per-consumer quotas, request transformation, or a stable API contract that is managed separately from mesh workload policy.</p>
+<h3 id="traffic-management">Traffic Management</h3>
+<p>API gateways and service meshes can both perform load balancing, health-aware routing, retries, and traffic splitting. The appropriate owner depends on the failure boundary. Gateway policy can protect an API entry point and its upstreams, while mesh policy can govern calls deeper in a service chain.</p>
+<p>Avoid applying retries at every layer without a shared budget. A client retry, gateway retry, mesh retry, and application retry can multiply requests during an outage. Define which layer owns retries and timeouts for each path.</p>
+<h3 id="identity-and-encryption">Identity and Encryption</h3>
+<p>An API gateway can authenticate external callers and terminate or initiate TLS and mTLS on the connections it owns. A service mesh can issue workload identities and enforce mTLS between participating services. These controls protect different trust boundaries and may be used together.</p>
+<p>Gateway-side mTLS does not by itself create mesh-wide workload identity. Likewise, workload mTLS inside a mesh does not replace client authentication or business authorization for a public API.</p>
+<h2 id="when-to-use-an-api-gateway">When to Use an API Gateway</h2>
+<p>Use an API gateway without a service mesh when the main requirement is to expose and control APIs, and the added operational cost of a mesh is not justified. This is common when:</p>
+<ul>
+<li>external, partner, mobile, or browser clients need a stable API endpoint;</li>
+<li>teams need API authentication, consumer quotas, or request transformation;</li>
+<li>the number of internal services is manageable with existing platform networking; or</li>
+<li>only selected traffic paths require centralized policy enforcement.</li>
+</ul>
+<p>An API gateway can also support internal APIs, but routing internal traffic through a gateway does not automatically provide every service with a workload identity or transparent service-to-service encryption.</p>
+<h2 id="when-to-use-a-service-mesh">When to Use a Service Mesh</h2>
+<p>Use a service mesh without a separate API gateway when the primary problem is communication among many internal workloads and the mesh ingress capabilities already satisfy external requirements. This can fit environments that need:</p>
+<ul>
+<li>consistent workload identity and service-to-service mTLS;</li>
+<li>traffic and authorization policy across many services;</li>
+<li>telemetry for calls that do not pass through an API gateway; or</li>
+<li>common networking behavior across Kubernetes clusters, virtual machines, or both.</li>
+</ul>
+<p>A mesh adds a control plane, data-plane resources, certificate lifecycle, and additional troubleshooting paths. Teams should adopt it for explicit workload-level requirements rather than as a default layer for every microservices deployment.</p>
+<h2 id="when-to-use-both">When to Use Both</h2>
+<p>Use both when the system has distinct API-consumer and workload-policy requirements. A common arrangement is:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>API clients</span></span>
+<span class="line"><span>    |</span></span>
+<span class="line"><span>API gateway</span></span>
+<span class="line"><span>    |</span></span>
+<span class="line"><span>Mesh ingress or service endpoint</span></span>
+<span class="line"><span>    |</span></span>
+<span class="line"><span>Service mesh workloads</span></span></code></pre>
+<p>In this design, the API gateway can own client authentication, API routing, consumer limits, and transformations. The service mesh can own workload identity, service-to-service mTLS, and policies for calls inside the mesh.</p>
+<p>The exact handoff differs by platform. A mesh gateway may receive traffic directly from the API gateway, or the API gateway may participate in the mesh through an integration supported by the mesh. Document the trust boundary, the source identity passed downstream, and which layer owns TLS, retries, timeouts, and telemetry.</p>
+<h2 id="how-apache-apisix-fits-with-a-service-mesh">How Apache APISIX Fits with a Service Mesh</h2>
+<p>Apache APISIX is an open-source API gateway, not a complete service mesh. It can provide API-facing routing and policies, then forward requests to services that participate in a mesh.</p>
+<p>For traffic that passes through APISIX, teams can configure:</p>
+<ul>
+<li><a href="/docs/apisix/terminology/route/">Routes</a> and <a href="/docs/apisix/terminology/consumer/">Consumers</a> for API and caller-oriented policy;</li>
+<li>authentication, rate limiting, transformation, and observability plugins;</li>
+<li><a href="/docs/apisix/terminology/upstream/">Upstreams</a> for load balancing and retry behavior; and</li>
+<li><a href="/docs/apisix/discovery/">service discovery integrations</a> for supported registries.</li>
+</ul>
+<p>APISIX also supports active and passive <a href="/docs/apisix/tutorials/health-check/">upstream health checks</a>. These gateway capabilities do not replace mesh-wide workload identity, sidecar or ambient data planes, or automatic service-to-service mTLS.</p>
+<p>If a deployment uses APISIX with a mesh, align the two systems before production rollout:</p>
+<ol>
+<li>Choose one owner for client identity and one owner for workload identity.</li>
+<li>Decide where TLS terminates and where new encrypted connections begin.</li>
+<li>Set one retry and timeout budget for the complete request path.</li>
+<li>Preserve request and trace context across the gateway-to-mesh boundary.</li>
+<li>Test failure behavior when either the gateway or mesh control plane is unavailable.</li>
+</ol>
+<p>The Apache APISIX blog includes an <a href="/blog/2021/12/17/exposure-istio-with-apisix-ingress/">APISIX Ingress and Istio integration walkthrough</a>. It demonstrates the architectural handoff, although its version-specific commands should be checked against current APISIX Ingress Controller and Istio documentation before use.</p>
+<h2 id="decision-checklist">Decision Checklist</h2>
+<p>Before choosing one layer or both, answer these questions:</p>
+<ul>
+<li>Are policies attached primarily to API consumers or to workloads?</li>
+<li>Which traffic paths need identity and encryption?</li>
+<li>Do internal calls bypass the API gateway?</li>
+<li>Does the mesh ingress satisfy the required external API policies?</li>
+<li>Which layer owns retries, timeouts, and traffic splitting?</li>
+<li>Can the team operate and troubleshoot both control planes?</li>
+<li>How will identity and trace context cross the gateway-to-mesh boundary?</li>
+</ul>
+<p>An API gateway and a service mesh are complementary when they enforce policies for different identities and traffic paths. They become redundant when both layers are deployed without a clear ownership model. Start with the required trust boundaries and operational responsibilities, then add only the infrastructure needed to enforce them.</p>  <footer class="article-footer"> <a class="cta-link" href="/learning-center/">
+← All posts </a> </footer> <nav class="post-nav" aria-label="More posts"> <span></span> <a class="post-nav-card older" href="/learning-center/api-gateway-vs-api-management/"> <span class="post-nav-label">Older post →</span> <span class="post-nav-title">API Gateway vs API Management: Key Differences</span> </a> </nav> </article> <nav class="toc" aria-label="On this page"> <p class="side-title">On this page</p> <ul> <li class><a href="#what-is-an-api-gateway">What Is an API Gateway?</a></li><li class><a href="#what-is-a-service-mesh">What Is a Service Mesh?</a></li><li class><a href="#api-gateway-vs-service-mesh">API Gateway vs Service Mesh</a></li><li class><a href="#where-their-capabilities-overlap">Where Their Capabilities Overlap</a></li><li class="d3"><a href="#ingress-and-egress">Ingress and Egress</a></li><li class="d3"><a href="#traffic-management">Traffic Management</a></li><li class="d3"><a href="#identity-and-encryption">Identity and Encryption</a></li><li class><a href="#when-to-use-an-api-gateway">When to Use an API Gateway</a></li><li class><a href="#when-to-use-a-service-mesh">When to Use a Service Mesh</a></li><li class><a href="#when-to-use-both">When to Use Both</a></li><li class><a href="#how-apache-apisix-fits-with-a-service-mesh">How Apache APISIX Fits with a Service Mesh</a></li><li class><a href="#decision-checklist">Decision Checklist</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="Related articles"> <h2>Related articles</h2> <div class="post-list"> <a class="post-card" href="/learning-center/api-gateway-vs-api-management/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>api-gateway</span> </div> <div class="body"> <h3>API Gateway vs API Management: Key Differences</h3> <p class="desc">Compare API gateways and API management across runtime traffic control, API lifecycle, governance, developer experience, and when teams need both.</p> <p class="meta">Aug 20, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-apigee/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs Apigee: Gateway vs API Management Platform</h3> <p class="desc">Compare the Apache APISIX gateway with Google Cloud’s Apigee API gateway and management platform across scope, cost, deployment, and portability.</p> <p class="meta">Jun 24, 2026</p> </div> </a><a class="post-card" href="/learning-center/apisix-vs-aws-api-gateway/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>comparison</span> </div> <div class="body"> <h3>Apache APISIX vs AWS API Gateway: Self-Hosted vs Managed</h3> <p class="desc">Compare Apache APISIX and AWS API Gateway: self-hosted open source vs a managed cloud service, pricing at scale, vendor lock-in, and performance.</p> <p class="meta">Jun 24, 2026</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/blog/">Blog</a></li><li><a href="/learning-center/">Learning Center</a></li><li><a href="/comparisons/">Comparisons</a></li><li><a href="/integrations/">Integrations</a></li><li><a href="/cookbooks/">Cookbooks</a></li><li><a href="/docs/general/events/">Events</a></li><li><a href="/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/plugins/">Plugin Hub</a></li><li><a href="/downloads/">Downloads</a></li><li><a href="/team/">Team</a></li><li><a href="/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
