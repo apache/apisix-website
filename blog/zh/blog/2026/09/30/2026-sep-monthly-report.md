@@ -14,13 +14,17 @@ image: https://static.api7.ai/uploads/2026/09/30/y5UQhvX2_2026-sep-monthly-repor
 
 Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便崭露头角，如今已经成为全球最活跃的开源 API 网关项目之一。正如谚语所言，“众人拾柴火焰高”，这一辉煌成就，得益于整个社区伙伴的协同努力。
 
-从 2026.09.01 至 2026.09.30，有 13 名开发者提交了 90 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+从 2026.09.01 至 2026.09.30，有 8 名开发者提交了 44 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
+
+本期统计范围为 `apache/apisix` 默认分支在 `2026-09-01T00:00:00Z` 至 `2026-09-30T23:59:59Z` 期间的提交。贡献者身份优先采用每个提交关联的 GitHub 作者登录名，无法获取时再使用提交者登录名。
 
 ## 贡献者统计
 
-<img src="https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp" alt="贡献者名单" />
+贡献者：[AlinsRan](https://github.com/AlinsRan)、[Arjen10](https://github.com/Arjen10)、[Yilialinn](https://github.com/Yilialinn)、[bzp2010](https://github.com/bzp2010)、[janiussyafiq](https://github.com/janiussyafiq)、[moonming](https://github.com/moonming)、[nic-6443](https://github.com/nic-6443) 和 [shreemaan-abhishek](https://github.com/shreemaan-abhishek)。
 
-<img src="https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp" alt="新晋贡献者" />
+<img src="/TODO_CONTRIBUTOR_LIST_IMAGE" alt="贡献者名单" />
+
+以上 8 位贡献者均在 9 月之前为该仓库贡献过，因此本统计周期没有新贡献者。
 
 ## 近期亮点功能
 
