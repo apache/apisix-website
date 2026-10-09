@@ -116,6 +116,28 @@ For **mutual TLS**, APISIX supports [mTLS configuration](/docs/apisix/mtls/) for
 
 APISIX also supports JWT authentication, key authentication, OpenID Connect, rate limiting with multiple algorithms, and request body validation. Its plugin architecture lets teams compose gateway policies per route while retaining application-level authorization and validation in the services that own the data.
 
+### Example: Authenticate and Rate-Limit a Route
+
+For a protected API, first create a Consumer with a `key-auth` Credential. Then enable [key-auth](/docs/apisix/plugins/key-auth/) and [limit-count](/docs/apisix/plugins/limit-count/) on the Route. This example is a plugin configuration excerpt for a Route that already has an Upstream; adjust the quota to the backend's capacity and the client contract:
+
+```json
+{
+  "key-auth": {
+    "hide_credentials": true
+  },
+  "limit-count": {
+    "count": 100,
+    "time_window": 60,
+    "rejected_code": 429,
+    "key_type": "var_combination",
+    "key": "$remote_addr $consumer_name",
+    "policy": "local"
+  }
+}
+```
+
+The counter key combines the address APISIX observes and the authenticated Consumer name, so the quota applies to each pair, not to each Consumer across all addresses. Behind a proxy, that address may be the proxy's; configure a [trusted real-IP source](/docs/apisix/plugins/real-ip/) if the quota must use the original client address. With `policy: local`, each APISIX instance keeps its own counters; use an appropriate shared Redis policy when a quota must apply across instances. `hide_credentials` keeps the API key out of the upstream request. This gateway policy does not decide whether the authenticated Consumer may access a particular order or account: the application must still check resource ownership.
+
 ## FAQ
 
 ### What is the difference between API gateway security and API security?
