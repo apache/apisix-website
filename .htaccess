@@ -310,4 +310,5 @@ RedirectMatch 301 "^(/zh)?/docs/apisix/en/latest/deployment-modes(\.md)?/?$" "$1
 # and a self-referential canonical, so 18 near-duplicates competed with the
 # pages they duplicated. The listing at /zh/learning-center/ now links to the
 # English articles directly; these URLs are indexed, so send them there.
-RedirectMatch 301 "^/zh/learning-center/(.+)$" "/learning-center/$1"
+# DirectoryIndex resolves the listing through index.html; leave that file alone.
+RedirectMatch 301 "^/zh/learning-center/(?!index\.html$)(.+)$" "/learning-center/$1"
