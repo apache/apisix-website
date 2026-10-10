@@ -71,6 +71,7 @@ export interface Post {
   tags: string[];
   image?: string;
   author?: string;
+  authors?: string[];
   /** Stable source identity used to pair real EN/ZH blog translations. */
   translationKey?: string;
   mod: MdModule;
@@ -145,6 +146,7 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
   // normalizeUrl collapses it; see the 2021-06-03 firsthand-experience post).
   const slug = (fmSlug ?? name).replace(/^\/+/, '');
   const urlPath = slug.includes('/') ? slug : `${y}/${mo}/${d}/${slug}`;
+  const authors = authorNames(mod.frontmatter);
   return {
     url: `${localePrefix(locale)}/blog/${urlPath}/`,
     slug: urlPath,
@@ -155,8 +157,8 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
     dateHuman: humanDate(new Date(`${y}-${mo}-${d}T00:00:00Z`), locale),
     tags: toTags(mod.frontmatter),
     image: mod.frontmatter.image,
-    author: mod.frontmatter.author
-      ?? (Array.isArray(mod.frontmatter.authors) ? mod.frontmatter.authors[0]?.name : undefined),
+    author: authors.length ? authors.join(', ') : undefined,
+    authors,
     translationKey: String(
       mod.frontmatter.translationKey
       ?? mod.frontmatter.translation_key
@@ -164,6 +166,14 @@ function blogPost(path: string, mod: MdModule, locale: Locale): Post | null {
     ).toLowerCase(),
     mod,
   };
+}
+
+function authorNames(fm: any): string[] {
+  if (fm.author) return [String(fm.author)];
+  if (!Array.isArray(fm.authors)) return [];
+  return fm.authors
+    .map((a: any) => (typeof a === 'string' ? a : a?.name))
+    .filter(Boolean);
 }
 
 function flatPost(path: string, mod: MdModule, urlBase: string, locale: Locale): Post {
