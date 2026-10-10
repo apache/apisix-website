@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="apisixAiRed" x1="8" y1="8" x2="118" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8553F"/>
+      <stop offset="1" stop-color="#C4292E"/>
+    </linearGradient>
+  </defs>
+  <path d="M58 8 Q70 46 108 58 Q70 70 58 108 Q46 70 8 58 Q46 46 58 8 Z" fill="url(#apisixAiRed)"/>
+  <path d="M102 14 Q106 26 118 30 Q106 34 102 46 Q98 34 86 30 Q98 26 102 14 Z" fill="url(#apisixAiRed)"/>
+</svg>

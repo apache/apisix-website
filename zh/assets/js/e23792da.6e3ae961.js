@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[5108],{3984(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/authentication","name":"authentication","count":1,"permalink":"/zh/learning-center/tags/authentication"}')}}]);
