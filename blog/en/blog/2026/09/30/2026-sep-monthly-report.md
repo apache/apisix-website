@@ -14,13 +14,17 @@ image: https://static.api7.ai/uploads/2026/09/30/nIHKCxPD_2026-sep-monthly-repor
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From September 1st to September 30th, 13 contributors made 90 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From September 1st to September 30th, 8 contributors made 44 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+
+These statistics cover commits on the `apache/apisix` default branch from `2026-09-01T00:00:00Z` through `2026-09-30T23:59:59Z`. Contributor identities use each commit's associated GitHub author login, with the committer login used as a fallback when needed.
 
 ## Contributor Statistics
 
-<img src="https://static.api7.ai/uploads/2026/09/30/iz0vGcyV_sep-contributor-list.webp" alt="Apache APISIX Contributors List" />
+Contributors: [AlinsRan](https://github.com/AlinsRan), [Arjen10](https://github.com/Arjen10), [Yilialinn](https://github.com/Yilialinn), [bzp2010](https://github.com/bzp2010), [janiussyafiq](https://github.com/janiussyafiq), [moonming](https://github.com/moonming), [nic-6443](https://github.com/nic-6443), and [shreemaan-abhishek](https://github.com/shreemaan-abhishek).
 
-<img src="https://static.api7.ai/uploads/2026/09/30/ngWZsnl2_2026-sep-new-contributors.webp" alt="New Contributors List" />
+<img src="/TODO_CONTRIBUTOR_LIST_IMAGE" alt="Apache APISIX Contributors List" />
+
+All eight contributors had contributed to the repository before September, so there were no new contributors in this reporting period.
 
 ## Feature Highlights
 
