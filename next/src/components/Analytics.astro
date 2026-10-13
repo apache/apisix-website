@@ -1,0 +1,17 @@
+<!-- Keep production measurement independent of the build/preview environment. -->
+<script is:inline>
+  (() => {
+    if (window.location.hostname !== 'apisix.apache.org') return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    // Scope cookies to this project rather than the shared apache.org domain.
+    window.gtag('config', 'G-WQLBQL6GY3', { cookie_domain: 'apisix.apache.org' });
+
+    const tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-WQLBQL6GY3';
+    document.head.appendChild(tag);
+  })();
+</script>

@@ -7,9 +7,21 @@ Prototype rebuild of [apisix.apache.org](https://apisix.apache.org) as a **fully
 | | Current (Docusaurus ×4 workspaces) | This prototype (Astro) |
 |---|---|---|
 | Homepage first-load transfer | ~350 KB HTML + ~120 KB gz JS + 36 KB gz CSS | **2.6 KB gz HTML + 2.7 KB gz CSS, 0 JS** |
-| Client-side JS | React SPA per workspace (stale-manifest 404s) | **None** (one inline snippet on `/edit/` only) |
+| Client-side JS | React SPA per workspace (stale-manifest 404s) | No framework hydration; production analytics, docs search and edit-page snippets |
 | Build | Node 16, 4 Docusaurus builds, tens of minutes | Node 22, **1368 pages in ~18 s** |
 | URL parity vs live sitemaps | — | **1294/1294, zero missing** |
+
+The transfer measurements above describe the initial prototype, before production analytics was restored.
+
+## Production analytics
+
+The shared layout includes Google Analytics 4 with Measurement ID `G-WQLBQL6GY3`.
+It loads only when the browser hostname is exactly `apisix.apache.org`; local and Netlify preview visits do not load the Google tag.
+Analytics cookies are scoped to `apisix.apache.org`, rather than the shared `apache.org` domain.
+
+Run `node --test scripts/analytics.test.mjs` to verify production initialization and preview exclusion without a full site build.
+After deployment, verify the production hostname in GA4 Realtime, then compare the standard report with the daily collector once data has processed.
+Restoring the tag cannot recover visits that were never collected.
 
 ## Layout
 
