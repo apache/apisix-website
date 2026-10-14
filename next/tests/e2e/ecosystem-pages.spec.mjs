@@ -1,4 +1,35 @@
 import { expect, test } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+
+const analyticsSource = await readFile(new URL('../../src/components/Analytics.astro', import.meta.url), 'utf8');
+const analyticsBootstrap = analyticsSource.match(/<script is:inline>([\s\S]*?)<\/script>/)[1].trim();
+const analyticsTag = 'https://www.googletagmanager.com/gtag/js?id=G-WQLBQL6GY3';
+
+async function expectStaticAnalytics(page, production = false) {
+  const scripts = page.locator('script:not([type="application/ld+json"])');
+  await expect(scripts).toHaveCount(production ? 2 : 1);
+  // Match the sole permitted inline script, rather than allowing arbitrary JS.
+  expect(await scripts.evaluateAll(elements => elements.filter(element => !element.hasAttribute('src'))
+    .map(element => element.textContent.trim())))
+    .toEqual([analyticsBootstrap]);
+  await expect(page.locator('script[type="module"], astro-island')).toHaveCount(0);
+  const state = await page.evaluate(() => ({
+    hasGtag: typeof window.gtag === 'function',
+    queue: window.dataLayer?.map(args => Array.from(args, value => value instanceof Date ? value.toISOString() : value)) ?? null,
+  }));
+  if (production) {
+    await expect(page.locator('script[src]')).toHaveAttribute('src', analyticsTag);
+    await expect(page.locator('script[src]')).toHaveAttribute('async', '');
+    expect(state.hasGtag).toBe(true);
+    expect(state.queue).toEqual([
+      ['js', expect.any(String)],
+      ['config', 'G-WQLBQL6GY3', { cookie_domain: 'apisix.apache.org' }],
+    ]);
+  } else {
+    await expect(page.locator('script[src]')).toHaveCount(0);
+    expect(state).toEqual({ hasGtag: false, queue: null });
+  }
+}
 
 const pages = [
   '/integrations/',
@@ -163,7 +194,7 @@ test('Redis detail pages expose translations, relationships, and source-review b
     .toHaveAttribute('href', 'https://apisix.apache.org/integrations/redis/');
   await expect(page.locator('link[rel="alternate"][hreflang="zh"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/integrations/redis/');
-  await expect(page.locator('script:not([type="application/ld+json"])')).toHaveCount(0);
+  await expectStaticAnalytics(page);
   const schema = await jsonLd(page);
   expect(schema.some((item) => item['@type'] === 'TechArticle')).toBeTruthy();
   expect(schema.some((item) => item['@type'] === 'BreadcrumbList')).toBeTruthy();
@@ -177,6 +208,7 @@ test('Redis detail pages expose translations, relationships, and source-review b
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/integrations/redis/');
   await expect(page.locator('link[rel="alternate"][hreflang="en"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/integrations/redis/');
+  await expectStaticAnalytics(page);
   await expectNoPageOverflow(page);
 
   await page.goto('/zh/cookbooks/redis-shared-token-quota/');
@@ -189,3 +221,27 @@ test('Redis detail pages expose translations, relationships, and source-review b
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/cookbooks/redis-shared-token-quota/');
   await expectNoPageOverflow(page);
 });
+
+for (const hostname of ['apisix.apache.org', 'apisix-pwa.netlify.app']) {
+  test(`Redis analytics is production-only on ${hostname}`, async ({ page, request }) => {
+    const tagRequests = [];
+    // Exercise the generated HTML on a simulated hostname without sending GA traffic.
+    await page.route('https://www.googletagmanager.com/**', async route => {
+      tagRequests.push(route.request().url());
+      await route.fulfill({ contentType: 'text/javascript', body: '' });
+    });
+    await page.route(`https://${hostname}/**`, async route => {
+      const url = new URL(route.request().url());
+      const response = await request.get(`${url.pathname}${url.search}`);
+      expect(response.ok(), url.pathname).toBeTruthy();
+      await route.fulfill({ response });
+    });
+    for (const path of ['/integrations/redis/', '/zh/integrations/redis/']) {
+      const before = tagRequests.length;
+      await page.goto(`https://${hostname}${path}`);
+      await expectStaticAnalytics(page, hostname === 'apisix.apache.org');
+      expect(tagRequests.length - before).toBe(hostname === 'apisix.apache.org' ? 1 : 0);
+      expect(tagRequests.slice(before)).toEqual(hostname === 'apisix.apache.org' ? [analyticsTag] : []);
+    }
+  });
+}
