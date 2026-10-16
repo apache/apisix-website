@@ -63,7 +63,9 @@ Centralizing [API gateway authentication](/learning-center/api-gateway-authentic
 
 ### Rate Limiting
 
-Rate limiting protects backend services from traffic spikes, abusive clients, and cascading failures. Gateways enforce limits at multiple granularities: per consumer, per route, per IP, or globally. In Apache APISIX, [`limit-req`](/docs/apisix/plugins/limit-req/) uses a leaky-bucket algorithm for request-rate control, while [`limit-count`](/docs/apisix/plugins/limit-count/) applies quotas within fixed time windows. Redis-backed policies can share counters across gateway nodes when a deployment requires a cluster-wide limit.
+Rate limiting helps protect backend services from excessive traffic. Limits can be keyed by consumer, client IP, or other request attributes, depending on the plugin and configuration. Apache APISIX's [`limit-req`](/docs/apisix/plugins/limit-req/) uses a leaky-bucket algorithm for request-rate control. In APISIX 3.19.0, [`limit-count`](/docs/apisix/plugins/limit-count/) applies request-count quotas using a fixed window by default; sliding windows are available from 3.18.0 onward. Check the deployed version before selecting an algorithm.
+
+Counter storage is a separate choice: `limit-count` with `policy: local` counts independently on each APISIX instance, not across the deployment. Redis-backed policies can share counters when nodes use the same counter keys and compatible rules. Window behavior, synchronization, and the configured response to counter-store failures still affect enforcement. See [API gateway rate limiting](/learning-center/api-gateway-rate-limiting/) for selection and deployment considerations.
 
 ### Caching
 
