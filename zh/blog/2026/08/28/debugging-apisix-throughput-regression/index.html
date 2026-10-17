@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>火焰图没撒谎，却没直接指出瓶颈：一次 APISIX 吞吐回退排查 | Apache APISIX</title><meta name="description" content="一次 APISIX 吞吐回退排查中，火焰图中最宽的热点无法解释全部回退。本文结合 CPU 采样、调用栈、LuaJIT 编译事件、每请求调用次数和配对 A/B 实验，说明如何识别被公共路径放大、却容易被热点排序忽略的性能成本。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2026/08/28/debugging-apisix-throughput-regression/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2026/08/28/debugging-apisix-throughput-regression/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2026/08/28/debugging-apisix-throughput-regression/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2026/08/28/debugging-apisix-throughput-regression/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="火焰图没撒谎，却没直接指出瓶颈：一次 APISIX 吞吐回退排查 | Apache APISIX"><meta property="og:description" content="一次 APISIX 吞吐回退排查中，火焰图中最宽的热点无法解释全部回退。本文结合 CPU 采样、调用栈、LuaJIT 编译事件、每请求调用次数和配对 A/B 实验，说明如何识别被公共路径放大、却容易被热点排序忽略的性能成本。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2026/08/28/debugging-apisix-throughput-regression/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"火焰图没撒谎，却没直接指出瓶颈：一次 APISIX 吞吐回退排查","description":"一次 APISIX 吞吐回退排查中，火焰图中最宽的热点无法解释全部回退。本文结合 CPU 采样、调用栈、LuaJIT 编译事件、每请求调用次数和配对 A/B 实验，说明如何识别被公共路径放大、却容易被热点排序忽略的性能成本。","datePublished":"2026-08-28","author":{"@type":"Person","name":"Xin Rong"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2026/08/28/debugging-apisix-throughput-regression/"}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/zh/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2026/08/28/debugging-apisix-throughput-regression/" title="English" data-astro-cid-3ef6ksr2>EN</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/zh/docs/" data-astro-cid-3ef6ksr2>文档</a> <a class="mobile-subnav" href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a class="mobile-subnav" href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a class="mobile-subnav" href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2026/08/28/debugging-apisix-throughput-regression/" data-astro-cid-3ef6ksr2>English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>火焰图没撒谎，却没直接指出瓶颈：一次 APISIX 吞吐回退排查</h1> <p class="article-meta"> <time datetime="2026-08-28">2026年8月28日</time> · Xin Rong  · 约 11 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#1-先确认瓶颈是否在-cpu">1. 先确认瓶颈是否在 CPU</a></li><li class><a href="#2-根据宽度筛选候选">2. 根据宽度筛选候选</a></li><li class><a href="#3-沿调用栈追查30-的-lua-self-time-如何被放大">3. 沿调用栈追查：3.0% 的 Lua self time 如何被放大</a></li><li class><a href="#4-火焰图解释不了差距时查-luajit-编译事件">4. 火焰图解释不了差距时，查 LuaJIT 编译事件</a></li><li class="d3"><a href="#41-解释器派发异常活跃">4.1 解释器派发异常活跃</a></li><li class="d3"><a href="#42-jitv-暴露异常也导致了第一次误判">4.2 jit.v 暴露异常，也导致了第一次误判</a></li><li class="d3"><a href="#43-按-trace-起点关联-startstop-和-abort">4.3 按 trace 起点关联 start、stop 和 abort</a></li><li class><a href="#5-用配对-ab-实验量化吞吐影响">5. 用配对 A/B 实验量化吞吐影响</a></li><li class><a href="#参考资料">参考资料</a></li> </ul> </details> </header>  <p>一次 APISIX 吞吐回退中，火焰图最宽的路径无法解释全部回退。另有两条值得追查的路径，其 Lua self time 在带 Lua 上下文的样本中分别只占 3.0% 和 3.9%。</p>
+<!--truncate-->
+<p>按热点大小排序，这两个位置根本进不了第一轮优化名单。</p>
+<p>这次排查按以下顺序展开：先确认 CPU 确实是瓶颈，再根据火焰图宽度圈定候选位置；然后沿调用栈追查重复调用和公共路径如何放大成本；如果火焰图无法解释端到端差距，就继续检查 LuaJIT 编译与中断事件；最后通过每请求调用次数和配对 A/B 实验量化实际影响。</p>
+<blockquote>
+<p>数据范围：下文数据来自同一受控环境中的一个 APISIX 内部定制构建，其中加载了 100 余个插件。文中的吞吐数据均经过归一化，只用于说明定位过程和判断依据，不代表 Apache APISIX OSS 在其他硬件、配置或负载下的通用表现。</p>
+</blockquote>
+<h2 id="1-先确认瓶颈是否在-cpu">1. 先确认瓶颈是否在 CPU</h2>
+<p>火焰图显示的是采样期间 CPU 在执行什么。只有目标 worker 的 CPU 接近饱和、吞吐受这个核限制时，才能用火焰图的宽度解释这次性能回退。</p>
+<p>我们在采样前固定了这些条件：</p>
+<ul>
+<li>APISIX 单 worker 并绑定独占物理核；</li>
+<li>上游服务和压测端使用其他核，避免 CPU 争抢；</li>
+<li>请求模型、配置、响应内容保持一致；</li>
+<li>吞吐回退可稳定复现，错误率稳定，响应结果一致；</li>
+<li>目标 worker 持续接近饱和，上游、网络、压测端仍有余量。</li>
+</ul>
+<p>如果不满足这些前提，首先应该查连接、网络、上游或压测端，而不是在 on-CPU 火焰图里找答案。</p>
+<h2 id="2-根据宽度筛选候选">2. 根据宽度筛选候选</h2>
+<p>我们使用 eBPF 以 500 Hz 同时采集 C 和 Lua 调用栈。下面是排查中的真实 Lua on-CPU 火焰图。</p>
+<p><img src="https://static.api7.ai/uploads/2026/08/28/vM9N9LYs_lua-on-cpu-flame-graph.webp" alt="Lua on-CPU 火焰图全局视图" loading="lazy" decoding="async"></p>
+<p><em>图 1：Lua on-CPU 火焰图全局视图。搜索 <code>run_global_rules</code> 命中 3 处，但在整张图中并不醒目。原始采样共 2,446 个样本；截图已移除进程 PID。</em></p>
+<p>火焰图的 x 轴没有先后关系，真正有意义的是宽度：路径越宽，落在其中的样本越多。按 Lua self time 排序后，初步候选位置如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>候选位置</th><th align="right">Lua self time</th><th>初判</th></tr></thead><tbody><tr><td>Prometheus exporter</td><td align="right">25.9%</td><td>最值得先看</td></tr><tr><td><code>ctx.var</code> 元方法</td><td align="right">15.1%</td><td>第二候选</td></tr><tr><td>自定义日志旁路</td><td align="right">3.9%</td><td>很容易被忽略</td></tr><tr><td><code>run_global_rules</code></td><td align="right">3.0%</td><td>很容易被忽略</td></tr></tbody></table>
+<p>这里的 self time 是指在带 Lua 上下文的样本中，直接落在这个位置上的比例，而不是总 CPU 占比。本次采样约有 19.6% 的样本缺失 Lua 上下文，所以这些百分比只用于筛选候选，不能直接预测吞吐收益。</p>
+<p>这个排名有四个盲区：</p>
+<ol>
+<li>LuaJIT 解释执行时，不同的 Lua 代码可能折叠到共享的 <code>lj_BC_*</code>、<code>lj_vm_*</code> 符号里。</li>
+<li>已编译的 JIT trace 不一定能被常规栈回溯完整展开，因此可观察到的 JIT 样本只是下界。</li>
+<li>表查找、内存分配、GC 等成本会记在 C 符号上，而不是触发的 Lua 行上。</li>
+<li>一个调用可能改变调用方的 JIT 状态，使成本看起来落在调用方函数的头上。</li>
+</ol>
+<p><code>run_global_rules</code> 还有一个特征：它没有形成单个显著热点，而是散在多个请求阶段的调用栈里。单个位置都不宽，但累计成本可能并不低。</p>
+<h2 id="3-沿调用栈追查30-的-lua-self-time-如何被放大">3. 沿调用栈追查：3.0% 的 Lua self time 如何被放大</h2>
+<p>选中某个 <code>run_global_rules</code> 方块并沿调用栈向上追踪，可以看到底部的请求阶段入口，以及后续的 <code>common_phase</code>、Global Rule 插件筛选、调度和具体插件执行。</p>
+<p><img src="https://static.api7.ai/uploads/2026/08/28/wZ5J5OWQ_run-global-rules.webp" alt="run_global_rules 调用栈放大视图" loading="lazy" decoding="async"></p>
+<p><em>图 2：选中一条 <code>run_global_rules</code> 调用栈后的放大视图。所选栈会被重新铺满画布，因此宽度已经归一化，不能视为其占总 CPU 的比例。点击图片可查看大图。</em></p>
+<p>调用栈的高度本身不代表耗时。沿栈展开可以看清成本从哪里进入、由谁调用，以及为什么会反复出现。</p>
+<p>修复前，<code>run_global_rules()</code> 会在请求的多个阶段调用 <code>_M.filter()</code>。<code>_M.filter()</code> 遍历所有已加载插件，再逐个判断该插件是否被 Global Rule 配置：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- 简化示意，非 APISIX 完整实现</span></span>
+<span class="line"><span style="color:#FF7B72">for</span><span style="color:#E6EDF3"> _, plugin_obj </span><span style="color:#FF7B72">in</span><span style="color:#79C0FF"> ipairs</span><span style="color:#E6EDF3">(local_plugins) </span><span style="color:#FF7B72">do</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> name </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> plugin_obj.</span><span style="color:#79C0FF">name</span></span>
+<span class="line"><span style="color:#FF7B72">    local</span><span style="color:#E6EDF3"> plugin_conf </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> user_plugin_conf[name]</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#79C0FF"> type</span><span style="color:#E6EDF3">(plugin_conf) </span><span style="color:#FF7B72">~=</span><span style="color:#A5D6FF"> "table" </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#FF7B72">        goto</span><span style="color:#A5D6FF"> continue</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#8B949E">    -- 处理已配置插件</span></span>
+<span class="line"><span style="color:#FF7B72">    ::</span><span style="color:#A5D6FF">continue</span><span style="color:#FF7B72">::</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>这段逻辑通过两个因素放大了成本：</p>
+<ol>
+<li>单次过滤的成本随已加载插件数量增长。</li>
+<li>相同过滤结果跨请求阶段重复生成；<code>body_filter</code> 与 <code>delayed_body_filter</code> 还可能按响应块多次进入。</li>
+</ol>
+<p>本次测试配置中，一个请求实际触发了 <strong>9 次过滤</strong>。也就是说，同一个请求把“从 100 多个插件中找出已配置插件”这项工作重复做了 9 次。</p>
+<p>这也解释了为什么 Lua 层 3.0% 会低估整条路径成本：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>实际工作</th><th>火焰图常见归属</th></tr></thead><tbody><tr><td>循环本身</td><td><code>plugin.lua</code> 对应位置</td></tr><tr><td>大量表查找</td><td><code>lj_BC_TGETS</code></td></tr><tr><td>临时表分配</td><td><code>lj_alloc_malloc</code></td></tr><tr><td>临时对象回收</td><td><code>gc_sweep</code></td></tr><tr><td>未编译解释器派发</td><td><code>lj_vm_*</code> / <code>lj_BC_*</code></td></tr></tbody></table>
+<p>虽然 self time 只有 3%，但调用栈表明它位于一条会被反复进入的公共路径。对应的优化方式是：同一请求内，只要 Global Rule 和匹配路由没有变化，就复用已筛选的插件集合，而不是在每个阶段重新生成。</p>
+<h2 id="4-火焰图解释不了差距时查-luajit-编译事件">4. 火焰图解释不了差距时，查 LuaJIT 编译事件</h2>
+<p>第二条路径来自自定义观测组件。它和日志旁路不属于 APISIX OSS，但揭示的问题对 APISIX 插件和 OpenResty 扩展有参考价值：一次看似开销不大的调用，不仅会产生直接成本，还可能改变调用方后续代码的执行方式，使其由解释器执行或以机器码运行。</p>
+<h3 id="41-解释器派发异常活跃">4.1 解释器派发异常活跃</h3>
+<p>把 C 层样本按运行时类型重新分类后，最明显的信号来自解释器执行与 JIT 执行的比例：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>运行类别</th><th align="right">每请求 CPU 时间</th><th align="right">占本次样本</th></tr></thead><tbody><tr><td>解释器派发：<code>lj_BC_*</code> / <code>lj_vm_*</code></td><td align="right">5.86 μs</td><td align="right">29.6%</td></tr><tr><td>可观察到的 JIT trace 执行</td><td align="right">2.55 μs</td><td align="right">12.9%</td></tr></tbody></table>
+<p>JIT trace 的调用栈不一定能完整 unwind，因此 12.9% 只能视为下界。即便如此，同一环境中的解释器派发占比仍然很高，说明某些高频路径可能没有稳定运行在机器码中。</p>
+<p>trace 数量并非越多越好。初始化代码不需要追求编译，不同 trace 的成本差异也很大。只有在 CPU 饱和、路径高频、解释器派发异常时，编译结果才值得深入检查。</p>
+<h3 id="42-jitv-暴露异常也导致了第一次误判">4.2 <code>jit.v</code> 暴露异常，也导致了第一次误判</h3>
+<p>开启 <code>jit.v</code> 后，一次短时压测记录了 417 次 trace 编译成功和 493 次 abort。按位置聚合后，一批路径的 abort 次数都停在 11。</p>
+<p>但这些数字是编译事件次数，不是去重后的函数个数、覆盖率或 CPU 时间。使用 <code>jit.v</code> 时还要注意：</p>
+<ul>
+<li>abort 行显示的是 trace 中断位置，而惩罚记在 trace 起点，两者可能不是同一行。</li>
+<li>某函数从未成为 trace 起点，不代表它没有被编译，函数体可能已被内联进父 trace。</li>
+<li>仅凭文本日志，很难稳定比较功能开启和关闭两组结果的差异。</li>
+</ul>
+<p>我们一开始把“起点出现次数为 0”误读成“整个函数都在解释执行”。后来用 <code>jit.dump</code> 字节码模式复核后发现，多个函数入口虽然没有成为 root trace，但函数体已多次进入其他 trace。真正反复失败的是阶段入口和编排函数。</p>
+<blockquote>
+<p>看不到 trace 起点，只能证明这里没有成为 root trace 锚点；不能证明整个函数没有进入机器码。</p>
+</blockquote>
+<h3 id="43-按-trace-起点关联-startstop-和-abort">4.3 按 trace 起点关联 <code>start</code>、<code>stop</code> 和 <code>abort</code></h3>
+<p>要确认哪段代码没有编译以及原因，需要直接采集 LuaJIT 的事件流。具体做法是按 trace id 保存 <code>start</code> 的位置，再把后续 <code>stop</code> 或 <code>abort</code> 关联到同一个起点：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- 简化示意，实际回调参数和解析逻辑更复杂</span></span>
+<span class="line"><span style="color:#FF7B72">local</span><span style="color:#E6EDF3"> trace_start </span><span style="color:#FF7B72">=</span><span style="color:#E6EDF3"> {}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">jit.</span><span style="color:#79C0FF">attach</span><span style="color:#E6EDF3">(</span><span style="color:#FF7B72">function</span><span style="color:#E6EDF3">(what, trace_id, func, pc, err_code)</span></span>
+<span class="line"><span style="color:#FF7B72">    if</span><span style="color:#E6EDF3"> what </span><span style="color:#FF7B72">==</span><span style="color:#A5D6FF"> "start" </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#E6EDF3">        trace_start[trace_id] </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> locate</span><span style="color:#E6EDF3">(func, pc)</span></span>
+<span class="line"><span style="color:#FF7B72">    elseif</span><span style="color:#E6EDF3"> what </span><span style="color:#FF7B72">==</span><span style="color:#A5D6FF"> "stop" </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#79C0FF">        record_compiled</span><span style="color:#E6EDF3">(trace_start[trace_id])</span></span>
+<span class="line"><span style="color:#E6EDF3">        trace_start[trace_id] </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> nil</span></span>
+<span class="line"><span style="color:#FF7B72">    elseif</span><span style="color:#E6EDF3"> what </span><span style="color:#FF7B72">==</span><span style="color:#A5D6FF"> "abort" </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#79C0FF">        record_abort</span><span style="color:#E6EDF3">(trace_start[trace_id], err_code)</span></span>
+<span class="line"><span style="color:#E6EDF3">        trace_start[trace_id] </span><span style="color:#FF7B72">=</span><span style="color:#79C0FF"> nil</span></span>
+<span class="line"><span style="color:#FF7B72">    end</span></span>
+<span class="line"><span style="color:#FF7B72">end</span><span style="color:#E6EDF3">, </span><span style="color:#A5D6FF">"trace"</span><span style="color:#E6EDF3">)</span></span></code></pre>
+<p>实际探针还要用 <code>jit.util.funcinfo</code> 解析源位置，用 <code>jit.vmdef.traceerr</code> 还原 abort 原因。这样就能比较自定义组件开启和关闭时的差异：哪些起点进入 compiled 集合，哪些反复 abort，以及是否发生 trace flush。</p>
+<p>在本次 LuaJIT 构建中，失败惩罚从 72 开始逐次翻倍：第 10 次是 36,864，第 11 次达到 73,728，超过 60,000 上限。多个起点的 abort 次数恰好停在 11 次，之后不再增加，也没有进入 compiled 集合；采集期间未发生 trace flush。两组存活 trace 数均低于缓存上限，因此可以排除 trace 缓存被挤爆的可能。这些证据说明，LuaJIT 已经放弃继续编译这些 trace 起点。</p>
+<p>这并不意味着整个函数体都被放弃；函数的其他部分仍可能被内联进别的 trace。</p>
+<p>按调用来源聚合后，受影响的阶段入口和编排函数都经过同一条自定义日志旁路。即使日志级别不足、不产生输出，这条路径仍会检查请求阶段、调用栈和请求上下文。新增调用本身没有形成显著热点，但它改变了调用方的 JIT 结果，使部分成本看起来落在正常请求处理函数的入口处。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="lua"><code><span class="line"><span style="color:#8B949E">-- 自定义扩展的简化示意，不是 APISIX OSS 实现</span></span>
+<span class="line"><span style="color:#FF7B72">if</span><span style="color:#E6EDF3"> log_level_is_suppressed </span><span style="color:#FF7B72">then</span></span>
+<span class="line"><span style="color:#79C0FF">    check_debug_capture</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">...</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#79C0FF">    check_request_buffer</span><span style="color:#E6EDF3">(</span><span style="color:#79C0FF">...</span><span style="color:#E6EDF3">)</span></span>
+<span class="line"><span style="color:#FF7B72">    return</span></span>
+<span class="line"><span style="color:#FF7B72">end</span></span></code></pre>
+<p>JIT 数据既能发现火焰图无法正确归属的成本，也能验证功能开关确实改变了高频路径的执行状态。但这些数据不能直接量化吞吐损失；优化目标也不是“强迫所有函数编译”，而是在功能关闭时彻底跳过本不该发生的工作。</p>
+<p>探针的安装时机也会影响结论。探针必须装在被观测模块加载之前；如果模块在 <code>require</code> 时保存了函数引用，之后替换原函数，计数器只能看到少量仍然经过替换后函数的调用。本次探针注入较晚时测到 1 次/请求；把它前移到 <code>require("apisix")</code> 之前，才确认真实值是 5 次/请求。</p>
+<h2 id="5-用配对-ab-实验量化吞吐影响">5. 用配对 A/B 实验量化吞吐影响</h2>
+<p>火焰图用于定位可疑路径，调用栈揭示成本如何被放大，LuaJIT 事件解释部分 CPU 样本为何无法准确归属或未出现在火焰图中。最终还需要通过配对 A/B 实验量化这些路径对吞吐的影响。</p>
+<p>以 Global Rule 路径为例，我们保留相同的调度和配置，只让 Prometheus 处理函数在入口处立即返回，用来区分“插件处理逻辑慢”和“进入插件前的公共路径慢”。为避免把定制环境的绝对 RPS 当成 APISIX OSS benchmark，我们把关闭 Prometheus 时的吞吐归一化为 100：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>内部 A/B 场景</th><th align="right">相对吞吐指数</th><th align="right">相对关闭 Prometheus</th></tr></thead><tbody><tr><td>关闭 Prometheus</td><td align="right">100.0</td><td align="right">基准</td></tr><tr><td>保留插件与调度，Prometheus 处理函数在入口处返回</td><td align="right">77.2</td><td align="right">-22.8%</td></tr><tr><td>完整 Prometheus Global Rule</td><td align="right">56.9</td><td align="right">-43.1%</td></tr></tbody></table>
+<p>即使 Prometheus 处理代码被短路，差距仍然显著。这个实验不能把成本定位到某一行，但足以证明损耗不只来自指标计算，进入插件前的公共路径本身就值得追查。结合每请求 9 次过滤、调用栈和 C 层成本分布，可以判断重复过滤和插件执行前的公共路径是吞吐回退的重要影响因素。</p>
+<p>自定义观测组件也采用同样的方法：保持负载和配置不变，分别在开启和关闭组件时采集编译事件、每请求调用次数、吞吐和响应正确性。JIT 事件用于解释为什么该功能没有在火焰图中表现为单个显著热点，端到端 A/B 实验则用于量化这条路径在本次定制环境中对归一化吞吐的影响。</p>
+<p>整个排查过程可以归纳为五步：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>步骤</th><th>核心问题</th><th>证据</th></tr></thead><tbody><tr><td>1. 确认 CPU 前提</td><td>火焰图能否解释这次回退？</td><td>worker 饱和、绑核、上下游余量、稳定复现</td></tr><tr><td>2. 根据宽度筛选候选</td><td>样本主要落在哪些路径？</td><td>全局火焰图与候选排序</td></tr><tr><td>3. 沿调用栈追查</td><td>小成本为什么会被放大？</td><td>调用阶段、公共函数、每请求调用次数</td></tr><tr><td>4. 检查 LuaJIT</td><td>部分 CPU 样本为何无法准确归属或未出现在火焰图中？</td><td><code>start</code>、<code>stop</code>、<code>abort</code>、<code>flush</code> 与 <code>jit.dump</code></td></tr><tr><td>5. 用配对 A/B 量化</td><td>实际影响有多大，因果关系是否成立？</td><td>吞吐、延迟、调用次数、错误率与响应一致性</td></tr></tbody></table>
+<p>使用这些结论时还需注意以下限制：</p>
+<ul>
+<li>火焰图宽度、Lua self time 与吞吐变化的分母不同，不能直接相减或相除。</li>
+<li>自定义观测组件不属于 APISIX OSS，只用于说明自定义扩展可能遇到的通用问题。</li>
+<li>29.6%、12.9%、417、493 和 abort ×11 仅适用于本次构建和采集窗口，不能外推。</li>
+<li>“没有成为 trace 起点”不等于“函数没有编译”，必须检查函数体是否进入其他 trace。</li>
+<li>JIT 编译结果是定位信号，不是最终性能指标；优化后仍需验证吞吐、延迟、错误率、响应内容和 GC 行为。</li>
+</ul>
+<p>火焰图的宽度能显示 CPU 样本的聚集位置，调用栈能显示公共路径如何放大成本。但当成本被记到解释器符号、JIT trace、内存分配器或调用方函数的入口处时，火焰图就无法把所有成本都对应到真正触发它们的代码。</p>
+<p>遇到这种情况，应直接采集 LuaJIT 编译事件，再结合每请求调用次数和配对 A/B 实验，量化这条路径在同一环境中对归一化吞吐的影响，而不是仅凭单行 Lua 代码推断原因。本次排查的证据表明，应优先消除不必要的重复工作，而不是只处理火焰图中最宽的路径。</p>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://apisix.apache.org/blog/2021/09/28/wps-usercase/">WPS with Apache APISIX：火焰图与 LuaJIT 性能实践</a></li>
+<li><a href="https://api7.ai/blog/1s-to-10ms-reducing-prometheus-delay-in-api-gateway">1s to 10ms：Prometheus 长尾延迟的复现、定位与修复</a></li>
+<li><a href="https://apisix.apache.org/blog/2023/06/12/how-is-apisix-fast/">How Is Apache APISIX Fast?</a></li>
+<li><a href="https://apisix.apache.org/docs/apisix/benchmark/">Apache APISIX Benchmark 文档</a></li>
+</ol>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2026/08/31/2026-aug-monthly-report/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">2026 社区月报 (08.01 - 08.31)</span> </a> <a class="post-nav-card older" href="/zh/blog/2026/08/20/release-apache-apisix-3.18.0/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">Apache APISIX 3.18.0 正式发布</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#1-先确认瓶颈是否在-cpu">1. 先确认瓶颈是否在 CPU</a></li><li class><a href="#2-根据宽度筛选候选">2. 根据宽度筛选候选</a></li><li class><a href="#3-沿调用栈追查30-的-lua-self-time-如何被放大">3. 沿调用栈追查：3.0% 的 Lua self time 如何被放大</a></li><li class><a href="#4-火焰图解释不了差距时查-luajit-编译事件">4. 火焰图解释不了差距时，查 LuaJIT 编译事件</a></li><li class="d3"><a href="#41-解释器派发异常活跃">4.1 解释器派发异常活跃</a></li><li class="d3"><a href="#42-jitv-暴露异常也导致了第一次误判">4.2 jit.v 暴露异常，也导致了第一次误判</a></li><li class="d3"><a href="#43-按-trace-起点关联-startstop-和-abort">4.3 按 trace 起点关联 start、stop 和 abort</a></li><li class><a href="#5-用配对-ab-实验量化吞吐影响">5. 用配对 A/B 实验量化吞吐影响</a></li><li class><a href="#参考资料">参考资料</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/08/introducing-apisix-ai-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/03/07/Qs4WrU0I_apisix-ai-gateway.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>APISIX AI 网关介绍</h3> <p class="desc">在 Apache APISIX 3.12.0 版本中，我们进一步强化了其作为现代 API 网关的 AI 支持能力。通过丰富的插件生态和灵活的架构设计，为开发者提供了完整的 AI 网关产品。</p> <p class="meta">2025年4月8日 · Yilia Lin</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/integrations/">Integrations</a></li><li><a href="/zh/cookbooks/">Cookbooks</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

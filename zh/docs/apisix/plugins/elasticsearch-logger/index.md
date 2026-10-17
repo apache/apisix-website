@@ -1,0 +1,484 @@
+# elasticsearch-logger
+
+> elasticsearch-logger Plugin 将请求和响应日志批量推送到 Elasticsearch，并支持日志格式的自定义。
+
+Source: https://apisix.apache.org/zh/docs/apisix/plugins/elasticsearch-logger/
+
+## 描述
+
+`elasticsearch-logger` 插件将请求和响应日志批量推送到 [Elasticsearch](https://www.elastic.co)，并支持自定义日志格式。启用后，插件会将请求上下文信息序列化为 [Elasticsearch Bulk 格式](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html#docs-bulk) 并将其添加到队列中，然后再推送到 Elasticsearch。有关更多详细信息，请参阅 [批处理器](/zh/docs/apisix/batch-processor/)。
+
+## 属性
+
+| 名称          | 类型    | 必选项 | 默认值               | 有效值       | 描述                                                         |
+| ------------- | ------- | -------- | -------------------- | ------------ | ------------------------------------------------------------ |
+| endpoint_addrs | array[string] | 是 | |              | Elasticsearch API 端点地址。如果配置了多个端点，则会随机写入。 |
+| field | object | 是 | |              | Elasticsearch 字段配置。 |
+| field.index | string | 是 | |              | Elasticsearch [_index 字段](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-index-field.html#mapping-index-field)。支持在花括号中使用 [Lua 时间格式](https://www.lua.org/pil/22.1.html) 来包含当前日期（例如 `service-{%Y-%m-%d}`），以及使用 `$` 前缀引用 [APISIX 变量](/zh/docs/apisix/apisix-variable/)（例如 `service-$host-{%Y.%m.%d}`）。 |
+| log_format | object | 否 | |              | 自定义日志格式以 JSON 的键值对声明。值支持字符串和嵌套对象（最多五层，超出部分将被截断）。字符串中可通过 `$` 前缀引用 [APISIX](/zh/docs/apisix/apisix-variable/) 或 [NGINX 变量](http://nginx.org/en/docs/varindex.html)。 |
+| auth | object | 否 | |              | Elasticsearch [身份验证](https://www.elastic.co/guide/en/elasticsearch/reference/current/setting-up-authentication.html) 配置。 |
+| auth.username | string | 否 | |              | Elasticsearch [身份验证](https://www.elastic.co/guide/en/elasticsearch/reference/current/setting-up-authentication.html) 用户名​​。当配置 `auth` 时必填，需与 `auth.password` 成对配置。 |
+| auth.password | string | 否 | |              | Elasticsearch [身份验证](https://www.elastic.co/guide/en/elasticsearch/reference/current/setting-up-authentication.html) 密码。当配置 `auth` 时必填，需与 `auth.username` 成对配置。该密钥在存储到 etcd 之前会使用 AES 加密。 |
+| headers | object | 否 | |              | 自定义 HTTP 请求标头，以键值对形式包含在发送给 Elasticsearch 的请求中。可作为 `auth` 的替代或补充，用于身份验证和其他目的。这些值在存储到 etcd 之前会使用 AES 加密。在 APISIX 3.16.0 中可用。 |
+| ssl_verify | boolean | 否 | true |              | 如果为 true，则执行 SSL 验证。 |
+| timeout | integer | 否 | 10 |              | Elasticsearch 发送数据超时（秒）。 |
+| include_req_body | boolean | 否 | false |              | 如果为 true，则将请求主体包含在日志中。请注意，如果请求主体太大而无法保存在内存中，则由于 NGINX 的限制而无法记录。 |
+| include_req_body_expr | array[array] | 否 | |              | 一个或多个条件的数组，形式为 [lua-resty-expr](https://github.com/api7/lua-resty-expr)。在 `include_req_body` 为 true 时使用。仅当此处配置的表达式计算结果为 true 时，才会记录请求主体。 |
+| max_req_body_bytes | integer | 否 | 524288 | >=1          | 记录请求主体的最大字节数。如果请求主体超过此值，则会在记录前截断。在 APISIX 3.16.0 中可用。 |
+| include_resp_body | boolean | 否 | false |              | 如果为 true，则将响应主体包含在日志中。 |
+| include_resp_body_expr | array[array] | 否 | |              | 一个或多个条件的数组，形式为 [lua-resty-expr](https://github.com/api7/lua-resty-expr)。在 `include_resp_body` 为 true 时使用。仅当此处配置的表达式计算结果为 true 时，才会记录响应主体。 |
+| max_resp_body_bytes | integer | 否 | 524288 | >=1          | 记录响应主体的最大字节数。如果响应主体超过此值，则会在记录前截断。在 APISIX 3.16.0 中可用。 |
+
+注意：schema 中还定义了 `encrypt_fields = {"auth.password", "headers"}`，这意味着这些字段将会被加密存储在 etcd 中。具体参考 [加密存储字段](/zh/docs/apisix/plugin-develop/#加密存储字段)。
+
+本插件支持使用批处理器来聚合并批量处理条目（日志和数据）。这样可以避免插件频繁地提交数据，默认设置情况下批处理器会每 `5` 秒钟或队列中的数据达到 `1000` 条时提交数据，如需了解或自定义批处理器相关参数设置，请参考 [Batch-Processor](/zh/docs/apisix/batch-processor/#配置) 配置部分。
+
+## Plugin Metadata
+
+| 名称 | 类型 | 必选项 | 默认值 | 描述 |
+|------|------|--------|--------|------|
+| log_format | object | 否 |  | 自定义日志格式以 JSON 的键值对声明。值支持字符串和嵌套对象（最多五层，超出部分将被截断）。字符串中可通过 `$` 前缀引用 [APISIX 变量](/zh/docs/apisix/apisix-variable/) 和 [NGINX 变量](http://nginx.org/en/docs/varindex.html)。 |
+| max_pending_entries | integer | 否 | 8192 | 待处理条目数的上限。积压超过该值后新条目会被丢弃，避免日志服务变慢或不可达时 worker 内存无限增长。该上限对应的内存开销参见 [批处理器](/zh/docs/apisix/batch-processor/#限制积压条目数)。 |
+
+## 示例
+
+以下示例演示了如何为不同场景配置 `elasticsearch-logger` 插件。
+
+要遵循示例，请在 Docker 中启动 Elasticsearch 实例：
+
+```shell
+docker run -d \
+  --name elasticsearch \
+  --network apisix-quickstart-net \
+  -v elasticsearch_vol:/usr/share/elasticsearch/data/ \
+  -p 9200:9200 \
+  -p 9300:9300 \
+  -e ES_JAVA_OPTS="-Xms512m -Xmx512m" \
+  -e discovery.type=single-node \
+  -e xpack.security.enabled=false \
+  docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+```
+
+在 Docker 中启动 Kibana 实例，以可视化 Elasticsearch 中的索引数据：
+
+```shell
+docker run -d \
+  --name kibana \
+  --network apisix-quickstart-net \
+  -p 5601:5601 \
+  -e ELASTICSEARCH_HOSTS="http://elasticsearch:9200" \
+  docker.elastic.co/kibana/kibana:7.17.1
+```
+
+如果成功，你应该在 [localhost:5601](http://localhost:5601) 上看到 Kibana 仪表板。
+
+:::note
+
+你可以这样从 `config.yaml` 中获取 `admin_key` 并存入环境变量：
+
+```bash
+admin_key=$(yq '.deployment.admin.admin_key[0].key' conf/config.yaml | sed 's/"//g')
+```
+
+:::
+
+### 以默认日志格式记录
+
+以下示例演示如何在路由上启用 `elasticsearch-logger` 插件，该插件记录客户端对路由的请求和响应，并将日志推送到 Elasticsearch。
+
+使用 `elasticsearch-logger` 创建路由，将 `index` 字段配置为 `gateway`：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "elasticsearch-logger-route",
+    "uri": "/anything",
+    "plugins": {
+      "elasticsearch-logger": {
+        "endpoint_addrs": ["http://elasticsearch:9200"],
+        "field": {
+          "index": "gateway"
+        }
+      }
+    },
+    "upstream": {
+      "nodes": {
+        "httpbin.org:80": 1
+      },
+      "type": "roundrobin"
+    }
+  }'
+```
+
+向路由发送请求以生成日志条目：
+
+```shell
+curl -i "http://127.0.0.1:9080/anything"
+```
+
+你应该会收到 `HTTP/1.1 200 OK` 响应。
+
+导航到 [localhost:5601](http://localhost:5601) 上的 Kibana 仪表板，并在 __Discover__ 选项卡下创建一个新的索引模式 `gateway` 以从 Elasticsearch 获取数据。配置完成后，导航回 __Discover__ 选项卡，你应该会看到生成的日志，类似于以下内容：
+
+```json
+{
+  "_index": "gateway",
+  "_id": "CE-JL5QBOkdYRG7kEjTJ",
+  "_version": 1,
+  "_score": 1,
+  "_source": {
+    "request": {
+      "headers": {
+        "host": "127.0.0.1:9080",
+        "accept": "*/*",
+        "user-agent": "curl/8.6.0"
+      },
+      "size": 85,
+      "querystring": {},
+      "method": "GET",
+      "url": "http://127.0.0.1:9080/anything",
+      "uri": "/anything"
+    },
+    "response": {
+      "headers": {
+        "content-type": "application/json",
+        "access-control-allow-credentials": "true",
+        "server": "APISIX/3.13.0",
+        "content-length": "390",
+        "access-control-allow-origin": "*",
+        "connection": "close",
+        "date": "Mon, 13 Jan 2025 10:18:14 GMT"
+      },
+      "status": 200,
+      "size": 618
+    },
+    "route_id": "elasticsearch-logger-route",
+    "latency": 585.00003814697,
+    "apisix_latency": 18.000038146973,
+    "upstream_latency": 567,
+    "upstream": "50.19.58.113:80",
+    "server": {
+      "hostname": "0b9a772e68f8",
+      "version": "3.11.0"
+    },
+    "service_id": "",
+    "client_ip": "192.168.65.1"
+  },
+  "fields": {
+    ...
+  }
+}
+```
+
+### 使用 Plugin Metadata 自定义日志格式
+
+以下示例演示了如何使用 [Plugin Metadata](/zh/docs/apisix/terminology/plugin-metadata/) 和 [NGINX 变量](http://nginx.org/en/docs/varindex.html) 自定义日志格式，以记录请求和响应中的特定标头。
+
+在 APISIX 中，[Plugin Metadata](/zh/docs/apisix/terminology/plugin-metadata/) 用于配置同一插件的所有插件实例的通用元数据字段。当插件在多个资源中启用并需要对其元数据字段进行通用更新时，它很有用。
+
+首先，使用 `elasticsearch-logger` 创建路由，如下所示：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "elasticsearch-logger-route",
+    "uri": "/anything",
+    "plugins": {
+      "elasticsearch-logger": {
+        "endpoint_addrs": ["http://elasticsearch:9200"],
+        "field": {
+          "index": "gateway"
+        }
+      }
+    },
+    "upstream": {
+      "nodes": {
+        "httpbin.org:80": 1
+      },
+      "type": "roundrobin"
+    }
+  }'
+```
+
+接下来，配置 `elasticsearch-logger` 的 Plugin Metadata：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/plugin_metadata/elasticsearch-logger" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "log_format": {
+      "host": "$host",
+      "@timestamp": "$time_iso8601",
+      "client_ip": "$remote_addr",
+      "env": "$http_env",
+      "resp_content_type": "$sent_http_Content_Type"
+    }
+  }'
+```
+
+使用 `env` 标头向路由发送请求：
+
+```shell
+curl -i "http://127.0.0.1:9080/anything" -H "env: dev"
+```
+
+你应该会收到 `HTTP/1.1 200 OK` 响应。
+
+导航到 [localhost:5601](http://localhost:5601) 上的 Kibana 仪表板，并在 __Discover__ 选项卡下创建一个新的索引模式 `gateway` 以从 Elasticsearch 获取数据（如果你尚未这样做）。配置完成后，导航回 __Discover__ 选项卡，你应该会看到生成的日志，类似于以下内容：
+
+```json
+{
+  "_index": "gateway",
+  "_id": "Ck-WL5QBOkdYRG7kODS0",
+  "_version": 1,
+  "_score": 1,
+  "_source": {
+    "client_ip": "192.168.65.1",
+    "route_id": "elasticsearch-logger-route",
+    "@timestamp": "2025-01-06T10:32:36+00:00",
+    "host": "127.0.0.1",
+    "resp_content_type": "application/json"
+  },
+  "fields": {
+    ...
+  }
+}
+```
+
+### 有条件地记录请求主体
+
+以下示例演示了如何有条件地记录请求主体。
+
+使用 `elasticsearch-logger` 创建路由，仅在 URL 查询字符串 `log_body` 为 `yes` 时记录请求主体：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "plugins": {
+      "elasticsearch-logger": {
+        "endpoint_addrs": ["http://elasticsearch:9200"],
+        "field": {
+          "index": "gateway"
+        },
+        "include_req_body": true,
+        "include_req_body_expr": [["arg_log_body", "==", "yes"]]
+      }
+    },
+    "upstream": {
+      "nodes": {
+        "httpbin.org:80": 1
+      },
+      "type": "roundrobin"
+    },
+  "uri": "/anything",
+  "id": "elasticsearch-logger-route"
+}'
+```
+
+使用满足以下条件的 URL 查询字符串向路由发送请求：
+
+```shell
+curl -i "http://127.0.0.1:9080/anything?log_body=yes" -X POST -d '{"env": "dev"}'
+```
+
+你应该会收到 `HTTP/1.1 200 OK` 响应。
+
+导航到 [localhost:5601](http://localhost:5601) 上的 Kibana 仪表板，并在 __Discover__ 选项卡下创建一个新的索引模式 `gateway` 以从 Elasticsearch 获取数据（如果你尚未这样做）。配置完成后，导航回 __Discover__ 选项卡，你应该会看到生成的日志，类似于以下内容：
+
+```json
+{
+  "_index": "gateway",
+  "_id": "Dk-cL5QBOkdYRG7k7DSW",
+  "_version": 1,
+  "_score": 1,
+  "_source": {
+    "request": {
+      "headers": {
+        "user-agent": "curl/8.6.0",
+        "accept": "*/*",
+        "content-length": "14",
+        "host": "127.0.0.1:9080",
+        "content-type": "application/x-www-form-urlencoded"
+      },
+      "size": 182,
+      "querystring": {
+        "log_body": "yes"
+      },
+      "body": "{\"env\": \"dev\"}",
+      "method": "POST",
+      "url": "http://127.0.0.1:9080/anything?log_body=yes",
+      "uri": "/anything?log_body=yes"
+    },
+    "start_time": 1735965595203,
+    "response": {
+      "headers": {
+        "content-type": "application/json",
+        "server": "APISIX/3.13.0",
+        "access-control-allow-credentials": "true",
+        "content-length": "548",
+        "access-control-allow-origin": "*",
+        "connection": "close",
+        "date": "Mon, 13 Jan 2025 11:02:32 GMT"
+      },
+      "status": 200,
+      "size": 776
+    },
+    "route_id": "elasticsearch-logger-route",
+    "latency": 703.9999961853,
+    "apisix_latency": 34.999996185303,
+    "upstream_latency": 669,
+    "upstream": "34.197.122.172:80",
+    "server": {
+      "hostname": "0b9a772e68f8",
+      "version": "3.11.0"
+    },
+    "service_id": "",
+    "client_ip": "192.168.65.1"
+  },
+  "fields": {
+    ...
+  }
+}
+```
+
+向路由发送一个没有任何 URL 查询字符串的请求：
+
+```shell
+curl -i "http://127.0.0.1:9080/anything" -X POST -d '{"env": "dev"}'
+```
+
+导航到 Kibana 仪表板 __Discover__ 选项卡，你应该看到生成的日志，但没有请求正文：
+
+```json
+{
+  "_index": "gateway",
+  "_id": "EU-eL5QBOkdYRG7kUDST",
+  "_version": 1,
+  "_score": 1,
+  "_source": {
+    "request": {
+      "headers": {
+        "content-type": "application/x-www-form-urlencoded",
+        "accept": "*/*",
+        "content-length": "14",
+        "host": "127.0.0.1:9080",
+        "user-agent": "curl/8.6.0"
+      },
+      "size": 169,
+      "querystring": {},
+      "method": "POST",
+      "url": "http://127.0.0.1:9080/anything",
+      "uri": "/anything"
+    },
+    "start_time": 1735965686363,
+    "response": {
+      "headers": {
+        "content-type": "application/json",
+        "access-control-allow-credentials": "true",
+        "server": "APISIX/3.13.0",
+        "content-length": "510",
+        "access-control-allow-origin": "*",
+        "connection": "close",
+        "date": "Mon, 13 Jan 2025 11:15:54 GMT"
+      },
+      "status": 200,
+      "size": 738
+    },
+    "route_id": "elasticsearch-logger-route",
+    "latency": 680.99999427795,
+    "apisix_latency": 4.9999942779541,
+    "upstream_latency": 676,
+    "upstream": "34.197.122.172:80",
+    "server": {
+      "hostname": "0b9a772e68f8",
+      "version": "3.11.0"
+    },
+    "service_id": "",
+    "client_ip": "192.168.65.1"
+  },
+  "fields": {
+    ...
+  }
+}
+```
+
+:::info
+
+如果你除了将 `include_req_body` 或 `include_resp_body` 设置为 `true` 之外还自定义了 `log_format`，则插件不会在日志中包含正文。
+
+作为一种解决方法，你可以在日志格式中使用 NGINX 变量 `$request_body`，例如：
+
+```json
+{
+  "elasticsearch-logger": {
+    ...,
+    "log_format": {"body": "$request_body"}
+  }
+}
+```
+
+:::
+
+### 在 Elasticsearch 索引中包含请求日期
+
+以下示例演示了如何配置 `elasticsearch-logger` 插件，以在 Elasticsearch 索引名称中包含请求日期。
+
+使用 `elasticsearch-logger` 创建路由，如下所示：
+
+```shell
+curl "http://127.0.0.1:9180/apisix/admin/routes" -X PUT \
+  -H "X-API-KEY: ${admin_key}" \
+  -d '{
+    "id": "elasticsearch-logger-route",
+    "uri": "/anything",
+    "plugins": {
+      "elasticsearch-logger": {
+        "endpoint_addrs": ["http://elasticsearch:9200"],
+        "field": {
+          "index": "apisix-{%Y.%m.%d}"
+        }
+      }
+    },
+    "upstream": {
+      "nodes": {
+        "httpbin.org:80": 1
+      },
+      "type": "roundrobin"
+    }
+  }'
+```
+
+`index` 字段在花括号中使用 [lua 时间格式](https://www.lua.org/pil/22.1.html)，将当前年、月、日附加到索引名称中。
+
+向路由发送请求以生成日志条目：
+
+```shell
+curl -i "http://127.0.0.1:9080/anything"
+```
+
+你应该会收到 `HTTP/1.1 200 OK` 响应。
+
+导航到 [localhost:5601](http://localhost:5601) 上的 Kibana 仪表板，并在 __Discover__ 选项卡下创建一个新的索引模式 `apisix*` 以从 Elasticsearch 获取数据。配置完成后，导航回 __Discover__ 选项卡，你应该会看到生成的日志，索引名称中包含当前日期，类似于以下内容：
+
+```json
+{
+  "_index": "apisix-2025.01.13",
+  "_id": "CE-KL5QB0kdYRG7dEiTJ",
+  "_version": 1,
+  "_score": 1,
+  "_source": {
+    "request": {
+      ...
+    },
+    "response": {
+      ...
+    },
+    "route_id": "elasticsearch-logger-route",
+    "client_ip": "192.168.65.1"
+  },
+  ...
+}
+```

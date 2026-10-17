@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AI 网关 vs API 网关：核心差异与选择方法 | Apache APISIX</title><meta name="description" content="从流量模式、路由、Token 控制、流式响应、安全和运维等方面比较 AI 网关与 API 网关，并了解何时使用二者。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="AI 网关 vs API 网关：核心差异与选择方法 | Apache APISIX"><meta property="og:description" content="从流量模式、路由、Token 控制、流式响应、安全和运维等方面比较 AI 网关与 API 网关，并了解何时使用二者。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI 网关 vs API 网关：核心差异与选择方法","description":"从流量模式、路由、Token 控制、流式响应、安全和运维等方面比较 AI 网关与 API 网关，并了解何时使用二者。","datePublished":"2025-03-21","image":"https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp","author":{"@type":"Person","name":"Yilia Lin"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/"}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/zh/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/" title="English" data-astro-cid-3ef6ksr2>EN</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/zh/docs/" data-astro-cid-3ef6ksr2>文档</a> <a class="mobile-subnav" href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a class="mobile-subnav" href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a class="mobile-subnav" href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2025/03/21/ai-gateway-vs-api-gateway-differences-explained/" data-astro-cid-3ef6ksr2>English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>AI 网关 vs API 网关：核心差异与选择方法</h1> <p class="article-meta"> <time datetime="2025-03-21">2025年3月21日</time> · Yilia Lin  · 约 5 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#ai-网关与-api-网关概览">AI 网关与 API 网关概览</a></li><li class><a href="#api-网关负责什么">API 网关负责什么</a></li><li class><a href="#ai-网关增加了什么">AI 网关增加了什么</a></li><li class="d3"><a href="#供应商请求转换">供应商请求转换</a></li><li class="d3"><a href="#配置型模型路由与-fallback">配置型模型路由与 Fallback</a></li><li class="d3"><a href="#token-感知的限制">Token 感知的限制</a></li><li class="d3"><a href="#提示词与内容控制">提示词与内容控制</a></li><li class="d3"><a href="#ai-流量遥测">AI 流量遥测</a></li><li class><a href="#流式响应并非-ai-独有">流式响应并非 AI 独有</a></li><li class><a href="#什么时候使用-api-网关">什么时候使用 API 网关</a></li><li class><a href="#什么时候增加-ai-网关能力">什么时候增加 AI 网关能力</a></li><li class><a href="#使用同一网关处理-api-与-ai-流量">使用同一网关处理 API 与 AI 流量</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/03/21/TIySzjk5_ai-gateway-vs-api-gateway.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <p>API 网关管理通用 API 流量，AI 网关则增加面向大语言模型（LLM）和其他 AI 服务的流量控制。两者存在重叠：AI 网关同样需要路由、身份认证、限流、故障处理和可观测性，同时还要处理模型供应商、Token、提示词和流式模型响应。</p>
+<!--truncate-->
+<h2 id="ai-网关与-api-网关概览">AI 网关与 API 网关概览</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>维度</th><th>API 网关</th><th>AI 网关</th></tr></thead><tbody><tr><td>主要上游</td><td>Web API 和微服务</td><td>模型供应商和 AI 服务</td></tr><tr><td>用量单位</td><td>请求、连接或字节</td><td>请求以及输入、输出 Token</td></tr><tr><td>路由</td><td>Host、路径、Header、权重和服务健康状态</td><td>通用控制，加上配置型模型实例或供应商路由</td></tr><tr><td>请求处理</td><td>通用协议和载荷策略</td><td>供应商请求转换和提示词处理</td></tr><tr><td>响应模式</td><td>同步、异步或流式 API</td><td>常见长时间运行或流式模型响应</td></tr><tr><td>故障处理</td><td>重试、超时、熔断和上游健康检查</td><td>类似控制，加上模型供应商 fallback 和 Token 相关约束</td></tr><tr><td>可观测性</td><td>请求速率、延迟、状态、日志和追踪</td><td>网关指标，以及能力支持时的模型、Token 和首 Token 延迟摘要</td></tr></tbody></table>
+<p>这种区别描述的是额外工作负载和策略，并不意味着必须部署独立产品。有些组织使用专用 AI 网关，另一些组织则在已有 API 网关上增加 AI 专用插件。</p>
+<h2 id="api-网关负责什么">API 网关负责什么</h2>
+<p>API 网关位于客户端和后端服务之间，提供统一入口并实施共享流量策略，例如：</p>
+<ul>
+<li>请求路由和负载均衡；</li>
+<li>网关侧身份认证；</li>
+<li>限流与流量整形；</li>
+<li>TLS 终止和网络层访问控制；</li>
+<li>重试、超时和熔断；</li>
+<li>网关日志、指标和链路追踪集成。</li>
+</ul>
+<p>这些控制可以减少各 API 重复实现基础设施逻辑。业务授权、资源级权限、领域行为和服务特定遥测仍由服务负责。</p>
+<h2 id="ai-网关增加了什么">AI 网关增加了什么</h2>
+<p><a href="/zh/blog/2025/03/06/what-is-an-ai-gateway/">AI 网关</a>将网关控制用于模型流量，并增加符合 LLM 服务特点的能力。</p>
+<h3 id="供应商请求转换">供应商请求转换</h3>
+<p>模型供应商可能使用不同的端点、凭证和请求格式。AI 网关可以向应用提供稳定入口，并为其支持的供应商转换请求。实际兼容性仍取决于所选供应商和网关实现。</p>
+<h3 id="配置型模型路由与-fallback">配置型模型路由与 Fallback</h3>
+<p>AI 网关可以按照权重或一致性哈希等明确策略，在模型实例之间分配请求。有些实现还提供有限重试、健康检查或 fallback 策略。</p>
+<p>这属于网络流量管理，而不是自主模型选择。除非网关明确提供且配置了相应能力，否则判断哪个模型最适合某项任务、评估回答质量并根据业务结果改变路由，需要由应用逻辑或独立评估系统负责。</p>
+<h3 id="token-感知的限制">Token 感知的限制</h3>
+<p>传统限流统计单位时间内的请求数。LLM 工作负载还可能需要根据输入和输出 Token 设限，因为不同请求的大小和成本差异很大。Token 控制可以在网关限制用量，但定价、预算和成本分摊仍由外部系统负责。</p>
+<h3 id="提示词与内容控制">提示词与内容控制</h3>
+<p>AI 网关可能分别提供提示词模板、提示词装饰、基于模式的提示词检查、内容审核或检索增强。每项能力都有明确范围。提示词规则或审核集成不能替代应用授权、数据治理、模型评估或合规审查。</p>
+<h3 id="ai-流量遥测">AI 流量遥测</h3>
+<p>如果供应商响应提供所需数据，AI 网关可以记录模型名称、Token 用量、请求耗时和首个 Token 返回时间。网关遥测补充应用链路追踪和供应商监控，但无法单独衡量最终用户满意度、回答正确性或幻觉率。</p>
+<h2 id="流式响应并非-ai-独有">流式响应并非 AI 独有</h2>
+<p>LLM 应用常使用 Server-Sent Events（SSE）增量返回生成内容，但流式传输并非 AI 独有。传统 API 同样可以使用 SSE、WebSocket 或其他流式模式，而且部分模型调用也是同步的。</p>
+<p>实际区别在于模型流可能持续更长时间，并且用量信息可能要到响应完成后才可获得。团队应先验证网关如何处理流式响应、超时、重试、日志和部分响应，再决定是否沿用短 Web 请求的策略。</p>
+<h2 id="什么时候使用-api-网关">什么时候使用 API 网关</h2>
+<p>当主要需求是为 Web API 或微服务提供统一入口和流量策略时，应使用 API 网关。典型场景包括：</p>
+<ul>
+<li>在后端服务之间路由请求；</li>
+<li>集中实施网关身份认证和限流；</li>
+<li>在 Kubernetes、虚拟机或混合环境中公开 API；</li>
+<li>应用共享的故障处理和可观测性控制。</li>
+</ul>
+<p>即使组织没有 LLM 工作负载，API 网关仍然有价值。</p>
+<h2 id="什么时候增加-ai-网关能力">什么时候增加 AI 网关能力</h2>
+<p>当模型流量产生普通请求策略无法覆盖的需求时，可以增加 AI 网关能力，例如：</p>
+<ul>
+<li>多个应用需要共享模型供应商访问层；</li>
+<li>团队除请求限流外还需要基于 Token 的限制；</li>
+<li>模型实例需要配置型负载均衡、重试或 fallback；</li>
+<li>提示词模板、提示词检查、审核或受支持的 RAG 处理需要在网关执行；</li>
+<li>运维人员需要在现有网关遥测中查看模型和 Token 摘要。</li>
+</ul>
+<p>只调用一个模型供应商的应用未必需要立即部署专用 AI 网关。随着应用、供应商、环境和共享策略数量增加，网关的运维价值会更明显。</p>
+<h2 id="使用同一网关处理-api-与-ai-流量">使用同一网关处理 API 与 AI 流量</h2>
+<p>Apache APISIX 是开源 API 网关，也可以通过插件实施 AI 专用控制。其通用网关能力处理路由、身份认证、故障策略和可观测性，AI 插件则增加供应商代理、配置型多模型路由、Token 限制、提示词处理、检索增强和 AI 流量摘要。</p>
+<p>例如：</p>
+<ul>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy/"><code>ai-proxy</code></a> 连接文档列出的模型供应商和 OpenAI 兼容端点。</li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/ai-proxy-multi/"><code>ai-proxy-multi</code></a> 在模型实例之间提供配置型负载均衡、重试、fallback 和健康检查。</li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/ai-rate-limiting/"><code>ai-rate-limiting</code></a> 执行基于 Token 的用量限制。</li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/ai-prompt-guard/"><code>ai-prompt-guard</code></a> 根据配置模式允许或拒绝提示词。</li>
+<li><a href="https://apisix.apache.org/zh/docs/apisix/plugins/ai-rag/"><code>ai-rag</code></a> 提供文档支持的 Azure OpenAI 与 Azure AI Search 检索流程。</li>
+</ul>
+<p>这种方式让团队可以复用同一套网关运维模式，同时不会把 APISIX 描述成应用运行时或完整的 AI 治理平台。<a href="/zh/ai-gateway/">Apache APISIX AI 网关概览</a>进一步列出了工作负载需求及其对应插件。</p>
+<h2 id="总结">总结</h2>
+<p>API 网关和 AI 网关解决的是相互重叠的流量管理问题。API 网关提供适用于 API 和微服务的通用基础；AI 网关增加供应商、Token、提示词、检索和模型遥测控制。</p>
+<p>团队应根据工作负载所需策略做选择。组织可以根据技术或组织边界部署独立网关，也可以使用 Apache APISIX，在同一个开源平台中管理普通 API 和已配置的 AI 流量。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2025/03/24/6-essential-ai-gateway-use-cases/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">AI 网关六大使用场景</span> </a> <a class="post-nav-card older" href="/zh/blog/2025/03/06/what-is-an-ai-gateway/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">什么是 AI 网关？概念与核心功能</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#ai-网关与-api-网关概览">AI 网关与 API 网关概览</a></li><li class><a href="#api-网关负责什么">API 网关负责什么</a></li><li class><a href="#ai-网关增加了什么">AI 网关增加了什么</a></li><li class="d3"><a href="#供应商请求转换">供应商请求转换</a></li><li class="d3"><a href="#配置型模型路由与-fallback">配置型模型路由与 Fallback</a></li><li class="d3"><a href="#token-感知的限制">Token 感知的限制</a></li><li class="d3"><a href="#提示词与内容控制">提示词与内容控制</a></li><li class="d3"><a href="#ai-流量遥测">AI 流量遥测</a></li><li class><a href="#流式响应并非-ai-独有">流式响应并非 AI 独有</a></li><li class><a href="#什么时候使用-api-网关">什么时候使用 API 网关</a></li><li class><a href="#什么时候增加-ai-网关能力">什么时候增加 AI 网关能力</a></li><li class><a href="#使用同一网关处理-api-与-ai-流量">使用同一网关处理 API 与 AI 流量</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/08/28/debugging-apisix-throughput-regression/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>火焰图没撒谎，却没直接指出瓶颈：一次 APISIX 吞吐回退排查</h3> <p class="desc">一次 APISIX 吞吐回退排查中，火焰图中最宽的热点无法解释全部回退。本文结合 CPU 采样、调用栈、LuaJIT 编译事件、每请求调用次数和配对 A/B 实验，说明如何识别被公共路径放大、却容易被热点排序忽略的性能成本。</p> <p class="meta">2026年8月28日 · Xin Rong</p> </div> </a><a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/integrations/">Integrations</a></li><li><a href="/zh/cookbooks/">Cookbooks</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>

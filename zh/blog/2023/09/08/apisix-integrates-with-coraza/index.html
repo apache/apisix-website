@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>使用 Apache APISIX 评估 Coraza WAF | Apache APISIX</title><meta name="description" content="使用 Apache APISIX 评估 phase 1 Coraza Proxy Wasm 策略，了解当前请求体处理限制，并安全测试 OWASP Core Rule Set。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2023/09/08/APISIX-integrates-with-Coraza/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="使用 Apache APISIX 评估 Coraza WAF | Apache APISIX"><meta property="og:description" content="使用 Apache APISIX 评估 phase 1 Coraza Proxy Wasm 策略，了解当前请求体处理限制，并安全测试 OWASP Core Rule Set。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp"><meta name="twitter:image" content="https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"使用 Apache APISIX 评估 Coraza WAF","description":"使用 Apache APISIX 评估 phase 1 Coraza Proxy Wasm 策略，了解当前请求体处理限制，并安全测试 OWASP Core Rule Set。","datePublished":"2023-09-08","image":"https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp","author":{"@type":"Person","name":"Guohao Wang"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2023/09/08/apisix-integrates-with-coraza/"}]</script><link rel="stylesheet" href="/_astro/Base.GnCQ6ioz.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/zh/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2023/09/08/APISIX-integrates-with-Coraza/" title="English" data-astro-cid-3ef6ksr2>EN</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/zh/docs/" data-astro-cid-3ef6ksr2>文档</a> <a class="mobile-subnav" href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a class="mobile-subnav" href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a class="mobile-subnav" href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2023/09/08/APISIX-integrates-with-Coraza/" data-astro-cid-3ef6ksr2>English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>使用 Apache APISIX 评估 Coraza WAF</h1> <p class="article-meta"> <time datetime="2023-09-08">2023年9月8日</time> · Guohao Wang  · 约 4 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/ecosystem/">Ecosystem</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#当前集成能做什么不能做什么">当前集成能做什么，不能做什么</a></li><li class><a href="#前置条件">前置条件</a></li><li class><a href="#安装-coraza-wasm-模块">安装 Coraza Wasm 模块</a></li><li class><a href="#在-apisix-中注册模块">在 APISIX 中注册模块</a></li><li class><a href="#应用一个小范围测试策略">应用一个小范围测试策略</a></li><li class><a href="#评估-owasp-core-rule-set">评估 OWASP Core Rule Set</a></li><li class><a href="#投入生产前进行调优">投入生产前进行调优</a></li><li class><a href="#总结">总结</a></li> </ul> </details> </header> <figure class="article-hero"> <img src="https://static.api7.ai/uploads/2025/03/27/vFVg9LxN_apisix-coraza.webp" alt="" loading="eager" fetchpriority="high" decoding="async" width="1280" height="720"> </figure> <blockquote>
+<p>Apache APISIX 可以加载外部 Coraza Proxy Wasm 模块并执行请求阶段规则。当前集成仍受 Proxy Wasm API 和请求体处理能力限制，因此应将其视为需要验证的集成方案，而不是 APISIX 内置的完整 WAF 能力。</p>
+</blockquote>
+<!--truncate-->
+<p>Web 应用程序防火墙（WAF）根据配置的规则检查 HTTP 请求和响应，并可在请求到达上游服务前拒绝匹配已知攻击模式的流量。WAF 只是纵深防御的一层，不能替代身份认证、业务授权、安全编码、依赖更新或应用层输入校验。</p>
+<p><a href="https://coraza.io/">Coraza</a> 是使用 Go 编写的开源 WAF 引擎。<a href="https://github.com/corazawaf/coraza-proxy-wasm">Coraza Proxy Wasm</a> 将其封装为 Proxy Wasm 模块，并可包含 <a href="https://coreruleset.org/">OWASP Core Rule Set（CRS）</a>。Apache APISIX 可以通过 <a href="/zh/docs/apisix/wasm/">Wasm 插件运行时</a>加载该模块，并将生成的插件配置到指定 Route 或 Global Rule 上。</p>
+<h2 id="当前集成能做什么不能做什么">当前集成能做什么，不能做什么</h2>
+<p>基础集成可以针对经过 APISIX 的流量检查 phase 1 变量，例如请求 URI 和请求头。CRS 提供针对 SQL 注入、跨站脚本等攻击类型的通用检测规则，但其中许多规则依赖请求体处理和后续阶段。URI 规则成功执行，并不能证明完整 CRS 已生效。</p>
+<p>使用这项集成时，需要注意以下边界：</p>
+<ul>
+<li>Coraza Proxy Wasm 不随 APISIX 一起发布，需要单独下载和运维。</li>
+<li>APISIX 当前只实现了部分 Proxy Wasm API，因此必须测试策略所依赖的具体回调和流量类型。</li>
+<li>上游项目仍有一个<a href="https://github.com/corazawaf/coraza-proxy-wasm/issues/309">与 APISIX 请求体处理相关的未解决问题</a>，部分 payload 没有按预期传递给请求体规则。在所用 APISIX 和模块版本通过完整测试前，不应依赖该集成提供请求体防护。</li>
+<li>CRS 需要调优。未观察误报就直接启用大范围规则集，可能会拦截合法请求。</li>
+<li>Coraza Proxy Wasm 0.6.0 的 release notes 提醒用户注意潜在的内存泄漏和性能下降风险。投入生产前，需要使用有代表性的流量进行压力测试。</li>
+</ul>
+<p>建议先在检测模式或小范围阻断模式中运行，检查审计输出，并在确认策略符合预期后逐步扩大执行范围。</p>
+<h2 id="前置条件">前置条件</h2>
+<p>本文示例使用：</p>
+<ul>
+<li>Apache APISIX 3.18.0</li>
+<li>Coraza Proxy Wasm 0.6.0</li>
+<li>该 Coraza 版本内置的 CRS 版本</li>
+<li>保存在 <code>admin_key</code> 环境变量中的 APISIX Admin API key</li>
+</ul>
+<p>生产环境应固定版本，并在升级前检查 <a href="https://github.com/corazawaf/coraza-proxy-wasm/releases">Coraza Proxy Wasm releases</a>。较新的 APISIX 或 Coraza 版本可能改变运行时行为、可用回调或内置 CRS 版本。</p>
+<h2 id="安装-coraza-wasm-模块">安装 Coraza Wasm 模块</h2>
+<p>下面的 Dockerfile 将已发布的 Coraza 模块添加到 APISIX 镜像，并在解压前校验发布压缩包。示例中的校验值对应官方 0.6.0 压缩包；升级时应在独立验证新文件后同时更新版本和校验值。这个操作不会让 Coraza 成为 APISIX 内置插件，Wasm 文件仍是需要单独维护的外部运行时依赖。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="dockerfile"><code><span class="line"><span style="color:#FF7B72">FROM</span><span style="color:#E6EDF3"> apache/apisix:3.18.0-debian</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">ARG</span><span style="color:#E6EDF3"> CORAZA_VERSION=0.6.0</span></span>
+<span class="line"><span style="color:#FF7B72">ARG</span><span style="color:#E6EDF3"> CORAZA_SHA256=cca4e3c75cf6b2e615907f936a1b6dcd0955250e0fb7d3b1c2ecef807d84603c</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">USER</span><span style="color:#E6EDF3"> root</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">ADD</span><span style="color:#E6EDF3"> https://github.com/corazawaf/coraza-proxy-wasm/releases/download/${CORAZA_VERSION}/coraza-proxy-wasm-${CORAZA_VERSION}.zip /tmp/coraza-proxy-wasm.zip</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">RUN</span><span style="color:#E6EDF3"> echo </span><span style="color:#A5D6FF">"${CORAZA_SHA256}  /tmp/coraza-proxy-wasm.zip"</span><span style="color:#E6EDF3"> | sha256sum --check --strict - \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; apt-get update \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; apt-get install --yes --no-install-recommends unzip \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; mkdir -p /usr/local/apisix/proxywasm \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; unzip /tmp/coraza-proxy-wasm.zip -d /usr/local/apisix/proxywasm \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; rm /tmp/coraza-proxy-wasm.zip \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; apt-get purge --yes unzip \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; rm -rf /var/lib/apt/lists/* \</span></span>
+<span class="line"><span style="color:#E6EDF3">    &#x26;&#x26; chown -R apisix:apisix /usr/local/apisix/proxywasm</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">USER</span><span style="color:#E6EDF3"> apisix</span></span></code></pre>
+<p>构建镜像后，确认容器中存在 <code>/usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm</code>。</p>
+<h2 id="在-apisix-中注册模块">在 APISIX 中注册模块</h2>
+<p>在 <code>conf/config.yaml</code> 中添加模块。这里定义的插件名称也用于 Route 和 Global Rule 配置。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#7EE787">wasm</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#7EE787">  plugins</span><span style="color:#E6EDF3">:</span></span>
+<span class="line"><span style="color:#E6EDF3">    - </span><span style="color:#7EE787">name</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">coraza-filter</span></span>
+<span class="line"><span style="color:#7EE787">      priority</span><span style="color:#E6EDF3">: </span><span style="color:#79C0FF">7999</span></span>
+<span class="line"><span style="color:#7EE787">      file</span><span style="color:#E6EDF3">: </span><span style="color:#A5D6FF">/usr/local/apisix/proxywasm/coraza-proxy-wasm.wasm</span></span></code></pre>
+<p>修改 <code>config.yaml</code> 后重启 APISIX。如果模块加载失败，应先检查文件路径、所有权和启动日志，再将插件应用到实际流量。</p>
+<h2 id="应用一个小范围测试策略">应用一个小范围测试策略</h2>
+<p>首先使用结果容易验证的策略。下面的示例会在请求转发到 httpbin 前拒绝 <code>/anything</code> 请求。</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/coraza-test"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --request</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --header</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --header</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --data</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/anything",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "coraza-filter": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "conf": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "directives_map": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "test": [</span></span>
+<span class="line"><span style="color:#A5D6FF">              "SecRuleEngine On",</span></span>
+<span class="line"><span style="color:#A5D6FF">              "SecRule REQUEST_URI \"@beginsWith /anything\" \"id:101,phase:1,deny,status:403\""</span></span>
+<span class="line"><span style="color:#A5D6FF">            ]</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          "default_directives": "test"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>请求该 Route：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#79C0FF"> --include</span><span style="color:#A5D6FF"> "http://127.0.0.1:9080/anything"</span></span></code></pre>
+<p>响应状态应为 <code>403</code>。这个测试只能确认 APISIX 已加载模块且配置的 phase 1 规则成功执行，不能证明生产 WAF 策略已经有效。</p>
+<h2 id="评估-owasp-core-rule-set">评估 OWASP Core Rule Set</h2>
+<p>小范围 phase 1 策略通过后，可以在专用测试 Route 上加载 Coraza 模块内置的 CRS 进行进一步评估：</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="shell"><code><span class="line"><span style="color:#FFA657">curl</span><span style="color:#A5D6FF"> "http://127.0.0.1:9180/apisix/admin/routes/coraza-crs-test"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --request</span><span style="color:#A5D6FF"> PUT</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --header</span><span style="color:#A5D6FF"> "X-API-KEY: ${</span><span style="color:#E6EDF3">admin_key</span><span style="color:#A5D6FF">}"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --header</span><span style="color:#A5D6FF"> "Content-Type: application/json"</span><span style="color:#FF7B72"> \</span></span>
+<span class="line"><span style="color:#79C0FF">  --data</span><span style="color:#A5D6FF"> '{</span></span>
+<span class="line"><span style="color:#A5D6FF">    "uri": "/crs-test/*",</span></span>
+<span class="line"><span style="color:#A5D6FF">    "plugins": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "coraza-filter": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "conf": {</span></span>
+<span class="line"><span style="color:#A5D6FF">          "directives_map": {</span></span>
+<span class="line"><span style="color:#A5D6FF">            "crs": [</span></span>
+<span class="line"><span style="color:#A5D6FF">              "SecRuleEngine On",</span></span>
+<span class="line"><span style="color:#A5D6FF">              "Include @crs-setup-conf",</span></span>
+<span class="line"><span style="color:#A5D6FF">              "Include @owasp_crs/*.conf"</span></span>
+<span class="line"><span style="color:#A5D6FF">            ]</span></span>
+<span class="line"><span style="color:#A5D6FF">          },</span></span>
+<span class="line"><span style="color:#A5D6FF">          "default_directives": "crs"</span></span>
+<span class="line"><span style="color:#A5D6FF">        }</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    },</span></span>
+<span class="line"><span style="color:#A5D6FF">    "upstream": {</span></span>
+<span class="line"><span style="color:#A5D6FF">      "type": "roundrobin",</span></span>
+<span class="line"><span style="color:#A5D6FF">      "nodes": {</span></span>
+<span class="line"><span style="color:#A5D6FF">        "httpbin.org:80": 1</span></span>
+<span class="line"><span style="color:#A5D6FF">      }</span></span>
+<span class="line"><span style="color:#A5D6FF">    }</span></span>
+<span class="line"><span style="color:#A5D6FF">  }'</span></span></code></pre>
+<p>调优期间，应将这项插件配置保留在选定的测试 Route 上。成功加载规则不代表 APISIX 已提供每个请求阶段或变量。尤其需要单独验证请求体规则，并在将 CRS 视为执行控制前检查上游项目当前的 APISIX 相关问题。Global Rule 可以扩大插件应用范围，但在确认覆盖能力和排除规则前这样做，会同时放大漏报和误报的影响。</p>
+<h2 id="投入生产前进行调优">投入生产前进行调优</h2>
+<p>WAF 部署是持续的安全工作，不是一次性开关。启用生产阻断前，应完成以下检查：</p>
+<ol>
+<li>在非生产环境回放具有代表性的请求。</li>
+<li>在 Coraza 和 APISIX 日志中检查规则 ID、匹配变量和误报。</li>
+<li>使用尽可能小的排除项，而不是关闭整个规则组。</li>
+<li>验证每一种必要的内容类型是否都会触发请求体回调；上传、流式流量、HTTP/2 请求和大 payload 需要单独测试。</li>
+<li>在预期峰值流量下测量延迟、内存占用和错误率。</li>
+<li>为 Wasm 插件及规则准备可操作的回滚方案。</li>
+<li>持续修补应用和依赖；CRS 可以阻断部分流量模式，但不会消除底层漏洞。</li>
+</ol>
+<p>在纵深防御体系中，应将调优后的 WAF 策略与 <a href="/learning-center/api-gateway-authentication/">API 网关身份认证</a>、限流、传输安全以及由服务自身实施的授权结合使用。<a href="/learning-center/api-gateway-security/">API 网关安全指南</a>介绍了这些控制措施如何协同工作。</p>
+<h2 id="总结">总结</h2>
+<p>Coraza Proxy Wasm 为 APISIX 用户提供了一条在网关层评估 phase 1 流量规则并研究 CRS 的开源路径。这项集成更适合在固定版本、小范围策略和针对实际负载的验证下进行受控测试。在部署环境中验证包括请求体处理在内的所有必要请求和响应阶段前，不应将它视为完整的 API WAF 覆盖方案。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <a class="post-nav-card" href="/zh/blog/2023/09/13/biweekly-report/"> <span class="post-nav-label">← 较新文章</span> <span class="post-nav-title">社区双周报 (8.28 - 9.10)</span> </a> <a class="post-nav-card older" href="/zh/blog/2023/09/01/release-apache-apisix-3.5.0/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">Apache APISIX 3.5.0 正式发布</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#当前集成能做什么不能做什么">当前集成能做什么，不能做什么</a></li><li class><a href="#前置条件">前置条件</a></li><li class><a href="#安装-coraza-wasm-模块">安装 Coraza Wasm 模块</a></li><li class><a href="#在-apisix-中注册模块">在 APISIX 中注册模块</a></li><li class><a href="#应用一个小范围测试策略">应用一个小范围测试策略</a></li><li class><a href="#评估-owasp-core-rule-set">评估 OWASP Core Rule Set</a></li><li class><a href="#投入生产前进行调优">投入生产前进行调优</a></li><li class><a href="#总结">总结</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/08/28/debugging-apisix-throughput-regression/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>火焰图没撒谎，却没直接指出瓶颈：一次 APISIX 吞吐回退排查</h3> <p class="desc">一次 APISIX 吞吐回退排查中，火焰图中最宽的热点无法解释全部回退。本文结合 CPU 采样、调用栈、LuaJIT 编译事件、每请求调用次数和配对 A/B 实验，说明如何识别被公共路径放大、却容易被热点排序忽略的性能成本。</p> <p class="meta">2026年8月28日 · Xin Rong</p> </div> </a><a class="post-card" href="/zh/blog/2026/07/10/manage-apache-apisix-with-ai-agents/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Ecosystem</span> </div> <div class="body"> <h3>用 AI 编码 Agent 管理 Apache APISIX</h3> <p class="desc">通过开源的 Agent Skills，从你的 AI 编码 Agent 管理 Apache APISIX——描述你想要的结果，Agent 就会执行真实的网关命令。</p> <p class="meta">2026年7月10日 · Ming Wen</p> </div> </a><a class="post-card" href="/zh/blog/2025/04/21/host-mcp-server-with-api-gateway/"> <img class="cover" src="https://static.api7.ai/uploads/2025/04/21/yR6mkJHI_0-apisix-mcp-server-cover.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>从 stdio 到 HTTP SSE：使用 APISIX 托管 MCP Server</h3> <p class="desc">探索 Apache APISIX 的 mcp-bridge 插件如何无缝地将基于 stdio 的 MCP Server 转换为可扩展的 HTTP SSE 服务。了解如何通过身份认证增强 API 安全性，通过限流提高系统可靠性，同时为云原生架构优化 MCP 服务。</p> <p class="meta">2025年4月21日 · Ming Wen</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/integrations/">Integrations</a></li><li><a href="/zh/cookbooks/">Cookbooks</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
