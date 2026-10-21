@@ -3,7 +3,7 @@ title: "API Gateway vs Service Mesh: Differences, Overlap, and When to Use Both"
 description: "Compare API gateways and service meshes by traffic scope, identity, policy enforcement, deployment model, and operations, and learn when one or both fit."
 slug: api-gateway-vs-service-mesh
 date: 2026-09-20
-tags: [api-gateway, service-mesh, microservices, architecture]
+tags: [api-gateway, service-mesh, microservices, architecture, comparison]
 hide_table_of_contents: false
 ---
 
