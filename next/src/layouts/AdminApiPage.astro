@@ -1,0 +1,204 @@
+---
+import DocPage from './DocPage.astro';
+import { getApisixDocs, getApisixSidebar, sidebarLandingId, docEditUrl, APISIX_DOCS_VERSION, APISIX_ARCHIVED_VERSIONS, versionedLandingHref, type VersionEntry } from '../lib/content';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const zh = locale === 'zh';
+const docs = getApisixDocs(locale);
+const entry = docs.find((doc) => doc.pathId === 'admin-api');
+if (!entry) throw new Error('Sync APISIX documentation before building the Admin API reference');
+const prefix = zh ? '/zh' : '';
+const sidebar = getApisixSidebar();
+const titleById = new Map(docs.map((doc) => [doc.pathId, doc.title]));
+const urlByPathId = new Map(docs.map((doc) => [doc.pathId, doc.url]));
+const urlById = (id: string) => urlByPathId.get(id) ?? `${prefix}/docs/apisix/${id}/`;
+const docsHref = docs.find((doc) => doc.pathId === sidebarLandingId(sidebar))?.url ?? `${prefix}/docs/`;
+const editUrl = docEditUrl('apisix', 'apisix', entry);
+const currentHref = `${prefix}/docs/apisix/admin-api/`;
+const versionsFor = (href: string): VersionEntry[] => [
+  { label: `APISIX ${APISIX_DOCS_VERSION}`, href, current: true },
+  ...[...APISIX_ARCHIVED_VERSIONS, 'next'].map((version) => ({
+    label: version === 'next' ? (zh ? '开发版 (next)' : 'Next (unreleased)') : version,
+    href: versionedLandingHref(`${prefix}/docs/apisix/`, version, href),
+  })).filter((version): version is VersionEntry => Boolean(version.href)),
+];
+const versions = versionsFor(currentHref);
+// The upstream JSON is optional until it is available on the synced release.
+// Vite emits it under /_astro/, which the existing deployment already ships.
+const sources = import.meta.glob('/content/docs-apisix-en/admin-api.json', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+const assets = import.meta.glob('/content/docs-apisix-en/admin-api.json', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+let specUrl: string | undefined;
+try {
+  const spec = JSON.parse(Object.values(sources)[0]);
+  if (spec.openapi?.startsWith('3.') && spec.info?.version === APISIX_DOCS_VERSION && spec.paths && typeof spec.paths === 'object') {
+    specUrl = Object.values(assets)[0];
+  }
+} catch { /* Missing or invalid JSON keeps the existing Markdown renderer. */ }
+---
+<DocPage entry={entry} activeId={entry.pathId} locale={locale} path="/docs/apisix/admin-api/" sidebar={sidebar} titleById={titleById} urlById={urlById} editUrl={editUrl} versionLabel={`APISIX ${APISIX_DOCS_VERSION}`} versions={versionsFor(docsHref)} hideContent={Boolean(specUrl)}>
+  <Fragment slot="reference">
+    {specUrl && <section id="admin-api-openapi">
+      <nav class="api-toolbar" aria-label={zh ? 'API 文档导航' : 'API reference navigation'}>
+        <div class="api-location">
+          <a class="api-back" href={docsHref}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
+            {zh ? '文档' : 'Docs'}
+          </a>
+          <span class="api-separator" aria-hidden="true">/</span>
+          <span class="api-page-name" aria-current="page">Admin API</span>
+          <details class="api-version">
+            <summary aria-label={zh ? `切换版本，当前 ${APISIX_DOCS_VERSION}` : `Switch version, current ${APISIX_DOCS_VERSION}`}>
+              <span>{APISIX_DOCS_VERSION}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <ul>{versions.map((version) => <li><a href={version.href} aria-current={version.current ? 'page' : undefined}>{version.label}</a></li>)}</ul>
+          </details>
+        </div>
+        <a class="api-action api-download" href={specUrl} download="apisix-admin-api.json" aria-label={zh ? '下载 OpenAPI' : 'Download OpenAPI'} title={zh ? '下载 OpenAPI' : 'Download OpenAPI'}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg>
+          <span class="api-action-label">{zh ? '下载 OpenAPI' : 'Download OpenAPI'}</span>
+        </a>
+      </nav>
+      <p id="api-reference-loading" class="container" role="status">{zh ? '正在加载 API 参考…' : 'Loading API reference…'}</p>
+      <div id="admin-api-reference" data-spec-url={specUrl} hidden></div>
+    </section>}
+    {specUrl && <noscript>
+      <style is:inline>
+        #admin-api-openapi { display: none; }
+        #admin-api-markdown[hidden] { display: grid; }
+      </style>
+    </noscript>}
+    <script>
+      import scalarTheme from '../styles/admin-api-scalar.css?inline';
+
+      declare const Scalar: {
+        createApiReference: (element: HTMLElement, options: Record<string, unknown>) => void;
+      };
+
+      const reference = document.querySelector<HTMLElement>('#admin-api-openapi');
+      const markdown = document.querySelector<HTMLElement>('[data-docs-content]');
+      const container = document.querySelector<HTMLElement>('#admin-api-reference');
+      if (reference && markdown && container) {
+        const toolbar = document.querySelector<HTMLElement>('.api-toolbar');
+        if (toolbar) {
+          const updateHeight = () => document.documentElement.style.setProperty('--api-toolbar-height', `${toolbar.getBoundingClientRect().height}px`);
+          new ResizeObserver(updateHeight).observe(toolbar);
+          updateHeight();
+        }
+        const versionPicker = document.querySelector<HTMLDetailsElement>('.api-version');
+        document.addEventListener('click', (event) => {
+          if (versionPicker?.open && event.target instanceof Node && !versionPicker.contains(event.target)) versionPicker.open = false;
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && versionPicker?.open) {
+            versionPicker.open = false;
+            versionPicker.querySelector('summary')?.focus();
+          }
+        });
+        // Route the shared shortcut to one search, avoiding nested scroll locks.
+        window.addEventListener('keydown', (event) => {
+          if (reference.hidden || container.hidden || !(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 'k') return;
+          const searches = [...container.querySelectorAll<HTMLButtonElement>('button:has(.sidebar-search-placeholder)')];
+          const search = searches.find((button) => button.getClientRects().length > 0) ?? searches[0];
+          if (!search) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          if (document.body.style.overflow === 'hidden' || document.querySelector('.scalar-modal-layout, .DocSearch-Container')) return;
+          search.click();
+        }, true);
+
+        const showReference = async () => {
+          const showFallback = () => {
+            reference.hidden = true;
+            markdown.hidden = false;
+          };
+          const timeout = window.setTimeout(showFallback, 15000);
+          try {
+            const response = await fetch(container.dataset.specUrl!, { signal: AbortSignal.timeout(10000) });
+            if (!response.ok) throw new Error('Unable to load local OpenAPI');
+            const spec = await response.json();
+            if (!spec.openapi?.startsWith('3.') || !spec.paths) throw new Error('Invalid OpenAPI document');
+            await new Promise<void>((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = 'https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.75.1/dist/browser/standalone.js';
+              script.onload = () => resolve();
+              script.onerror = () => reject(new Error('Unable to load Scalar'));
+              document.head.append(script);
+            });
+            if (reference.hidden) return;
+            Scalar.createApiReference(container, {
+              content: spec,
+              onLoaded: () => {
+                if (reference.hidden) return;
+                window.clearTimeout(timeout);
+                document.querySelector('#api-reference-loading')?.remove();
+                container.hidden = false;
+              },
+              theme: 'default',
+              darkMode: false,
+              hideDarkModeToggle: true,
+              hideClientButton: true,
+              hideModels: true,
+              localization: { locale: document.documentElement.lang === 'zh-CN' ? 'zh-CN' : 'en' },
+              documentDownloadType: 'none',
+              withDefaultFonts: false,
+              persistAuth: false,
+              operationTitleSource: 'path',
+              // Admin credentials and requests stay in the browser; no hosted proxy.
+              proxyUrl: '',
+              telemetry: false,
+              agent: { disabled: true },
+              showDeveloperTools: 'never',
+              customCss: scalarTheme,
+            });
+          } catch {
+            window.clearTimeout(timeout);
+            showFallback();
+          }
+        };
+        showReference();
+      }
+    </script>
+  </Fragment>
+</DocPage>
+
+<style>
+  #admin-api-openapi[hidden], #admin-api-reference[hidden], :global(#admin-api-markdown[hidden]) { display: none; }
+  #api-reference-loading { min-height: 60vh; padding-top: 2rem; color: #64748b; }
+  .api-toolbar {
+    position: sticky; top: var(--header-height); z-index: 90;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    min-height: 56px; padding: .6rem 1.5rem;
+    background: #fff; border-bottom: 1px solid #e8ecf1;
+    font-size: .82rem; line-height: 1.4;
+  }
+  .api-location, .api-back, .api-action, .api-version summary { display: flex; align-items: center; }
+  .api-location { gap: .8rem; min-width: 0; }
+  .api-back { gap: .25rem; color: #64748b; white-space: nowrap; }
+  .api-separator { color: #cbd5e1; }
+  .api-page-name { color: #1e293b; font-weight: 650; white-space: nowrap; }
+  .api-version { position: relative; }
+  .api-version summary { gap: .4rem; padding: .3rem .6rem; background: #f6f8fa; border: 1px solid #e8ecf1; border-radius: 6px; color: #475569; font-size: .75rem; font-variant-numeric: tabular-nums; cursor: pointer; list-style: none; }
+  .api-version summary::-webkit-details-marker { display: none; }
+  .api-version[open] summary { border-color: #e8433e; }
+  .api-version ul { position: absolute; top: calc(100% + .6rem); left: 0; width: 210px; max-height: 55vh; overflow-y: auto; padding: .4rem; margin: 0; list-style: none; border: 1px solid #e8ecf1; border-radius: 10px; background: #fff; box-shadow: 0 12px 32px rgb(15 23 42 / 10%); }
+  .api-version a { display: block; padding: .5rem .7rem; border-radius: 5px; color: #475569; }
+  .api-version a:hover { background: #f6f8fa; text-decoration: none; }
+  .api-version a[aria-current] { color: #bc3532; background: #fff1f0; font-weight: 600; }
+  .api-action { gap: .45rem; padding: .45rem .65rem; border-radius: 6px; color: #475569; white-space: nowrap; }
+  .api-action:hover, .api-back:hover { color: #c53632; text-decoration: none; }
+  .api-action:hover { background: #f8fafc; }
+  .api-download { border: 1px solid #e2e8f0; background: #fff; }
+  .api-toolbar a:focus-visible, .api-version summary:focus-visible { outline: 2px solid #e8433e; outline-offset: 3px; }
+  #admin-api-reference { min-height: 60vh; }
+  @media (max-width: 640px) {
+    .api-toolbar { gap: .5rem; padding: .65rem 1rem; }
+    .api-location { gap: .5rem; }
+    .api-action { padding: .5rem; }
+    .api-action-label { display: none; }
+  }
+</style>

@@ -17,6 +17,7 @@ interface Props {
   versions?: VersionEntry[];
   /** Sidebar id of the current page (path-derived); defaults to entry.id. */
   activeId?: string;
+  hideContent?: boolean;
 }
 const {
   entry, locale, path, sidebar = [], titleById, urlById, editUrl, versionLabel,
@@ -61,7 +62,8 @@ const hasAlternate = entry.hasTranslation && !canonicalOverride;
   hasAlternate={hasAlternate}
   search
 >
-  <div class="container docs-layout">
+  <slot name="reference" />
+  <div class="container docs-layout" id={Astro.slots.has('reference') ? 'admin-api-markdown' : undefined} hidden={Astro.props.hideContent} data-docs-content>
     {sidebar.length > 0 && (
       <nav class="docs-sidebar" aria-label="Docs sidebar">
         {versionLabel && (
