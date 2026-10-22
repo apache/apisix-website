@@ -70,7 +70,10 @@ const hasAlternate = entry.hasTranslation && !canonicalOverride;
           versions.length > 1
             ? (
               <details class="version-picker">
-                <summary>{versionLabel}</summary>
+                <summary>
+                  <span>{versionLabel}</span>
+                  <svg class="version-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                </summary>
                 <ul>
                   {versions.map((v) => (
                     <li><a href={v.href} aria-current={v.current ? 'true' : undefined}>{v.label}</a></li>
@@ -80,7 +83,9 @@ const hasAlternate = entry.hasTranslation && !canonicalOverride;
             )
             : <p style="font-weight:700;padding:.2rem .5rem;margin:0">{versionLabel}</p>
         )}
-        <SidebarNodes nodes={sidebar} active={active} titleById={titleById} urlById={urlById!} />
+        <div class="docs-sidebar-tree">
+          <SidebarNodes nodes={sidebar} active={active} titleById={titleById} urlById={urlById!} />
+        </div>
       </nav>
     )}
     <article class="docs-content prose">
@@ -93,6 +98,17 @@ const hasAlternate = entry.hasTranslation && !canonicalOverride;
     </article>
   </div>
   <script>
+    document.querySelectorAll<HTMLDetailsElement>('.docs-sidebar .version-picker').forEach((picker) => {
+      document.addEventListener('click', (event) => {
+        if (picker.open && event.target instanceof Node && !picker.contains(event.target)) picker.open = false;
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && picker.open) {
+          picker.open = false;
+          picker.querySelector('summary')?.focus();
+        }
+      });
+    });
     document.querySelectorAll<HTMLElement>('.table-shell').forEach((shell) => {
       const scroller = shell.querySelector<HTMLElement>('.table-scroll');
       const table = scroller?.querySelector('table');
