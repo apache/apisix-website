@@ -7,7 +7,7 @@ export function getStaticPaths() {
   // Sidebar config ids are path-derived; map them to post-override titles/urls.
   const titleById = new Map(docs.map((d) => [d.pathId, d.title]));
   const urlByPathId = new Map(docs.map((d) => [d.pathId, d.url]));
-  return docs.map((entry) => ({
+  return docs.filter((entry) => entry.pathId !== 'admin-api').map((entry) => ({
     params: { id: entry.id },
     props: { entry, titleById, urlByPathId },
   }));
