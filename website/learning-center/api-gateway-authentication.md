@@ -7,15 +7,15 @@ tags: [authentication, security, api-gateway]
 hide_table_of_contents: false
 ---
 
-API gateway authentication verifies client identity at a centralized entry point before requests reach backend services. Depending on the client and trust model, credentials can be a username and password, API key, signed token, OAuth access token, or client certificate. Centralized enforcement reduces duplicated authentication logic and creates one control point for access policies.
+API gateway authentication verifies client identity for requests routed through the gateway and covered by its authentication policy. Depending on the client and trust model, credentials can be a username and password, API key, signed token, OAuth access token, or client certificate. Centralized enforcement can reduce duplicated authentication logic; backend services still enforce business and resource-level authorization.
 
 ## What is API Gateway Authentication
 
 In a distributed architecture, every service that exposes an endpoint must answer a fundamental question: who is making this request? Without a gateway, each service independently implements its own authentication stack. This leads to inconsistent enforcement, duplicated code, and a broader attack surface.
 
-An [API gateway](/learning-center/what-is-an-api-gateway/) centralizes this concern. It intercepts every inbound request, validates credentials against a configured identity provider or local store, and either forwards the authenticated request downstream or rejects it immediately. Broken authentication consistently ranks among the top API vulnerability categories, making centralized enforcement critical.
+An [API gateway](/learning-center/what-is-an-api-gateway/) centralizes this concern for the APIs placed behind it. For a request that matches a protected route, the configured authentication policy determines how credentials are validated and whether the request is forwarded or rejected. Public routes, anonymous-access options, and paths that bypass the gateway need separate consideration.
 
-Centralizing authentication at the gateway layer provides three key advantages. First, it significantly reduces per-service authentication code by consolidating auth logic into a single component. Second, it creates a single audit log for every authentication event. Third, it enables credential rotation and policy changes without redeploying individual services.
+Centralizing authentication can consolidate shared credential checks and policy changes. Gateway logs can also contribute evidence for authentication attempts when the relevant logging is configured and verified. They do not automatically form a complete audit trail: identity providers and services can observe events that the gateway never sees, and rejected requests may not carry an established consumer identity.
 
 Authentication establishes who or what is making a request. Authorization determines what that authenticated identity may access. A gateway can enforce both, but validating a credential does not by itself grant permission to every upstream resource.
 
@@ -54,29 +54,29 @@ JWT authentication uses digitally signed tokens that carry claims about the clie
 
 The compact format and local signature verification make JWTs useful for distributed APIs, provided issuers, signing keys, accepted algorithms, and required claims are configured explicitly.
 
-APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plugins/jwt-auth/). It supports symmetric, RSA, ECDSA, RSA-PSS, and EdDSA signing algorithms, together with configurable token locations and time-based claim validation.
+APISIX implements JWT validation through its [jwt-auth plugin](/docs/apisix/plugins/jwt-auth/). The behavior described here is checked against APISIX 3.19.0: it verifies the signature and uses `key_claim_name` (default `key`) to find a configured Consumer credential. That lookup is not automatic mapping of every JWT `sub` to a Consumer. By default, `exp` and `nbf` are checked when present; explicitly configured `claims_to_verify` entries must be present and valid in this version. This setting accepts time claims, not a general issuer or audience policy; see the [3.19.0 claim-validation implementation](https://github.com/apache/apisix/blob/3.19.0/apisix/plugins/jwt-auth/parser.lua).
 
 ### OAuth 2.0
 
 OAuth 2.0 is an authorization framework that enables third-party applications to obtain limited access to an API on behalf of a resource owner. For machine-to-machine access, the client credentials grant issues tokens to an application rather than a user. The gateway validates bearer tokens issued by an authorization server, typically by introspecting the token or verifying a JWT access token locally.
 
-OAuth 2.0 is widely adopted across enterprises for API integrations. The framework's delegation model makes it essential for any API exposed to external developers or partner ecosystems.
+Use OAuth 2.0 when the integration needs delegated access or an authorization-server-managed token lifecycle. It is not a requirement for every external API; the appropriate method depends on the client, permissions, and trust boundaries.
 
 ### OpenID Connect (OIDC)
 
 OpenID Connect extends OAuth 2.0 with a standardized identity layer. It adds an ID token (a JWT) that carries user identity claims alongside the OAuth 2.0 access token. The gateway can validate the ID token to confirm user identity and use the access token for authorization decisions.
 
-OIDC is the de facto standard for single sign-on in API ecosystems. Major identity providers including Okta, Auth0, Microsoft Entra ID, and Google Identity implement OIDC. APISIX provides OIDC support through its [openid-connect plugin](/docs/apisix/plugins/openid-connect/), which supports authorization code flow, token introspection, and token refresh. The [provider-switching tutorial](/blog/2023/03/09/authenticate-openid-connect/) shows how discovery metadata keeps the gateway configuration portable between Google and Microsoft Entra ID.
+APISIX provides OIDC support through its [openid-connect plugin](/docs/apisix/plugins/openid-connect/), with authorization-code login, bearer-token validation, and token-refresh options. Choose the flow and issuer/audience checks for the identity provider and token type being accepted; these settings are not interchangeable with `jwt-auth`. An ID token establishes identity for its intended client, not permission to every API resource. The [provider-switching tutorial](/blog/2023/03/09/authenticate-openid-connect/) illustrates discovery-based configuration for Google and Microsoft Entra ID; provider-specific settings still require validation.
 
 ### mTLS (Mutual TLS)
 
 [Mutual TLS (mTLS)](/learning-center/what-is-mutual-tls/) requires both the client and server to present certificates during the TLS handshake. The gateway validates the client certificate against a trusted certificate authority, establishing strong machine identity without application-layer tokens.
 
-mTLS adoption has surged alongside zero-trust architecture initiatives. In Kubernetes environments, mTLS between services has become increasingly common. At the gateway level, mTLS is particularly valuable for B2B integrations and internal service-to-service communication where certificate management infrastructure already exists.
+At the gateway level, mTLS can be useful for partner integrations and service-to-service communication where certificate issuance, rotation, and revocation are managed. It establishes a certificate-based identity at that TLS boundary, not automatic user identity or permission to every backend resource.
 
 ### HMAC Authentication
 
-HMAC authentication requires the client to compute a hash-based message authentication code over the request content using a shared secret. The gateway independently computes the same HMAC and compares the results. This method provides request integrity verification in addition to authentication.
+HMAC authentication requires the client to compute a hash-based message authentication code over agreed request components using a shared secret. The gateway computes the expected HMAC and compares the results. Integrity protection covers the signed components, not automatically every header and body field; the client and verifier must use the same signing rules.
 
 HMAC is useful for financial APIs and webhook verification scenarios where the receiver must verify both the sender and the integrity of the signed request.
 
@@ -86,25 +86,25 @@ HMAC is useful for financial APIs and webhook verification scenarios where the r
 
 **Enforce short-lived tokens.** Choose JWT and OAuth 2.0 access-token lifetimes that limit exposure while remaining practical for the client flow. Use an appropriate renewal mechanism rather than issuing long-lived bearer tokens by default.
 
-**Centralize consumer management.** Define consumers at the gateway level with consistent identity attributes. Map every API key, JWT subject, and OAuth 2.0 client ID to a named consumer entity. This enables unified rate limiting, logging, and access control across authentication methods.
+**Design identity mapping explicitly.** Use [Consumers](/docs/apisix/terminology/consumer/) and [Credentials](/docs/apisix/terminology/credential/) where the selected authentication plugin supports them. External token validation does not by itself attach an APISIX Consumer. Confirm which identity is available before using consumer-based quotas, logging, or access policies; keep service-level ownership and permissions separate.
 
-**Validate all claims.** Do not trust a JWT solely because its signature is valid. Verify the issuer (iss), audience (aud), expiration (exp), and not-before (nbf) claims. Reject tokens with unexpected or missing claims.
+**Define and enforce a token policy.** A valid signature alone does not establish that a token is intended for this API. Specify trusted issuers, intended audiences, required claims, and time validity, then verify that the chosen plugin and flow enforce each requirement. Do not assume the default `jwt-auth` time checks require every claim to exist or enforce `iss` and `aud`; use appropriate additional validation where the selected mechanism does not cover the policy.
 
-**Log authentication events comprehensively.** Record authentication successes and failures with the available client identity, timestamp, source address, and route. Set retention according to the organization's incident-response, privacy, and compliance requirements.
+**Verify audit coverage.** Configure and test logging for successful and rejected requests, including timestamp, route, outcome, and available identity. Correlate gateway, identity-provider, and service events where needed. Do not log passwords, API keys, bearer tokens, or session cookies; set retention according to incident-response, privacy, and compliance requirements.
 
 ## How Apache APISIX Handles Authentication
 
-Apache APISIX provides a plugin-based authentication architecture that supports the methods described above. Each authentication plugin runs in the gateway's request processing pipeline before the request reaches any upstream service.
+Apache APISIX provides plugin-based credential checks and TLS client-certificate validation. Request authentication depends on the configured Route, Service, or other policy scope; installing a plugin does not protect every route or prevent direct access to upstream services.
 
-APISIX's Consumer and Credential resources associate authentication material with named consumers. When different consumers need to use different authentication methods on the same Route or Service, the `multi-auth` plugin provides explicit "any supported method" behavior.
+APISIX's Consumer and Credential resources associate authentication material with named consumers for plugins that use those resources. When different consumers need alternative authentication methods on the same Route or Service, the [multi-auth plugin](/docs/apisix/plugins/multi-auth/) provides explicit "any supported method" behavior. It does not mean that all configured methods must succeed.
 
 Key plugins include:
 
 - [key-auth](/docs/apisix/plugins/key-auth/): Static API key validation with header or query parameter extraction.
-- [jwt-auth](/docs/apisix/plugins/jwt-auth/): JWT signature verification with configurable algorithms and claim validation.
-- [openid-connect](/docs/apisix/plugins/openid-connect/): Full OIDC flow support including authorization code, token introspection, and PKCE.
+- [jwt-auth](/docs/apisix/plugins/jwt-auth/): Consumer-credential lookup, JWT signature verification, and configurable time-claim checks.
+- [openid-connect](/docs/apisix/plugins/openid-connect/): Identity-provider integration with flow-specific settings for login and bearer-token validation.
 
-APISIX can also combine authentication with authorization plugins such as consumer-restriction and OPA (Open Policy Agent), enabling access-control decisions after identity is established. The [API gateway security guide](/learning-center/api-gateway-security/) explains how authentication fits with authorization, rate limiting, and other layers of defense.
+APISIX can also combine authentication with authorization plugins such as [consumer-restriction](/docs/apisix/plugins/consumer-restriction/) and [OPA (Open Policy Agent)](/docs/apisix/plugins/opa/), enabling configured access-control decisions. Their input and identity requirements must match the chosen authentication path; successful authentication alone does not grant access to every resource. The [API gateway security guide](/learning-center/api-gateway-security/) explains how these controls fit with rate limiting and other layers of defense.
 
 To test these controls on a running gateway, first complete the [Apache APISIX getting started guide](/docs/apisix/getting-started/) and then configure the authentication plugin that matches the client and trust model.
 
@@ -120,7 +120,7 @@ API key authentication can be appropriate for controlled server-to-server commun
 
 ### How does mTLS differ from standard TLS at the gateway?
 
-Standard TLS authenticates only the server to the client. The client verifies the server's certificate, but the server accepts any client connection. mTLS adds a second handshake step where the client also presents a certificate that the server validates against a trusted CA. This provides strong machine identity for both parties and is a foundational component of zero-trust network architectures.
+In a typical server-authenticated TLS connection, the client validates the server's certificate without presenting its own certificate for client authentication. mTLS adds client-certificate authentication within the TLS handshake. The server validates the client certificate against its configured trust policy; application-level authorization is still a separate decision.
 
 ### Can I combine multiple authentication methods on a single route?
 
