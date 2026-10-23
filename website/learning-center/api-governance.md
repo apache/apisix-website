@@ -27,14 +27,7 @@ Governance describes what should happen and who is accountable. API management s
 
 As an API estate grows, local decisions accumulate. Teams may use different authentication methods, error formats, versioning rules, and deprecation practices. Ownership becomes unclear, duplicate APIs appear, and consumers discover breaking changes only after deployment.
 
-Governance addresses these problems by establishing a small set of shared expectations:
-
-- Every API has an accountable owner and intended audience.
-- Contracts follow agreed naming, compatibility, and documentation standards.
-- Security controls reflect data sensitivity and exposure.
-- Runtime policies are applied consistently to the APIs that require them.
-- Changes, exceptions, and deprecations are traceable.
-- Teams collect evidence that controls operate as intended.
+Shared ownership records, contract standards, risk-based controls, and traceable changes give teams a common baseline. The framework below defines those responsibilities; the Orders API example shows how to turn them into checks and release evidence.
 
 The purpose is not uniformity for its own sake. Standards should target risks and coordination costs that individual teams cannot solve independently.
 
@@ -125,33 +118,28 @@ Many organizations use a hybrid model: centralized minimum controls with federat
 
 ## API Governance Process
 
-The following sequence turns governance from a document into operating practice:
+Start with one API and connect its standards to an owner, a deployment decision, and observable evidence. Expand the process after the team can operate that baseline reliably.
 
-1. **Inventory APIs and assign owners.** Start with externally exposed and business-critical APIs rather than waiting for a perfect enterprise inventory.
-2. **Classify APIs by risk and audience.** Use the classification to select proportionate controls.
-3. **Define a minimum baseline.** Choose a short set of design, security, documentation, and lifecycle rules that can be explained and measured.
-4. **Automate design checks.** Run contract linting, compatibility checks, and security tests in CI where possible.
-5. **Create reusable runtime policies.** Package common gateway controls so teams do not recreate them route by route.
-6. **Manage exceptions explicitly.** Record the owner, reason, compensating control, approval, and expiry date.
-7. **Collect evidence.** Monitor API health, policy outcomes, configuration drift, undocumented APIs, and deprecated-version traffic.
-8. **Review outcomes and revise standards.** Remove rules that add work without reducing risk, and strengthen controls where incidents or drift reveal a gap.
+### Example: A Partner Orders API
+
+Consider a hypothetical `GET /orders/{id}` endpoint exposed to partner applications through an API gateway. Each partner may read only its own orders. The team requires HTTPS, authenticated callers, a documented request quota, and a review before changing the response contract. These are example organizational requirements, not defaults supplied by a gateway.
+
+1. **Record ownership and risk.** The Orders team records the API owner, support contact, partner audience, data classification, and contract location, such as `openapi/orders.yaml`. It identifies which response fields partners need and which must stay private.
+2. **Check the contract before merging.** CI checks the specification against the team's rules for response formats, security declarations, and naming. A separate compatibility check compares the proposed contract with the supported version. Keep the ruleset version and check results with the change; passing a specification linter does not prove that the deployed service enforces authorization.
+3. **Approve and deploy matching controls.** The API owner and platform team review the contract and gateway configuration together. They agree on the caller identity, quota key, counter scope, and expected rejection behavior. Promote the reviewed configuration through staging and production, recording which contract and configuration revisions were deployed.
+4. **Verify the request path.** Check HTTPS access and the configured handling of plaintext requests. Test a valid partner request, missing or invalid credentials, a request for another partner's order, and requests exceeding the agreed quota. The service must verify that the authenticated caller may access the requested order. This addresses the object-level authorization boundary described in [OWASP API1: Broken Object Level Authorization](https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/). Also restrict backend access so callers cannot bypass the intended gateway checks.
+5. **Operate controls and exceptions.** Monitor denials, errors, and quota use with identifiers suitable for investigation, while avoiding credentials and unnecessary order data in logs. If a partner needs a temporary quota increase, record its scope, approver, compensating controls, and expiry. Assign someone to restore and retest the normal configuration, or implement and verify an automated restoration; a date in a ticket does not change gateway behavior.
+6. **Retire a version using evidence.** Before removing an old contract or route, identify active consumers, notify them according to the support policy, and review remaining traffic over an agreed observation period. Record the retirement decision, remove the retired entry points, and verify that the supported version still works.
+
+The release record should connect the owner, reviewed contract, deployed configuration, test results, and any active exceptions. The [checklist below](#api-governance-checklist) makes those responsibilities explicit for the same example.
 
 ## API Governance Tools
 
-No single tool governs an API estate by itself. Common tool categories include:
+Choose tools for the checks and handoffs in the process, rather than treating a product label as evidence of governance.
 
-| Tool category | Governance role |
-|---|---|
-| Contract and design tools | Define and review API interfaces |
-| Linters and CI checks | Automate objective design and compatibility rules |
-| Service or API catalogs | Record ownership, lifecycle state, documentation, and dependencies |
-| Source control and delivery systems | Review, approve, test, and promote changes |
-| Identity and secrets systems | Manage users, applications, credentials, and trust material |
-| API gateways | Enforce selected runtime policies and route traffic |
-| Observability and SIEM systems | Analyze operational and security evidence |
-| Workflow systems | Track exceptions, deprecations, and organizational approvals |
+For the Orders contract, a linter such as [Spectral](https://github.com/stoplightio/spectral) can apply configured rules to an OpenAPI document in CI. That checks the description against those rules; compatibility checks, implementation tests, and authorization tests still need their own coverage. Keep rulesets in version control so a reviewer can reproduce the result against the same contract and rules.
 
-Evaluate tools against a defined governance process. Buying a portal or gateway before establishing ownership and decision rights often moves the inconsistency into a new interface instead of resolving it.
+A repository or maintained catalog can hold ownership and lifecycle records. Delivery systems can retain review and deployment history, identity systems manage credentials, and gateways apply selected runtime controls. Monitoring and workflow tools then support operational evidence and exception handling. Evaluate each tool's supported formats, integrations, access controls, and edition-specific features against those responsibilities.
 
 ## How Apache APISIX Supports Runtime API Governance
 
@@ -165,35 +153,30 @@ Evaluate tools against a defined governance process. Buying a portal or gateway 
 - [Prometheus metrics](/docs/apisix/plugins/prometheus/) and logging plugins such as [http-logger](/docs/apisix/plugins/http-logger/) export runtime evidence to external monitoring and analysis systems.
 - The [Admin API](/docs/apisix/admin-api/) manages APISIX runtime resources in deployment modes that use it, enabling teams to connect reviewed configuration workflows to the gateway.
 
+In the Orders example, the platform team would associate the approved endpoint with a Route and configure the chosen authentication, rate-limiting, and telemetry controls. The service would enforce order ownership. Test the resulting request behavior, not just the presence of a plugin name: [plugin merging precedence](/docs/apisix/terminology/plugin/#plugins-merging-precedence) allows a Route's configuration to take precedence over the same plugin in a Plugin Config. Reusing a configuration therefore does not make a policy immutable; the delivery workflow must check permitted overrides.
+
 These mechanisms do not make APISIX a complete governance system. APISIX does not assign organizational ownership, approve API designs, maintain a source-of-truth catalog, provide a complete developer portal, or run lifecycle approval workflows. Those responsibilities stay with API owners and the connected tools selected by the organization.
 
 ## API Governance Best Practices
 
-- Keep the mandatory baseline small enough to explain, automate, and maintain.
-- Apply controls according to API risk instead of forcing every API through the same process.
-- Store ownership and lifecycle state in a maintained system of record.
-- Validate API contracts and compatibility before deployment.
-- Treat gateway policies as reviewed, tested configuration rather than manual production settings.
-- Separate gateway authentication from application-level business authorization.
-- Use reusable policies, but allow documented exceptions with owners and expiry dates.
-- Monitor whether controls are deployed and effective, not only whether a policy document exists.
-- Include privacy and retention requirements when collecting API logs.
-- Measure deprecated-version traffic before removing an endpoint.
-- Review governance rules after incidents, platform changes, and repeated exception requests.
+- **Start with a small baseline for a defined risk class.** Prove that the team can enforce and maintain it before adding more controls or APIs.
+- **Reserve human review for judgment.** Automate repeatable checks; use reviewers for risk, domain boundaries, and exceptions that rules cannot decide.
+- **Treat recurring exceptions as feedback.** If teams repeatedly need the same exception, review the standard or tooling instead of renewing tickets indefinitely.
+- **Review outcomes after incidents and platform changes.** A passing delivery check is useful evidence, but it does not establish that a control remains effective in production.
 
 ## API Governance Checklist
 
-For each production API, confirm that:
+For the Orders API, the release reviewer can use the following control-to-evidence checklist. Owner names are roles in this example; assign an accountable team or person in the actual record.
 
-- An accountable owner and support contact are recorded.
-- The audience, data classification, and lifecycle state are known.
-- A reviewed contract describes the current interface.
-- Automated checks cover applicable design and compatibility rules.
-- Authentication and authorization responsibilities are documented.
-- Required gateway policies are deployed through a controlled workflow.
-- Secrets and certificates have owners and rotation procedures.
-- Metrics, logs, and alerts cover the expected operational risks.
-- Exceptions include a reason, owner, compensating control, and expiry date.
-- Versioning, deprecation, consumer notification, and retirement paths are defined.
+| Control and owner | Check point and enforcement | Evidence to retain |
+|---|---|---|
+| **Ownership and risk:** Orders team | Before design approval: record audience, data classification, and support contact | Owner record linked to the contract |
+| **Contract compatibility:** Orders team | Before merging: lint the contract and run a separate compatibility check in CI | Contract revision, ruleset version, and check results |
+| **Transport and caller identity:** Platform team | At staging and deployment: verify gateway TLS, authentication, restricted backend access, and credential rotation procedures | Configuration revision, HTTPS check, and credential tests |
+| **Order access:** Orders team | In service tests and staging: check each order against a trusted caller identity | Cross-partner denial and permitted-access tests |
+| **Request quota:** Platform team and API owner | At policy review and deployment: check the gateway limit, key, and counter scope | Configuration revision and quota-boundary tests |
+| **Logging and retention:** Platform and security teams | Before enabling logs and during operations: select fields, restrict access, and configure retention | Logging policy and a redacted sample |
+| **Temporary exception:** Named owner and approver | At approval and expiry: apply a scoped change, then verify restoration or renewal | Approval, expiry, compensating controls, and restoration record |
+| **Version retirement:** API owner | Before removal: notify consumers and remove retired entry points | Usage review, notification record, and retirement decision |
 
-Governance becomes useful when these answers are visible and actionable to the teams building and operating APIs. The goal is a dependable system of ownership and controls, not a longer approval checklist.
+Keep these artifacts with the release or link them from a maintained record. A reviewer should be able to trace a requirement to the configuration or service behavior that enforces it, and to evidence showing what was actually checked.
