@@ -20,17 +20,23 @@ const renderable = (n: SidebarNode): boolean =>
 
 const hasChildren = (n: SidebarNode): boolean =>
   Array.isArray(n.items) && n.items.some(renderable);
+
+const containsActive = (n: SidebarNode): boolean =>
+  Boolean(active && (n.id === active || n.items?.some(containsActive)));
 ---
 <ul>
   {nodes.filter(renderable).map((node) => (
     <li class={hasChildren(node) ? 'cat' : ''}>
       {hasChildren(node) ? (
-        <details class="sidebar-category">
-          <summary>{node.label ?? titleById?.get(node.id ?? '') ?? node.id}</summary>
+        <details class="sidebar-category" open={containsActive(node)}>
+          <summary>
+            <span>{node.label ?? titleById?.get(node.id ?? '') ?? node.id}</span>
+            <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+          </summary>
           <Astro.self nodes={node.items!} active={active} titleById={titleById} urlById={urlById} />
         </details>
       ) : node.id ? (
-        <a href={urlById(node.id)} class={node.id === active ? 'active' : ''}>{titleById?.get(node.id) ?? node.id}</a>
+        <a href={urlById(node.id)} class={node.id === active ? 'active' : ''} aria-current={node.id === active ? 'page' : undefined}>{titleById?.get(node.id) ?? node.id}</a>
       ) : (
         <span>{node.label}</span>
       )}
