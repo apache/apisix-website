@@ -11,7 +11,7 @@ tags: [Vulnerabilities]
 image: /img/blog/2026/10/24/php2shell-cover-en.png
 ---
 
-Scheduling the PHP2Shell fix requires a PHP upgrade, but ingress controls can be deployed first. **Send requests through Apache APISIX: reject multipart requests on endpoints that do not need uploads, and use Coraza WAF to inspect request bodies on endpoints that do. Requests that match deny rules are blocked at the gateway and are not forwarded to PHP.** These policies can be applied centrally across the gateway, to a group of APIs, or to a single API, buying time for backend fixes.
+While you arrange a PHP upgrade to fix PHP2Shell, you can deploy ingress controls first. **Send requests through Apache APISIX: reject multipart requests on endpoints that do not need uploads, and use Coraza WAF to inspect request bodies on endpoints that do. Requests that match deny rules are blocked at the gateway and are not forwarded to PHP.** These policies can be applied centrally across the gateway, to a group of APIs, or to a single API, buying time for backend fixes.
 
 <!--truncate-->
 
