@@ -1,0 +1,208 @@
+# Configure Routes
+
+> Learn how to create routes in APISIX using APISIX Ingress controller to forward client to upstream services.
+
+Source: https://apisix.apache.org/docs/ingress-controller/getting-started/configure-routes/
+
+Apache APISIX provides flexible gateway management capabilities based on routes, in which routing paths and target upstreams are defined.
+
+This tutorial guides you through creating a Route using the APISIX Ingress Controller and verifying its behavior. You’ll configure a Route to a sample Upstream pointing to an httpbin service, then send a request to observe how APISIX proxies the traffic.
+
+## Prerequisites
+
+1. Complete [Get APISIX and APISIX Ingress Controller](/docs/ingress-controller/getting-started/get-apisix-ingress-controller/).
+
+## Set Up a Sample Upstream
+
+Install the httpbin example application on the cluster to test the configuration:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/apache/apisix-ingress-controller/refs/heads/v2.1.0/examples/httpbin/deployment.yaml
+```
+
+## Configure a Route
+
+In this section, you will create a Route that forwards client requests to the httpbin example application, an HTTP request and response service.
+
+You can use either Gateway API, Ingress, or APISIX CRD resources to configure the route.
+
+:::important
+
+If you are using Gateway API, you should first configure the GatewayClass and Gateway resources:
+
+<details>
+
+<summary>Show configuration</summary>
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  namespace: ingress-apisix
+  name: apisix
+spec:
+  controllerName: apisix.apache.org/apisix-ingress-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  namespace: ingress-apisix
+  name: apisix
+spec:
+  gatewayClassName: apisix
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+  infrastructure:
+    parametersRef:
+      group: apisix.apache.org
+      kind: GatewayProxy
+      name: apisix-config
+```
+
+The `port` in the Gateway listener can be used for route matching based on [`listener_port_match_mode`](/docs/ingress-controller/reference/configuration-file/) (`off` by default; `auto` or `explicit` opt in). The controller cannot dynamically open new ports on the data plane, so ensure APISIX is configured to listen on the port.
+
+</details>
+
+If you are using Ingress or APISIX custom resources, you can proceed without additional configuration, as the IngressClass resource below is already applied with installation:
+
+<details>
+
+<summary>Show configuration</summary>
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: apisix
+spec:
+  controller: apisix.apache.org/apisix-ingress-controller
+  parameters:
+    apiGroup: apisix.apache.org
+    kind: GatewayProxy
+    name: apisix-config
+    namespace: ingress-apisix
+    scope: Namespace
+```
+
+</details>
+
+See [Define Controller and Gateway](/docs/ingress-controller/reference/example/#define-controller-and-gateway) for more information on parameters.
+
+:::
+
+Create a Kubernetes manifest file for a Route that proxy requests to httpbin:
+
+
+
+
+**gateway-api**
+
+
+<div class="code-title">httpbin-route.yaml</div>
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  namespace: ingress-apisix
+  name: getting-started-ip
+spec:
+  parentRefs:
+  - name: apisix
+  rules:
+  - matches:
+    - path:
+        type: Exact
+        value: /ip
+    backendRefs:
+    - name: httpbin
+      port: 80
+```
+
+
+
+
+**ingress-rs**
+
+
+<div class="code-title">httpbin-route.yaml</div>
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: ingress-apisix
+  name: getting-started-ip
+spec:
+  ingressClassName: apisix
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: httpbin
+                port:
+                  number: 80
+            path: /ip
+            pathType: Exact
+```
+
+
+
+
+**apisix-crd**
+
+
+<div class="code-title">httpbin-route.yaml</div>
+
+```yaml
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  namespace: ingress-apisix
+  name: getting-started-ip
+spec:
+  ingressClassName: apisix
+  http:
+    - name: getting-started-ip
+      match:
+        paths:
+          - /ip
+      backends:
+        - serviceName: httpbin
+          servicePort: 80
+```
+
+
+
+
+
+Apply the configurations to your cluster:
+
+```shell
+kubectl apply -f httpbin-route.yaml
+```
+
+## Verify
+
+Expose the service port to your local machine by port forwarding:
+
+```shell
+kubectl port-forward svc/apisix-gateway 9080:80 &
+```
+
+Send a request to the Route:
+
+```shell
+curl "http://127.0.0.1:9080/ip"
+```
+
+You should see a response similar to the following:
+
+```json
+{
+  "origin": "127.0.0.1"
+}
+```

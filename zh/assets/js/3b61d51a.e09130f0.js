@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[3508],{3703(e){e.exports=JSON.parse('{"allTagsPath":"/zh/learning-center/tags","slug":"/zh/learning-center/tags/api-governance","name":"api-governance","count":1,"permalink":"/zh/learning-center/tags/api-governance"}')}}]);

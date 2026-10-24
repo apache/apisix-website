@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[2891],{978(e){e.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/ingress-controller","name":"ingress-controller","count":1,"permalink":"/learning-center/tags/ingress-controller"}')}}]);
