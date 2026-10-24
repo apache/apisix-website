@@ -8,14 +8,13 @@ keywords:
   - Coraza WAF
 description: Use Apache APISIX to reject unwanted multipart requests or inspect uploads with Coraza WAF, blocking matching requests at ingress while you prepare PHP fixes.
 tags: [Vulnerabilities]
-image: /img/blog/2026/10/24/php2shell-cover-en.png
 ---
 
 While you arrange a PHP upgrade to fix PHP2Shell, you can deploy ingress controls first. **Send requests through Apache APISIX: reject multipart requests on endpoints that do not need uploads, and use Coraza WAF to inspect request bodies on endpoints that do. Requests that match deny rules are blocked at the gateway and are not forwarded to PHP.** These policies can be applied centrally across the gateway, to a group of APIs, or to a single API, buying time for backend fixes.
 
 <!--truncate-->
 
-![Ingress protection architecture](/img/blog/2026/10/24/php2shell-architecture-en.png)
+<!-- Architecture diagram: add image after upload. -->
 
 As shown above, APISIX inspects requests before they reach the PHP service. For this protection to work, **the origin should accept traffic only from trusted gateway ingress**, preventing requests from bypassing inspection. Gateway rules provide temporary mitigation; they cannot fix defects inside PHP. Proceed with the patch upgrade at the same time.
 
@@ -169,7 +168,7 @@ Field names and thresholds should match the application: 64 KiB is usually unsui
 
 **Prepare the inspection capability, then choose its scope and publish the configuration.** For approach A, place the adapted Lua function in the Serverless plugin. For approach B, complete the Coraza integration and load the adapted rules. Then add the corresponding `plugins` configuration to a Global Rule, Service, or Route. The diagram below shows the three attachment scopes:
 
-![Three policy attachment scopes](/img/blog/2026/10/24/php2shell-scope-en.png)
+<!-- Policy scope diagram: add image after upload. -->
 
 When upload requirements differ, prefer separate configurations by Service or Route. A Route's configuration for a plugin takes precedence over the Service's configuration for the same plugin. A global multipart rejection still blocks upload endpoints. Preserve and check existing authentication, rate-limiting, and other plugins when adding these controls.
 

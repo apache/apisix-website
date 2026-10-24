@@ -8,14 +8,13 @@ keywords:
   - Coraza WAF
 description: 用 Apache APISIX 拒绝不需要的 multipart 请求，或集成 Coraza WAF 检查上传，在入口提前拦截命中规则的请求，为 PHP 修复争取时间。
 tags: [Vulnerabilities]
-image: /img/blog/2026/10/24/php2shell-cover-zh.png
 ---
 
 PHP2Shell 修复需要安排升级，但入口防护可以先部署。**让请求先经过 Apache APISIX：不需要上传的接口拒绝 multipart 请求；需要上传的接口由 Coraza WAF 检查请求体。命中拒绝规则的请求在网关被拦下，不再转发给 PHP。** 这些策略可以集中应用到全局、一组 API 或单个 API，为后端修复争取时间。
 
 <!--truncate-->
 
-![入口防护架构图](/img/blog/2026/10/24/php2shell-architecture-zh.png)
+<!-- 入口防护架构图：上传后添加图片。 -->
 
 如图所示，APISIX 把检查放在 PHP 服务之前。要让这层防护有效，**源站应只接受可信网关入口的流量**，避免请求绕过检查。网关规则用于应急缓解，不能修复 PHP 内部缺陷，补丁升级应同步推进。
 
@@ -169,7 +168,7 @@ plugins:
 
 **先准备检查能力，再选择生效范围并发布配置。** 方案 A 将适配后的 Lua 函数放入 Serverless 插件；方案 B 完成 Coraza 集成并加载适配后的规则。随后，将对应的 `plugins` 配置添加到全局规则、Service 或 Route。下图展示三种绑定范围：
 
-![三种策略绑定范围](/img/blog/2026/10/24/php2shell-scope-zh.png)
+<!-- 策略绑定范围图：上传后添加图片。 -->
 
 上传需求不一致时，优先按 Service 或 Route 分别设置。Route 的同名插件配置会优先于 Service 配置；全局禁止 multipart 后，上传接口仍会被该规则拦截。新增防护时，应保留并核对已有鉴权、限流等插件。
 
