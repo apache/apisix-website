@@ -37,7 +37,7 @@ PHP 在 10 月 23 日另发布了 [upload progress 补充公告](https://php.net
 
 ## 2. 按业务选择两套应急方案
 
-先确认接口是否需要 **multipart**（常用于文件上传和表单提交）：无需此类请求时选择方案 A，需要保留时选择方案 B。**以下示例展示典型检查与配置方式，不是覆盖所有漏洞利用方式的完整防护。** 安全人员应结合实际业务补充和验证，也可以按需要增强或简化。
+先确认接口是否需要 `multipart`（常用于文件上传和表单提交）：无需此类请求时选择方案 A，需要保留时选择方案 B。**以下示例展示典型检查与配置方式，不是覆盖所有漏洞利用方式的完整防护。** 安全人员应结合实际业务补充和验证，也可以按需要增强或简化。
 
 ### 2.1 方案 A：用 Serverless 关闭不需要的 multipart 入口
 
@@ -176,14 +176,20 @@ plugins:
 
 ## 4. 上线前确认三件事
 
-- **正常业务能通过：** 用真实业务的请求类型、表单和上传大小检查兼容性，避免把必要功能一并关闭。
-- **目标请求在网关被拦截：** 在隔离环境验证规则命中，并结合网关与上游日志确认被拒绝的请求没有到达 PHP。
-- **防护范围符合预期：** 确认目标接口都应用了策略，且源站无法被直接访问。上线后关注误拦与业务成功率；PHP 完成补丁升级后，再评估保留或撤销哪些临时限制。
+**正常业务能通过：** 用真实业务的请求类型、表单和上传大小检查兼容性，避免把必要功能一并关闭。
+
+**目标请求在网关被拦截：** 在隔离环境验证规则命中，并结合网关与上游日志确认被拒绝的请求没有到达 PHP。
+
+**防护范围符合预期：** 确认目标接口都应用了策略，且源站无法被直接访问。上线后关注误拦与业务成功率；PHP 完成补丁升级后，再评估保留或撤销哪些临时限制。
 
 ## 5. 参考资料
 
-- [PHP 官方安全公告（2026-10-21）](https://php.net/archive/2026.php#2026-10-21-5)：影响范围、修复版本与源站缓解措施。
-- [PHP upload progress 补充公告（2026-10-23）](https://php.net/archive/2026.php#2026-10-23-1)：后续 CVE-2026-115560 风险提示。
-- [CVE-2026-109618 官方技术公告](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)：OOM 生命周期缺陷与边界。
-- [CVE-2026-109619 官方技术公告](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp)：跨请求状态、生产者与消费者路径。
-- [APISIX 集成 Coraza 指南](https://docs.api7.ai/apisix/how-to-guide/security/waf/integrate-with-coraza)：Wasm 模块配置与集成方式。
+[PHP 官方安全公告（2026-10-21）](https://php.net/archive/2026.php#2026-10-21-5)：影响范围、修复版本与源站缓解措施。
+
+[PHP upload progress 补充公告（2026-10-23）](https://php.net/archive/2026.php#2026-10-23-1)：后续 CVE-2026-115560 风险提示。
+
+[CVE-2026-109618 官方技术公告](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)：OOM 生命周期缺陷与边界。
+
+[CVE-2026-109619 官方技术公告](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp)：跨请求状态、生产者与消费者路径。
+
+[APISIX 集成 Coraza 指南](https://docs.api7.ai/apisix/how-to-guide/security/waf/integrate-with-coraza)：Wasm 模块配置与集成方式。
