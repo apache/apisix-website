@@ -14,7 +14,7 @@ While you arrange a PHP upgrade to fix PHP2Shell, you can deploy ingress control
 
 <!--truncate-->
 
-<!-- Architecture diagram: add image after upload. -->
+![Apache APISIX gateway protection architecture](https://static.api7.ai/uploads/2026/10/24/IlkhjFpl_architecture-diagram-en.webp)
 
 As shown above, APISIX inspects requests before they reach the PHP service. For this protection to work, **the origin should accept traffic only from trusted gateway ingress**, preventing requests from bypassing inspection. Gateway rules provide temporary mitigation; they cannot fix defects inside PHP. Proceed with the patch upgrade at the same time.
 
@@ -168,7 +168,7 @@ Field names and thresholds should match the application: 64 KiB is usually unsui
 
 **Prepare the inspection capability, then choose its scope and publish the configuration.** For approach A, place the adapted Lua function in the Serverless plugin. For approach B, complete the Coraza integration and load the adapted rules. Then add the corresponding `plugins` configuration to a Global Rule, Service, or Route. The diagram below shows the three attachment scopes:
 
-<!-- Policy scope diagram: add image after upload. -->
+![APISIX policy scopes: Global Rule, Service, and Route](https://static.api7.ai/uploads/2026/10/24/C2WYMFTG_policy-scope-diagram-en.webp)
 
 When upload requirements differ, prefer separate configurations by Service or Route. A Route's configuration for a plugin takes precedence over the Service's configuration for the same plugin. A global multipart rejection still blocks upload endpoints. Preserve and check existing authentication, rate-limiting, and other plugins when adding these controls.
 

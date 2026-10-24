@@ -14,7 +14,7 @@ PHP2Shell 修复需要安排升级，但入口防护可以先部署。**让请�
 
 <!--truncate-->
 
-<!-- 入口防护架构图：上传后添加图片。 -->
+![Apache APISIX 入口防护架构](https://static.api7.ai/uploads/2026/10/24/wEqrzMGm_architecture-diagram-cn.webp)
 
 如图所示，APISIX 把检查放在 PHP 服务之前。要让这层防护有效，**源站应只接受可信网关入口的流量**，避免请求绕过检查。网关规则用于应急缓解，不能修复 PHP 内部缺陷，补丁升级应同步推进。
 
@@ -168,7 +168,7 @@ plugins:
 
 **先准备检查能力，再选择生效范围并发布配置。** 方案 A 将适配后的 Lua 函数放入 Serverless 插件；方案 B 完成 Coraza 集成并加载适配后的规则。随后，将对应的 `plugins` 配置添加到全局规则、Service 或 Route。下图展示三种绑定范围：
 
-<!-- 策略绑定范围图：上传后添加图片。 -->
+![APISIX 策略绑定范围：Global Rule、Service 与 Route](https://static.api7.ai/uploads/2026/10/24/klNpaah8_policy-scope-diagram-cn.webp)
 
 上传需求不一致时，优先按 Service 或 Route 分别设置。Route 的同名插件配置会优先于 Service 配置；全局禁止 multipart 后，上传接口仍会被该规则拦截。新增防护时，应保留并核对已有鉴权、限流等插件。
 
