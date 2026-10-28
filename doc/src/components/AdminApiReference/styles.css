@@ -1,0 +1,18 @@
+.archived-admin-api {
+  --header-height: var(--ifm-navbar-height, 60px);
+  --font-sans: var(--ifm-font-family-base);
+  --font-mono: var(--ifm-font-family-monospace);
+  --scalar-font: var(--ifm-font-family-base);
+  --scalar-font-code: var(--ifm-font-family-monospace);
+  --scalar-custom-header-height:
+    calc(
+      var(--ifm-navbar-height, 60px) + var(--api-toolbar-height, 56px)
+    );
+
+  width: 100%;
+  min-width: 0;
+}
+
+.archived-admin-api #admin-api-markdown:not([hidden]) {
+  display: block;
+}

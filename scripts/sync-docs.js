@@ -10,6 +10,7 @@ const semver = require('semver');
 const replace = require('replace-in-file');
 
 const common = require('./common.js');
+const { publishAdminApiSpec } = require('./lib/admin-api.js');
 const { versions, versionMap } = require('../config/apisix-versions.js');
 
 const { projects, languages, projectPaths } = common;
@@ -440,6 +441,8 @@ function extractDocsNextVersionTasks(project, version) {
         const zhSrcDocs = `${docsPath}/zh/latest`;
         const enTargetDocs = `${websitePath}/docs/${projectName}`;
         const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/current`;
+
+        if (projectName === 'apisix') await publishAdminApiSpec(enSrcDocs, 'next', `${websitePath}/static`);
 
         await Promise.all([
           copyDocs(enSrcDocs, enTargetDocs)

@@ -484,7 +484,7 @@ export const APISIX_DOCS_VERSION: string = apisixCfg.version ?? 'current';
  */
 export const APISIX_ARCHIVED_VERSIONS: string[] = (() => {
   const cur = APISIX_DOCS_VERSION.replace(/^v/, '').split('.').slice(0, 2).join('.');
-  const known = ['3.16', '3.15', '3.14', '3.13', '3.12', '3.11', '3.10'];
+  const known = ['3.18', '3.17', '3.16', '3.15', '3.14', '3.13', '3.12', '3.11', '3.10'];
   return known.filter((v) => v !== cur);
 })();
 

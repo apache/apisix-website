@@ -1,0 +1,171 @@
+#admin-api-openapi[hidden],
+#admin-api-reference[hidden],
+#admin-api-markdown[hidden] {
+  display: none;
+}
+
+#api-reference-loading {
+  min-height: 60vh;
+  padding-top: 2rem;
+  color: #64748b;
+}
+
+.api-toolbar {
+  position: sticky;
+  top: var(--header-height);
+
+  /* Keep this as a custom-property value so the production CSS optimizer does
+   * not rebase it below Scalar's runtime-injected header. */
+  z-index: var(--api-toolbar-z-index, 90);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 56px;
+  padding: 0.6rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e8ecf1;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.api-location,
+.api-back,
+.api-action,
+.api-version summary {
+  display: flex;
+  align-items: center;
+}
+
+.api-location {
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.api-back {
+  gap: 0.25rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.api-separator {
+  color: #cbd5e1;
+}
+
+.api-page-name {
+  color: #1e293b;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.api-version {
+  position: relative;
+}
+
+.api-version summary {
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  background: #f6f8fa;
+  border: 1px solid #e8ecf1;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  list-style: none;
+}
+
+.api-version summary::-webkit-details-marker {
+  display: none;
+}
+
+.api-version[open] summary {
+  border-color: #e8433e;
+}
+
+.api-version ul {
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + 0.6rem);
+  left: 0;
+  width: 210px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 0.4rem;
+  margin: 0;
+  list-style: none;
+  border: 1px solid #e8ecf1;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 10%);
+}
+
+.api-version a {
+  display: block;
+  padding: 0.5rem 0.7rem;
+  border-radius: 5px;
+  color: #475569;
+}
+
+.api-version a:hover {
+  background: #f6f8fa;
+  text-decoration: none;
+}
+
+.api-version a[aria-current] {
+  color: #bc3532;
+  background: #fff1f0;
+  font-weight: 600;
+}
+
+.api-action {
+  gap: 0.45rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.api-action:hover,
+.api-back:hover {
+  color: #c53632;
+  text-decoration: none;
+}
+
+.api-action:hover {
+  background: #f8fafc;
+}
+
+.api-download {
+  border: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.api-toolbar a:focus-visible,
+.api-version summary:focus-visible {
+  outline: 2px solid #e8433e;
+  outline-offset: 3px;
+}
+
+#admin-api-reference {
+  min-height: 60vh;
+}
+
+@media (max-width: 640px) {
+  .api-toolbar {
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+  }
+
+  .api-location {
+    gap: 0.5rem;
+  }
+
+  .api-action {
+    padding: 0.5rem;
+  }
+
+  .api-action-label {
+    display: none;
+  }
+}
