@@ -36,12 +36,11 @@ Run the small source/validation checks with Node 22.18+:
 node --test shared/admin-api-spec.test.mjs scripts/lib/admin-api.test.js
 ```
 
-## Immutable validation fixtures while Apache PRs are pending
+## Immutable canonical validation fixtures
 
-`source-fixtures.json` pins the prepared master specification in `kayx23/apisix`.
-It is a test input only: production synchronization still uses
-`apache/apisix:master`. Do not change deployment or synchronization URLs to the
-fork. A passing fixture check does not establish upstream availability.
+`source-fixtures.json` pins the merged master specification in `apache/apisix`
+for reproducible tests. Production synchronization continues to use
+`apache/apisix:master`.
 
 After preparing generated static assets from those exact commits, check them
 without fetching or changing any content:
@@ -50,10 +49,9 @@ without fetching or changing any content:
 node next/scripts/check-admin-api-fixtures.mjs /path/to/apisix-fixture-checkout doc/static/assets/openapi/apisix
 ```
 
-| Intended Apache ref | Prepared source comparison |
+| Canonical Apache ref | Immutable source |
 | --- | --- |
-| `master` | https://github.com/apache/apisix/pull/14084 |
+| `master` | https://github.com/apache/apisix/commit/88a41b7f30da10072294ae48b1d1d7369452b1ac |
 
-The master contract must merge before canonical-source end-to-end verification
-and deployment can be completed. Report fixture runs, canonical runs, and
-unavailable browser/build checks separately.
+Run the fixture check against an `apache/apisix` checkout containing the pinned
+commit. Report fixture, canonical-source, build, and browser results separately.

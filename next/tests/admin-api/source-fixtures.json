@@ -2,7 +2,6 @@
   {
     "version": "next",
     "canonicalRef": "master",
-    "fixtureRef": "docs/admin-api-master-clean",
-    "commit": "dc8639c82efc3696a1d2c08d78ca8e20e35b6430"
+    "commit": "88a41b7f30da10072294ae48b1d1d7369452b1ac"
   }
 ]

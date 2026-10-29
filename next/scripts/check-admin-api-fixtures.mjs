@@ -13,7 +13,7 @@ assert.ok(
   'Usage: node next/scripts/check-admin-api-fixtures.mjs <fixture-git-repo> <generated-assets/openapi/apisix>',
 );
 const fixtures = JSON.parse(fs.readFileSync(new URL('../tests/admin-api/source-fixtures.json', import.meta.url)));
-console.log('Fork fixture parity only; official apache/apisix availability is a separate dependency.');
+console.log('Canonical apache/apisix fixture parity.');
 fixtures.forEach(({ version, commit, canonicalRef }) => {
   const source = execFileSync('git', ['-C', fixtureRepository, 'show', `${commit}:docs/en/latest/admin-api.json`]);
   const generated = fs.readFileSync(path.join(generatedAssetRoot, version, 'admin-api.json'));
@@ -21,5 +21,5 @@ fixtures.forEach(({ version, commit, canonicalRef }) => {
   assert.ok(isAdminApiSpec(spec, version), `Invalid ${version} fixture`);
   assert.deepEqual(generated, source, `${version} generated asset differs from immutable fixture`);
   const digest = createHash('sha256').update(source).digest('hex');
-  console.log(`PASS ${version}: kayx23/apisix@${commit}; intended apache/apisix@${canonicalRef}; ${Object.keys(spec.paths).length} paths; sha256=${digest}`);
+  console.log(`PASS ${version}: apache/apisix@${commit}; canonical ref ${canonicalRef}; ${Object.keys(spec.paths).length} paths; sha256=${digest}`);
 });
