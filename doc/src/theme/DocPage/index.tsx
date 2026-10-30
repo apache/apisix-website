@@ -34,6 +34,7 @@ import type { ImageProps } from 'rc-image';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Link from '@docusaurus/Link';
 import NotFound from '../NotFound';
+import AdminApiReference from '../../components/AdminApiReference';
 
 import styles from './styles.module.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -408,80 +409,82 @@ const DocPageContent = ({
         tag: docVersionSearchTag(pluginId, version),
       }}
     >
-      <div className={styles.docPage}>
-        <BackToTopButton />
+      <AdminApiReference key={currentDocRoute.path} path={currentDocRoute.path}>
+        <div className={styles.docPage}>
+          <BackToTopButton />
 
-        {sidebar && (
-          <aside
-            className={clsx(styles.docSidebarContainer, {
-              [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
-            })}
-            onTransitionEnd={(e) => {
-              if (!e.currentTarget.classList.contains(styles.docSidebarContainer)) {
-                return;
-              }
+          {sidebar && (
+            <aside
+              className={clsx(styles.docSidebarContainer, {
+                [styles.docSidebarContainerHidden]: hiddenSidebarContainer,
+              })}
+              onTransitionEnd={(e) => {
+                if (!e.currentTarget.classList.contains(styles.docSidebarContainer)) {
+                  return;
+                }
 
-              if (hiddenSidebarContainer) {
-                setHiddenSidebar(true);
-              }
-            }}
-          >
-            <DocSidebar
-              key={
-                // Reset sidebar state on sidebar changes
-                // See https://github.com/facebook/docusaurus/issues/3414
-                sidebarName
-              }
-              sidebar={sidebar}
-              path={currentDocRoute.path}
-              onCollapse={toggleSidebar}
-              isHidden={hiddenSidebar}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              docsPluginId={pluginId}
-            />
+                if (hiddenSidebarContainer) {
+                  setHiddenSidebar(true);
+                }
+              }}
+            >
+              <DocSidebar
+                key={
+                  // Reset sidebar state on sidebar changes
+                  // See https://github.com/facebook/docusaurus/issues/3414
+                  sidebarName
+                }
+                sidebar={sidebar}
+                path={currentDocRoute.path}
+                onCollapse={toggleSidebar}
+                isHidden={hiddenSidebar}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                docsPluginId={pluginId}
+              />
 
-            {hiddenSidebar && (
-              <div
-                className={styles.collapsedDocSidebar}
-                title={translate({
-                  id: 'theme.docs.sidebar.expandButtonTitle',
-                  message: 'Expand sidebar',
-                  description:
-                    'The ARIA label and title attribute for expand button of doc sidebar',
-                })}
-                aria-label={translate({
-                  id: 'theme.docs.sidebar.expandButtonAriaLabel',
-                  message: 'Expand sidebar',
-                  description:
-                    'The ARIA label and title attribute for expand button of doc sidebar',
-                })}
-                tabIndex={0}
-                role="button"
-                onKeyDown={toggleSidebar}
-                onClick={toggleSidebar}
-              >
-                <IconArrow className={styles.expandSidebarButtonIcon} />
-              </div>
-            )}
-          </aside>
-        )}
-        <main
-          className={clsx(styles.docMainContainer, {
-            [styles.docMainContainerEnhanced]: hiddenSidebarContainer || !sidebar,
-          })}
-        >
-          <div
-            className={clsx('container padding-top--md padding-bottom--lg', styles.docItemWrapper, {
-              [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+              {hiddenSidebar && (
+                <div
+                  className={styles.collapsedDocSidebar}
+                  title={translate({
+                    id: 'theme.docs.sidebar.expandButtonTitle',
+                    message: 'Expand sidebar',
+                    description:
+                      'The ARIA label and title attribute for expand button of doc sidebar',
+                  })}
+                  aria-label={translate({
+                    id: 'theme.docs.sidebar.expandButtonAriaLabel',
+                    message: 'Expand sidebar',
+                    description:
+                      'The ARIA label and title attribute for expand button of doc sidebar',
+                  })}
+                  tabIndex={0}
+                  role="button"
+                  onKeyDown={toggleSidebar}
+                  onClick={toggleSidebar}
+                >
+                  <IconArrow className={styles.expandSidebarButtonIcon} />
+                </div>
+              )}
+            </aside>
+          )}
+          <main
+            className={clsx(styles.docMainContainer, {
+              [styles.docMainContainerEnhanced]: hiddenSidebarContainer || !sidebar,
             })}
           >
-            <MDXProvider components={() => components(currentPage)}>
-              {children}
-            </MDXProvider>
-          </div>
-        </main>
-      </div>
+            <div
+              className={clsx('container padding-top--md padding-bottom--lg', styles.docItemWrapper, {
+                [styles.docItemWrapperEnhanced]: hiddenSidebarContainer,
+              })}
+            >
+              <MDXProvider components={() => components(currentPage)}>
+                {children}
+              </MDXProvider>
+            </div>
+          </main>
+        </div>
+      </AdminApiReference>
     </Layout>
   );
 };

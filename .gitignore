@@ -54,3 +54,5 @@ scripts/temp/**
 /blog/src/theme/Footer/
 /doc/src/theme/Footer/event-poster-card.json
 website/src/theme/Footer/event-poster-card.json
+
+/doc/static/assets/openapi/

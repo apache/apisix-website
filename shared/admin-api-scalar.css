@@ -2,7 +2,10 @@
 :root {
   --scalar-font: var(--font-sans);
   --scalar-font-code: var(--font-mono);
-  --scalar-custom-header-height: calc(var(--header-height) + var(--api-toolbar-height, 56px));
+  --scalar-custom-header-height:
+    calc(
+      var(--header-height) + var(--api-toolbar-height, 56px)
+    );
 }
 
 .light-mode {
