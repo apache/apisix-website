@@ -1,4 +1,4 @@
-import { isAdminApiSpec } from './admin-api-spec';
+import { adminApiDisplaySpec, isAdminApiSpec } from './admin-api-spec';
 
 declare const Scalar: {
   createApiReference: (
@@ -104,7 +104,8 @@ export function mountAdminApi(
         });
         if (!response.ok) throw new Error('Unable to load local OpenAPI');
         const spec = await response.json();
-        if (!isAdminApiSpec(spec, version ?? container.dataset.specVersion)) throw new Error('Invalid OpenAPI document');
+        const specVersion = version ?? container.dataset.specVersion;
+        if (!isAdminApiSpec(spec, specVersion)) throw new Error('Invalid OpenAPI document');
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.75.1/dist/browser/standalone.js';
@@ -114,7 +115,7 @@ export function mountAdminApi(
         });
         if (disposed || reference.hidden) return;
         const instance = Scalar.createApiReference(container, {
-          content: spec,
+          content: adminApiDisplaySpec(spec, specVersion),
           onLoaded: () => {
             if (disposed || reference.hidden) return;
             window.clearTimeout(timeout);

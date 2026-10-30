@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { isAdminApiSpec } from './admin-api-spec.ts';
+import { adminApiDisplaySpec, isAdminApiSpec } from './admin-api-spec.ts';
 
 test('accepts patch releases and development versions without crossing release series', () => {
   const spec = { openapi: '3.1.0', info: { title: 'Admin API', version: '3.18.0' }, paths: {} };
@@ -8,6 +8,14 @@ test('accepts patch releases and development versions without crossing release s
   assert.equal(isAdminApiSpec(spec, '3.19'), false);
   assert.equal(isAdminApiSpec(spec, 'next'), true);
   assert.equal(isAdminApiSpec({ ...spec, info: { title: 'Admin API', version: '3.19.0' } }, '3.19.0'), true);
+});
+
+test('labels only the rendered Next copy without mutating the canonical spec', () => {
+  const spec = { openapi: '3.1.0', info: { title: 'Admin API', version: '3.19.0' }, paths: {} };
+  const display = adminApiDisplaySpec(spec, 'next');
+  assert.equal(display.info.version, 'Next');
+  assert.equal(spec.info.version, '3.19.0');
+  assert.equal(adminApiDisplaySpec(spec, '3.19'), spec);
 });
 
 test('rejects malformed documents without throwing', () => {
