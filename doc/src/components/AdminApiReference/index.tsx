@@ -16,9 +16,9 @@ const AdminApiReference = ({ path, children }: Props): JSX.Element => {
   const root = useRef<HTMLDivElement>(null);
   const match = path.match(/^(\/zh)?\/docs\/apisix\/([^/]+)\/admin-api\/?$/);
   const prefix = match?.[1] ?? '';
-  // Roll out the unreleased master contract first. Release archives remain on
-  // Markdown until their branch-specific specifications are merged and wired.
-  const supported = ['next'];
+  // Enable only versions with a merged, branch-specific Admin API contract.
+  // Other archives keep their existing Markdown reference.
+  const supported = ['3.16', '3.17', '3.18', 'next'];
   const version = supported.includes(match?.[2]) ? match?.[2] : undefined;
   const zh = prefix === '/zh';
   const specUrl = `/assets/openapi/apisix/${version}/admin-api.json`;

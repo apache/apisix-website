@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }, testInfo) => {
   }));
 });
 
-const versions = ['', 'next/'];
+const versions = ['', '3.16/', '3.17/', '3.18/', 'next/'];
 ['', '/zh'].forEach((locale) => {
   versions.forEach((version) => {
     const route = `${locale}/docs/apisix/${version}admin-api/`;
@@ -105,5 +105,11 @@ const versions = ['', 'next/'];
         expect(hasNoOverflow).toBeTruthy();
       });
     });
+  });
+
+  test(`${locale}/docs/apisix/3.15/admin-api/ remains Markdown-only`, async ({ page }) => {
+    await page.goto(`${locale}/docs/apisix/3.15/admin-api/`, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#admin-api-openapi')).toHaveCount(0);
+    await expect(page.locator('article')).toBeVisible();
   });
 });
