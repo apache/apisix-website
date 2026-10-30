@@ -26,6 +26,7 @@ const projectReleases = {};
 // apisix-2.10.x) and orphaned 403 landing dirs. apisix itself is curated
 // separately in config/apisix-versions.js. Increase this for a wider window.
 const SUBPROJECT_VERSIONS_TO_KEEP = 1;
+const APISIX_SCALAR_ARCHIVES = new Set(['3.16', '3.17', '3.18']);
 
 const tasks = new Listr([
   {
@@ -396,6 +397,10 @@ function extractDocsVersionTasks(project, version) {
         const displayVersionName = (projectName === 'apisix' && versionMap?.[version]) || version;
         const enTargetDocs = `${websitePath}/docs-${projectName}_versioned_docs/version-${displayVersionName}`;
         const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${displayVersionName}`;
+
+        if (projectName === 'apisix' && APISIX_SCALAR_ARCHIVES.has(version)) {
+          await publishAdminApiSpec(enSrcDocs, version, `${websitePath}/static`);
+        }
 
         await Promise.allSettled([
           copyDocs(enSrcDocs, enTargetDocs)

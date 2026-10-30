@@ -7,7 +7,7 @@ import { isAdminApiSpec } from '../../shared/admin-api-spec.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const assets = process.argv[2] ?? path.join(root, 'doc/static/assets/openapi/apisix');
-const required = ['next'];
+const required = ['3.16', '3.17', '3.18', 'next'];
 let failed = false;
 required.forEach((version) => {
   const ref = version === 'next' ? 'master' : `release/${version}`;
