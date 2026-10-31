@@ -1,0 +1,21 @@
+# Algolia-Crawler-Verif: 027907D9E46C48C1
+
+User-agent: *
+# Blog aggregation and pagination pages (low-value for indexing)
+Disallow: /blog/tags/
+Disallow: /zh/blog/tags/
+Disallow: /blog/page/
+Disallow: /zh/blog/page/
+# Search pages
+Disallow: /search
+Disallow: /zh/search
+
+# Versioned and next docs remain crawlable so Google can process their
+# noindex,follow and canonical tags. They are excluded from both sitemaps.
+
+Sitemap: https://apisix.apache.org/sitemap.xml
+Sitemap: https://apisix.apache.org/zh/sitemap.xml
+
+# AI search engine crawlers — explicitly allowed
+# llms.txt for AI-friendly documentation index
+# See https://apisix.apache.org/llms.txt
