@@ -36,7 +36,7 @@ PR: https://github.com/apache/apisix/pull/13992
 
 Contributor: [AlinsRan](https://github.com/AlinsRan)
 
-APISIX now adds `service` and `service_id` labels to its four stream Prometheus metrics, making per-service traffic visible even when services share ports. Existing series gain empty versions of both labels, so alerts that select a single unaggregated series may need updated selectors; sessions rejected before the stream Prometheus plugin runs remain in the unlabelled totals.
+APISIX now adds `service` and `service_id` labels to its four stream Prometheus metrics, making per-service traffic visible even when services share ports. Existing series gain empty versions of both labels, so alerts that select a single unaggregated series may need updated selectors. For sessions rejected before the stream Prometheus plugin runs, active-connection and bandwidth data remain in unlabelled totals, while `apisix_stream_status` still attributes the session to its service.
 
 #### 2. Export Per-Process OpenResty Resource Metrics
 
@@ -62,7 +62,7 @@ Contributor: [nic-6443](https://github.com/nic-6443)
 
 The `$rate_limiting_info` variable now reports fixed- or sliding-window timestamps, request cost, decision, counters, and delayed-sync details so access logs can explain why a request was allowed, rejected, or failed. This is an observability-only change with no additional Redis call or decision change; the variable is JSON-encoded, so consumers must not depend on field order and should allow documented `null` values when a code path lacks a value.
 
-### Service Discovery and Request Handling
+### Service Integration and Request Handling
 
 #### 5. Select Multiple Kubernetes Discovery Clusters
 
@@ -88,9 +88,17 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 The new `request-decompress` plugin inflates `gzip` and `deflate` request bodies before validation, WAF inspection, transformation, and other body-reading plugins run. It enforces `max_req_body_size` while streaming decompressed output and can optionally restore or recompress the body before proxying; decompression happens before authentication by default, so operators should size both body limits to bound unauthenticated work.
 
+#### 8. Remove the Deprecated MCP Bridge Plugin
+
+PR: https://github.com/apache/apisix/pull/14019
+
+Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
+
+APISIX has removed the deprecated `mcp-bridge` plugin, its transports, documentation, tests, and related CI setup, while retaining the `mcp-session` shared dictionary for `openapi-to-mcp` when that plugin is enabled. This is a breaking change: users who still list `mcp-bridge` in their `plugins` configuration must remove it and should use `openapi-to-mcp` for MCP integration going forward.
+
 ### Identity and Security Resilience
 
-#### 8. Map Verified OpenID Connect Claims to Headers
+#### 9. Map Verified OpenID Connect Claims to Headers
 
 PR: https://github.com/apache/apisix/pull/14030
 
@@ -98,7 +106,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 The `openid-connect` plugin can now map selected verified claims to upstream request headers through `upstream_headers`, including nested claims and claim names containing punctuation. Every declared header is cleared on all authentication outcomes before a verified value is set, preventing client spoofing; arrays and objects are forwarded as base64-encoded JSON, while missing, `null`, `false`, and empty-string values produce no header.
 
-#### 9. Distinguish Token Failures from Introspection Outages
+#### 10. Distinguish Token Failures from Introspection Outages
 
 PR: https://github.com/apache/apisix/pull/14088
 
@@ -106,7 +114,7 @@ Contributor: [shreemaan-abhishek](https://github.com/shreemaan-abhishek)
 
 Upgrading `lua-resty-openidc` to 1.9.3 lets APISIX return `401` for confirmed inactive tokens, `503` for introspection endpoint or transport failures, and `500` for configuration errors. Concurrent misses can share an in-flight result, but coordination remains best effort and falls back to direct introspection on timeout; missing or non-boolean `active` claims are now rejected as invalid upstream responses.
 
-#### 10. Allow Chaitin WAF to Fail Open
+#### 11. Allow Chaitin WAF to Fail Open
 
 PR: https://github.com/apache/apisix/pull/13311
 

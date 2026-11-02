@@ -36,7 +36,7 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 贡献者：[AlinsRan](https://github.com/AlinsRan)
 
-APISIX 为四项 Stream Prometheus 指标新增了 `service` 和 `service_id` 标签，即使多个服务共用端口，也能按服务观察流量。现有时序会增加这两个空值标签，因此直接选择单个未聚合时序的告警可能需要调整；在 Stream Prometheus 插件运行前就被拒绝的会话仍会计入未标记总量。
+APISIX 为四项 Stream Prometheus 指标新增了 `service` 和 `service_id` 标签，即使多个服务共用端口，也能按服务观察流量。现有时序会增加这两个空值标签，因此直接选择单个未聚合时序的告警可能需要调整。对于在 Stream Prometheus 插件运行前就被拒绝的会话，活跃连接数和带宽仍计入未标记总量，但 `apisix_stream_status` 仍会按服务记录该会话。
 
 #### 2. 导出 OpenResty 进程级资源指标
 
@@ -62,7 +62,7 @@ APISIX 为四项 Stream Prometheus 指标新增了 `service` 和 `service_id` �
 
 `$rate_limiting_info` 变量现在会输出固定窗口或滑动窗口的时间戳、请求成本、决策、计数器及延迟同步详情，方便从访问日志判断请求为何被放行、拒绝或处理失败。该变更只增强可观测性，不会新增 Redis 调用或改变限流决策；变量采用 JSON 编码，使用方不应依赖字段顺序，并应兼容特定路径缺少数据时出现的 `null` 值。
 
-### 服务发现与请求处理
+### 服务集成与请求处理
 
 #### 5. 选择多个 Kubernetes 服务发现集群
 
@@ -88,9 +88,17 @@ Consul 服务发现现在允许在同一个服务器列表中混用 HTTP 与 HTT
 
 新的 `request-decompress` 插件会在校验、WAF 检测、内容转换及其他读取请求体的插件运行前，解压使用 `gzip` 或 `deflate` 编码的请求体。插件会在流式解压过程中执行 `max_req_body_size` 限制，并可在代理前恢复或重新压缩请求体；默认情况下解压发生在身份验证之前，因此应合理设置请求体限制，以约束未认证请求带来的处理开销。
 
+#### 8. 移除已弃用的 MCP Bridge 插件
+
+相关 PR：https://github.com/apache/apisix/pull/14019
+
+贡献者：[shreemaan-abhishek](https://github.com/shreemaan-abhishek)
+
+APISIX 已移除弃用的 `mcp-bridge` 插件及其传输模块、文档、测试和相关 CI 配置；启用 `openapi-to-mcp` 时，仍会保留该插件所需的 `mcp-session` 共享字典。这是一项不向后兼容的变更：仍在 `plugins` 配置中列出 `mcp-bridge` 的用户必须将其删除，后续 MCP 集成应使用 `openapi-to-mcp`。
+
 ### 身份认证与安全弹性
 
-#### 8. 将经过验证的 OpenID Connect 声明映射为请求头
+#### 9. 将经过验证的 OpenID Connect 声明映射为请求头
 
 相关 PR：https://github.com/apache/apisix/pull/14030
 
@@ -98,7 +106,7 @@ Consul 服务发现现在允许在同一个服务器列表中混用 HTTP 与 HTT
 
 `openid-connect` 插件新增 `upstream_headers`，可把选定且已经验证的声明映射到上游请求头，并支持嵌套声明以及名称中包含特殊符号的声明。所有认证结果都会先清除声明过的请求头，再按验证结果写入值，从而防止客户端伪造；数组和对象会以 Base64 编码的 JSON 传递，而缺失值、`null`、`false` 和空字符串不会生成请求头。
 
-#### 9. 区分无效令牌与内省服务故障
+#### 10. 区分无效令牌与内省服务故障
 
 相关 PR：https://github.com/apache/apisix/pull/14088
 
@@ -106,7 +114,7 @@ Consul 服务发现现在允许在同一个服务器列表中混用 HTTP 与 HTT
 
 `lua-resty-openidc` 升级至 1.9.3 后，APISIX 会针对确认无效的令牌返回 `401`，针对内省端点或传输故障返回 `503`，针对配置错误返回 `500`。并发缓存未命中可共享进行中的内省结果，但协调机制为尽力而为，等待超时后仍会直接执行内省；缺失或非布尔类型的 `active` 声明现在会被视为无效的上游响应。
 
-#### 10. 支持长亭 WAF 故障时放行请求
+#### 11. 支持长亭 WAF 故障时放行请求
 
 相关 PR：https://github.com/apache/apisix/pull/13311
 
