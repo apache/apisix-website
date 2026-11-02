@@ -3,7 +3,7 @@ title: "2026 社区月报 (10.01 - 10.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
 description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
 tags: [Community]
-image: TODO_COVER_IMAGE_ZH
+image: https://static.api7.ai/uploads/2026/11/02/nIjsz9I7_2026-oct-monthly-report-cover-cn.webp
 ---
 
 > 最近，我们引入并更新了多项功能，涵盖 Prometheus 可观测性、多集群服务发现、压缩请求处理、可信身份传递和 WAF 弹性等方向。有关更多细节，请阅读本期月报。
@@ -16,13 +16,11 @@ Apache APISIX 项目始终秉承着开源社区协作的精神，自问世起便
 
 从 2026.10.01 至 2026.10.31，有 19 名开发者提交了 77 个 commits，为 Apache APISIX 做出了重要贡献。感谢这些伙伴们对 Apache APISIX 的无私支持！正是因为你们的付出，才能让 Apache APISIX 项目不断改进、提升和壮大。
 
-贡献者统计数据由社区提供，范围为 12 个 Apache APISIX 生态仓库默认分支在 UTC+8 时间 10 月的提交。功能亮点单独从 `apache/apisix` 默认分支的 UTC 时间 10 月提交中筛选，分支快照为 `5300993973a455d5f11ab360bcd3d5af6714a70f`。
-
 ## 贡献者统计
 
-![贡献者名单](TODO_CONTRIBUTOR_LIST_IMAGE)
+![贡献者名单](https://static.api7.ai/uploads/2026/11/02/2zw9Jdk7_2026-oct-contributor-list.webp)
 
-![新晋贡献者](TODO_NEW_CONTRIBUTORS_IMAGE)
+![新晋贡献者](https://static.api7.ai/uploads/2026/11/02/pBr2CWUZ_2026-oct-new-contributors.webp)
 
 ## 近期亮点功能
 

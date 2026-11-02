@@ -3,7 +3,7 @@ title: "2026 Monthly Report (October 01 - October 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
 description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
 tags: [Community]
-image: TODO_COVER_IMAGE_EN
+image: https://static.api7.ai/uploads/2026/11/02/JN0Io467_2026-oct-monthly-report-cover-en.webp
 ---
 
 > Recently, we've introduced and updated features for Prometheus observability, multi-cluster service discovery, compressed request handling, verified identity propagation, and WAF resilience. For more details, please read this month's newsletter.
@@ -16,13 +16,11 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From October 1st to October 31st, 19 contributors made 77 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-The community-supplied contributor statistics cover the default branches of 12 Apache APISIX ecosystem repositories during October in UTC+8. Feature highlights were selected separately from the `apache/apisix` default branch for October in UTC, at snapshot `5300993973a455d5f11ab360bcd3d5af6714a70f`.
-
 ## Contributor Statistics
 
-![Apache APISIX Contributors List](TODO_CONTRIBUTOR_LIST_IMAGE)
+![Apache APISIX Contributors List](https://static.api7.ai/uploads/2026/11/02/2zw9Jdk7_2026-oct-contributor-list.webp)
 
-![New Contributors List](TODO_NEW_CONTRIBUTORS_IMAGE)
+![New Contributors List](https://static.api7.ai/uploads/2026/11/02/pBr2CWUZ_2026-oct-new-contributors.webp)
 
 ## Feature Highlights
 
