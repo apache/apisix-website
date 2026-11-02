@@ -63,7 +63,7 @@ const hasAlternate = entry.hasTranslation && !canonicalOverride;
   search
 >
   <slot name="reference" />
-  <div class="container docs-layout" id={Astro.slots.has('reference') ? 'admin-api-markdown' : undefined} hidden={Astro.props.hideContent} data-docs-content>
+  <div class="container docs-layout" id={Astro.slots.has('reference') ? 'api-reference-markdown' : undefined} hidden={Astro.props.hideContent} data-docs-content>
     {sidebar.length > 0 && (
       <nav class="docs-sidebar" aria-label="Docs sidebar">
         {versionLabel && (

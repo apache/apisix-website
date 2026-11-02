@@ -1,6 +1,6 @@
-#admin-api-openapi[hidden],
-#admin-api-reference[hidden],
-#admin-api-markdown[hidden] {
+#api-reference-openapi[hidden],
+#api-reference-container[hidden],
+#api-reference-markdown[hidden] {
   display: none;
 }
 
@@ -147,7 +147,7 @@
   outline-offset: 3px;
 }
 
-#admin-api-reference {
+#api-reference-container {
   min-height: 60vh;
 }
 

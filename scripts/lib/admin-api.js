@@ -2,15 +2,27 @@ const fs = require('fs/promises');
 
 // Specs always come from the English tree of the checked-out apache/apisix
 // ref. Both locales request this same-origin asset, never a docs-site copy.
-async function publishAdminApiSpec(source, version, staticRoot) {
+const API_REFERENCES = ['admin-api', 'control-api'];
+
+async function publishApiReferenceSpecs(source, version, staticRoot) {
   const target = `${staticRoot}/assets/openapi/apisix/${version}`;
   await fs.rm(target, { recursive: true, force: true });
-  try { await fs.access(`${source}/admin-api.json`); } catch (error) {
-    if (error.code === 'ENOENT') return;
-    throw error;
+  const available = (await Promise.all(API_REFERENCES.map(async (apiId) => {
+    try {
+      await fs.access(`${source}/${apiId}.json`);
+      return apiId;
+    } catch (error) {
+      if (error.code === 'ENOENT') return undefined;
+      throw error;
+    }
+  }))).filter(Boolean);
+  if (available.length > 0) {
+    await fs.mkdir(target, { recursive: true });
+    await Promise.all(available.map((apiId) => (
+      fs.copyFile(`${source}/${apiId}.json`, `${target}/${apiId}.json`)
+    )));
   }
-  await fs.mkdir(target, { recursive: true });
-  await fs.copyFile(`${source}/admin-api.json`, `${target}/admin-api.json`);
+  return available;
 }
 
-module.exports = { publishAdminApiSpec };
+module.exports = { API_REFERENCES, publishApiReferenceSpecs };

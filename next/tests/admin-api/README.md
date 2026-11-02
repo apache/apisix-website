@@ -1,4 +1,4 @@
-# Admin API production checks
+# API reference production checks
 
 This suite needs the assembled production site: the current page is Astro,
 while the release archives and Next are Docusaurus. Serve that output, then run:
@@ -9,9 +9,9 @@ ADMIN_API_BASE_URL=http://127.0.0.1:4322 npm run test:admin-api
 ```
 
 The existing Playwright configuration runs desktop and mobile Chromium. The
-suite checks both locales for the current 3.19 page, 3.16–3.18 archives, and
-Next. Success tests
-require their actual synced canonical English specifications; they must not be
+suite checks both locales for the Admin API and Control API on the current 3.19
+page, 3.16–3.18 archives, and Next. Success tests require their actual synced
+canonical English specifications; they must not be
 reported as passed by substituting another release's JSON. Failure tests
 intercept requests to exercise missing, malformed, failed and timed-out JSON,
 and a failed Scalar script. A separate context checks disabled JavaScript.
@@ -25,9 +25,10 @@ source is absent or invalid. Sync and build from these apache/apisix refs:
 - archives: `release/3.16`, `release/3.17`, and `release/3.18`
 - Next: `master`
 
-The archive and Next syncs copy `docs/en/latest/admin-api.json` byte-for-byte to
-`doc/static/assets/openapi/apisix/<version>/admin-api.json`. Both locales use
-the same asset for each version. Missing sources remove stale assets and retain
+The archive and Next syncs copy `docs/en/latest/admin-api.json` and
+`docs/en/latest/control-api.json` byte-for-byte to
+`doc/static/assets/openapi/apisix/<version>/<api-id>.json`. Both locales use
+the same assets for each version. Missing sources remove stale assets and retain
 Markdown. Other release archives continue using Markdown.
 The assembled deployment already ships `doc/build/assets`, so no external
 specification request or additional deployment copy step is needed.
@@ -40,9 +41,12 @@ node --test shared/admin-api-spec.test.mjs scripts/lib/admin-api.test.js
 
 ## Immutable canonical validation fixtures
 
-`source-fixtures.json` pins the merged release and master specifications in
-`apache/apisix` for reproducible tests. Production synchronization continues
-to use the corresponding Apache branches.
+`source-fixtures.json` currently pins the merged Admin API release and master
+specifications in `apache/apisix` for reproducible tests. Each entry may
+identify an `apiId`; entries without one retain the Admin API default. Add
+Control API entries only after their canonical Apache commits merge. Do not
+pin contributor branches or forks. Production synchronization continues to
+use the corresponding Apache branches.
 
 After preparing generated static assets from those exact commits, check them
 without fetching or changing any content:

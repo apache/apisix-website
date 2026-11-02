@@ -195,8 +195,10 @@ for (const { key, repo } of PROJECTS) {
     const cfg = path.join(src, 'config.json');
     if (fs.existsSync(cfg)) fs.copyFileSync(cfg, path.join(outDir, 'config.json'));
     if (key === 'apisix' && loc === 'en') {
-      const spec = path.join(src, 'admin-api.json');
-      if (fs.existsSync(spec)) fs.copyFileSync(spec, path.join(outDir, 'admin-api.json'));
+      ['admin-api', 'control-api'].forEach((apiId) => {
+        const spec = path.join(src, `${apiId}.json`);
+        if (fs.existsSync(spec)) fs.copyFileSync(spec, path.join(outDir, `${apiId}.json`));
+      });
     }
   }
 }
