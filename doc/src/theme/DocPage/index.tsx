@@ -34,7 +34,7 @@ import type { ImageProps } from 'rc-image';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Link from '@docusaurus/Link';
 import NotFound from '../NotFound';
-import AdminApiReference from '../../components/AdminApiReference';
+import ApiReference from '../../components/AdminApiReference';
 
 import styles from './styles.module.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -409,7 +409,7 @@ const DocPageContent = ({
         tag: docVersionSearchTag(pluginId, version),
       }}
     >
-      <AdminApiReference key={currentDocRoute.path} path={currentDocRoute.path}>
+      <ApiReference key={currentDocRoute.path} path={currentDocRoute.path}>
         <div className={styles.docPage}>
           <BackToTopButton />
 
@@ -484,7 +484,7 @@ const DocPageContent = ({
             </div>
           </main>
         </div>
-      </AdminApiReference>
+      </ApiReference>
     </Layout>
   );
 };

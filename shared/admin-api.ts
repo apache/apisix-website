@@ -1,4 +1,4 @@
-import { adminApiDisplaySpec, isAdminApiSpec } from './admin-api-spec';
+import { apiReferenceDisplaySpec, isApiReferenceSpec } from './admin-api-spec';
 
 declare const Scalar: {
   createApiReference: (
@@ -9,7 +9,7 @@ declare const Scalar: {
 
 /** Shared by Astro and the Docusaurus archives. Dispose on SPA navigation. */
 // eslint-disable-next-line import/prefer-default-export
-export function mountAdminApi(
+export function mountApiReference(
   root: ParentNode,
   scalarTheme: string,
   version?: string,
@@ -25,9 +25,9 @@ export function mountAdminApi(
     target.addEventListener(type, handler as EventListener, capture);
     cleanups.push(() => target.removeEventListener(type, handler as EventListener, capture));
   };
-  const reference = root.querySelector<HTMLElement>('#admin-api-openapi');
+  const reference = root.querySelector<HTMLElement>('#api-reference-openapi');
   const markdown = root.querySelector<HTMLElement>('[data-docs-content]');
-  const container = root.querySelector<HTMLElement>('#admin-api-reference');
+  const container = root.querySelector<HTMLElement>('#api-reference-container');
   if (reference && markdown && container) {
     const toolbar = root.querySelector<HTMLElement>('.api-toolbar');
     if (toolbar) {
@@ -65,11 +65,9 @@ export function mountAdminApi(
           || !(event.ctrlKey || event.metaKey)
           || event.key.toLowerCase() !== 'k'
         ) return;
-        const searches = [
-          ...container.querySelectorAll<HTMLButtonElement>(
-            'button:has(.sidebar-search-placeholder)',
-          ),
-        ];
+        const searches = Array.from(container.querySelectorAll<HTMLButtonElement>(
+          'button:has(.sidebar-search-placeholder)',
+        ));
         const search = searches.find((button) => button.getClientRects().length > 0)
           ?? searches[0];
         if (!search) return;
@@ -105,7 +103,14 @@ export function mountAdminApi(
         if (!response.ok) throw new Error('Unable to load local OpenAPI');
         const spec = await response.json();
         const specVersion = version ?? container.dataset.specVersion;
-        if (!isAdminApiSpec(spec, specVersion)) throw new Error('Invalid OpenAPI document');
+        if (!isApiReferenceSpec(spec, specVersion, container.dataset.apiId)) {
+          throw new Error('Invalid OpenAPI document');
+        }
+        // Astro hides Markdown at build time and the archives hide it when
+        // their client mounts. Keep this assignment here so any future host
+        // enters the same loading state only after validation.
+        reference.hidden = false;
+        markdown.hidden = true;
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.75.1/dist/browser/standalone.js';
@@ -115,7 +120,7 @@ export function mountAdminApi(
         });
         if (disposed || reference.hidden) return;
         const instance = Scalar.createApiReference(container, {
-          content: adminApiDisplaySpec(spec, specVersion),
+          content: apiReferenceDisplaySpec(spec, specVersion),
           onLoaded: () => {
             if (disposed || reference.hidden) return;
             window.clearTimeout(timeout);
@@ -134,7 +139,7 @@ export function mountAdminApi(
           withDefaultFonts: false,
           persistAuth: false,
           operationTitleSource: 'path',
-          // Admin credentials and requests stay in the browser; no hosted proxy.
+          // API credentials and requests stay in the browser; no hosted proxy.
           proxyUrl: '',
           telemetry: false,
           agent: { disabled: true },

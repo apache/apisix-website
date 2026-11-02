@@ -10,7 +10,7 @@ const semver = require('semver');
 const replace = require('replace-in-file');
 
 const common = require('./common.js');
-const { publishAdminApiSpec } = require('./lib/admin-api.js');
+const { publishApiReferenceSpecs } = require('./lib/admin-api.js');
 const { versions, versionMap } = require('../config/apisix-versions.js');
 
 const { projects, languages, projectPaths } = common;
@@ -399,7 +399,7 @@ function extractDocsVersionTasks(project, version) {
         const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/version-${displayVersionName}`;
 
         if (projectName === 'apisix' && APISIX_SCALAR_ARCHIVES.has(version)) {
-          await publishAdminApiSpec(enSrcDocs, version, `${websitePath}/static`);
+          await publishApiReferenceSpecs(enSrcDocs, version, `${websitePath}/static`);
         }
 
         await Promise.allSettled([
@@ -447,7 +447,7 @@ function extractDocsNextVersionTasks(project, version) {
         const enTargetDocs = `${websitePath}/docs/${projectName}`;
         const zhTargetDocs = `${websitePath}/i18n/zh/docusaurus-plugin-content-docs-docs-${projectName}/current`;
 
-        if (projectName === 'apisix') await publishAdminApiSpec(enSrcDocs, 'next', `${websitePath}/static`);
+        if (projectName === 'apisix') await publishApiReferenceSpecs(enSrcDocs, 'next', `${websitePath}/static`);
 
         await Promise.all([
           copyDocs(enSrcDocs, enTargetDocs)
