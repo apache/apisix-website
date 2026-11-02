@@ -16,7 +16,7 @@ From its inception, the Apache APISIX project has embraced the ethos of open-sou
 
 From October 1st to October 31st, 19 contributors made 77 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-The contributor statistics were supplied by the community; their collection scope and time zone are to be confirmed. Feature highlights were selected separately from the `apache/apisix` default branch for October in UTC, at snapshot `5300993973a455d5f11ab360bcd3d5af6714a70f`.
+The community-supplied contributor statistics cover the default branches of 12 Apache APISIX ecosystem repositories during October in UTC+8. Feature highlights were selected separately from the `apache/apisix` default branch for October in UTC, at snapshot `5300993973a455d5f11ab360bcd3d5af6714a70f`.
 
 ## Contributor Statistics
 
