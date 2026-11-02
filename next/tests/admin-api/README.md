@@ -41,12 +41,13 @@ node --test shared/admin-api-spec.test.mjs scripts/lib/admin-api.test.js
 
 ## Immutable canonical validation fixtures
 
-`source-fixtures.json` currently pins the merged Admin API release and master
-specifications in `apache/apisix` for reproducible tests. Each entry may
-identify an `apiId`; entries without one retain the Admin API default. Add
-Control API entries only after their canonical Apache commits merge. Do not
-pin contributor branches or forks. Production synchronization continues to
-use the corresponding Apache branches.
+`source-fixtures.json` pins the merged Admin and Control API specifications in
+`apache/apisix` for reproducible tests. Each entry may identify an `apiId`;
+entries without one retain the Admin API default. Archive and Next fixtures
+validate the published same-origin assets; the current 3.19 Control API fixture
+validates the English source consumed by the Astro build. Do not pin contributor
+branches or forks. Production synchronization continues to use the corresponding
+Apache branches.
 
 After preparing generated static assets from those exact commits, check them
 without fetching or changing any content:
@@ -61,6 +62,11 @@ node next/scripts/check-admin-api-fixtures.mjs /path/to/apisix-fixture-checkout 
 | `release/3.17` | https://github.com/apache/apisix/commit/9fae9b644357281976463626c624064c0464b5a1 |
 | `release/3.18` | https://github.com/apache/apisix/commit/8d7e45597a065472ba33672581fb7fbafff523ca |
 | `master` | https://github.com/apache/apisix/commit/88a41b7f30da10072294ae48b1d1d7369452b1ac |
+| `release/3.16` Control API | https://github.com/apache/apisix/commit/0f0fef3304579dc495c1131f09c98d947aea9abc |
+| `release/3.17` Control API | https://github.com/apache/apisix/commit/36079fe60f55d88ffb27f513ac912f5b1729ff20 |
+| `release/3.18` Control API | https://github.com/apache/apisix/commit/687d89c68f754d7192761ea55b38d276d1b85e82 |
+| `release/3.19` Control API | https://github.com/apache/apisix/commit/8e4a79346658d93de8e5bed7f4fcbb6cf8fd4979 |
+| `master` Control API | https://github.com/apache/apisix/commit/6205e4a568106eea8277f61ae6ef942bbff62d97 |
 
 Run the fixture check against an `apache/apisix` checkout containing the pinned
 commit. Report fixture, canonical-source, build, and browser results separately.
