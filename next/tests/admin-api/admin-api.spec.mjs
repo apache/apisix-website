@@ -37,7 +37,10 @@ const versions = ['', '3.16/', '3.17/', '3.18/', 'next/'];
       expect(response.ok()).toBeTruthy();
       const spec = await response.json();
       expect(spec.openapi).toMatch(/^3\./);
-      if (version && version !== 'next/') expect(spec.info.version).toMatch(new RegExp(`^${version.slice(0, -1).replace('.', '\\.')}([.]|$)`));
+      if (version === 'next/') {
+        await expect(page.locator('.scalar-api-reference .badge', { hasText: 'Next' })).toBeVisible();
+        expect(spec.info.version).not.toBe('Next');
+      } else if (version) expect(spec.info.version).toMatch(new RegExp(`^${version.slice(0, -1).replace('.', '\\.')}([.]|$)`));
       const downloaded = page.waitForEvent('download');
       await download.click();
       expect((await downloaded).suggestedFilename()).toBe('apisix-admin-api.json');
