@@ -14,9 +14,9 @@ image: TODO_COVER_IMAGE_EN
 
 From its inception, the Apache APISIX project has embraced the ethos of open-source community collaboration, propelling it into the ranks of the most active global open-source API gateway projects. The proverbial wisdom of 'teamwork makes the dream work' rings true in our way and is made possible by the collective effort of our community.
 
-From October 1st to October 31st, 9 contributors made 45 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
+From October 1st to October 31st, 19 contributors made 77 commits to Apache APISIX. We sincerely appreciate your contributions to Apache APISIX.
 
-These statistics cover commits on the `apache/apisix` default branch from `2026-10-01T00:00:00Z` up to, but not including, `2026-11-01T00:00:00Z`, at default-branch snapshot `5300993973a455d5f11ab360bcd3d5af6714a70f`. New contributors were verified against default-branch history before this interval.
+The contributor statistics were supplied by the community; their collection scope and time zone are to be confirmed. Feature highlights were selected separately from the `apache/apisix` default branch for October in UTC, at snapshot `5300993973a455d5f11ab360bcd3d5af6714a70f`.
 
 ## Contributor Statistics
 
