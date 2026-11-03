@@ -49,7 +49,7 @@ To start, you can go through this [curated list of "good first issues"](/contrib
 
 ## Git flow
 
-To contribute code or documentation, setup your local machine for development.
+To contribute code or documentation, set up your local machine for development.
 
 ### Fork the repo and clone your fork
 
@@ -57,6 +57,12 @@ Fork the [APISIX repo](https://github.com/apache/apisix/) and clone your fork to
 
 ```sh
 git clone https://github.com/your-username/apisix.git
+```
+
+Alternatively, if you've [set up SSH with GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh), you can clone using the SSH URL instead:
+
+```sh
+git clone git@github.com:your-username/apisix.git
 ```
 
 ### Add 'upstream' repo to list of remotes
@@ -75,7 +81,7 @@ git remote add upstream https://github.com/apache/apisix.git
 
 Learn more about Git and GitHub flow by following the [GitHub Docs](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
 
-**Note**: Setup your name and email address to make sure that your ID shows up in the contributor list.
+**Note**: Set up your name and email address to make sure that your ID shows up in the contributor list.
 
 ```sh
 git config --global user.name "full name"
@@ -108,9 +114,9 @@ Contributors are expected to adhere to the [Code of Conduct](https://www.apache.
 Once you make the changes, commit the files and push the changes to your fork.
 
 ```sh
-$ git add modified-file-names
-$ git commit -m 'commit message'
-$ git push origin issue-no
+git add modified-file-names
+git commit -m 'commit message'
+git push origin issue-no
 ```
 
 ### Open a pull request
@@ -143,10 +149,12 @@ To ensure the security of the committer’s account, we need you to [configure 2
 
 You can configure 2FA using a [mobile app](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app) or via [text message](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication#configuring-two-factor-authentication-using-text-messages).
 
-GitHub recommends using a time-based-one-time password (TOTP) mobile application to configure 2FA. Read [Configuring two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) for detailed information.
+GitHub recommends using a time-based one-time password (TOTP) mobile application to configure 2FA. Read [Configuring two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication) for detailed information.
 
 ### Submitting code
 
 After enabling 2FA, [create a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to perform Git operations.
 
 You can then use the username + personal access token combination in place of the username + password combination while pushing your code.
+
+Alternatively, you can [connect to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) and push using the SSH remote URL instead of a personal access token.
