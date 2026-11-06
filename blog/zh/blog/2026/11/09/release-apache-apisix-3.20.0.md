@@ -269,6 +269,7 @@ Prometheus 插件新增 `apisix_nginx_timers`、`apisix_nginx_timers_max`、`api
 
 - Consul catalog 与 health watch 现在使用独立定时器，避免一个 watcher 在读取响应时被终止，以及两个索引同时变化导致整轮刷新失败。[PR #14032](https://github.com/apache/apisix/pull/14032)
 - `lua-resty-consul` 0.4.0 按 scheme、SNI 和 `ssl_verify` 隔离连接池，避免在不兼容的 TLS 配置之间复用连接。[PR #14118](https://github.com/apache/apisix/pull/14118)
+- Kubernetes 和 Tars 服务发现现在会用单个共享字典键保存每个服务的快照，并在 1 秒后刷新各 worker 的本地缓存。因此，端点更新、删除、缩容至零和重新创建都会在缓存 TTL 内到达所有 worker，不再因独立版本键未被特定请求失效而使部分 worker 持续使用陈旧地址。未知服务也会使用相同的 1 秒负缓存。[PR #14167](https://github.com/apache/apisix/pull/14167)
 - Kubernetes 服务发现现在会在分页列表未完整加载时使整次 list 失败，不再删除未加载页面中的端点。[PR #14053](https://github.com/apache/apisix/pull/14053)
 - Nacos 单个服务刷新失败时会保留最近一次成功的节点快照，同时在 APISIX 配置删除服务后仍会清理缓存。[PR #13971](https://github.com/apache/apisix/pull/13971)
 - 资源版本辅助函数现在可处理更新过程中已被删除的配置，不再索引空值。[PR #13986](https://github.com/apache/apisix/pull/13986)
