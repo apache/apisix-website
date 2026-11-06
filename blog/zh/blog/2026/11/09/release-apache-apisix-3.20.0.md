@@ -141,7 +141,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 ### `openapi-to-mcp` 采用更严格的信任边界和大小限制
 
-工具参数现在只会保留操作声明的参数；Route 配置的请求头优先，不安全或连接级请求头会被丢弃，未声明的查询参数也不会传给 API。若已保存 Route 的请求头名称包含 `:` 或空白，或者请求头值包含 CR 或 LF，该 Route 会被拒绝。设置 `allowed_origins` 时，浏览器 MCP 请求按该列表校验；未设置时，Origin 必须以相同 scheme 和有效端口匹配 Route 的固定主机名，或者请求两端均为回环地址。外部 `$ref` 仅允许访问 `openapi_url` 同源地址和 `allowed_ref_hosts`；SSE 会话绑定至创建它的 Route 和 Consumer。
+工具参数现在只会保留操作声明的参数；Route 配置的请求头优先，不安全或连接级请求头会被丢弃，未声明的查询参数也不会传给 API。若已保存 Route 的请求头名称包含 `:` 或空白，或者请求头值包含 CR 或 LF，该 Route 会被拒绝。设置 `allowed_origins` 时，浏览器 MCP 请求按该列表校验。未设置时，Origin 必须以相同 scheme 和有效端口匹配 Route 的固定主机名；仅当 Route 没有固定主机名时（通配符主机名不算固定主机名），才会接受回环请求上的回环 Origin。外部 `$ref` 仅允许访问 `openapi_url` 同源地址和 `allowed_ref_hosts`；SSE 会话绑定至创建它的 Route 和 Consumer。
 
 插件默认将 `max_response_body_size` 设为 1 MiB、`max_document_size` 设为 4 MiB、`max_expanded_nodes` 设为 50,000。路径参数默认不能包含 `/` 或 `\`；仅在设置 `allow_encoded_path_separators: true` 时允许，空路径段及 `.`、`..` 路径段始终被拒绝。
 
