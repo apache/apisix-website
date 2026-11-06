@@ -133,6 +133,10 @@ const directRedirects = [
     '/docs/ingress-controller/overview/',
   ],
   [
+    '/docs/ingress-controller/FAQ/',
+    '/docs/ingress-controller/overview/',
+  ],
+  [
     '/docs/ingress-controller/reference/apisix-ingress-controller/crd-reference/',
     '/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/',
   ],
@@ -186,5 +190,13 @@ assert.equal(
   null,
   'Redirect directives should only match complete path segments',
 );
+
+for (const listingPath of ['/zh/learning-center/', '/zh/learning-center/index.html']) {
+  assert.equal(firstRedirect(listingPath), null, `${listingPath} should remain a Chinese listing`);
+}
+assert.deepEqual(firstRedirect('/zh/learning-center/what-is-an-api-gateway/'), {
+  status: 301,
+  destination: '/learning-center/what-is-an-api-gateway/',
+});
 
 console.log(`Validated ${directRedirects.length} direct documentation redirects.`);

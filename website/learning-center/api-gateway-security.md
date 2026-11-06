@@ -116,6 +116,34 @@ For **mutual TLS**, APISIX supports [mTLS configuration](/docs/apisix/mtls/) for
 
 APISIX also supports JWT authentication, key authentication, OpenID Connect, rate limiting with multiple algorithms, and request body validation. Its plugin architecture lets teams compose gateway policies per route while retaining application-level authorization and validation in the services that own the data.
 
+### Example: Authenticate and Rate-Limit a Route
+
+For a protected API, first create a Consumer with a `key-auth` Credential. Then enable [key-auth](/docs/apisix/plugins/key-auth/) and [limit-count](/docs/apisix/plugins/limit-count/) on the Route. The JSON below is the value of the Route's `plugins` field, not a complete Route object; use it in a valid Route with a URI and an Upstream, whether configured directly or through a Service. Adjust the quota to the backend's capacity and the client contract:
+
+```json
+{
+  "key-auth": {
+    "hide_credentials": true
+  },
+  "limit-count": {
+    "count": 100,
+    "time_window": 60,
+    "rejected_code": 429,
+    "key_type": "var_combination",
+    "key": "$remote_addr $consumer_name",
+    "policy": "local"
+  }
+}
+```
+
+Keep these boundaries in mind when applying the example:
+
+- **Quota key:** On this Route, `key-auth` authenticates in the rewrite phase before `limit-count` runs in the access phase. The counter key combines the observed address and the authenticated Consumer name, so the quota applies to each pair. If you change the authentication flow, verify that `$consumer_name` is populated before using it in a limit key; an empty value can change the quota's scope.
+- **Client address:** Behind a proxy, `$remote_addr` may be the proxy's address. Configure a [trusted real-IP source](/docs/apisix/plugins/real-ip/) if the quota must use the original client address.
+- **Counter storage:** With `policy: local`, each APISIX instance keeps its own counters. Use an appropriate shared Redis policy when a quota must apply across instances.
+- **Credential forwarding:** `hide_credentials` removes the header or query parameter used to authenticate the request. It does not guarantee removal of a duplicate key supplied in the other carrier; enforce a single accepted carrier or strip alternate copies before forwarding if strict non-forwarding is required.
+- **Authorization:** This gateway policy does not decide whether a Consumer may access a particular order or account. The application must still check resource ownership.
+
 ## FAQ
 
 ### What is the difference between API gateway security and API security?

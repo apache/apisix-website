@@ -1,0 +1,87 @@
+---
+import DocPage from './DocPage.astro';
+import '../../../shared/admin-api-toolbar.css';
+import { isApiReferenceSpec } from '../../../shared/admin-api-spec';
+import { getApisixDocs, getApisixSidebar, sidebarLandingId, docEditUrl, APISIX_DOCS_VERSION, APISIX_ARCHIVED_VERSIONS, versionedLandingHref, type VersionEntry } from '../lib/content';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  locale: Locale;
+  apiId: 'admin-api' | 'control-api';
+}
+const { locale, apiId } = Astro.props;
+const zh = locale === 'zh';
+const docs = getApisixDocs(locale);
+const entry = docs.find((doc) => doc.pathId === apiId);
+if (!entry) throw new Error(`Sync APISIX documentation before building the ${apiId} reference`);
+const prefix = zh ? '/zh' : '';
+const sidebar = getApisixSidebar();
+const titleById = new Map(docs.map((doc) => [doc.pathId, doc.title]));
+const urlByPathId = new Map(docs.map((doc) => [doc.pathId, doc.url]));
+const urlById = (id: string) => urlByPathId.get(id) ?? `${prefix}/docs/apisix/${id}/`;
+const docsHref = docs.find((doc) => doc.pathId === sidebarLandingId(sidebar))?.url ?? `${prefix}/docs/`;
+const editUrl = docEditUrl('apisix', 'apisix', entry);
+const currentHref = `${prefix}/docs/apisix/${apiId}/`;
+const versionsFor = (href: string): VersionEntry[] => [
+  { label: `APISIX ${APISIX_DOCS_VERSION}`, href, current: true },
+  ...[...APISIX_ARCHIVED_VERSIONS, 'next'].map((version) => ({
+    label: version === 'next' ? (zh ? '开发版 (next)' : 'Next (unreleased)') : version,
+    href: versionedLandingHref(`${prefix}/docs/apisix/`, version, href),
+  })).filter((version): version is VersionEntry => Boolean(version.href)),
+];
+const versions = versionsFor(currentHref);
+// The upstream JSON is optional until it is available on the synced release.
+// Vite emits it under /_astro/, which the existing deployment already ships.
+const allSources = import.meta.glob('/content/docs-apisix-en/*.json', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+const allAssets = import.meta.glob('/content/docs-apisix-en/*.json', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const sourceKey = Object.keys(allSources).find((key) => key.endsWith(`/${apiId}.json`));
+let specUrl: string | undefined;
+try {
+  const spec = JSON.parse(sourceKey ? allSources[sourceKey] : '');
+  if (isApiReferenceSpec(spec, APISIX_DOCS_VERSION, apiId)) {
+    specUrl = sourceKey ? allAssets[sourceKey] : undefined;
+  }
+} catch { /* Missing or invalid JSON keeps the existing Markdown renderer. */ }
+const pageName = apiId === 'admin-api' ? 'Admin API' : 'Control API';
+---
+<DocPage entry={entry} activeId={entry.pathId} locale={locale} path={`/docs/apisix/${apiId}/`} sidebar={sidebar} titleById={titleById} urlById={urlById} editUrl={editUrl} versionLabel={`APISIX ${APISIX_DOCS_VERSION}`} versions={versionsFor(docsHref)} hideContent={Boolean(specUrl)}>
+  <Fragment slot="reference">
+    {specUrl && <section id="api-reference-openapi">
+      <nav class="api-toolbar" aria-label={zh ? 'API 文档导航' : 'API reference navigation'}>
+        <div class="api-location">
+          <a class="api-back" href={docsHref}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
+            {zh ? '文档' : 'Docs'}
+          </a>
+          <span class="api-separator" aria-hidden="true">/</span>
+          <span class="api-page-name" aria-current="page">{pageName}</span>
+          <details class="api-version">
+            <summary aria-label={zh ? `切换版本，当前 ${APISIX_DOCS_VERSION}` : `Switch version, current ${APISIX_DOCS_VERSION}`}>
+              <span>{APISIX_DOCS_VERSION}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <ul>{versions.map((version) => <li><a href={version.href} aria-current={version.current ? 'page' : undefined}>{version.label}</a></li>)}</ul>
+          </details>
+        </div>
+        <a class="api-action api-download" href={specUrl} download={`apisix-${apiId}.json`} aria-label={zh ? '下载 OpenAPI' : 'Download OpenAPI'} title={zh ? '下载 OpenAPI' : 'Download OpenAPI'}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg>
+          <span class="api-action-label">{zh ? '下载 OpenAPI' : 'Download OpenAPI'}</span>
+        </a>
+      </nav>
+      <p id="api-reference-loading" class="container" role="status">{zh ? '正在加载 API 参考…' : 'Loading API reference…'}</p>
+      <div id="api-reference-container" data-api-id={apiId} data-spec-url={specUrl} data-spec-version={APISIX_DOCS_VERSION} hidden></div>
+    </section>}
+    {specUrl && <noscript>
+      <style is:inline>
+        #api-reference-openapi { display: none; }
+        #api-reference-markdown[hidden] { display: grid; }
+      </style>
+    </noscript>}
+    <script>
+      import scalarTheme from '../../../shared/admin-api-scalar.css?inline';
+
+      import { mountApiReference } from '../../../shared/admin-api';
+      mountApiReference(document, scalarTheme);
+    </script>
+  </Fragment>
+</DocPage>

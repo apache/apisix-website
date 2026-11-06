@@ -19,6 +19,8 @@ const excludePatterns = [
   /^\/(?:zh\/)?docs\/[\w-]+\/(?:[\w-]+-)?\d+\.\d+(?:\.\d+)?\//,
   /^\/(?:zh\/)?docs\/[\w./-]+\/tags\//,
   /^\/(?:zh\/)?docs\/[\w-]+\/next\//,
+  // The current Ingress FAQ is a 301 alias for the overview, not an indexable page.
+  /^\/(?:zh\/)?docs\/ingress-controller\/FAQ\/$/,
   /^\/(?:zh\/)?search\/?$/,
   /^\/(?:zh\/)?blog\/(?:tags|page|archive)\//,
   /^\/(?:zh\/)?learning-center\/(?:tags|page|archive)\//,

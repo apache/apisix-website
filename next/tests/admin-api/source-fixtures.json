@@ -1,0 +1,53 @@
+[
+  {
+    "version": "3.16",
+    "canonicalRef": "release/3.16",
+    "commit": "ae0dc4a842b3855a8ac71db97e659231d5592167"
+  },
+  {
+    "version": "3.17",
+    "canonicalRef": "release/3.17",
+    "commit": "9fae9b644357281976463626c624064c0464b5a1"
+  },
+  {
+    "version": "3.18",
+    "canonicalRef": "release/3.18",
+    "commit": "8d7e45597a065472ba33672581fb7fbafff523ca"
+  },
+  {
+    "version": "next",
+    "canonicalRef": "master",
+    "commit": "88a41b7f30da10072294ae48b1d1d7369452b1ac"
+  },
+  {
+    "version": "3.16",
+    "apiId": "control-api",
+    "canonicalRef": "release/3.16",
+    "commit": "0f0fef3304579dc495c1131f09c98d947aea9abc"
+  },
+  {
+    "version": "3.17",
+    "apiId": "control-api",
+    "canonicalRef": "release/3.17",
+    "commit": "36079fe60f55d88ffb27f513ac912f5b1729ff20"
+  },
+  {
+    "version": "3.18",
+    "apiId": "control-api",
+    "canonicalRef": "release/3.18",
+    "commit": "687d89c68f754d7192761ea55b38d276d1b85e82"
+  },
+  {
+    "version": "3.19.0",
+    "apiId": "control-api",
+    "canonicalRef": "release/3.19",
+    "commit": "8e4a79346658d93de8e5bed7f4fcbb6cf8fd4979",
+    "generatedPath": "next/content/docs-apisix-en/control-api.json"
+  },
+  {
+    "version": "next",
+    "apiId": "control-api",
+    "canonicalRef": "master",
+    "commit": "6205e4a568106eea8277f61ae6ef942bbff62d97"
+  }
+]

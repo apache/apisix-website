@@ -73,6 +73,19 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['next/playwright.admin-api.config.mjs', 'next/tests/admin-api/*.mjs'],
+      rules: {
+        'import/no-extraneous-dependencies': [ERROR, { devDependencies: true }],
+      },
+    },
+    {
+      // Node's native TypeScript entry points require explicit extensions.
+      files: ['next/scripts/check-admin-api-*.mjs', 'shared/admin-api-spec.test.mjs'],
+      rules: {
+        'import/extensions': [ERROR, 'ignorePackages', { ts: 'always', js: 'always' }],
+      },
+    },
+    {
       files: [
         'scripts/**/*.js',
         'website/src/clientModules/**/*.js',

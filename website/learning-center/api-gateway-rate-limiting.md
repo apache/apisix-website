@@ -88,7 +88,7 @@ Fixed window is the simplest algorithm but has a well-known boundary problem: a 
 
 Assign rate limits based on authenticated consumer identity. This is useful for APIs that provide different quotas or burst allowances to different consumer groups.
 
-In APISIX, an authentication plugin can establish the Consumer before a rate-limiting plugin keys a policy on `consumer_name`. Rate-limiting plugins can also be attached to [Consumers](/docs/apisix/terminology/consumer/) or [Consumer Groups](/docs/apisix/terminology/consumer-group/) when that ownership model fits the policy.
+In APISIX, an authentication plugin can establish the Consumer before a rate-limiting plugin keys a policy on `consumer_name`. Rate-limiting plugins can also be attached to [Consumers](/docs/apisix/terminology/consumer/) or [Consumer Groups](/docs/apisix/terminology/consumer-group/) when that ownership model fits the policy. See the [step-by-step APISIX example for per-consumer and shared consumer-group limits](/blog/2024/07/25/different-rate-limits-apisix/) for a concrete configuration.
 
 ### Per-IP
 

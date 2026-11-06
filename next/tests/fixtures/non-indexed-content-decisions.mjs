@@ -10,6 +10,11 @@ export const NON_INDEXED_CONTENT_DECISIONS = [
     removedFile: 'blog/en/blog/2022/09/13/why-is-apache-apisix-the-best-api-gateway.md',
   },
   {
+    source: '/blog/2023/05/19/why-do-microservices-need-an-api-gateway/',
+    destination: '/learning-center/api-gateway-for-microservices/',
+    removedFile: 'blog/en/blog/2023/05/19/why-do-microservices-need-an-api-gateway.md',
+  },
+  {
     source: '/blog/2024/02/13/apisix-owasp-coraza-core-ruleset/',
     destination: '/blog/2023/09/08/APISIX-integrates-with-Coraza/',
     removedFile: 'blog/en/blog/2024/02/13/apisix-owasp-coraza-core-ruleset.md',
