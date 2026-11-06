@@ -57,9 +57,17 @@ APISIX 不再包含或加载 `mcp-bridge`、其本地进程传输层及相关 MC
 
 更多信息，请参阅 [PR #14146](https://github.com/apache/apisix/pull/14146)。
 
+### 共享 gRPC 信任锚可能替换 HTTP 级自定义 CA
+
+对于设置 `tls.verify: true` 且未配置每上游 `tls.ca_certs` 的 gRPCS 上游，APISIX 现在会根据 `apisix.ssl.ssl_trusted_certificate` 渲染 `grpc_ssl_trusted_certificate`，从而修复使用空信任存储校验的问题。但新生成的 server 级指令会覆盖此前通过 `http_configuration_snippet` 在 HTTP 级注入并继承的不同 `grpc_ssl_trusted_certificate`。通过 `http_server_configuration_snippet` 再次添加该指令也不能作为回退方案，因为 NGINX 会拒绝同一上下文中的重复值。
+
+**升级计划：** 如果同时配置了 `apisix.ssl.ssl_trusted_certificate`，并通过 `http_configuration_snippet` 设置了自定义 gRPC 信任文件，请在升级前将所需 gRPC CA 加入共享信任文件；如果相关上游需要独立的信任集合，则在该 Upstream 中配置 `tls.ca_certs`。请分别验证一次受信任和不受信任的 gRPCS 连接。未使用该自定义指令的部署无需迁移。
+
+更多信息，请参阅 [PR #14113](https://github.com/apache/apisix/pull/14113)。
+
 ### `authz-keycloak` 要求授予全部请求的权限和作用域
 
-插件现在请求 Keycloak 返回 `permissions`，并逐一校验配置的资源及作用域。只要缺少任意一项，请求就会返回 403。这修复了 Route 配置多个权限、多个作用域或使用 `http_method_as_scope` 时，未获得完整授权仍可能通过的问题。
+插件现在请求 Keycloak 返回 `permissions`，并逐一校验配置的资源及作用域。只要缺少任意一项，请求就会返回 403。这修复了 Route 配置多个权限、多个作用域或使用 `http_method_as_scope` 时，未获得完整授权仍可能通过的问题。发送前会去除每个作用域两端的空格，因此 `res#view, delete` 现在会请求并强制校验 `delete`；若令牌端点返回的不是权限列表，则返回 503。
 
 **升级计划：** 如果 Route 使用 `authz-keycloak`，请对照 Keycloak 授权策略检查 `permissions` 和 `http_method_as_scope`。授予所有必需资源和作用域，或缩小 Route 请求的权限集合；随后测试完整授权令牌以及分别缺失各权限的令牌。无法恢复仅部分授权即可通过的旧行为。
 
@@ -69,7 +77,9 @@ APISIX 不再包含或加载 `mcp-bridge`、其本地进程传输层及相关 MC
 
 `openid-connect` 插件升级至 `lua-resty-openidc` 1.9.3 和 `lua-resty-session` 4.2.0。确认不活跃的令牌返回 401 及 `invalid_token` 质询；端点不可用、传输失败、超时或响应格式错误返回 503 且不带该质询；配置错误返回 500。`active` 必须是布尔值，缺失或类型错误会被视为无效的内省响应。
 
-**升级计划：** 如果客户端或监控系统处理内省错误，请使其区分 401、503 和 500。确认授权服务器返回布尔类型的 `active`，并分别测试不活跃令牌、端点故障和有效令牌。没有恢复所有错误均返回 401 的配置项。
+依赖升级还会向上传递此前被忽略的会话销毁错误和关闭失败模式下的撤销存储故障。在授权码流程中，这类故障可能阻止会话初始化或访问令牌获取；会话销毁失败时也不会继续执行登出重定向。
+
+**升级计划：** 如果客户端或监控系统处理内省错误，请使其区分 401、503 和 500。确认授权服务器返回布尔类型的 `active`，并分别测试不活跃令牌、端点故障和有效令牌。如果授权码流程使用关闭失败模式的服务端撤销存储，请在升级前确认其可用性，并测试登录、令牌刷新和登出。没有配置项可恢复所有错误均返回 401，或继续静默忽略关闭失败模式下的撤销存储故障。
 
 更多信息，请参阅 [PR #14088](https://github.com/apache/apisix/pull/14088)。
 
@@ -99,7 +109,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 ### 上游会收到路由匹配所使用的规范化路径
 
-当 NGINX 对路径执行了超过百分号解码或合并重复斜杠的规范化时，APISIX 现在会向上游转发路由器实际匹配的路径，而不是原始请求行。这可避免请求在一个路径上通过鉴权，却以另一条路径转发。插件设置的 `$upstream_uri` 仍优先；仅编码形式或重复斜杠不同的请求仍保留原始请求行。
+当 NGINX 对路径执行了超过百分号解码或合并重复斜杠的规范化时，APISIX 现在会向上游转发路由器实际匹配的路径，而不是原始请求行。这可避免请求在一个路径上通过鉴权，却以另一条路径转发。由于转发的 `$uri` 已解码，`/a/./b%2Fc` 到达上游时会变为 `/a/b/c`。插件设置的 `$upstream_uri` 仍优先；仅编码形式或重复斜杠不同的请求仍保留原始请求行。
 
 **升级计划：** 如果上游有意依赖原始点路径段或其他会被 NGINX 规范化的语法，请在 3.20 上测试这些请求，并将确有需要的转换改为显式重写。安全与路由策略应基于规范化路径。无法恢复路由后转发实质不同原始路径的旧行为。
 
@@ -131,7 +141,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 ### `openapi-to-mcp` 采用更严格的信任边界和大小限制
 
-工具参数现在只会保留操作声明的参数；Route 配置的请求头优先，不安全或连接级请求头会被丢弃，未声明的查询参数也不会传给 API。来自浏览器的 MCP 请求会按 `allowed_origins`、Route 的固定主机名或回环地址默认规则校验。外部 `$ref` 仅允许访问 `openapi_url` 同源地址和 `allowed_ref_hosts`；SSE 会话绑定至创建它的 Route 和 Consumer。
+工具参数现在只会保留操作声明的参数；Route 配置的请求头优先，不安全或连接级请求头会被丢弃，未声明的查询参数也不会传给 API。若已保存 Route 的请求头名称包含 `:` 或空白，或者请求头值包含 CR 或 LF，该 Route 会被拒绝。设置 `allowed_origins` 时，浏览器 MCP 请求按该列表校验；未设置时，Origin 必须以相同 scheme 和有效端口匹配 Route 的固定主机名，或者请求两端均为回环地址。外部 `$ref` 仅允许访问 `openapi_url` 同源地址和 `allowed_ref_hosts`；SSE 会话绑定至创建它的 Route 和 Consumer。
 
 插件默认将 `max_response_body_size` 设为 1 MiB、`max_document_size` 设为 4 MiB、`max_expanded_nodes` 设为 50,000。路径参数默认不能包含 `/` 或 `\`；仅在设置 `allow_encoded_path_separators: true` 时允许，空路径段及 `.`、`..` 路径段始终被拒绝。
 
@@ -156,6 +166,8 @@ Apache APISIX 3.20.0 为请求体、服务发现、身份信息转发、限流�
 新的 `request-decompress` 插件会解压 `gzip` 和 `deflate` 请求体，使校验、转换、WAF 和日志插件能够检查明文。插件对不支持的编码返回 415，对损坏的压缩数据返回 400，对原始或解压后超过 `max_req_body_size` 的请求体返回 413；多个连续 gzip member 也会按总大小限制。
 
 默认情况下，上游接收解压后的请求体。设置 `forward_compressed: true` 后，插件仍检查明文，但向上游发送压缩形式；若其他插件未修改请求体，则恢复原始字节，否则在代理前重新压缩修改后的内容。
+
+`max_req_body_size` 默认为 1 MiB。`request-decompress` 的优先级为 2850，默认早于 `hmac-auth` 执行，因此 `hmac-auth.validate_request_body` 会对解压后的请求体计算摘要。如果客户端对压缩字节签名，请将 `hmac-auth` 的优先级提高到 2850 以上。按默认顺序，解压也发生在身份验证之前；对于不可信客户端，应同时限制 APISIX 客户端请求体大小和插件限制。启用 `forward_compressed: true` 时，日志阶段插件读取的是实际发送给上游的请求体形式。
 
 ```json
 {
@@ -219,7 +231,7 @@ Prometheus 插件新增 `apisix_nginx_timers`、`apisix_nginx_timers_max`、`api
 
 ### 配置过期 Prometheus 指标清理周期
 
-`plugin_attr.prometheus.remove_expired_keys_interval` 控制清理过期指标条目的周期，默认 3600 秒，大于 3600 的值会被限制为 3600，非正值会关闭自动清理。缩短周期可更快回收共享字典空间，但会增加扫描频率。
+`plugin_attr.prometheus.remove_expired_keys_interval` 控制清理过期指标条目的周期，默认 3600 秒，大于 3600 的值会被限制为 3600，非正值会关闭自动清理。该配置与 `refresh_interval` 相互独立。缩短周期可更快回收共享字典空间，但会增加扫描频率；重新加载配置并缩短该值后，由于各 worker 共享清理标记，下一次清理仍可能等待原有周期结束。
 
 更多信息，请参阅 [PR #13981](https://github.com/apache/apisix/pull/13981)。
 
@@ -233,7 +245,7 @@ Prometheus 插件新增 `apisix_nginx_timers`、`apisix_nginx_timers_max`、`api
 
 ### 查看限流判定和窗口信息
 
-`limit-count` 在 `$rate_limiting_info` 中新增窗口类型与大小、评估时间、判定结果、请求成本、当前窗口、前一个滑动窗口和延迟同步快照。原有配额字段名称保持不变，但 JSON 字段顺序不固定。访问日志现在可以直接解释请求为何被允许、拒绝或受到计数器错误影响。
+`limit-count` 在 `$rate_limiting_info` 中新增窗口类型与大小、评估时间、判定结果、请求成本、当前窗口、前一个滑动窗口和延迟同步快照。原有配额字段名称保持不变，但 JSON 字段顺序不固定。包含引号或反斜杠的键现在也会编码为有效 JSON。同一变更还会保持本地固定窗口结束时间稳定，因此 `ai-rate-limiting` 的零成本检查不再使 `X-AI-RateLimit-Reset` 晚于计数器实际 TTL。
 
 更多信息，请参阅 [PR #13996](https://github.com/apache/apisix/pull/13996)。
 
@@ -263,7 +275,6 @@ Prometheus 插件新增 `apisix_nginx_timers`、`apisix_nginx_timers_max`、`api
 
 ### 路由、请求限制和上游 TLS
 
-- 当 HTTPS 或 gRPCS 上游仅设置 `tls.verify: true` 而没有单独 CA 时，现在会使用共享的 `ssl_trusted_certificate` 和 CRL，而不是空信任存储；gRPC 也会渲染同一组信任锚。[PR #14113](https://github.com/apache/apisix/pull/14113)
 - `normalize_uri_like_servlet` 现在为主上游和 `proxy-mirror` 保留查询字符串。[PR #13982](https://github.com/apache/apisix/pull/13982)
 - `client-control` 的请求体限制在内部跳转至 gRPC 上游后仍然有效，包括分块传输的 HTTP/2 请求体。[PR #14036](https://github.com/apache/apisix/pull/14036)
 - `traffic-split` 内联上游现在会应用 `tls` 和 `keepalive_pool`，包括客户端证书、证书校验、CA、证书引用和连接池大小。[PR #14054](https://github.com/apache/apisix/pull/14054)
@@ -276,13 +287,13 @@ Prometheus 插件新增 `apisix_nginx_timers`、`apisix_nginx_timers_max`、`api
 ### AI Gateway 用量统计
 
 - Bedrock 缓存读取和写入 token 现计入标准化 prompt 用量，并在流式及非流式响应中写入日志变量。[PR #14044](https://github.com/apache/apisix/pull/14044)
-- Anthropic prompt 用量现包含缓存读取和创建 token，流式用量会在 `message_start` 与 `message_delta` 之间累积，从而修正基于 token 的限流、指标和缓存命中率。[PR #14028](https://github.com/apache/apisix/pull/14028)
+- Anthropic prompt 用量现包含缓存读取和创建 token，流式用量会在 `message_start` 与 `message_delta` 之间累积，从而修正基于 token 的限流、指标和缓存命中率。当 Anthropic 客户端使用 OpenAI 兼容上游时，缓冲响应和流式响应现在都会以 `max(0, prompt_tokens - cache_read - cache_write)` 计算 `input_tokens`，避免重复计算缓存写入量。[PR #14028](https://github.com/apache/apisix/pull/14028)
 
 ### 安全、校验和内存安全
 
 - AWS 和 Vault Secret 错误不再包含提供方响应体，日志仅保留定位失败引用所需的标识符。[PR #14049](https://github.com/apache/apisix/pull/14049)
 - 格式错误的 CSRF token 结构和字段现在返回 401，而不是触发 Lua 错误并返回 500。[PR #14025](https://github.com/apache/apisix/pull/14025)
-- 在 `spec_url_ttl` 时间内未使用的远程 `oas-validator` 规范会被释放，避免已删除或已更改 Route 的编译规范持续占用 worker 内存。[PR #14061](https://github.com/apache/apisix/pull/14061)
+- 在 `spec_url_ttl` 时间内未使用的远程 `oas-validator` 规范会被释放，避免已删除或已更改 Route 的编译规范持续占用 worker 内存。修改 `spec_url_ttl` 元数据并重建缓存时，也会释放旧缓存，不再使其在整个 worker 生命周期内保持可达。[PR #14061](https://github.com/apache/apisix/pull/14061)
 
 ### Syslog 可靠性
 

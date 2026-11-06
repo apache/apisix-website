@@ -57,9 +57,17 @@ When `oas-validator` fetches an HTTPS `spec_url`, `ssl_verify` now defaults to `
 
 For more information, see [PR #14146](https://github.com/apache/apisix/pull/14146).
 
+### Shared gRPC trust anchors can replace an HTTP-level custom CA
+
+For gRPCS upstreams with `tls.verify: true` and no per-Upstream `tls.ca_certs`, APISIX now renders `grpc_ssl_trusted_certificate` from `apisix.ssl.ssl_trusted_certificate`. This fixes verification against an empty trust store. However, the generated server-level directive takes precedence over a different `grpc_ssl_trusted_certificate` previously injected at the HTTP level with `http_configuration_snippet`. Adding the directive again through `http_server_configuration_snippet` is not a fallback because NGINX rejects duplicate values in the same context.
+
+**Upgrade plan:** If you set a custom gRPC trust file through `http_configuration_snippet` and also configure `apisix.ssl.ssl_trusted_certificate`, add the required gRPC CA to the shared trust file before upgrading, or configure the distinct CA with the affected Upstream's `tls.ca_certs`. Validate one trusted and one untrusted gRPCS connection. Deployments without this custom directive require no migration.
+
+For more information, see [PR #14113](https://github.com/apache/apisix/pull/14113).
+
 ### `authz-keycloak` requires every requested permission and scope
 
-The plugin now requests Keycloak's `permissions` response and checks every configured resource and scope. A request is rejected with 403 when any requested permission is absent. This corrects cases where a route listing several permissions, several scopes, or `http_method_as_scope` could be accepted without the complete grant.
+The plugin now requests Keycloak's `permissions` response and checks every configured resource and scope. A request is rejected with 403 when any requested permission is absent. This corrects cases where a route listing several permissions, several scopes, or `http_method_as_scope` could be accepted without the complete grant. Scopes are trimmed before they are sent, so `res#view, delete` now requests and enforces `delete`; a token-endpoint response that is not a permissions list returns 503.
 
 **Upgrade plan:** If a Route uses `authz-keycloak`, compare its `permissions` and `http_method_as_scope` settings with the Keycloak authorization policies. Grant every required resource and scope or narrow the Route's requested set, then test a fully authorized token and tokens missing each permission. There is no option to restore partial-grant acceptance.
 
@@ -69,7 +77,9 @@ For more information, see [PR #14098](https://github.com/apache/apisix/pull/1409
 
 The `openid-connect` plugin now uses `lua-resty-openidc` 1.9.3 and `lua-resty-session` 4.2.0. An explicitly inactive token returns 401 with an `invalid_token` challenge. An unavailable endpoint, transport failure, timeout, or malformed response returns 503 without that challenge, while a configuration failure returns 500. The `active` claim must be a boolean; a missing or non-boolean value is treated as an invalid introspection response.
 
-**Upgrade plan:** If clients or monitors consume introspection errors, update them to distinguish 401, 503, and 500. Ensure the authorization server returns a boolean `active` claim and verify one inactive-token case, one endpoint-failure case, and one valid token. There is no setting that restores the previous all-401 mapping.
+The dependency upgrade also propagates session-destroy and closed-mode revocation-store failures that were previously ignored. In an authorization-code flow, such a failure can stop session initialization or access-token retrieval, and a failed session destroy prevents the logout redirect.
+
+**Upgrade plan:** If clients or monitors consume introspection errors, update them to distinguish 401, 503, and 500. Ensure the authorization server returns a boolean `active` claim and verify one inactive-token case, one endpoint-failure case, and one valid token. If the authorization-code flow uses a server-side revocation store in closed fail mode, verify its availability and test login, token refresh, and logout before upgrading. There is no setting that restores the previous all-401 mapping or silently ignores a closed-mode revocation-store failure.
 
 For more information, see [PR #14088](https://github.com/apache/apisix/pull/14088).
 
@@ -99,7 +109,7 @@ For more information, see [PR #14013](https://github.com/apache/apisix/pull/1401
 
 ### Upstreams receive the normalized path used for routing
 
-When NGINX normalizes a path beyond percent-decoding or merging repeated slashes, APISIX now forwards the path the router matched instead of the raw request line. This prevents a request containing dot segments or equivalent normalization from being authorized on one path and forwarded as another. A plugin-set `$upstream_uri` still takes precedence, and encoding-only or repeated-slash differences continue to preserve the original request line.
+When NGINX normalizes a path beyond percent-decoding or merging repeated slashes, APISIX now forwards the path the router matched instead of the raw request line. This prevents a request containing dot segments or equivalent normalization from being authorized on one path and forwarded as another. Because the forwarded `$uri` is decoded, `/a/./b%2Fc` reaches the upstream as `/a/b/c`. A plugin-set `$upstream_uri` still takes precedence, and encoding-only or repeated-slash differences continue to preserve the original request line.
 
 **Upgrade plan:** If an upstream intentionally depends on raw dot segments or other NGINX-normalized path syntax, test those requests against 3.20 and move any required transformation into an explicit rewrite. Security and routing policies should use the normalized path. There is no compatibility option for forwarding a materially different raw path after routing.
 
@@ -131,7 +141,7 @@ For more information, see [PR #14073](https://github.com/apache/apisix/pull/1407
 
 ### `openapi-to-mcp` applies stricter trust boundaries and size limits
 
-Tool arguments are now filtered to parameters declared by the operation. Route-configured headers take precedence, unsafe or connection-level headers are dropped, and undeclared query keys no longer reach the API. MCP browser requests are checked against `allowed_origins`, literal Route hosts, or loopback defaults. External `$ref` documents are limited to the `openapi_url` origin plus `allowed_ref_hosts`; SSE sessions are bound to their Route and Consumer.
+Tool arguments are now filtered to parameters declared by the operation. Route-configured headers take precedence, unsafe or connection-level headers are dropped, and undeclared query keys no longer reach the API. A stored Route is rejected if a configured header name contains `:`, whitespace, or a value containing CR or LF. When `allowed_origins` is set, it governs MCP browser requests; otherwise, an Origin must match a literal Route host with the same scheme and effective port, or both sides must use loopback. External `$ref` documents are limited to the `openapi_url` origin plus `allowed_ref_hosts`; SSE sessions are bound to their Route and Consumer.
 
 The plugin also defaults to a 1 MiB `max_response_body_size`, a 4 MiB `max_document_size`, and a 50,000-node `max_expanded_nodes` budget. Path parameters cannot contain `/` or `\` unless `allow_encoded_path_separators: true`; empty and dot components remain forbidden.
 
@@ -156,6 +166,8 @@ APISIX 3.20.0 adds new controls for request bodies, discovery, identity propagat
 The new `request-decompress` plugin inflates `gzip` and `deflate` request bodies so validation, transformation, WAF, and logging plugins can inspect plaintext. It rejects unsupported encodings with 415, malformed compressed data with 400, and raw or inflated bodies above `max_req_body_size` with 413. Concatenated gzip members are supported and bounded cumulatively.
 
 By default the upstream receives the decompressed body. Set `forward_compressed: true` when plugins should inspect plaintext but the upstream should retain a compressed representation. The plugin then restores the original bytes when no earlier plugin changed the body, or recompresses the modified body before proxying.
+
+The default `max_req_body_size` is 1 MiB. `request-decompress` runs at priority 2850, before `hmac-auth` at its default priority, so `hmac-auth.validate_request_body` hashes the decompressed body. If clients sign the compressed bytes, raise the `hmac-auth` priority above 2850. Decompression also occurs before authentication at the default order; keep both the APISIX client-body limit and the plugin limit bounded for untrusted clients. With `forward_compressed: true`, log-phase plugins read the body in the form sent upstream.
 
 ```json
 {
@@ -219,7 +231,7 @@ For more information, see [PR #14034](https://github.com/apache/apisix/pull/1403
 
 ### Configure expired Prometheus metric cleanup
 
-`plugin_attr.prometheus.remove_expired_keys_interval` controls how often expired metric entries are reclaimed. It defaults to 3600 seconds, values above 3600 are capped, and non-positive values disable automatic cleanup. Shorter intervals reclaim shared-dictionary space sooner at the cost of more frequent scans.
+`plugin_attr.prometheus.remove_expired_keys_interval` controls how often expired metric entries are reclaimed. It defaults to 3600 seconds, values above 3600 are capped, and non-positive values disable automatic cleanup. It is independent of `refresh_interval`. Shorter intervals reclaim shared-dictionary space sooner at the cost of more frequent scans; after shortening the value on reload, the next cleanup can still wait for the previous interval because workers share the cleanup marker.
 
 For more information, see [PR #13981](https://github.com/apache/apisix/pull/13981).
 
@@ -233,7 +245,7 @@ For more information, see [PR #13311](https://github.com/apache/apisix/pull/1331
 
 ### Inspect rate-limit decisions and windows
 
-`limit-count` expands `$rate_limiting_info` with the window type and size, evaluated timestamp, decision, request cost, current window, previous sliding window, and delayed-sync snapshot. Existing quota fields retain their names, but JSON field order is not fixed. This makes it possible to explain whether a request was allowed, rejected, or affected by a counter error directly from access logs.
+`limit-count` expands `$rate_limiting_info` with the window type and size, evaluated timestamp, decision, request cost, current window, previous sliding window, and delayed-sync snapshot. Existing quota fields retain their names, but JSON field order is not fixed. Keys containing quotes or backslashes are now encoded as valid JSON. The same change keeps the local fixed-window end time stable, so an `ai-rate-limiting` zero-cost check no longer pushes `X-AI-RateLimit-Reset` later than the counter's actual TTL.
 
 For more information, see [PR #13996](https://github.com/apache/apisix/pull/13996).
 
@@ -263,7 +275,6 @@ The fixes below are grouped by the subsystem users are most likely to recognize:
 
 ### Routing, request limits, and upstream TLS
 
-- An HTTPS or gRPCS upstream with `tls.verify: true` and no per-upstream CA now uses the shared `ssl_trusted_certificate` and CRL instead of an empty trust store. gRPC receives the same rendered trust anchors. [PR #14113](https://github.com/apache/apisix/pull/14113)
 - `normalize_uri_like_servlet` now preserves the query string for the primary upstream and `proxy-mirror`. [PR #13982](https://github.com/apache/apisix/pull/13982)
 - `client-control` body limits survive the internal redirect to a gRPC upstream, including chunked HTTP/2 request bodies. [PR #14036](https://github.com/apache/apisix/pull/14036)
 - Inline `traffic-split` upstreams now apply their `tls` and `keepalive_pool` settings, including client certificates, verification, CA certificates, certificate references, and pool sizing. [PR #14054](https://github.com/apache/apisix/pull/14054)
@@ -276,13 +287,13 @@ The fixes below are grouped by the subsystem users are most likely to recognize:
 ### AI Gateway usage accounting
 
 - Bedrock cache-read and cache-write tokens now contribute to normalized prompt usage and reach the logging variables in streaming and non-streaming responses. [PR #14044](https://github.com/apache/apisix/pull/14044)
-- Anthropic prompt usage now includes cache-read and cache-creation tokens, and streaming usage is accumulated across `message_start` and `message_delta`. This corrects token-based rate limits, metrics, and cache-hit ratios. [PR #14028](https://github.com/apache/apisix/pull/14028)
+- Anthropic prompt usage now includes cache-read and cache-creation tokens, and streaming usage is accumulated across `message_start` and `message_delta`. This corrects token-based rate limits, metrics, and cache-hit ratios. When an Anthropic client uses an OpenAI-compatible upstream, buffered and streaming responses now calculate `input_tokens` as `max(0, prompt_tokens - cache_read - cache_write)`, avoiding a double-counted cache write. [PR #14028](https://github.com/apache/apisix/pull/14028)
 
 ### Security, validation, and memory safety
 
 - AWS and Vault Secret errors no longer include provider response bodies; logs retain only the identifiers needed to locate the failed reference. [PR #14049](https://github.com/apache/apisix/pull/14049)
 - Malformed CSRF token shapes and fields return 401 instead of causing a Lua error and 500. [PR #14025](https://github.com/apache/apisix/pull/14025)
-- Remote `oas-validator` specifications unused for `spec_url_ttl` seconds are released, preventing obsolete Route URLs from accumulating compiled specifications in worker memory. [PR #14061](https://github.com/apache/apisix/pull/14061)
+- Remote `oas-validator` specifications unused for `spec_url_ttl` seconds are released, preventing obsolete Route URLs from accumulating compiled specifications in worker memory. Rebuilding the cache after `spec_url_ttl` metadata changes also releases the previous cache instead of retaining it for the worker lifetime. [PR #14061](https://github.com/apache/apisix/pull/14061)
 
 ### Syslog reliability
 
