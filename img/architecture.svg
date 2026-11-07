@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 738" width="1200" height="738" fill="none" role="img">
+  <title>Apache APISIX architecture</title>
+  <!--
+    Homepage architecture diagram. Hand-authored: edit this file directly.
+
+    Geometry is absolute, so a box and the wire landing on it share one
+    coordinate space; move a box and you must move its wire. Text is live
+    <text> in the system sans stack, so labels take the viewer's font
+    metrics. Keep boxes wider than their labels need.
+  -->
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .caption { font-size: 15px; font-weight: 700; letter-spacing: 1.8px; }
+    .node-label { font-size: 20px; fill: #1c1e21; }
+    .card-title { font-size: 26px; font-weight: 700; }
+    .card-sub { font-size: 15px; }
+    .chip-label { font-size: 18px; fill: #1c1e21; }
+    .panel { fill: #f7f8fa; stroke: #ebeef2; }
+    .node { fill: #fff; stroke: #e3e7ec; filter: url(#node-shadow); }
+    .card-bg { fill: #fff; }
+    .red-band { fill: #fceded; }
+    .red-line { stroke: #f3c9c7; }
+    .blue-band { fill: #e8f0fb; }
+    .blue-line { stroke: #cfe0f5; }
+    .chip { fill: #fff; }
+  </style>
+
+  <defs>
+    <filter id="node-shadow" x="-20%" y="-40%" width="140%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#101827" flood-opacity=".07" />
+    </filter>
+    <!-- userSpaceOnUse keeps the head a fixed size regardless of stroke-width;
+         refX at the tip puts the point exactly on the path's last vertex -->
+    <marker id="head-gray" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="11" refY="5.5" orient="auto">
+      <path d="M0 0 L11 5.5 L0 11 z" fill="#8a939e" />
+    </marker>
+    <marker id="head-blue" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="11" refY="5.5" orient="auto">
+      <path d="M0 0 L11 5.5 L0 11 z" fill="#1a5da8" />
+    </marker>
+    <marker id="head-red" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="11" refY="5.5" orient="auto">
+      <path d="M0 0 L11 5.5 L0 11 z" fill="#d63b36" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="738" fill="#fff" />
+
+  <rect class="panel" x="24.5" y="24.5" width="559" height="689" rx="24" />
+  <rect class="panel" x="616.5" y="24.5" width="559" height="689" rx="24" />
+
+  <circle cx="57.5" cy="53" r="5.5" fill="#d63b36" />
+  <text class="caption" x="75" y="58.4" fill="#a32d2d">DATA PLANE</text>
+  <circle cx="649.5" cy="53" r="5.5" fill="#1a5da8" />
+  <text class="caption" x="667" y="58.4" fill="#175ba1">CONTROL PLANE</text>
+
+  <!-- data plane -->
+  <rect class="node" x="164.5" y="92.5" width="279" height="53" rx="12" />
+  <text class="node-label" x="304" y="126.1" text-anchor="middle">Client / service</text>
+
+  <g>
+    <rect class="card-bg" x="52" y="190" width="504" height="276" rx="16" />
+    <path class="red-band" d="M52 206a16 16 0 0 1 16-16h472a16 16 0 0 1 16 16v64H52z" />
+    <text class="card-title" x="304" y="228.2" text-anchor="middle" fill="#b8342f">Apache APISIX</text>
+    <text class="card-sub" x="304" y="252.9" text-anchor="middle" fill="#a3564f">Hot-reloadable plugin pipeline</text>
+
+    <g class="chip red-line">
+      <rect x="66.5" y="284.5" width="149.67" height="47" rx="10" />
+      <rect x="229.17" y="284.5" width="149.67" height="47" rx="10" />
+      <rect x="391.83" y="284.5" width="149.67" height="47" rx="10" />
+      <rect x="66.5" y="344.5" width="149.67" height="47" rx="10" />
+      <rect x="229.17" y="344.5" width="149.67" height="47" rx="10" />
+      <rect x="391.83" y="344.5" width="149.67" height="47" rx="10" />
+      <rect x="66.5" y="404.5" width="149.67" height="47" rx="10" />
+      <rect x="229.17" y="404.5" width="149.67" height="47" rx="10" />
+      <rect x="391.83" y="404.5" width="149.67" height="47" rx="10" />
+    </g>
+    <g class="chip-label" text-anchor="middle">
+      <text x="141.33" y="314.4">Rate limit</text>
+      <text x="304" y="314.4">Auth</text>
+      <text x="466.67" y="314.4">Security</text>
+      <text x="141.33" y="374.4">Logging</text>
+      <text x="304" y="374.4">Tracing</text>
+      <text x="466.67" y="374.4">Traffic split</text>
+      <text x="141.33" y="434.4">Transformation</text>
+      <text x="304" y="434.4">Custom plugin</text>
+      <text x="466.67" y="434.4">100+ more</text>
+    </g>
+    <rect class="red-line" x="52.5" y="190.5" width="503" height="275" rx="16" />
+  </g>
+
+  <g class="node-label" text-anchor="middle">
+    <rect class="node" x="52.5" y="544.5" width="159" height="59" rx="12" />
+    <rect class="node" x="224.5" y="544.5" width="159" height="59" rx="12" />
+    <rect class="node" x="396.5" y="544.5" width="159" height="59" rx="12" />
+    <text x="132" y="581.1">Partner APIs</text>
+    <text x="304" y="581.1">Private APIs</text>
+    <text x="476" y="581.1">Public APIs</text>
+  </g>
+
+  <!-- control plane -->
+  <rect class="node" x="756.5" y="92.5" width="279" height="53" rx="12" />
+  <text class="node-label" x="896" y="126.1" text-anchor="middle">Admin</text>
+
+  <g>
+    <rect class="card-bg" x="644" y="178" width="504" height="154" rx="16" />
+    <path class="blue-band" d="M644 194a16 16 0 0 1 16-16h472a16 16 0 0 1 16 16v64H644z" />
+    <text class="card-title" x="896" y="216.2" text-anchor="middle" fill="#175ba1">Dashboard</text>
+    <text class="card-sub" x="896" y="240.9" text-anchor="middle" fill="#3d6c9e">Configure routes and plugins</text>
+    <rect class="chip blue-line" x="796.5" y="272.5" width="199" height="45" rx="10" />
+    <text class="chip-label" x="896" y="301.4" text-anchor="middle">Manager API</text>
+    <rect class="blue-line" x="644.5" y="178.5" width="503" height="153" rx="16" />
+  </g>
+
+  <g>
+    <rect class="card-bg" x="644" y="358" width="504" height="158" rx="16" />
+    <path class="blue-band" d="M644 374a16 16 0 0 1 16-16h472a16 16 0 0 1 16 16v64H644z" />
+    <text class="card-title" x="896" y="396.2" text-anchor="middle" fill="#175ba1">etcd cluster</text>
+    <text class="card-sub" x="896" y="420.9" text-anchor="middle" fill="#3d6c9e">Configuration store</text>
+    <g class="chip blue-line">
+      <rect x="658.5" y="452.5" width="149.67" height="49" rx="10" />
+      <rect x="821.17" y="452.5" width="149.67" height="49" rx="10" />
+      <rect x="983.83" y="452.5" width="149.67" height="49" rx="10" />
+    </g>
+    <g class="chip-label" text-anchor="middle">
+      <text x="733.33" y="483.4">etcd</text>
+      <text x="896" y="483.4">etcd</text>
+      <text x="1058.67" y="483.4">etcd</text>
+    </g>
+    <rect class="blue-line" x="644.5" y="358.5" width="503" height="157" rx="16" />
+  </g>
+
+  <g>
+    <rect class="card-bg" x="644" y="530" width="504" height="158" rx="16" />
+    <path class="blue-band" d="M644 546a16 16 0 0 1 16-16h472a16 16 0 0 1 16 16v64H644z" />
+    <text class="card-title" x="896" y="568.2" text-anchor="middle" fill="#175ba1">Observability</text>
+    <text class="card-sub" x="896" y="592.9" text-anchor="middle" fill="#3d6c9e">Metrics, traces, and logs</text>
+    <g class="chip blue-line">
+      <rect x="658.5" y="624.5" width="199" height="49" rx="10" />
+      <rect x="870.5" y="624.5" width="139" height="49" rx="10" />
+      <rect x="1022.5" y="624.5" width="111" height="49" rx="10" />
+    </g>
+    <g class="chip-label" text-anchor="middle">
+      <text x="758" y="655.4">Apache SkyWalking</text>
+      <text x="940" y="655.4">Prometheus</text>
+      <text x="1078" y="655.4">Grafana</text>
+    </g>
+    <rect class="blue-line" x="644.5" y="530.5" width="503" height="157" rx="16" />
+  </g>
+
+  <g stroke="#8a939e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M304 146 V190" marker-end="url(#head-gray)" />
+    <path d="M896 146 V178" marker-end="url(#head-gray)" />
+    <path d="M896 332 V358" marker-end="url(#head-gray)" />
+    <!-- fan-out bus under APISIX: trunk + rail carry no head, the drops do -->
+    <path d="M304 470 V500 M132 500 H476" />
+    <path d="M132 500 V544" marker-end="url(#head-gray)" />
+    <path d="M304 500 V544" marker-end="url(#head-gray)" />
+    <path d="M476 500 V544" marker-end="url(#head-gray)" />
+  </g>
+
+  <!-- etcd pushes config into the gateway -->
+  <path d="M644 398 H556" stroke="#1a5da8" stroke-width="2.5" stroke-linecap="round" marker-end="url(#head-blue)" />
+  <!-- the gateway emits telemetry -->
+  <path d="M556 452 H600 V572 H644" stroke="#d63b36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#head-red)" />
+</svg>
