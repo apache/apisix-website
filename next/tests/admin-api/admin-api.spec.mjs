@@ -49,6 +49,10 @@ const apiIds = ['admin-api', 'control-api'];
         await page.locator('.api-version summary').click();
         await expect(page.locator('.api-version a[aria-current="page"]')).toHaveCount(1);
         await expect(page.locator('.api-version a', { hasText: '3.18' })).toHaveAttribute('href', `${locale}/docs/apisix/3.18/${apiId}/`);
+        const viewport = page.viewportSize();
+        const menuBox = await page.locator('.api-version ul').boundingBox();
+        expect(menuBox.x).toBeGreaterThanOrEqual(0);
+        expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(viewport.width);
         await page.keyboard.press('Escape');
         await expect(page.locator('.api-version')).not.toHaveAttribute('open', '');
         // eslint-disable-next-line no-restricted-syntax
@@ -56,6 +60,16 @@ const apiIds = ['admin-api', 'control-api'];
           await page.keyboard.press(shortcut);
           await expect(page.locator('.scalar-modal-layout')).toHaveCount(1);
           await expect(page.locator('.DocSearch-Container')).toHaveCount(0);
+          const scalarCoversToolbar = await page.evaluate(() => {
+            const toolbar = document.querySelector('.api-toolbar');
+            const rect = toolbar?.getBoundingClientRect();
+            if (!rect) return false;
+            return Boolean(document.elementFromPoint(
+              rect.left + rect.width / 2,
+              rect.top + rect.height / 2,
+            )?.closest('.scalar-modal-layout'));
+          });
+          expect(scalarCoversToolbar).toBeTruthy();
           await page.keyboard.press(shortcut);
           await expect(page.locator('.scalar-modal-layout')).toHaveCount(1);
           await page.keyboard.press('Escape');
@@ -125,4 +139,48 @@ const apiIds = ['admin-api', 'control-api'];
       await expect(page.locator('article')).toBeVisible();
     });
   });
+});
+
+test('site search covers API toolbars and narrow controls stay usable', async ({ page }) => {
+  test.setTimeout(120000);
+  const routes = [
+    '/docs/apisix/next/admin-api/',
+    '/docs/apisix/next/control-api/',
+    '/zh/docs/apisix/next/admin-api/',
+    '/zh/docs/apisix/next/control-api/',
+  ];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const route of routes) {
+    await page.setViewportSize({ width: 320, height: 700 });
+    await page.goto(route, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#api-reference-container')).toBeVisible({ timeout: 16000 });
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const selector of ['.api-back', '.api-version summary', '.api-download']) {
+      const box = await page.locator(selector).boundingBox();
+      expect(box.width).toBeGreaterThanOrEqual(40);
+      expect(box.height).toBeGreaterThanOrEqual(40);
+    }
+
+    await page.locator('.api-version summary').click();
+    const menuBox = await page.locator('.api-version ul').boundingBox();
+    expect(menuBox.x).toBeGreaterThanOrEqual(0);
+    expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(320);
+    await page.keyboard.press('Escape');
+
+    await page.locator('.DocSearch-Button').click();
+    await expect(page.locator('.DocSearch-Container')).toBeVisible();
+    const docSearchCoversToolbar = await page.evaluate(() => {
+      const toolbar = document.querySelector('.api-toolbar');
+      const rect = toolbar?.getBoundingClientRect();
+      if (!rect) return false;
+      return Boolean(document.elementFromPoint(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2,
+      )?.closest('.DocSearch-Container'));
+    });
+    expect(docSearchCoversToolbar).toBeTruthy();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.DocSearch-Container')).toHaveCount(0);
+  }
 });

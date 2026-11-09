@@ -37,6 +37,12 @@
   align-items: center;
 }
 
+.api-back,
+.api-action,
+.api-version summary {
+  min-height: 40px;
+}
+
 .api-location {
   gap: 0.8rem;
   min-width: 0;
@@ -44,6 +50,7 @@
 
 .api-back {
   gap: 0.25rem;
+  min-width: 40px;
   color: #64748b;
   white-space: nowrap;
 }
@@ -162,7 +169,15 @@
   }
 
   .api-action {
+    justify-content: center;
+    min-width: 40px;
     padding: 0.5rem;
+  }
+
+  .api-version ul {
+    left: 50%;
+    width: min(210px, calc(100vw - 2rem));
+    transform: translateX(-50%);
   }
 
   .api-action-label {
