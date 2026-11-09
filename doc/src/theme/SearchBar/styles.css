@@ -18,5 +18,8 @@
 }
 
 .DocSearch-Container {
-  z-index: calc(var(--ifm-z-index-fixed) + 1);
+  /* The API reference toolbar sits above Scalar's sticky chrome at 90. Keep
+   * site search above both. The custom property prevents the production CSS
+   * optimizer from rebasing this value below the toolbar. */
+  z-index: var(--docsearch-overlay-z-index, 200);
 }
