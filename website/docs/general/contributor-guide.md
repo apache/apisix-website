@@ -153,8 +153,10 @@ GitHub recommends using a time-based one-time password (TOTP) mobile application
 
 ### Submitting code
 
-After enabling 2FA, [create a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to perform Git operations.
+After enabling 2FA, [create a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) to perform Git operations.
 
 You can then use the username + personal access token combination in place of the username + password combination while pushing your code.
+
+To push to your fork, GitHub recommends a [fine-grained personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) with repository access limited to your fork and the **Contents** repository permission set to read and write. If you use a [personal access token (classic)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic) instead, select the `public_repo` scope.
 
 Alternatively, you can [connect to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) and push using the SSH remote URL instead of a personal access token.
