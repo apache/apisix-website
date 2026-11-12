@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.20.0 于 2026 年 11 月 9 日发布。该版本新增请求解压缩、多集群 Kubernetes 服务发现、OIDC 声明转发和进程级指标，并包含重要的安全与升级变更。
+description: Apache APISIX 3.20.0 于 2026 年 11 月 11 日发布。该版本新增请求解压缩、多集群 Kubernetes 服务发现、OIDC 声明转发和进程级指标，并包含重要的安全与升级变更。
 tags: [Community]
 ---
 
@@ -57,6 +57,16 @@ APISIX 不再包含或加载 `mcp-bridge`、其本地进程传输层及相关 MC
 
 更多信息，请参阅 [PR #14146](https://github.com/apache/apisix/pull/14146)。
 
+### 加密插件值现包含自描述标记
+
+Admin API 现在会在新加密的插件配置和插件元数据值前添加 `$ENC$v1$`，使存储值可自行标识为密文。启用 `enable_encrypt_fields` 时，APISIX 会在插件使用或 Admin API 返回带标记的字符串前对其解密。已有的无标记密文仍按插件 Schema 中的 `encrypt_fields` 声明处理。
+
+较早版本的 APISIX 无法识别该标记，会将完整的带标记字符串作为普通值使用。因此，APISIX 3.20.0 保存带标记的资源后，若未恢复旧数据便降级，插件可能收到密文。
+
+**升级计划：** 如果使用插件加密字段，请在升级前备份 etcd。滚动升级期间，在所有实例均运行可识别 `$ENC$v1$` 的版本之前，请避免通过 Admin API 写入配置，并保留完整的 keyring。如果 APISIX 3.20.0 已保存带标记的值后必须降级，请恢复升级前的备份。没有能让旧版本识别该标记的兼容开关。
+
+更多信息，请参阅 [PR #14162](https://github.com/apache/apisix/pull/14162)。
+
 ### 共享 gRPC 信任锚可能替换 HTTP 级自定义 CA
 
 对于设置 `tls.verify: true` 且未配置每上游 `tls.ca_certs` 的 gRPCS 上游，APISIX 现在会根据 `apisix.ssl.ssl_trusted_certificate` 渲染 `grpc_ssl_trusted_certificate`，从而修复使用空信任存储校验的问题。但新生成的 server 级指令会覆盖此前通过 `http_configuration_snippet` 在 HTTP 级注入并继承的不同 `grpc_ssl_trusted_certificate`。通过 `http_server_configuration_snippet` 再次添加该指令也不能作为回退方案，因为 NGINX 会拒绝同一上下文中的重复值。
@@ -85,11 +95,11 @@ APISIX 不再包含或加载 `mcp-bridge`、其本地进程传输层及相关 MC
 
 ### Stream Prometheus 指标新增 `service` 和 `service_id` 标签
 
-`apisix_stream_connection_total`、`apisix_stream_active_connections`、`apisix_stream_status` 和 `apisix_stream_bandwidth` 现包含 `service` 与 `service_id`。会话未到达绑定 Service 的 Stream Route 时，两者均为空。启用 `prefer_name: true` 时，`service` 为 Service 名称，`service_id` 仍为 ID。
+`apisix_stream_connection_total`、`apisix_stream_active_connections`、`apisix_stream_status` 和 `apisix_stream_bandwidth` 现包含 `service` 与 `service_id`。会话未到达绑定 Service 的 Stream Route 时，两者均为空。启用 `prefer_name: true` 时，`service` 为 Service 名称，`service_id` 仍为 ID。按 Service 统计的活动连接数和带宽从首个会话开始计入，包括在下一次 `refresh_interval` 前已结束的会话。
 
 **升级计划：** 如果查询上述四项指标，请在混合版本发布前更新精确标签集合、记录规则、告警、仪表盘和远程写入消费者。如需恢复 3.20 之前的序列形状，可使用 `sum without (service, service_id) (...)` 聚合；也可保留标签以获得按 Service 的可见性。请测试绑定 Service 的会话，以及未匹配或提前失败的会话。无法通过配置移除新标签。
 
-更多信息，请参阅 [PR #13992](https://github.com/apache/apisix/pull/13992)。
+更多信息，请参阅 [PR #13992](https://github.com/apache/apisix/pull/13992) 和 [PR #14101](https://github.com/apache/apisix/pull/14101)。
 
 ### `apisix start` 不再因捕获 OpenResty 标准输出而阻塞
 
@@ -101,9 +111,9 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 ### mTLS SNI 与 Host 不匹配时返回 421
 
-对于启用 mTLS 的 SSL 配置，APISIX 会先比较请求 Host 与 TLS SNI，再检查客户端证书。不匹配时现返回 `421 Misdirected Request`，使 HTTP/2 客户端可为目标源重新建立连接，而不是返回 400。
+对于启用 mTLS 的主机，当请求 Host 与 TLS SNI 不同时，APISIX 现在返回 `421 Misdirected Request`，使 HTTP/2 客户端可为目标源重新建立连接。在通常的 access 阶段路径中，APISIX 会先比较 Host 与 SNI，再检查客户端证书。如果当前连接的 SSL 对象配置了 `skip_mtls_uri_regex`，且 URI 未被豁免，APISIX 会先检查证书，并可能在比较 Host 与 SNI 前返回 400。TLS 握手失败时，请求会在这两项 access 阶段检查前结束。
 
-**升级计划：** 如果客户端、测试或监控预期 mTLS SNI/Host 不匹配返回 400，请改为接受 421，并允许客户端以目标源的 SNI 和证书重试新连接。其他客户端证书错误仍返回 400。没有恢复旧状态码的配置项。
+**升级计划：** 如果客户端、测试或监控预期 mTLS SNI/Host 不匹配返回 400，请改为接受 421，并允许客户端以目标源的 SNI 和证书重试新连接。请继续单独处理证书错误：此类错误仍可能导致 TLS 握手失败或返回 400；使用 `skip_mtls_uri_regex` 时，未豁免的 URI 也可能在 Host/SNI 比较前被拒绝。没有恢复旧不匹配状态码的配置项。
 
 更多信息，请参阅 [PR #14013](https://github.com/apache/apisix/pull/14013)。
 
@@ -269,15 +279,15 @@ Prometheus 插件新增 `apisix_nginx_timers`、`apisix_nginx_timers_max`、`api
 
 - Consul catalog 与 health watch 现在使用独立定时器，避免一个 watcher 在读取响应时被终止，以及两个索引同时变化导致整轮刷新失败。[PR #14032](https://github.com/apache/apisix/pull/14032)
 - `lua-resty-consul` 0.4.0 按 scheme、SNI 和 `ssl_verify` 隔离连接池，避免在不兼容的 TLS 配置之间复用连接。[PR #14118](https://github.com/apache/apisix/pull/14118)
-- Kubernetes 和 Tars 服务发现现在会用单个共享字典键保存每个服务的快照，并在 1 秒后刷新各 worker 的本地缓存。因此，端点更新、删除、缩容至零和重新创建都会在缓存 TTL 内到达所有 worker，不再因独立版本键未被特定请求失效而使部分 worker 持续使用陈旧地址。未知服务也会使用相同的 1 秒负缓存。[PR #14167](https://github.com/apache/apisix/pull/14167)
+- Kubernetes 和 Tars 服务发现现在会用单个共享字典键保存每个服务的快照。每个 worker 读取后会将该值或未知服务结果缓存 1 秒，并在缓存过期后的下一次查询中重新读取共享内存。该变更移除了可能使 worker 读取到不一致或陈旧数据的独立版本键；这 1 秒并非从服务发现更新时开始计算。[PR #14167](https://github.com/apache/apisix/pull/14167)
 - Kubernetes 服务发现现在会在分页列表未完整加载时使整次 list 失败，不再删除未加载页面中的端点。[PR #14053](https://github.com/apache/apisix/pull/14053)
 - Nacos 单个服务刷新失败时会保留最近一次成功的节点快照，同时在 APISIX 配置删除服务后仍会清理缓存。[PR #13971](https://github.com/apache/apisix/pull/13971)
 - 资源版本辅助函数现在可处理更新过程中已被删除的配置，不再索引空值。[PR #13986](https://github.com/apache/apisix/pull/13986)
 
 ### 路由、请求限制和上游 TLS
 
-- `normalize_uri_like_servlet` 现在为主上游和 `proxy-mirror` 保留查询字符串。[PR #13982](https://github.com/apache/apisix/pull/13982)
-- `client-control` 的请求体限制在内部跳转至 gRPC 上游后仍然有效，包括分块传输的 HTTP/2 请求体。[PR #14036](https://github.com/apache/apisix/pull/14036)
+- 启用 `normalize_uri_like_servlet` 时，APISIX 仅从用于路由匹配的路径中移除分号参数。除非插件写入 `$upstream_uri`，否则上游会收到经过 URI 编码的 servlet 规范化前路径和当前查询字符串；插件写入的值是完整覆盖值，APISIX 不会在其后追加查询字符串。[PR #13982](https://github.com/apache/apisix/pull/13982) 和 [PR #14163](https://github.com/apache/apisix/pull/14163)
+- `client-control` 的请求体限制在内部跳转至 gRPC 上游后仍然有效，包括不含 `Content-Length` 的请求体。[PR #14036](https://github.com/apache/apisix/pull/14036)
 - `traffic-split` 内联上游现在会应用 `tls` 和 `keepalive_pool`，包括客户端证书、证书校验、CA、证书引用和连接池大小。[PR #14054](https://github.com/apache/apisix/pull/14054)
 
 ### 限流

@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.20.0 was released on Nov 9, 2026. This release adds request decompression, multi-cluster Kubernetes discovery, OIDC claim forwarding, new process metrics, and important security and upgrade changes.
+description: Apache APISIX 3.20.0 was released on Nov 11, 2026. This release adds request decompression, multi-cluster Kubernetes discovery, OIDC claim forwarding, new process metrics, and important security and upgrade changes.
 tags: [Community]
 ---
 
@@ -57,6 +57,16 @@ When `oas-validator` fetches an HTTPS `spec_url`, `ssl_verify` now defaults to `
 
 For more information, see [PR #14146](https://github.com/apache/apisix/pull/14146).
 
+### Encrypted plugin values now carry a self-describing marker
+
+The Admin API now prefixes newly encrypted plugin configuration and plugin metadata values with `$ENC$v1$`, so a stored value identifies itself as ciphertext. While `enable_encrypt_fields` is enabled, APISIX decrypts marked strings before plugins use them or the Admin API returns them. Existing unmarked encrypted values continue to follow the plugin schema's `encrypt_fields` declaration.
+
+An earlier APISIX version does not recognize the marker and uses the complete marked string as a literal value. Once APISIX 3.20.0 saves a resource with the marker, downgrading without restoring the earlier data can therefore pass ciphertext to a plugin.
+
+**Upgrade plan:** If you use encrypted plugin fields, back up etcd before upgrading. During a rolling upgrade, avoid Admin API writes until every instance runs a version that recognizes `$ENC$v1$`. Keep the complete keyring available. If you must downgrade after 3.20.0 has saved marked values, restore the backup taken before the upgrade. There is no compatibility switch that makes an older version understand the marker.
+
+For more information, see [PR #14162](https://github.com/apache/apisix/pull/14162).
+
 ### Shared gRPC trust anchors can replace an HTTP-level custom CA
 
 For gRPCS upstreams with `tls.verify: true` and no per-Upstream `tls.ca_certs`, APISIX now renders `grpc_ssl_trusted_certificate` from `apisix.ssl.ssl_trusted_certificate`. This fixes verification against an empty trust store. However, the generated server-level directive takes precedence over a different `grpc_ssl_trusted_certificate` previously injected at the HTTP level with `http_configuration_snippet`. Adding the directive again through `http_server_configuration_snippet` is not a fallback because NGINX rejects duplicate values in the same context.
@@ -85,11 +95,11 @@ For more information, see [PR #14088](https://github.com/apache/apisix/pull/1408
 
 ### Stream Prometheus metrics gain `service` and `service_id` labels
 
-`apisix_stream_connection_total`, `apisix_stream_active_connections`, `apisix_stream_status`, and `apisix_stream_bandwidth` now include `service` and `service_id`. Both are empty when a session never reaches a Stream Route with a Service. With `prefer_name: true`, `service` contains the Service name while `service_id` retains the ID.
+`apisix_stream_connection_total`, `apisix_stream_active_connections`, `apisix_stream_status`, and `apisix_stream_bandwidth` now include `service` and `service_id`. Both are empty when a session never reaches a Stream Route with a Service. With `prefer_name: true`, `service` contains the Service name while `service_id` retains the ID. Per-Service active-connection and bandwidth accounting starts with the first session, including a session that ends before the next `refresh_interval`.
 
 **Upgrade plan:** If you query these four metrics, update exact label sets, recording rules, alerts, dashboards, and remote-write consumers before a mixed-version rollout. Use an aggregation such as `sum without (service, service_id) (...)` when you need the pre-3.20 series shape, or retain the labels for per-Service visibility. Test sessions with a Service and unmatched or early-failing sessions. There is no option to remove the new labels.
 
-For more information, see [PR #13992](https://github.com/apache/apisix/pull/13992).
+For more information, see [PR #13992](https://github.com/apache/apisix/pull/13992) and [PR #14101](https://github.com/apache/apisix/pull/14101).
 
 ### `apisix start` no longer blocks while capturing OpenResty stdout
 
@@ -101,9 +111,9 @@ For more information, see [PR #14087](https://github.com/apache/apisix/pull/1408
 
 ### mTLS SNI and Host mismatches return 421
 
-For mTLS-enabled SSL configurations, APISIX checks the request Host against the TLS SNI before evaluating the client certificate. A mismatch now returns `421 Misdirected Request`, allowing HTTP/2 clients to open a new connection for the intended origin, instead of returning 400.
+For an mTLS-enabled host, APISIX now returns `421 Misdirected Request` when the request Host differs from the TLS SNI, allowing an HTTP/2 client to open a connection for the intended origin. On the normal access path, APISIX compares Host and SNI before checking the client certificate. If the connection's SSL object configures `skip_mtls_uri_regex` and the URI is not exempt, APISIX checks the certificate first and can return 400 before the comparison. A failed TLS handshake ends the request before either access-phase check.
 
-**Upgrade plan:** If clients, tests, or monitoring expect 400 for an mTLS SNI/Host mismatch, accept 421 and allow the client to retry on a new connection with the target origin's SNI and certificate. Other client-certificate failures continue to return 400. There is no setting that restores the old status.
+**Upgrade plan:** If clients, tests, or monitoring expect 400 for an mTLS SNI/Host mismatch, accept 421 and allow the client to retry on a new connection with the target origin's SNI and certificate. Keep handling certificate failures separately: they can still fail the handshake or return 400, and a non-exempt URI under `skip_mtls_uri_regex` can be rejected before the Host/SNI comparison. There is no setting that restores the old mismatch status.
 
 For more information, see [PR #14013](https://github.com/apache/apisix/pull/14013).
 
@@ -269,15 +279,15 @@ The fixes below are grouped by the subsystem users are most likely to recognize:
 
 - Consul catalog and health watches now run as independent timers, avoiding a race where one watcher was killed while reading a response and a simultaneous index change could fail the whole refresh. [PR #14032](https://github.com/apache/apisix/pull/14032)
 - `lua-resty-consul` 0.4.0 separates connection pools by scheme, SNI, and `ssl_verify`, preventing reuse across incompatible TLS settings. [PR #14118](https://github.com/apache/apisix/pull/14118)
-- Kubernetes and Tars discovery now store each service snapshot in one shared-dictionary key and refresh each worker's local cache after one second. Endpoint updates, deletion, scale-to-zero, and recreation therefore reach every worker within the cache TTL instead of leaving some workers on stale addresses until another request invalidates a separate version key. Unknown-service misses use the same one-second negative cache. [PR #14167](https://github.com/apache/apisix/pull/14167)
+- Kubernetes and Tars discovery now store each service snapshot in one shared-dictionary key. Each worker caches the value or an unknown-service miss for one second after reading it, then reads shared memory again on the next lookup after expiry. This removes the separate version key that could leave a worker with a torn or stale pair; the interval is not measured from the discovery update. [PR #14167](https://github.com/apache/apisix/pull/14167)
 - Kubernetes discovery now fails an incomplete paginated list instead of deleting endpoints from pages that were never loaded. [PR #14053](https://github.com/apache/apisix/pull/14053)
 - Nacos discovery retains the last successful node snapshot when one service refresh fails, while still removing a service after its APISIX configuration is deleted. [PR #13971](https://github.com/apache/apisix/pull/13971)
 - Resource-version helpers now tolerate a configuration deleted during an update instead of indexing a missing value. [PR #13986](https://github.com/apache/apisix/pull/13986)
 
 ### Routing, request limits, and upstream TLS
 
-- `normalize_uri_like_servlet` now preserves the query string for the primary upstream and `proxy-mirror`. [PR #13982](https://github.com/apache/apisix/pull/13982)
-- `client-control` body limits survive the internal redirect to a gRPC upstream, including chunked HTTP/2 request bodies. [PR #14036](https://github.com/apache/apisix/pull/14036)
+- With `normalize_uri_like_servlet`, APISIX removes semicolon parameters only from the path used for route matching. The upstream receives the URI-encoded pre-servlet path and current query string unless a plugin writes `$upstream_uri`; that write is a complete override, so APISIX does not append the query afterward. [PR #13982](https://github.com/apache/apisix/pull/13982) and [PR #14163](https://github.com/apache/apisix/pull/14163)
+- `client-control` body limits survive the internal redirect to a gRPC upstream, including request bodies without `Content-Length`. [PR #14036](https://github.com/apache/apisix/pull/14036)
 - Inline `traffic-split` upstreams now apply their `tls` and `keepalive_pool` settings, including client certificates, verification, CA certificates, certificate references, and pool sizing. [PR #14054](https://github.com/apache/apisix/pull/14054)
 
 ### Rate limiting
