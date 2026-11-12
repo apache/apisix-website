@@ -29,7 +29,7 @@ The release contains backward-incompatible security and behavior changes. Review
 
 ## Breaking Changes
 
-The following changes affect existing plugins, authentication flows, request handling, metrics, or deployment behavior. Each item identifies the affected configuration and the action required before upgrading.
+APISIX 3.20.0 changes several defaults and compatibility contracts across plugins, authentication, request handling, metrics, and deployment behavior. Complete the applicable upgrade plans before rollout.
 
 ### The deprecated `mcp-bridge` plugin has been removed
 
@@ -273,7 +273,7 @@ For more information, see [PR #14136](https://github.com/apache/apisix/pull/1413
 
 ## Bug Fixes
 
-The fixes below are grouped by the subsystem users are most likely to recognize: discovery, routing and upstream transport, rate limiting, AI Gateway, security, validation, and logging.
+APISIX 3.20.0 improves discovery convergence, routing and upstream correctness, rate-limit state, AI usage accounting, security, validation, memory safety, and logging reliability.
 
 ### Service discovery and configuration lifecycle
 
