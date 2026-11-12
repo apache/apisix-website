@@ -293,10 +293,6 @@ RedirectMatch 301 "^(/zh)?/docs/apisix/2\.[1-5](?:\.\d+)?/(.+)$" "$1/docs/apisix
 # Dashboard docs were removed from the site entirely
 RedirectMatch 301 "^(/zh)?/docs/dashboard(/.*)?$" "$1/docs/apisix/dashboard/"
 
-# Plugins removed from the latest APISIX release. The versioned pages stay
-# reachable; the version-less URL moves to the successor plugin.
-RedirectMatch 301 "^(/zh)?/docs/apisix/plugins/mcp-bridge/?$" "$1/docs/apisix/plugins/openapi-to-mcp/"
-
 # Bare landing directories have no index page and return 403 — send visitors
 # to the real entry pages instead
 RedirectMatch 301 "^(/zh)?/docs/apisix/$" "$1/docs/apisix/getting-started/README/"
