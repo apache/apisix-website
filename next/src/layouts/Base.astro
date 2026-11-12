@@ -29,7 +29,7 @@ interface Props {
   /** Open Graph object type; article pages pass "article". */
   ogType?: 'website' | 'article';
   noindex?: boolean;
-  /** Load Algolia DocSearch (docs pages only — every other page stays zero-JS). */
+  /** Load Algolia DocSearch on docs pages. */
   search?: boolean;
   /** Cross-site canonical embedded in upstream docs (docs.api7.ai hub pages). */
   canonicalOverride?: string;
@@ -104,6 +104,30 @@ const allJsonLd = [...ORG_JSONLD, ...jsonLd];
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
     </>
   )}
+  <script is:inline>
+    if (window.location.hostname === 'apisix.apache.org') {
+      function loadMatomo() {
+        const trackerUrl = 'https://analytics.apache.org/';
+        const queue = window._paq = window._paq || [];
+        queue.push(['disableCookies']);
+        queue.push(['setTrackerUrl', trackerUrl + 'matomo.php']);
+        queue.push(['setSiteId', '17']);
+        queue.push(['trackPageView']);
+        queue.push(['enableLinkTracking']);
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = trackerUrl + 'matomo.js';
+        document.head.appendChild(script);
+      }
+
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadMatomo, { timeout: 3000 });
+      } else {
+        window.addEventListener('load', loadMatomo, { once: true });
+      }
+    }
+  </script>
 </head>
 <body>
   <Header locale={locale} path={path} search={search} switchPath={switchPath} />
