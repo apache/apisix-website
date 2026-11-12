@@ -35,7 +35,7 @@ The following changes affect existing plugins, authentication flows, request han
 
 APISIX no longer ships or loads `mcp-bridge`, its local-process transport, or its supporting MCP broker modules. A configuration that still enables the plugin fails to load it. `openapi-to-mcp` remains available for exposing HTTP APIs described by OpenAPI as MCP tools, but it is not a drop-in replacement for a bridge to an arbitrary stdio MCP server.
 
-**Upgrade plan:** If `mcp-bridge` is listed in `plugins`, remove it and delete every Route or Service configuration that uses it before upgrading. If the bridged process exposes an HTTP API with an OpenAPI document, redesign the integration with `openapi-to-mcp`; otherwise run the MCP server outside APISIX and choose a supported network integration. There is no compatibility switch that restores `mcp-bridge`.
+**Upgrade plan:** If `mcp-bridge` is listed in `plugins`, remove it before upgrading. Remove the plugin from every Route, Service, Plugin Config, or Global Rule that uses it. If the bridged process exposes an HTTP API with an OpenAPI document, redesign the integration with `openapi-to-mcp`; otherwise run the MCP server outside APISIX and choose a supported network integration. There is no compatibility switch that restores `mcp-bridge`.
 
 For more information, see [PR #14019](https://github.com/apache/apisix/pull/14019).
 
@@ -53,7 +53,7 @@ For more information, see [PR #13929](https://github.com/apache/apisix/pull/1392
 
 When `oas-validator` fetches an HTTPS `spec_url`, `ssl_verify` now defaults to `true`. A certificate outside the configured trust store, or a hostname mismatch, prevents the specification from loading and the Route returns 500. This also prevents credentials in `spec_url_request_headers` from being exposed to an impersonated specification host.
 
-**Upgrade plan:** If you use an HTTPS `spec_url`, verify that its certificate chain and hostname are trusted by APISIX before upgrading. Add the issuing CA to the trust store when necessary and test a fresh fetch after the cache expires. Set `ssl_verify: false` only as an explicit, risk-accepted compatibility option; APISIX logs that opt-out.
+**Upgrade plan:** If you use an HTTPS `spec_url`, verify that its certificate chain and hostname are trusted by APISIX before upgrading. Add the issuing CA to `apisix.ssl.ssl_trusted_certificate` when necessary, then test the Route with a cold specification cache. Set `ssl_verify: false` only as an explicit, risk-accepted compatibility option; APISIX logs that opt-out.
 
 For more information, see [PR #14146](https://github.com/apache/apisix/pull/14146).
 
@@ -79,7 +79,7 @@ For more information, see [PR #14113](https://github.com/apache/apisix/pull/1411
 
 The plugin now requests Keycloak's `permissions` response and checks every configured resource and scope. A request is rejected with 403 when any requested permission is absent. This corrects cases where a route listing several permissions, several scopes, or `http_method_as_scope` could be accepted without the complete grant. Scopes are trimmed before they are sent, so `res#view, delete` now requests and enforces `delete`; a token-endpoint response that is not a permissions list returns 503.
 
-**Upgrade plan:** If a Route uses `authz-keycloak`, compare its `permissions` and `http_method_as_scope` settings with the Keycloak authorization policies. Grant every required resource and scope or narrow the Route's requested set, then test a fully authorized token and tokens missing each permission. There is no option to restore partial-grant acceptance.
+**Upgrade plan:** If a Route uses static `permissions`, compare every resource and scope with the Keycloak authorization policies. If it uses `lazy_load_paths`, resolve representative request URIs and audit the resources and scopes returned by the Protection API. When `http_method_as_scope` is enabled, grant the HTTP method together with the other required scopes. Grant the complete requested set or narrow the Route configuration, then test a fully authorized token and tokens missing individual permissions or scopes. There is no option to restore partial-grant acceptance.
 
 For more information, see [PR #14098](https://github.com/apache/apisix/pull/14098).
 
@@ -87,9 +87,9 @@ For more information, see [PR #14098](https://github.com/apache/apisix/pull/1409
 
 The `openid-connect` plugin now uses `lua-resty-openidc` 1.9.3 and `lua-resty-session` 4.2.0. An explicitly inactive token returns 401 with an `invalid_token` challenge. An unavailable endpoint, transport failure, timeout, or malformed response returns 503 without that challenge, while a configuration failure returns 500. The `active` claim must be a boolean; a missing or non-boolean value is treated as an invalid introspection response.
 
-The dependency upgrade also propagates session-destroy and closed-mode revocation-store failures that were previously ignored. In an authorization-code flow, such a failure can stop session initialization or access-token retrieval, and a failed session destroy prevents the logout redirect.
+The dependency upgrade also propagates session-start and session-destroy failures that were previously ignored. In an authorization-code flow that stores sessions in Redis, an unavailable session store can stop session initialization or access-token retrieval, and a failed session destroy prevents the logout redirect.
 
-**Upgrade plan:** If clients or monitors consume introspection errors, update them to distinguish 401, 503, and 500. Ensure the authorization server returns a boolean `active` claim and verify one inactive-token case, one endpoint-failure case, and one valid token. If the authorization-code flow uses a server-side revocation store in closed fail mode, verify its availability and test login, token refresh, and logout before upgrading. There is no setting that restores the previous all-401 mapping or silently ignores a closed-mode revocation-store failure.
+**Upgrade plan:** If clients or monitors consume introspection errors, update them to distinguish 401, 503, and 500. Ensure the authorization server returns a boolean `active` claim and verify one inactive-token case, one endpoint-failure case, and one valid token. If the authorization-code flow sets `session.storage: redis`, verify Redis availability and test login, token refresh, and logout before upgrading. There is no setting that restores the previous all-401 mapping or makes session start or destroy failures silent again.
 
 For more information, see [PR #14088](https://github.com/apache/apisix/pull/14088).
 
@@ -121,7 +121,7 @@ For more information, see [PR #14013](https://github.com/apache/apisix/pull/1401
 
 When NGINX normalizes a path beyond percent-decoding or merging repeated slashes, APISIX now forwards the path the router matched instead of the raw request line. This prevents a request containing dot segments or equivalent normalization from being authorized on one path and forwarded as another. Because the forwarded `$uri` is decoded, `/a/./b%2Fc` reaches the upstream as `/a/b/c`. A plugin-set `$upstream_uri` still takes precedence, and encoding-only or repeated-slash differences continue to preserve the original request line.
 
-**Upgrade plan:** If an upstream intentionally depends on raw dot segments or other NGINX-normalized path syntax, test those requests against 3.20 and move any required transformation into an explicit rewrite. Security and routing policies should use the normalized path. There is no compatibility option for forwarding a materially different raw path after routing.
+**Upgrade plan:** If an upstream intentionally depends on raw dot segments or other NGINX-normalized path syntax, test those requests against 3.20 and move any required transformation into an explicit rewrite. Security and routing policies should use the normalized path. If the original request URI must be forwarded temporarily, configure `proxy-rewrite.use_real_request_uri_unsafe: true` only on the affected Route and treat it as a risk-accepted compatibility option because it bypasses URI normalization.
 
 For more information, see [PR #14035](https://github.com/apache/apisix/pull/14035).
 
@@ -129,7 +129,7 @@ For more information, see [PR #14035](https://github.com/apache/apisix/pull/1403
 
 When `apisix.match_uri_encoded_slash` is enabled, `client.skip_mtls_uri_regex` must match both the decoded URI and the route URI that retains `%2F` within a segment. An exemption written only for the decoded form no longer lets an encoded-slash request bypass client-certificate verification.
 
-**Upgrade plan:** If both settings are used, audit each exemption against decoded and `%2F`-preserving forms. Extend only the patterns that are intended to exempt the encoded-slash route, then test the plain path, an encoded-slash path without a certificate, and a certified request. Disabling `match_uri_encoded_slash` restores the older routing model but changes route matching globally.
+**Upgrade plan:** If both settings are used, audit each exemption against decoded and `%2F`-preserving forms. Extend only the patterns that are intended to exempt the encoded-slash route; for example, `^/open(?:/|%2F).*` covers both `/open/foo` and `/open%2Ffoo`. Test the plain path, an encoded-slash path without a certificate, and a certified request. Disabling `match_uri_encoded_slash` restores the older routing model but changes route matching globally.
 
 For more information, see [PR #14108](https://github.com/apache/apisix/pull/14108).
 
@@ -137,7 +137,7 @@ For more information, see [PR #14108](https://github.com/apache/apisix/pull/1410
 
 `jwe-decrypt` now removes its `forward_header` before processing, including when `strict: false` lets a tokenless request continue. `forward-auth` removes every configured `upstream_headers` value when the authorization service is unavailable and `allow_degradation: true`. Client-supplied values therefore no longer reach the upstream on paths where APISIX has no trusted value.
 
-**Upgrade plan:** If an upstream intentionally consumed a client-provided header with one of these protected names during a skip or degradation path, move that input to a different, explicitly untrusted header. Test missing-JWE and unavailable-auth-service cases. There is no option to preserve the spoofable header behavior.
+**Upgrade plan:** If an upstream intentionally consumed a client-provided header with one of these protected names during a skip or degradation path, move that input to a different, explicitly untrusted header. Test `jwe-decrypt` with a missing token and `strict: false`, and test `forward-auth` with an unavailable authorization service and `allow_degradation: true`. There is no option to preserve the spoofable header behavior.
 
 For more information, see [PR #14096](https://github.com/apache/apisix/pull/14096).
 
@@ -155,7 +155,7 @@ Tool arguments are now filtered to parameters declared by the operation. Route-c
 
 The plugin also defaults to a 1 MiB `max_response_body_size`, a 4 MiB `max_document_size`, and a 50,000-node `max_expanded_nodes` budget. Path parameters cannot contain `/` or `\` unless `allow_encoded_path_separators: true`; empty and dot components remain forbidden.
 
-**Upgrade plan:** If you use `openapi-to-mcp`, test every tool whose caller previously supplied undeclared parameters or special headers and declare legitimate parameters in the OpenAPI document. Configure trusted browser origins and external reference hosts explicitly. Raise the three size limits only after measuring worker-memory impact. If an API deliberately accepts encoded separators as data, enable `allow_encoded_path_separators` and verify that the upstream does not decode them into path syntax. There is no broad legacy mode; each trust boundary must be configured deliberately.
+**Upgrade plan:** If you use `openapi-to-mcp`, test every tool whose caller previously supplied undeclared parameters or special headers and declare legitimate parameters in the OpenAPI document. For browser clients that send an Origin, verify that the default same-origin check matches the Route's literal host, scheme, and effective port; configure `allowed_origins` only for additional intended origins. If the OpenAPI document uses off-origin `$ref` documents, configure `allowed_ref_hosts`. Raise the three size limits only after measuring worker-memory impact. If an API deliberately accepts encoded separators as data, enable `allow_encoded_path_separators` and verify that the upstream does not decode them into path syntax. There is no broad legacy mode; each applicable trust boundary must be configured deliberately.
 
 For more information, see [PR #13959](https://github.com/apache/apisix/pull/13959) and [PR #14154](https://github.com/apache/apisix/pull/14154).
 
@@ -163,7 +163,7 @@ For more information, see [PR #13959](https://github.com/apache/apisix/pull/1395
 
 Authorization requests now use `ngx_http_ffi_client` by default. Compared with `lua-resty-http`, the request carries a `Connection` header, a GET carries `Content-Length: 0`, no default `User-Agent` is added, and the timeout bounds the complete response read. A runtime without the FFI module fails the authorization request instead of silently switching clients.
 
-**Upgrade plan:** If the authorization service validates exact request framing, update it for the new headers and test GET, POST, keepalive, timeout, and TLS behavior. Custom builds must include the FFI client module. Set `plugin_attr.forward-auth.http_client: lua-resty-http` in `config.yaml` to preserve the previous client during migration.
+**Upgrade plan:** If the authorization service validates exact request framing, update it for the new headers and test GET, POST, keepalive, timeout, and TLS behavior. If a custom runtime does not include the compatible FFI client module, add the module before upgrading or set `plugin_attr.forward-auth.http_client: lua-resty-http` in `config.yaml` to preserve the previous client during migration.
 
 For more information, see [PR #14144](https://github.com/apache/apisix/pull/14144).
 

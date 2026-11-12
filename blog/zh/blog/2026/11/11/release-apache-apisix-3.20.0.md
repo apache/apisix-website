@@ -35,7 +35,7 @@ tags: [Community]
 
 APISIX 不再包含或加载 `mcp-bridge`、其本地进程传输层及相关 MCP broker 模块。仍启用该插件的配置将无法加载。`openapi-to-mcp` 可继续将 OpenAPI 描述的 HTTP API 暴露为 MCP 工具，但它不能直接替代连接任意 stdio MCP 服务的桥接功能。
 
-**升级计划：** 如果 `plugins` 中仍有 `mcp-bridge`，请在升级前移除该条目，并删除所有使用它的 Route 或 Service 配置。如果被桥接进程提供带 OpenAPI 文档的 HTTP API，可重新设计为 `openapi-to-mcp`；否则应在 APISIX 外部运行 MCP 服务并采用受支持的网络集成方式。没有可恢复 `mcp-bridge` 的兼容选项。
+**升级计划：** 如果 `plugins` 中仍有 `mcp-bridge`，请在升级前移除该条目，并从所有使用它的 Route、Service、Plugin Config 或 Global Rule 中删除该插件。如果被桥接进程提供带 OpenAPI 文档的 HTTP API，可重新设计为 `openapi-to-mcp`；否则应在 APISIX 外部运行 MCP 服务并采用受支持的网络集成方式。没有可恢复 `mcp-bridge` 的兼容选项。
 
 更多信息，请参阅 [PR #14019](https://github.com/apache/apisix/pull/14019)。
 
@@ -53,7 +53,7 @@ APISIX 不再包含或加载 `mcp-bridge`、其本地进程传输层及相关 MC
 
 当 `oas-validator` 从 HTTPS `spec_url` 获取规范时，`ssl_verify` 现在默认为 `true`。若证书不受信任或主机名不匹配，规范将无法加载，Route 返回 500。该行为也可避免 `spec_url_request_headers` 中的凭证被发送给伪造的规范服务。
 
-**升级计划：** 如果使用 HTTPS `spec_url`，请在升级前确认其证书链和主机名受 APISIX 信任，必要时将签发 CA 加入信任存储，并在缓存过期后测试一次全新获取。仅应在明确接受风险的兼容场景中设置 `ssl_verify: false`；APISIX 会记录该退出安全校验的配置。
+**升级计划：** 如果使用 HTTPS `spec_url`，请在升级前确认其证书链和主机名受 APISIX 信任。必要时将签发 CA 加入 `apisix.ssl.ssl_trusted_certificate`，随后在规范缓存为空时测试该 Route。仅应在明确接受风险的兼容场景中设置 `ssl_verify: false`；APISIX 会记录该退出安全校验的配置。
 
 更多信息，请参阅 [PR #14146](https://github.com/apache/apisix/pull/14146)。
 
@@ -79,7 +79,7 @@ Admin API 现在会在新加密的插件配置和插件元数据值前添加 `$E
 
 插件现在请求 Keycloak 返回 `permissions`，并逐一校验配置的资源及作用域。只要缺少任意一项，请求就会返回 403。这修复了 Route 配置多个权限、多个作用域或使用 `http_method_as_scope` 时，未获得完整授权仍可能通过的问题。发送前会去除每个作用域两端的空格，因此 `res#view, delete` 现在会请求并强制校验 `delete`；若令牌端点返回的不是权限列表，则返回 503。
 
-**升级计划：** 如果 Route 使用 `authz-keycloak`，请对照 Keycloak 授权策略检查 `permissions` 和 `http_method_as_scope`。授予所有必需资源和作用域，或缩小 Route 请求的权限集合；随后测试完整授权令牌以及分别缺失各权限的令牌。无法恢复仅部分授权即可通过的旧行为。
+**升级计划：** 如果 Route 使用静态 `permissions`，请对照 Keycloak 授权策略检查每项资源和作用域。如果使用 `lazy_load_paths`，请解析具有代表性的请求 URI，并审核 Protection API 返回的资源和作用域。启用 `http_method_as_scope` 时，还需同时授予 HTTP 方法作用域。请授予完整的请求集合或缩小 Route 配置，随后测试完整授权令牌以及分别缺少单项权限或作用域的令牌。无法恢复仅部分授权即可通过的旧行为。
 
 更多信息，请参阅 [PR #14098](https://github.com/apache/apisix/pull/14098)。
 
@@ -87,9 +87,9 @@ Admin API 现在会在新加密的插件配置和插件元数据值前添加 `$E
 
 `openid-connect` 插件升级至 `lua-resty-openidc` 1.9.3 和 `lua-resty-session` 4.2.0。确认不活跃的令牌返回 401 及 `invalid_token` 质询；端点不可用、传输失败、超时或响应格式错误返回 503 且不带该质询；配置错误返回 500。`active` 必须是布尔值，缺失或类型错误会被视为无效的内省响应。
 
-依赖升级还会向上传递此前被忽略的会话销毁错误和关闭失败模式下的撤销存储故障。在授权码流程中，这类故障可能阻止会话初始化或访问令牌获取；会话销毁失败时也不会继续执行登出重定向。
+依赖升级还会向上传递此前被忽略的会话启动和销毁错误。在使用 Redis 保存会话的授权码流程中，会话存储不可用可能阻止会话初始化或访问令牌获取；会话销毁失败时也不会继续执行登出重定向。
 
-**升级计划：** 如果客户端或监控系统处理内省错误，请使其区分 401、503 和 500。确认授权服务器返回布尔类型的 `active`，并分别测试不活跃令牌、端点故障和有效令牌。如果授权码流程使用关闭失败模式的服务端撤销存储，请在升级前确认其可用性，并测试登录、令牌刷新和登出。没有配置项可恢复所有错误均返回 401，或继续静默忽略关闭失败模式下的撤销存储故障。
+**升级计划：** 如果客户端或监控系统处理内省错误，请使其区分 401、503 和 500。确认授权服务器返回布尔类型的 `active`，并分别测试不活跃令牌、端点故障和有效令牌。如果授权码流程设置了 `session.storage: redis`，请在升级前确认 Redis 可用，并测试登录、令牌刷新和登出。没有配置项可恢复所有错误均返回 401，或再次静默忽略会话启动和销毁错误。
 
 更多信息，请参阅 [PR #14088](https://github.com/apache/apisix/pull/14088)。
 
@@ -121,7 +121,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 当 NGINX 对路径执行了超过百分号解码或合并重复斜杠的规范化时，APISIX 现在会向上游转发路由器实际匹配的路径，而不是原始请求行。这可避免请求在一个路径上通过鉴权，却以另一条路径转发。由于转发的 `$uri` 已解码，`/a/./b%2Fc` 到达上游时会变为 `/a/b/c`。插件设置的 `$upstream_uri` 仍优先；仅编码形式或重复斜杠不同的请求仍保留原始请求行。
 
-**升级计划：** 如果上游有意依赖原始点路径段或其他会被 NGINX 规范化的语法，请在 3.20 上测试这些请求，并将确有需要的转换改为显式重写。安全与路由策略应基于规范化路径。无法恢复路由后转发实质不同原始路径的旧行为。
+**升级计划：** 如果上游有意依赖原始点路径段或其他会被 NGINX 规范化的语法，请在 3.20 上测试这些请求，并将确有需要的转换改为显式重写。安全与路由策略应基于规范化路径。如果迁移期间必须转发原始请求 URI，请仅在受影响的 Route 上配置 `proxy-rewrite.use_real_request_uri_unsafe: true`，并将其视为明确接受风险的兼容选项，因为它会绕过 URI 规范化。
 
 更多信息，请参阅 [PR #14035](https://github.com/apache/apisix/pull/14035)。
 
@@ -129,7 +129,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 启用 `apisix.match_uri_encoded_slash` 时，`client.skip_mtls_uri_regex` 必须同时匹配解码后的 URI 和在路径段中保留 `%2F` 的路由 URI。仅匹配解码形式的规则，不再允许带编码斜杠的请求跳过客户端证书校验。
 
-**升级计划：** 如果同时使用这两项配置，请针对解码形式和保留 `%2F` 的形式审核每条豁免规则。仅为确实需要豁免的编码斜杠路由扩展表达式，并测试普通路径、无证书编码斜杠路径和带有效证书的请求。关闭 `match_uri_encoded_slash` 可恢复旧路由模型，但会全局改变路由匹配方式。
+**升级计划：** 如果同时使用这两项配置，请针对解码形式和保留 `%2F` 的形式审核每条豁免规则。仅为确实需要豁免的编码斜杠路由扩展表达式；例如，`^/open(?:/|%2F).*` 可同时覆盖 `/open/foo` 和 `/open%2Ffoo`。请测试普通路径、无证书编码斜杠路径和带有效证书的请求。关闭 `match_uri_encoded_slash` 可恢复旧路由模型，但会全局改变路由匹配方式。
 
 更多信息，请参阅 [PR #14108](https://github.com/apache/apisix/pull/14108)。
 
@@ -137,7 +137,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 `jwe-decrypt` 现在会在处理前移除 `forward_header`，包括 `strict: false` 放行无令牌请求时。`forward-auth` 在授权服务不可用且 `allow_degradation: true` 时，会移除所有配置的 `upstream_headers`。因此，当 APISIX 没有可信值时，客户端传入的同名值不会再到达上游。
 
-**升级计划：** 如果上游曾在跳过或降级路径中有意读取这些受保护名称的客户端请求头，请将该输入迁移到另一个明确标记为不可信的请求头。请测试缺少 JWE 和授权服务不可用两种场景。无法保留可伪造的旧请求头行为。
+**升级计划：** 如果上游曾在跳过或降级路径中有意读取这些受保护名称的客户端请求头，请将该输入迁移到另一个明确标记为不可信的请求头。请测试缺少令牌且设置 `strict: false` 的 `jwe-decrypt`，并测试授权服务不可用且设置 `allow_degradation: true` 的 `forward-auth`。无法保留可伪造的旧请求头行为。
 
 更多信息，请参阅 [PR #14096](https://github.com/apache/apisix/pull/14096)。
 
@@ -155,7 +155,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 插件默认将 `max_response_body_size` 设为 1 MiB、`max_document_size` 设为 4 MiB、`max_expanded_nodes` 设为 50,000。路径参数默认不能包含 `/` 或 `\`；仅在设置 `allow_encoded_path_separators: true` 时允许，空路径段及 `.`、`..` 路径段始终被拒绝。
 
-**升级计划：** 如果使用 `openapi-to-mcp`，请测试所有曾由调用方传入未声明参数或特殊请求头的工具，并在 OpenAPI 文档中声明合法参数。请显式配置可信浏览器来源和外部引用主机。只有在评估 worker 内存影响后才提高三项大小限制。如果 API 确实将编码分隔符作为数据处理，请启用 `allow_encoded_path_separators`，并确认上游不会将其解码为路径语法。没有统一的旧版兼容模式，必须逐项配置各信任边界。
+**升级计划：** 如果使用 `openapi-to-mcp`，请测试所有曾由调用方传入未声明参数或特殊请求头的工具，并在 OpenAPI 文档中声明合法参数。浏览器客户端发送 Origin 时，请确认默认同源校验能匹配 Route 的固定主机名、scheme 和有效端口；仅为额外的预期来源配置 `allowed_origins`。OpenAPI 文档使用跨源 `$ref` 时，请配置 `allowed_ref_hosts`。只有在评估 worker 内存影响后才提高三项大小限制。如果 API 确实将编码分隔符作为数据处理，请启用 `allow_encoded_path_separators`，并确认上游不会将其解码为路径语法。没有统一的旧版兼容模式，必须逐项配置实际使用的信任边界。
 
 更多信息，请参阅 [PR #13959](https://github.com/apache/apisix/pull/13959) 和 [PR #14154](https://github.com/apache/apisix/pull/14154)。
 
@@ -163,7 +163,7 @@ CLI 启动 OpenResty 时不再捕获标准输出，避免 `access_log` 指向 `/
 
 授权请求现在默认使用 `ngx_http_ffi_client`。与 `lua-resty-http` 相比，请求会携带 `Connection` 请求头，GET 会携带 `Content-Length: 0`，不会添加默认 `User-Agent`，且超时覆盖完整响应读取过程。缺少 FFI 模块的自定义运行时会使授权请求失败，不会静默回退客户端。
 
-**升级计划：** 如果授权服务严格校验请求格式，请适配新请求头，并测试 GET、POST、长连接、超时和 TLS 行为。自定义构建必须包含 FFI 客户端模块。迁移期间可在 `config.yaml` 中设置 `plugin_attr.forward-auth.http_client: lua-resty-http` 保留旧客户端。
+**升级计划：** 如果授权服务严格校验请求格式，请适配新请求头，并测试 GET、POST、长连接、超时和 TLS 行为。如果自定义运行时不包含兼容的 FFI 客户端模块，请在升级前加入该模块；也可在 `config.yaml` 中设置 `plugin_attr.forward-auth.http_client: lua-resty-http`，在迁移期间保留旧客户端。
 
 更多信息，请参阅 [PR #14144](https://github.com/apache/apisix/pull/14144)。
 
