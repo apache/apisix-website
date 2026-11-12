@@ -1,4 +1,4 @@
-const { ssrTemplate } = require('../config/ssrTemplate');
+const { ssrTemplate, matomoRouteTracking } = require('../config/ssrTemplate');
 
 module.exports = {
   title: 'Apache APISIX',
@@ -188,6 +188,7 @@ module.exports = {
     },
   ],
   stylesheets: [],
+  clientModules: [matomoRouteTracking],
   /**
    * We need to check if we build site for preview env,
    * or preview site will load static assets from the asf-site branch.

@@ -163,7 +163,7 @@ test('Redis detail pages expose translations, relationships, and source-review b
     .toHaveAttribute('href', 'https://apisix.apache.org/integrations/redis/');
   await expect(page.locator('link[rel="alternate"][hreflang="zh"]'))
     .toHaveAttribute('href', 'https://apisix.apache.org/zh/integrations/redis/');
-  await expect(page.locator('script:not([type="application/ld+json"])')).toHaveCount(0);
+  await expect(page.locator('script:not([type="application/ld+json"]):not([data-analytics="matomo"])')).toHaveCount(0);
   const schema = await jsonLd(page);
   expect(schema.some((item) => item['@type'] === 'TechArticle')).toBeTruthy();
   expect(schema.some((item) => item['@type'] === 'BreadcrumbList')).toBeTruthy();

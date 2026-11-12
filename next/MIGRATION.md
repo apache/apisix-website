@@ -14,7 +14,7 @@ The site is *already* served as static files from the `asf-site` branch by ASF h
 
 Regenerate the identical URL space with [Astro](https://astro.build) in static output mode:
 
-- **Zero client JS.** Pages are plain HTML + one shared 2.7 KB gz stylesheet. (Single exception: `/edit/`, a redirector that inherently needs 3 lines of inline JS. Algolia DocSearch and the kapa.ai widget can be re-added as progressive enhancements if wanted — they are additive `<script>` tags, not framework requirements.)
+- **Zero framework JS.** Pages are plain HTML + one shared 2.7 KB gz stylesheet. (Exceptions: the ASF Matomo snippet shared with the Docusaurus template via `shared/matomo-tracker.js`, and `/edit/`, a redirector that inherently needs 3 lines of inline JS. Algolia DocSearch and the kapa.ai widget can be re-added as progressive enhancements if wanted — they are additive `<script>` tags, not framework requirements.)
 - **Same content sources.** Blog/learning-center/articles markdown lives in the repo as today; project docs are synced from apache/apisix and the six sub-project repos exactly as `sync-docs.js` does now (`scripts/sync-content.mjs` replaces it, ~120 lines).
 - **Same deploy.** `dist/` → `asf-site` branch → ASF httpd. `.htaccess` redirects, staging profile, CI trigger cadence: all unchanged.
 - **Same URLs.** Verified mechanically, not by hand — see below.
@@ -35,7 +35,7 @@ Regenerate the identical URL space with [Astro](https://astro.build) in static o
 | Pages built | 1368 (654 EN + 640 ZH sitemap URLs + versionless extras) in **~18 s** on a laptop |
 | Homepage transfer | 2.6 KB gz HTML + 2.7 KB gz CSS ≈ **5.3 KB** vs ~200 KB+ today (≈40×) |
 | Docs page transfer | 7.3 KB gz HTML + shared CSS |
-| Client JS | 0 bytes on all indexable pages |
+| Client JS | 0 bytes of framework JS on all indexable pages; only the ~0.5 KB gz inline Matomo snippet |
 | SEO surface | per-page canonical, `hreflang` en/zh-CN/x-default, meta description, OG/Twitter, JSON-LD (WebSite/Organization + BlogPosting/TechArticle/FAQPage), robots.txt, split EN/ZH sitemaps — same shape as today |
 
 URL rules that had to be reverse-engineered and are now encoded in `src/lib/content.ts` (each verified against the live sitemap):
