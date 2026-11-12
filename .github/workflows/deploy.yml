@@ -323,7 +323,8 @@ jobs:
           # works today. Versioned dirs are excluded — they stay Docusaurus by
           # design — as are docs/*/tags/ index pages, which Docusaurus emits
           # empty (one self-link, absent from the sitemap, linked from no doc
-          # page) and which the per-page swap leaves in place.
+          # page) and which the per-page swap leaves in place. A page dropped
+          # from the latest release passes only when a 301 in .htaccess covers it.
           git fetch --depth 1 origin asf-site
           for docs_root in docs zh/docs; do
             missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
@@ -333,7 +334,21 @@ jobs:
               | grep -vE '(^|/)tags/index\.html$' \
               | sort | while read -r f; do
                 [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
-              done)
+              done \
+              | node -e '
+                const fs = require("fs");
+                const rules = fs.readFileSync(process.argv[1], "utf8").split("\n").flatMap((line) => {
+                  const m = line.trim().match(/^RedirectMatch\s+301\s+"([^"]+)"/);
+                  if (m) return [(url) => new RegExp(m[1]).test(url)];
+                  const p = line.trim().match(/^Redirect\s+301\s+"([^"]+)"/);
+                  return p ? [(url) => url.startsWith(p[1])] : [];
+                });
+                const lines = fs.readFileSync(0, "utf8").split("\n").filter(Boolean);
+                for (const f of lines) {
+                  const url = "/" + f.replace(/index\.html$/, "");
+                  if (!rules.some((covers) => covers(url))) console.log(f);
+                }
+              ' "$ROOT/.htaccess")
             if [ -n "$missing" ]; then
               echo "Published docs URLs missing from the Astro build:"; echo "$missing"; fail=1
             fi
