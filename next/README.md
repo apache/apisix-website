@@ -6,8 +6,8 @@ Prototype rebuild of [apisix.apache.org](https://apisix.apache.org) as a **fully
 
 | | Current (Docusaurus ×4 workspaces) | This prototype (Astro) |
 |---|---|---|
-| Homepage first-load transfer | ~350 KB HTML + ~120 KB gz JS + 36 KB gz CSS | **2.6 KB gz HTML + 2.7 KB gz CSS, 0 JS** |
-| Client-side JS | React SPA per workspace (stale-manifest 404s) | **None** (one inline snippet on `/edit/` only) |
+| Homepage first-load transfer | ~350 KB HTML + ~120 KB gz JS + 36 KB gz CSS | **2.6 KB gz HTML + 2.7 KB gz CSS, 0 framework JS** |
+| Client-side JS | React SPA per workspace (stale-manifest 404s) | **No framework JS** — the shared ASF Matomo snippet (`shared/matomo-tracker.js`, ~0.5 KB gz inline) on every page, plus one inline snippet on `/edit/` |
 | Build | Node 16, 4 Docusaurus builds, tens of minutes | Node 22, **1368 pages in ~18 s** |
 | URL parity vs live sitemaps | — | **1294/1294, zero missing** |
 

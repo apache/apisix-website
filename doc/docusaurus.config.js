@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { ssrTemplate } = require('../config/ssrTemplate');
+const { ssrTemplate, matomoRouteTracking } = require('../config/ssrTemplate');
 
 /**
  * Give the newest release an explicit versioned path so it stops owning the
@@ -321,6 +321,7 @@ module.exports = {
     },
   ],
   stylesheets: [],
+  clientModules: [matomoRouteTracking],
   /**
    * We need to check if we build site for preview env,
    * or preview site will load static assets from the asf-site branch.

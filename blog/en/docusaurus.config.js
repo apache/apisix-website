@@ -1,4 +1,4 @@
-const { ssrTemplate } = require('../../config/ssrTemplate');
+const { ssrTemplate, matomoRouteTracking } = require('../../config/ssrTemplate');
 
 const description = 'APISIX is a dynamic, high-performance API Gateway with features like load balancing, canary release, authentication, and observability. As an AI Gateway, it enables AI proxying, LLM load balancing, retries, fallbacks, token-based rate limiting, and security to enhance AI agent efficiency and reliability.';
 
@@ -131,6 +131,7 @@ module.exports = {
     },
   ],
   stylesheets: [],
+  clientModules: [matomoRouteTracking],
   /**
    * We need to check if we build site for preview env,
    * or preview site will load static assets from the asf-site branch.

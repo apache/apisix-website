@@ -511,6 +511,28 @@ jobs:
           test -f website/build/img/integrations/icon-prometheus.svg
           test -f website/build/img/architecture.svg
 
+      - name: Assert every published page carries one Matomo tracker
+        run: |
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const walk = (dir, out = []) => {
+              for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                const full = path.join(dir, entry.name);
+                if (entry.isDirectory()) walk(full, out);
+                else if (entry.name.endsWith(".html")) out.push(full);
+              }
+              return out;
+            };
+            const pages = walk("website/build");
+            const bad = pages.filter((file) => (fs.readFileSync(file, "utf8").match(/data-analytics="matomo"/g) || []).length !== 1);
+            if (bad.length) {
+              console.error(`${bad.length} of ${pages.length} pages lack exactly one Matomo tracker:`);
+              console.error(bad.slice(0, 50).join("\n"));
+              process.exit(1);
+            }
+            console.log(`${pages.length} pages carry exactly one Matomo tracker`);
+          '
+
       - name: Assert every version-picker link resolves
         run: |
           # The picker used to link version roots (/docs/apisix/3.15/), which

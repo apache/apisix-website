@@ -1,3 +1,8 @@
+const fs = require('fs');
+const path = require('path');
+
+const matomoTracker = fs.readFileSync(path.join(__dirname, '../shared/matomo-tracker.js'), 'utf8');
+
 module.exports = {
   ssrTemplate: `<!DOCTYPE html>
   <html <%~ it.htmlAttributes %>>
@@ -26,31 +31,7 @@ module.exports = {
         <link rel="stylesheet" href="<%= process.env.preview ? '' : 'https://apisix-website-static.apiseven.com' %><%= it.baseUrl %><%= stylesheet %>" />
       <% }); %>
       <!-- Matomo from the ASF -->
-      <script>
-        window._paq = window._paq || [];
-        function loadMatomo() {
-          var _paq = window._paq;
-          /* tracker methods like "setCustomDimension" should be called before
-      "trackPageView" */
-          /* We explicitly disable cookie tracking to avoid privacy issues */
-          _paq.push(['disableCookies']);
-          _paq.push(['trackPageView']);
-          _paq.push(['enableLinkTracking']);
-          (function() {
-            var u="https://analytics.apache.org/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', '17']);
-            var d=document, g=d.createElement('script'),
-        s=d.getElementsByTagName('script')[0];
-            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-          })();
-        }
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(loadMatomo, { timeout: 3000 });
-        } else {
-          window.addEventListener('load', loadMatomo, { once: true });
-        }
-      </script>
+      <script data-analytics="matomo">${matomoTracker}</script>
       <!-- End Matomo Code -->
     </head>
     <body <%~ it.bodyAttributes %>>
@@ -74,4 +55,5 @@ module.exports = {
       </script>
     <% } %>
   </html>`,
+  matomoRouteTracking: path.join(__dirname, '../shared/matomo-route-tracking.js'),
 };
