@@ -324,6 +324,8 @@ jobs:
           # design — as are docs/*/tags/ index pages, which Docusaurus emits
           # empty (one self-link, absent from the sitemap, linked from no doc
           # page) and which the per-page swap leaves in place.
+          # Docs removed from the latest release are allowed to 404.
+          removed_docs='apisix/plugins/mcp-bridge/index.html'
           git fetch --depth 1 origin asf-site
           for docs_root in docs zh/docs; do
             missing=$(git ls-tree -r FETCH_HEAD --name-only -- "$docs_root" \
@@ -331,6 +333,7 @@ jobs:
               | sed "s|^$docs_root/||" \
               | grep -vE '^([^/]+/([0-9]+(\.[0-9]+)+|next|v[0-9][^/]*)|docker/apisix-[0-9]+(\.[0-9]+)+)/' \
               | grep -vE '(^|/)tags/index\.html$' \
+              | grep -vxF "$removed_docs" \
               | sort | while read -r f; do
                 [ -f "$ROOT/next/dist/$docs_root/$f" ] || echo "$docs_root/$f"
               done)
