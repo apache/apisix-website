@@ -449,6 +449,11 @@ export function getSubprojectSidebar(project: string): SidebarNode[] {
 
 /** Version label a sub-project's docs were synced at, e.g. "0.5". */
 export function subprojectVersion(project: string): string | undefined {
+  // Ingress release branches are the source of truth; its config.json still
+  // reports 0.3.0 even when the synced docs come from v2.2.0.
+  const ingressRef = project === 'ingress-controller' ? docRefs[project] : undefined;
+  const ingressRelease = ingressRef?.match(/^v(\d+\.\d+\.\d+)$/);
+  if (ingressRelease) return ingressRelease[1];
   const cfg = Object.entries(sidebarConfigs).find(([p]) => p.includes(`docs-${project}-en/config.json`))?.[1];
   return (cfg?.default?.version ?? cfg?.version) as string | undefined;
 }
