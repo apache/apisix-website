@@ -88,6 +88,20 @@ APISIX_OWNED_DOCS.forEach((urlPath) => {
   );
 });
 
+const docRefsPath = path.join(root, 'content/doc-refs.json');
+assert.ok(fs.existsSync(docRefsPath), 'Synced documentation refs should exist');
+const ingressRef = JSON.parse(fs.readFileSync(docRefsPath, 'utf8'))['ingress-controller'];
+assert.match(ingressRef ?? '', /^v\d+\.\d+\.\d+$/, 'Ingress docs should use a release ref');
+for (const urlPath of [
+  '/docs/ingress-controller/overview/',
+  '/docs/ingress-controller/reference/apisix-ingress-controller/api-reference/',
+]) {
+  assert.ok(
+    pageHtml(urlPath).includes(`<span>${ingressRef}</span>`),
+    `${urlPath} should display the synced ${ingressRef} release`,
+  );
+}
+
 console.log(
   `Validated ${api7OwnedDocs.length} API7-owned and ${APISIX_OWNED_DOCS.length} APISIX-owned built documentation pages.`,
 );

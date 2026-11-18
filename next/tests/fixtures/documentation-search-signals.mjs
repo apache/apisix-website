@@ -49,6 +49,8 @@ export const API7_OWNED_DOC_SAMPLES = [
 
 export const APISIX_OWNED_DOCS = [
   '/docs/',
+  '/docs/apisix/dashboard/',
+  '/docs/apisix/deployment-modes/',
   '/docs/apisix/installation-guide/',
   '/docs/ingress-controller/overview/',
   '/docs/ingress-controller/concepts/gateway-api/',
