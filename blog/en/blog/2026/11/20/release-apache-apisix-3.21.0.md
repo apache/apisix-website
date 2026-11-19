@@ -15,7 +15,7 @@ keywords:
   - API Management Platform
   - New Release
   - Cloud Native
-description: Apache APISIX 3.21.0 was released on Nov 19, 2026. This security-focused release incorporates ten NGINX fixes, strengthens Admin API key validation, removes sensitive values from configuration-validation and plugin-execution logs, and improves upstream and logger reliability.
+description: Apache APISIX 3.21.0 was released on Nov 20, 2026. This security-focused release incorporates ten NGINX fixes, strengthens Admin API key validation, removes sensitive values from configuration-validation and plugin-execution logs, and improves upstream and logger reliability.
 tags: [Community]
 ---
 
