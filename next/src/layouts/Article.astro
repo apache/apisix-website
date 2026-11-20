@@ -45,7 +45,7 @@ const jsonLd = [{
   description: post.description,
   ...(post.dateStr ? { datePublished: post.dateStr } : {}),
   image: post.image,
-  author: post.author ? { '@type': 'Person', name: post.author } : { '@type': 'Organization', name: 'Apache APISIX' },
+  author: post.authors?.length ? post.authors.map((name) => ({ '@type': 'Person', name })) : post.author ? { '@type': 'Person', name: post.author } : { '@type': 'Organization', name: 'Apache APISIX' },
   publisher: { '@type': 'Organization', name: 'Apache APISIX', url: SITE },
   mainEntityOfPage: `${SITE}${locale === 'zh' ? '/zh' : ''}${path}`,
 }, ...jsonLdExtra];
