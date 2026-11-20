@@ -913,15 +913,18 @@ test('non-Attributes field schemas intentionally use semantic table behavior', a
     'mobile APISIX docs only exist in the final overlaid tree',
   );
 
+  const shellSelector = '.docs-content h3#chat-completions-request-format + .table-shell';
+  const accessibleName = /^Chat Completions Request Format$/i;
   await assertPluginTable(page, {
     path: '/docs/apisix/plugins/ai-proxy/',
-    shellSelector: '.docs-content h3#chat-completions-request-format + .table-shell',
+    shellSelector,
     contentSelector: '.docs-content',
     expectedColumns: ATTRIBUTE_COLUMNS.degraphql,
     shouldOverflow: true,
     minimumShellWidth: 340,
-    accessibleName: /^Chat Completions Request Format$/i,
+    accessibleName,
   });
+  await expect(page.locator(shellSelector).locator('.table-scroll')).toHaveAccessibleName(accessibleName);
 });
 
 test('archived plugin table overflow remains local and keyboard accessible on mobile', async ({ page }) => {
