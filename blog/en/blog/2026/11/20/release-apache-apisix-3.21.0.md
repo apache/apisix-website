@@ -1,10 +1,10 @@
 ---
 title: "Release Apache APISIX 3.21.0"
 authors:
-  - name: "Abhishek Choudhary"
+  - name: "Ming Wen"
     title: "Author"
-    url: "https://github.com/shreemaan-abhishek"
-    image_url: "https://github.com/shreemaan-abhishek.png"
+    url: "https://github.com/moonming"
+    image_url: "https://github.com/moonming.png"
   - name: "Traky Deng"
     title: "Technical Writer"
     url: "https://github.com/kayx23"
