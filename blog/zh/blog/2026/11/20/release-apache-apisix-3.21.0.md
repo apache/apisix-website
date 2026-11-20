@@ -25,11 +25,11 @@ tags: [Community]
 
 本次发布将 APISIX Runtime 升级至 1.4.3，其中集成 NGINX 1.31.9 核心及 2026 年 11 月 18 日发布的 10 项安全修复。该版本还修复工作进程健康检查状态收敛问题，在节点不可用后重新执行慢启动，并修复多条批量日志投递路径。
 
-该版本包含不向后兼容的 Runtime 解析行为和 Admin API 配置变更。发布新版本前，请完成适用于当前部署的升级计划。
+该版本包含不向后兼容的 Runtime 解析行为、Admin API 配置和加密值存储格式变更。发布新版本前，请完成适用于当前部署的升级计划。
 
 ## 破坏性变更
 
-Apache APISIX 3.21.0 更新了受支持的 Runtime，并收紧 Admin API 密钥配置。请检查以下两项升级计划，包括源码安装方式和已关闭 Admin API 监听器的部署。
+Apache APISIX 3.21.0 更新了受支持的 Runtime，收紧 Admin API 密钥配置，并改变加密插件值的回滚兼容性。请检查所有适用的升级计划，包括源码安装方式、已关闭 Admin API 监听器的部署，以及启用插件字段加密的部署。
 
 ### Runtime 1.4.3 集成 10 项 NGINX 安全修复
 
@@ -60,6 +60,16 @@ NGINX 1.31.9 还收紧了请求和响应解析。客户端请求头行缺少冒�
 
 更多信息，请参阅 [PR #14203](https://github.com/apache/apisix/pull/14203)。
 
+### 加密插件值会影响回滚兼容性
+
+启用 `apisix.data_encryption.enable_encrypt_fields` 的部署会受到影响。APISIX 现在会为新加密的插件配置和插件元数据值添加 `$ENC$v1$` 前缀。即使当前插件 Schema 已不再将相应字段列入 `encrypt_fields`，APISIX 仍可通过该标记识别并解密受保护的值。对于仍列在 `encrypt_fields` 中的字段，已有的无标记密文仍可正常读取。
+
+不支持该标记的 APISIX 版本会将带标记的完整字符串视为普通值。因此，在混合版本部署中写入配置并不安全；APISIX 3.21.0 保存带标记的值后，也不能直接回滚。
+
+**升级计划：** 如果已启用插件字段加密，请在升级前备份 etcd。滚动升级期间，在所有 APISIX 实例都支持该标记前，请勿通过 Admin API 写入配置。如果 APISIX 3.21.0 已保存带标记的值而必须回滚，请先恢复升级前的数据，再启动不支持该标记的版本，包括官方发布的 3.20.0 版本。
+
+更多信息，请参阅 [PR #14162](https://github.com/apache/apisix/pull/14162)。
+
 ## 安全修复
 
 除 NGINX 安全更新外，APISIX 还降低了运行时日志和配置校验日志泄露配置敏感信息的风险。
@@ -74,12 +84,22 @@ APISIX 现在会在配置校验与合并路径中记录资源 ID，而不是完�
 
 ## 缺陷修复
 
-Apache APISIX 3.21.0 改进了上游节点与工作进程的恢复行为，并修复多项日志批处理和投递故障。
+Apache APISIX 3.21.0 修正请求转发和诊断行为，改进上游节点与工作进程的恢复，修复 Stream 带宽统计，并解决多项日志批处理和投递故障。
+
+### 请求路由与诊断
+
+- 启用 `normalize_uri_like_servlet` 后，APISIX 现在会在 rewrite 和 access 阶段插件执行完成后构造转发查询字符串。由 `key-auth` 或 `jwt-auth` 移除的查询凭证不会再传给上游。显式设置的上游 URI 仍具有更高优先级，镜像请求也遵循相同规则；访问日志包含 `upstream_uri` 时，`data-mask` 也会对其中的查询参数执行脱敏。[PR #14163](https://github.com/apache/apisix/pull/14163)
+- 当基于 Host 的路由器无法获取 Route 引用的 Service 时，错误日志现在会包含 Route ID，便于定位悬空引用，且不会改变路由匹配行为。[PR #13723](https://github.com/apache/apisix/pull/13723)
 
 ### 上游恢复与慢启动
 
 - 使用 `warm_up_conf` 的轮询节点被健康检查移出选择器，或从 Upstream 删除后重新加入时，现在都会重新执行慢启动。即使中断时间很短，也会从 `min_weight_percent` 开始，因为该地址后方的进程可能已经重启。修改节点权重（包括设置为 `0`）不视为不可用。[PR #14188](https://github.com/apache/apisix/pull/14188)
 - `lua-resty-healthcheck-api7` 升级至 3.2.4。新建健康检查器会在首次轮询前订阅健康事件，因此初始化期间发生的状态变化能够到达该检查器，避免相应工作进程保留过期的健康状态并继续向故障目标转发请求。该修复仅覆盖检查器构造窗口；运行期间丢失事件后的恢复仍属于独立工作。[PR #14215](https://github.com/apache/apisix/pull/14215)
+- `lua-resty-redis-cluster` 升级至 1.3.4。探测不健康的 Redis Cluster 节点时，现在会复用已配置的 TLS 和身份验证设置，使恢复后的节点能够被识别并重新投入服务。[PR #14181](https://github.com/apache/apisix/pull/14181)
+
+### Stream 指标
+
+- `apisix_stream_bandwidth` 现在会从 Service 的第一个会话开始统计流量，包括在下一次指标刷新前已经结束的短时会话。[PR #14101](https://github.com/apache/apisix/pull/14101)
 
 ### 日志批处理与投递
 

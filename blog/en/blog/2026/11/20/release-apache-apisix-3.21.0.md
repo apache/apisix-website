@@ -25,11 +25,11 @@ We are glad to present Apache APISIX 3.21.0 with NGINX security updates, stricte
 
 This release upgrades APISIX Runtime to 1.4.3, which incorporates the NGINX 1.31.9 core and ten security fixes published on November 18, 2026. It also corrects worker health-check convergence, restarts slow-start ramping after a node becomes unavailable, and fixes several batch logger delivery paths.
 
-The release contains backward-incompatible Runtime parsing and Admin API configuration changes. Complete the applicable upgrade plans before rollout.
+The release contains backward-incompatible Runtime parsing, Admin API configuration, and encrypted-value storage changes. Complete the applicable upgrade plans before rollout.
 
 ## Breaking Changes
 
-APISIX 3.21.0 changes the supported Runtime and tightens Admin API key configuration. Review both upgrade plans, including for source installations and deployments where the Admin API listener is disabled.
+APISIX 3.21.0 changes the supported Runtime, tightens Admin API key configuration, and changes rollback compatibility for encrypted plugin values. Review all applicable upgrade plans, including for source installations, deployments where the Admin API listener is disabled, and deployments that encrypt plugin fields.
 
 ### Runtime 1.4.3 incorporates ten NGINX security fixes
 
@@ -60,6 +60,16 @@ The validation applies to traditional and control-plane configurations, includin
 
 For more information, see [PR #14203](https://github.com/apache/apisix/pull/14203).
 
+### Encrypted plugin values change rollback compatibility
+
+Deployments with `apisix.data_encryption.enable_encrypt_fields` enabled are affected. APISIX now prefixes newly encrypted plugin configuration and plugin metadata values with `$ENC$v1$`. The marker lets APISIX identify and decrypt a protected value even if the current plugin schema no longer lists that field in `encrypt_fields`. Existing unmarked ciphertext remains readable for fields still listed in `encrypt_fields`.
+
+An APISIX version without marker support treats the complete marked string as a literal value. This can make a mixed-version write unsafe and prevents a direct rollback after 3.21.0 has saved marked values.
+
+**Upgrade plan:** If plugin field encryption is enabled, back up etcd before upgrading. Avoid Admin API writes during a rolling upgrade until every APISIX instance supports the marker. If you must roll back after APISIX 3.21.0 has saved marked values, restore the pre-upgrade data before starting a version without marker support, including the official 3.20.0 release.
+
+For more information, see [PR #14162](https://github.com/apache/apisix/pull/14162).
+
 ## Security Fixes
 
 In addition to the NGINX security update, APISIX reduces the risk of exposing configuration secrets through runtime and validation logs.
@@ -74,12 +84,22 @@ For more information, see [PR #14157](https://github.com/apache/apisix/pull/1415
 
 ## Bug Fixes
 
-APISIX 3.21.0 improves recovery behavior for upstream nodes and workers, and prevents several logger batching and delivery failures.
+APISIX 3.21.0 corrects request forwarding and diagnostics, improves upstream and worker recovery, fixes stream bandwidth accounting, and prevents several logger batching and delivery failures.
+
+### Request routing and diagnostics
+
+- With `normalize_uri_like_servlet` enabled, APISIX now builds the forwarded query string after rewrite and access plugins run. Query credentials removed by `key-auth` or `jwt-auth` no longer reappear upstream. An explicit upstream URI still takes precedence, including for mirrored requests, and `data-mask` applies query masking when access logs contain `upstream_uri`. [PR #14163](https://github.com/apache/apisix/pull/14163)
+- When the host-based router cannot fetch a Route's referenced Service, the error log now includes the Route ID. This helps locate a dangling reference without changing route matching. [PR #13723](https://github.com/apache/apisix/pull/13723)
 
 ### Upstream recovery and slow start
 
 - A round-robin node using `warm_up_conf` now begins a new slow-start ramp whenever it returns after a health check removed it from the picker or after it was removed from the Upstream. The ramp restarts from `min_weight_percent` even after a short interruption because the process serving that address may have restarted. Changing a node's weight, including to `0`, is not treated as unavailability. [PR #14188](https://github.com/apache/apisix/pull/14188)
 - `lua-resty-healthcheck-api7` is upgraded to 3.2.4. A newly created checker subscribes to health events before its initial poll, so a transition during initialization reaches the checker instead of leaving that worker with a stale healthy state and routing requests to a failed target. The fix covers the checker-construction window; recovery from events lost during normal operation remains separate work. [PR #14215](https://github.com/apache/apisix/pull/14215)
+- `lua-resty-redis-cluster` is upgraded to 1.3.4. Probes of an unhealthy Redis Cluster node now reuse the configured TLS and authentication settings, allowing a recovered node to be recognized and returned to service. [PR #14181](https://github.com/apache/apisix/pull/14181)
+
+### Stream metrics
+
+- `apisix_stream_bandwidth` now counts traffic for a Service from its first session, including a short-lived session that ends before the next metrics refresh. [PR #14101](https://github.com/apache/apisix/pull/14101)
 
 ### Logger batching and delivery
 
