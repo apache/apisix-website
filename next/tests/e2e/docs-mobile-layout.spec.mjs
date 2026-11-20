@@ -915,12 +915,12 @@ test('non-Attributes field schemas intentionally use semantic table behavior', a
 
   await assertPluginTable(page, {
     path: '/docs/apisix/plugins/ai-proxy/',
-    shellSelector: '.docs-content h2#request-format + .table-shell',
+    shellSelector: '.docs-content h3#chat-completions-request-format + .table-shell',
     contentSelector: '.docs-content',
     expectedColumns: ATTRIBUTE_COLUMNS.degraphql,
     shouldOverflow: true,
     minimumShellWidth: 340,
-    accessibleName: /Request Format/i,
+    accessibleName: /^Chat Completions Request Format$/i,
   });
 });
 
