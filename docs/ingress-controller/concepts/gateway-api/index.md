@@ -1,0 +1,69 @@
+# Kubernetes Gateway API Support
+
+> Learn which Kubernetes Gateway API resources, API versions, and fields are supported by the APISIX Ingress Controller.
+
+Source: https://apisix.apache.org/docs/ingress-controller/concepts/gateway-api/
+
+Kubernetes Gateway API provides portable, role-oriented resources for managing L4 and L7 traffic in Kubernetes. APISIX Ingress Controller watches supported Gateway API resources and translates them into Apache APISIX configuration.
+
+This page summarizes the resources, API versions, and fields that APISIX Ingress Controller supports. To create a route with Gateway API, follow [Configure Routes](/docs/ingress-controller/getting-started/configure-routes/).
+
+## Concepts
+
+- **GatewayClass**: Defines a class of Gateways with a shared configuration and behavior. Each GatewayClass is managed by a single controller, although a controller may support multiple GatewayClasses.
+- **Gateway**: Represents a request for network traffic handling within the cluster. A Gateway specifies how traffic enters the cluster and is directed to backend Services, typically by binding to one or more listeners.
+- **HTTPRoute**: Configures routing for HTTP traffic.
+- **GRPCRoute**: Configures routing for gRPC traffic.
+- **ReferenceGrant**: Grants permission to reference resources across namespaces.
+- **TLSRoute**: Defines routing rules for terminating or passing through TLS traffic.
+- **TCPRoute**: Configures routing for TCP traffic.
+- **UDPRoute**: Configures routing for UDP traffic.
+- **BackendTLSPolicy**: Specifies how a Gateway should validate TLS connections to its backends, including trusted certificate authorities and verification modes.
+
+## Supported Kubernetes Gateway API Resources
+
+| Resource         | Core Support Level  | Extended Support Level | Implementation-Specific Support Level | API Version |
+| ---------------- | ------------------- | ---------------------- | ------------------------------------- | ----------- |
+| GatewayClass     | Supported           | N/A                    | Not supported                         | v1          |
+| Gateway          | Partially supported | Partially supported    | Not supported                         | v1          |
+| HTTPRoute        | Supported           | Partially supported    | Not supported                         | v1          |
+| GRPCRoute        | Supported           | Supported              | Not supported                         | v1          |
+| ReferenceGrant   | Supported           | Not supported          | Not supported                         | v1          |
+| TLSRoute         | Supported           | Supported              | Not supported                         | v1          |
+| TCPRoute         | Supported           | Supported              | Not supported                         | v1          |
+| UDPRoute         | Supported           | Supported              | Not supported                         | v1          |
+| BackendTLSPolicy | Not supported       | Not supported          | Not supported                         | v1alpha3    |
+
+TLSRoute, TCPRoute, and UDPRoute are read as `v1`, which Gateway API promoted them to in 1.6. Gateway API 1.6 or later is therefore required for L4 routing: the `v1alpha2` versions of these resources are deprecated everywhere and are not even served by the standard channel CRDs. ReferenceGrant is read as `v1` for the same reason, although its `v1beta1` version is not deprecated and remains the storage version.
+
+Existing manifests that still declare an older version keep working as long as the installed CRDs serve it, because the API server converts them before they reach the controller. They should still be updated to `v1`.
+
+## Examples
+
+For configuration examples, see the Gateway API tabs in [Configuration Examples](/docs/ingress-controller/reference/example/). For APISIX-specific extensions to Gateway API, see [APISIX Ingress Controller Resources](/docs/ingress-controller/concepts/resources/#gateway-api-extensions).
+
+For a complete list of configuration options, refer to the [Gateway API Reference](https://gateway-api.sigs.k8s.io/reference/1.6/spec/). Be aware that some fields are not supported, or partially supported.
+
+## Unsupported / Partially Supported Fields
+
+The fields below are specified in the Gateway API specification but are either partially implemented or not yet supported in the APISIX Ingress Controller.
+
+### HTTPRoute
+
+| Fields                         | Status                 | Notes                                                                                   |
+|--------------------------------|------------------------|-----------------------------------------------------------------------------------------|
+| `spec.timeouts`                | Not supported          | The field is unsupported because ADC provides finer-grained timeout configuration (connect, read, write), whereas `spec.timeouts` only allows a general total timeout and upstream timeout, so it cannot be directly mapped. To configure route timeouts, you can use [BackendTrafficPolicy](/docs/ingress-controller/reference/api-reference/#backendtrafficpolicyspec).  |
+| `spec.retries`                 | Not supported          | The field is unsupported because APISIX does not support the features in retries. To configure route retries, you can use [BackendTrafficPolicy](/docs/ingress-controller/reference/api-reference/#backendtrafficpolicyspec).  |
+| `spec.sessionPersistence`      | Not supported          | APISIX does not support the configuration of cookie lifetimes. As an alternative, you can use [`chash` load balancer](/docs/ingress-controller/reference/api-reference/#loadbalancer). |
+| `spec.rules[].backendRefs[].filters[]` | Not supported | BackendRef-level filters are not implemented as data plane does not support filtering at this level; only rule-level filters (`spec.rules[].filters[]`) are supported. |
+
+### Gateway
+
+| Fields                                               | Status               | Notes                                                                                          |
+|------------------------------------------------------|----------------------|------------------------------------------------------------------------------------------------|
+| `spec.listeners[].port`               | Partially supported | Controls `server_port` route-var injection; off by default and enabled via [`listener_port_match_mode`](/docs/ingress-controller/reference/configuration-file/) (`auto` / `explicit`). The controller cannot dynamically open data plane ports, so APISIX must already listen on the specified port. |
+| `spec.listeners[].tls.certificateRefs[].group` | Partially supported | Only `""` is supported; other group values cause validation failure. |
+| `spec.listeners[].tls.certificateRefs[].kind`        | Partially supported  | Only `Secret` is supported.                                                                    |
+| `spec.listeners[].tls.mode`                          | Partially supported  | `Terminate` is implemented; `Passthrough` is effectively unsupported for Gateway listeners.    |
+| `spec.listeners[].tls.frontendValidation`            | Partially supported  | Enables downstream (client) mTLS. `caCertificateRefs` may reference a `ConfigMap` (Gateway API Core support) or a `Secret` (implementation-specific) holding the CA certificate under the `ca.crt` key; clients are then required to present a certificate signed by one of the referenced CAs. |
+| `spec.addresses`                                     | Not supported        | Controller does not read or act on `spec.addresses`.                                           |
