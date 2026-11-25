@@ -290,6 +290,11 @@
         "name": "ai-rag",
         "description": "The ai-rag Plugin adds retrieval-augmented generation by fetching relevant context from external data sources",
         "logo": "/img/plugin/ai.svg"
+      },
+      {
+        "name": "openapi-to-mcp",
+        "description": "The openapi-to-mcp Plugin exposes operations from an OpenAPI document as MCP tools served by APISIX",
+        "logo": "/img/integrations/openapi.svg"
       }
     ]
   },

@@ -232,6 +232,8 @@ test('Plugin Hub renders the complete catalog without page overflow', async ({ p
   await expect(page.locator('[data-plugin="ai-proxy"]'))
     .toHaveAttribute('href', '/docs/apisix/plugins/ai-proxy/');
   await expectImageLoaded(page.locator('[data-plugin="ai-proxy"] img'));
+  await expect(page.locator('#AI [data-plugin="openapi-to-mcp"]'))
+    .toHaveAttribute('href', '/docs/apisix/plugins/openapi-to-mcp/');
   await expect(page.locator('[data-plugin="limit-req"] use'))
     .toHaveAttribute('href', '#iconlimit-req');
   await expect(page.locator('symbol#iconlimit-req')).toHaveCount(1);
