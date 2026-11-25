@@ -6,6 +6,26 @@ const downloads = require('../../../config/downloads.js');
 const pluginGroups = require('../../../website/static/data/plugins.json');
 const apisixRelease = downloads.find((project) => project.githubRepo === 'apache/apisix');
 const pluginCount = pluginGroups.reduce((total, group) => total + group.plugins.length, 0);
+const expectedPluginGroupCounts = {
+  Traffic: 17,
+  Transformation: 12,
+  Authentication: 19,
+  Security: 12,
+  AI: 13,
+  Observability: 25,
+  Serverless: 5,
+  'Other protocols': 5,
+  General: 12,
+};
+const expectedPluginCategories = {
+  'openapi-to-mcp': 'AI',
+  'attach-consumer-label': 'Transformation',
+  gm: 'Security',
+  lago: 'Observability',
+  'oas-validator': 'Traffic',
+  'ocsp-stapling': 'General',
+  workflow: 'Traffic',
+};
 const socialImage = 'https://apisix.apache.org/img/apache-apisix.png';
 
 async function expectNoPageOverflow(page) {
@@ -225,6 +245,11 @@ test('Chinese AI Gateway preserves localized ownership and documented capabiliti
 test('Plugin Hub renders the complete catalog without page overflow', async ({ page }, testInfo) => {
   await page.goto('/plugins/');
 
+  const pluginNames = pluginGroups.flatMap((group) => group.plugins.map((plugin) => plugin.name));
+  expect(pluginCount).toBe(120);
+  expect(new Set(pluginNames).size).toBe(pluginCount);
+  expect(Object.fromEntries(pluginGroups.map((group) => [group.groupName, group.plugins.length])))
+    .toEqual(expectedPluginGroupCounts);
   await expect(page.getByRole('heading', { level: 1, name: 'Powerful plugins. Open integrations.' }))
     .toBeVisible();
   await expect(page.getByTestId('plugin-group')).toHaveCount(pluginGroups.length);
@@ -234,6 +259,9 @@ test('Plugin Hub renders the complete catalog without page overflow', async ({ p
   await expectImageLoaded(page.locator('[data-plugin="ai-proxy"] img'));
   await expect(page.locator('#AI [data-plugin="openapi-to-mcp"]'))
     .toHaveAttribute('href', '/docs/apisix/plugins/openapi-to-mcp/');
+  for (const [plugin, category] of Object.entries(expectedPluginCategories)) {
+    await expect(page.locator(`#${category} [data-plugin="${plugin}"]`)).toHaveCount(1);
+  }
   await expect(page.locator('[data-plugin="limit-req"] use'))
     .toHaveAttribute('href', '#iconlimit-req');
   await expect(page.locator('symbol#iconlimit-req')).toHaveCount(1);
