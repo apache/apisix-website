@@ -11,14 +11,14 @@ const expectedPluginGroupCounts = {
   Transformation: 12,
   Authentication: 19,
   Security: 12,
-  AI: 12,
+  AI: 13,
   Observability: 25,
   Serverless: 5,
-  'Other protocols': 6,
+  'Other protocols': 5,
   General: 12,
 };
 const expectedPluginCategories = {
-  'openapi-to-mcp': 'Other protocols',
+  'openapi-to-mcp': 'AI',
   'attach-consumer-label': 'Transformation',
   gm: 'Security',
   lago: 'Observability',
@@ -257,7 +257,7 @@ test('Plugin Hub renders the complete catalog without page overflow', async ({ p
   await expect(page.locator('[data-plugin="ai-proxy"]'))
     .toHaveAttribute('href', '/docs/apisix/plugins/ai-proxy/');
   await expectImageLoaded(page.locator('[data-plugin="ai-proxy"] img'));
-  await expect(page.locator('[id="Other protocols"] [data-plugin="openapi-to-mcp"]'))
+  await expect(page.locator('#AI [data-plugin="openapi-to-mcp"]'))
     .toHaveAttribute('href', '/docs/apisix/plugins/openapi-to-mcp/');
   for (const [plugin, category] of Object.entries(expectedPluginCategories)) {
     await expect(page.locator(`[id="${category}"] [data-plugin="${plugin}"]`)).toHaveCount(1);
