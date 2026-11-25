@@ -347,11 +347,6 @@
         "logo": "/img/plugin/ai.svg"
       },
       {
-        "name": "openapi-to-mcp",
-        "description": "The openapi-to-mcp Plugin exposes operations from an OpenAPI document as MCP tools served by APISIX",
-        "logo": "/img/integrations/openapi.svg"
-      },
-      {
         "name": "ai-cache",
         "description": "The ai-cache Plugin caches LLM responses in Redis to reduce repeated upstream token cost and latency",
         "logo": "/img/plugin/ai.svg"
@@ -538,6 +533,11 @@
         "name": "websocket-proxy",
         "description": "The websocket-proxy Plugin controls the maximum WebSocket frame size for ws and wss Routes",
         "useDefaultIcon": true
+      },
+      {
+        "name": "openapi-to-mcp",
+        "description": "The openapi-to-mcp Plugin exposes operations from an OpenAPI document as MCP tools served by APISIX",
+        "logo": "/img/integrations/openapi.svg"
       }
     ]
   },
