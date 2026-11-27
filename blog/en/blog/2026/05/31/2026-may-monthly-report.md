@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (May 01 - May 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "Apache APISIX adds Feishu and DingTalk authentication, query-depth-based GraphQL rate limiting, and OpenAPI request validation."
 tags: [Community]
 image: https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/hHcHm2BY_monthly-report-cover-en.webp
 ---

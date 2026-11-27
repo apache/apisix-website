@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (06.01 - 06.30)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 6 月引入 SAML 2.0 认证和 ai-cache 响应缓存，分别简化企业身份接入并减少重复 LLM 请求的开销；limit-count 新增 Redis Sentinel 后端、滑动窗口及延迟同步能力，改善限流高可用性、窗口边界突发和逐请求 Redis 访问成本。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/06/30/jAdrrmmG_2026-06-monthly-report-cover-cn.webp
 ---

@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (02.01 - 02.28)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 2 月支持 limit-count 多规则限流，可按变量构建更灵活的策略；OpenID Connect 新增 Redis 会话存储，支持跨路由共享会话与刷新令牌；OpenTelemetry 扩展请求生命周期中的 Span，并改进上下文传播与管理。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/02/28/EDuu5wUR_2026-feb-monthly-report-cover-cn.webp
 ---

@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (July 01 - July 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "Apache APISIX extends AI caching to semantic matches and streaming responses, adds shared Redis token quotas, and introduces semantic load balancing."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/07/31/zaSU1pKM_2026-july-monthly-report-cover-en.webp
 ---

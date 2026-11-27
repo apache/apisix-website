@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (07.01 - 07.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 7 月扩展 ai-cache，支持精确缓存未命中后的语义匹配，并缓存完整 SSE 流式响应；ai-rate-limiting 可通过 Redis 在网关节点间共享 Token 配额；ai-proxy-multi 新增语义负载均衡，按提示词含义选择模型实例并支持异常回退。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/07/31/wT1P39iV_2026-july-monthly-report-cover-cn.webp
 ---

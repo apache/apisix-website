@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (10.01 - 10.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 10 月为 Stream 指标增加服务标签，便于按服务观察流量；request-decompress 可在后续插件处理前解压 gzip 或 deflate 请求体并限制输出大小；OpenID Connect 支持将已验证声明映射到上游请求头，并先清除同名客户端输入以防伪造。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/11/02/nIjsz9I7_2026-oct-monthly-report-cover-cn.webp
 ---

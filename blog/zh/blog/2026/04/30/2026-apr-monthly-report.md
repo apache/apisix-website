@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (04.01 - 04.30)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 4 月为 ai-proxy 新增 AWS Bedrock 和 OpenAI Responses API 支持，可通过统一网关代理更多模型与有状态多轮对话请求；ai-rate-limiting 同时引入基于表达式的限流策略，支持以请求头、消费者名称等变量动态定义限流键。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/04/30/qaKsoh3b_2026-apr-monthly-report-cover-cn.webp
 ---

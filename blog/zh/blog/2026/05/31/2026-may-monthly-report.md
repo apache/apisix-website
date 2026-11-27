@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (05.01 - 05.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 5 月新增飞书与钉钉认证插件，方便通过已有企业身份系统保护 API；graphql-limit-count 可按查询 AST 深度在时间窗口内限流；oas-validator 则在请求转发前按 OpenAPI 3.x 规范校验入站请求，帮助网关执行接口契约。"
 tags: [Community]
 image: https://api7-website-1301662268.cos.ap-guangzhou.myqcloud.com/uploads/2026/06/01/THfXIpPv_monthly-report-cover-cn.webp
 ---

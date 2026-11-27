@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (03.01 - 03.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 3 月在 Standalone 模式下拒绝未知或未注册插件，帮助及早发现配置错误；日志插件统一提供请求与响应体采集大小控制；clickhouse-logger 可从环境变量或 HashiCorp Vault 引用敏感凭据，减少配置中的明文用户名与密码。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/04/09/U5gntpTT_2026-03-monthly-report-cover-cn.webp
 ---
