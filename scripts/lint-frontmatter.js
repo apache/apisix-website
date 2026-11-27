@@ -12,7 +12,7 @@ const IGNORED_DIRS = new Set([
   'node_modules',
 ]);
 const MARKDOWN_EXTENSIONS = new Set(['.md', '.mdx']);
-const MONTHLY_REPORT = /^blog\/(en|zh)\/blog\/(\d{4}\/\d{2})\/\d{2}\/[^/]*monthly-report\.mdx?$/;
+const MONTHLY_REPORT = /^blog\/(en|zh)\/blog\/\d{4}\/\d{2}\/\d{2}\/[^/]*monthly-report\.mdx?$/;
 
 function walk(dir, files = []) {
   fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
@@ -61,7 +61,6 @@ function main() {
         reports.push({
           file: relativePath,
           language: monthly[1],
-          month: monthly[2],
           description: typeof metadata?.description === 'string'
             ? metadata.description.trim().replace(/\s+/g, ' ').toLowerCase() : '',
         });
@@ -71,21 +70,19 @@ function main() {
     }
   });
 
-  // CI 只检查 PR 涉及的月报，不阻塞未改动的历史重复。
+  // Check only reports changed by this PR; leave historical duplicates untouched.
   if (process.env.BASE_SHA) {
     const range = `${process.env.BASE_SHA}...${process.env.HEAD_SHA || 'HEAD'}`;
     const changed = new Set(execFileSync('git', [
       'diff', '--name-only', '--diff-filter=ACMR', '-z', range,
     ], { cwd: ROOT, encoding: 'utf8' }).split('\0'));
-    reports.sort((left, right) => right.file.localeCompare(left.file));
     reports.filter((report) => changed.has(report.file)).forEach((report) => {
-      // 按路径月份找同语言上一期，跳过普通博客和同月的其他文件。
-      const previous = reports.find((other) => other.language === report.language
-        && other.month < report.month);
+      const duplicate = reports.find((other) => other.file !== report.file
+        && other.language === report.language && other.description === report.description);
       if (!report.description) {
         failures.push(`${report.file}: description must be a non-empty string`);
-      } else if (previous && previous.description === report.description) {
-        failures.push(`${report.file}: description repeats ${previous.file}`);
+      } else if (duplicate) {
+        failures.push(`${report.file}: description repeats ${duplicate.file}`);
       }
     });
   }
