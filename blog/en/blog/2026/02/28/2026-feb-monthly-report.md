@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (February 01 - February 28)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "Multi-rule rate limiting, Redis-backed OpenID Connect sessions, and expanded OpenTelemetry tracing lead Apache APISIX updates in February."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/02/28/wFO4NRZJ_2026-feb-monthly-report-cover-en.webp
 ---

@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (April 01 - April 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "April brings AWS Bedrock and OpenAI Responses API support to Apache APISIX, alongside expression-based AI token rate limiting."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/04/30/eNntRfyu_2026-apr-monthly-report-cover-en.webp
 ---

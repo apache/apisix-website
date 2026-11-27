@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (September 01 - September 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "Apache APISIX adds OpenAPI-to-MCP tools, frame-aware WebSocket proxying, and SNI-based TLS passthrough for encrypted stream traffic."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/09/30/nIHKCxPD_2026-sep-monthly-report-cover-en.webp
 ---

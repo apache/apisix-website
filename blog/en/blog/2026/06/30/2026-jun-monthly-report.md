@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (June 01 - June 30)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "SAML authentication, LLM response caching, and Redis Sentinel-backed rate limiting with sliding windows expand Apache APISIX capabilities."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/06/30/fx3aed6D_2026-06-monthly-report-cover-en.webp
 ---

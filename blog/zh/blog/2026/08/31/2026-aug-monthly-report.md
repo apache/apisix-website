@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (08.01 - 08.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 8 月新增 ldap-auth-advanced，支持搜索后绑定及 LDAPS/StartTLS；上游 TLS 可显式启用证书校验并配置独立 CA；Prometheus 同时新增 Stream 活跃连接、会话结果及双向带宽指标，便于持续观察长连接并区分超时、重置与正常关闭。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/09/01/rWYKjvhI_2026-aug-monthly-report-cover-cn.webp
 ---

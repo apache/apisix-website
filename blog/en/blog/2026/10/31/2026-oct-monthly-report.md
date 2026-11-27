@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (October 01 - October 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "Apache APISIX adds per-service stream metrics, request-body decompression, and forwarding of verified OpenID Connect claims to upstream headers."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/11/02/JN0Io467_2026-oct-monthly-report-cover-en.webp
 ---

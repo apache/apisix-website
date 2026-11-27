@@ -1,7 +1,7 @@
 ---
 title: "2026 Monthly Report (January 01 - January 31)"
 keywords: ["Apache APISIX", "API Gateway", "Monthly Report", "Contributor"]
-description: Our monthly Apache APISIX community report generates insights into the project's monthly developments. The reports provide a pathway into the Apache APISIX community, ensuring that you stay well-informed and actively involved.
+description: "Explore Apache APISIX updates to Redis connection reuse, Vertex AI integration, and gRPC-Web routing beyond prefix-matched paths."
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/01/30/BhvatY9K_2026-jan-monthly-report-cover-en.webp
 ---

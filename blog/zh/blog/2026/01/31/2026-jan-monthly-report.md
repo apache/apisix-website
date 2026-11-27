@@ -1,7 +1,7 @@
 ---
 title: "2026 社区月报 (01.01 - 01.31)"
 keywords: ["Apache APISIX", "API 网关", "社区月报", "贡献者"]
-description: Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。
+description: "Apache APISIX 2026 年 1 月更新聚焦连接复用与 AI 接入：限流插件可配置 Redis Keepalive，并统一集群连接超时行为；新增 Google Vertex AI 支持，方便通过网关转发模型请求；gRPC-Web 移除仅限 URI 前缀路由的限制，允许客户端使用完整路径匹配。"
 tags: [Community]
 image: https://static.api7.ai/uploads/2026/01/30/ZkUprAVf_2026-jan-monthly-report-cover-cn.webp
 ---
