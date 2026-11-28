@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkwebsite=globalThis.webpackChunkwebsite||[]).push([[5967],{4096(e){e.exports=JSON.parse('{"allTagsPath":"/learning-center/tags","slug":"/learning-center/tags/apigee","name":"apigee","count":1,"permalink":"/learning-center/tags/apigee"}')}}]);

@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apache APISIX 3.21.0 正式发布 | Apache APISIX</title><meta name="description" content="Apache APISIX 3.21.0 于 2026 年 11 月 20 日发布。该版本以安全为重点，包含 10 项 NGINX 安全修复，并加强 Admin API 密钥校验，避免配置校验和插件执行日志记录敏感值，同时提升上游恢复和日志投递的可靠性。"><meta name="robots" content="index,follow"><link rel="canonical" href="https://apisix.apache.org/zh/blog/2026/11/20/release-apache-apisix-3.21.0/"><link rel="alternate" hreflang="en" href="https://apisix.apache.org/blog/2026/11/20/release-apache-apisix-3.21.0/"><link rel="alternate" hreflang="zh" href="https://apisix.apache.org/zh/blog/2026/11/20/release-apache-apisix-3.21.0/"><link rel="alternate" hreflang="x-default" href="https://apisix.apache.org/blog/2026/11/20/release-apache-apisix-3.21.0/"><link rel="icon" href="https://static.apiseven.com/202202/favicon.png"><link rel="sitemap" type="application/xml" href="/zh/sitemap.xml"><meta property="og:type" content="article"><meta property="og:title" content="Apache APISIX 3.21.0 正式发布 | Apache APISIX"><meta property="og:description" content="Apache APISIX 3.21.0 于 2026 年 11 月 20 日发布。该版本以安全为重点，包含 10 项 NGINX 安全修复，并加强 Admin API 密钥校验，避免配置校验和插件执行日志记录敏感值，同时提升上游恢复和日志投递的可靠性。"><meta property="og:url" content="https://apisix.apache.org/zh/blog/2026/11/20/release-apache-apisix-3.21.0/"><meta property="og:site_name" content="Apache APISIX"><meta property="og:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:image" content="https://apisix.apache.org/img/apache-apisix.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@apacheapisix"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebSite","name":"Apache APISIX","url":"https://apisix.apache.org"},{"@context":"https://schema.org","@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org","logo":"https://apisix.apache.org/img/logo2.svg","sameAs":["https://github.com/apache/apisix","https://twitter.com/ApacheAPISIX","https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g"]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Apache APISIX 3.21.0 正式发布","description":"Apache APISIX 3.21.0 于 2026 年 11 月 20 日发布。该版本以安全为重点，包含 10 项 NGINX 安全修复，并加强 Admin API 密钥校验，避免配置校验和插件执行日志记录敏感值，同时提升上游恢复和日志投递的可靠性。","datePublished":"2026-11-20","author":{"@type":"Person","name":"Ming Wen"},"publisher":{"@type":"Organization","name":"Apache APISIX","url":"https://apisix.apache.org"},"mainEntityOfPage":"https://apisix.apache.org/zh/blog/2026/11/20/release-apache-apisix-3.21.0/"}]</script><script data-analytics="matomo">/* eslint-disable no-underscore-dangle */
+(() => {
+  if (window.location.hostname !== 'apisix.apache.org') return;
+  const trackerUrl = 'https://analytics.apache.org/';
+  window._paq = window._paq || [];
+  const queue = window._paq;
+  /* tracker methods like "setCustomDimension" should be called before
+  "trackPageView" */
+  /* We explicitly disable cookie tracking to avoid privacy issues */
+  queue.push(['disableCookies']);
+  queue.push(['setTrackerUrl', `${trackerUrl}matomo.php`]);
+  queue.push(['setSiteId', '17']);
+  queue.push(['setCustomUrl', window.location.href]);
+  queue.push(['setDocumentTitle', document.title]);
+  queue.push(['trackPageView']);
+  queue.push(['enableLinkTracking']);
+
+  const loadMatomo = () => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `${trackerUrl}matomo.js`;
+    document.head.appendChild(script);
+  };
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(loadMatomo, { timeout: 3000 });
+  } else {
+    window.addEventListener('load', loadMatomo, { once: true });
+  }
+})();
+</script><link rel="stylesheet" href="/_astro/Base.C-NMf9YB.css"></head> <body> <div class="announcement" data-astro-cid-3ef6ksr2>
+🤔 Introducing APISIX AI Gateway<span class="ann-detail" data-astro-cid-3ef6ksr2> – Built for LLMs and AI workloads</span>. <a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>Learn More</a> </div> <header class="site-header" data-astro-cid-3ef6ksr2> <div class="container" data-astro-cid-3ef6ksr2> <a class="brand" href="/zh/" data-astro-cid-3ef6ksr2> <img src="/img/logo2.svg" alt="" width="36" height="30" data-astro-cid-3ef6ksr2> <span data-astro-cid-3ef6ksr2>Apache APISIX®</span> </a> <nav class="main-nav" aria-label="Main navigation" data-astro-cid-3ef6ksr2> <details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="nav-drop" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态 ▾</summary> <div class="menu" data-astro-cid-3ef6ksr2> <a href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" title="GitHub" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2026/11/20/release-apache-apisix-3.21.0/" title="English" data-astro-cid-3ef6ksr2>EN</a>   </nav> <details class="mobile-toggle" data-astro-cid-3ef6ksr2> <summary aria-label="Menu" data-astro-cid-3ef6ksr2>☰</summary> <div class="menu" data-astro-cid-3ef6ksr2> <details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>文档</summary> <div data-astro-cid-3ef6ksr2> <a class="mobile-subnav" href="/zh/docs/" data-astro-cid-3ef6ksr2>文档</a> <a class="mobile-subnav" href="/zh/docs/apisix/getting-started/README/" data-astro-cid-3ef6ksr2>Apache APISIX®</a><a class="mobile-subnav" href="/zh/docs/ingress-controller/overview/" data-astro-cid-3ef6ksr2>Apache APISIX® Ingress Controller</a><a class="mobile-subnav" href="/zh/docs/helm-chart/apisix/" data-astro-cid-3ef6ksr2>Apache APISIX® Helm Charts</a><a class="mobile-subnav" href="/zh/docs/docker/build/" data-astro-cid-3ef6ksr2>Apache APISIX® Docker</a><a class="mobile-subnav" href="/zh/docs/java-plugin-runner/development/" data-astro-cid-3ef6ksr2>Apache APISIX® Java Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/go-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Go Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/python-plugin-runner/getting-started/" data-astro-cid-3ef6ksr2>Apache APISIX® Python Plugin Runner</a><a class="mobile-subnav" href="/zh/docs/general/join/" data-astro-cid-3ef6ksr2>General</a> </div> </details><a href="/zh/learning-center/" data-astro-cid-3ef6ksr2>学习中心</a><a href="/zh/comparisons/" data-astro-cid-3ef6ksr2>对比</a><a href="/zh/ai-gateway/" data-astro-cid-3ef6ksr2>AI Gateway</a><a href="/zh/blog/" data-astro-cid-3ef6ksr2>博客</a><details class="mobile-nav-group" data-astro-cid-3ef6ksr2> <summary data-astro-cid-3ef6ksr2>生态</summary> <div data-astro-cid-3ef6ksr2>  <a class="mobile-subnav" href="/zh/integrations/" data-astro-cid-3ef6ksr2>集成</a><a class="mobile-subnav" href="/zh/cookbooks/" data-astro-cid-3ef6ksr2>Cookbook</a><a class="mobile-subnav" href="/zh/plugins/" data-astro-cid-3ef6ksr2>插件中心</a> </div> </details><a href="/zh/downloads/" data-astro-cid-3ef6ksr2>下载</a><a href="/zh/team/" data-astro-cid-3ef6ksr2>团队</a> <a href="https://github.com/apache/apisix" data-astro-cid-3ef6ksr2>GitHub</a> <a href="/blog/2026/11/20/release-apache-apisix-3.21.0/" data-astro-cid-3ef6ksr2>English</a> </div> </details> </div> </header> <main>  <div class="container article-wrap with-rails"> <aside class="article-side">  <p class="side-title">标签</p> <div class="tag-row"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div>  <a class="cta-link side-back" href="/zh/blog/">← 所有文章</a> </aside> <article class="prose"> <header class="article-header"> <h1>Apache APISIX 3.21.0 正式发布</h1> <p class="article-meta"> <time datetime="2026-11-20">2026年11月20日</time> · Ming Wen  · 约 8 分钟 </p> <div class="tag-row header-tags"> <a class="tag" href="/zh/blog/tags/community/">Community</a> </div> <details class="toc-inline"> <summary>本页目录</summary> <ul> <li class><a href="#破坏性变更">破坏性变更</a></li><li class="d3"><a href="#runtime-143-集成-10-项-nginx-安全修复">Runtime 1.4.3 集成 10 项 NGINX 安全修复</a></li><li class="d3"><a href="#admin-api-密钥条目必须显式配置角色">Admin API 密钥条目必须显式配置角色</a></li><li class="d3"><a href="#加密插件值会影响回滚兼容性">加密插件值会影响回滚兼容性</a></li><li class><a href="#安全修复">安全修复</a></li><li class="d3"><a href="#配置校验与插件执行日志不再记录敏感值">配置校验与插件执行日志不再记录敏感值</a></li><li class><a href="#缺陷修复">缺陷修复</a></li><li class="d3"><a href="#请求路由与诊断">请求路由与诊断</a></li><li class="d3"><a href="#上游恢复与慢启动">上游恢复与慢启动</a></li><li class="d3"><a href="#stream-指标">Stream 指标</a></li><li class="d3"><a href="#日志批处理与投递">日志批处理与投递</a></li><li class><a href="#更新日志">更新日志</a></li> </ul> </details> </header>  <p>我们很高兴地宣布 Apache APISIX 3.21.0 正式发布。该版本集成 NGINX 安全修复，收紧 Admin API 密钥校验，提升配置日志安全性，并修复上游恢复与日志投递中的可靠性问题。</p>
+<!--truncate-->
+<p>本次发布将 APISIX Runtime 升级至 1.4.3，其中集成 NGINX 1.31.9 核心及 2026 年 11 月 18 日发布的 10 项安全修复。该版本还修复工作进程健康检查状态收敛问题，在节点不可用后重新执行慢启动，并修复多条批量日志投递路径。</p>
+<p>该版本包含不向后兼容的 Runtime 解析行为、Admin API 配置和加密值存储格式变更。发布新版本前，请完成适用于当前部署的升级计划。</p>
+<h2 id="破坏性变更">破坏性变更</h2>
+<p>Apache APISIX 3.21.0 更新了受支持的 Runtime，收紧 Admin API 密钥配置，并改变加密插件值的回滚兼容性。请检查所有适用的升级计划，包括源码安装方式、已关闭 Admin API 监听器的部署，以及启用插件字段加密的部署。</p>
+<h3 id="runtime-143-集成-10-项-nginx-安全修复">Runtime 1.4.3 集成 10 项 NGINX 安全修复</h3>
+<p>APISIX Runtime 1.4.3 将 OpenResty 1.31.8.1 构建使用的 NGINX 核心更新至 1.31.9。该更新包含 10 项安全修复；各问题是否影响当前部署，取决于实际启用的模块和配置。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>范围</th><th>包含的修复</th></tr></thead><tbody><tr><td>HTTP/2</td><td>CVE-2026-123007 和 CVE-2026-123633</td></tr><tr><td>HTTPS 和 HTTP/3</td><td>CVE-2026-118899 和 CVE-2026-121810</td></tr><tr><td>DNS 和 Stream TLS</td><td>CVE-2026-123634、CVE-2026-123640、CVE-2026-120967 和 CVE-2026-120993</td></tr><tr><td>静态文件和邮件代理</td><td>CVE-2026-125283 和 CVE-2026-113425</td></tr></tbody></table>
+<p>标准 Runtime 构建未启用邮件代理协议。使用 HTTP/2、HTTP/3、TLS 请求体、NGINX DNS 解析器、Stream TLS 或 PROXY 协议，以及使用相关静态文件配置的部署，应评估对应安全公告。</p>
+<p>NGINX 1.31.9 还收紧了请求和响应解析。客户端请求头行缺少冒号时返回 400；格式错误的上游响应头可能返回 502；包含过多分块编码开销的请求体也会被拒绝。</p>
+<p><strong>升级计划：</strong> 将所有网关升级至包含 APISIX Runtime 1.4.3 的镜像或软件包。若通过源码包安装 APISIX，请单独安装 Runtime 1.4.3，再执行 <code>make deps APISIX_RUNTIME=1.4.3</code> 安装匹配的 Lua 依赖。若自行维护 Runtime，请在部署 APISIX 3.21.0 前确认已包含完整的 NGINX 1.31.9 补丁集。请测试当前部署启用的 HTTP/2、HTTP/3、TLS、DNS 解析器和 Stream 路径，并确认客户端与上游可正确处理更严格的请求头和分块请求体解析。没有可在应用这些安全修复的同时保留旧解析行为的兼容选项。</p>
+<p>更多信息，请参阅 <a href="https://nginx.org/en/security_advisories.html">NGINX 安全公告</a> 和 <a href="https://github.com/apache/apisix/pull/14223">PR #14223</a>。</p>
+<h3 id="admin-api-密钥条目必须显式配置角色">Admin API 密钥条目必须显式配置角色</h3>
+<p>启用 <code>deployment.admin.admin_key_required</code> 时，<code>deployment.admin.admin_key</code> 中的每个条目现在必须是对象，且 <code>role</code> 必须为 <code>admin</code> 或 <code>viewer</code>。如果配置 <code>key</code>，其值必须是字符串或 YAML <code>null</code>。缺少角色、使用其他角色值、使用标量条目，或者将密钥配置为数值、布尔值、对象或数组，都会导致配置加载失败。</p>
+<p>该校验适用于传统部署和控制面配置，包括已关闭 Admin API 监听器的传统部署。请求携带空 Admin API 凭证时，不再匹配配置中的空密钥。启动时，APISIX 只会为 <code>key</code> 显式设置为空字符串的 <code>admin</code> 条目生成密钥。<code>viewer</code> 条目的密钥为空、缺失或为 <code>null</code> 时，不会匹配任何请求。</p>
+<p><strong>升级计划：</strong> 升级前，请检查传统部署和控制面配置中的每个 <code>deployment.admin.admin_key</code> 条目。为其添加显式的 <code>admin</code> 或 <code>viewer</code> 角色，将每个条目调整为对象，并为可能被 YAML 解析为数值或布尔值的密钥添加引号。如果依赖启动时生成密钥，请仅在预期的 <code>admin</code> 条目上保留显式空字符串，并在启动后记录生成的值。请分别测试管理员请求、只读 viewer 请求，以及使用 viewer 密钥执行写操作被拒绝的场景。设置 <code>admin_key_required: false</code> 会关闭 Admin API 密钥身份验证并跳过这些条目校验；请勿仅为保留无效密钥配置而关闭验证。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/14203">PR #14203</a>。</p>
+<h3 id="加密插件值会影响回滚兼容性">加密插件值会影响回滚兼容性</h3>
+<p>启用 <code>apisix.data_encryption.enable_encrypt_fields</code> 的部署会受到影响。APISIX 现在会为新加密的插件配置和插件元数据值添加 <code>$ENC$v1$</code> 前缀。即使当前插件 Schema 已不再将相应字段列入 <code>encrypt_fields</code>，APISIX 仍可通过该标记识别并解密受保护的值。对于仍列在 <code>encrypt_fields</code> 中的字段，已有的无标记密文仍可正常读取。</p>
+<p>不支持该标记的 APISIX 版本会将带标记的完整字符串视为普通值。因此，在混合版本部署中写入配置并不安全；APISIX 3.21.0 保存带标记的值后，也不能直接回滚。</p>
+<p><strong>升级计划：</strong> 如果已启用插件字段加密，请在升级前备份 etcd。滚动升级期间，在所有 APISIX 实例都支持该标记前，请勿通过 Admin API 写入配置。如果 APISIX 3.21.0 已保存带标记的值而必须回滚，请先恢复升级前的数据，再启动不支持该标记的版本，包括官方发布的 3.20.0 版本。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/14162">PR #14162</a>。</p>
+<h2 id="安全修复">安全修复</h2>
+<p>除 NGINX 安全更新外，APISIX 还降低了运行时日志和配置校验日志泄露配置敏感信息的风险。</p>
+<h3 id="配置校验与插件执行日志不再记录敏感值">配置校验与插件执行日志不再记录敏感值</h3>
+<p>APISIX 现在会在配置校验与合并路径中记录资源 ID，而不是完整的 Route、Service、Consumer、插件和 Stream 插件配置。插件配置哈希计算和配置不一致诊断也不再打印配置内容。</p>
+<p>插件顶层配置类型无效时，Admin API 仅返回该类型，不再回显提交的值。若现有错误监控匹配旧的含配置值消息，请更新为新的仅类型消息。</p>
+<p>更多信息，请参阅 <a href="https://github.com/apache/apisix/pull/14157">PR #14157</a>。</p>
+<h2 id="缺陷修复">缺陷修复</h2>
+<p>Apache APISIX 3.21.0 修正请求转发和诊断行为，改进上游节点与工作进程的恢复，修复 Stream 带宽统计，并解决多项日志批处理和投递故障。</p>
+<h3 id="请求路由与诊断">请求路由与诊断</h3>
+<ul>
+<li>启用 <code>normalize_uri_like_servlet</code> 后，APISIX 现在会在 rewrite 和 access 阶段插件执行完成后构造转发查询字符串。由 <code>key-auth</code> 或 <code>jwt-auth</code> 移除的查询凭证不会再传给上游。显式设置的上游 URI 仍具有更高优先级，镜像请求也遵循相同规则；访问日志包含 <code>upstream_uri</code> 时，<code>data-mask</code> 也会对其中的查询参数执行脱敏。<a href="https://github.com/apache/apisix/pull/14163">PR #14163</a></li>
+<li>当基于 Host 的路由器无法获取 Route 引用的 Service 时，错误日志现在会包含 Route ID，便于定位悬空引用，且不会改变路由匹配行为。<a href="https://github.com/apache/apisix/pull/13723">PR #13723</a></li>
+</ul>
+<h3 id="上游恢复与慢启动">上游恢复与慢启动</h3>
+<ul>
+<li>使用 <code>warm_up_conf</code> 的轮询节点被健康检查移出选择器，或从 Upstream 删除后重新加入时，现在都会重新执行慢启动。即使中断时间很短，也会从 <code>min_weight_percent</code> 开始，因为该地址后方的进程可能已经重启。修改节点权重（包括设置为 <code>0</code>）不视为不可用。<a href="https://github.com/apache/apisix/pull/14188">PR #14188</a></li>
+<li><code>lua-resty-healthcheck-api7</code> 升级至 3.2.4。新建健康检查器会在首次轮询前订阅健康事件，因此初始化期间发生的状态变化能够到达该检查器，避免相应工作进程保留过期的健康状态并继续向故障目标转发请求。该修复仅覆盖检查器构造窗口；运行期间丢失事件后的恢复仍属于独立工作。<a href="https://github.com/apache/apisix/pull/14215">PR #14215</a></li>
+<li><code>lua-resty-redis-cluster</code> 升级至 1.3.4。探测不健康的 Redis Cluster 节点时，现在会复用已配置的 TLS 和身份验证设置，使恢复后的节点能够被识别并重新投入服务。<a href="https://github.com/apache/apisix/pull/14181">PR #14181</a></li>
+</ul>
+<h3 id="stream-指标">Stream 指标</h3>
+<ul>
+<li><code>apisix_stream_bandwidth</code> 现在会从 Service 的第一个会话开始统计流量，包括在下一次指标刷新前已经结束的短时会话。<a href="https://github.com/apache/apisix/pull/14101">PR #14101</a></li>
+</ul>
+<h3 id="日志批处理与投递">日志批处理与投递</h3>
+<ul>
+<li>批处理器现在会统计因定时器创建失败、回调异常和重试耗尽而丢弃的条目。清理过期批处理器前，会等待所有已推送条目完成统计。因日志过滤条件不匹配或请求体无法读取而跳过的条目，不再占用待处理容量。回调异常会按配置的重试和丢弃策略处理，不再提前终止定时器。如果回调在部分投递批次后抛出异常，APISIX 会重试整个批次，日志接收端可能收到重复条目。<a href="https://github.com/apache/apisix/pull/14192">PR #14192</a></li>
+<li><code>elasticsearch-logger</code> 现在按插件配置隔离批处理器，使用不同端点、凭证或请求头的 Route 不会再通过其他 Route 的批处理器发送日志。Elasticsearch 版本探测改由批处理路径执行，Elasticsearch Bulk API 操作行会根据相应批处理器所连接的集群版本生成。<a href="https://github.com/apache/apisix/pull/14192">PR #14192</a></li>
+<li>日志插件配置哈希现支持 JSON <code>null</code>，请求体和响应体过滤表达式也改为在插件配置外缓存，从而避免包含 JSON <code>null</code> 的配置及编译 IPv6 <code>ipmatch</code> 值的表达式在日志阶段失败。<a href="https://github.com/apache/apisix/pull/14192">PR #14192</a></li>
+<li><code>tcp-logger</code> 会将 JSON 序列化失败返回给批处理器，使其可按配置的重试和丢弃策略处理。<a href="https://github.com/apache/apisix/pull/14004">PR #14004</a></li>
+<li><code>splunk-hec-logging</code> 可安全处理 JSON 响应体缺少 <code>text</code> 或将其设置为 <code>null</code> 的非 200 响应。投递错误日志现在会保留 HTTP 状态码与响应体，不再触发二次字符串拼接异常。<a href="https://github.com/apache/apisix/pull/14012">PR #14012</a></li>
+</ul>
+<h2 id="更新日志">更新日志</h2>
+<p>完整变更列表请参阅 <a href="https://github.com/apache/apisix/blob/3.21.0/CHANGELOG.md#3210">3.21.0 更新日志</a>。</p>  <footer class="article-footer"> <a class="cta-link" href="/zh/blog/">
+← 所有文章 </a> </footer> <nav class="post-nav" aria-label="更多文章"> <span></span> <a class="post-nav-card older" href="/zh/blog/2026/11/11/release-apache-apisix-3.20.0/"> <span class="post-nav-label">较早文章 →</span> <span class="post-nav-title">Apache APISIX 3.20.0 正式发布</span> </a> </nav> </article> <nav class="toc" aria-label="本页目录"> <p class="side-title">本页目录</p> <ul> <li class><a href="#破坏性变更">破坏性变更</a></li><li class="d3"><a href="#runtime-143-集成-10-项-nginx-安全修复">Runtime 1.4.3 集成 10 项 NGINX 安全修复</a></li><li class="d3"><a href="#admin-api-密钥条目必须显式配置角色">Admin API 密钥条目必须显式配置角色</a></li><li class="d3"><a href="#加密插件值会影响回滚兼容性">加密插件值会影响回滚兼容性</a></li><li class><a href="#安全修复">安全修复</a></li><li class="d3"><a href="#配置校验与插件执行日志不再记录敏感值">配置校验与插件执行日志不再记录敏感值</a></li><li class><a href="#缺陷修复">缺陷修复</a></li><li class="d3"><a href="#请求路由与诊断">请求路由与诊断</a></li><li class="d3"><a href="#上游恢复与慢启动">上游恢复与慢启动</a></li><li class="d3"><a href="#stream-指标">Stream 指标</a></li><li class="d3"><a href="#日志批处理与投递">日志批处理与投递</a></li><li class><a href="#更新日志">更新日志</a></li> </ul> </nav> </div> <div class="container"> <section class="related-posts" aria-label="相关文章"> <h2>相关文章</h2> <div class="post-list"> <a class="post-card" href="/zh/blog/2026/11/11/release-apache-apisix-3.20.0/"> <div class="cover cover-fallback" aria-hidden="true"> <img src="/img/logo2.svg" alt="" width="64" height="64" loading="lazy"> <span>Community</span> </div> <div class="body"> <h3>Apache APISIX 3.20.0 正式发布</h3> <p class="desc">Apache APISIX 3.20.0 于 2026 年 11 月 11 日发布。该版本新增请求解压缩、多集群 Kubernetes 服务发现、OIDC 声明转发和进程级指标，并包含重要的安全与升级变更。</p> <p class="meta">2026年11月11日 · Abhishek Choudhary</p> </div> </a><a class="post-card" href="/zh/blog/2026/10/31/2026-oct-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/11/02/nIjsz9I7_2026-oct-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (10.01 - 10.31)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年10月31日</p> </div> </a><a class="post-card" href="/zh/blog/2026/09/30/2026-sep-monthly-report/"> <img class="cover" src="https://static.api7.ai/uploads/2026/09/30/y5UQhvX2_2026-sep-monthly-report-cover-cn.webp" alt="" loading="lazy" decoding="async" width="640" height="360"> <div class="body"> <h3>2026 社区月报 (09.01 - 09.30)</h3> <p class="desc">Apache APISIX 社区的月报旨在帮助社区成员更全面地了解社区的最新动态，方便大家参与到 Apache APISIX 社区中来。</p> <p class="meta">2026年9月30日</p> </div> </a> </div> </section> </div> </main> <footer class="site-footer"> <div class="container"> <div class="footer-cols"> <div> <p class="footer-title">ASF</p> <ul> <li><a href="https://www.apache.org/">Foundation</a></li><li><a href="https://www.apache.org/licenses/">License</a></li><li><a href="https://www.apache.org/events/current-event">Events</a></li><li><a href="https://www.apache.org/security/">Security</a></li><li><a href="https://www.apache.org/foundation/sponsorship.html">Sponsorship</a></li><li><a href="https://www.apache.org/foundation/thanks.html">Thanks</a></li> </ul> </div><div> <p class="footer-title">Community</p> <ul> <li><a href="https://github.com/apache/apisix">GitHub</a></li><li><a href="https://apisix.apache.org/docs/general/join/#join-the-slack-channel">Slack</a></li><li><a href="https://twitter.com/ApacheAPISIX">Twitter</a></li><li><a href="https://www.youtube.com/channel/UCgPD18cMhOg5rmPVnQhAC8g">YouTube</a></li> </ul> </div><div> <p class="footer-title">Resources</p> <ul> <li><a href="/zh/blog/">Blog</a></li><li><a href="/zh/learning-center/">Learning Center</a></li><li><a href="/zh/comparisons/">Comparisons</a></li><li><a href="/zh/integrations/">Integrations</a></li><li><a href="/zh/cookbooks/">Cookbooks</a></li><li><a href="/zh/docs/general/events/">Events</a></li><li><a href="/zh/blog/tags/case-studies/">Case Studies</a></li> </ul> </div><div> <p class="footer-title">More</p> <ul> <li><a href="/zh/plugins/">Plugin Hub</a></li><li><a href="/zh/downloads/">Downloads</a></li><li><a href="/zh/team/">Team</a></li><li><a href="/zh/contribute/">Contribute</a></li> </ul> </div> </div> <p class="footer-legal">Copyright © 2019-2026 The Apache Software Foundation. Apache APISIX, APISIX®, Apache, the Apache feather logo, and the Apache APISIX project logo are either registered trademarks or trademarks of the Apache Software Foundation.</p> </div> </footer> </body></html>
